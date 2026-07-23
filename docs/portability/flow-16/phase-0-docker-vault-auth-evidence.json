@@ -1,0 +1,285 @@
+﻿{
+    "flowId":  "FLOW-16",
+    "flowSlug":  "marketplace-payments",
+    "phase":  "phase-0-docker-vault-auth-preflight",
+    "generatedAt":  "2026-05-06T17:06:08.2220756+03:00",
+    "protocol":  "FLOW-MOBILITY-AUTH phase-0 docker-vault auth preflight",
+    "branch":  "Skills_Creation_Claude",
+    "docker":  {
+                   "serverVersion":  "29.4.0",
+                   "available":  true
+               },
+    "vault":  {
+                  "running":  true,
+                  "address":  "http://127.0.0.1:8200",
+                  "sealed":  false,
+                  "tokenSource":  "docker-compose.platform.yml",
+                  "credentialsSeeded":  {
+                                            "acme-corp":  {
+                                                              "githubTokenPresent":  true,
+                                                              "jwtKeyPresent":  true
+                                                          },
+                                            "northwind":  {
+                                                              "githubTokenPresent":  true,
+                                                              "jwtKeyPresent":  true
+                                                          },
+                                            "tessera-collective":  {
+                                                                       "githubTokenPresent":  true,
+                                                                       "jwtKeyPresent":  true
+                                                                   }
+                                        },
+                  "readbackNonEmpty":  true,
+                  "composeStartResult":  {
+                                             "result":  "existing-container-reused",
+                                             "note":  "docker compose up -d vault reported an xiigen-vault name conflict because the Vault container was already running; docker exec vault status and tenant credential readbacks succeeded against the existing container."
+                                         }
+              },
+    "github":  {
+                   "authenticated":  true,
+                   "login":  "lubochka",
+                   "tokenPrinted":  false,
+                   "tokenStoredPerTenantInVault":  true
+               },
+    "server":  {
+                   "port":  3000,
+                   "healthLive":  {
+                                      "success":  true,
+                                      "data":  {
+                                                   "success":  true,
+                                                   "data":  {
+                                                                "status":  "OK",
+                                                                "timestamp":  1778076346652
+                                                            }
+                                               }
+                                  },
+                   "vaultAddrInContainer":  "http://vault:8200",
+                   "secretsProvider":  "vault"
+               },
+    "roleMap":  {
+                    "status":  "defined",
+                    "source":  [
+                                   "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md FLOW-16 Marketplace Payments section",
+                                   "server/src/api/flow-http.controller.ts @Roles on GET /api/runs/:runId/trace"
+                               ],
+                    "roles":  [
+                                  {
+                                      "role":  "anonymous",
+                                      "coverage":  "full",
+                                      "use":  "guest checkout",
+                                      "authProbeExpected":  null,
+                                      "note":  "public checkout role; protected server probe verifies missing-token 401 instead"
+                                  },
+                                  {
+                                      "role":  "public-marketplace-visitor",
+                                      "coverage":  "full",
+                                      "use":  "permalink checkout landing",
+                                      "authProbeExpected":  null,
+                                      "note":  "public marketplace role; not represented by JWT on protected probe"
+                                  },
+                                  {
+                                      "role":  "tenant-user",
+                                      "coverage":  "full",
+                                      "use":  "authenticated buyer checkout and order status",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "tenant-admin",
+                                      "coverage":  "full",
+                                      "use":  "payment gateway config, refund approval, dispute response",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "referral-user",
+                                      "coverage":  "partial",
+                                      "use":  "referral credit at checkout",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "freelancer",
+                                      "coverage":  "full",
+                                      "use":  "escrow payee milestone dashboard",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "business-partner",
+                                      "coverage":  "full",
+                                      "use":  "B2B invoice checkout and escrow funding",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "event-organiser",
+                                      "coverage":  "partial",
+                                      "use":  "split-payout dashboard for ticketed events",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "platform-admin",
+                                      "coverage":  "full",
+                                      "use":  "platform fee reconciliation and cross-tenant payment ops",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "platform-support",
+                                      "coverage":  "full",
+                                      "use":  "read-only payment dispute inspection",
+                                      "authProbeExpected":  403,
+                                      "note":  "wrong-role case for run trace probe because probe permits tenant-user/tenant-admin/platform-admin"
+                                  }
+                              ],
+                    "notes":  [
+                                  "FLOW-16 has the broadest role coverage in the fleet: 8 full plus 2 partial role cells in ROLE-ANALYSIS-BATCH-04, consolidated as 10 active cells in later fleet synthesis.",
+                                  "CheckoutPage is the densest role-aware page: guest, public visitor, tenant-user, referral-user, business-partner, and tenant-admin variants.",
+                                  "EscrowDashboardPage covers freelancer, business-partner, and event-organiser payee/payer variants.",
+                                  "No separate flow-specific auth route exists; phase 0 uses GET /api/runs/:runId/trace as the live protected probe."
+                              ]
+                },
+    "authProbe":  {
+                      "passed":  true,
+                      "route":  "/api/runs/phase0-auth-probe/trace",
+                      "method":  "GET",
+                      "totalCount":  8,
+                      "passedCount":  8,
+                      "declaredRoles":  [
+                                            "tenant-user",
+                                            "tenant-admin",
+                                            "platform-admin"
+                                        ],
+                      "matrix":  [
+                                     {
+                                         "name":  "valid acme tenant-admin token in acme tenant",
+                                         "method":  "GET",
+                                         "path":  "/api/runs/phase0-auth-probe/trace",
+                                         "contextTenant":  "acme-corp",
+                                         "tokenTenant":  "acme-corp",
+                                         "roles":  [
+                                                       "tenant-admin"
+                                                   ],
+                                         "expectedStatus":  200,
+                                         "actualStatus":  200,
+                                         "pass":  true
+                                     },
+                                     {
+                                         "name":  "valid northwind tenant-admin token in northwind tenant",
+                                         "method":  "GET",
+                                         "path":  "/api/runs/phase0-auth-probe/trace",
+                                         "contextTenant":  "northwind",
+                                         "tokenTenant":  "northwind",
+                                         "roles":  [
+                                                       "tenant-admin"
+                                                   ],
+                                         "expectedStatus":  200,
+                                         "actualStatus":  200,
+                                         "pass":  true
+                                     },
+                                     {
+                                         "name":  "valid tessera tenant-admin token in tessera tenant",
+                                         "method":  "GET",
+                                         "path":  "/api/runs/phase0-auth-probe/trace",
+                                         "contextTenant":  "tessera-collective",
+                                         "tokenTenant":  "tessera-collective",
+                                         "roles":  [
+                                                       "tenant-admin"
+                                                   ],
+                                         "expectedStatus":  200,
+                                         "actualStatus":  200,
+                                         "pass":  true
+                                     },
+                                     {
+                                         "name":  "missing token denied",
+                                         "method":  "GET",
+                                         "path":  "/api/runs/phase0-auth-probe/trace",
+                                         "contextTenant":  "acme-corp",
+                                         "tokenTenant":  null,
+                                         "roles":  [
+
+                                                   ],
+                                         "expectedStatus":  401,
+                                         "actualStatus":  401,
+                                         "pass":  true
+                                     },
+                                     {
+                                         "name":  "acme token in northwind tenant denied",
+                                         "method":  "GET",
+                                         "path":  "/api/runs/phase0-auth-probe/trace",
+                                         "contextTenant":  "northwind",
+                                         "tokenTenant":  "acme-corp",
+                                         "roles":  [
+                                                       "tenant-admin"
+                                                   ],
+                                         "expectedStatus":  401,
+                                         "actualStatus":  401,
+                                         "pass":  true
+                                     },
+                                     {
+                                         "name":  "northwind token in tessera tenant denied",
+                                         "method":  "GET",
+                                         "path":  "/api/runs/phase0-auth-probe/trace",
+                                         "contextTenant":  "tessera-collective",
+                                         "tokenTenant":  "northwind",
+                                         "roles":  [
+                                                       "tenant-admin"
+                                                   ],
+                                         "expectedStatus":  401,
+                                         "actualStatus":  401,
+                                         "pass":  true
+                                     },
+                                     {
+                                         "name":  "acme token in tessera tenant denied",
+                                         "method":  "GET",
+                                         "path":  "/api/runs/phase0-auth-probe/trace",
+                                         "contextTenant":  "tessera-collective",
+                                         "tokenTenant":  "acme-corp",
+                                         "roles":  [
+                                                       "tenant-admin"
+                                                   ],
+                                         "expectedStatus":  401,
+                                         "actualStatus":  401,
+                                         "pass":  true
+                                     },
+                                     {
+                                         "name":  "wrong platform-support role denied on run trace",
+                                         "method":  "GET",
+                                         "path":  "/api/runs/phase0-auth-probe/trace",
+                                         "contextTenant":  "acme-corp",
+                                         "tokenTenant":  "acme-corp",
+                                         "roles":  [
+                                                       "platform-support"
+                                                   ],
+                                         "expectedStatus":  403,
+                                         "actualStatus":  403,
+                                         "pass":  true
+                                     }
+                                 ]
+                  },
+    "staticCloseScan":  {
+                            "filesScanned":  4,
+                            "throwNew":  0,
+                            "servicesMissingMicroserviceBase":  0,
+                            "clsImports":  0,
+                            "directTenantContextImports":  0,
+                            "directSdkImports":  0,
+                            "anyProductionHits":  0,
+                            "passed":  true
+                        },
+    "secretsHandling":  {
+                            "tokensWrittenToEvidence":  false,
+                            "signingKeysWrittenToEvidence":  false,
+                            "envFilesWritten":  false
+                        },
+    "commands":  [
+                     "docker info",
+                     "docker compose -f docker-compose.platform.yml up -d vault attempted; existing xiigen-vault container reused after name-conflict warning.",
+                     "docker exec xiigen-vault vault status -format=json returned sealed=false.",
+                     "Vault readback checks for tenant github_token and auth/jwt_signing_key, values not printed.",
+                     "gh api user --jq .login",
+                     "Invoke-RestMethod http://localhost:3000/health/live",
+                     "Live auth matrix against GET /api/runs/phase0-auth-probe/trace using in-memory JWTs and status codes.",
+                     "Static close scan for FLOW-16 throw new / MicroserviceBase / nestjs-cls / direct tenant context / any production hits."
+                 ],
+    "phaseGate":  {
+                      "zeroFailureLines":  true,
+                      "dockerVaultAuth":  true,
+                      "phase0Complete":  true
+                  },
+    "verdict":  "PASS"
+}

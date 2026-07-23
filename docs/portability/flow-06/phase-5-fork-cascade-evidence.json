@@ -1,0 +1,46 @@
+{
+  "evidenceKind": "phase-5-fork-cascade-evidence",
+  "flowId": "FLOW-06",
+  "flowSlug": "user-groups-communities",
+  "checkedAt": "2026-05-03T12:25:01.2749232Z",
+  "localRegistry": {
+    "url": "http://localhost:4873",
+    "latest": "1.0.2",
+    "versions": [
+      "1.0.0",
+      "1.0.1",
+      "1.0.2"
+    ]
+  },
+  "repos": [
+    {
+      "tenant": "acme-corp",
+      "repo": "lubochka/acme-corp--user-groups-communities",
+      "version": "1.0.1",
+      "adaptedCommit": "31b2efaa09bba31a50b04934d0540462e97917ea",
+      "actionsRun": 25278781457,
+      "actionsConclusion": "success",
+      "evidencePath": "docs/e2e-snapshots/repo-evidence/acme-corp--user-groups-communities-github-api-evidence.json"
+    },
+    {
+      "tenant": "northwind",
+      "repo": "lubochka/northwind--user-groups-communities",
+      "version": "1.0.2",
+      "adaptedCommit": "4a687eacc2dfff4ed4ff804cfc923b2c58655ac5",
+      "actionsRun": 25278931036,
+      "actionsConclusion": "success",
+      "evidencePath": "docs/e2e-snapshots/repo-evidence/northwind--user-groups-communities-github-api-evidence.json"
+    },
+    {
+      "tenant": "tessera-collective",
+      "repo": "lubochka/tessera-collective--user-groups-communities",
+      "version": "1.0.3",
+      "adaptedCommit": "5ddb024c1a2a1f598e61ff35365b27a81730635e",
+      "actionsRun": 25279054716,
+      "actionsConclusion": "success",
+      "evidencePath": "docs/e2e-snapshots/repo-evidence/tessera-collective--user-groups-communities-github-api-evidence.json"
+    }
+  ],
+  "authEvidence": "docs/portability/flow-06/phase-5-cascade-live-auth-evidence.json",
+  "secretsHandling": "No GitHub token, Vault token, JWT token, or signing key was printed or written to evidence."
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.user-registration.registration-initiated.v1",
+  "taskTypeId": "T47",
+  "flowId": "FLOW-01",
+  "description": "Emitted by T47 SSOAndEmailAuth after a user record is created. Triggers T48 EmailVerificationWaitState.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.user-registration.registration-initiated.v1",
+    "source": "xiigen/flows/user-registration-onboarding/t47",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "userId": {
+      "type": "string",
+      "description": "Opaque user identifier \u00e2\u20ac\u201d no PII (CF-8)"
+    },
+    "authPathway": {
+      "type": "string",
+      "enum": [
+        "email",
+        "sso"
+      ],
+      "description": "Which auth pathway was used"
+    },
+    "correlationId": {
+      "type": "string",
+      "description": "Idempotency key for this registration attempt"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "userId is an opaque reference. No email, name, or credentials in payload (CF-8).",
+  "requiredByFlows": [
+    "FLOW-01"
+  ],
+  "seededAt": "2026-03-24T22:09:46.555074+00:00"
+}

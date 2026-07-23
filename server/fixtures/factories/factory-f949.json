@@ -1,0 +1,14 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F949",
+  "factoryId": "F949",
+  "flowId": "FLOW-23",
+  "interface": "IGridSystemService",
+  "injectionToken": "GRID_SYSTEM_SERVICE",
+  "fabric": "NONE",
+  "fabricNote": "Pure computation — no fabric needed",
+  "platformOnly": false,
+  "taskTypes": ["T354"],
+  "bfaRules": ["CF-433"],
+  "note": "PURE COMPUTATION. No AI. No write methods."
+}

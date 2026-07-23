@@ -1,0 +1,25 @@
+{
+  "flowId": "FLOW-34",
+  "flowSlug": "marketplace-plugin-adapter",
+  "phase": "phase-1-unit-integration",
+  "status": "completed_with_source_scope_gap",
+  "generatedAt": "2026-05-12T03:35:00Z",
+  "verification": {
+    "serverTypeScript": "exit 0",
+    "adapterTypeScript": "adapters/framer/FT-FR1 npm run typecheck exit 0",
+    "marketplacePluginAdapterJest": "24 suites passed, 603 tests passed",
+    "bfaRulesJest": "included in marketplacePluginAdapterJest command",
+    "phaseCloseScan": "canonical source dir missing; counters over expected source dir throwNew=0, servicesMissingMicroserviceBase=0, clsImports=0"
+  },
+  "commands": [
+    "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+    "Push-Location server; npx jest --runInBand --colors=false test/marketplace-plugin-adapter src/engine-contracts/__tests__/marketplace-plugin-adapter-bfa-rules.spec.ts; Pop-Location",
+    "npm run typecheck in adapters/framer/FT-FR1"
+  ],
+  "sourceScopeGap": {
+    "expectedSourceDir": "server/src/engine/flows/marketplace-plugin-adapter",
+    "exists": false,
+    "effect": "Full mobility certification cannot claim a canonical flow-engine implementation or fork cascade from the missing source directory."
+  },
+  "verdict": "PASS_FOR_ADAPTER_PACKAGE_SURFACE"
+}

@@ -1,0 +1,238 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phase5aTenantBInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-05T06:16:14.0600214+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "installedFromTenant":  "acme-corp",
+                   "installedFromRepoFullName":  "lubochka/acme-corp--acme-launch-bundles",
+                   "packageName":  "@xiigen-fork/acme-launch-bundles",
+                   "packageVersion":  "1.0.1",
+                   "localRegistry":  "http://localhost:4873"
+               },
+    "marketplaceForkApi":  {
+                               "method":  "POST",
+                               "path":  "/api/marketplace/packages/acme-launch-bundles/fork",
+                               "targetTenant":  "northwind",
+                               "targetGitHubUsername":  "lubochka",
+                               "repoNameOverride":  "northwind--acme-launch-bundles",
+                               "sourceRepoFullName":  "lubochka/acme-corp--acme-launch-bundles",
+                               "responseStatus":  "FORKED",
+                               "forkId":  "fork-acme-launch-bundles-northwind",
+                               "repoUrl":  "https://github.com/lubochka/northwind--acme-launch-bundles",
+                               "repoFullName":  "lubochka/northwind--acme-launch-bundles",
+                               "initialCommitSha":  "2040a95aa3040a13e6a313b27e1317dcc44ba7e0"
+                           },
+    "localRegistryVerification":  {
+                                      "command":  "npm view @xiigen-fork/acme-launch-bundles version --registry http://localhost:4873",
+                                      "expectedVersion":  "1.0.1",
+                                      "actualVersion":  "1.0.1"
+                                  },
+    "repository":  {
+                       "fullName":  "lubochka/northwind--acme-launch-bundles",
+                       "htmlUrl":  "https://github.com/lubochka/northwind--acme-launch-bundles",
+                       "defaultBranch":  "main",
+                       "privateAfterEvidenceCapture":  true,
+                       "visibilityAfterEvidenceCapture":  "private",
+                       "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-launch-bundles",
+                       "localRemote":  "https://github.com/lubochka/northwind--acme-launch-bundles.git"
+                   },
+    "initialCi":  {
+                      "runId":  25352449712,
+                      "status":  "completed",
+                      "conclusion":  "failure",
+                      "rootCause":  "Inherited Tenant A adaptation test asserted tenantId acme-corp after cascade fork rewrote tenant.config.json for northwind."
+                  },
+    "repairCommit":  {
+                         "sha":  "1ae06921e4a12bf199caf3b487303556a49aeebc",
+                         "message":  "Make Tenant B install test cascade-safe",
+                         "changedFile":  "__tests__/bundle-activation-acme-adaptation.spec.ts",
+                         "localVerification":  [
+                                                   "npm install --no-audit --no-fund --prefer-online --registry=https://registry.npmjs.org/ --cache <WORKSPACE>\\AppData\\Local\\Temp\\npm-cache-flow00-northwind: completed after bypassing stale local npm cache",
+                                                   "npx tsc --noEmit: passed",
+                                                   "npx jest --colors=false --forceExit: 2 suites passed, 3 tests passed"
+                                               ]
+                     },
+    "githubActions":  {
+                          "runId":  25355211449,
+                          "workflowName":  "XIIGen Flow CI - bundle-activation",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "1ae06921e4a12bf199caf3b487303556a49aeebc",
+                          "htmlUrl":  "https://github.com/lubochka/northwind--acme-launch-bundles/actions/runs/25355211449"
+                      },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-05T06:05:23.1357335+03:00",
+                           "passed":  9,
+                           "failed":  0,
+                           "checks":  [
+                                          {
+                                              "name":  "acme own tenant identity",
+                                              "tenantHeader":  "acme-corp",
+                                              "path":  "/api/auth/me",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "northwind own tenant identity",
+                                              "tenantHeader":  "northwind",
+                                              "path":  "/api/auth/me",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tessera own tenant identity",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/auth/me",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "northwind protected route",
+                                              "tenantHeader":  "northwind",
+                                              "path":  "/api/runs/flow00-phase5a-auth/trace",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "missing token on northwind route",
+                                              "tenantHeader":  "northwind",
+                                              "path":  "/api/runs/flow00-phase5a-auth/trace",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tenant A token in tenant B context",
+                                              "tenantHeader":  "northwind",
+                                              "path":  "/api/runs/flow00-phase5a-auth/trace",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tenant B token in tenant C context",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/runs/flow00-phase5a-auth/trace",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tenant A token in tenant C context",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/runs/flow00-phase5a-auth/trace",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "wrong role token on northwind route",
+                                              "tenantHeader":  "northwind",
+                                              "path":  "/api/runs/flow00-phase5a-auth/trace",
+                                              "expectedStatus":  403,
+                                              "actualStatus":  403,
+                                              "passed":  true
+                                          }
+                                      ]
+                       },
+    "visualEvidence":  {
+                           "tenantInstalledMatrix":  {
+                                                         "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a",
+                                                         "expected":  9,
+                                                         "actual":  9,
+                                                         "minBytes":  36721,
+                                                         "maxBytes":  96618,
+                                                         "roles":  [
+                                                                       "tenant-admin",
+                                                                       "platform-admin",
+                                                                       "platform-support"
+                                                                   ],
+                                                         "cells":  [
+                                                                       "C2-en-populated",
+                                                                       "C4-he-rtl-populated",
+                                                                       "C6-en-mobile"
+                                                                   ],
+                                                         "files":  [
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/platform-admin-C2-en-populated.png",
+                                                                           "bytes":  96618
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/platform-admin-C4-he-rtl-populated.png",
+                                                                           "bytes":  90944
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/platform-admin-C6-en-mobile.png",
+                                                                           "bytes":  81905
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/platform-support-C2-en-populated.png",
+                                                                           "bytes":  77006
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/platform-support-C4-he-rtl-populated.png",
+                                                                           "bytes":  71239
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/platform-support-C6-en-mobile.png",
+                                                                           "bytes":  61588
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/tenant-admin-C2-en-populated.png",
+                                                                           "bytes":  46755
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/tenant-admin-C4-he-rtl-populated.png",
+                                                                           "bytes":  43790
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a/tenant-admin-C6-en-mobile.png",
+                                                                           "bytes":  36721
+                                                                       }
+                                                                   ]
+                                                     },
+                           "repoScreenshots":  {
+                                                   "repoListing":  {
+                                                                       "path":  "docs/e2e-snapshots/repo-evidence/northwind--acme-launch-bundles-github-listing.png",
+                                                                       "bytes":  169644,
+                                                                       "captureMode":  "GitHub web UI while temporarily public"
+                                                                   },
+                                                   "repoHomepage":  {
+                                                                        "path":  "docs/e2e-snapshots/repo-evidence/northwind--acme-launch-bundles-repo-homepage.png",
+                                                                        "bytes":  125329,
+                                                                        "captureMode":  "GitHub web UI while temporarily public"
+                                                                    },
+                                                   "actionsSuccess":  {
+                                                                          "path":  "docs/e2e-snapshots/repo-evidence/northwind--acme-launch-bundles-actions-success.png",
+                                                                          "bytes":  75577,
+                                                                          "captureMode":  "GitHub web UI while temporarily public"
+                                                                      },
+                                                   "safetyNote":  "Earlier API-rendered screenshots were overwritten because GitHub API content responses can display tokenized raw download URLs. The committed screenshots are web UI captures and the repository was restored to private."
+                                               }
+                       },
+    "commands":  [
+                     "npm view @xiigen-fork/acme-launch-bundles version --registry http://localhost:4873: returned 1.0.1",
+                     "POST /api/marketplace/packages/acme-launch-bundles/fork as northwind tenant-admin returned status=FORKED and created lubochka/northwind--acme-launch-bundles",
+                     "GitHub Actions run 25352449712 failed on inherited Tenant A test assertion; root cause fixed in fork repo test metadata expectations",
+                     "fork repo npm install with fresh cache, npx tsc --noEmit, and npx jest --colors=false --forceExit passed",
+                     "fork repo commit 1ae06921e4a12bf199caf3b487303556a49aeebc pushed to main",
+                     "GitHub Actions run 25355211449 completed success",
+                     "Live auth matrix via curl.exe and Vault-signed JWTs: 9 passed, 0 failed",
+                     "client npx tsc --noEmit: passed before evidence write",
+                     "client Playwright Tenant B installed suite: 9 passed and captured 9 PNGs",
+                     "Captured GitHub web UI listing, repo homepage, and Actions success screenshots; restored repo visibility to private"
+                 ],
+    "secretHandling":  {
+                           "printedTenantTokens":  false,
+                           "printedVaultSigningKeys":  false,
+                           "committedEnvFiles":  false,
+                           "repoScreenshotsContainApiDownloadTokens":  false
+                       }
+}

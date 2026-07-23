@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.account-created-extended.v1",
+  "description": "Reference schema documenting the FLOW-48 extension of the FLOW-01 AccountCreated event payload (Decision 4 + C-2 review finding). The authoritative schema lives under FLOW-01's event-schemas directory; this file exists so FLOW-48 artifacts can point at the exact shape T665 TranslationRequestRegistrar consumes. FLOW-48 adds optional `acceptLanguage` — raw HTTP Accept-Language header, unparsed. T665 normalises via BCP-47 parse; a null / missing header is a no-op (CF-814).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenantId", "eventId", "emittedAt", "userId", "email", "status"],
+  "properties": {
+    "tenantId":  { "type": "string", "description": "Tenant on whose subdomain the account was created (ALS at emit time)." },
+    "eventId":   { "type": "string" },
+    "emittedAt": { "type": "string", "format": "date-time" },
+    "userId":    { "type": "string", "description": "Newly provisioned user id." },
+    "email":     { "type": "string", "format": "email", "description": "Email address captured during registration." },
+    "status": {
+      "type": "string",
+      "const": "unverified",
+      "description": "AccountCreated always fires with status=unverified; email verification occurs in a later FLOW-01 node."
+    },
+    "acceptLanguage": {
+      "type": ["string", "null"],
+      "description": "FLOW-48 extension (Decision 4). Raw HTTP Accept-Language header value, unparsed — e.g. 'he-IL,he;q=0.9,en;q=0.8'. T665 TranslationRequestRegistrar performs BCP-47 normalisation ('he-IL' → 'he'). null or missing header is a no-op per CF-814 — no translation request is registered and i18n.enabledLocales is not expanded."
+    }
+  }
+}

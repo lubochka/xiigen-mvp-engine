@@ -1,0 +1,63 @@
+{
+  "taskTypeId": "T83",
+  "flowId": "FLOW-05",
+  "name": "CompletionRecorder",
+  "archetype": "ROUTING",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "setnx-idempotency-before-write",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow05_completion_ttl_seconds",
+    "neutralConcepts": [
+      "SETNX on (questionnaireId, userId) before any write",
+      "answers[] fetched from store — never from event payload",
+      "storeDocument BEFORE CompletionRecorded emit",
+      "knowledgeScope PRIVATE — completion record is per-user",
+      "DNA-8: storeDocument before enqueue"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F186",
+      "interface": "ICompletionRecordService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F187",
+      "interface": "IAnswerStoreService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T83-1",
+      "rule": "SETNX on (questionnaireId, userId) before any write — duplicate submission returns success without re-writing",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T83-2",
+      "rule": "answers[] are fetched from xiigen-questionnaire-answers store — never from the event payload directly",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T83-3",
+      "rule": "DNA-8: storeDocument BEFORE CompletionRecorded enqueue. Order: store-completion → enqueue.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T83-4",
+      "rule": "knowledgeScope = PRIVATE — completion records are per-user and must not be stored as GLOBAL",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "setnx_before_operation",
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["completion-recorder", "idempotency", "setnx", "ROUTING"],
+  "keywords": "completion recorder setnx idempotency questionnaire answers store private"
+}

@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-02",
+  "taskTypeId": "T52",
+  "name": "flow-02-personalization-broadcast",
+  "description": "T52 PersonalizationBroadcast — BROADCAST archetype. Consent-gated broadcast of PersonalizationCompleted (MACHINE literal). NODE C accepts 4 optional inputs with named fallbacks. FLOW-02 owns 'PersonalizationCompleted'; FLOW-01 owns 'OnboardingCompleted' — literals must not collide.",
+  "archetype": "BROADCAST",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: machine-literal-event-type, independent-fallback-inputs, broadcast-consent-gated"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve BROADCAST arch pattern + completion-event-distinct-per-flow + degradable-analytics patterns for T52",
+      "params": {
+        "archetype": "BROADCAST",
+        "taskTypeRef": "T52",
+        "topK": 5,
+        "patternIds": [
+          "arch--completion-event-distinct-per-flow",
+          "arch--degradable-analytics",
+          "arch--partial-input-partial-output"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T52 into: NODE C (collect 4 optional signals with fallbacks) + NODE D (consent gate + PersonalizationCompleted emit with MACHINE literal)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate personalization-completion.service.ts: PersonalizationCompleted as 'as const' MACHINE literal (never 'OnboardingCompleted'), 4 optional inputs each with named fallback, consent gate (private mode: store but skip enqueue), DNA-8: storeDocument before enqueue."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: machine_literal_event_type, independent_fallback_inputs, broadcast_consent_gated"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T52 iron rules: literal correctness, fallback completeness, consent gate presence, DNA-8 ordering"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=machine-literal-with-consent (PersonalizationCompleted as const, consent gate, 4 fallbacks), rejected=computed-type-no-consent (event type from variable, no privacy check, required inputs). curriculumTier=3."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "ConnectionSuggestionsReady event",
+  "primaryFabric": "DATABASE"
+}

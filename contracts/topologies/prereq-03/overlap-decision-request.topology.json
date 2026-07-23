@@ -1,0 +1,90 @@
+{
+  "topologyId": "flow-prereq-03a-overlap-decision-request",
+  "flowId": "FLOW-PREREQ-03",
+  "taskTypeId": "T584",
+  "version": "1.0.0",
+  "archetype": "ORCHESTRATION",
+  "purpose": "Catch OVERLAP_DETECTED events from T581, present the overlap to Luba with structured context from previous architecture decisions. This is one half of T584 — the other half handles the received decision.",
+  "trigger": "event prereq.overlap.escalated",
+
+  "nodes": {
+    "n1": {
+      "handler": "rag-retrieve.handler",
+      "description": "Retrieve previous architecture decisions for this service category",
+      "config": {
+        "index": "xiigen-rag-patterns",
+        "query": "${input.overlap.proposedService} ${input.overlap.existingCategory} architecture decision overlap",
+        "size": 5,
+        "filter": { "term": { "patternType.keyword": "ARCHITECTURE_DECISION" } }
+      }
+    },
+
+    "n2": {
+      "handler": "validate.handler",
+      "description": "Verify the overlap is genuine — not a self-match (OVERLAP-001)",
+      "checks": [
+        {
+          "id": "OVERLAP-001",
+          "check": "overlap-not-self-match",
+          "target": "${input.overlap}",
+          "severity": "score-0"
+        }
+      ]
+    },
+
+    "n3": {
+      "handler": "feedback.handler",
+      "description": "Store the overlap decision request. Emit prereq.overlap.pending_decision. Engine waits for Luba's decision. CF-795: never auto-resolve.",
+      "actions": [
+        {
+          "type": "store",
+          "index": "xiigen-capability-gap-proposals",
+          "document": {
+            "gapId": "${input.overlap.proposedService}",
+            "gapType": "OVERLAP_DETECTED",
+            "proposedBy": "T584-OverlapDecisionCapture",
+            "status": "PENDING_LUBA_REVIEW",
+            "lubaDecision": null,
+            "createdAt": "${now}"
+          }
+        },
+        {
+          "type": "emit",
+          "event": "prereq.overlap.pending_decision",
+          "payload": {
+            "specId": "${input.specId}",
+            "proposedService": "${input.overlap.proposedService}",
+            "existingInterface": "${input.overlap.existingInterface}",
+            "existingCategory": "${input.overlap.existingCategory}",
+            "previousDecisions": "${n1.patterns}",
+            "question": "Should ${input.overlap.proposedService} share infrastructure with ${input.overlap.existingInterface}, or are they in separate domains?"
+          }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "OUTCOME",
+          "index": "xiigen-rag-retrieval-outcomes",
+          "data": {
+            "flowId": "FLOW-PREREQ-03",
+            "taskType": "T584",
+            "overlapDetected": "${input.overlap.proposedService}",
+            "existingMatch": "${input.overlap.existingInterface}"
+          }
+        }
+      ]
+    }
+  },
+
+  "edges": [["n1", "n2"], ["n2", "n3"]],
+
+  "ironRules": [
+    "CF-795: Overlap decisions MUST be escalated to human — never auto-resolve domain boundary questions",
+    "CF-796: The captured decision MUST be stored as an ARCHITECTURE_DECISION RAG pattern for future retrieval"
+  ],
+
+  "qualityGates": [
+    "Decision request includes context from previous architecture decisions",
+    "Status is PENDING_LUBA_REVIEW — never auto-resolved"
+  ]
+}

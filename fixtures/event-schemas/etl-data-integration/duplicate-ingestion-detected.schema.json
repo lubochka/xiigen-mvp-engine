@@ -1,0 +1,11 @@
+{
+  "eventType": "etl.webhook.duplicate.ingestion.detected",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "connectorId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "idempotencyKey": { "type": "string", "required": true },
+    "detectedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

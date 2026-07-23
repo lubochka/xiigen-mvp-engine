@@ -1,0 +1,20 @@
+{
+  "patternId": "fail-open-fraud-detection",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-09",
+  "domainId": "transactional-event-participation",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "VALIDATION",
+  "tags": ["T113", "fail-open", "fraud", "resilience", "audit", "service-unavailability"],
+  "keywords": "fail open fraud detection service unavailable allow purchase audit event FraudCheckFailed inline",
+  "appliesTo": ["T113"],
+  "qualityScore": 0.88,
+  "curriculumTier": 2,
+  "ironRules": [
+    "T113 is @Injectable() only — no @EventPattern, no @MessagePattern (inline, called by T99)",
+    "When F283 is unavailable: allow purchase (return { passed: true }) AND emit FraudCheckFailed(service_unavailable)",
+    "Three conditions required simultaneously: try/catch, allow-on-catch, emit audit event",
+    "Any catch path returning { passed: false } is a BUILD_FAILURE per CF-09-2"
+  ],
+  "codeSnippet": "// T113 FraudDetectorHandler — CORRECT fail-open pattern\n@Injectable()\nexport class FraudDetectorHandler {\n  async check(purchase: Record<string, unknown>): Promise<{ passed: boolean }> {\n    try {\n      const result = await this.fraudService.analyze(purchase);\n      return { passed: !result.data?.isFraudulent };\n    } catch (e) {\n      // FAIL OPEN: service unavailable — allow purchase + emit audit event\n      await this.queue.enqueue('fraud.check.failed', {\n        reason: 'service_unavailable',\n        purchaseId: purchase['purchaseId'],\n        occurredAt: new Date().toISOString(),\n      });\n      return { passed: true }; // Allow purchase to proceed\n    }\n  }\n}\n// WRONG: catch (e) { return { passed: false } } — blocks all purchases during outage"
+}

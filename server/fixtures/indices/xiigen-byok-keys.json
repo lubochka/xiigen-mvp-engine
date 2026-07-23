@@ -1,0 +1,12 @@
+{
+  "index": "xiigen-byok-keys",
+  "mappings": {
+    "properties": {
+      "tenantId":     { "type": "keyword" },
+      "providers":    { "type": "object", "enabled": false },
+      "createdAt":    { "type": "date" },
+      "updatedAt":    { "type": "date" },
+      "seededBy":     { "type": "keyword" }
+    }
+  }
+}

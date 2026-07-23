@@ -1,0 +1,1 @@
+{"type":"object","properties":{"shapeId":{"type":"string"},"boardId":{"type":"string"},"unsupportedType":{"type":"string"},"reason":{"type":"string"},"metadata":{"type":"object"},"auditedAt":{"type":"string"},"discoveredBy":{"type":"string","enum":["HEURISTIC_ANALYZER","TYPE_MAPPING","MANUAL_REPORT"]}},"required":["shapeId","boardId","unsupportedType","auditedAt"]}

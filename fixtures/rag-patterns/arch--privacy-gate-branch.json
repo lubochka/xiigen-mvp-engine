@@ -1,0 +1,18 @@
+{
+  "patternId": "PRIVACY-GATE-BRANCH-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-05",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "BROADCAST",
+  "tags": ["privacy-gate", "branch-topology", "sole-entry", "SocialShareApproved"],
+  "keywords": "privacy gate branch sole entry social share approved event pattern topology downstream trigger",
+  "ironRules": [
+    "Gate node (SocialShareGate) is the SOLE entry to the social branch",
+    "SocialShareGate emits SocialShareApproved (pass) or SocialShareSkipped (skip)",
+    "QuestionnairePostBuilder triggers on SocialShareApproved — NOT QuestionnaireAnswered",
+    "SocialShareSkipped is DataProcessResult.success({ skipped: true }) — not failure",
+    "Private mode: completion record stored, no downstream enqueue"
+  ],
+  "codeSnippet": "// CORRECT topology: T91 triggers on T90's output event\n@EventPattern('SocialShareApproved')    // ← T90's output, not the original trigger\nasync handleSocialShareApproved(event: CloudEvent): Promise<void> {\n  return this.buildQuestionnairePost(event.data as { approvedAnswers: unknown[] });\n}\n// WRONG: T91 triggers on original flow trigger — T90's check cannot block it\n// @EventPattern('QuestionnaireAnswered')   // shares trigger with T90\n// async handleQuestionnaire(event: CloudEvent): Promise<void> { ... }"
+}

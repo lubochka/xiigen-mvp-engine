@@ -1,0 +1,24 @@
+{
+  "patternId": "arch--upstream-event-not-trigger",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-02",
+  "domainId": "generic",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "archetype": "ORCHESTRATION",
+  "tags": [
+    "trigger",
+    "upstream-event",
+    "dependency-chain",
+    "silent-failure",
+    "wrong-trigger",
+    "node-contract"
+  ],
+  "keywords": "upstream event trigger dependency prior node emission event wrong trigger silent failure contract",
+  "codeSnippet": "// UPSTREAM-EVENT-NOT-TRIGGER pattern:\n// A node that depends on a prior node's output triggers on the prior node's EMISSION EVENT\n// — NOT on the original flow trigger.\n\n// WRONG: A3 triggers on QuestionnaireCompleted\n// → A3 runs before A1 completes\n// → reads absent profile, produces empty curriculum\n// → SILENT_FAILURE: no error, empty learning program, FLOW-05 enrollment silently skipped\n\n// CORRECT: A3 triggers on BusinessProfileCreated (A1's emission)\n@EventPattern('BusinessProfileCreated')  // ← NOT 'QuestionnaireCompleted'\nasync handleBusinessProfileCreated(event: BusinessProfileCreatedEvent) {\n  // A1's structured output is available — safe to read skills[], goals[], challenges[]\n  const profile = await this.db.searchDocuments(BUSINESS_PROFILES_INDEX, {\n    profileId: event.profileId,\n  });\n  // Generate curriculum from structured skill gaps (not raw answers)\n  return this.generateLearningProgram(profile.data[0]);\n}",
+  "ironRules": [
+    "IronRules BLOCKS if spec lists QuestionnaireCompleted as A3's trigger",
+    "IronRules BLOCKS if spec reads from raw questionnaire answers[] field",
+    "the trigger is the contract between nodes — wrong trigger = silent dependency break",
+    "learningProgramId must be in A3's output schema — NODE D reads it for PersonalizationCompleted payload"
+  ]
+}

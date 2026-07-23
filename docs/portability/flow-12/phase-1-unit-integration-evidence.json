@@ -1,0 +1,33 @@
+{
+  "flowId": "FLOW-12",
+  "flowSlug": "subscription-billing",
+  "phase": "phase-1-unit-integration-tests",
+  "generatedAt": "2026-05-06T03:03:08.3070581+03:00",
+  "status": "passed",
+  "verification": {
+    "serverTypecheck": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=subscription-billing --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "result": "7 test suites passed; 78 tests passed"
+    }
+  },
+  "phaseCloseScan": {
+    "flowFileCount": 4,
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0
+  },
+  "notes": [
+    "Phase 1 was rerun after phase 0 Docker/Vault auth evidence and after the phase 0 commit was pushed.",
+    "No token material or tenant secrets are included in this evidence.",
+    "Pre-commit gate intentionally skipped per Luba instruction in current conversation."
+  ]
+}

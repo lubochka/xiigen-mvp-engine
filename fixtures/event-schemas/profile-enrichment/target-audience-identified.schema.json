@@ -1,0 +1,11 @@
+{
+  "eventType": "TargetAudienceIdentified",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T51-B2 (connection-suggestion.service.ts)",
+  "consumers": ["T52-C"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "audienceId", "tier", "tierScore", "partialResults", "identifiedAt"],
+  "forbiddenFields": ["email", "questionnaire", "matchedBusinessIds"],
+  "notes": "Optional input to NODE C. tier = STRONG/MEDIUM/WEAK from FREEDOM config thresholds. partialResults forwarded from B1. UI shows 'finding more connections' when partialResults:true."
+}

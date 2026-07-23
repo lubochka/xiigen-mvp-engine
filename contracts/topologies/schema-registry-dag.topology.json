@@ -1,0 +1,77 @@
+{
+  "flowId": "FLOW-11",
+  "name": "Notifications & Announcements",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T189",
+      "taskTypeId": "T189",
+      "name": "SchemaRegistrationGateway",
+      "archetype": "transaction",
+      "entry": "POST /schemas (transactional write)"
+    },
+    {
+      "id": "T190",
+      "taskTypeId": "T190",
+      "name": "SchemaVersionManager",
+      "archetype": "validation",
+      "entry": "Inline validation — called by T189"
+    },
+    {
+      "id": "T191",
+      "taskTypeId": "T191",
+      "name": "DagCycleDetector",
+      "archetype": "validation",
+      "entry": "Inline — prevents circular schema references"
+    },
+    {
+      "id": "T193",
+      "taskTypeId": "T193",
+      "name": "SchemaCompatibilityChecker",
+      "archetype": "validation",
+      "entry": "Inline — checks backward compatibility"
+    },
+    {
+      "id": "T194",
+      "taskTypeId": "T194",
+      "name": "SchemaPublisher",
+      "archetype": "transaction",
+      "entry": "SchemaValidated event (OCC — version immutability)"
+    },
+    {
+      "id": "T197",
+      "taskTypeId": "T197",
+      "name": "DagTopologyBuilder",
+      "archetype": "data_pipeline",
+      "entry": "SchemaPublished event (rebuilds DAG topology)"
+    },
+    {
+      "id": "T199",
+      "taskTypeId": "T199",
+      "name": "DagRenderGateway",
+      "archetype": "data_pipeline",
+      "entry": "GET /dag/render (serves DAG visualization)"
+    }
+  ],
+  "edges": [
+    { "from": "SchemaRegistrationRequested", "to": "T189", "event": "xiigen.schema-registry.registration-requested.v1" },
+    { "from": "T189", "to": "T190", "event": "xiigen.schema-registry.version-check-inline.v1", "condition": "inline" },
+    { "from": "T189", "to": "T191", "event": "xiigen.schema-registry.cycle-check-inline.v1", "condition": "inline" },
+    { "from": "T189", "to": "T193", "event": "xiigen.schema-registry.compatibility-check-inline.v1", "condition": "inline" },
+    { "from": "T189", "to": "T194", "event": "xiigen.schema-registry.schema-validated.v1", "condition": "all inline checks passed" },
+    { "from": "T189", "to": "SchemaRejected", "event": "xiigen.schema-registry.schema-rejected.v1", "condition": "any inline check failed — terminal" },
+    { "from": "T194", "to": "T197", "event": "xiigen.schema-registry.schema-published.v1" },
+    { "from": "T197", "to": "T199", "event": "xiigen.schema-registry.dag-rebuilt.v1" },
+    { "from": "T199", "to": "DagRendered", "event": "xiigen.schema-registry.dag-rendered.v1", "condition": "terminal" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": [],
+      "notQueueable": [],
+      "notQueueableReason": {}
+    },
+    "backgroundSteps": []
+  }
+}

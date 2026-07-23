@@ -1,0 +1,15 @@
+{
+  "index": "xiigen-prompts",
+  "mappings": {
+    "properties": {
+      "taskTypeId": { "type": "keyword" },
+      "promptType": { "type": "keyword" },
+      "version": { "type": "keyword" },
+      "content": { "type": "text" },
+      "systemPrompt": { "type": "text" },
+      "flowId": { "type": "keyword" },
+      "active": { "type": "boolean" },
+      "createdAt": { "type": "date" }
+    }
+  }
+}

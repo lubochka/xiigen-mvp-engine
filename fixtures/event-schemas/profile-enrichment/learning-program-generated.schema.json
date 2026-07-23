@@ -1,0 +1,11 @@
+{
+  "eventType": "LearningProgramGenerated",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T50-A3 (learning-program.service.ts)",
+  "consumers": ["T52-C"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "programId", "skillGapIds", "recommendedFlowIds", "generatedAt"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges", "revenue"],
+  "notes": "A3 triggers on BusinessProfileCreated (emitted by A1) — reads skillGaps from xiigen-business-profiles (PRIVATE, A3 is authorized). Optional input to NODE C; absent = learning program fallback to empty recommendations."
+}

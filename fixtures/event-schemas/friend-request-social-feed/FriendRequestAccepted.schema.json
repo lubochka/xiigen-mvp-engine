@@ -1,0 +1,11 @@
+{
+  "eventType": "FriendRequestAccepted",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "friend-request-acceptor",
+  "consumers": ["T75"],
+  "piiFields": [],
+  "allowedPayloadFields": ["requestId", "userIdA", "userIdB", "connectionId", "tenantId", "acceptedAt"],
+  "forbiddenFields": ["userProfile", "privacySettings"],
+  "notes": "Emitted by T74 when friend request is accepted. Triggers T75 ConnectionGraphWriter to write bidirectional graph edges atomically."
+}

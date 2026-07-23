@@ -1,0 +1,22 @@
+{
+  "patternId": "arch--orchestration-multi-step",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "generic",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "archetype": "ORCHESTRATION",
+  "tags": [
+    "orchestration",
+    "multi-step",
+    "resume",
+    "completedSteps",
+    "idempotent"
+  ],
+  "keywords": "orchestration multi-step resume completedSteps idempotent app-reopen sequential",
+  "codeSnippet": "// ORCHESTRATION archetype: resume from last incomplete step\nconst requiredSteps = await this.freedom.getArray(tenantId, 'onboardingSteps');\nconst completedSteps = existing?.completedSteps ?? [];\nfor (const step of requiredSteps) {\n  if (completedSteps.includes(step)) continue;  // already done\n  const result = await this.executeStep(step, tenantId, userId);\n  if (!result.isSuccess) return result;\n  // DNA-8: persist BEFORE advancing\n  await this.db.storeDocument(tenantId, 'progress', { step, completedAt }, userId);\n  completedSteps.push(step);\n}\n// Gate: emit completion ONLY when all steps done\nif (completedSteps.length < requiredSteps.length) return DataProcessResult.failure('INCOMPLETE');",
+  "ironRules": [
+    "steps from FREEDOM config",
+    "storeDocument before advancing",
+    "emit only on full completion"
+  ]
+}

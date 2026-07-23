@@ -1,0 +1,40 @@
+name: v17-skill-library-reference
+version: "1.0.0"
+priority: MANDATORY
+entry: SKILL.md
+author: luba
+updated: "2026-03-18"
+
+description: >
+  Complete map of the V17-skills library (xiigen_v18_complete): 64 skills,
+  each with C# primary and 5 language alternatives (nodejs/python/java/rust/php),
+  plus 50 framework alternatives (10 RAG backends, 13 hosting platforms, frontend
+  frameworks, mobile). Ensures sessions find the TypeScript alternative, not the C#
+  primary, when working on the NestJS stack.
+
+triggers:
+  - "v17 skill"
+  - "skill library"
+  - "existing skill"
+  - "which skill"
+  - "alternatives"
+  - "xiigen_v18_complete"
+  - "skill reference"
+  - "what skill does"
+
+key_rule: >
+  For NestJS/TypeScript projects: read SKILL.md for spec, then
+  alternatives/nodejs/[skill-name].ts for implementation.
+  NEVER default to Implementation/*.cs — that is .NET 9 only.
+
+library_stats:
+  total_skills: 64
+  skills_with_nodejs_alternative: 63
+  language_alternatives_per_skill: [nodejs, python, java, rust, php]
+  special_skills:
+    26: "frontend alternatives: react, vue, svelte, angular, solid"
+    27: "deployment alternatives: k8s-helm, render, railway, fly-io, docker-compose"
+  top_level_alternatives:
+    rag_backends: 10
+    hosting_platforms: 13
+    total: 50

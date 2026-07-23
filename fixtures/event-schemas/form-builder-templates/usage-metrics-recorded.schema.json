@@ -1,0 +1,13 @@
+{
+  "eventType": "form-builder-templates.usage.metrics-recorded",
+  "flowId": "FLOW-23",
+  "version": "1.0.0",
+  "properties": {
+    "instanceId": { "type": "string", "required": true },
+    "templateId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "fieldCount": { "type": "number", "required": true },
+    "completionSeconds": { "type": "number", "required": true },
+    "recordedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,1 @@
+{"type":"object","properties":{"contentId":{"type":"string"},"versionNumber":{"type":"number"},"slug":{"type":"string"},"publishedAt":{"type":"string"}},"required":["contentId","versionNumber","slug","publishedAt"]}

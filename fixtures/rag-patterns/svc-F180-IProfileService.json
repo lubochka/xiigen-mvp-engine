@@ -1,0 +1,26 @@
+{
+  "patternId": "svc-F180-IProfileService",
+  "patternType": "SERVICE_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "factoryId": "F180",
+  "interfaceName": "IProfileService",
+  "archetype": "STORAGE_WRITE",
+  "fabric": "DATABASE",
+  "fabricProvider": "Elasticsearch",
+  "skillRefs": [
+    "SK-05"
+  ],
+  "taskTypeRefs": [
+    "T49"
+  ],
+  "tags": [
+    "profile",
+    "storage",
+    "onboarding",
+    "user-data"
+  ],
+  "keywords": "profile store user data onboarding questionnaire answers persist",
+  "codeSnippet": "// DNA-8: persist profile BEFORE advancing to next step\nconst profileResult = await this.db.storeDocument(\n  tenantId, 'profiles', profileData, userId\n);\nif (!profileResult.isSuccess) return profileResult;\n// Only advance completedSteps after successful persist\ncompletedSteps.push('profile');"
+}

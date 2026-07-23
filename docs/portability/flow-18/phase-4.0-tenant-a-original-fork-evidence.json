@@ -1,0 +1,154 @@
+{
+    "flowId":  "FLOW-18",
+    "flowSlug":  "visual-flow-engine",
+    "phase":  "phase4Point0TenantAOriginalFork",
+    "status":  "PASS",
+    "generatedAt":  "2026-05-07T01:39:31.3241912+03:00",
+    "tenant":  "acme-corp",
+    "repo":  {
+                 "fullName":  "lubochka/acme-corp--visual-flow-engine",
+                 "url":  "https://github.com/lubochka/acme-corp--visual-flow-engine",
+                 "finalVisibility":  "PRIVATE",
+                 "isPrivate":  true,
+                 "defaultBranch":  "main",
+                 "forkApiStatus":  "FORKED",
+                 "forkId":  "fork-visual-flow-engine-acme-corp",
+                 "initialCommitSha":  "f2bbe0c83c0afc8266cd60568258c47772eacd6d"
+             },
+    "marketplaceApi":  {
+                           "endpoint":  "POST /api/marketplace/packages/visual-flow-engine/fork",
+                           "source":  "marketplace API / ForkFlowHandlerService",
+                           "requestTenant":  "acme-corp",
+                           "initialVersion":  "1.0.1",
+                           "result":  "FORKED",
+                           "manualRepoCreation":  false,
+                           "localDirectorySubstitution":  false
+                       },
+    "infrastructure":  {
+                           "dockerServerHealth":  "PASS http://localhost:33001/health/live",
+                           "serverRebuiltWithFlow18AdaptationSurface":  true,
+                           "serverRebuiltWithAssemblerModuleSkip":  true,
+                           "vaultCredentialsVerifiedWithoutPrinting":  true,
+                           "iSecretsServicePathsSeeded":  [
+                                                              "secret/xiigen/tenants/{tenant}/github_token",
+                                                              "secret/xiigen/tenants/{tenant}/github_org_name",
+                                                              "secret/xiigen/tenants/{tenant}/docker_registry_url",
+                                                              "secret/xiigen/tenants/{tenant}/docker_registry_token",
+                                                              "tenant auth signing material path template redacted"
+                                                          ],
+                           "iSecretsManagerPathsSeeded":  [
+                                                              "secret/{tenant}/github_token",
+                                                              "secret/{tenant}/github_org_name",
+                                                              "secret/{tenant}/docker_registry_url",
+                                                              "secret/{tenant}/docker_registry_token"
+                                                          ],
+                           "flowMobilityVaultFreedomBootstrap":  true,
+                           "finalRepoVisibilityVerifiedPrivate":  true,
+                           "persistentSecretsCommitted":  false,
+                           "tenantJwtSigningKeyRotatedForRetryHygiene":  true
+                       },
+    "sourceBundleRepairBeforeFork":  {
+                                         "adaptationSurfaceReason":  "FlowFileAssemblerService requires docs/portability/flow-18/adaptation-surface-visual-flow-engine.json for complete module bundles.",
+                                         "adaptationSurfaceCreated":  "docs/portability/flow-18/adaptation-surface-visual-flow-engine.json",
+                                         "jsonParse":  "PASS node JSON.parse",
+                                         "firstForkRunId":  25464540958,
+                                         "firstForkConclusion":  "failure",
+                                         "firstForkFailedStep":  "TypeScript check",
+                                         "rootCause":  "Standalone tenant bundle copied visual-flow-engine.module.ts, which imports the monorepo FabricsModule outside the fork boundary.",
+                                         "platformFix":  "server/src/fabrics/implementations/flow-file-assembler.ts now excludes *.module.ts from copied service files.",
+                                         "failedProofRepoCleanup":  {
+                                                                        "deleteAttempt":  "blocked by missing delete_repo scope",
+                                                                        "renamedTo":  "lubochka/acme-corp--visual-flow-engine-failed-25464540958",
+                                                                        "retainedPrivate":  true,
+                                                                        "canonicalRepoRecreatedByMarketplaceApi":  true
+                                                                    },
+                                         "rerunCommit":  "f2bbe0c83c0afc8266cd60568258c47772eacd6d",
+                                         "rerunGitHubActionsConclusion":  "success"
+                                     },
+    "githubActions":  {
+                          "runId":  25464854883,
+                          "workflowName":  "XIIGen Flow CI — visual-flow-engine",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "f2bbe0c83c0afc8266cd60568258c47772eacd6d",
+                          "url":  "https://github.com/lubochka/acme-corp--visual-flow-engine/actions/runs/25464854883",
+                          "job":  {
+                                      "id":  74715615535,
+                                      "name":  "Standalone flow test — visual-flow-engine",
+                                      "conclusion":  "success",
+                                      "url":  "https://github.com/lubochka/acme-corp--visual-flow-engine/actions/runs/25464854883/job/74715615535",
+                                      "passedSteps":  [
+                                                          "Set up job",
+                                                          "Run actions/checkout@v4.2.2",
+                                                          "Run actions/setup-node@v4.4.0",
+                                                          "Install",
+                                                          "TypeScript check",
+                                                          "Test",
+                                                          "Provenance",
+                                                          "Post Run actions/setup-node@v4.4.0",
+                                                          "Post Run actions/checkout@v4.2.2",
+                                                          "Complete job"
+                                                      ]
+                                  },
+                          "nonBlockingAnnotation":  "GitHub reported Node.js 20 actions deprecation for checkout/setup-node in related fork CI; inherited debt-011 tracks workflow action runtime upgrades."
+                      },
+    "localCloneValidation":  {
+                                 "clonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--visual-flow-engine-phase40-20260507-013348",
+                                 "npmInstall":  "PASS npm install --no-audit --no-fund",
+                                 "typeScript":  "PASS npx tsc --noEmit",
+                                 "jest":  "PASS npx jest --colors=false --forceExit, 1 suite / 1 test"
+                             },
+    "bundleManifest":  {
+                           "path":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--visual-flow-engine-phase40-20260507-013348\\BUNDLE-MANIFEST.json",
+                           "flowId":  "FLOW-18",
+                           "flowSlug":  "visual-flow-engine",
+                           "manifestItemCount":  112,
+                           "requiredBundleChecks":  {
+                                                        "completeModuleBundle":  true,
+                                                        "adaptationSurface":  true,
+                                                        "freedomDefaults":  true,
+                                                        "tenantConfig":  true,
+                                                        "ragSeeds":  true,
+                                                        "standalonePackage":  true
+                                                    },
+                           "moduleFileExcluded":  true
+                       },
+    "screenshots":  [
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-18/phase-4.0-tenant-a-actions-run.png",
+                            "bytes":  75804,
+                            "exists":  true
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-18/phase-4.0-tenant-a-bundle-manifest.png",
+                            "bytes":  354040,
+                            "exists":  true
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-18/phase-4.0-tenant-a-repo.png",
+                            "bytes":  124535,
+                            "exists":  true
+                        }
+                    ],
+    "secretHandling":  {
+                           "githubPatPrinted":  false,
+                           "vaultValuesPrinted":  false,
+                           "signingKeyPrinted":  false,
+                           "committedSecretsFound":  false,
+                           "shortLivedTenantJwtCommitted":  false,
+                           "claudeSessionTokenUsedAsEvidence":  false,
+                           "shortLivedTenantJwtInvalidatedBySigningKeyRotation":  true
+                       },
+    "phaseGate":  {
+                      "tenantAForkedOriginalPlatformSource":  true,
+                      "realGitHubRepo":  true,
+                      "greenGitHubActions":  true,
+                      "localCloneValidated":  true,
+                      "bundleManifestValidated":  true,
+                      "repoScreenshotsCaptured":  true,
+                      "repoRestoredPrivate":  true,
+                      "noPersistentSecretsPrintedOrCommitted":  true,
+                      "readyForNextPhase":  "phase4AiAdaptation"
+                  }
+}

@@ -1,0 +1,44 @@
+{
+  "taskTypeId": "T213",
+  "flowId": "FLOW-14",
+  "name": "ConnectorRegistrationHandler",
+  "archetype": "provisioning",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "rate-check-then-vault-then-idempotency-then-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_rate_limit_window_ms",
+    "neutralConcepts": [
+      "executionOrder: RateLimitGuard=1, CredentialVault=2, IdempotencyCheck=3, StoreDocument=4, EnqueueConnectorRegistered=5",
+      "F430 IRateLimitGuardService called at ORDER 1 — before any write",
+      "F427 ICredentialVaultService called at ORDER 2 — credentials stored as opaque reference",
+      "ConnectorRegistered payload MUST NOT include credentials — only opaque connectorId",
+      "storeDocument(connector) at ORDER 4 BEFORE enqueue(ConnectorRegistered) — DNA-8",
+      "ConnectorRegistrationFailed emitted on any failure path"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F427", "interface": "ICredentialVaultService", "fabric": "CORE" },
+    { "factoryId": "F430", "interface": "IRateLimitGuardService", "fabric": "CORE" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T213-1", "rule": "IRateLimitGuardService (F430) MUST be called at ORDER 1 before health probe.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T213-2", "rule": "ICredentialVaultService (F427) stores credentials — ConnectorRegistered payload contains only opaque connectorId.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T213-3", "rule": "Idempotency check before any write — DNA-7.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T213-4", "rule": "storeDocument(connector) BEFORE enqueue(ConnectorRegistered) — DNA-8.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T213-5", "rule": "ConnectorRegistrationFailed emitted on every failure path.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "credentials_not_in_event_payload",
+    "rate_limit_check_before_external_call",
+    "idempotency_before_write",
+    "store_before_enqueue"
+  ],
+  "bfaRules": ["CF-211"],
+  "tags": ["connector", "registration", "vault", "rate-limit", "provisioning"],
+  "keywords": "connector registration handler vault credentials rate limit guard idempotency store before enqueue ConnectorRegistered ConnectorRegistrationFailed"
+}

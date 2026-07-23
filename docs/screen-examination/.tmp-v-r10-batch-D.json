@@ -1,0 +1,29 @@
+{
+  "batch_id": "V-R10-D",
+  "captured_after": "RUN-173 (cdcf739d)",
+  "flows": [
+    {"slug":"human-interaction-gate","prior":"PASS","new":"PASS","score":"14/15","delta":"0","fixes":{"P3_support_inspector":"NOT_APPLIED","P4_5":"APPLIED"},"notes":"3 roles exemplary (admin queue, tenant-admin gate config, tenant-user My Pending Approvals w/ SLA countdown). platform-support still deny — P3 pending"},
+    {"slug":"i18n-translation","prior":"CONCERN","new":"CONCERN","score":"9/15","delta":"0","fixes":{"P3_translator_workbench":"NOT_APPLIED","P4_5":"APPLIED"},"notes":"platform-admin governance + tenant-admin settings strong; tenant-user + translator both render IDENTICAL deny — translator workbench never built"},
+    {"slug":"marketplace","prior":"CONCERN","new":"CONCERN","score":"10/15","delta":"+1","fixes":{"P0_3_primary_fallback":"APPLIED — 3-package table for all 5 roles","P0_3_populated_fallback":"NOT_APPLIED — populated PNGs still pre-RUN-173 timestamps; still 'We couldn\\'t load' error"},"notes":"Primary fixed; populated NOT recaptured properly; no role differentiation"},
+    {"slug":"marketplace-payments","prior":"PASS","new":"PASS","score":"15/15","delta":"0","fixes":{"P4_5":"APPLIED"},"notes":"BEST 10-role differentiation in product. Each role purpose-built: guest checkout / member checkout / payments admin / referral banner / freelancer-redirect / B2B PO checkout / event-redirect / platform overview / support read-only inspector / tenant-admin"},
+    {"slug":"marketplace-plugin-adapter","prior":"CONCERN","new":"CONCERN","score":"11/15","delta":"+2","fixes":{"P4_6_tenant_user_catalog":"APPLIED — tenant-user has Plugin Catalog + Installed Plugins (2) + Disconnect","P4_6_tenant_admin_permissions":"APPLIED","P3_support_inspector":"NOT_APPLIED","P3_event_organiser":"NOT_APPLIED"},"notes":"Major win: tenant-user/tenant-admin now have production catalog + installed list. Freelancer niche-publisher mode + business-partner vendor dashboard + platform-admin DAG. platform-support + event-organiser still deny"},
+    {"slug":"meta-arbitration-engine","prior":"PASS","new":"PASS","score":"15/15","delta":"0","fixes":{"P4_5":"APPLIED on primary"},"notes":"BEST-IN-PRODUCT 5-policy × 6-rounds verdict grid + support read-only with disabled Approve + Escalate"},
+    {"slug":"meta-flow-engine","prior":"PASS","new":"PASS","score":"15/15","delta":"0","fixes":{"P4_5":"APPLIED"},"notes":"Rich 8-phase lifecycle DAG + 4 registered meta-flows + recent executions. Support read-only with disabled controls + Escalate"}
+  ],
+  "batch_summary": {"pass":4,"concern":3,"fail":0,"improved":2,"unchanged":5},
+  "exemplars_confirmed": [
+    "marketplace-payments 10-role (best-in-product)",
+    "meta-arbitration-engine support read-only pattern",
+    "meta-flow-engine support read-only with Escalate",
+    "human-interaction-gate tenant-user My Pending Approvals + SLA countdown",
+    "marketplace-plugin-adapter NEW 6-role exemplar post P4-6 (anon catalog / tenant-user installed list / freelancer niche-publisher / business-partner vendor dashboard / platform-admin DAG + security queue / tenant-admin permissions)"
+  ],
+  "p3_pending_gaps": [
+    "human-interaction-gate/platform-support — no read-only inspector",
+    "i18n-translation/tenant-user — no language-switcher kiosk",
+    "i18n-translation/translator — no translator workbench (translation memory + segment editor)",
+    "marketplace-plugin-adapter/platform-support — still deny",
+    "marketplace-plugin-adapter/event-organiser — still deny",
+    "marketplace populated-* — still error, no role-scoped fallback"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "patternId": "eligibility-before-audit-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-10",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "tags": ["eligibility-gate", "audit-order", "pre-write-check", "dpo-conflict-flow-08"],
+  "keywords": "eligibility before audit write order constraint ineligible attempt corrupt audit trail FLOW-08 inversion IR-1",
+  "ironRules": [
+    "eligibility GET is executionOrder=1 — before any write, before SETNX, before validation",
+    "Ineligible submissions never create audit records — audit trail records valid events only",
+    "If peer flow (FLOW-04, FLOW-09) not ACTIVE → ReviewRejected(peer_flow_unavailable), no audit",
+    "This pattern INVERTS the FLOW-08 audit-first-then-eligibility order — both are domain-correct",
+    "DPO triple annotation: conflictsWith: 'FLOW-08-T79-audit-first-pattern'"
+  ],
+  "codeSnippet": "// CORRECT: eligibility first (T169)\nconst eligibility = await this.eligibilityService.check({...}); // ORDER 1\nif (!eligibility.eligible) return reject('not_eligible');        // no audit write\n// ... validation, SETNX ...\nawait this.auditService.storeDocument({...});                    // ORDER 4\n\n// WRONG: audit first (FLOW-08 T79 pattern — incorrect for T169)\nawait this.auditService.storeDocument({...});                    // before eligibility\nconst eligibility = await this.eligibilityService.check({...}); // too late",
+  "appliesTo": ["FLOW-14", "FLOW-19"],
+  "curriculumTier": 2,
+  "qualityScore": 0.93,
+  "sourceDocument": "FLOW-10-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,24 @@
+{
+  "patternId": "three-path-moderation-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-10",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ROUTING",
+  "tags": ["three-path", "uncertain-outcome", "human-queue", "no-binary-collapse"],
+  "keywords": "three path moderation PASS REJECT UNCERTAIN human queue PENDING state binary collapse FLOW-08 conflict moderationPaths",
+  "ironRules": [
+    "Exactly 3 moderation outcomes: PASS → ReviewPublished, REJECT → ReviewRejected, UNCERTAIN → ReviewFlaggedForHuman",
+    "UNCERTAIN maps to PENDING status — never to REJECTED status",
+    "A PENDING review can be published after human decision — it is not a final rejection",
+    "Two FREEDOM config thresholds: pass_threshold and reject_threshold — between them is UNCERTAIN",
+    "DPO triple annotation: conflictsWith FLOW-08 binary moderation (confidence < threshold → REJECT)"
+  ],
+  "codeSnippet": "// CORRECT: three-path switch\nif (confidence >= passThreshold) emit('ReviewPublished');\nelse if (confidence < rejectThreshold) emit('ReviewRejected');\nelse emit('ReviewFlaggedForHuman', { status: 'PENDING' }); // UNCERTAIN → human queue\n\n// WRONG: binary\nif (confidence >= threshold) emit('ReviewPublished');\nelse emit('ReviewRejected'); // UNCERTAIN silently becomes REJECT — IR-2 violation",
+  "appliesTo": ["FLOW-24"],
+  "curriculumTier": 2,
+  "qualityScore": 0.94,
+  "sourceDocument": "FLOW-10-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,121 @@
+﻿{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phase5c5TenantCAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T10:15:52.4442916Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "FREEDOM key value change plus tenant package metadata",
+                       "packageName":  "@xiigen-fork/tessera-collection-forms",
+                       "packageVersion":  "1.0.3",
+                       "moduleName":  "tessera-collection-forms",
+                       "displayName":  "Tessera Collection Forms",
+                       "sourceModuleName":  "northwind-operations-gallery",
+                       "visiblePlainLanguage":  "Tessera collection-form defaults: curated exhibit and collector submission templates, stricter required-field baseline, no unresolved variables, higher export quality threshold, balanced analytics cadence, and museum-safe webhook retry posture while validation order, immutability, OCC, idempotency, audit ordering, PII exclusion, permission source, and tenant isolation remain unchanged."
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--tessera-collection-forms",
+                             "url":  "https://github.com/lubochka/tessera-collective--tessera-collection-forms",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "sourceRepoFullName":  "lubochka/northwind--northwind-operations-gallery",
+                             "adaptedCommit":  "b05775373954b16e3765896f29dc941f3ac803a1",
+                             "adaptedCommitMessage":  "Adapt form builder templates for Tessera collection forms",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-operations-gallery-phase5c-20260510-130215",
+                             "cleanCloneStatus":  "clean against adapted/main",
+                             "adaptationHistoryEntries":  3,
+                             "bundleManifestItemCount":  131
+                         },
+    "tenantCloneVerification":  [
+                                    {
+                                        "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx tsc --noEmit --pretty false",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx jest --colors=false --forceExit",
+                                        "result":  "passed",
+                                        "suites":  4,
+                                        "tests":  7
+                                    },
+                                    {
+                                        "command":  "npm pack --dry-run --json",
+                                        "result":  "passed",
+                                        "entryCount":  132,
+                                        "shasum":  "ee3aa9f593ca6cd37843019f1c156aafbb2bb3c8"
+                                    }
+                                ],
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — form-builder-templates",
+                          "runId":  25626007712,
+                          "url":  "https://github.com/lubochka/tessera-collective--tessera-collection-forms/actions/runs/25626007712",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "b05775373954b16e3765896f29dc941f3ac803a1",
+                          "createdAt":  "2026-05-10T10:09:55Z",
+                          "updatedAt":  "2026-05-10T10:10:42Z"
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "package":  "@xiigen-fork/tessera-collection-forms",
+                          "version":  "1.0.3",
+                          "tarball":  "http://localhost:4873/@xiigen-fork/tessera-collection-forms/-/tessera-collection-forms-1.0.3.tgz",
+                          "shasum":  "ee3aa9f593ca6cd37843019f1c156aafbb2bb3c8",
+                          "gitHead":  "b05775373954b16e3765896f29dc941f3ac803a1",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/form-builder-templates-tessera-v1.0.3-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "playwrightEvidence":  {
+                               "spec":  "client/e2e/form-builder-templates-tenant-c-adapted.spec.ts",
+                               "passed":  18,
+                               "failed":  0,
+                               "pngDirectory":  "docs/e2e-snapshots/form-builder-templates/tenant-c-v1.0.3",
+                               "pngCount":  18,
+                               "emptyPngCount":  0,
+                               "totalBytes":  662861
+                           },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               "docs/e2e-snapshots/marketplace/form-builder-templates-tessera-v1.0.3-registry-listing.png",
+                                               "docs/e2e-snapshots/repo-evidence/flow-23/tessera-collective--tessera-collection-forms-tenant-c-v1.0.3-github-listing.png",
+                                               "docs/e2e-snapshots/repo-evidence/flow-23/tessera-collective--tessera-collection-forms-tenant-c-v1.0.3-actions-success.png"
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypescript":  "passed",
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "highRiskSecretPatternHits":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "phaseGate":  {
+                      "tenantCAdaptedFlow":  true,
+                      "tenantCCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "playwrightCascadeScreenshotsPresent":  true,
+                      "readyForAuthDecoration":  true
+                  },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "verdict":  "PASS"
+}

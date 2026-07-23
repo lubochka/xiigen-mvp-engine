@@ -1,0 +1,45 @@
+{
+  "name": "@xiigen/event-management",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-03 event-management — organiser-facing event creation, registration, promotion, analytics (T59-T62). Portability artifact declaring cross-flow co-install relationships.",
+  "flowId": "FLOW-03",
+  "flowSlug": "event-management",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "services": [
+      "EventCreationOrchestrator",
+      "EventRegistrationManager",
+      "EventPromotionEngine",
+      "EventAnalyticsTracker"
+    ],
+    "taskTypeIds": ["T59", "T60", "T61", "T62"],
+    "freedomKeys": [
+      "flow03_max_events_per_organizer",
+      "flow03_max_attendees",
+      "flow03_waitlist_max_size",
+      "flow03_promotion_channels",
+      "flow03_analytics_counter_ttl",
+      "flow03_campaign_engagement_threshold"
+    ],
+    "emitsEventsConsumedBy": [
+      "FLOW-04 (EventCreated → RSVPOrchestrator, WaitlistManager)",
+      "FLOW-04 (TargetAudienceIdentified → NotificationService)",
+      "FLOW-04 (FeedsUpdated → UI layer)",
+      "Billing (PromotionCampaignCompleted)"
+    ],
+    "readsFromOtherFlows": [],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_CANDIDATE_IN_GENERATION"
+  },
+  "requiredCoInstalls": [],
+  "coInstallNotes": "FLOW-03 stands alone for its 4 services (T59-T62). FLOW-04 depends on FLOW-03 (see docs/sessions/FLOW-04/). The reverse relationship (FLOW-03 requires FLOW-04) does NOT exist — FLOW-03 emits EventCreated via the queue fabric; delivery is fire-and-forget. Circular co-install runtime test: server/test/event-management/phase-03-circular-install.spec.ts proves FLOW-03 services boot without any FLOW-04 service present.",
+  "peerDependencies": {
+    "xiigen-server": "^1.0.0"
+  },
+  "dna": {
+    "compliance": ["DNA-1", "DNA-2", "DNA-3", "DNA-4", "DNA-5", "DNA-6", "DNA-7", "DNA-8", "DNA-9"],
+    "portabilityInvariants": ["P-1", "P-2", "P-3", "P-4", "P-5"]
+  },
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2"
+}

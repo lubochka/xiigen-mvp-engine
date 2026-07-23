@@ -1,0 +1,28 @@
+{
+  "name": "@xiigen/plugin-sdk",
+  "version": "1.0.0",
+  "description": "XIIGen Plugin SDK — canonical role taxonomy + role-scoping primitives consumed by every role-aware client page. Zero runtime dependencies; pure TypeScript.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "author": "Luba",
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "xiigen": {
+    "capabilities": [
+      "ROLE_TAXONOMY"
+    ],
+    "gapProvenance": "GAP-11 Guard 4 linchpin — Fix Plan v4.9 Tier 2 A78"
+  },
+  "keywords": [
+    "xiigen",
+    "plugin-sdk",
+    "role-scoping"
+  ]
+}

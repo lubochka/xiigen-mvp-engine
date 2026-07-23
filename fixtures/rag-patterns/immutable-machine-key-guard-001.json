@@ -1,0 +1,33 @@
+{
+  "patternId": "immutable-machine-key-guard-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-15",
+  "domainId": "saas-multi-tenancy",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "tags": [
+    "saas",
+    "tenant-config",
+    "machine-locked-keys",
+    "compile-time",
+    "occ",
+    "immutable-config",
+    "order-1-guard"
+  ],
+  "keywords": "MACHINE_LOCKED_KEYS compile-time constant set ORDER 1 rejection ConfigKeyImmutable OCC write-only engine-critical keys locked tenant configuration",
+  "teachingPoint": "T606 TenantConfigurationManager MUST define MACHINE_LOCKED_KEYS as a compile-time const Set — never read from FREEDOM or database. The locked key check MUST run at ORDER 1, and on match MUST return DataProcessResult.failure + emit ConfigKeyImmutable without any storeDocument call. All config writes use OCC (optimistic concurrency control). There is no bypass path — locked key enforcement is absolute.",
+  "ironRules": [
+    "MACHINE_LOCKED_KEYS defined as compile-time const Set at module scope — never runtime-configurable",
+    "Locked key check runs at ORDER 1 — storeDocument call never reached on locked key match",
+    "ConfigKeyImmutable emitted with rejectedKey before returning failure — silent ignore is prohibited",
+    "All config writes include { occ: true } — no OCC-less writes permitted",
+    "No superadmin bypass path exists for MACHINE_LOCKED_KEYS enforcement"
+  ],
+  "codeSnippet": "// T606 TenantConfigurationManager — immutable machine key guard\n\n// Compile-time constant — immutable at runtime, no FREEDOM override\nconst MACHINE_LOCKED_KEYS = new Set([\n  'system.fabric.router',\n  'security.occ.enabled',\n  'system.tenant.isolation.mode',\n]) as const;\n\nasync updateConfig(key: string, value: unknown): Promise<DataProcessResult<void>> {\n  const tenantId = this.tenantContext.getTenantId(); // ALS only\n\n  // ORDER 1: locked key guard — no storage attempt on match\n  if (MACHINE_LOCKED_KEYS.has(key)) {\n    await this.queue.enqueue('ConfigKeyImmutable', {\n      tenantId,\n      rejectedKey: key,\n      rejectionReason: 'MACHINE_LOCKED_KEY',\n      rejectedAt: new Date().toISOString(),\n    });\n    return DataProcessResult.failure('MACHINE_LOCKED_KEY', `Key ${key} is engine-immutable`);\n  }\n\n  // ORDER 2: quota check\n  const maxKeys = await this.freedom.getConfig('tenant_config_max_custom_keys'); // F1522\n  const existingCount = await this.configStore.countCustomKeys(tenantId); // F1523\n  if (existingCount >= maxKeys) {\n    return DataProcessResult.failure('QUOTA_EXCEEDED', 'Custom key quota reached');\n  }\n\n  // ORDER 3: OCC write\n  const { occVersion } = await this.configStore.storeDocument(\n    'xiigen-tenant-config',\n    { tenantId, configKey: key, value },\n    { occ: true }, // F1523 — OCC mandatory\n  );\n\n  await this.queue.enqueue('TenantConfigurationUpdated', {\n    tenantId, configKey: key, occVersion, updatedAt: new Date().toISOString(),\n  });\n  return DataProcessResult.success();\n}",
+  "appliesTo": ["FLOW-16", "FLOW-17", "FLOW-19", "FLOW-20"],
+  "curriculumTier": 2,
+  "qualityScore": 0.96,
+  "sourceDocument": "server/src/engine-contracts/saas-multi-tenancy-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,26 @@
+name: no-product-decisions
+sk_number: SK-403
+priority: ABSOLUTE
+load_order: 2
+description: >
+  Prevents Claude Code from making product decisions (thresholds, weights, criteria)
+  that belong to Luba. Second only to agent-constitution in priority.
+triggers:
+  - quality threshold
+  - scoring weight
+  - compliance score
+  - pass/fail criteria
+  - AF station activation
+  - flow promotion
+  - model selection logic
+  - contract requirements
+applies_to:
+  - server/src/guardrails/
+  - server/src/learning/
+  - server/src/engine-contracts/
+  - server/src/af-stations/
+anti_patterns:
+  - changing numeric thresholds to "fix" behavior
+  - adjusting weights because output seems wrong
+  - adding required fields without approval
+  - modifying BFA severity rules

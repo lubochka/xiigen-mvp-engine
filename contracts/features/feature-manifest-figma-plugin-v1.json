@@ -1,0 +1,285 @@
+{
+  "schemaVersion": "2.0",
+  "sourceFlow": "FEATURE-REGISTRY-S1",
+  "extractedAt": "2026-03-20T00:00:00.000Z",
+  "note": "Provisional FT-001 through FT-010 assigned for Figma plugin migration. IDs confirmed by FLOW-36 Phase A. Upgraded to schema v2.0 (productScope discriminator added).",
+  "features": [
+    {
+      "ftId": "FT-001",
+      "name": "DesignToCodeExtraction",
+      "description": "Converts selected Figma frames into clean HTML and CSS code via an 18-step CSS extraction pipeline with semantic element classification.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/plugin/utils/styles.ts",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Figma node type system (FRAME, TEXT, RECTANGLE, ELLIPSE, etc.) must be mapped to target platform's node model",
+        "fills, strokes, effects, layoutMode, children property access requires platform-specific adapter",
+        "Image extraction via exportAsync() needs equivalent bitmap export API on target platform",
+        "Color space: Figma uses 0-1 RGB floats; must convert to CSS hex/rgba in extraction layer",
+        "cornerSmoothing and strokeMiterLimit have no 1:1 CSS equivalents — approximations needed"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-002",
+      "name": "InteractiveElementPreview",
+      "description": "Live clickable HTML preview inside the plugin UI showing generated code with element selection, hover states, and pixel-perfect rendering.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/ui/components/preview/DynamicElement.tsx",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Requires an iframe or browser DOM context for React rendering",
+        "CSS class names use Figma node IDs — must be re-keyed to target platform's node identifiers",
+        "dangerouslySetInnerHTML usage requires sanitization review per platform security policy"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-003",
+      "name": "LiveStyleEditor",
+      "description": "Click any element in the preview to inspect and live-edit CSS properties, with automatic re-rendering and code regeneration.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/ui/components/details/ElementDetails.tsx",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Operates on extracted CSS settings (name/value pairs) — platform-agnostic once extraction layer is ported",
+        "Element selection state managed in React component tree; must integrate with target platform's UI state model"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-004",
+      "name": "AICodeEnhancement",
+      "description": "Uses Claude/Anthropic API to take generated HTML/CSS and produce full-stack code (React, Express, FastAPI, Vue, etc.) with 7 pre-built stack templates.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/ui/components/ai-enhance/AIEnhancePanel.tsx",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "API key stored via figma.clientStorage — must use platform equivalent (localStorage, secure storage, etc.)",
+        "Frame image export for vision template requires bitmap export capability on target platform",
+        "Prompt templates (7 stacks) are portable as-is; stack selection UI needs platform-specific wrapper",
+        "CORS and CSP constraints differ per platform; API proxy may be required"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-005",
+      "name": "DesignFidelityCorrection",
+      "description": "Vision-based template that compares original design image against generated code and uses Claude to fix discrepancies in colors, spacing, typography, and layouts.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/ui/components/ai-enhance/PromptTemplates.ts",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Requires frame export to JPEG via exportAsync() at 0.5x scale — equivalent bitmap export needed on target",
+        "Canvas API used for image pre-compression before API submission",
+        "Requires vision-capable AI API (Claude 3.5+); feature degrades gracefully without image"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-006",
+      "name": "DesignGenerationFromPrompt",
+      "description": "AI-driven iterative canvas generation: user describes a design in natural language; DALL-E 3 generates a reference image; Claude applies delta operations to build the design directly in the canvas.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/ui/components/design-gen/DesignGeneratorPanel.tsx",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Delta operation executor (op-executor.ts) uses Figma-specific node creation API (createFrame, createText, createRectangle, appendChild) — full rewrite required per platform",
+        "Node resolution via figma.getNodeByIdAsync() and figma.loadAllPagesAsync() — platform-specific",
+        "Frame export for visual feedback loop requires exportAsync() equivalent",
+        "Requires two AI APIs simultaneously: OpenAI DALL-E 3 (image gen) + Claude (vision comparison + delta generation)",
+        "Session state machine (idle → generating-image → comparing → executing → loop) is platform-agnostic"
+      ],
+      "platformIncompatibilities": [
+        "miro: Canvas creation API differs substantially; delta op model needs full reimplementation",
+        "webflow: DOM-based editor; node creation approach is HTML/CSS not graphic primitives"
+      ]
+    },
+    {
+      "ftId": "FT-007",
+      "name": "LayoutOptimizer",
+      "description": "Converts absolute-positioned layouts to flex/grid layouts with semantic gap values by analyzing child spacing patterns in the extracted element tree.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/ui/components/shared/layout-utils.ts",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Operates on extracted CSS property data only — no Figma API calls; fully portable",
+        "ImproveAbsoluteToGap algorithm is pure TypeScript; can be extracted as shared library"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-008",
+      "name": "GenerationSessionMemory",
+      "description": "Persists up to 10 generation sessions per scene with feedback scoring, user ratings, and metadata for iterative refinement of AI-generated designs.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/plugin/utils/scene-memory.ts",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Storage layer uses figma.clientStorage (async key-value, persistent per user per file) — must swap to platform equivalent (localStorage, indexedDB, platform storage API)",
+        "IStorage interface already abstracts the storage layer — only the concrete adapter needs porting",
+        "SessionEntry schema (html, css, score, feedback, source, timestamp) is platform-agnostic"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-009",
+      "name": "ElementTreeInspector",
+      "description": "Hierarchical view of the extracted element structure with breadcrumb navigation, showing parent/child relationships and source element types.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/ui/components/tree/ElementView.tsx",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Displays Figma node type names (FRAME, TEXT, etc.) — labels must be mapped to target platform terminology",
+        "Tree rendering is pure React; portable to any browser-based plugin context"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-010",
+      "name": "ScenePackageExport",
+      "description": "Exports the selected scene as a multi-file bundle including standalone HTML, CSS, debug history JSON, and element tree JSON for version control and testing.",
+      "productScope": "client-capability",
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "6.3",
+          "adapterPath": "extensions reasearch/FigmaToCode-design-gen-improve_group_css_user/src/ui/components/export/SceneExporter.ts",
+          "adapterMode": "MODE-B",
+          "signals": {}
+        }
+      ],
+      "portingConstraints": [
+        "Uses browser File API (Blob, URL.createObjectURL, <a download>) — available in most browser-hosted plugin contexts",
+        "CSP restrictions in Figma iframe may block downloads; fallback to clipboard copy implemented",
+        "Figma-specific frame screenshot export optional; bundle degrades gracefully without it"
+      ],
+      "platformIncompatibilities": [
+        "vscode: Extension context has no browser download API; must use workspace file write instead"
+      ]
+    }
+  ]
+}

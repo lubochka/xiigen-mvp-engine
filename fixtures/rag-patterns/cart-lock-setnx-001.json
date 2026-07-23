@@ -1,0 +1,24 @@
+{
+  "patternId": "CART-LOCK-SETNX-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-16",
+  "domainId": "marketplace-payments",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "VALIDATION",
+  "tags": ["checkout", "cart-lock", "setnx", "bola", "tenant-isolation", "occ"],
+  "keywords": "BOLA ORDER 1 cart buyerTenantId ALS SETNX cart lock checkout_lock_ttl_ms OCC inventory reservation concurrent checkout oversell CF-16-1",
+  "ironRules": [
+    "BOLA check at ORDER 1: cart.buyerTenantId === ALS.tenantId — before any lock or write",
+    "SETNX cart lock at ORDER 2 with TTL from FREEDOM config 'checkout_lock_ttl_ms'",
+    "OCC inventory reservation at ORDER 3-4 after lock acquired",
+    "storeDocument(audit) BEFORE enqueue(CheckoutReserved) — DNA-8",
+    "tenantId from ALS ONLY — never from request payload"
+  ],
+  "codeSnippet": "// CORRECT: BOLA first, SETNX second, OCC third (T609)\nconst tenantId = this.als.getStore().tenantId;          // ALS only\nif (cart.buyerTenantId !== tenantId)                     // ORDER 1: BOLA\n  return DataProcessResult.failure('BOLA_VIOLATION');\nconst lockTtl = await this.freedom.getConfig('checkout_lock_ttl_ms');\nconst locked = await this.setnx(`cart-lock:${cartId}`, lockTtl);\nif (!locked) return DataProcessResult.failure('CART_LOCKED'); // ORDER 2: lock\nconst reserved = await this.inventory.reserveOcc(items);  // ORDER 3-4: OCC\nawait this.db.storeDocument(auditRecord);                // DNA-8: store before emit\nawait this.queue.enqueue('CheckoutReserved', payload);   // ORDER 6: emit\n\n// WRONG: SETNX before BOLA\nconst locked = await this.setnx(`cart-lock:${cartId}`); // lock before BOLA check\nconst tenantId = request.tenantId;                       // payload tenantId — impersonation risk",
+  "appliesTo": ["FLOW-17", "FLOW-08", "FLOW-09"],
+  "curriculumTier": 1,
+  "qualityScore": 0.96,
+  "sourceDocument": "marketplace-payments-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.backfill.completed",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "connectorId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "slicesProcessed": { "type": "integer", "minimum": 0, "required": true },
+    "recordsIngested": { "type": "integer", "minimum": 0, "required": true },
+    "completedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

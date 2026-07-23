@@ -1,0 +1,38 @@
+{
+  "phase": 5,
+  "phaseTitle": "Engine QA Draft",
+  "status": "COMPLETE",
+  "date": "2026-03-18",
+  "skillsCreatedThisPhase": 1,
+  "skillsCreatedToDate": 15,
+  "deliverables": [
+    ".claude/skills/engine-qa/SKILL.md",
+    ".claude/skills/engine-qa/skill.yaml",
+    ".claude/skills/engine-qa/known-violations-registry.md"
+  ],
+  "skillsCreated": [
+    {
+      "sk": "SK-413-DRAFT",
+      "name": "engine-qa",
+      "status": "DRAFT",
+      "loadOrder": null,
+      "note": "Taxonomy finalized in Phase 8 — no load_order assigned"
+    }
+  ],
+  "fcFixes": {
+    "FC10": "DRAFT status propagated to SKILL.md h1, frontmatter, skill.yaml",
+    "FC11": "File count corrected from 2 to 3 (added skill.yaml)"
+  },
+  "testCounts": {
+    "server": { "suites": 98, "tests": 2342, "buildErrors": 0 },
+    "client": { "suites": 7, "tests": 220 }
+  },
+  "zeroRegressionGate": {
+    "serverDelta": 0,
+    "clientDelta": 0,
+    "result": "PASS"
+  },
+  "preExistingFailures": { "server": [], "client": [] },
+  "nextPhase": 6,
+  "nextPhaseStatus": "AWAITING_LUBA_APPROVAL"
+}

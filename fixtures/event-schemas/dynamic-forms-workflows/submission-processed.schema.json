@@ -1,0 +1,17 @@
+{
+  "eventId": "submission-processed",
+  "eventName": "SubmissionProcessed",
+  "flowId": "FLOW-21",
+  "taskTypeId": "T630",
+  "description": "Emitted when form submission passes validation",
+  "properties": {
+    "submissionId": { "type": "string", "description": "The ID of the processed submission" },
+    "formId": { "type": "string", "description": "The ID of the form" },
+    "valid": { "type": "boolean", "description": "Validation result" },
+    "errors": { "type": "array", "items": { "type": "object" }, "description": "Any validation errors" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "tenantId": { "type": "string" }
+  },
+  "required": ["submissionId", "formId", "valid"],
+  "version": "1.0"
+}

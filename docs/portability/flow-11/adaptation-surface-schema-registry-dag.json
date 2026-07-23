@@ -1,0 +1,246 @@
+{
+  "flowId": "FLOW-11",
+  "flowSlug": "schema-registry-dag",
+  "flowTitle": "Schema Registry & DAG",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-06",
+  "capturedBy": "Codex / FLOW-11 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-11/FLOW-11-STEP-1-INVARIANTS.md",
+    "docs/business-flows/11-schema-registry-dag.md",
+    "server/src/engine-contracts/schema-registry-dag-contracts.ts",
+    "server/src/engine-contracts/schema-registry-dag-bfa-rules.ts",
+    "server/src/engine/flows/schema-registry-dag",
+    "server/src/bootstrap/history-seeds/schema-registry-dag-design-corpus.json"
+  ],
+  "services": [
+    {
+      "taskTypeId": "T189",
+      "className": "SchemaRegistrationGatewayService",
+      "file": "server/src/engine/flows/schema-registry-dag/schema-registration-gateway.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T191",
+      "className": "DagCycleDetectorService",
+      "file": "server/src/engine/flows/schema-registry-dag/dag-cycle-detector.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T194",
+      "className": "SchemaPublisherService",
+      "file": "server/src/engine/flows/schema-registry-dag/schema-publisher.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T200",
+      "className": "SchemaDeprecationManagerService",
+      "file": "server/src/engine/flows/schema-registry-dag/schema-deprecation-manager.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow11_schema_registry_deprecation_ttl_ms"
+      ]
+    },
+    {
+      "taskTypeId": "T202",
+      "className": "SchemaApprovalWorkflowService",
+      "file": "server/src/engine/flows/schema-registry-dag/schema-approval-workflow.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow11_schema_registry_approval_window_ms",
+        "flow11_schema_registry_default_approval_decision"
+      ]
+    },
+    {
+      "taskTypeId": "T208",
+      "className": "DagVisualizationGatewayService",
+      "file": "server/src/engine/flows/schema-registry-dag/dag-visualization-gateway.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow11_schema_registry_visualization_cache_ttl_ms"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe governance and rendering values that can change without altering schema validation, tenant isolation, version immutability, cycle detection, or store-before-emit ordering.",
+      "total": 4,
+      "keys": [
+        {
+          "key": "flow11_schema_registry_approval_window_ms",
+          "type": "number",
+          "default": 259200000,
+          "unit": "milliseconds",
+          "semantic": "How long a breaking schema change may wait for operator approval before expiring.",
+          "stakeholder": "platform-governance",
+          "consumedBy": [
+            "T202.SchemaApprovalWorkflowService"
+          ],
+          "boundedRange": {
+            "min": 3600000,
+            "max": 604800000,
+            "rationale": "Tenants may tune approval latency while preserving explicit approval for breaking changes."
+          }
+        },
+        {
+          "key": "flow11_schema_registry_default_approval_decision",
+          "type": "string",
+          "default": "DEFER",
+          "unit": "enum",
+          "semantic": "Fallback decision when an approval item has no explicit operator decision.",
+          "stakeholder": "platform-governance",
+          "consumedBy": [
+            "T202.SchemaApprovalWorkflowService"
+          ],
+          "allowedValues": [
+            "APPROVE",
+            "REJECT",
+            "DEFER"
+          ],
+          "rationale": "DEFER is the safest default; tenant adaptation may choose stricter or faster governance."
+        },
+        {
+          "key": "flow11_schema_registry_deprecation_ttl_ms",
+          "type": "number",
+          "default": 2592000000,
+          "unit": "milliseconds",
+          "semantic": "Time between a deprecation action and archive eligibility.",
+          "stakeholder": "schema-operations",
+          "consumedBy": [
+            "T200.SchemaDeprecationManagerService"
+          ],
+          "boundedRange": {
+            "min": 86400000,
+            "max": 7776000000,
+            "rationale": "Tenants can lengthen or shorten migration windows without deleting schema history."
+          }
+        },
+        {
+          "key": "flow11_schema_registry_visualization_cache_ttl_ms",
+          "type": "number",
+          "default": 300000,
+          "unit": "milliseconds",
+          "semantic": "Cache lifetime for rendered DAG visualization responses.",
+          "stakeholder": "platform-operations",
+          "consumedBy": [
+            "T208.DagVisualizationGatewayService"
+          ],
+          "boundedRange": {
+            "min": 30000,
+            "max": 3600000,
+            "rationale": "Tenants may trade freshness for lower rendering cost while the graph source remains tenant-scoped."
+          }
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-11 has no tenant-editable schema grammar surface. Tenants may tune governance windows and labels without changing schema validation semantics.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "Platform admin, platform support, and tenant admin role boundaries are fixed for certification. Tenant adaptation may not make the full platform DAG visible to tenant-user roles.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Tenant schema-governance policies that can change while fixed registry, compatibility, DAG, and publication invariants remain intact.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "short-approval-window",
+          "name": "Short approval window",
+          "semantic": "Tenant A can require breaking schema changes to be reviewed quickly.",
+          "extensionPoint": "flow11_schema_registry_approval_window_ms",
+          "currentImplementation": "T202 reads the tenant-scoped window before writing approval expiry."
+        },
+        {
+          "id": "defer-by-default",
+          "name": "Defer by default",
+          "semantic": "Tenant A can keep unresolved breaking changes pending rather than approving automatically.",
+          "extensionPoint": "flow11_schema_registry_default_approval_decision",
+          "currentImplementation": "T202 falls back to DEFER when no explicit approval decision is supplied."
+        },
+        {
+          "id": "long-deprecation-window",
+          "name": "Long deprecation window",
+          "semantic": "Tenant A can give downstream consumers a longer migration window before archive.",
+          "extensionPoint": "flow11_schema_registry_deprecation_ttl_ms",
+          "currentImplementation": "T200 computes archive eligibility from the tenant-scoped TTL."
+        },
+        {
+          "id": "fresh-dag-rendering",
+          "name": "Fresh DAG rendering",
+          "semantic": "Tenant A can reduce DAG cache lifetime for active schema migration periods.",
+          "extensionPoint": "flow11_schema_registry_visualization_cache_ttl_ms",
+          "currentImplementation": "T208 reads a tenant-scoped cache TTL before serving rendered topology."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "T189 obtains tenant scope from AsyncLocalStorage, not caller-provided tenant fields.",
+      "T189 stores accepted schema records before emitting downstream schema events.",
+      "T191 uses three-state DFS with WHITE, GRAY, and BLACK traversal states.",
+      "T193 classifies compatibility without bypassing version validation.",
+      "T194 uses optimistic concurrency for schema version immutability.",
+      "T194 publishes only after inline validation and compatibility checks pass.",
+      "T200 never deletes schema history as part of deprecation.",
+      "T202 never approves breaking changes without an explicit configured or operator decision.",
+      "T208 keeps DAG rendering tenant-scoped.",
+      "All FLOW-11 services remain FLOW_SCOPED and return DataProcessResult."
+    ]
+  },
+  "adaptationExamples": {
+    "tenant-a-strict-schema-governance": {
+      "description": "Tenant A shortens approval windows and keeps unresolved breaking changes deferred.",
+      "change": {
+        "flow11_schema_registry_approval_window_ms": 86400000,
+        "flow11_schema_registry_default_approval_decision": "DEFER"
+      },
+      "impact": "Breaking changes require timely operator review while additive changes continue through the normal validation path.",
+      "testable": "Tenant A adaptation evidence shows the policy in tenant.config.json adaptationHistory and fork CI still passes."
+    },
+    "tenant-a-active-migration-mode": {
+      "description": "Tenant A lowers DAG cache TTL during a schema migration window.",
+      "change": {
+        "flow11_schema_registry_visualization_cache_ttl_ms": 60000
+      },
+      "impact": "Operators see fresher topology renders while schema storage, compatibility, and tenant scope remain fixed.",
+      "testable": "Tenant A before/after assertion shows the adapted TTL in FREEDOM defaults without changing MACHINE invariants."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T189 through T208",
+      "Tenant context source",
+      "Three-state DFS cycle detection",
+      "Optimistic concurrency publication gate",
+      "Breaking-change approval routing",
+      "Store-before-emit ordering",
+      "Schema history retention",
+      "Platform-only full DAG visibility",
+      "Tenant scope isolation",
+      "DataProcessResult return contract"
+    ]
+  },
+  "passCriteria": [
+    "Tenant A can apply a governance-window or visualization-cache policy change without altering MACHINE constraints.",
+    "The adapted policy is present in tenant.config.json adaptationHistory.",
+    "At least one before/after behavior assertion proves the adapted policy changes approval or visualization behavior.",
+    "Auth checks still return 401 for missing token, 401 for cross-tenant token, and 403 for wrong-role token after adaptation."
+  ]
+}

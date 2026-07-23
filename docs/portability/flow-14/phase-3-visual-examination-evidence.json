@@ -1,0 +1,116 @@
+{
+  "flowId": "FLOW-14",
+  "flowSlug": "etl-data-integration",
+  "phase": "phase-3-visual-examination",
+  "generatedAt": "2026-05-06T07:43:20.269Z",
+  "sourceCommitBeforePhase3": "2ce518f4a74710568f391f1107ca213e5c95126a",
+  "status": "PASS",
+  "visualAudit": "docs/screen-examination/etl-data-integration-phase3-visual-audit-2026-05-06.md",
+  "roleMatrixReport": "docs/portability/flow-14/phase-3-role-matrix-report.json",
+  "visualSample": [
+    {
+      "path": "docs/e2e-snapshots/etl-data-integration/chromium-desktop-default.png",
+      "width": 1440,
+      "height": 900,
+      "bytes": 58253,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/etl-data-integration/chromium-mobile-state-7-error.png",
+      "width": 1082,
+      "height": 2202,
+      "bytes": 99289,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/etl-data-integration/chromium-desktop-state-8-peer-inactive.png",
+      "width": 1440,
+      "height": 900,
+      "bytes": 37944,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-desktop/etl-data-integration/primary-tenant-admin.png",
+      "width": 1440,
+      "height": 900,
+      "bytes": 58253,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-desktop/etl-data-integration/primary-tenant-user.png",
+      "width": 1440,
+      "height": 900,
+      "bytes": 27123,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-desktop/etl-data-integration/primary-platform-admin.png",
+      "width": 1440,
+      "height": 900,
+      "bytes": 67033,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-desktop/etl-data-integration/primary-platform-support.png",
+      "width": 1440,
+      "height": 900,
+      "bytes": 36334,
+      "result": "PASS"
+    }
+  ],
+  "nonBlankValidation": {
+    "method": "PowerShell System.Drawing audit: each FLOW-14 PNG was drawn to an 80 by 80 thumbnail and sampled for color spread; files with fewer than 12 thumbnail colors or <=1000 bytes would fail.",
+    "totalPng": 63,
+    "flowProjectPng": 51,
+    "roleMatrixPng": 12,
+    "nonBlankFailures": 0,
+    "status": "PASS"
+  },
+  "roleMatrix": {
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "projects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "roles": [
+      "tenant-admin",
+      "tenant-user",
+      "platform-admin",
+      "platform-support"
+    ],
+    "status": "PASS"
+  },
+  "visualFindings": {
+    "blockingOverlap": 0,
+    "blankScreens": 0,
+    "missingViewportEvidence": 0,
+    "consumerEngineeringLeaksFixed": [
+      "Removed flow-code source labels from the tenant-user data lineage screen.",
+      "Removed visible dev simulation hint from the disabled tenant-user lineage branch.",
+      "Removed monospace styling from consumer-facing lineage source labels."
+    ],
+    "notes": [
+      "Tenant-admin connector catalog renders with KPIs and connector cards.",
+      "Tenant-user lineage surface is module-framed, plain-language, and free of flow-code labels after the fix.",
+      "Platform-admin operations surface renders a cross-tenant pipeline run list and operator actions.",
+      "Platform-support inspector remains read-only and provides an escalation path.",
+      "No text clipping or incoherent overlap was observed in sampled screenshots."
+    ]
+  },
+  "commands": [
+    "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+    "Push-Location client; $env:VITE_PORT=5174; npx playwright test etl-data-integration-role-matrix.spec.ts --reporter=json; Pop-Location",
+    "System.Drawing 80x80 thumbnail nonblank audit across 63 FLOW-14 PNGs",
+    "Visual review against SK-549 representative PNGs",
+    "Plain-language scan for removed consumer-facing flow codes and dev simulation hint"
+  ],
+  "summary": {
+    "status": "PASS",
+    "visualGateComplete": true,
+    "technicalDebtIntroduced": false,
+    "secretsPrintedOrCommitted": false
+  }
+}

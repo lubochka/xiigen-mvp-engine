@@ -1,0 +1,207 @@
+﻿{
+    "flowId":  "FLOW-17",
+    "flowSlug":  "freelancer-marketplace",
+    "phase":  "phase5cTenantCInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T23:38:45.2645572+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "northwind",
+                         "repo":  "lubochka/northwind--northwind-curated-freelancer-marketplace",
+                         "package":  "@xiigen-fork/northwind-curated-freelancer-marketplace",
+                         "version":  "1.0.2"
+                     },
+    "marketplaceFork":  {
+                            "method":  "POST /api/marketplace/packages/freelancer-marketplace/fork",
+                            "createdByMarketplaceApi":  true,
+                            "manualRepoCreationUsed":  false,
+                            "sourceRepoFullName":  "lubochka/northwind--northwind-curated-freelancer-marketplace",
+                            "repoFullName":  "lubochka/tessera-collective--northwind-curated-freelancer-marketplace",
+                            "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-curated-freelancer-marketplace",
+                            "initialCommitSha":  "af8f951d9b028961320addd13619345e41fdbf2f",
+                            "initialVersion":  "1.0.2",
+                            "forkId":  "fork-freelancer-marketplace-tessera-collective",
+                            "serverBootstrapTenantSeed":  "FLOW_MOBILITY_BOOTSTRAP_VAULT_CONFIG=true"
+                        },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--northwind-curated-freelancer-marketplace",
+                             "url":  "https://github.com/lubochka/tessera-collective--northwind-curated-freelancer-marketplace",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "af8f951d9b028961320addd13619345e41fdbf2f",
+                             "initialActionsRun":  {
+                                                       "runId":  25459073392,
+                                                       "jobId":  74696254189,
+                                                       "url":  "https://github.com/lubochka/tessera-collective--northwind-curated-freelancer-marketplace/actions/runs/25459073392",
+                                                       "status":  "completed",
+                                                       "conclusion":  "failure",
+                                                       "headSha":  "af8f951d9b028961320addd13619345e41fdbf2f",
+                                                       "failureReason":  "Inherited Northwind adaptation test asserted Northwind tenant repo metadata after the fork engine correctly rewrote tenant.config.json to Tessera."
+                                                   },
+                             "repairCommit":  "eaad3dc7704b62f8bc148e0665054715a2dd2f10",
+                             "repairCommitMessage":  "Repair Tessera install proof for Northwind freelancer marketplace",
+                             "repairActionsRun":  {
+                                                      "runId":  25459321894,
+                                                      "jobId":  74697111141,
+                                                      "url":  "https://github.com/lubochka/tessera-collective--northwind-curated-freelancer-marketplace/actions/runs/25459321894",
+                                                      "status":  "completed",
+                                                      "conclusion":  "success",
+                                                      "headSha":  "eaad3dc7704b62f8bc148e0665054715a2dd2f10",
+                                                      "createdAt":  "2026-05-06T20:28:52Z",
+                                                      "updatedAt":  "2026-05-06T20:29:40Z",
+                                                      "successfulSteps":  [
+                                                                              "Set up job",
+                                                                              "Run actions/checkout@v4.2.2",
+                                                                              "Run actions/setup-node@v4.4.0",
+                                                                              "Install",
+                                                                              "TypeScript check",
+                                                                              "Test",
+                                                                              "Provenance",
+                                                                              "Post Run actions/setup-node@v4.4.0",
+                                                                              "Post Run actions/checkout@v4.2.2",
+                                                                              "Complete job"
+                                                                          ]
+                                                  },
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-curated-freelancer-marketplace-phase5c-20260506-232333",
+                             "cleanCloneStatus":  "clean",
+                             "filesChangedInTenantRepo":  [
+                                                              "__tests__/freelancer-marketplace-acme-adaptation.spec.ts"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  115,
+                                                                 "shasum":  "c15b7962c027e8af8393339eae8eb75c68709f93"
+                                                             }
+                                                         ],
+                             "installProof":  {
+                                                  "tenantConfigTenantId":  "tessera-collective",
+                                                  "installedFromRepoFullName":  "lubochka/northwind--northwind-curated-freelancer-marketplace",
+                                                  "adaptationHistoryEntries":  2,
+                                                  "firstAdaptationTenantId":  "acme-corp",
+                                                  "secondAdaptationTenantId":  "northwind",
+                                                  "packageName":  "@xiigen-fork/northwind-curated-freelancer-marketplace",
+                                                  "packageVersion":  "1.0.2",
+                                                  "moduleName":  "northwind-curated-freelancer-marketplace",
+                                                  "repoFullName":  "lubochka/tessera-collective--northwind-curated-freelancer-marketplace",
+                                                  "requiredCoInstallPackages":  [
+                                                                                    "@xiigen-fork/northwind-controlled-marketplace-payments"
+                                                                                ]
+                                              }
+                         },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "packageName":  "@xiigen-fork/northwind-curated-freelancer-marketplace",
+                          "version":  "1.0.2",
+                          "distTags":  {
+                                           "latest":  "1.0.2"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-curated-freelancer-marketplace/-/northwind-curated-freelancer-marketplace-1.0.2.tgz",
+                          "shasum":  "b5ae42e6340b184e940d4f99fc4136afbbce840d",
+                          "integrity":  "sha512-XlZIGi6tXXgsYj2tqueyrY0btqoSmpvHCNpXfNyUUHDHWqG+EtY4JqfiWtTUwNxhqPacJrzpho/NCuSq8PXRUQ==",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/freelancer-marketplace-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+                          "screenshot":  "docs/e2e-snapshots/marketplace/freelancer-marketplace-northwind-v1.0.2-registry-listing-phase5c.png",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/freelancer-marketplace/tenant-c-installed-from-b",
+                                                      "count":  27,
+                                                      "zeroByteFiles":  0,
+                                                      "projects":  [
+                                                                       "chromium-desktop",
+                                                                       "chromium-mobile",
+                                                                       "chromium-tablet"
+                                                                   ],
+                                                      "states":  [
+                                                                     "anonymous",
+                                                                     "business-partner",
+                                                                     "freelancer",
+                                                                     "platform-admin",
+                                                                     "platform-support",
+                                                                     "public-marketplace-visitor",
+                                                                     "referral-user",
+                                                                     "tenant-admin",
+                                                                     "tenant-user"
+                                                                 ]
+                                                  },
+                           "screenshots":  [
+                                               {
+                                                   "kind":  "repo-homepage",
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-17/tessera-collective--northwind-curated-freelancer-marketplace-tenant-c-installed-from-b-github-listing.png",
+                                                   "bytes":  137731
+                                               },
+                                               {
+                                                   "kind":  "actions-success",
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-17/tessera-collective--northwind-curated-freelancer-marketplace-tenant-c-installed-from-b-actions-success.png",
+                                                   "bytes":  81247
+                                               },
+                                               {
+                                                   "kind":  "registry-listing",
+                                                   "path":  "docs/e2e-snapshots/marketplace/freelancer-marketplace-northwind-v1.0.2-registry-listing-phase5c.png",
+                                                   "bytes":  54798
+                                               }
+                                           ]
+                       },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "client/e2e/freelancer-marketplace-tenant-c-installed.spec.ts"
+                                                        ],
+                                              "purpose":  "Render and verify FLOW-17 Tenant C installed-from-B cascade-point visual evidence under docs/e2e-snapshots/freelancer-marketplace/tenant-c-installed-from-b."
+                                          },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "client: npx tsc --noEmit --pretty false",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantCInstalledPlaywright":  {
+                                                                      "command":  "client: VITE_PORT=5174 npx playwright test e2e/freelancer-marketplace-tenant-c-installed.spec.ts --reporter=line",
+                                                                      "result":  "passed",
+                                                                      "tests":  27,
+                                                                      "skippedBeforePortPatch":  27
+                                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "secretPatternHits":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCForkedTenantBAdaptedSource":  true,
+                      "marketplaceApiUsed":  true,
+                      "localRegistryReturnsTenantBAdaptedVersion":  true,
+                      "realGitHubActionsGreen":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantCAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

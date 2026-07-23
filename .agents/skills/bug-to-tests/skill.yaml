@@ -1,0 +1,38 @@
+name: bug-to-tests-skill
+sk_number: SK-415
+version: "1.0.0"
+load_order: 13
+priority: MANDATORY
+entry: SKILL.md
+author: luba
+updated: "2026-03-18"
+
+description: >
+  Enforces the bug-driven test-first discipline for the XIIGen engine.
+  Every confirmed bug gets a BUG-ENGINE-NN identifier and three FAILING
+  tests (unit, simulation, e2e) written BEFORE any fix is attempted.
+  The fix is done only when all three tests pass. Test assertion changes
+  require Luba explicit approval — never "fix the test to match the bug."
+
+triggers:
+  - "bug confirmed"
+  - "bug found"
+  - "write tests for bug"
+  - "BUG-ENGINE"
+  - "fix a bug"
+  - "reproduce bug"
+  - "bug report"
+  - "regression test"
+
+integrates_with:
+  - three-level-verification    # bug fix IS a 3-level-verification candidate
+  - test-integrity              # FM-1: never change assertion to match bug behavior
+  - engine-qa                   # bug class taxonomy A–F used in BUG-ENGINE-NN header
+
+iron_rule: >
+  Test assertion changes require Luba explicit approval.
+  "Adapt test to accept wrong output" = session failure.
+
+key_rule: >
+  Tests before fix. All three must FAIL before the fix begins.
+  All three must PASS after the fix. Test count increases by ≥3.

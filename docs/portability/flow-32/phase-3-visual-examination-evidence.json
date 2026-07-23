@@ -1,0 +1,95 @@
+{
+  "flowId": "FLOW-32",
+  "flowSlug": "sharable-flows-marketplace",
+  "implementationSlug": "sharable-flows-marketplace",
+  "phase": "phase3VisualExamination",
+  "recordedAt": "2026-05-11T06:54:51.9785894Z",
+  "groundTruthLoaded": [
+    ".impeccable.md",
+    "docs/screen-examination/sharable-flows-marketplace-examination.md",
+    "docs/flow-coverage/sharable-flows-marketplace/P1-business-logic-inventory.md",
+    "docs/flow-coverage/sharable-flows-marketplace/P5-ui-specs.md",
+    "docs/flow-coverage/sharable-flows-marketplace/P2-ui-gap-analysis.md",
+    "docs/sessions/FLOW-32/FLOW-32-MOBILITY-AUTH-STATE.json"
+  ],
+  "missingOptionalGroundTruth": [
+    "docs/design-reviews/XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md"
+  ],
+  "pngMatrix": {
+    "totalPngCount": 69,
+    "zeroByteCount": 0,
+    "flowViewportPngCount": 39,
+    "roleViewportPngCount": 30,
+    "viewports": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "roleBranches": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "tenant-user",
+      "tenant-admin",
+      "freelancer",
+      "business-partner",
+      "platform-admin",
+      "platform-support",
+      "referral-user",
+      "event-organiser"
+    ]
+  },
+  "axisResults": {
+    "shell": "PASS",
+    "roleSpecificContent": "PASS",
+    "layoutAndRtlProxy": "PASS",
+    "domainFields": "PASS",
+    "internalIdentifiers": "PASS",
+    "mobileUsability": "PASS",
+    "visualPolish": "PASS"
+  },
+  "fixesDuringExamination": [
+    {
+      "file": "client/src/pages/sharable-flows-marketplace/SharableFlowsMarketplacePage.tsx",
+      "summary": "Changed the platform-admin raw panel classification from engine-internal to admin-facing and replaced tenant-facing freedom-config changelog copy with plain setting-change wording."
+    },
+    {
+      "file": "client/e2e/c6-role-coverage-runs-22-44.spec.ts",
+      "summary": "Expanded FLOW-32 C6 role screenshots from anonymous and freelancer only to all ten roles named in the FLOW-32 mobility/auth state."
+    }
+  ],
+  "verification": [
+    {
+      "name": "client TypeScript after visual fixes",
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-32 CRUD and mock-state screenshot matrix after admin-facing classification",
+      "command": "Push-Location client; $env:VITE_PORT='5177'; npx playwright test e2e/sharable-flows-marketplace-mock-states.spec.ts e2e/sharable-flows-marketplace-crud.spec.ts --workers=1 --timeout=60000 --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 39,
+      "result": "passed"
+    },
+    {
+      "name": "expanded FLOW-32 C6 role matrix after copy fix",
+      "command": "Push-Location client; $env:VITE_PORT='5178'; npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts -g \"C6-R32\" --workers=1 --timeout=60000 --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 30,
+      "result": "passed"
+    },
+    {
+      "name": "visible-copy internal-code scan",
+      "command": "rg forbidden human-language patterns client/src/pages/sharable-flows-marketplace client/e2e FLOW-32 files",
+      "failureLines": 0,
+      "result": "passed"
+    }
+  ],
+  "blockedFindings": 0,
+  "secretHandling": {
+    "containsCredentials": false,
+    "containsSigningKeys": false,
+    "containsBearerTokens": false
+  },
+  "verdict": "PASS"
+}

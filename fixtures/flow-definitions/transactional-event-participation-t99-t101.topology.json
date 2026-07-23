@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-09",
+  "taskTypeId": "T99-T101",
+  "name": "flow-09-ticket-purchase-core",
+  "description": "T99 TicketPurchaseOrchestrator + T100 PaymentProcessor + T101 PaymentVerificationGate — TRANSACTION archetype. Seat TTL hold BEFORE payment capture. Double-booking race closed at T99, not T100.",
+  "archetype": "TRANSACTION",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: seat-hold-before-payment, double-booking-race-at-T99, TTL expiry guard"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve TRANSACTION arch pattern for T99-T101: seat TTL hold before payment, double-booking prevention",
+      "params": {
+        "archetype": "TRANSACTION",
+        "taskTypeRef": "T99-T101",
+        "topK": 5,
+        "patternIds": [
+          "arch--seat-hold-before-payment",
+          "arch--ttl-reservation-lock",
+          "arch--double-booking-prevention"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T99-T101 into: T99 SETNX seat hold (TTL) → T100 capture payment → T101 verify payment → confirm seat"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate ticket-purchase-orchestrator.service.ts — seat TTL hold BEFORE payment capture. Double-booking race closed at T99."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: seat_hold_before_payment, double_booking_race_closed_at_t99, ttl_expiry_guard"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T99-T101 iron rules: seat hold ordering, TTL guard, payment verification"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=seat-hold-before-payment, rejected=payment-before-seat-hold. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "TicketPurchaseInitiated command",
+  "primaryFabric": "DATABASE"
+}

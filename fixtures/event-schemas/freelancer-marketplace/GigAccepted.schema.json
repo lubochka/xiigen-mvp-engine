@@ -1,0 +1,12 @@
+{
+  "eventType": "freelancer.gig.accepted",
+  "flowId": "FLOW-17",
+  "version": "1.0.0",
+  "properties": {
+    "gigId": { "type": "string", "required": true },
+    "bidId": { "type": "string", "required": true },
+    "freelancerId": { "type": "string", "required": true },
+    "clientTenantId": { "type": "string", "required": true },
+    "acceptedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

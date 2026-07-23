@@ -1,0 +1,15 @@
+{
+  "promptId": "t49-genesis-v1.1.0",
+  "taskTypeId": "T49",
+  "flowId": "FLOW-01",
+  "promptType": "genesis",
+  "version": "1.1.0",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "content": "Generate a NestJS OnboardingDeliveryService (T49) that orchestrates the full onboarding wizard after email verification. ORCHESTRATION archetype. Inject IUserRepository (F174) via DATABASE FABRIC. Inject IOnboardingTemplateStore (F178) via RAG FABRIC for tenant-customized questionnaire + profile schema. Inject IWorkspaceProvisionService (F179) via FLOW_ENGINE FABRIC for workspace creation. Inject IProfileService (F180) via DATABASE FABRIC for profile data persistence. Inject IQueueNotificationService (F181) via QUEUE FABRIC for UserOnboardingCompleted event. CRITICAL: Track completedSteps[] per step \u2014 app-reopen MUST resume from last incomplete step. Each step persisted via storeDocument() BEFORE proceeding to next step (DNA-8). UserOnboardingCompleted emitted ONLY after ALL onboarding steps complete (CF-4). Workspace provisioning MUST be idempotent \u2014 idempotency key: 'workspace:<userId>:<tenantId>' via IScopedMemoryService.setIfAbsent() \u2014 no duplicate creation on resume. Workspace creation via ITenantRegistry.createTenant() \u2014 not a raw database INSERT. RAG template fetch via IOnboardingTemplateStore \u2014 BuildSearchFilter with { templateType: 'onboarding', bundleId }. Read flow01_onboarding_steps_required from FREEDOM config \u2014 never hardcode step list. No PII in emitted events (CF-8). UserOnboardingCompleted is the gateway to FLOW-02. Extend MicroserviceBase. Return DataProcessResult<{ userId, workspaceId, completedSteps, completedAt }>.\n\nDO NOT: hardcode the step list, emit UserOnboardingCompleted before all steps complete, create a workspace via raw database INSERT, skip idempotency on workspace provisioning.\n\nDO: use ITenantRegistry.createTenant(), read steps from FREEDOM config, call storeDocument() before proceeding to next step, use setIfAbsent() for workspace idempotency.",
+  "tags": [
+    "flow-01",
+    "t49",
+    "genesis",
+    "xiigen-community"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "phase": "governanceRiskReverify",
+  "generatedAt": "2026-05-06T10:22:28.8140645Z",
+  "sourceFixMap": [
+    "FLOW-15-FIXMAP-002: governance risk level re-verify cross-flow governance rules first unblocking step1."
+  ],
+  "filesChanged": [
+    "docs/flow-coverage/saas-multi-tenancy/P1-business-logic-inventory.md",
+    "docs/flow-coverage/saas-multi-tenancy/P2-ui-gap-analysis.md",
+    "docs/flow-coverage/saas-multi-tenancy/P3-automation-gap-analysis.md",
+    "docs/flow-coverage/saas-multi-tenancy/P5-ui-specs.md",
+    "docs/flow-coverage/saas-multi-tenancy/P13-qa-run-report.md",
+    "client/e2e/saas-multi-tenancy.spec.ts"
+  ],
+  "gapFixed": [
+    "Active coverage docs still described the shelved T201-T240 / 40-contract MVP-builder corpus.",
+    "Coverage docs now describe the shipped T605-T608 SaaS multi-tenancy cascade.",
+    "Playwright P1 coverage names and screenshot targets now match the shipped T605-T608 states.",
+    "Phase 13 report is marked PENDING_RERUN until Phase 2 recaptures the renamed screenshots."
+  ],
+  "staticGovernanceScan": {
+    "command": "Check engine-bootstrapper imports/spreads SAAS_MULTI_TENANCY_CONTRACT_DESCRIPTORS and SAAS_MULTI_TENANCY_BFA_RULES; check FLOW-15 BFA rules CF-15-1, CF-15-2, CF-15-3, CF-15-4, CF-945, CF-946, CF-947, CF-948 are FLOW-15, FLOW_SCOPED, BUILD_FAILURE; check P1 active rows use T605-T608 and omit stale T201-T240/40-contract active scope.",
+    "importsContracts": true,
+    "spreadsContracts": true,
+    "importsBfaRules": true,
+    "seedsBfaRules": true,
+    "contractTaskRangeCount": 4,
+    "descriptorArrayPresent": true,
+    "bfaRuleIds": [
+      "CF-15-1",
+      "CF-15-2",
+      "CF-15-3",
+      "CF-945",
+      "CF-946",
+      "CF-947",
+      "CF-948",
+      "CF-15-4"
+    ],
+    "bfaRuleCount": 8,
+    "allRequiredRuleIdsPresent": true,
+    "allRulesFlow15": true,
+    "allRulesFlowScoped": true,
+    "allRulesBuildFailure": true,
+    "p1BusinessRowsUseShippedRange": true,
+    "p1ActiveRowsStaleShelvedScopeAbsent": true,
+    "exitCode": 0
+  },
+  "verification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0
+    },
+    "flow15BfaJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=saas-multi-tenancy-bfa-rules --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "passedSuites": 1,
+      "passedTests": 5
+    },
+    "bootstrapperJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=engine-bootstrapper --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "passedSuites": 3,
+      "passedTests": 40
+    },
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "exitCode": 0
+    }
+  },
+  "summary": {
+    "status": "PASS",
+    "readyForCoInstallDependencyDeclaration": true,
+    "phase2ScreenshotsNeedRecapture": true,
+    "secretsPrintedOrCommitted": false,
+    "technicalDebtIntroduced": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "flowId": "FLOW-39",
+  "flowSlug": "oss-curriculum",
+  "phase": "phase-1-unit-integration",
+  "status": "completed",
+  "generatedAt": "2026-05-12T00:46:00.8017563+03:00",
+  "commands": [
+    {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "Push-Location server; npx jest --testPathPatterns=oss-curriculum --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "result": "PASS",
+      "summary": "4 suites / 78 tests passed"
+    },
+    {
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "exitCode": 0,
+      "result": "PASS"
+    }
+  ],
+  "staticScan": {
+    "connectionAnnotations": 4,
+    "serviceFiles": 4,
+    "missingMicroserviceBase": 0,
+    "throwNew": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "typedAny": 0
+  },
+  "verdict": "PASS"
+}

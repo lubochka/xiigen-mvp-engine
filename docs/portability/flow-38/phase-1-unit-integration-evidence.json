@@ -1,0 +1,36 @@
+{
+    "flowId":  "FLOW-38",
+    "flowSlug":  "rag-quality-feedback",
+    "phase":  "phase-1-unit-integration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T21:15:25.9457268Z",
+    "commands":  [
+                     {
+                         "command":  "server npx tsc --noEmit -p tsconfig.json --pretty false",
+                         "exitCode":  0
+                     },
+                     {
+                         "exitCode":  0,
+                         "command":  "server npx jest --testPathPatterns=rag-quality-feedback --runInBand --colors=false",
+                         "result":  "6 suites / 66 tests passed"
+                     },
+                     {
+                         "exitCode":  0,
+                         "command":  "server npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false",
+                         "result":  "1 suite / 14 tests passed"
+                     },
+                     {
+                         "command":  "client npx tsc --noEmit",
+                         "exitCode":  0
+                     }
+                 ],
+    "engineFix":  {
+                      "summary":  "Standalone fork bundles now include server/src/bootstrap/bootstrap-seeder.service.ts so FLOW-38 rag-quality-seeds.service imports resolve in tenant GitHub Actions; RagQualitySeedsService now extends MicroserviceBase.",
+                      "files":  [
+                                    "server/src/fabrics/implementations/flow-file-assembler.ts",
+                                    "server/src/fabrics/implementations/flow-file-assembler.spec.ts",
+                                    "server/src/engine/flows/rag-quality-feedback/rag-quality-seeds.service.ts"
+                                ]
+                  },
+    "verdict":  "PASS"
+}

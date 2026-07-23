@@ -1,0 +1,315 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "flowTitle": "Durable Sagas and Compliance",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-07",
+  "capturedBy": "Codex / FLOW-19 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-19/FLOW-19-STEP-1-INVARIANTS.md",
+    "docs/business-flows/functional-specs/FLOW-19-durable-sagas-compliance-functional-spec.md",
+    "server/src/engine-contracts/durable-sagas-compliance-contracts.ts",
+    "server/src/engine-contracts/durable-sagas-compliance-bfa-rules.ts",
+    "server/src/engine/flows/durable-sagas-compliance",
+    "docs/flow-coverage/durable-sagas-compliance/P1-business-logic-inventory.md",
+    "docs/flow-coverage/durable-sagas-compliance/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T621-T624",
+    "planningTaskTypeRange": "T287-T306",
+    "taskTypeIds": [
+      "T621",
+      "T622",
+      "T623",
+      "T624"
+    ],
+    "freedomKeyCount": 6,
+    "securityClassification": "tenant-scoped durable transaction and compliance retention controls",
+    "directRuntimePeerDependencies": [],
+    "coreGuarantees": [
+      "Saga initialization uses OCC versionPin:-1 before any step dispatch.",
+      "Saga step execution acquires SETNX step locks before step bodies run.",
+      "Compensation strategy registration happens before each forward step body.",
+      "Compensation executes in serial LIFO order and stops on first failure.",
+      "Compliance audit records are append-only and PLATFORM_ONLY.",
+      "Compliance audit hashes are SHA-256 fingerprints over tenant, saga, event, and write time.",
+      "Retention purge requires both expiry and absence of legal hold.",
+      "Retention purge archives before tombstoning the original record.",
+      "Every state event preserves store-before-enqueue ordering."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-19 governs durable transaction rollback and regulated retention behavior, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T621",
+      "className": "SagaOrchestratorService",
+      "file": "server/src/engine/flows/durable-sagas-compliance/saga-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow19_saga_max_retries",
+        "flow19_saga_rto_threshold_ms"
+      ],
+      "machineLockedRules": [
+        "storeDocumentWithOCC versionPin:-1 before any step dispatch",
+        "SETNX step lock before step body",
+        "compensation registration before step body",
+        "checkpoint store before SagaStepExecuted enqueue"
+      ]
+    },
+    {
+      "taskTypeId": "T622",
+      "className": "CompensationEngineService",
+      "file": "server/src/engine/flows/durable-sagas-compliance/compensation-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow19_compensation_timeout_ms"
+      ],
+      "machineLockedRules": [
+        "reverse compensation stack order",
+        "serial execution only",
+        "SETNX compensation lock before compensation body",
+        "stop on first compensation failure"
+      ]
+    },
+    {
+      "taskTypeId": "T623",
+      "className": "ComplianceAuditWriterService",
+      "file": "server/src/engine/flows/durable-sagas-compliance/compliance-audit-writer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PLATFORM_ONLY",
+      "adaptableFreedomKeys": [
+        "flow19_compliance_retention_days"
+      ],
+      "machineLockedRules": [
+        "retentionExpiresAt computed at write time",
+        "auditHash uses SHA-256 over tenantId:sagaId:eventType:writtenAt",
+        "append-only compliance record store",
+        "ComplianceRecordWritten emitted only after storeDocument succeeds"
+      ]
+    },
+    {
+      "taskTypeId": "T624",
+      "className": "DataRetentionEnforcerService",
+      "file": "server/src/engine/flows/durable-sagas-compliance/data-retention-enforcer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow19_retention_cron_schedule",
+        "flow19_retention_batch_size"
+      ],
+      "machineLockedRules": [
+        "retention expiry and legal hold dual gate",
+        "legal hold supersedes expiry",
+        "archive-before-tombstone ordering",
+        "PurgeCompleted includes archiveRef"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-19 operating policy values. These values may vary by tenant without changing tenant isolation, saga idempotency, compensation order, compliance immutability, legal hold supremacy, or archive-before-tombstone safety.",
+      "total": 6,
+      "keys": [
+        {
+          "key": "flow19_saga_max_retries",
+          "type": "number",
+          "default": 3,
+          "unit": "attempts",
+          "semantic": "Maximum retry attempts permitted for one saga step before failure and compensation are triggered.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T621.SagaOrchestratorService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 20,
+            "rationale": "Tenants may tune operational tolerance while OCC initialization, step locks, and compensation registration stay fixed."
+          }
+        },
+        {
+          "key": "flow19_saga_rto_threshold_ms",
+          "type": "number",
+          "default": 300000,
+          "unit": "milliseconds",
+          "semantic": "Recovery time objective threshold for durable saga execution monitoring.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T621.SagaOrchestratorService"
+          ],
+          "boundedRange": {
+            "min": 1000,
+            "max": 86400000,
+            "rationale": "Tenants may tune operational alerting thresholds while step execution order and persistence guarantees remain MACHINE."
+          }
+        },
+        {
+          "key": "flow19_compensation_timeout_ms",
+          "type": "number",
+          "default": 120000,
+          "unit": "milliseconds",
+          "semantic": "Maximum allowed runtime for one compensation step before failure handling takes over.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T622.CompensationEngineService"
+          ],
+          "boundedRange": {
+            "min": 1000,
+            "max": 3600000,
+            "rationale": "Tenants may tune compensation tolerance while LIFO order, serial execution, lock acquisition, and stop-on-first-failure stay fixed."
+          }
+        },
+        {
+          "key": "flow19_compliance_retention_days",
+          "type": "number",
+          "default": 365,
+          "unit": "days",
+          "semantic": "Retention window used to compute retentionExpiresAt when a compliance record is written.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T623.ComplianceAuditWriterService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 3650,
+            "rationale": "Tenants may tune regulated retention periods while append-only storage, hash generation, and write-time expiry computation remain fixed."
+          }
+        },
+        {
+          "key": "flow19_retention_cron_schedule",
+          "type": "string",
+          "default": "0 2 * * *",
+          "unit": "cron",
+          "semantic": "Cron schedule for retention enforcement scans.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T624.DataRetentionEnforcerService"
+          ],
+          "boundedRange": {
+            "allowedPattern": "standard five-field cron expression or platform alias",
+            "rationale": "Operators may tune scan cadence while expiry, legal hold, and archive-before-tombstone ordering remain fixed."
+          }
+        },
+        {
+          "key": "flow19_retention_batch_size",
+          "type": "number",
+          "default": 100,
+          "unit": "records",
+          "semantic": "Maximum candidate records processed in one retention enforcement run.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T624.DataRetentionEnforcerService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 10000,
+            "rationale": "Operators may tune retention throughput while the dual gate and archive-first guarantees remain fixed."
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to transaction reliability policy, retention policy, scan cadence, and customer-facing module naming.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "regulated-finance-saga-policy",
+          "name": "Regulated finance saga policy",
+          "semantic": "Tenant A uses conservative retry and recovery thresholds for payment and ledger sagas.",
+          "extensionPoint": "flow19_saga_max_retries + flow19_saga_rto_threshold_ms",
+          "currentImplementation": "T621 still initializes with OCC, locks every step, registers compensation before step bodies, and persists checkpoints before events."
+        },
+        {
+          "id": "strict-compensation-window",
+          "name": "Strict compensation window",
+          "semantic": "Tenant A sets a short timeout for compensating failed transaction steps.",
+          "extensionPoint": "flow19_compensation_timeout_ms",
+          "currentImplementation": "T622 still executes compensations serially in LIFO order and halts on the first failure."
+        },
+        {
+          "id": "long-retention-compliance",
+          "name": "Long retention compliance",
+          "semantic": "Tenant A extends compliance retention for regulated audit trails.",
+          "extensionPoint": "flow19_compliance_retention_days",
+          "currentImplementation": "T623 still computes retentionExpiresAt at write time, stores append-only records, and preserves PLATFORM_ONLY scope."
+        },
+        {
+          "id": "high-throughput-retention-scan",
+          "name": "High throughput retention scan",
+          "semantic": "Tenant A increases retention batch size and runs the scan overnight.",
+          "extensionPoint": "flow19_retention_cron_schedule + flow19_retention_batch_size",
+          "currentImplementation": "T624 still requires expiry plus no legal hold and archives before tombstoning records."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T621 through T624 remain fixed.",
+      "Factory IDs F1554 through F1560 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Saga initialization must use storeDocumentWithOCC versionPin:-1 before any step dispatch.",
+      "Step locks must be acquired before step bodies execute.",
+      "Compensation registration must happen before each step body executes.",
+      "Compensation execution remains serial and LIFO.",
+      "Compensation failure stops remaining compensation steps.",
+      "Compliance records remain append-only.",
+      "Compliance auditHash remains SHA-256 over tenantId:sagaId:eventType:writtenAt.",
+      "Compliance retentionExpiresAt is computed when the record is written.",
+      "Retention purge requires both retention expiry and no active legal hold.",
+      "Legal hold always supersedes expiry.",
+      "Retention archive must be written before the original record is tombstoned.",
+      "All state events preserve store-before-enqueue ordering.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantARegulatedOperations": {
+      "description": "Tenant A tunes Durable Sagas and Compliance for regulated operational workflows.",
+      "change": {
+        "flow19_saga_max_retries": 5,
+        "flow19_saga_rto_threshold_ms": 600000,
+        "flow19_compensation_timeout_ms": 180000,
+        "flow19_compliance_retention_days": 2555,
+        "flow19_retention_cron_schedule": "0 1 * * *",
+        "flow19_retention_batch_size": 500
+      },
+      "impact": "Tenant A gets more conservative retry, compensation, and retention policy while saga ordering, compensation ordering, compliance immutability, legal-hold safety, and tenant isolation stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T621-T624",
+      "Factory IDs F1554-F1560",
+      "Provider SDK boundary",
+      "Vault credential paths",
+      "OCC versionPin:-1 saga init",
+      "SETNX step and compensation locks",
+      "Compensation registration before step body",
+      "LIFO compensation order",
+      "stop-on-first-failure compensation behavior",
+      "COMPLIANCE_INDEX",
+      "SHA-256 audit hash algorithm",
+      "PLATFORM_ONLY compliance records",
+      "Legal hold supremacy",
+      "Archive-before-tombstone retention ordering",
+      "Store-before-enqueue ordering",
+      "Tenant context resolution"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-19 configuration values or display/module metadata.",
+    "All four services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

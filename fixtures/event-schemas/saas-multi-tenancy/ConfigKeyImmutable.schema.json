@@ -1,0 +1,11 @@
+{
+  "eventType": "saas.tenant.config.key.immutable",
+  "flowId": "FLOW-15",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "rejectedKey": { "type": "string", "required": true },
+    "rejectionReason": { "type": "string", "enum": ["MACHINE_LOCKED_KEY"], "required": true },
+    "rejectedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "promptId": "t47-judge-v1.1.0",
+  "taskTypeId": "T47",
+  "flowId": "FLOW-01",
+  "promptType": "judge",
+  "version": "1.1.0",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "content": "Judge the T47 SSOAndEmailAuth implementation. Score 0-100. Iron rules (70 points): CF-1 email uniqueness (20), CF-2 idempotency key (20), CF-8 no PII (15), IScopedMemoryService not raw Redis (15). DNA compliance (20 points): DNA-8 outbox ordering (10), DNA-5 tenant scope (10). Quality (10 points): error messages meaningful, FREEDOM config for all tunable values. Score-0 violations: any iron rule failure, any SDK import, any raw Redis access.",
+  "tags": [
+    "flow-01",
+    "t47",
+    "judge",
+    "xiigen-community"
+  ]
+}

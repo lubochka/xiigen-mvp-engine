@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.event-management.registration-opened.v1",
+  "taskTypeId": "T60",
+  "flowId": "FLOW-03",
+  "description": "Emitted by T60 EventRegistrationManager when registration opens for an event. Capacity thresholds sourced from FREEDOM config — never hardcoded.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.event-management.registration-opened.v1",
+    "source": "xiigen/flows/event-management/t60",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "eventId": {
+      "type": "string",
+      "description": "Opaque event identifier"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant identifier from AsyncLocalStorage"
+    },
+    "capacityLimit": {
+      "type": ["integer", "null"],
+      "description": "null = unlimited. Value sourced from FREEDOM config at runtime."
+    },
+    "openedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "No attendee or organizer PII. All identifiers are opaque.",
+  "arbiterRef": "arb-flow03-registration-thresholds-from-freedom: capacity from FREEDOM config only.",
+  "requiredByFlows": ["FLOW-03", "FLOW-04"],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

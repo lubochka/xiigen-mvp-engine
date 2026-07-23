@@ -1,0 +1,24 @@
+{
+  "patternId": "STATUS-BEFORE-LOCK-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-12",
+  "domainId": "subscription-billing",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "tags": ["status-before-lock", "dpo-conflict", "billing-order", "cancelled-subscription", "lock-ordering"],
+  "keywords": "status check ORDER 1 lock ORDER 2 billing cycle DPO conflict FLOW-09 inversion cancelled subscription InvoiceVoided getStatus lock acquisition",
+  "ironRules": [
+    "getStatus() at ORDER 1 — BEFORE lock acquisition at ORDER 2",
+    "CANCELLED or PAUSED subscription: return InvoiceVoided immediately, do NOT acquire lock",
+    "DPO conflict: conflictsWith FLOW-09-T107-seat-before-payment (inverted ordering — both domain-correct)",
+    "Lock acquisition without prior status check consumes a billing lock slot for an ineligible subscription",
+    "Named check: status_before_lock"
+  ],
+  "codeSnippet": "// T211 RecurringBillingEngine — status before lock\nasync runBillingCycle(subscriptionId: string): Promise<DataProcessResult<void>> {\n  // ORDER 1: Status check — MUST precede lock\n  const status = await this.db.getDocument('xiigen-subscriptions', subscriptionId);\n  if (!status.isSuccess) return DataProcessResult.failure('NOT_FOUND', 'Subscription not found');\n\n  const subStatus = status.data?.['status'] as string;\n  if (subStatus === 'CANCELLED' || subStatus === 'PAUSED') {\n    // Early return — no lock acquired for ineligible subscriptions\n    await this.queue.enqueue('InvoiceVoided', { subscriptionId, reason: subStatus });\n    return DataProcessResult.success(undefined);\n  }\n\n  // ORDER 2: Lock acquisition (only for ACTIVE subscriptions)\n  const lockKey = hash(tenantId + subscriptionId + billingPeriod);\n  const locked = await this.setnx(lockKey);\n  if (!locked) return DataProcessResult.failure('ALREADY_BILLED', 'Billing cycle already in progress');\n\n  // ... process invoice, run dunning from FREEDOM config ...\n\n// ❌ WRONG: lock at ORDER 1, status at ORDER 2 — consumes lock slot for CANCELLED subscription\n// DPO annotation: conflictsWith: 'FLOW-09-T107-seat-before-payment'\n}",
+  "appliesTo": ["FLOW-16", "FLOW-17"],
+  "curriculumTier": 2,
+  "qualityScore": 0.91,
+  "sourceDocument": "FLOW-12-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,131 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "phase": "phase4Point0TenantAOriginalFork",
+  "phaseStatus": "completed",
+  "generatedAt": "2026-05-06T08:14:26.8293555+03:00",
+  "tenant": "acme-corp",
+  "protocolVersion": "3.0",
+  "productAndFixMapActions": [
+    {
+      "id": "FLOW-13-FIXMAP-002",
+      "status": "completed",
+      "action": "Tenant context service decoupling applied to FLOW-13 generated services by injecting TenantContextResolver and removing direct nestjs-cls/direct TenantContext imports."
+    },
+    {
+      "id": "FLOW-13-FIXMAP-003",
+      "status": "completed",
+      "action": "Configuration key scoping recorded in the FLOW-13 adaptation surface using flow13_warehouse_* FREEDOM keys and platform-only MACHINE guard declarations."
+    },
+    {
+      "id": "FLOW-13-FIXMAP-004",
+      "status": "completed",
+      "action": "Co-install dependencies declared in the per-flow package metadata for FLOW-11, FLOW-09, and FLOW-10."
+    },
+    {
+      "id": "DNA-4",
+      "status": "completed",
+      "action": "Fifteen FLOW-13 service classes now extend MicroserviceBase with ServiceDescriptor metadata."
+    }
+  ],
+  "dockerVaultServer": {
+    "serverPort": 3000,
+    "secretsProvider": "vault",
+    "vaultAddressInContainer": "http://vault:8200",
+    "tenantCredentialVerification": "Vault tenant credential paths were seeded and read back as non-empty without printing secret values.",
+    "healthCheck": "GET http://localhost:3000/health/live passed before the corrected Tenant A fork evidence was collected."
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/data-warehouse-analytics/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "initialCanonicalAttempt": {
+      "repoFullName": "lubochka/acme-corp--data-warehouse-analytics",
+      "initialCommitSha": "152afb8c43ffca12c56813acb6634dc2d87f5f10",
+      "actionsRunId": 25417211538,
+      "status": "superseded",
+      "supersededReason": "A phase-close scan after the first fork found FLOW-13 DNA-4 and tenant-context decoupling gaps. The source was corrected, the server was rebuilt, and the marketplace fork was repeated."
+    },
+    "canonicalDeleteAttempt": {
+      "attempted": true,
+      "result": "failed",
+      "reason": "GitHub token lacked delete_repo scope: HTTP 403 Must have admin rights to Repository."
+    },
+    "correctedEvidenceFork": {
+      "repoFullName": "lubochka/acme-corp--data-warehouse-analytics-r2",
+      "repoUrl": "https://github.com/lubochka/acme-corp--data-warehouse-analytics-r2",
+      "visibilityAfterEvidence": "PRIVATE",
+      "initialCommitSha": "b7a62b9e73f62597886a96660eab0f7023fdbf1b",
+      "initialVersion": "1.0.1",
+      "actionsRunId": 25417601187,
+      "actionsRunUrl": "https://github.com/lubochka/acme-corp--data-warehouse-analytics-r2/actions/runs/25417601187",
+      "actionsStatus": "completed",
+      "actionsConclusion": "success",
+      "workflowName": "XIIGen Flow CI — data-warehouse-analytics",
+      "workflowTitle": "Initial fork: data-warehouse-analytics v1.0.1"
+    }
+  },
+  "localCloneValidation": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--data-warehouse-analytics-r2-phase40-20260506-081134",
+    "commands": [
+      "gh repo clone lubochka/acme-corp--data-warehouse-analytics-r2 C:\\Projects\\xiigen-fork-clones\\acme-corp--data-warehouse-analytics-r2-phase40-20260506-081134",
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "typescript": "passed",
+    "jest": "passed: 1 suite, 1 test",
+    "bundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "tenantId": "acme-corp",
+      "requiredCoInstalls": [
+        "@xiigen/schema-registry-dag",
+        "@xiigen/transactional-event-participation",
+        "@xiigen/reviews-reputation"
+      ]
+    }
+  },
+  "repoScreenshots": [
+    {
+      "kind": "repo",
+      "path": "docs/e2e-snapshots/repo-evidence/flow-13/phase-4.0-tenant-a-repo.png",
+      "sizeBytes": 130162
+    },
+    {
+      "kind": "actions-run",
+      "path": "docs/e2e-snapshots/repo-evidence/flow-13/phase-4.0-tenant-a-actions-run.png",
+      "sizeBytes": 79063
+    },
+    {
+      "kind": "bundle-manifest",
+      "path": "docs/e2e-snapshots/repo-evidence/flow-13/phase-4.0-tenant-a-bundle-manifest.png",
+      "sizeBytes": 399442
+    }
+  ],
+  "sourceValidation": {
+    "serverTypescript": "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+    "targetedJest": "passed: npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false; 2 suites, 63 tests",
+    "phaseCloseScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "secretHandling": {
+    "secretsPrinted": false,
+    "secretsCommitted": false,
+    "tenantCredentialsStoredInVault": true,
+    "claudeSessionTokenUsedAsEvidence": false
+  },
+  "phaseGate": {
+    "tenantAOriginalFork": "passed",
+    "greenGithubActions": true,
+    "fullBundleEvidence": true,
+    "realGithubScreenshots": true,
+    "readyForNextPhase": "phase4AiAdaptation"
+  }
+}

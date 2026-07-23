@@ -1,0 +1,33 @@
+{
+  "patternId": "connection-type-compatibility-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-18",
+  "domainId": "visual-flow-engine",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": [
+    "dfs",
+    "cycle-detection",
+    "type-compatibility",
+    "occ",
+    "white-gray-black",
+    "edge-validation",
+    "flow-publication"
+  ],
+  "keywords": "DFS cycle detection WHITE GRAY BLACK coloring adjacency map type compatibility sourceOutputType targetInputType OCC version lock DRAFT PUBLISHED FlowPublished CycleDetected TypeMismatch",
+  "teachingPoint": "T618 FlowPublicationOrchestrator enforces a 3-guard publication gate: ORDER 1 = DFS cycle detection using WHITE/GRAY/BLACK coloring (CycleDetected on cycle), ORDER 2 = type compatibility per-edge (TypeMismatch if sourceOutputType !== targetInputType), ORDER 3 = OCC version check (FlowPublicationConflict on expectedVersion mismatch). FlowPublished emitted after DNA-8 audit storeDocument.",
+  "ironRules": [
+    "ORDER 1 DFS cycle detection: WHITE/GRAY/BLACK as const — GRAY means currently being visited; encountering GRAY node during DFS = cycle; emits CycleDetected",
+    "DFS must traverse ALL edges in the graph adjacency map — not just direct neighbors; depth-first recursive traversal required",
+    "ORDER 2 type compatibility: every edge must have sourceOutputType === targetInputType; first mismatch emits TypeMismatch with edge details",
+    "ORDER 3 OCC: expectedVersion from caller must equal currentVersion in stored flow document — version mismatch emits FlowPublicationConflict",
+    "storeDocument(PUBLICATION_AUDIT_INDEX) MUST complete before enqueue(FlowPublished) — DNA-8 outbox pattern"
+  ],
+  "codeSnippet": "// T618 FlowPublicationOrchestrator — DFS cycle detection + type check + OCC\nconst WHITE = 'WHITE' as const;\nconst GRAY = 'GRAY' as const;\nconst BLACK = 'BLACK' as const;\n\nprivate detectCycle(nodes: Record<string, unknown>[], edges: Record<string, unknown>[]): string | null {\n  const adj = new Map<string, string[]>();\n  for (const node of nodes) adj.set(node['nodeId'] as string, []);\n  for (const edge of edges) {\n    const src = edge['sourceNodeId'] as string;\n    adj.get(src)?.push(edge['targetNodeId'] as string);\n  }\n  const color = new Map<string, string>();\n  for (const node of nodes) color.set(node['nodeId'] as string, WHITE);\n  const dfs = (nodeId: string): string | null => {\n    color.set(nodeId, GRAY);\n    for (const neighbor of (adj.get(nodeId) ?? [])) {\n      if (color.get(neighbor) === GRAY) return nodeId; // cycle detected\n      if (color.get(neighbor) === WHITE) { const r = dfs(neighbor); if (r) return r; }\n    }\n    color.set(nodeId, BLACK);\n    return null;\n  };\n  for (const node of nodes) if (color.get(node['nodeId'] as string) === WHITE) { const r = dfs(node['nodeId'] as string); if (r) return r; }\n  return null;\n}\n\nprivate findTypeIncompatibleEdge(edges: Record<string, unknown>[]): Record<string, unknown> | null {\n  return edges.find(e => e['sourceOutputType'] !== e['targetInputType']) ?? null;\n}",
+  "appliesTo": ["FLOW-19", "FLOW-21", "FLOW-22", "FLOW-26"],
+  "curriculumTier": 2,
+  "qualityScore": 0.97,
+  "sourceDocument": "server/src/engine/flows/visual-flow-engine/flow-publication-orchestrator.service.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

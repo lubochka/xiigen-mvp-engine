@@ -1,0 +1,23 @@
+{
+  "index": "xiigen-calibration-baseline",
+  "mappings": {
+    "properties": {
+      "flowId":             { "type": "keyword" },
+      "station":            { "type": "keyword" },
+      "depth":              { "type": "integer" },
+      "nodeIntent":         { "type": "text" },
+      "model":              { "type": "keyword" },
+      "grade":              { "type": "float" },
+      "testDefinitionFile": { "type": "keyword" },
+      "ragContextSize":     { "type": "integer" },
+      "graphContextSize":   { "type": "integer" },
+      "phase":              { "type": "keyword" },
+      "tenantId":           { "type": "keyword" },
+      "knowledgeScope":     { "type": "keyword" },
+      "ownerId":            { "type": "keyword" },
+      "moduleId":           { "type": "keyword" },
+      "pricingModel":       { "type": "keyword" },
+      "createdAt":          { "type": "date" }
+    }
+  }
+}

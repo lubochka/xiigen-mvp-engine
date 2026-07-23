@@ -1,0 +1,11 @@
+{
+  "eventType": "reviewResponse.submitted",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "reviewId": { "type": "string", "required": true },
+    "responderId": { "type": "string", "required": true },
+    "responseText": { "type": "string", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

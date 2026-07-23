@@ -1,0 +1,25 @@
+{
+  "taskTypeId": "T626",
+  "name": "AuctionBidProcessor",
+  "flowId": "FLOW-20",
+  "archetype": "request_response",
+  "purpose": "Synchronous real-time bid processing with Redis SETNX for atomicity. SETNX bid lock + DECRBY budget atomicity; stateless auction design (no Elasticsearch state machine)",
+  "entry": "BidSubmissionRequested event",
+  "ironRules": [
+    "IR-1: SETNX(auction-bid-lock:{auctionId}) at ORDER 1. Lock held → unconditional return of previousBid (idempotent).",
+    "IR-2: DECRBY(advertiser-budget:{advertiserId}, bidAmountCents) at ORDER 2. Atomic Redis operation — no Elasticsearch OCC.",
+    "IR-3: newBudget < 0 → INCRBY to restore, emit BidRejected with BUDGET_INSUFFICIENT.",
+    "IR-4: No auction state machine in Elasticsearch — stateless design. Event log only.",
+    "IR-5: tenantId from ALS only — never from event payload."
+  ],
+  "machineComponents": [
+    "Redis SETNX auction-bid-lock at ORDER 1 — idempotent duplicate prevention",
+    "DECRBY advertiser-budget at ORDER 2 — atomic ledger operation",
+    "INCRBY to restore budget on BUDGET_INSUFFICIENT rejection",
+    "Stateless auction: no Elasticsearch state machine, event log only"
+  ],
+  "freedomComponents": [
+    "auction_bid_lock_ttl_ms — duration of the SETNX auction bid lock in milliseconds",
+    "auction_response_timeout_ms — max time to wait for bid response"
+  ]
+}

@@ -1,0 +1,59 @@
+﻿{
+    "flowId":  "FLOW-18",
+    "flowSlug":  "visual-flow-engine",
+    "phase":  "phase2E2ETests",
+    "generatedAt":  "2026-05-07T00:50:13.5012170+03:00",
+    "status":  "completed",
+    "roleMatrix":  {
+                       "roles":  [
+                                     "anonymous",
+                                     "tenant-user",
+                                     "tenant-admin",
+                                     "platform-admin",
+                                     "platform-support"
+                                 ],
+                       "viewportProjects":  [
+                                                "chromium-desktop",
+                                                "chromium-tablet",
+                                                "chromium-mobile"
+                                            ],
+                       "expectedPngCount":  15,
+                       "actualPngCount":  15,
+                       "directory":  "docs/e2e-snapshots/visual-flow-engine/role-matrix",
+                       "zeroByteFiles":  0
+                   },
+    "stateCoverage":  {
+                          "tests":  18,
+                          "finalPngCount":  6,
+                          "note":  "visual-flow-engine.spec.ts captures six P1 state screenshots; filenames are state-based and overwritten per viewport, while role-matrix screenshots are viewport-separated.",
+                          "directory":  "docs/e2e-snapshots/visual-flow-engine",
+                          "zeroByteFiles":  0
+                      },
+    "verification":  {
+                         "clientTypeScript":  "passed: npx tsc --noEmit --pretty false",
+                         "playwright":  "passed: VITE_PORT=5174 npx playwright test e2e/visual-flow-engine.spec.ts e2e/visual-flow-engine-role-matrix.spec.ts --reporter=line (33/33)",
+                         "sourceScan":  {
+                                            "throwNew":  0,
+                                            "servicesMissingMicroserviceBase":  0,
+                                            "clsImports":  0,
+                                            "directTenantContextImports":  0,
+                                            "directSdkImports":  0,
+                                            "anyTypes":  0,
+                                            "secretPatternHits":  0
+                                        },
+                         "nonBlockingWarnings":  [
+                                                     "Vite proxy logged ECONNREFUSED for API calls still configured to localhost:3000; the UI tests and Docker health/auth checks passed against localhost:33001."
+                                                 ]
+                     },
+    "filesChanged":  [
+                         "client/e2e/visual-flow-engine.spec.ts",
+                         "client/e2e/visual-flow-engine-role-matrix.spec.ts",
+                         "docs/e2e-snapshots/visual-flow-engine"
+                     ],
+    "commands":  [
+                     "client npx tsc --noEmit --pretty false",
+                     "client VITE_PORT=5174 npx playwright test e2e/visual-flow-engine.spec.ts e2e/visual-flow-engine-role-matrix.spec.ts --reporter=line",
+                     "PNG count: roleMatrix=15, stateP1=6, zeroByte=0"
+                 ],
+    "verdict":  "PASS"
+}

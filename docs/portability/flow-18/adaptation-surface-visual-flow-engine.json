@@ -1,0 +1,352 @@
+{
+  "flowId": "FLOW-18",
+  "flowSlug": "visual-flow-engine",
+  "flowTitle": "Visual Flow Creation and Code Injection Engine",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-07",
+  "capturedBy": "Codex / FLOW-18 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-18/FLOW-18-STEP-1-INVARIANTS.md",
+    "docs/business-flows/functional-specs/FLOW-18-visual-flow-engine-functional-spec.md",
+    "server/src/engine-contracts/visual-flow-engine-contracts.ts",
+    "server/src/engine-contracts/visual-flow-engine-bfa-rules.ts",
+    "server/src/engine/flows/visual-flow-engine",
+    "docs/flow-coverage/visual-flow-engine/P1-business-logic-inventory.md",
+    "docs/flow-coverage/visual-flow-engine/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T617-T620",
+    "planningTaskTypeRange": "T246-T286",
+    "taskTypeIds": [
+      "T617",
+      "T618",
+      "T619",
+      "T620"
+    ],
+    "freedomKeyCount": 8,
+    "securityClassification": "tenant-scoped visual authoring and code-injection safety",
+    "directRuntimePeerDependencies": [
+      {
+        "sourceFlow": "FLOW-16",
+        "purpose": "Code injection audit extends the non-repudiation audit model."
+      }
+    ],
+    "coreGuarantees": [
+      "Canvas writes verify tenant ownership before state checks or writes.",
+      "Published flows are immutable and cannot be edited.",
+      "Publication validates cycles before type compatibility and uses OCC for the DRAFT to PUBLISHED transition.",
+      "Node type registration acquires SETNX before the dual write and releases locks on write failure.",
+      "Code injection takes a version lock before pre-write audit and injection.",
+      "Injection audit records are append-only.",
+      "Every state event preserves store-before-enqueue ordering."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-18 modifies generated executable flow behavior and requires package-signing first pass before Tier 3."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T617",
+      "className": "FlowCanvasWriterService",
+      "file": "server/src/engine/flows/visual-flow-engine/flow-canvas-writer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow_canvas_max_nodes",
+        "flow_canvas_max_edges"
+      ],
+      "machineLockedRules": [
+        "BOLA ownership check at order 1",
+        "FLOW_IMMUTABLE guard after BOLA",
+        "DRAFT-only canvas write",
+        "audit-before-FlowCanvasUpdated"
+      ]
+    },
+    {
+      "taskTypeId": "T618",
+      "className": "FlowPublicationOrchestratorService",
+      "file": "server/src/engine/flows/visual-flow-engine/flow-publication-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow_max_node_depth",
+        "flow_type_compatibility_strict"
+      ],
+      "machineLockedRules": [
+        "DFS cycle detection before type compatibility",
+        "type compatibility per edge before publish write",
+        "OCC DRAFT to PUBLISHED transition",
+        "audit-before-FlowPublished"
+      ]
+    },
+    {
+      "taskTypeId": "T619",
+      "className": "NodeTypeRegistrarService",
+      "file": "server/src/engine/flows/visual-flow-engine/node-type-registrar.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "GLOBAL",
+      "adaptableFreedomKeys": [
+        "node_type_max_capabilities",
+        "node_type_lock_ttl_ms"
+      ],
+      "machineLockedRules": [
+        "SETNX before node type and capability writes",
+        "node type record write before capability index write",
+        "redis.del lock cleanup on write failure",
+        "audit-before-NodeTypeRegistered"
+      ]
+    },
+    {
+      "taskTypeId": "T620",
+      "className": "CodeInjectionProcessorService",
+      "file": "server/src/engine/flows/visual-flow-engine/code-injection-processor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "injection_lock_ttl_ms",
+        "injection_max_payload_size_kb"
+      ],
+      "machineLockedRules": [
+        "version lock before pre-write audit",
+        "pre-write audit before injection",
+        "append-only injection audit records",
+        "audit-before-CodeInjected"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-18 operating policy values. These values may vary by tenant without changing tenant isolation, immutable publication safety, lock ordering, audit ordering, or generated-code provenance.",
+      "total": 8,
+      "keys": [
+        {
+          "key": "flow_canvas_max_nodes",
+          "type": "number",
+          "default": 120,
+          "unit": "nodes",
+          "semantic": "Maximum nodes allowed on a single visual flow canvas.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T617.FlowCanvasWriterService"
+          ],
+          "boundedRange": {
+            "min": 10,
+            "max": 500,
+            "rationale": "Tenants may tune canvas complexity while ownership, immutable-state, and audit order remain fixed."
+          }
+        },
+        {
+          "key": "flow_canvas_max_edges",
+          "type": "number",
+          "default": 240,
+          "unit": "edges",
+          "semantic": "Maximum edges allowed on a single visual flow canvas.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T617.FlowCanvasWriterService"
+          ],
+          "boundedRange": {
+            "min": 10,
+            "max": 1000,
+            "rationale": "Tenants may tune graph density while published-flow immutability remains MACHINE."
+          }
+        },
+        {
+          "key": "flow_max_node_depth",
+          "type": "number",
+          "default": 48,
+          "unit": "depth",
+          "semantic": "Maximum graph traversal depth before publication validation aborts.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T618.FlowPublicationOrchestratorService"
+          ],
+          "boundedRange": {
+            "min": 5,
+            "max": 200,
+            "rationale": "Tenants may support shallow or deep authoring graphs while DFS-before-type-check ordering remains fixed."
+          }
+        },
+        {
+          "key": "flow_type_compatibility_strict",
+          "type": "boolean",
+          "default": true,
+          "unit": "flag",
+          "semantic": "Whether publication requires strict source-output to target-input schema matching.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T618.FlowPublicationOrchestratorService"
+          ],
+          "boundedRange": {
+            "allowed": [
+              true,
+              false
+            ],
+            "rationale": "Tenants may choose strict or permissive compatibility, but validation still runs before OCC publish."
+          }
+        },
+        {
+          "key": "node_type_max_capabilities",
+          "type": "number",
+          "default": 12,
+          "unit": "capabilities",
+          "semantic": "Maximum capabilities declared by one reusable node type.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T619.NodeTypeRegistrarService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 100,
+            "rationale": "Operators may tune node catalogue richness while dual-write atomicity and lock cleanup stay fixed."
+          }
+        },
+        {
+          "key": "node_type_lock_ttl_ms",
+          "type": "number",
+          "default": 300000,
+          "unit": "milliseconds",
+          "semantic": "TTL for the node type registration lock.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T619.NodeTypeRegistrarService"
+          ],
+          "boundedRange": {
+            "min": 30000,
+            "max": 1800000,
+            "rationale": "Lock duration may vary by registry throughput, but SETNX before both writes and redis.del cleanup remain MACHINE."
+          }
+        },
+        {
+          "key": "injection_lock_ttl_ms",
+          "type": "number",
+          "default": 300000,
+          "unit": "milliseconds",
+          "semantic": "TTL for a code-injection version lock.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T620.CodeInjectionProcessorService"
+          ],
+          "boundedRange": {
+            "min": 30000,
+            "max": 1800000,
+            "rationale": "Tenants may tune lock duration while version-lock-before-audit remains fixed."
+          }
+        },
+        {
+          "key": "injection_max_payload_size_kb",
+          "type": "number",
+          "default": 256,
+          "unit": "kilobytes",
+          "semantic": "Maximum generated code payload size accepted for one injection.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T620.CodeInjectionProcessorService"
+          ],
+          "boundedRange": {
+            "min": 16,
+            "max": 4096,
+            "rationale": "Tenants may tune generated-code payload size while append-only audit and provenance remain fixed."
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to flow-builder operating policy and customer-facing module naming.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "enterprise-automation-studio",
+          "name": "Enterprise automation studio",
+          "semantic": "Tenant A supports larger process maps and deeper validation traversals for internal platform teams.",
+          "extensionPoint": "flow_canvas_max_nodes + flow_canvas_max_edges + flow_max_node_depth",
+          "currentImplementation": "T617/T618 still keep ownership, immutable-state, DFS ordering, type validation, OCC, and audit ordering fixed."
+        },
+        {
+          "id": "strict-production-publisher",
+          "name": "Strict production publisher",
+          "semantic": "Tenant A keeps strict type compatibility on before publication.",
+          "extensionPoint": "flow_type_compatibility_strict",
+          "currentImplementation": "T618 still checks cycle detection before any compatibility decision and publishes through OCC only."
+        },
+        {
+          "id": "rich-node-catalogue",
+          "name": "Rich node catalogue",
+          "semantic": "Tenant A allows more capabilities per reusable node type for an internal component marketplace.",
+          "extensionPoint": "node_type_max_capabilities + node_type_lock_ttl_ms",
+          "currentImplementation": "T619 still uses SETNX before dual write and releases locks on write failure."
+        },
+        {
+          "id": "large-code-injection-workspace",
+          "name": "Large code injection workspace",
+          "semantic": "Tenant A permits larger generated code payloads for complex generated modules.",
+          "extensionPoint": "injection_max_payload_size_kb + injection_lock_ttl_ms",
+          "currentImplementation": "T620 still writes pre-injection audit before execution and appends every result audit."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T617 through T620 remain fixed.",
+      "Canvas BOLA verification must happen before state checks or writes.",
+      "FLOW_IMMUTABLE_STATES remains a compile-time constant.",
+      "Published flows cannot be modified.",
+      "DFS cycle detection must run before type compatibility checks.",
+      "Publication must use OCC for DRAFT to PUBLISHED transition.",
+      "Node type registration must acquire SETNX before node type and capability writes.",
+      "Node type registration must release locks on write failure.",
+      "Code injection must acquire a version lock before pre-write audit.",
+      "Pre-write audit must exist before injection code runs.",
+      "Injection audit records remain append-only.",
+      "All state events preserve store-before-enqueue ordering.",
+      "Tenant context resolution remains automatic through AsyncLocalStorage."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAEnterpriseVisualStudio": {
+      "description": "Tenant A tunes the visual flow engine for enterprise automation authors.",
+      "change": {
+        "flow_canvas_max_nodes": 240,
+        "flow_canvas_max_edges": 520,
+        "flow_max_node_depth": 96,
+        "flow_type_compatibility_strict": true,
+        "node_type_max_capabilities": 24,
+        "injection_max_payload_size_kb": 512
+      },
+      "impact": "Tenant A authors larger and stricter automation maps while isolation, publication immutability, lock ordering, and audit provenance stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T617-T620",
+      "Factory IDs F1547-F1553",
+      "Provider SDK boundary",
+      "Vault credential paths",
+      "BOLA order",
+      "FLOW_IMMUTABLE_STATES",
+      "DFS WHITE/GRAY/BLACK cycle detection order",
+      "Type compatibility before publish write",
+      "OCC DRAFT to PUBLISHED update",
+      "NODE_TYPE_LOCK_PREFIX",
+      "SETNX before node type dual write",
+      "redis.del lock cleanup",
+      "INJECTION_LOCK_PREFIX",
+      "INJECTION_AUDIT_PHASES",
+      "Append-only injection audit",
+      "Store-before-enqueue ordering",
+      "Tenant context resolution"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-18 configuration values or display/module metadata.",
+    "All four services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

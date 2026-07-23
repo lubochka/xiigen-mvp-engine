@@ -1,0 +1,226 @@
+{
+  "flowId": "FLOW-08",
+  "flowSlug": "marketplace",
+  "flowTitle": "Marketplace Publishing & Distribution",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-05",
+  "capturedBy": "Codex / FLOW-08 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-08/FLOW-08-STEP-1-INVARIANTS.md",
+    "docs/business-flows/08-marketplace.md",
+    "server/src/engine-contracts/marketplace-contracts.ts",
+    "server/src/engine/flows/marketplace/listing-publisher.service.ts",
+    "server/src/engine/flows/marketplace/catalog-indexer.service.ts",
+    "server/src/engine/flows/marketplace/listing-feed-generator.service.ts",
+    "server/src/engine/flows/marketplace/listing-analytics-aggregator.service.ts",
+    "server/src/engine/flows/marketplace/listing-moderation-engine.service.ts",
+    "server/src/engine/flows/marketplace/listing-price-validator.service.ts",
+    "server/src/bootstrap/history-seeds/marketplace-design-corpus.json"
+  ],
+  "services": [
+    {
+      "taskTypeId": "T83",
+      "className": "ListingPublisherService",
+      "file": "server/src/engine/flows/marketplace/listing-publisher.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "marketplace.listing.drafted",
+        "marketplace.listing.published"
+      ],
+      "readsFreedomKeys": [
+        "flow08_marketplace_max_price_cap.{tenantId}"
+      ]
+    },
+    {
+      "taskTypeId": "T84",
+      "className": "CatalogIndexerService",
+      "file": "server/src/engine/flows/marketplace/catalog-indexer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "marketplace.catalog.indexed"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T85",
+      "className": "ListingFeedGeneratorService",
+      "file": "server/src/engine/flows/marketplace/listing-feed-generator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "marketplace.listing_feed.generated"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T86",
+      "className": "ListingAnalyticsAggregatorService",
+      "file": "server/src/engine/flows/marketplace/listing-analytics-aggregator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "marketplace.analytics.aggregated"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T87",
+      "className": "ListingModerationEngineService",
+      "file": "server/src/engine/flows/marketplace/listing-moderation-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "marketplace.moderation.human_review_requested",
+        "marketplace.moderation.passed",
+        "marketplace.moderation.rejected"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T88",
+      "className": "ListingPriceValidatorService",
+      "file": "server/src/engine/flows/marketplace/listing-price-validator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [],
+      "readsFreedomKeys": [
+        "flow08_marketplace_max_price_cap.{tenantId}"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe values that can change at fork time without changing audit ordering, moderation handling, feed privacy, analytics aggregation, or tenant scope.",
+      "total": 1,
+      "keys": [
+        {
+          "key": "flow08_marketplace_max_price_cap.{tenantId}",
+          "type": "number",
+          "default": null,
+          "unit": "currency-minor-or-major-unit-as-selected-by-tenant",
+          "semantic": "Optional maximum listing price cap enforced before a marketplace listing can be published.",
+          "stakeholder": "marketplace-operations",
+          "consumedBy": [
+            "T88.ListingPriceValidatorService.validate",
+            "T83.ListingPublisherService.publishListing"
+          ],
+          "ironRuleReferences": [
+            "T83.IR-3",
+            "T88.IR-2"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1000000,
+            "rationale": "Tenants may cap marketplace prices for policy or launch-stage reasons, while zero-price listings remain valid and negative prices remain rejected."
+          }
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-08 has no tenant-editable DSL grammar surface.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "Marketplace browse, publish, install, and fork access is controlled by the marketplace controller role map. Tenants may tune presentation and pricing policy, not bypass role isolation.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Tenant marketplace policies that can be changed through existing surfaces while fixed ordering and privacy invariants remain intact.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "starter-marketplace-price-cap",
+          "name": "Starter marketplace price cap",
+          "semantic": "A new tenant can cap listing prices during launch while allowing free listings and regular published listings below the cap.",
+          "extensionPoint": "flow08_marketplace_max_price_cap.{tenantId}",
+          "currentImplementation": "T88 reads the tenant-scoped cap and returns PRICE_EXCEEDS_CAP only when the listing price is above it."
+        },
+        {
+          "id": "moderated-category-launch",
+          "name": "Moderated category launch",
+          "semantic": "A tenant can route uncertain or high-risk categories through moderation without treating moderation review as a system failure.",
+          "extensionPoint": "ListingModerationEngineService and marketplace category policy",
+          "currentImplementation": "T87 supports PASS, REJECT, and UNCERTAIN, and T83 stores rejected content as DRAFT rather than failing the publication flow."
+        },
+        {
+          "id": "privacy-preserving-feed",
+          "name": "Privacy-preserving buyer feed",
+          "semantic": "A tenant can change feed presentation while the emitted feed event remains aggregate-only.",
+          "extensionPoint": "client marketplace feed presentation and T85 maxCount input",
+          "currentImplementation": "T85 stores the feed record and emits only count, tenantId, and generatedAt, never listing IDs or buyer history."
+        },
+        {
+          "id": "aggregate-marketplace-analytics",
+          "name": "Aggregate marketplace analytics",
+          "semantic": "A tenant can adapt dashboard copy and thresholds while the conversion formula and aggregate-only rule stay fixed.",
+          "extensionPoint": "marketplace analytics presentation",
+          "currentImplementation": "T86 computes conversionRate as inquiries / (views || 1) and does not store viewerIds."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "T83 writes the audit record before moderation, price validation, listing storage, or event emission.",
+      "T83 treats moderation rejection as a successful DRAFT outcome, never as a thrown or failed business exception.",
+      "T83 and T88 reject negative prices and accept zero-price listings.",
+      "T84 keeps catalog indexing version-keyed and idempotent.",
+      "T85 emits aggregate feed counts only and never listing IDs, seller IDs, buyer IDs, or reference IDs.",
+      "T86 keeps conversionRate as inquiries / (views || 1), not a tenant-editable formula.",
+      "T86 stores aggregate counters only and never viewerIds.",
+      "T87 preserves PASS, REJECT, and UNCERTAIN moderation paths; UNCERTAIN routes to human review.",
+      "storeDocument completes before enqueue for listing, catalog, feed, analytics, and moderation events.",
+      "All FLOW-08 services remain FLOW_SCOPED and return DataProcessResult."
+    ]
+  },
+  "adaptationExamples": {
+    "tenant-a-curated-launch": {
+      "description": "Tenant A launches a curated marketplace with a maximum listing price while seller trust is still being established.",
+      "change": {
+        "key": "flow08_marketplace_max_price_cap.acme-corp",
+        "from": null,
+        "to": 5000
+      },
+      "impact": "Listings above the cap are rejected by price validation, free listings still pass, and audit-first ordering remains unchanged.",
+      "testable": "Tenant A adaptation evidence shows the curated marketplace policy, and T88 tests still prove price 0 passes while prices above the cap fail."
+    },
+    "tenant-a-service-forward-marketplace": {
+      "description": "Tenant A emphasizes service listings and partner-friendly marketplace cards while retaining aggregate-only feed and analytics boundaries.",
+      "change": {
+        "surface": "marketplace presentation and tenant.config.json adaptationHistory",
+        "from": "general marketplace",
+        "to": "service-forward marketplace"
+      },
+      "impact": "Marketplace copy and screenshots change, while server events, role gates, and aggregate privacy rules remain fixed.",
+      "testable": "Tenant A screenshot evidence shows the adapted service-forward marketplace and the fork package CI still passes."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T83 through T88",
+      "Audit-first publication ordering",
+      "Moderation rejection as DRAFT success",
+      "Negative-price rejection and zero-price acceptance",
+      "Version-keyed catalog idempotency",
+      "Count-only listing feed event payload",
+      "Aggregate-only analytics and fixed conversion formula",
+      "Three-path moderation behavior",
+      "Tenant scope isolation",
+      "CloudEvents envelope usage where events cross service boundaries",
+      "DataProcessResult return contract"
+    ]
+  },
+  "passCriteria": [
+    "Tenant A can apply a TYPE-A value or presentation change without altering MACHINE constraints.",
+    "The adapted policy is present in tenant.config.json adaptationHistory.",
+    "The adapted marketplace position is visible in Tenant A visual evidence.",
+    "Auth checks still return 401 for missing token, 401 for cross-tenant token, and 403 for wrong-role token after adaptation."
+  ]
+}

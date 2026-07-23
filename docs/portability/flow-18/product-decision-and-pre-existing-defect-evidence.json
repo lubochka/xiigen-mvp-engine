@@ -1,0 +1,64 @@
+﻿{
+    "flowId":  "FLOW-18",
+    "flowSlug":  "visual-flow-engine",
+    "phase":  "preExistingDefectCheck",
+    "generatedAt":  "2026-05-07T00:27:33.1692909+03:00",
+    "status":  "completed",
+    "productDecision":  {
+                            "status":  "no-flow-specific-tier-blocker-found",
+                            "source":  [
+                                           "docs/business-flows/functional-specs/FLOW-18-visual-flow-engine-functional-spec.md",
+                                           "server/test/e2e/visual-flow-engine",
+                                           "server/src/engine/flows/visual-flow-engine"
+                                       ],
+                            "decision":  "FLOW-18 visual-flow-engine is eligible to proceed into Docker/Vault auth and fork cascade certification after repairing inherited portability defects in its four service files. It is a tenant/platform operations flow and must preserve flow author and platform operator boundaries during the cascade."
+                        },
+    "baselineBeforeRepair":  {
+                                 "serverJest":  "passed: npx jest --testPathPatterns=visual-flow-engine --runInBand --colors=false (9 suites / 98 tests)",
+                                 "sourceScan":  {
+                                                    "throwNew":  0,
+                                                    "servicesMissingMicroserviceBase":  4,
+                                                    "clsImports":  4,
+                                                    "directTenantContextImports":  8,
+                                                    "directSdkImports":  0,
+                                                    "anyTypes":  0
+                                                },
+                                 "verdict":  "tests passed but portability source scan blocked phase close"
+                             },
+    "repairSummary":  {
+                          "filesChanged":  [
+                                               "server/src/engine/flows/visual-flow-engine/flow-canvas-writer.service.ts",
+                                               "server/src/engine/flows/visual-flow-engine/flow-publication-orchestrator.service.ts",
+                                               "server/src/engine/flows/visual-flow-engine/node-type-registrar.service.ts",
+                                               "server/src/engine/flows/visual-flow-engine/code-injection-processor.service.ts",
+                                               "server/test/e2e/visual-flow-engine/phase-a.spec.ts",
+                                               "server/test/e2e/visual-flow-engine/phase-b.spec.ts",
+                                               "server/test/e2e/visual-flow-engine/phase-c.spec.ts",
+                                               "server/test/e2e/visual-flow-engine/phase-d.spec.ts"
+                                           ],
+                          "fix":  "Replaced direct nestjs-cls injection in FLOW-18 services with TenantContextResolver, added MicroserviceBase descriptors for service ids T617 through T620, and updated direct constructor tests to provide the resolver contract.",
+                          "behaviorChanged":  false
+                      },
+    "verificationAfterRepair":  {
+                                    "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+                                    "serverJest":  "passed: npx jest --testPathPatterns=visual-flow-engine --runInBand --colors=false (9 suites / 98 tests)",
+                                    "sourceScan":  {
+                                                       "throwNew":  0,
+                                                       "servicesMissingMicroserviceBase":  0,
+                                                       "clsImports":  0,
+                                                       "directTenantContextImports":  0,
+                                                       "directSdkImports":  0,
+                                                       "anyTypes":  0,
+                                                       "secretPatternHits":  0
+                                                   }
+                                },
+    "commands":  [
+                     "server: npx jest --testPathPatterns=visual-flow-engine --runInBand --colors=false - baseline passed, scan blocked",
+                     "FLOW-18 source scan before repair: servicesMissingMicroserviceBase=4, clsImports=4, directTenantContextImports=8",
+                     "Edited four FLOW-18 services to extend MicroserviceBase and use TenantContextResolver.",
+                     "server: npx tsc --noEmit -p tsconfig.json --pretty false - passed",
+                     "server: npx jest --testPathPatterns=visual-flow-engine --runInBand --colors=false - passed, 9 suites/98 tests",
+                     "FLOW-18 source scan after repair: throwNew=0, servicesMissingMicroserviceBase=0, clsImports=0, directTenantContextImports=0, directSdkImports=0, anyTypes=0"
+                 ],
+    "verdict":  "PASS"
+}

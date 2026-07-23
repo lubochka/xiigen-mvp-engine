@@ -1,0 +1,288 @@
+{
+  "flowId": "FLOW-32",
+  "flowSlug": "sharable-flows-marketplace",
+  "implementationSlug": "sharable-flows-marketplace",
+  "phase": "phase-5-tenant-b-install-adapt-publish",
+  "status": "completed",
+  "generatedAt": "2026-05-11T07:52:19.8623868Z",
+  "tenant": "northwind",
+  "sourceTenant": "acme-corp",
+  "sourcePackage": {
+    "packageName": "@xiigen-fork/acme-curated-flow-store",
+    "packageVersion": "1.0.1",
+    "registry": "http://localhost:4873",
+    "viewReturned": "1.0.1",
+    "sourceRepoFullName": "lubochka/acme-corp--sharable-flows-marketplace"
+  },
+  "initialFork": {
+    "api": "POST /api/marketplace/packages/sharable-flows-marketplace/fork",
+    "forkId": "fork-sharable-flows-marketplace-northwind",
+    "targetTenant": "northwind",
+    "repoFullName": "lubochka/northwind--sharable-flows-marketplace",
+    "repoUrl": "https://github.com/lubochka/northwind--sharable-flows-marketplace",
+    "initialCommitSha": "53d863c9086eb4b8795fb578fc0d5495907b1ac2",
+    "installedFromRepoFullName": "lubochka/acme-corp--sharable-flows-marketplace",
+    "initialVersion": "1.0.1",
+    "createdByMarketplaceApi": true
+  },
+  "initialForkCiObservation": {
+    "runId": 25656954239,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "53d863c9086eb4b8795fb578fc0d5495907b1ac2",
+    "url": "https://github.com/lubochka/northwind--sharable-flows-marketplace/actions/runs/25656954239",
+    "rootCause": "The fork copied Tenant A's Acme-specific adaptation test while the fork engine rewrote tenant.config.json for Northwind. The inherited test expected acme-curated-flow-store, while Tenant B was not yet adapted.",
+    "resolution": "Tenant B adaptation replaced the Acme adaptation test with a Northwind adaptation test and recorded Northwind as the second adaptation-history entry."
+  },
+  "adaptation": {
+    "changeType": "Type A (bounded FREEDOM key value change)",
+    "moduleName": "northwind-partner-template-exchange",
+    "packageName": "@xiigen-fork/northwind-partner-template-exchange",
+    "packageVersion": "1.0.2",
+    "sourceModuleName": "acme-curated-flow-store",
+    "sourcePackageName": "@xiigen-fork/acme-curated-flow-store",
+    "sourcePackageVersion": "1.0.1",
+    "plainLanguagePolicy": "Northwind partner template exchange policy: partner-facing template discovery with freshness-weighted ranking, prompt-based dependency installs, platform-curated install permission, balanced review timing, and standard sandbox sessions.",
+    "freedomChanges": [
+      {
+        "key": "flow32_module_name",
+        "from": "acme-curated-flow-store",
+        "to": "northwind-partner-template-exchange"
+      },
+      {
+        "key": "flow32_review_queue_sla_hours",
+        "from": 12,
+        "to": 18
+      },
+      {
+        "key": "flow32_allowed_package_categories",
+        "from": [
+          "commerce",
+          "analytics",
+          "admin"
+        ],
+        "to": [
+          "commerce",
+          "analytics",
+          "content"
+        ]
+      },
+      {
+        "key": "flow32_featured_strip_slots",
+        "from": 4,
+        "to": 6
+      },
+      {
+        "key": "flow32_install_permission_policy",
+        "from": "tenant-admin-confirm",
+        "to": "platform-curated-only"
+      },
+      {
+        "key": "flow32_dependency_install_mode",
+        "from": "prompt",
+        "to": "prompt"
+      },
+      {
+        "key": "flow32_discovery_ranking_weights",
+        "from": {
+          "quality": 0.5,
+          "installCount": 0.2,
+          "freshness": 0.15,
+          "rating": 0.15
+        },
+        "to": {
+          "quality": 0.3,
+          "installCount": 0.2,
+          "freshness": 0.35,
+          "rating": 0.15
+        }
+      },
+      {
+        "key": "flow32_settlement_period_days",
+        "from": 30,
+        "to": 30
+      },
+      {
+        "key": "flow32_fraud_review_threshold",
+        "from": 0.8,
+        "to": 0.75
+      },
+      {
+        "key": "flow32_sandbox_ttl_hours",
+        "from": 12,
+        "to": 24
+      }
+    ],
+    "invariantsPreserved": [
+      "Marketplace package, install, usage, settlement, and sandbox records remain tenant scoped.",
+      "Package artifacts remain content addressed.",
+      "Published versions remain immutable.",
+      "Artifact trust requires signing, verification, certification, and notarization evidence.",
+      "Install and RAG blueprint sharing remain logic-plane only.",
+      "Tenant data, embeddings, documents, vector stores, and literal secrets are not shared between tenants.",
+      "Binding documents store secret references only.",
+      "Governance migrations revalidate all consumers.",
+      "Revenue settlement uses integer cents only.",
+      "Fraud outcomes require human review and cannot auto-suspend, ban, revoke, terminate, or disable accounts.",
+      "Sandbox tenant IDs keep the sandbox prefix.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory."
+    ]
+  },
+  "tenantRepository": {
+    "repoFullName": "lubochka/northwind--sharable-flows-marketplace",
+    "repoUrl": "https://github.com/lubochka/northwind--sharable-flows-marketplace",
+    "sourceCommitSha": "53d863c9086eb4b8795fb578fc0d5495907b1ac2",
+    "adaptedCommitSha": "dd011320cb9845a7ecb83e0842dcbd61d59f5e76",
+    "defaultBranch": "main",
+    "clonePath": "C:/Projects/xiigen-fork-clones/northwind--sharable-flows-marketplace-phase5-20260511-104219",
+    "workingTreeClean": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/sharable-flows-marketplace-northwind-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "adaptationHistoryEntries": 2
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - sharable-flows-marketplace",
+    "runId": 25657248309,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "dd011320cb9845a7ecb83e0842dcbd61d59f5e76",
+    "url": "https://github.com/lubochka/northwind--sharable-flows-marketplace/actions/runs/25657248309",
+    "cleanInstallInActions": true
+  },
+  "tenantCloneVerification": {
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "installExit": 0,
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 2,
+      "jestSuitesTotal": 2,
+      "jestTestsPassed": 2,
+      "jestTestsTotal": 2,
+      "packDryRunExit": 0,
+      "packEntryCount": 130
+    }
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/northwind-partner-template-exchange",
+    "publishedVersion": "1.0.2",
+    "viewCommand": "npm view @xiigen-fork/northwind-partner-template-exchange version --registry http://localhost:4873",
+    "viewReturned": "1.0.2",
+    "verified": true
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-32",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-b-v1.0.2-actions-success.png",
+        "bytes": 81978
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-b-v1.0.2-github-listing.png",
+        "bytes": 142880
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-b-v1.0.2-package-json.png",
+        "bytes": 117285
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-11T07:50:41.7446016Z",
+    "serverBaseUrl": "http://localhost:3000",
+    "path": "/api/runs/phase5-flow32-tenant-b-adaptation-auth-probe/trace",
+    "passed": 12,
+    "total": 12,
+    "failed": 0,
+    "allPassed": true,
+    "checks": [
+      "valid own-tenant platform-admin token returns 200 for all three tenants",
+      "missing token returns 401 for all three tenants",
+      "platform-support wrong-role token returns 403 for all three tenants",
+      "acme token in northwind context returns 401",
+      "northwind token in tessera context returns 401",
+      "acme token in tessera context returns 401"
+    ]
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed",
+      "exitCode": 0
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=sharable-flows-marketplace --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 4,
+      "tests": 134
+    },
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "result": "passed",
+      "exitCode": 0
+    },
+    "flowScans": {
+      "source": {
+        "sourceFlowFileCount": 20,
+        "throwNew": 0,
+        "exportedServicesByPromptPattern": 20,
+        "servicesMissingMicroserviceBaseByPromptPattern": 0,
+        "clsImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "adapted": {
+        "sourceFlowFileCount": 20,
+        "throwNew": 0,
+        "exportedServicesByPromptPattern": 20,
+        "servicesMissingMicroserviceBaseByPromptPattern": 0,
+        "clsImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "failureLines": 0
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeysPrinted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBForkedFromTenantA": true,
+    "tenantBAdaptedFlow": true,
+    "tenantBCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstallAdaptAuth": true
+  },
+  "verdict": "PASS"
+}

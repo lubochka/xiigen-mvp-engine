@@ -1,0 +1,72 @@
+{
+  "flowId": "FLOW-05",
+  "taskTypeId": "T98",
+  "name": "flow-05-completion-gate",
+  "description": "T98 LearningFlowCompleted orchestration gate. Gates on Branch A only (T85+T96+T87). Branch B and C emit their own events independently.",
+  "archetype": "ORCHESTRATION",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: 'LearningFlowCompleted' MACHINE literal, Branch A gate only"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve plan-flow05-completion-gamification PLAN_EXEMPLAR for completion gate topology",
+      "params": {
+        "archetype": "ORCHESTRATION",
+        "taskTypeRef": "T98",
+        "topK": 3,
+        "patternIds": [
+          "PLAN-FLOW05-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break into: await Branch A (T85 committed + T96 done + T87 done) → emit LearningFlowCompleted. Branch B and C run independently."
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate learning-flow-completed.service.ts (T98). Gate condition = Branch A complete. 'LearningFlowCompleted' as const MACHINE literal."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check: store_before_enqueue, tenant_id_on_writes"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score against iron rules: MACHINE literal, Branch A gate, Branches B+C not in gate"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=branch-a-only-gate+machine-literal, rejected=all-branches-gate+dynamic-event-name. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "LedgerUpdated + StreakUpdated + AchievementChecked (Branch A complete)",
+  "primaryFabric": "QUEUE"
+}

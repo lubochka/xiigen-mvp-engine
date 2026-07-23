@@ -1,0 +1,40 @@
+{
+    "flowId":  "FLOW-29",
+    "flowSlug":  "adaptive-rag-deep-research",
+    "implementationSlug":  "rag-optimization",
+    "phase":  "phase-1-unit-integration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T21:01:32.7534503+00:00",
+    "typescript":  {
+                       "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                       "status":  "passed",
+                       "exitCode":  0
+                   },
+    "jest":  {
+                 "command":  "Push-Location server; npx jest --testPathPatterns=adaptive-rag-deep-research --runInBand --colors=false; Pop-Location",
+                 "status":  "passed",
+                 "testPathPattern":  "adaptive-rag-deep-research",
+                 "testSuitesPassed":  31,
+                 "testSuitesTotal":  31,
+                 "testsPassed":  357,
+                 "testsTotal":  357
+             },
+    "staticScans":  {
+                        "scanRoot":  "server/src/engine/flows/rag-optimization",
+                        "files":  27,
+                        "failureLines":  0,
+                        "throwNew":  0,
+                        "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                        "clsImports":  0,
+                        "directSdkImports":  0,
+                        "anyTypes":  0
+                    },
+    "acceptedTrackedIssues":  [
+                                  {
+                                      "id":  "FLOW-29-SLUG-MISMATCH",
+                                      "status":  "accepted-for-this-protocol-run",
+                                      "note":  "Protocol slug adaptive-rag-deep-research maps to implementation directory rag-optimization."
+                                  }
+                              ],
+    "verdict":  "PASS"
+}

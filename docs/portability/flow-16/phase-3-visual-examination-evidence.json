@@ -1,0 +1,97 @@
+{
+  "flowId": "FLOW-16",
+  "flowSlug": "marketplace-payments",
+  "phase": "phase-3-visual-examination",
+  "generatedAt": "2026-05-06T17:27:46.3698718+03:00",
+  "branch": "Skills_Creation_Claude",
+  "protocol": "FLOW-MOBILITY-AUTH phase-3 visual examination",
+  "screenshots": {
+    "stateMatrix": {
+      "root": "docs/e2e-snapshots/marketplace-payments",
+      "count": 18,
+      "expected": 18,
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "zeroByteCount": 0
+    },
+    "roleMatrix": {
+      "root": "docs/e2e-snapshots/marketplace-payments/role-matrix",
+      "count": 30,
+      "expected": 30,
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "tenant-admin",
+        "referral-user",
+        "freelancer",
+        "business-partner",
+        "event-organiser",
+        "platform-admin",
+        "platform-support"
+      ],
+      "projects": {
+        "chromium-desktop": 10,
+        "chromium-tablet": 10,
+        "chromium-mobile": 10
+      },
+      "zeroByteCount": 0
+    }
+  },
+  "roleBranchAssertions": {
+    "anonymous": "checkout-anon-view",
+    "public-marketplace-visitor": "checkout-public-view",
+    "tenant-user": "checkout-buyer-view",
+    "tenant-admin": "checkout-admin-view",
+    "referral-user": "checkout-buyer-view",
+    "freelancer": "checkout-payee-redirect",
+    "business-partner": "checkout-b2b-view",
+    "event-organiser": "checkout-payee-redirect",
+    "platform-admin": "checkout-platform-admin-view",
+    "platform-support": "checkout-support-view"
+  },
+  "automatedChecks": {
+    "clientTypecheckPassed": true,
+    "stateMatrixPlaywrightPassed": true,
+    "roleMatrixPlaywrightPassed": true,
+    "imageCountPassed": true,
+    "allImagesNonEmpty": true,
+    "plainLanguageScanPassed": true,
+    "horizontalOverflowCheckPassed": true,
+    "secretScanPassed": true
+  },
+  "manualReview": [
+    {
+      "imageSet": "stateMatrix",
+      "status": "PASS",
+      "notes": "The P1 state screenshots exist for desktop, tablet, and mobile, and each image has the expected viewport dimensions and non-zero bytes."
+    },
+    {
+      "imageSet": "roleMatrix",
+      "status": "PASS",
+      "notes": "Every declared FLOW-16 role renders its expected checkout branch across desktop, tablet, and mobile, with no horizontal overflow detected."
+    },
+    {
+      "imageSet": "tenantConsumerPages",
+      "status": "PASS",
+      "notes": "Plain-language scan over the Marketplace Payments consumer pages found no blocked internal terms or flow task codes."
+    }
+  ],
+  "fixedFindings": [],
+  "phaseGate": {
+    "visualFindingResolved": true,
+    "screenshotSetComplete": true,
+    "roleMatrixComplete": true,
+    "phase3Complete": true
+  },
+  "commands": [
+    "client: npx tsc --noEmit --pretty false - PASS",
+    "client: VITE_PORT=5174 npx playwright test e2e/marketplace-payments-role-matrix.spec.ts --reporter=list - PASS, 30/30",
+    "PowerShell role-matrix PNG count - PASS, 30 PNGs, zero-byte count 0",
+    "PowerShell plain-language scan over client/src/pages/marketplace-payments - PASS",
+    "PowerShell secret scan over phase files - PASS"
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "topologyId": "flow-prereq-01a-spec-auditor",
+  "flowId": "FLOW-PREREQ-01",
+  "taskTypeId": "T580",
+  "version": "1.0.0",
+  "archetype": "ORCHESTRATION",
+  "purpose": "Given any spec or UML, audit it against the fabric registry, detect missing interfaces, MACHINE constants, and cross-domain overlaps, then emit typed PREREQ_GAP events for each gap found.",
+  "trigger": "event spec.submitted OR called by flow orchestrator before Phase A of any domain flow",
+
+  "nodes": {
+    "n1": {
+      "handler": "rag-retrieve.handler",
+      "description": "Retrieve FLOW_DESIGN patterns for spec audit protocol and MACHINE constant detection",
+      "config": {
+        "index": "xiigen-rag-patterns",
+        "query": "spec audit fabric registry prerequisite detection",
+        "queryField": "content",
+        "size": 5,
+        "filter": { "term": { "patternType.keyword": "FLOW_DESIGN" } }
+      },
+      "output": { "patterns": "FLOW_DESIGN patterns for spec audit context" }
+    },
+
+    "n2": {
+      "handler": "decompose.handler",
+      "description": "Parse the spec content and extract: (a) service references, (b) constant candidates, (c) structured actor lists. Uses SpecAuditService.extractServiceReferences() + scanForConstants().",
+      "config": {
+        "serviceRef": "SpecAuditService",
+        "methods": ["extractServiceReferences", "scanForConstants"]
+      },
+      "output": {
+        "serviceRefs": "SpecServiceReference[]",
+        "constantCandidates": "SpecConstantCandidate[]"
+      }
+    },
+
+    "n3": {
+      "handler": "validate.handler",
+      "description": "SPEC-001 + SPEC-002 + SPEC-003 checks against fabric registry",
+      "checks": [
+        {
+          "id": "SPEC-001",
+          "check": "all-spec-services-have-fabric-interfaces",
+          "target": "${n2.serviceRefs}",
+          "config": { "registryIndex": "xiigen-fabric-registry" },
+          "severity": "score-0"
+        },
+        {
+          "id": "SPEC-002",
+          "check": "no-machine-constants-in-spec-formulas",
+          "target": "${n2.constantCandidates}",
+          "config": {},
+          "severity": "score-reduce-20"
+        },
+        {
+          "id": "SPEC-003",
+          "check": "no-cross-domain-overlap-unresolved",
+          "target": "${n2.serviceRefs}",
+          "config": { "registryIndex": "xiigen-fabric-registry" },
+          "severity": "score-0"
+        }
+      ],
+      "output": {
+        "valid": "boolean",
+        "verdict": "CLEAN | GAPS_FOUND | BLOCKING_GAPS",
+        "prereqGaps": "PrereqGap[]",
+        "violations": "string[]"
+      }
+    },
+
+    "n4": {
+      "handler": "route.handler",
+      "description": "Branch based on audit verdict",
+      "condition": "${n3.verdict}",
+      "branches": {
+        "CLEAN": "n6-clean",
+        "GAPS_FOUND": "n5-emit-gaps",
+        "BLOCKING_GAPS": "n5-emit-gaps"
+      }
+    },
+
+    "n5-emit-gaps": {
+      "handler": "feedback.handler",
+      "description": "Store audit report + emit PREREQ_GAP events for each gap found. Route to PrerequisiteOrderer (T581) for dependency ordering.",
+      "actions": [
+        {
+          "type": "store",
+          "index": "xiigen-spec-audit-reports",
+          "document": {
+            "specId": "${input.specId}",
+            "verdict": "${n3.verdict}",
+            "missingInterfaces": "${n3.violations}",
+            "prereqGapCount": "${n3.prereqGaps.length}",
+            "prereqGaps": "${n3.prereqGaps}",
+            "status": "PENDING_RESOLUTION"
+          }
+        },
+        {
+          "type": "emit",
+          "event": "spec.audit.gaps_found",
+          "payload": {
+            "specId": "${input.specId}",
+            "prereqGaps": "${n3.prereqGaps}",
+            "verdict": "${n3.verdict}"
+          }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "OUTCOME",
+          "index": "xiigen-rag-retrieval-outcomes",
+          "data": {
+            "flowId": "FLOW-PREREQ-01",
+            "taskType": "T580",
+            "patternsRetrieved": "${n1.patterns[*].patternId}",
+            "gapsFound": "${n3.prereqGaps.length}",
+            "verdict": "${n3.verdict}"
+          }
+        }
+      ]
+    },
+
+    "n6-clean": {
+      "handler": "feedback.handler",
+      "description": "Store clean audit report + emit spec.audit.clean event — original flow design can proceed immediately.",
+      "actions": [
+        {
+          "type": "store",
+          "index": "xiigen-spec-audit-reports",
+          "document": {
+            "specId": "${input.specId}",
+            "verdict": "CLEAN",
+            "prereqGapCount": 0,
+            "status": "RESOLVED"
+          }
+        },
+        {
+          "type": "emit",
+          "event": "spec.audit.clean",
+          "payload": { "specId": "${input.specId}" }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "OUTCOME",
+          "index": "xiigen-rag-retrieval-outcomes",
+          "data": {
+            "flowId": "FLOW-PREREQ-01",
+            "taskType": "T580",
+            "patternsRetrieved": "${n1.patterns[*].patternId}",
+            "gapsFound": 0,
+            "verdict": "CLEAN"
+          }
+        }
+      ]
+    }
+  },
+
+  "edges": [
+    ["n1", "n2"],
+    ["n2", "n3"],
+    ["n3", "n4"],
+    ["n4.GAPS_FOUND", "n5-emit-gaps"],
+    ["n4.BLOCKING_GAPS", "n5-emit-gaps"],
+    ["n4.CLEAN", "n6-clean"]
+  ],
+
+  "ironRules": [
+    "CF-789: Spec audit MUST run before any domain flow Phase A begins — never skip",
+    "CF-790: PREREQ_GAP events MUST be emitted before flow design proceeds — never swallow a gap"
+  ],
+
+  "qualityGates": [
+    "All services in the spec are accounted for (either found or emitted as gap)",
+    "No MACHINE constant reaches the genesis prompt without a FREEDOM config key registered"
+  ]
+}

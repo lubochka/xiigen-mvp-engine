@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xiigen.io/events/bundle-activation/BundleValidationCompleted",
+  "title": "BundleValidationCompleted",
+  "type": "object",
+  "required": ["specversion", "type", "source", "id", "data"],
+  "properties": {
+    "specversion": { "type": "string", "const": "1.0" },
+    "type": { "type": "string", "const": "io.xiigen.flow00.bundlevalidationcompleted" },
+    "source": { "type": "string" },
+    "id": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["bundleId", "correlationId"],
+      "properties": {
+        "bundleId": { "type": "string" },
+        "correlationId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

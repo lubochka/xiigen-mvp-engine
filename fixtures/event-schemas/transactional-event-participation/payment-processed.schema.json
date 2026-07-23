@@ -1,0 +1,14 @@
+{
+  "eventType": "payment.processed",
+  "flowId": "FLOW-09",
+  "version": "1.0.0",
+  "producedBy": "T100",
+  "properties": {
+    "paymentId": { "type": "string", "required": true },
+    "purchaseId": { "type": "string", "required": true },
+    "userId": { "type": "string", "required": true },
+    "eventId": { "type": "string", "required": true },
+    "transactionRef": { "type": "string", "required": true },
+    "processedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,22 @@
+name: data-connection-classification
+version: "1.0.0"
+load_order: null
+priority: SUPREME
+status: APPROVED
+description: |
+  Every document in XIIGen must be classified by connection type before any flow
+  planning begins. Determines who can see it, who can export it, and what travels
+  when a flow is packaged. SUPREME priority — load before any flow planning skill.
+triggers:
+  - "new flow"
+  - "RAG pattern"
+  - "export"
+  - "import"
+  - "data classification"
+  - "connection type"
+  - "flow planning"
+  - "FLOW_SCOPED"
+  - "TENANT_PRIVATE"
+  - "TENANT_EXPORTABLE"
+  - "connectionType"
+phase_created: "FLOW-0-TIER1-S1"

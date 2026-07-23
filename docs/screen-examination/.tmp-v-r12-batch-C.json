@@ -1,0 +1,59 @@
+{
+  "batch_id": "V-R12-C",
+  "captured_after": "RUN-181 (21c06e89) + recapture RUN-182 (d64174f9)",
+  "checks": [
+    {
+      "check_id": "V-R12-P2-1b",
+      "flow": "bundle-activation",
+      "state": "failed",
+      "role": "platform-admin",
+      "category": "V-R11 leftover recapture",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "Failed red pill badge top-right; title 'Bundle Activation' (no FLOW-00 badge); subtitle 'Bundle activation - state 6'; admin description 'Admin view of bundle lifecycle: validation, dry run, activation, degradation, and restoration.'; State 6 card with 'Validation failed - bundle has no required flows configured'; fields: bundleId=BDL-experimental-x, errorCode=EMPTY_REQUIRED_FLOWS, validatedAt=2026-04-19 08:40; NO 'Missing provider keys' amber dev banner; sidebar visible (desktop chrome).",
+      "evidence_tablet": "Same failure dashboard with Failed pill; title wraps appropriately; admin description wraps to 2 lines; State 6 card identical; fields panel identical; NO amber dev banner; sidebar visible.",
+      "evidence_mobile": "Hamburger menu + EN picker; title 'Bundle Activation' with Failed pill aligned right; State 6 'Validation failed' message wraps to 2 lines; fields grid stacked with bundleId/errorCode/validatedAt visible; NO amber dev banner; no FLOW-00 copy anywhere.",
+      "notes": "hideChrome=1 recapture shows failure-state dashboard cleanly. Code fix from RUN-177 (hideChrome) and original V-R11 fix (failed-state PNG + redaction) both held on recapture. All 3 viewports consistent."
+    },
+    {
+      "check_id": "R1-saas-mt-tenant-user",
+      "flow": "saas-multi-tenancy",
+      "state": "primary",
+      "role": "tenant-user",
+      "category": "regression",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "Title 'Workspace Status' (safe consumer copy, NOT 'Terminate Tenant'); Active green pill badge; blue info card: 'Your workspace is active. Contact your workspace administrator to change status. Lifecycle controls are available to tenant admins and platform admins only.'; NO destructive buttons; NO terminate controls; NO admin dashboard surfaces.",
+      "evidence_tablet": "Same read-only information card with Active pill + info text; same safe copy; NO destructive controls.",
+      "evidence_mobile": "Same Workspace Status card; Active badge; info text wraps to 3 lines; NO destructive controls; consumer-friendly view preserved.",
+      "notes": "V-R10 P0-1 fix held. tenant-user sees only the read-only information card with no lifecycle controls. Copy mentions 'tenant admins and platform admins only' clearly delegating authority. No destructive affordances present in any viewport."
+    },
+    {
+      "check_id": "R2-durable-sagas-4role",
+      "flow": "durable-sagas-compliance",
+      "state": "primary",
+      "role": "tenant-user+tenant-admin+platform-admin+platform-support",
+      "category": "regression",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "tenant-user: 'Your in-flight operations' consumer dashboard with plain-English description ('Operations that depend on several systems... the platform handles retries, compensation, and timeouts for you'), 'No operations in progress' empty state, Contact support link. NO Execute Saga button, NO admin dashboard, NO saga list. tenant-admin: 'Durable Saga Dashboard' with read-only banner 'tenant-scoped read-only view. Execute Saga is restricted to platform-admin. Contact support for help with stuck sagas.' + DISABLED (greyed) Execute Saga button + saga list visible (saga-sample-payment-001 Running, step statuses). platform-admin: Same dashboard with ENABLED blue Execute Saga button (active/clickable) - write access preserved. platform-support: Lock banner 'read-only for support access. Controls are disabled. Escalate to a platform-admin for any change.' + DISABLED Execute Saga button + saga list visible.",
+      "evidence_tablet": "Same 4 distinct views. tenant-user: consumer empty state with Contact support. tenant-admin: read-only banner + disabled Execute Saga. platform-admin: blue active Execute Saga. platform-support: escalation banner + disabled Execute Saga. All 4 views clearly differentiated.",
+      "evidence_mobile": "Same 4 distinct views with responsive layout. tenant-user: 'Your in-flight operations' with stacked consumer empty state. tenant-admin: read-only banner + disabled Execute Saga. platform-admin: blue ENABLED Execute Saga. platform-support: lock banner + escalate link + disabled Execute Saga.",
+      "notes": "V-R11 P0-2 fix held across all 4 roles x 3 viewports. No 'Execute Saga' leaking as enabled to consumer roles. platform-admin is the ONLY role with an active Execute Saga button. tenant-user gets a completely humanized consumer view (no technical dashboard surfaces). Role differentiation is crisp and the principle of least privilege is honored."
+    },
+    {
+      "check_id": "R3-dfw-redaction",
+      "flow": "dynamic-forms-workflows",
+      "state": "populated",
+      "role": "anonymous+tenant-user+tenant-admin",
+      "category": "regression",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "anonymous: Card shows ONLY State 3 header + 'Form schema published - accepting submissions' message; NO fields grid (no schemaId, no version, no publishedAt, no publicUrl leaked). tenant-user: Identical redacted view - State 3 + message only, NO fields grid. tenant-admin: Full fields grid visible with schemaId=FRM-2026-0419-017, version=3, publishedAt=2026-04-19 11:00, publicUrl=/forms/FRM-2026-0419-017 (admin role correctly sees all fields). Sidebar present in tenant-admin (Dashboard/Marketplace/Monitor/Events/Tenants).",
+      "evidence_tablet": "anonymous: Same redacted card (no fields grid). tenant-user: Same redacted card (no fields grid). tenant-admin: Full fields grid with all 4 keys (schemaId, version, publishedAt, publicUrl) - admin view preserved.",
+      "evidence_mobile": "anonymous: Title wraps, Published pill visible, State 3 + message only, NO fields. tenant-user: Identical redacted view. tenant-admin: Fields grid stacked vertically showing schemaId=FRM-2026-0419-017, version=3, publishedAt=2026-04-19 11:00, publicUrl=/forms/FRM-2026-0419-017 (wraps to 2 lines).",
+      "notes": "V-R11 P0-1 page-level defense-in-depth redaction held. Consumer-facing roles (anonymous, tenant-user) see no raw schemaId/version/publishedAt/publicUrl. tenant-admin still sees all fields (admin allowlist working). Redaction is consistent across all 3 viewports."
+    }
+  ],
+  "batch_summary": {
+    "held": 4,
+    "regressed": 0,
+    "partial": 0
+  }
+}

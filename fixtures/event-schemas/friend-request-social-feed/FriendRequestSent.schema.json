@@ -1,0 +1,11 @@
+{
+  "eventType": "FriendRequestSent",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "friend-request-processor",
+  "consumers": ["T74"],
+  "piiFields": [],
+  "allowedPayloadFields": ["requestId", "userIdA", "userIdB", "connectionId", "tenantId", "sentAt"],
+  "forbiddenFields": ["privacySettings", "blocklist", "userProfile"],
+  "notes": "Emitted by T73 after storeDocument and inline T81 privacy check passes. connectionId = hash(sorted([userIdA, userIdB]) + tenantId). T74 FriendRequestAcceptor/Rejector listens on this event."
+}

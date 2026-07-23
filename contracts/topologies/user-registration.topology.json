@@ -1,0 +1,75 @@
+{
+  "flowId": "FLOW-01",
+  "name": "User Registration and Onboarding",
+  "wave": 0,
+  "parallelWave": null,
+  "status": "NOT_STARTED",
+  "description": "Wave-0 registration funnel. All bundles (B-001..B-004) require FLOW-01 as their first flow. Sequential execution: T47 → T48 → T49.",
+  "nodes": [
+    {
+      "id": "T47",
+      "taskTypeId": "T47",
+      "name": "SSOAndEmailAuth",
+      "archetype": "routing",
+      "entry": "POST /auth/register or OAuth callback"
+    },
+    {
+      "id": "T48",
+      "taskTypeId": "T48",
+      "name": "EmailVerificationWaitState",
+      "archetype": "processing",
+      "entry": "UserRegistrationInitiated event from T47"
+    },
+    {
+      "id": "T49",
+      "taskTypeId": "T49",
+      "name": "OnboardingDelivery",
+      "archetype": "orchestration",
+      "entry": "EmailVerified event from T48"
+    }
+  ],
+  "edges": [
+    {
+      "from": "T47",
+      "to": "T48",
+      "event": "xiigen.user-registration.registration-initiated.v1",
+      "condition": "registration successful"
+    },
+    {
+      "from": "T47",
+      "to": null,
+      "event": "xiigen.user-registration.registration-failed.v1",
+      "condition": "duplicate email or SSO error — terminal"
+    },
+    {
+      "from": "T48",
+      "to": "T49",
+      "event": "xiigen.user-registration.email-verified.v1",
+      "condition": "verification token submitted and valid"
+    },
+    {
+      "from": "T48",
+      "to": null,
+      "event": "xiigen.user-registration.email-verification-expired.v1",
+      "condition": "24h SLA elapsed — terminal"
+    },
+    {
+      "from": "T49",
+      "to": null,
+      "event": "xiigen.user-registration.onboarding-completed.v1",
+      "condition": "all onboarding steps complete — triggers FLOW-02"
+    }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": ["ResendVerificationRequested"],
+      "notQueueable": ["ChangeEmailRequested"],
+      "notQueueableReason": {
+        "ChangeEmailRequested": "Email change revokes existing token — irreversible, requires live connection"
+      }
+    },
+    "backgroundSteps": []
+  }
+}

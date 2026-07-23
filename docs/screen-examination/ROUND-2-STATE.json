@@ -1,0 +1,64 @@
+{
+  "$schema": "round-state.v1",
+  "round": 2,
+  "startedAt": "2026-04-20",
+  "baseBranch": "claude/pensive-tereshkova-baf347",
+  "roundStartCommit": "1be26418",
+  "summary": "Round 2 deep UX sweep using 3 additional guidance docs (ARCHITECT-GUIDE-v2 / ARCHITECT-RESPONSE / UX-FIX-THREE-TRACK-PLAN) plus the 4 UI/UX skills and 12 prior critique docs. Round 1 landed 28 commits (RUN-87..115b): design refresh + regression fixes + systematic hero-metric sweep. Round 2 goes deeper: read P1/P5 business-logic docs per flow, fix real infrastructure bugs (not just visual polish), apply UX-FIX three-track plan (UX-3 infrastructure \u2192 UX-2 state derivation \u2192 UX-1 cosmetic).",
+
+  "newGuidanceLoaded": [
+    "ARCHITECT-RESPONSE-FrameworkVisualGrammarBuildOrder.md \u2014 5 UI grammars, build order (Batch A verdict grids \u2192 B topology \u2192 C card lists \u2192 D mixed), FLOW-29 as reference",
+    "ARCHITECT-GUIDE-v2-ScreenExaminationWithBusinessLogic.md \u2014 read docs/flow-coverage/{slug}/P1+P2+P5 before touching any page",
+    "UX-FIX-THREE-TRACK-PLAN.md \u2014 UX-3 (infra fixes) \u2192 UX-2 (state derivation, 29 flows) \u2192 UX-1 (polish)"
+  ],
+
+  "keyConcreteTargets": [
+    {
+      "id": "UX-3-F1",
+      "flow": "FLOW-20",
+      "severity": "P0",
+      "issue": "AuctionDashboardPage calls /api/dynamic/auctions and /api/dynamic/advertiser-budget \u2014 both return 400 INVALID_INDEX because server requires xiigen- prefix. Fix: use xiigen-auction-audit and xiigen-advertiser-budgets.",
+      "impact": "'Failed to fetch' visible as normal page content; all metrics show $0/0"
+    },
+    {
+      "id": "UX-3-F3",
+      "flow": "CROSS-CUTTING",
+      "severity": "P0",
+      "issue": "AdminCrudPanel renders raw 'No bootstrap records' string to users when ES index has zero docs",
+      "impact": "~20 flows show engineering-leak empty-state copy; root cause of ~80 BLOCKER PNGs"
+    },
+    {
+      "id": "UX-3-F4",
+      "flow": "FLOW-09",
+      "severity": "P1",
+      "issue": "Booking pages stuck in loading state (18/32 PNGs show booking-loading forever); needs timeout fallback",
+      "impact": "PNG capture fails with load spinner as primary content"
+    },
+    {
+      "id": "UX-2-batch",
+      "flow": "29 flows flagged",
+      "severity": "P1",
+      "issue": "MOCK_STATES labels are topology-edge strings copied from P1 inventory (e.g., 'BundleValidator \u2192 Orchestrator when (emits ...)') \u2014 not user-observable states",
+      "impact": "Mock-state PNGs show engineering service-graph edges as plain text in white divs"
+    }
+  ],
+
+  "commits": [
+    { "runId": "RUN-116", "hash": "dfdadd0b", "title": "UX-3-F1: /api/dynamic/bids \u2192 xiigen-auction-bids; human error copy on 400/5xx", "affects": ["FLOW-20"] },
+    { "runId": "RUN-117", "hash": "a0f8023e", "title": "UX-3-F3: AdminCrudPanel empty-state description \u2014 remove xiigen-* index name leak", "affects": ["cross-cutting"] },
+    { "runId": "RUN-118", "hash": "daf321f8", "title": "UX-3-F1: /api/dynamic/booking-confirmations \u2192 xiigen- prefix + human error copy", "affects": ["FLOW-09"] },
+    { "runId": "RUN-119", "hash": "7e4fdc31", "title": "RTL baseline: i18n languageChanged \u2192 document.dir flip; ms-56 logical margin on main-content offset", "affects": ["a11y/rtl"] },
+    { "runId": "RUN-120", "hash": "ac5f4e62", "title": "Module shell: tenant-user + referral-user roles now hide the XIIGen admin Sidebar (isConsumerShell) per module-vs-admin-panel directive", "affects": ["shell"] },
+    { "runId": "RUN-121", "hash": "28fbced2", "title": "Matrix plan (ROUND-2-MATRIX-PLAN.md): screen \u00d7 lang \u00d7 role \u00d7 phase \u00d7 state with 5-layer audit protocol derived from UI/UX skills", "affects": ["docs"] },
+    { "runId": "RUN-122", "hash": "64477843", "title": "Plain-language audit: FLOW-25 BFA \u2192 'Cross-Flow Policy' throughout + AdminCrudPanel ENGINE_INTERNAL badge \u2192 human 'Platform-only' pill (index name moved to tooltip)", "affects": ["FLOW-25","cross-cutting"] },
+    { "runId": "RUN-123", "hash": "4251e230", "title": "FLOW-20 advertiser-footer 'T626 AuctionBidProcessor' engineering leak removed (Nielsen H2)", "affects": ["FLOW-20"] },
+    { "runId": "RUN-123b", "hash": "70f9d901", "title": "FLOW-23 TemplateBuilder \u2014 T637/T638/T639/T640 prefixes stripped from h2s; engineering body copy (OCC, SETNX, PII, schema-evolution) rewritten; \ud83d\udd12/\u270f\ufe0f emoji state icons \u2192 emerald/amber dot + text pill", "affects": ["FLOW-23"] },
+    { "runId": "RUN-124", "hash": "45433e78", "title": "FLOW-29 progressive-disclosure: per-phase summary strip (Ingest/Retrieval/Gates/Knowledge/Feedback/Policy) above the canvas + 'Engine Internal' \u2192 'Platform only'", "affects": ["FLOW-29"] },
+    { "runId": "RUN-124b", "hash": "fdf18343", "title": "Sync ROUND-2-STATE.json with RUN-116..124", "affects": ["docs"] },
+    { "runId": "RUN-125", "hash": "a1069d14", "title": "RTL logical-property conversion on 6 tenant-consumer pages (text-left\u2192text-start, ml-auto\u2192ms-auto)", "affects": ["FLOW-06","FLOW-07","FLOW-10","FLOW-12","FLOW-17","FLOW-03"] },
+    { "runId": "RUN-126", "hash": "599f1740", "title": "Plain language: DataProcessResult<T> + FREEDOM config + MACHINE code on FLOW-45 HistoryBootstrap", "affects": ["FLOW-45"] },
+    { "runId": "RUN-126b", "hash": "a1de96d9", "title": "Plain language: FLOW-30 TenantLifecycleManager provisioning label", "affects": ["FLOW-30"] },
+    { "runId": "RUN-127", "hash": "51ba7b78", "title": "Plain language: FLOW-26 MetaFlowEngine 'DNA compliance violation' \u2192 'design convention violation'", "affects": ["FLOW-26"] },
+    { "runId": "RUN-127b", "hash": "025c9f55", "title": "Plain language: FLOW-47 CycleChain 'BFA + DNA guards' \u2192 'cross-flow policy + design convention checks'", "affects": ["FLOW-47"] }
+  ]
+}

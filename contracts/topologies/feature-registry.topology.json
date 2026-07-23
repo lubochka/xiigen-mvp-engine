@@ -1,0 +1,42 @@
+{
+  "flowId": "FLOW-36",
+  "flowName": "Feature Registry",
+  "version": "1.0",
+  "nodes": [
+    { "id": "T567", "name": "FeatureExtractor", "type": "ANALYSIS" },
+    { "id": "T568", "name": "FeatureSignalAggregator", "type": "GOVERNANCE" },
+    { "id": "T569", "name": "PortingCostEstimator", "type": "ANALYSIS" },
+    { "id": "T570", "name": "PortingDecisionGate", "type": "GOVERNANCE" },
+    { "id": "T571", "name": "PlatformAdapterGenerator", "type": "SYNTHESIS" },
+    { "id": "T572", "name": "PlatformSimulator", "type": "SIMULATION" },
+    { "id": "T573", "name": "FeaturePortingOrchestrator", "type": "ORCHESTRATION" }
+  ],
+  "edges": [
+    { "from": "FeatureExtractionRequested", "to": "T567" },
+    { "from": "T567", "to": "FeatureExtractionCompleted", "type": "terminal-success" },
+    { "from": "SignalIngested", "to": "T568" },
+    { "from": "PortingRequested", "to": "T573" },
+    { "from": "T573", "to": "T570", "label": "portingCandidate guard" },
+    { "from": "T570", "to": "PortingProhibited", "condition": "portingCandidate === false", "type": "terminal" },
+    { "from": "T570", "to": "T569", "condition": "portingCandidate === true" },
+    { "from": "T569", "to": "T570", "label": "cost estimate returned" },
+    { "from": "T570", "to": "PortingApproved", "condition": "APPROVE" },
+    { "from": "T570", "to": "PortingDeferred", "condition": "DEFER", "type": "terminal" },
+    { "from": "T570", "to": "PortingBlocked", "condition": "BLOCK", "type": "terminal" },
+    { "from": "PortingApproved", "to": "T571" },
+    { "from": "T571", "to": "T572" },
+    { "from": "T572", "to": "PortingComplete", "condition": "PASS", "type": "terminal" },
+    { "from": "T572", "to": "T571", "condition": "FAIL", "label": "PromptPatch retry (max 3)" }
+  ],
+  "clientStateMap": {
+    "nodes": [
+      { "nodeId": "MatrixView", "screen": "FeatureMatrixScreen", "humanTimescale": "instant" },
+      { "nodeId": "PortingProhibited", "screen": "PortingProhibitedScreen", "humanTimescale": "instant" },
+      { "nodeId": "PortingCostEstimation", "screen": "PortingCostScreen", "humanTimescale": "~5 seconds" },
+      { "nodeId": "AdapterGeneration", "screen": "PortingProgressScreen", "humanTimescale": "30s–5min" },
+      { "nodeId": "SimulatorRun", "screen": "PortingProgressScreen", "humanTimescale": "1–10 minutes" },
+      { "nodeId": "PortingComplete", "screen": "PortingSuccessScreen", "humanTimescale": "instant" },
+      { "nodeId": "PortingDeferred", "screen": "PortingDeferredScreen", "humanTimescale": "instant" }
+    ]
+  }
+}

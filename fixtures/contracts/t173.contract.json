@@ -1,0 +1,45 @@
+{
+  "taskTypeId": "T173",
+  "flowId": "FLOW-13",
+  "name": "QueryExecutionEngine",
+  "archetype": "QUERY_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "three-layer-security-gate-inline-quota",
+    "tier": "PLATFORM_ENFORCED",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "warehouse_query_quota_limit",
+    "neutralConcepts": [
+      "executionOrder: T187-quota=1, F422-RLS=2, F423-PII=3, executeQuery=4, recordUsage=5",
+      "T187 is INLINE — instantiated in constructor, NOT @Inject(). F426 does NOT exist.",
+      "F422 IRowLevelSecurityService is PLATFORM-ONLY — cannot be disabled",
+      "F423 IPIIMaskingService runs BEFORE result serialization — no opt-out",
+      "On quota_exceeded: emit QueryFailed(reason=quota_exceeded), return immediately",
+      "On rls_denied: emit QueryFailed(reason=rls_denied), return immediately",
+      "On masking_error: emit QueryFailed(reason=masking_error), return immediately"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F422", "interface": "IRowLevelSecurityService", "fabric": "DATABASE" },
+    { "factoryId": "F423", "interface": "IPIIMaskingService", "fabric": "DATABASE" },
+    { "factoryId": "F425", "interface": "IWarehouseAuditService", "fabric": "DATABASE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T173-1", "rule": "GATE ORDER IS MANDATORY: T187 quota (INLINE, layer 1) → F422 RLS (layer 2) → F423 PII masking (layer 3). Any reordering is a BUILD_FAILURE.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T173-2", "rule": "T187 QuotaManager is INLINE — instantiated in T173 constructor. F426 does NOT exist. Never @Inject(T187) or reference F426.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T173-3", "rule": "F422 IRowLevelSecurityService is PLATFORM-ONLY — tenant cannot disable. canBeDisabled: false.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T173-4", "rule": "F423 IPIIMaskingService must run BEFORE result serialization. No skipMasking flags accepted.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T173-5", "rule": "IWarehouseAuditService (F425) MUST record every query operation.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "three_layer_gate_immutable_order",
+    "inline_quota_manager_not_injected",
+    "platform_only_rls_no_bypass",
+    "pii_masking_before_serialization",
+    "warehouse_audit_every_query"
+  ],
+  "bfaRules": ["CF-FLOW13-AN-1"],
+  "tags": ["query", "security-gate", "quota", "rls", "pii-masking", "QUERY_ENGINE"],
+  "keywords": "query execution engine three layer security gate inline quota manager RLS PII masking PLATFORM-ONLY warehouse audit"
+}

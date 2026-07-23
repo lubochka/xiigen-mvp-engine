@@ -1,0 +1,14 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F953",
+  "factoryId": "F953",
+  "flowId": "FLOW-23",
+  "interface": "ILayoutSolverService",
+  "injectionToken": "LAYOUT_SOLVER_SERVICE",
+  "fabric": "NONE",
+  "fabricNote": "Pure computation — no fabric needed",
+  "platformOnly": false,
+  "taskTypes": ["T349"],
+  "bfaRules": ["CF-445"],
+  "note": "PURE COMPUTATION. No AI. No side effects. Same inputs = same outputs."
+}

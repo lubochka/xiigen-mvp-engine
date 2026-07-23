@@ -1,0 +1,266 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "phase": "phase-0-docker-vault-auth-preflight",
+  "generatedAt": "2026-05-06T07:20:32.0000000+03:00",
+  "environment": {
+    "serverPort": 33001,
+    "secretsProvider": "vault",
+    "vaultAddressInContainer": "http://vault:8200",
+    "vaultContainer": "xiigen-vault",
+    "vaultSealed": false,
+    "githubLogin": "lubochka",
+    "githubTokenSource": "<WORKSPACE>\\Documents\\keys.txt or gh auth fallback",
+    "tokenMaterialWrittenToEvidence": false
+  },
+  "serverHealth": {
+    "dockerComposeBuildServer": "docker compose -f docker-compose.yml up -d --build server",
+    "container": "xiigen-server",
+    "dockerHealth": "healthy",
+    "liveHealthEndpoint": "http://localhost:33001/health/live",
+    "liveHealthStatus": "passed"
+  },
+  "tenantCredentialSeeding": [
+    {
+      "tenantId": "acme-corp",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "active"
+    },
+    {
+      "tenantId": "northwind",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "active"
+    },
+    {
+      "tenantId": "tessera-collective",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "active"
+    }
+  ],
+  "roleMap": {
+    "source": [
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-03.md FLOW-13 Data Warehouse Analytics",
+      "server/src/api/flow-http.controller.ts"
+    ],
+    "architectureGuidePath": "docs/design-reviews/XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md",
+    "architectureGuidePresent": false,
+    "roles": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "tenant-user",
+      "tenant-admin",
+      "referral-user",
+      "freelancer",
+      "business-partner",
+      "event-organiser",
+      "platform-admin",
+      "platform-support"
+    ],
+    "activeRoles": [
+      "tenant-admin",
+      "event-organiser",
+      "freelancer",
+      "business-partner",
+      "platform-admin"
+    ],
+    "partialRoles": [
+      "tenant-user",
+      "platform-support"
+    ],
+    "testPrincipalSeeding": {
+      "method": "JWT principals minted in memory from tenant-specific Vault signing keys; no token material was written to disk or evidence.",
+      "rolesCoveredByRoleMap": [
+        "tenant-user",
+        "tenant-admin",
+        "freelancer",
+        "business-partner",
+        "event-organiser",
+        "platform-admin",
+        "platform-support"
+      ],
+      "rolesUsedInLiveMatrix": [
+        "tenant-admin",
+        "platform-support"
+      ]
+    },
+    "notes": [
+      "FLOW-13 role analysis marks tenant-admin, event-organiser, freelancer, business-partner, and platform-admin as full analytics roles.",
+      "Tenant-user and platform-support are partial role cells and are still represented in the seeded role map.",
+      "Runtime auth probe route is GET /api/runs/phase0-auth-probe/trace with declared roles tenant-user, tenant-admin, and platform-admin.",
+      "Valid FLOW-13 auth probes used tenant-admin because it is an active FLOW-13 role and accepted by the runtime route.",
+      "Wrong-role probe used platform-support: a FLOW-13 partial support role that is intentionally denied on the selected protected route.",
+      "The initial POST /api/flow/execute probe was not used for final evidence because successful authorization enters the AI generation executor and can exceed a short HTTP auth-probe timeout; the guard behavior is covered by the lightweight protected run-trace route."
+    ],
+    "primaryAuthProbeRoute": {
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "declaredRoles": [
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "validRoleProbe": "tenant-admin",
+      "wrongRoleProbe": "platform-support"
+    }
+  },
+  "liveAuthMatrix": [
+    {
+      "name": "valid acme tenant-admin token in acme tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid northwind tenant-admin token in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid tessera tenant-admin token in tessera tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "missing token denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "wrong platform-support role denied on run trace",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-support"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "total": 8,
+    "allPassed": true
+  },
+  "phaseCloseScan": {
+    "flowFileCount": 16,
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0
+  },
+  "verification": {
+    "dockerInfo": "docker info --format '{{.ServerVersion}}': 29.4.0.",
+    "vaultStatus": "docker exec ... vault status -format=json: sealed=false.",
+    "serverTypecheck": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location: exit 0.",
+    "serverJest": "Push-Location server; npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false; Pop-Location: 2 suites passed, 63 tests passed."
+  },
+  "commands": [
+    "docker info --format '{{.ServerVersion}}'",
+    "docker compose -f docker-compose.platform.yml up -d vault returned an existing container-name conflict; docker start xiigen-vault reused the existing dev Vault container",
+    "docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=<redacted> xiigen-vault vault status -format=json",
+    "docker exec ... vault kv put secret/xiigen/tenants/{tenant}/github_token value=<redacted>",
+    "docker exec ... vault kv put secret/xiigen/tenants/{tenant}/auth/jwt_signing_key value=<redacted> algorithm=HS256",
+    "gh auth status",
+    "gh api user --jq '.login'",
+    "docker compose -f docker-compose.yml up -d --build server",
+    "GET http://localhost:33001/health/live",
+    "POST http://localhost:33001/api/tenants for acme-corp, northwind, tessera-collective",
+    "GET http://localhost:33001/api/tenants",
+    "Live HTTP auth matrix against http://localhost:33001/api/runs/phase0-auth-probe/trace using curl status codes",
+    "server npx tsc --noEmit -p tsconfig.json --pretty false",
+    "server npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false",
+    "FLOW-13 phase-close scan: throwNew=0, clsImports=0, servicesMissingMicroserviceBase=0, directTenantContextImports=0, directSdkImports=0, anyTypes=0"
+  ],
+  "notes": [
+    "Vault Docker health reports unhealthy for the existing dev container, but vault status returned sealed=false and all KV readbacks succeeded.",
+    "Tokens were minted in memory from tenant-specific Vault signing keys for HTTP verification and were not written to evidence, docs, or env files.",
+    "PowerShell Invoke-WebRequest returned NullReferenceException for successful protected GET responses in this shell; final matrix used curl.exe status codes to avoid that client bug.",
+    "Cross-tenant failures are structural JWT failures because the server verifies with the context tenant key before checking the token tenant claim.",
+    "No tenant credentials, JWTs, or signing keys were printed, copied to docs, or committed."
+  ]
+}

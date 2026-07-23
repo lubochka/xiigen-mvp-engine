@@ -1,0 +1,120 @@
+﻿{
+    "flowId":  "FLOW-16",
+    "flowSlug":  "marketplace-payments",
+    "phase":  "phase4Point0TenantAOriginalFork",
+    "status":  "PASS",
+    "generatedAt":  "2026-05-06T18:10:34.4467015+03:00",
+    "tenant":  "acme-corp",
+    "repo":  {
+                 "fullName":  "lubochka/acme-corp--marketplace-payments",
+                 "url":  "https://github.com/lubochka/acme-corp--marketplace-payments",
+                 "finalVisibility":  "PRIVATE",
+                 "forkApiStatus":  "FORKED",
+                 "forkId":  "fork-marketplace-payments-acme-corp",
+                 "initialCommitSha":  "1e2e2794abc446fd65e43336ef42f82ae82b1c58"
+             },
+    "marketplaceApi":  {
+                           "endpoint":  "POST /api/marketplace/packages/marketplace-payments/fork",
+                           "source":  "marketplace API / ForkFlowHandlerService",
+                           "requestTenant":  "acme-corp",
+                           "initialVersion":  "1.0.1",
+                           "result":  "FORKED",
+                           "manualRepoCreation":  false,
+                           "localDirectorySubstitution":  false
+                       },
+    "infrastructure":  {
+                           "dockerServerHealth":  "PASS http://localhost:3000/health/live",
+                           "tenantRegistrySeededInRebuiltServer":  [
+                                                                       "acme-corp",
+                                                                       "northwind",
+                                                                       "tessera-collective"
+                                                                   ],
+                           "vaultCredentialsVerifiedWithoutPrinting":  true,
+                           "iSecretsManagerPathsSeeded":  [
+                                                              "secret/{tenant}/github_token",
+                                                              "secret/{tenant}/github_org_name",
+                                                              "secret/{tenant}/docker_registry_url",
+                                                              "secret/{tenant}/docker_registry_token"
+                                                          ],
+                           "tenantJwtSigningKeysReadWithoutPrinting":  true
+                       },
+    "complianceRepairBeforeFork":  {
+                                       "reason":  "Corrected FLOW-16 service compliance scan found four flow services that needed MicroserviceBase and TenantContextResolver before certification evidence could proceed.",
+                                       "serverTypeScript":  "PASS npx tsc --noEmit -p tsconfig.json --pretty false",
+                                       "marketplacePaymentsJest":  "PASS 8 suites, 108 tests",
+                                       "staticScan":  {
+                                                          "throwNew":  0,
+                                                          "servicesMissingMicroserviceBase":  0,
+                                                          "clsImports":  0,
+                                                          "directTenantContextImports":  0
+                                                      }
+                                   },
+    "githubActions":  {
+                          "runId":  25443537033,
+                          "workflowName":  "XIIGen Flow CI — marketplace-payments",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "1e2e2794abc446fd65e43336ef42f82ae82b1c58",
+                          "url":  "https://github.com/lubochka/acme-corp--marketplace-payments/actions/runs/25443537033",
+                          "job":  {
+                                      "id":  74641187638,
+                                      "name":  "Standalone flow test — marketplace-payments",
+                                      "conclusion":  "success",
+                                      "passedSteps":  [
+                                                          "Install",
+                                                          "TypeScript check",
+                                                          "Test",
+                                                          "Provenance"
+                                                      ]
+                                  },
+                          "nonBlockingAnnotation":  "GitHub reported Node.js 20 actions deprecation for checkout/setup-node; tracked as inherited debt-011, not a FLOW-16 phase blocker."
+                      },
+    "localCloneValidation":  {
+                                 "clonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--marketplace-payments-phase40-20260506-180553",
+                                 "npmInstall":  "PASS npm install --no-audit --no-fund",
+                                 "typeScript":  "PASS npx tsc --noEmit",
+                                 "jest":  "PASS npx jest --colors=false --forceExit, 1 suite / 1 test"
+                             },
+    "bundleManifest":  {
+                           "path":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--marketplace-payments-phase40-20260506-180553\\BUNDLE-MANIFEST.json",
+                           "flowId":  "FLOW-16",
+                           "flowSlug":  "marketplace-payments",
+                           "manifestItemCount":  112,
+                           "requiredBundleChecks":  {
+                                                        "completeModuleBundle":  true,
+                                                        "adaptationSurface":  true,
+                                                        "freedomDefaults":  true,
+                                                        "tenantConfig":  true,
+                                                        "ragSeeds":  true,
+                                                        "standalonePackage":  true
+                                                    }
+                       },
+    "screenshots":  [
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-16/phase-4.0-tenant-a-actions-run.png",
+                            "bytes":  63473,
+                            "exists":  true
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-16/phase-4.0-tenant-a-bundle-manifest.png",
+                            "bytes":  92685,
+                            "exists":  true
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-16/phase-4.0-tenant-a-repo.png",
+                            "bytes":  90901,
+                            "exists":  true
+                        }
+                    ],
+    "phaseGate":  {
+                      "tenantAForkedOriginalPlatformSource":  true,
+                      "realGitHubRepo":  true,
+                      "greenGitHubActions":  true,
+                      "localCloneValidated":  true,
+                      "bundleManifestValidated":  true,
+                      "repoScreenshotsCaptured":  true,
+                      "repoRestoredPrivate":  true,
+                      "noSecretsPrintedOrCommitted":  true
+                  }
+}

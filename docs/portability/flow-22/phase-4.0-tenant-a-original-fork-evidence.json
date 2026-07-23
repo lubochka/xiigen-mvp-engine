@@ -1,0 +1,177 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "phase": "phase4Point0TenantAOriginalFork",
+  "generatedAt": "2026-05-10T10:13:39.7831414+03:00",
+  "tenant": "acme-corp",
+  "protocolStep": "Tenant A forks the original platform source through the marketplace API.",
+  "forkApi": {
+    "method": "POST",
+    "endpoint": "http://localhost:3000/api/marketplace/packages/cms-publishing/fork",
+    "tenantHeader": "acme-corp",
+    "requestBody": {
+      "flowId": "FLOW-22",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.0"
+    },
+    "response": {
+      "forkId": "fork-cms-publishing-acme-corp",
+      "repoUrl": "https://github.com/lubochka/acme-corp--cms-publishing",
+      "repoFullName": "lubochka/acme-corp--cms-publishing",
+      "status": "FORKED",
+      "initialCommitSha": "1e5690a1974f2ea01a8f6aedbc24c0860f975479"
+    }
+  },
+  "adaptationSurface": {
+    "path": "docs/portability/flow-22/adaptation-surface-cms-publishing.json",
+    "validation": "ConvertFrom-Json passed before fork API call.",
+    "reason": "Fork assembler requires a flow-specific adaptation surface before original platform source can be packaged."
+  },
+  "vaultPathReconciliation": {
+    "reason": "The auth preflight path uses secret/xiigen/tenants/{tenant}/..., while ForkFlowHandlerService reads ISecretsManager keys from secret/{tenant}/{key}.",
+    "action": "Seeded fork-manager runtime keys for all three tenants without printing values.",
+    "keysSeeded": [
+      "github_token",
+      "github_org_name",
+      "docker_registry_url",
+      "docker_registry_token"
+    ],
+    "readback": "acme-corp github_token returned a non-empty value from the fork-manager path; value not printed."
+  },
+  "github": {
+    "repository": {
+      "nameWithOwner": "lubochka/acme-corp--cms-publishing",
+      "url": "https://github.com/lubochka/acme-corp--cms-publishing",
+      "defaultBranch": "main",
+      "privateAfterEvidenceCapture": true
+    },
+    "actionsRun": {
+      "id": 25622341980,
+      "name": "XIIGen Flow CI - cms-publishing",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "1e5690a1974f2ea01a8f6aedbc24c0860f975479",
+      "event": "push",
+      "htmlUrl": "https://github.com/lubochka/acme-corp--cms-publishing/actions/runs/25622341980",
+      "createdAt": "2026-05-10T06:56:59Z",
+      "updatedAt": "2026-05-10T06:57:44Z"
+    },
+    "jobs": [
+      {
+        "id": 75211167572,
+        "name": "Standalone flow test - cms-publishing",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-05-10T06:57:03Z",
+        "completedAt": "2026-05-10T06:57:43Z",
+        "htmlUrl": "https://github.com/lubochka/acme-corp--cms-publishing/actions/runs/25622341980/job/75211167572"
+      }
+    ]
+  },
+  "localBundleValidation": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--cms-publishing-phase40-20260510-095839",
+    "initialCloneAttempt": {
+      "command": "gh repo clone lubochka/acme-corp--cms-publishing",
+      "result": "failed with local Windows CA issuer error; retried with Git Schannel and GitHub auth header"
+    },
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "installNote": "The first npm install attempt hit the local command timeout because npm retried every registry request after UNABLE_TO_VERIFY_LEAF_SIGNATURE. The rerun used strict-ssl=false for this local validation only; GitHub Actions installed with the generated workflow and concluded success.",
+    "tscExitCode": 0,
+    "jestExitCode": 0,
+    "jestSummary": [
+      "Test Suites: 1 passed, 1 total",
+      "Tests: 1 passed, 1 total"
+    ],
+    "packExitCode": 0,
+    "package": {
+      "name": "@xiigen-fork/cms-publishing",
+      "version": "1.0.0-fork",
+      "private": true
+    },
+    "npmPack": {
+      "name": "@xiigen-fork/cms-publishing",
+      "version": "1.0.0-fork",
+      "filename": "xiigen-fork-cms-publishing-1.0.0-fork.tgz",
+      "fileCount": 119,
+      "unpackedSize": 390972,
+      "shasum": "d7ba5250da9bfc3aca5e76f43d586d0654d21a29"
+    },
+    "bundleManifest": {
+      "flowId": "FLOW-22",
+      "flowSlug": "cms-publishing",
+      "requiredBundleChecks": {
+        "completeModuleBundle": true,
+        "adaptationSurface": true,
+        "freedomDefaults": true,
+        "tenantConfig": true,
+        "ragSeeds": true,
+        "standalonePackage": true
+      },
+      "manifestEntryCount": 118,
+      "includesAdaptationSurface": true,
+      "includesTenantConfig": true,
+      "includesWorkflow": true,
+      "includesRagSeed": true
+    }
+  },
+  "screenshots": [
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-22/phase-4.0-tenant-a-repo.png",
+      "bytes": 124741,
+      "nonEmpty": true
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-22/phase-4.0-tenant-a-actions-run.png",
+      "bytes": 75128,
+      "nonEmpty": true
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-22/phase-4.0-tenant-a-bundle-manifest.png",
+      "bytes": 365540,
+      "nonEmpty": true
+    }
+  ],
+  "visibilityHandling": {
+    "temporarilyMadePublicForUnauthenticatedBrowserScreenshot": true,
+    "restoredPrivateAfterCapture": true
+  },
+  "phaseCloseVerification": {
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "passed": true
+    },
+    "stateEvidenceJsonParse": "passed for adaptation surface, phase evidence, and state JSON",
+    "secretPatternScan": "passed with zero high-risk token pattern hits"
+  },
+  "secretHandling": {
+    "githubTokenSource": "Key file or gh auth token, then tenant-scoped Vault; token value was never printed or written to evidence.",
+    "secretsPrinted": false,
+    "secretsCommitted": false,
+    "tenantCredentialsStoredInVault": true,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "realMarketplaceApiFork": true,
+    "realGitHubRepository": true,
+    "realGitHubActionsRun": true,
+    "completeBundleManifest": true,
+    "localTypeScript": true,
+    "localJest": true,
+    "localNpmPackDryRun": true,
+    "realGitHubScreenshots": true,
+    "noSyntheticRepos": true,
+    "noSecretsInEvidence": true,
+    "status": "passed"
+  },
+  "notes": [
+    "The generated fork uses Node 24 in the tenant workflow.",
+    "Repository visibility was restored to private after screenshot capture."
+  ]
+}

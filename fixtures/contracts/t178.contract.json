@@ -1,0 +1,37 @@
+{
+  "taskTypeId": "T178",
+  "flowId": "FLOW-13",
+  "name": "RetentionCohortAnalyzer",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "freedom-config-period-days-tenant-scoped-retention",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "warehouse_retention_period_days",
+    "neutralConcepts": [
+      "Retention cohorts are tenant-scoped",
+      "periodDays must match configured retention window from FREEDOM config key: warehouse_retention_period_days",
+      "periodDays must never be hardcoded in service code",
+      "Emit RetentionCohortGenerated (warehouse.retention.cohort) on completion"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T178-1", "rule": "Retention cohorts are tenant-scoped — cross-tenant retention analysis is forbidden.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T178-2", "rule": "periodDays MUST match FREEDOM config key 'warehouse_retention_period_days'. Hardcoded periodDays is a MACHINE violation.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T178-3", "rule": "Emit RetentionCohortGenerated (warehouse.retention.cohort) on completion.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "tenant_scoped_retention_cohorts",
+    "period_days_from_freedom_config_not_hardcoded",
+    "emit_retention_cohort_on_completion"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "retention", "cohort", "freedom-config", "tenant-scoped", "ANALYTICS_ENGINE"],
+  "keywords": "retention cohort analyzer tenant scoped periodDays FREEDOM config warehouse_retention_period_days RetentionCohortGenerated"
+}

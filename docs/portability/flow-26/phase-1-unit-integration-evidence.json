@@ -1,0 +1,56 @@
+{
+  "flowId": "FLOW-26",
+  "flowSlug": "meta-flow-engine",
+  "implementationSlug": "flow-extension-engine",
+  "phase": "phase1UnitIntegration",
+  "status": "completed",
+  "generatedAt": "2026-05-10T14:30:30.0115470Z",
+  "commands": [
+    {
+      "name": "server-typescript",
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0
+    },
+    {
+      "name": "flow-jest",
+      "command": "Push-Location server; npx jest --testPathPatterns=meta-flow-engine --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "testSuites": {
+        "passed": 8,
+        "total": 8
+      },
+      "tests": {
+        "passed": 250,
+        "total": 250
+      },
+      "snapshots": {
+        "total": 0
+      }
+    },
+    {
+      "name": "phase-static-scans",
+      "command": "Scanned server/src/engine/flows/flow-extension-engine for throw new, service-base inheritance, nestjs-cls imports, direct tenant-context references, direct SDK imports, and any usage.",
+      "exitCode": 0,
+      "scanSummary": {
+        "files": 24,
+        "throwNew": 0,
+        "exportedServiceMatches": 1,
+        "servicesMissingMicroserviceBase": 0,
+        "clsImports": 0,
+        "directTenantContextReferences": 1,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "notes": [
+        "The one tenant-context reference is a DNA rule description string in dna-compliance-checker.service.ts, not a direct import or runtime access."
+      ]
+    }
+  ],
+  "secretHandling": {
+    "secretsRead": false,
+    "secretsPrinted": false,
+    "tokenValuesWrittenToEvidence": false
+  },
+  "verdict": "PASS"
+}

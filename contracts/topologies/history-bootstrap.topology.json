@@ -1,0 +1,84 @@
+{
+  "flowId": "FLOW-45",
+  "flowName": "History Bootstrap",
+  "version": "1.0",
+  "status": "DESIGN_COMPLETE",
+  "bootstrapPrerequisite": true,
+  "knowledgeScope": "GLOBAL",
+  "nodes": [
+    {
+      "id": "T601",
+      "taskTypeId": "T601",
+      "name": "BootstrapFromDocumentsService",
+      "archetype": "data_pipeline",
+      "entry": "Engine bootstrap seedArchPhilosophy"
+    },
+    {
+      "id": "T602",
+      "taskTypeId": "T602",
+      "name": "ArchPhilosophyRetriever",
+      "archetype": "retrieval",
+      "entry": "Reads xiigen-architecture-philosophy with knowledgeScope=GLOBAL"
+    },
+    {
+      "id": "T603",
+      "taskTypeId": "T603",
+      "name": "PhilosophyPatternSummarizer",
+      "archetype": "data_pipeline",
+      "entry": "Groups architecture patterns by patternType"
+    },
+    {
+      "id": "T604",
+      "taskTypeId": "T604",
+      "name": "HistoryBootstrapOrchestrator",
+      "archetype": "orchestration",
+      "entry": "Runs seed, retrieve, summarize, and completion recording"
+    }
+  ],
+  "edges": [
+    {
+      "from": "EngineBootstrapRequested",
+      "to": "T601",
+      "event": "xiigen.history-bootstrap.seed-requested.v1"
+    },
+    {
+      "from": "T601",
+      "to": "T602",
+      "event": "xiigen.history-bootstrap.architecture-seeded.v1",
+      "condition": "arch-philosophy records stored"
+    },
+    {
+      "from": "T602",
+      "to": "T603",
+      "event": "xiigen.history-bootstrap.patterns-retrieved.v1",
+      "condition": "retrievedCount > 0"
+    },
+    {
+      "from": "T603",
+      "to": "T604",
+      "event": "xiigen.history-bootstrap.summary-ready.v1",
+      "condition": "summaries grouped by patternType"
+    },
+    {
+      "from": "T604",
+      "to": "HistoryBootstrapCompleted",
+      "event": "xiigen.history-bootstrap.completed.v1",
+      "condition": "completion record stored before enqueue"
+    }
+  ],
+  "seedManifest": {
+    "bootstrapPrerequisite": true,
+    "seedFiles": [
+      "server/src/bootstrap/history-seeds/arch-philosophy.json",
+      "server/src/bootstrap/history-seeds/history-bootstrap-design-corpus.json"
+    ],
+    "pshIndexes": [
+      "xiigen-architecture-philosophy",
+      "xiigen-philosophy-summaries",
+      "xiigen-bootstrap-completions",
+      "xiigen-bootstrap-orchestrator-idempotency",
+      "xiigen-philosophy-summarizer-idempotency"
+    ],
+    "bfaRules": ["CF-803", "CF-804"]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "flowId": "FLOW-15",
+  "name": "SaaS Multi-Tenancy",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T605",
+      "taskTypeId": "T605",
+      "name": "TenantProvisioningOrchestrator",
+      "archetype": "orchestration",
+      "entry": "POST /tenants (SETNX + synchronous config seed)"
+    },
+    {
+      "id": "T606",
+      "taskTypeId": "T606",
+      "name": "TenantConfigurationManager",
+      "archetype": "validation",
+      "entry": "MACHINE_LOCKED_KEYS compile-time guard"
+    },
+    {
+      "id": "T607",
+      "taskTypeId": "T607",
+      "name": "TenantQuotaMaterializer",
+      "archetype": "processing",
+      "entry": "Redis MULTI/EXEC quota materialization"
+    },
+    {
+      "id": "T608",
+      "taskTypeId": "T608",
+      "name": "TenantLifecycleManager",
+      "archetype": "governance",
+      "entry": "suspend-not-delete + cascade to subscriptions"
+    }
+  ],
+  "edges": [
+    {
+      "from": "TenantProvisioningRequested",
+      "to": "T605",
+      "event": "xiigen.saas-multi-tenancy.provisioning-requested.v1"
+    },
+    {
+      "from": "T605",
+      "to": "T606",
+      "event": "xiigen.saas-multi-tenancy.config-seed-required.v1"
+    },
+    {
+      "from": "T606",
+      "to": "T607",
+      "event": "xiigen.saas-multi-tenancy.quotas-materialized.v1"
+    },
+    {
+      "from": "T607",
+      "to": "T608",
+      "event": "xiigen.saas-multi-tenancy.tenant-active.v1"
+    },
+    {
+      "from": "T608",
+      "to": "TenantLifecycleComplete",
+      "event": "xiigen.saas-multi-tenancy.tenant-suspended.v1",
+      "condition": "terminal"
+    }
+  ]
+}

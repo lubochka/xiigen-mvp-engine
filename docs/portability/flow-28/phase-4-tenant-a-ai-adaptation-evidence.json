@@ -1,0 +1,230 @@
+{
+    "flowId":  "FLOW-28",
+    "flowSlug":  "blog-cms-modules",
+    "implementationSlug":  "blog-cms-modules",
+    "phase":  "phase-4-tenant-a-adaptation",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T19:49:37.7376174Z",
+    "tenant":  "acme-corp",
+    "adaptation":  {
+                       "changeType":  "Type A (bounded FREEDOM key value change)",
+                       "moduleName":  "acme-blog-studio",
+                       "packageName":  "@xiigen-fork/acme-blog-studio",
+                       "packageVersion":  "1.0.1",
+                       "sourceModuleName":  "blog-cms-modules",
+                       "sourcePackageName":  "@xiigen-fork/blog-cms-modules",
+                       "sourcePackageVersion":  "1.0.0-fork",
+                       "plainLanguagePolicy":  "Acme blog studio policy: stricter publish quality, shorter cache TTL, conservative AI retry behavior, smaller invalidation and taxonomy batches, and Acme editorial queue naming.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow28_max_content_per_author",
+                                                  "from":  120,
+                                                  "to":  80
+                                              },
+                                              {
+                                                  "key":  "flow28_autosave_interval_seconds",
+                                                  "from":  30,
+                                                  "to":  20
+                                              },
+                                              {
+                                                  "key":  "flow28_min_publish_quality_score",
+                                                  "from":  0.82,
+                                                  "to":  0.9
+                                              },
+                                              {
+                                                  "key":  "flow28_page_cache_ttl_seconds",
+                                                  "from":  300,
+                                                  "to":  120
+                                              },
+                                              {
+                                                  "key":  "flow28_cache_invalidation_batch_size",
+                                                  "from":  100,
+                                                  "to":  50
+                                              },
+                                              {
+                                                  "key":  "flow28_spam_probability_threshold",
+                                                  "from":  0.85,
+                                                  "to":  0.78
+                                              },
+                                              {
+                                                  "key":  "flow28_moderation_auto_approve_threshold",
+                                                  "from":  0.92,
+                                                  "to":  0.96
+                                              },
+                                              {
+                                                  "key":  "flow28_taxonomy_propagation_batch_size",
+                                                  "from":  250,
+                                                  "to":  100
+                                              },
+                                              {
+                                                  "key":  "flow28_ai_enhancement_retry_count",
+                                                  "from":  2,
+                                                  "to":  1
+                                              },
+                                              {
+                                                  "key":  "flow28_sitemap_rebuild_debounce_ms",
+                                                  "from":  15000,
+                                                  "to":  10000
+                                              },
+                                              {
+                                                  "key":  "flow28_review_queue_label",
+                                                  "from":  "Editorial review queue",
+                                                  "to":  "Acme editorial review"
+                                              },
+                                              {
+                                                  "key":  "flow28_module_name",
+                                                  "from":  "blog-cms-modules",
+                                                  "to":  "acme-blog-studio"
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "Tenant scope guard remains mandatory and cannot be disabled.",
+                                                   "Only published content can be served, indexed, cached, or added to sitemap output.",
+                                                   "Comment content is sanitized before storage.",
+                                                   "Webhook dispatch remains SSRF gated and hook execution remains sandboxed.",
+                                                   "Store-before-enqueue ordering remains mandatory."
+                                               ]
+                   },
+    "tenantRepository":  {
+                             "repoFullName":  "lubochka/acme-corp--blog-cms-modules",
+                             "repoUrl":  "https://github.com/lubochka/acme-corp--blog-cms-modules",
+                             "sourceCommitSha":  "fd7483338089c46afaf55e58e47c89215a3ae33d",
+                             "adaptedCommitSha":  "a21701d977f76b93a9914ec78c88e48faa36dd1f",
+                             "defaultBranch":  "main",
+                             "clonePath":  "C:/Projects/xiigen-fork-clones/acme-corp--blog-cms-modules-phase40-20260510-223014",
+                             "workingTreeClean":  true,
+                             "visibilityAfterEvidenceCapture":  "PRIVATE",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/blog-cms-modules-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "adaptationHistoryEntries":  1
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — blog-cms-modules",
+                          "runId":  25637982278,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "a21701d977f76b93a9914ec78c88e48faa36dd1f",
+                          "createdAt":  "2026-05-10T19:42:26Z",
+                          "updatedAt":  "2026-05-10T19:43:07Z",
+                          "url":  "https://github.com/lubochka/acme-corp--blog-cms-modules/actions/runs/25637982278"
+                      },
+    "tenantCloneVerification":  {
+                                    "commands":  [
+                                                     "npx tsc --noEmit --pretty false",
+                                                     "npx jest --colors=false --forceExit",
+                                                     "npm pack --dry-run --json"
+                                                 ],
+                                    "results":  {
+                                                    "tscExit":  0,
+                                                    "jestExit":  0,
+                                                    "jestSuitesPassed":  2,
+                                                    "jestSuitesTotal":  2,
+                                                    "jestTestsPassed":  4,
+                                                    "jestTestsTotal":  4,
+                                                    "packDryRunExit":  0,
+                                                    "packEntryCount":  128
+                                                }
+                                },
+    "localRegistry":  {
+                          "registry":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/acme-blog-studio",
+                          "publishedVersion":  "1.0.1",
+                          "viewCommand":  "npm view @xiigen-fork/acme-blog-studio version --registry http://localhost:4873",
+                          "viewReturned":  "1.0.1",
+                          "verified":  true
+                      },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/repo-evidence/flow-28",
+                        "files":  [
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-28/phase-4-tenant-a-v1.0.1-actions-success.png",
+                                          "bytes":  77286
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-28/phase-4-tenant-a-v1.0.1-github-listing.png",
+                                          "bytes":  132663
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-28/phase-4-tenant-a-v1.0.1-package-json.png",
+                                          "bytes":  119231
+                                      }
+                                  ],
+                        "pngCount":  3,
+                        "zeroByteCount":  0,
+                        "realGitHubPages":  true,
+                        "repoTemporarilyPublicForScreenshots":  true,
+                        "repoRestoredPrivate":  true
+                    },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-10T19:46:54.9792247Z",
+                           "serverBaseUrl":  "http://localhost:3000",
+                           "path":  "/api/runs/phase4-tenant-a-adaptation-auth-probe/trace",
+                           "passed":  12,
+                           "total":  12,
+                           "failed":  0,
+                           "allPassed":  true,
+                           "checks":  [
+                                          "valid own-tenant platform-admin token returns 200 for all three tenants",
+                                          "missing token returns 401 for all three tenants",
+                                          "platform-support wrong-role token returns 403 for all three tenants",
+                                          "acme token in northwind context returns 401",
+                                          "northwind token in tessera context returns 401",
+                                          "acme token in tessera context returns 401"
+                                      ]
+                       },
+    "phaseCloseVerification":  {
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=blog-cms-modules --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  5,
+                                                      "tests":  124
+                                                  },
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "flowScans":  {
+                                                     "sourceFlowFileCount":  18,
+                                                     "adaptedFlowFileCount":  18,
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0,
+                                                     "failureLines":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "signingKeysPrinted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantAAdaptedFlow":  true,
+                      "tenantACommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "liveAuthMatrixPassed":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBInstallAdaptPublish":  true
+                  },
+    "verdict":  "PASS"
+}

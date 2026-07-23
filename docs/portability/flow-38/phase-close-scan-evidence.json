@@ -1,0 +1,24 @@
+{
+    "flowId":  "FLOW-38",
+    "flowSlug":  "rag-quality-feedback",
+    "phase":  "phase-close-scans",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T21:15:25.9457268Z",
+    "scans":  {
+                  "throwNew":  0,
+                  "servicesMissingMicroserviceBase":  0,
+                  "clsImports":  0,
+                  "directTenantContextImports":  0,
+                  "directSdkImports":  0,
+                  "typedAny":  0
+              },
+    "commands":  [
+                     "Select-String throw new over server/src/engine/flows/rag-quality-feedback/**/*.ts excluding specs",
+                     "Select-String export class.*Service without extends MicroserviceBase excluding specs",
+                     "Select-String ClsService / nestjs-cls imports excluding specs",
+                     "Select-String direct TenantContext imports excluding specs",
+                     "Select-String direct SDK imports excluding specs",
+                     "Select-String typed any patterns excluding specs"
+                 ],
+    "verdict":  "PASS"
+}

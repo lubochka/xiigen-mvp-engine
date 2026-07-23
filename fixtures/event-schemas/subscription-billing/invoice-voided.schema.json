@@ -1,0 +1,11 @@
+{
+  "eventType": "invoice.voided",
+  "flowId": "FLOW-12",
+  "version": "1.0.0",
+  "properties": {
+    "invoiceId": { "type": "string", "required": true },
+    "subscriptionId": { "type": "string", "required": true },
+    "reason": { "type": "string", "enum": ["CANCELLED", "PAUSED"], "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

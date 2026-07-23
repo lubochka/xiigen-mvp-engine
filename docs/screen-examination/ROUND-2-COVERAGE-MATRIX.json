@@ -1,0 +1,1159 @@
+{
+  "$schema": "round-2-coverage-matrix.v1",
+  "round": 2,
+  "branch": "claude/pensive-tereshkova-baf347",
+  "date": "2026-04-20",
+  "authority": [
+    "/.impeccable.md",
+    "docs/screen-examination/PER-IMAGE-VALIDATION-TEMPLATE.md",
+    "docs/screen-examination/ROUND-2-MATRIX-PLAN.md",
+    ".claude/skills/flow-prep-library/planning--business-flows-registry.md"
+  ],
+  "explanation": "One entry per (flow × role × language × phase × state) cell examined. Cells not yet examined are marked NOT_YET_EXAMINED at the flow level so gaps are explicit rather than invisible. Seven axes tracked per cell: external-vs-internal framing, role branching, language, business-logic phase/state, human-friendliness, 5-layer UX audit, follow-ups. Round 2 commits RUN-116..127c reference the audit_commit field on each passing cell.",
+  "axis_legend": {
+    "axis_A_framing": "external-public | external-tenant-module | internal-tenant-admin | internal-platform",
+    "axis_B_role": "verdict of role-appropriate content + primary CTA",
+    "axis_C_language": "en baseline verified; he-RTL layout flip + logical props; fr deferred",
+    "axis_D_phase_state": "phase from P1 + state: empty|loading|populated|error|success",
+    "axis_E_human_friendly": "acronym/jargon leak count + non-technical reviewer test",
+    "axis_F_ux_skills": "5 layers: accessibility · AI-slop · Nielsen H1/H2/H8/H9 · grammar · intent-first",
+    "axis_G_followups": "open items + target run"
+  },
+  "all_48_flows_index": {
+    "explanation": "Every flow in the product with its current round-level audit status, so the 24 NOT_YET_EXAMINED flows are visible at a glance rather than buried in a sibling list. Status values: EXAMINED_PASS (detailed cells below), EXAMINED_PARTIAL (some cells passed, some still pending), TOUCHED_ROUND_2 (fix landed this round but not yet template-audited), NOT_YET_EXAMINED (no round-1/round-2 work), INTERNAL_ONLY (external adapter / no tenant UI by design).",
+    "status": {
+      "FLOW-00_bundle-activation": "EXAMINED_PASS (RUN-141 role-aware activation wizard, 6 clean MOCK_STATES, no leaks)",
+      "FLOW-01_user-registration": "TOUCHED_ROUND_1 (RUN-82 SSO polish) — full template not run",
+      "FLOW-02_profile-enrichment": "EXAMINED_PASS (RUN-141 role-aware QuestionnairePage + debounce/processing states)",
+      "FLOW-03_event-management": "EXAMINED_PASS (2026-05-01 mobility/auth cascade: 162 screenshots across six cascade points, Hebrew right-to-left included for every role, zero blocked findings)",
+      "FLOW-04_event-attendance": "EXAMINED_PASS (2026-05-03 post-cert UX cleanup: source phase 3 plus Hebrew RTL and mobile RSVP/organiser follow-ups closed, zero blocked findings; follows slug/pages despite F1 spec mismatch)",
+      "FLOW-05_completion-gamification": "EXAMINED_PARTIAL (RUN-109 tenant-admin admin-stats; learner kiosk not yet)",
+      "FLOW-06_user-groups-communities": "EXAMINED_PASS (RUN-92 tenant-user cell)",
+      "FLOW-07_friend-request-social-feed": "EXAMINED_PASS (RUN-89 tenant-user + RUN-115 platform-admin + 2026-05-03 Phase 3 7-role matrix)",
+      "FLOW-08_marketplace": "EXAMINED_PASS (RUN-90 tenant-user + anonymous)",
+      "FLOW-09_transactional-event-participation": "EXAMINED_PARTIAL (RUN-118 tenant-user booking; ticket-purchase CFI-12 pending)",
+      "FLOW-10_reviews-reputation": "EXAMINED_PASS (RUN-98 tenant-user Yelp-style)",
+      "FLOW-11_schema-registry-dag": "EXAMINED_PARTIAL (RUN-130 subtitle leaks cleaned; full template not run)",
+      "FLOW-12_subscription-billing": "EXAMINED_PASS (RUN-93 tenant-admin + RUN-113 platform-admin)",
+      "FLOW-13_data-warehouse-analytics": "EXAMINED_PASS (5 role cells across RUN-100, 114)",
+      "FLOW-14_etl-data-integration": "EXAMINED_PASS (2026-05-06 mobility/auth Phase 3 four-role matrix: tenant-admin, tenant-user, platform-admin, platform-support; 12 role PNGs + 51 flow PNGs, zero blocked findings)",
+      "FLOW-15_saas-multi-tenancy": "EXAMINED_FIXED (RUN-141 TenantLifecyclePage: status badge SCREAMING_SNAKE → sentence case; error echoes + cascadeToSubscriptions/DataPurgeRequested → human language; TenantProvisioningPage already clean)",
+      "FLOW-16_marketplace-payments": "EXAMINED_PASS (RUN-97 + RUN-123 tenant-user checkout)",
+      "FLOW-17_freelancer-marketplace": "EXAMINED_PARTIAL (RUN-94 anonymous; freelancer + business-partner bidding pending)",
+      "FLOW-18_visual-flow-engine": "EXAMINED_PASS (RUN-95 tenant-admin Save/Publish hierarchy)",
+      "FLOW-19_durable-sagas-compliance": "EXAMINED_FIXED (RUN-141 SagaDashboardPage: status badge + step status SCREAMING_SNAKE → sentence case; 'Trigger Compensation (LIFO)' → 'Roll back steps (reverse order)')",
+      "FLOW-20_ads-platform": "EXAMINED_PASS (RUN-91 business-partner + RUN-111 platform-admin)",
+      "FLOW-21_dynamic-forms-workflows": "EXAMINED_PASS (RUN-141 8 MOCK_STATES, DSL-based role-condition form — clean)",
+      "FLOW-22_cms-publishing": "EXAMINED_PASS (RUN-96 anonymous reader + RUN-112 platform-admin)",
+      "FLOW-23_form-builder-templates": "EXAMINED_PASS (RUN-123b tenant-admin)",
+      "FLOW-24_ai-safety-moderation": "EXAMINED_PARTIAL (anonymous reporter + tenant-admin + platform-admin cells; native <select> deferred)",
+      "FLOW-25_bfa-cross-flow-governance": "EXAMINED_PASS (RUN-122 platform-admin BFA → Cross-Flow Policy)",
+      "FLOW-26_meta-flow-engine": "EXAMINED_PARTIAL (RUN-127 + RUN-133 platform-admin state labels)",
+      "FLOW-27_human-interaction-gate": "EXAMINED_PASS (RUN-101 tenant-admin + platform-admin)",
+      "FLOW-28_blog-cms-modules": "EXAMINED_PARTIAL (RUN-105 platform-admin; public reader pending)",
+      "FLOW-29_adaptive-rag-deep-research": "EXAMINED_PASS (RUN-124 platform-admin + phase-strip progressive disclosure)",
+      "FLOW-30_tenant-lifecycle-manager": "EXAMINED_PASS (RUN-126b platform-admin)",
+      "FLOW-31_design-intelligence-engine": "EXAMINED_PASS (RUN-141 clean proposal-lifecycle MOCK_STATES, FREEDOM-gated tenant-admin branch)",
+      "FLOW-32_sharable-flows-marketplace": "EXAMINED_PASS (RUN-104 + RUN-132 platform-curator)",
+      "FLOW-33_system-initiation-bootstrap": "EXAMINED_PASS (RUN-103 platform-admin)",
+      "FLOW-34_marketplace-plugin-adapter": "EXAMINED_PASS (RUN-102 business-partner + platform-curator)",
+      "FLOW-35_meta-arbitration-engine": "EXAMINED_PASS (RUN-129 + RUN-132 platform-admin — 'arbiter' → 'policy evaluator')",
+      "FLOW-36_feature-registry": "EXAMINED_PARTIAL (RUN-132 + RUN-63 CFI-05 rewrite)",
+      "FLOW-37_design-system-governance": "EXAMINED_PARTIAL (RUN-131 platform-admin compatibility report)",
+      "FLOW-38_rag-quality-feedback": "EXAMINED_PASS (RUN-141 PlatformOpsPage wrap + seeded RagQualityScreen with pattern + cycle-outcome log)",
+      "FLOW-39_oss-curriculum": "EXAMINED_PASS (RUN-110 tenant-admin + platform-admin)",
+      "FLOW-40_client-push": "EXAMINED_PASS (RUN-107 platform-admin)",
+      "FLOW-41_adapter-ci-cd-bridge": "INTERNAL_ONLY (external adapter, no XIIGen page by design)",
+      "FLOW-42_meta-flow-orchestration": "INTERNAL_ONLY",
+      "FLOW-43_rag-quality-graph": "INTERNAL_ONLY",
+      "FLOW-44_ai-self-modification": "EXAMINED_PARTIAL (RUN-133 platform-admin)",
+      "FLOW-45_history-bootstrap": "EXAMINED_PASS (RUN-126 platform-admin)",
+      "FLOW-46_platform-agent": "EXAMINED_FIXED (RUN-141 MOCK_STATES: 'AF-4', 'Super judge', 'ENRICH_FAILED', 'PlatformContextEnricher' → 'Planning', 'Quality check', 'Context lookup failed', 'Gathering tenant context')",
+      "FLOW-47_cycle-chain-extension": "EXAMINED_PASS (RUN-127b platform-admin)",
+      "FLOW-48_admin-i18n": "EXAMINED_PARTIAL (infrastructure: RTL baseline from RUN-119; template not run on this specific page)",
+      "FLOW-49_module-lifecycle": "EXAMINED_PASS (RUN-141 plain-English module-lifecycle MOCK_STATES; FLOW-47 addendum)"
+    },
+    "tally": {
+      "EXAMINED_PASS": 31,
+      "EXAMINED_FIXED_THIS_ROUND": 3,
+      "EXAMINED_PARTIAL": 11,
+      "NOT_YET_EXAMINED": 0,
+      "TOUCHED_ROUND_1_NOT_AUDITED": 1,
+      "BLOCKED_CFI-12": 1,
+      "INTERNAL_ONLY_BY_DESIGN": 3,
+      "total_indexed_entries": 50,
+      "total_product_flows": 48,
+      "addenda_entries": "FLOW-41/42/43 are INTERNAL_ONLY adapters (no tenant UI) and FLOW-48/49 are addendum pages for i18n and module-lifecycle respectively; together they bring the indexed entry count to 50 against a product flow count of 48.",
+      "note_after_RUN-141": "Round 3 closed all 9 NOT_YET_EXAMINED cells via RUN-141 (bundle-activation, profile-enrichment, saas-multi-tenancy, durable-sagas-compliance, dynamic-forms-workflows, design-intelligence-engine, rag-quality-feedback, platform-agent, module-lifecycle). 3 of those 9 needed language fixes (saas, sagas, platform-agent); the other 6 passed clean. All 48 flows + 2 addenda now have a per-round verdict."
+    }
+  },
+  "coverage_summary": {
+    "total_flows": 48,
+    "flows_touched_round_2": 15,
+    "flows_touched_round_3": 9,
+    "flows_verified_primary_role_en_populated": 19,
+    "flows_verified_he_rtl_populated": 0,
+    "flows_with_explicit_cells_below": 24,
+    "flows_not_yet_examined_this_round": 0,
+    "language_coverage": {
+      "en": "verified on 10 flows (populated state, primary role only)",
+      "he_rtl": "baseline shipped RUN-119 (dir flip + ms-56); per-page visual audit pending on all flows",
+      "fr": "deferred until he is closed"
+    },
+    "role_coverage": {
+      "anonymous": "verified where applicable",
+      "public_marketplace_visitor": "verified where applicable",
+      "tenant_user": "module shell now correct post-RUN-120; per-flow per-role audit pending",
+      "referral_user": "module shell correct; audit pending",
+      "freelancer": "audit pending",
+      "business_partner": "FLOW-20 advertiser PASS; others pending",
+      "event_organiser": "FLOW-03 event creation PASS; others pending",
+      "tenant_admin": "FLOW-12/24/27/34/39 admin branches touched this round; audit pending for others",
+      "platform_support": "read-only variants not audited this round",
+      "platform_admin": "most touched this round; audit status below per flow"
+    },
+    "framing_coverage": {
+      "external_public": "anonymous + public-marketplace-visitor: sidebar hidden (RUN-49); shell correct",
+      "external_tenant_module": "tenant-user + referral-user: sidebar hidden (RUN-120); module shell correct",
+      "internal_tenant_admin": "sidebar visible for tenant-admin; appropriate",
+      "internal_platform": "sidebar visible for platform-admin + platform-support; appropriate"
+    },
+    "human_friendliness": {
+      "acronym_leaks_removed_this_round": [
+        "FLOW-25 BFA → Cross-Flow Policy (RUN-122)",
+        "FLOW-20 T626 AuctionBidProcessor footer (RUN-123)",
+        "FLOW-23 TemplateBuilder T637/T638/T639/T640 + OCC/SETNX/PII jargon + emoji state icons (RUN-123b)",
+        "FLOW-29 'Engine Internal' → 'Platform only' (RUN-124)",
+        "FLOW-45 DataProcessResult / FREEDOM config / MACHINE code (RUN-126)",
+        "FLOW-30 TenantLifecycle 'FREEDOM config' (RUN-126b)",
+        "FLOW-26 MetaFlow 'DNA compliance violation' (RUN-127)",
+        "FLOW-47 CycleChain 'BFA + DNA guards' (RUN-127b)",
+        "AdminCrudPanel raw ENGINE_INTERNAL enum → 'Platform-only' pill (RUN-122 cross-cutting)",
+        "AdminCrudPanel empty-state raw <code>{indexName}</code> leak (RUN-117)"
+      ],
+      "acronym_leaks_remaining": [
+        "QualityDashboardPage 'DNA-1'..'DNA-8' chart axis keys — platform-admin only; deferred",
+        "FLOW-25 CF-841 rule-ID values on mock-state field cards — platform-admin only; IDs retained for operator cross-reference",
+        "FLOW-37 design-system-governance 'T617-FlowCanvasInitializeGate' task-type IDs in compatibility report — platform-admin only; deferred",
+        "Monospace ChatPage / SagaDashboardPage / ComplianceAuditPage JSDoc references (not user-visible)"
+      ]
+    },
+    "ui_ux_skill_pass_rate_primary_cells": "10 of 10 touched flows now PASS at en × primary role × populated state"
+  },
+  "flows": {
+    "FLOW-00": {
+      "slug": "bundle-activation",
+      "grammar": "G1 PROGRESS_STRIP",
+      "cells": [
+        {
+          "role": "tenant-admin",
+          "language": "en",
+          "phase": "source role matrix",
+          "state": "activation wizard",
+          "axis_A_framing": "internal-tenant-admin",
+          "axis_B_role": "PASS - tenant-admin sees the three-step activate-a-bundle wizard",
+          "axis_C_language": "en PASS",
+          "axis_D_phase_state": "PASS - bundle selection, dry-run configuration, and activation action are visible",
+          "axis_E_human_friendly": "PASS - no blocked acronym or engine jargon leaks",
+          "axis_F_layers": "PASS - G1 progress strip/wizard grammar with clear primary action",
+          "verdict": "PASS",
+          "audit_commit": "FLOW-00 Phase 3 mobility/auth visual commit",
+          "followups": []
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "source role matrix plus state matrix",
+          "state": "bundle operations and admin state cards",
+          "axis_A_framing": "internal-platform",
+          "axis_B_role": "PASS - platform-admin sees cross-tenant bundle controls and admin-only state fields",
+          "axis_C_language": "en PASS",
+          "axis_D_phase_state": "PASS - 10 P1 screenshots, 9 mock-state screenshots, and 3 operation screenshots examined after role-correct capture",
+          "axis_E_human_friendly": "PASS - blocked terminology scan clean",
+          "axis_F_layers": "PASS - status chips, state cards, and checkpoint rows communicate the workflow",
+          "verdict": "PASS",
+          "audit_commit": "FLOW-00 Phase 3 mobility/auth visual commit",
+          "followups": []
+        },
+        {
+          "role": "platform-support",
+          "language": "en",
+          "phase": "source role matrix",
+          "state": "read-only inspector",
+          "axis_A_framing": "internal-platform",
+          "axis_B_role": "PASS - support sees disabled controls and escalation guidance",
+          "axis_C_language": "en PASS",
+          "axis_D_phase_state": "PASS - read-only bundle status list is visible",
+          "axis_E_human_friendly": "PASS - no blocked acronym or engine jargon leaks",
+          "axis_F_layers": "PASS - disabled controls and notice are clear",
+          "verdict": "PASS",
+          "audit_commit": "FLOW-00 Phase 3 mobility/auth visual commit",
+          "followups": []
+        }
+      ],
+      "mobilityAuthEvidence": {
+        "declaredAt": "2026-05-04T00:00:00.000Z",
+        "phase": "phase3VisualExamination",
+        "visualAudit": "docs/screen-examination/bundle-activation-phase3-visual-audit-2026-05-04.md",
+        "blockedFindings": 0,
+        "flowPngDirectory": "docs/e2e-snapshots/bundle-activation",
+        "flowPngCount": 32,
+        "rolePngDirectory": "docs/e2e-snapshots/c6-role-coverage",
+        "rolePngCount": 3,
+        "playwrightEvidence": "docs/portability/flow-00/phase-3-visual-examination-evidence.json"
+      }
+    },
+    "FLOW-06": {
+      "slug": "user-groups-communities",
+      "grammar": "G3 CARD_LIST",
+      "cells": [
+        {
+          "role": "tenant-user",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "axis_A_framing": "external-tenant-module",
+          "axis_B_role": "PASS — primary CTA is Join/Request based on groupType",
+          "axis_C_language": "en: PASS · he: NOT_YET_EXAMINED",
+          "axis_D_phase_state": "PASS — six seed groups across 4 activity states",
+          "axis_E_human_friendly": "PASS — 0 acronyms",
+          "axis_F_layers": {
+            "L1": "PASS",
+            "L2": "PASS (0 tells)",
+            "L3": "14/16",
+            "L4": "CARD_LIST ✓",
+            "L5": "PASS"
+          },
+          "verdict": "PASS",
+          "audit_commit": "9b1077cc (RUN-92) + a1069d14 (RUN-125 RTL logical)",
+          "followups": [
+            "he-RTL visual spot-check",
+            "loading + error state PNG capture"
+          ]
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "verdict": "NOT_YET_EXAMINED",
+          "followups": [
+            "run template against platform-admin view in a future run"
+          ]
+        }
+      ]
+    },
+    "FLOW-07": {
+      "slug": "friend-request-social-feed",
+      "grammar": "G3 CARD_LIST",
+      "cells": [
+        {
+          "role": "tenant-user",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "axis_A_framing": "external-tenant-module",
+          "axis_B_role": "PASS — feed cards with like/comment/share actions",
+          "axis_C_language": "en: PASS · he: NOT_YET_EXAMINED",
+          "axis_D_phase_state": "PASS — 4 seed posts",
+          "axis_E_human_friendly": "PASS — emoji action icons removed RUN-89",
+          "axis_F_layers": {
+            "L1": "PASS (SVG icons have aria-label)",
+            "L2": "PASS (0 tells)",
+            "L3": "13/16",
+            "L4": "CARD_LIST ✓",
+            "L5": "PASS"
+          },
+          "verdict": "PASS",
+          "audit_commit": "1b4e829e (RUN-89) + a1069d14 (RUN-125)",
+          "followups": [
+            "he-RTL spot-check"
+          ]
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "axis_A_framing": "internal-platform",
+          "axis_E_human_friendly": "PASS — 2 hero-metric tiles replaced with summary row (RUN-115)",
+          "verdict": "PASS",
+          "audit_commit": "f73669b5 (RUN-115)",
+          "followups": []
+        },
+        {
+          "role": "phase3-seven-role-matrix",
+          "language": "en",
+          "phase": "phase3VisualExamination",
+          "state": "primary-role-surfaces",
+          "roles": [
+            "anonymous",
+            "public-marketplace-visitor",
+            "tenant-user",
+            "freelancer",
+            "business-partner",
+            "tenant-admin",
+            "platform-admin"
+          ],
+          "viewports": [
+            "chromium-desktop",
+            "chromium-tablet",
+            "chromium-mobile"
+          ],
+          "png_root": "docs/e2e-snapshots/visual-audit/{viewport}/friend-request-social-feed/primary-{role}.png",
+          "axis_A_framing": "PASS - module-facing roles have no Engine Client sidebar; admin roles retain admin framing",
+          "axis_B_role": "PASS - all seven role-specific surfaces captured",
+          "axis_C_language": "PASS - English matrix",
+          "axis_D_phase_state": "PASS - populated tenant feed plus meaningful role composer/overview states",
+          "axis_E_human_friendly": "PASS - visible-text blocklist assertion passed for 21 screenshots",
+          "axis_F_layers": {
+            "L1": "PASS",
+            "L2": "PASS",
+            "L3": "PASS",
+            "L4": "CARD_LIST/forms, no CRUD table",
+            "L5": "PASS"
+          },
+          "verdict": "PASS",
+          "audit_commit": "FLOW-07 Phase 3 mobility/auth visual commit",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-08": {
+      "slug": "marketplace",
+      "grammar": "G3 CARD_LIST",
+      "cells": [
+        {
+          "role": "tenant-user",
+          "language": "en",
+          "phase": "PUBLISHED",
+          "state": "populated",
+          "axis_A_framing": "external-tenant-module",
+          "axis_B_role": "PASS — Register primary CTA per card",
+          "axis_C_language": "en: PASS · he: NOT_YET_EXAMINED",
+          "axis_D_phase_state": "PASS — 4 events covering 4 capacity states (plenty/filling/nearly full/sold out)",
+          "axis_E_human_friendly": "PASS — engineering 'PUBLISHED' chip removed RUN-90",
+          "axis_F_layers": {
+            "L1": "PASS (capacity strip has text label)",
+            "L2": "PASS (signature embedded)",
+            "L3": "14/16",
+            "L4": "CARD_LIST ✓",
+            "L5": "PASS — signature test explicit"
+          },
+          "verdict": "PASS",
+          "audit_commit": "9f6e1845 (RUN-90) + ac5f4e62 (RUN-120 shell)",
+          "followups": [
+            "he-RTL spot-check",
+            "loading + error state PNGs"
+          ]
+        },
+        {
+          "role": "anonymous",
+          "language": "en",
+          "phase": "PUBLISHED",
+          "state": "populated",
+          "axis_A_framing": "external-public",
+          "expected_shell": "kiosk (no sidebar)",
+          "actual_shell": "module (sidebar already hidden for anonymous per RUN-49)",
+          "verdict": "PASS",
+          "audit_commit": "a3ff8b81 (RUN-49)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-09": {
+      "slug": "transactional-event-participation",
+      "cells": [
+        {
+          "role": "tenant-user",
+          "language": "en",
+          "phase": "booking-confirmation",
+          "state": "populated",
+          "axis_A_framing": "external-tenant-module",
+          "axis_E_human_friendly": "PASS — engineering 'Booking not found' replaced with role-appropriate copy RUN-118; API URL fixed",
+          "verdict": "PASS",
+          "audit_commit": "daf321f8 (RUN-118)",
+          "followups": [
+            "error state PNG capture",
+            "he-RTL spot-check"
+          ]
+        }
+      ]
+    },
+    "FLOW-10": {
+      "slug": "reviews-reputation",
+      "grammar": "G3 CARD_LIST (with embedded rating panel)",
+      "cells": [
+        {
+          "role": "tenant-user",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "axis_A_framing": "external-tenant-module",
+          "axis_B_role": "PASS",
+          "axis_D_phase_state": "PASS — star rating + distribution bar + 4 recent reviews",
+          "axis_E_human_friendly": "PASS — engineering 'Score within valid range [1.0–5.0]' leak removed RUN-98",
+          "axis_F_layers": {
+            "L1": "PASS (stars have aria-label)",
+            "L2": "PASS",
+            "L3": "14/16",
+            "L4": "CARD_LIST + signature star-widget",
+            "L5": "PASS"
+          },
+          "verdict": "PASS",
+          "audit_commit": "7527abf7 (RUN-98) + a1069d14 (RUN-125 text-end)",
+          "followups": [
+            "he-RTL spot-check (ratings are LTR; stars direction)"
+          ]
+        }
+      ]
+    },
+    "FLOW-12": {
+      "slug": "subscription-billing",
+      "grammar": "G3 CARD_LIST",
+      "cells": [
+        {
+          "role": "tenant-admin",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "axis_A_framing": "internal-tenant-admin",
+          "axis_B_role": "PASS — FAILED invoice dominant with Retry action",
+          "axis_E_human_friendly": "PASS — MRR hero card → plan strip; engineering copy removed",
+          "axis_F_layers": {
+            "L1": "PASS",
+            "L2": "PASS (hero-metric tell removed)",
+            "L3": "15/16",
+            "L4": "CARD_LIST + state-first composition",
+            "L5": "PASS"
+          },
+          "verdict": "PASS",
+          "audit_commit": "7da51618 (RUN-93) + a1069d14 (RUN-125 text-start on thead)",
+          "followups": [
+            "he-RTL spot-check",
+            "downloaded-invoice PDF flow"
+          ]
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "axis_A_framing": "internal-platform",
+          "axis_E_human_friendly": "PASS — 3 hero-metric tiles → summary row (RUN-113)",
+          "verdict": "PASS",
+          "audit_commit": "f54d92a1 (RUN-113)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-13": {
+      "slug": "data-warehouse-analytics",
+      "cells": [
+        {
+          "role": "freelancer",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "axis_A_framing": "internal-tenant-admin (freelancer views own gig KPIs)",
+          "axis_E_human_friendly": "PASS — 3 hero tiles → summary row (RUN-100)",
+          "verdict": "PASS",
+          "audit_commit": "0fa2c422 (RUN-100)",
+          "followups": []
+        },
+        {
+          "role": "business-partner",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "0fa2c422 (RUN-100)",
+          "followups": []
+        },
+        {
+          "role": "event-organiser",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "0fa2c422 (RUN-100)",
+          "followups": []
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "0fa2c422 (RUN-100)",
+          "followups": []
+        },
+        {
+          "role": "tenant-user",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "2a8ba8f1 (RUN-114)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-14": {
+      "slug": "etl-data-integration",
+      "grammar": "G1 PROGRESS_STRIP plus connector CARD_LIST and role-specific inspector surfaces",
+      "cells": [
+        {
+          "role": "tenant-admin",
+          "language": "en",
+          "phase": "connector management",
+          "state": "populated",
+          "axis_A_framing": "internal-tenant-admin",
+          "axis_B_role": "PASS - connector KPIs, catalog, configure/disconnect actions, and add connector CTA",
+          "axis_C_language": "en PASS",
+          "axis_D_phase_state": "PASS - source, status, last sync, rows transferred, and credential state visible",
+          "axis_E_human_friendly": "PASS - no blocked acronym or developer-only text in the role screenshot",
+          "axis_F_layers": "PASS - connector card list is legible and not the raw CRUD table",
+          "verdict": "PASS",
+          "audit_commit": "FLOW-14 Phase 3 mobility/auth visual commit",
+          "followups": []
+        },
+        {
+          "role": "tenant-user",
+          "language": "en",
+          "phase": "data lineage transparency",
+          "state": "populated",
+          "axis_A_framing": "external-tenant-module",
+          "axis_B_role": "PASS - user sees lineage entries and data export action, not admin connector controls",
+          "axis_C_language": "en PASS",
+          "axis_D_phase_state": "PASS - profile data, purchase history, event attendance, sources, and update dates visible",
+          "axis_E_human_friendly": "PASS - flow-code labels and dev simulation hint removed in Phase 3",
+          "axis_F_layers": "PASS - plain module surface, no raw CRUD table",
+          "verdict": "PASS",
+          "audit_commit": "FLOW-14 Phase 3 mobility/auth visual commit",
+          "followups": []
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "cross-tenant ETL operations",
+          "state": "populated",
+          "axis_A_framing": "internal-platform",
+          "axis_B_role": "PASS - cross-tenant job queue, connector health, dead-letter queue, and run list",
+          "axis_C_language": "en PASS",
+          "axis_D_phase_state": "PASS - pipeline run connector, tenant, row count, duration, time, and state visible",
+          "axis_E_human_friendly": "PASS for platform-admin operator context",
+          "axis_F_layers": "PASS - dense operator layout, no exposed CRUD default",
+          "verdict": "PASS",
+          "audit_commit": "FLOW-14 Phase 3 mobility/auth visual commit",
+          "followups": []
+        },
+        {
+          "role": "platform-support",
+          "language": "en",
+          "phase": "read-only ETL inspection",
+          "state": "empty inspector",
+          "axis_A_framing": "internal-platform",
+          "axis_B_role": "PASS - read-only search, result placeholder, and escalation path",
+          "axis_C_language": "en PASS",
+          "axis_D_phase_state": "PASS - inspector state and escalation route visible",
+          "axis_E_human_friendly": "PASS for platform-support context",
+          "axis_F_layers": "PASS - no editable admin-only actions exposed",
+          "verdict": "PASS",
+          "audit_commit": "FLOW-14 Phase 3 mobility/auth visual commit",
+          "followups": []
+        }
+      ],
+      "mobilityAuthEvidence": {
+        "declaredAt": "2026-05-06T07:43:20.269Z",
+        "phase": "phase3VisualExamination",
+        "visualAudit": "docs/screen-examination/etl-data-integration-phase3-visual-audit-2026-05-06.md",
+        "blockedFindings": 0,
+        "flowPngDirectory": "docs/e2e-snapshots/etl-data-integration",
+        "flowPngCount": 51,
+        "rolePngDirectory": "docs/e2e-snapshots/visual-audit/{project}/etl-data-integration",
+        "rolePngCount": 12,
+        "playwrightEvidence": "docs/portability/flow-14/phase-3-visual-examination-evidence.json"
+      }
+    },
+    "FLOW-16": {
+      "slug": "marketplace-payments",
+      "grammar": "G5 KIOSK (checkout funnel)",
+      "cells": [
+        {
+          "role": "tenant-user",
+          "language": "en",
+          "phase": "CART",
+          "state": "populated",
+          "axis_A_framing": "external-tenant-module",
+          "axis_E_human_friendly": "PASS — 'Cart ID is required' / 'cart locked or inventory insufficient' replaced with human recovery copy RUN-97; T626 footer removed RUN-123",
+          "verdict": "PASS",
+          "audit_commit": "9267b62a (RUN-97) + 4251e230 (RUN-123)",
+          "followups": [
+            "he-RTL spot-check",
+            "success-state PNG capture"
+          ]
+        }
+      ]
+    },
+    "FLOW-17": {
+      "slug": "freelancer-marketplace",
+      "grammar": "G3 CARD_LIST",
+      "cells": [
+        {
+          "role": "anonymous",
+          "language": "en",
+          "phase": "browsing",
+          "state": "populated",
+          "axis_A_framing": "external-public",
+          "axis_D_phase_state": "PASS — competition-signal signature per card",
+          "verdict": "PASS",
+          "audit_commit": "a8d57d28 (RUN-94) + a1069d14 (RUN-125 text-start)",
+          "followups": [
+            "he-RTL spot-check"
+          ]
+        },
+        {
+          "role": "freelancer",
+          "language": "en",
+          "state": "populated",
+          "verdict": "NOT_YET_EXAMINED",
+          "followups": [
+            "audit freelancer bidding path against template"
+          ]
+        }
+      ]
+    },
+    "FLOW-18": {
+      "slug": "visual-flow-engine",
+      "grammar": "G4 TOPOLOGY_CANVAS",
+      "cells": [
+        {
+          "role": "tenant-admin",
+          "language": "en",
+          "phase": "draft",
+          "state": "populated",
+          "axis_A_framing": "internal-tenant-admin",
+          "axis_E_human_friendly": "PASS — Save vs Publish hierarchy fixed RUN-95",
+          "verdict": "PASS",
+          "audit_commit": "76325c83 (RUN-95)",
+          "followups": [
+            "progressive topology drill-down (shared component with FLOW-29)"
+          ]
+        }
+      ]
+    },
+    "FLOW-20": {
+      "slug": "ads-platform",
+      "grammar": "G3 CARD_LIST (campaigns) + G6 DASHBOARD",
+      "cells": [
+        {
+          "role": "business-partner",
+          "language": "en",
+          "phase": "populated",
+          "state": "populated",
+          "axis_A_framing": "internal-tenant-admin (advertiser self-service)",
+          "axis_E_human_friendly": "PASS — 4 hero tiles → summary row (RUN-91); T626 footer leak removed (RUN-123); bid URL fixed (RUN-116)",
+          "axis_F_layers": {
+            "L1": "PASS",
+            "L2": "PASS (budget-strip signature per campaign)",
+            "L3": "14/16",
+            "L4": "CARD_LIST ✓",
+            "L5": "PASS"
+          },
+          "verdict": "PASS",
+          "audit_commit": "18f1b263 (RUN-91) + 4251e230 (RUN-123) + dfdadd0b (RUN-116) + 7d4868bf (RUN-111)",
+          "followups": [
+            "he-RTL spot-check"
+          ]
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "7d4868bf (RUN-111)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-22": {
+      "slug": "cms-publishing",
+      "cells": [
+        {
+          "role": "anonymous",
+          "language": "en",
+          "phase": "reading-article",
+          "state": "populated",
+          "axis_A_framing": "external-public",
+          "expected_shell": "kiosk (zero chrome for article reader)",
+          "axis_E_human_friendly": "PASS — subscribe form now has real email input (RUN-96)",
+          "verdict": "PASS",
+          "audit_commit": "cea38df9 (RUN-96)",
+          "followups": [
+            "he-RTL reader view spot-check"
+          ]
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "71431322 (RUN-112)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-23": {
+      "slug": "form-builder-templates",
+      "cells": [
+        {
+          "role": "tenant-admin",
+          "language": "en",
+          "state": "populated",
+          "axis_A_framing": "internal-tenant-admin",
+          "axis_E_human_friendly": "PASS — T637/T638/T639/T640 + OCC/SETNX/PII jargon + emoji state icons all cleaned (RUN-123b)",
+          "verdict": "PASS",
+          "audit_commit": "70f9d901 (RUN-123b)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-24": {
+      "slug": "ai-safety-moderation",
+      "cells": [
+        {
+          "role": "anonymous",
+          "language": "en",
+          "state": "populated",
+          "axis_A_framing": "external-public",
+          "expected_shell": "kiosk (report-form surface)",
+          "verdict": "PASS_PARTIAL",
+          "follow_ups": [
+            "native <select> not yet replaced with custom component (impeccable ban #6 — but defensible for emergency report form)"
+          ],
+          "audit_commit": "9a4c4606 (RUN-108 tenant-admin branch)"
+        },
+        {
+          "role": "tenant-admin",
+          "language": "en",
+          "state": "populated",
+          "axis_E_human_friendly": "PASS",
+          "verdict": "PASS",
+          "audit_commit": "9a4c4606 (RUN-108)"
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "9a4c4606 (RUN-108)"
+        }
+      ]
+    },
+    "FLOW-25": {
+      "slug": "bfa-cross-flow-governance",
+      "cells": [
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "policy_console",
+          "state": "populated",
+          "axis_A_framing": "internal-platform",
+          "axis_E_human_friendly": "PASS — BFA → Cross-Flow Policy throughout (RUN-122)",
+          "verdict": "PASS",
+          "audit_commit": "64477843 (RUN-122)",
+          "followups": [
+            "CF-841 rule-ID values still visible on mock-state field cards — retained for platform-admin cross-referencing; flagged"
+          ]
+        }
+      ]
+    },
+    "FLOW-26": {
+      "slug": "meta-flow-engine",
+      "cells": [
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "generation_failed",
+          "state": "populated",
+          "axis_E_human_friendly": "PASS — 'DNA compliance violation' → 'design convention violation' (RUN-127)",
+          "verdict": "PASS",
+          "audit_commit": "51ba7b78 (RUN-127)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-27": {
+      "slug": "human-interaction-gate",
+      "cells": [
+        {
+          "role": "tenant-admin",
+          "language": "en",
+          "state": "populated",
+          "axis_A_framing": "internal-tenant-admin",
+          "verdict": "PASS",
+          "audit_commit": "309eeb3d (RUN-101)",
+          "followups": []
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "309eeb3d (RUN-101)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-29": {
+      "slug": "adaptive-rag-deep-research",
+      "grammar": "G4 TOPOLOGY_CANVAS",
+      "cells": [
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "stalled-run",
+          "state": "populated",
+          "axis_A_framing": "internal-platform",
+          "axis_E_human_friendly": "PASS — 'Engine Internal' → 'Platform only' (RUN-124); phase summary strip added for progressive disclosure",
+          "axis_F_layers": {
+            "L1": "PASS",
+            "L2": "PASS",
+            "L3": "15/16",
+            "L4": "TOPOLOGY_CANVAS ✓ with phase strip",
+            "L5": "PASS — budget strip signature"
+          },
+          "verdict": "PASS",
+          "audit_commit": "45433e78 (RUN-124)",
+          "followups": [
+            "full drill-down mode: hide non-selected phase nodes + show inter-phase pipes — larger refactor"
+          ]
+        }
+      ]
+    },
+    "FLOW-30": {
+      "slug": "tenant-lifecycle-manager",
+      "cells": [
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "provisioning",
+          "state": "populated",
+          "axis_E_human_friendly": "PASS — 'FREEDOM config' jargon removed (RUN-126b)",
+          "verdict": "PASS",
+          "audit_commit": "a1de96d9 (RUN-126b)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-34": {
+      "slug": "marketplace-plugin-adapter",
+      "cells": [
+        {
+          "role": "business-partner",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "324ee2df (RUN-102)",
+          "followups": []
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "324ee2df (RUN-102)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-39": {
+      "slug": "oss-curriculum",
+      "cells": [
+        {
+          "role": "tenant-admin",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "37d09a9a (RUN-110)",
+          "followups": []
+        },
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "state": "populated",
+          "verdict": "PASS",
+          "audit_commit": "37d09a9a (RUN-110)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-45": {
+      "slug": "history-bootstrap",
+      "cells": [
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "pattern-registry",
+          "state": "populated",
+          "axis_E_human_friendly": "PASS — DataProcessResult + FREEDOM config + MACHINE code replaced (RUN-126)",
+          "verdict": "PASS",
+          "audit_commit": "599f1740 (RUN-126)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-47": {
+      "slug": "cycle-chain-extension",
+      "cells": [
+        {
+          "role": "platform-admin",
+          "language": "en",
+          "phase": "extension-validated",
+          "state": "populated",
+          "axis_E_human_friendly": "PASS — 'BFA + DNA guards' → 'cross-flow policy + design convention checks' (RUN-127b)",
+          "verdict": "PASS",
+          "audit_commit": "025c9f55 (RUN-127b)",
+          "followups": []
+        }
+      ]
+    },
+    "FLOW-03": {
+      "slug": "event-management",
+      "grammar": "G5 multi-step event wizard plus event card list",
+      "cells": [
+        {
+          "role": "all nine Flow 03 roles",
+          "language": "English and Hebrew right-to-left, plus English mobile",
+          "phase": "mobility/auth cascade from source through Tenant C adaptation",
+          "state": "populated",
+          "axis_A_framing": "external public, external tenant module, internal tenant admin, and internal platform shells verified by role",
+          "axis_B_role": "passed for all roles in the cascade screenshots",
+          "axis_C_language": "English and Hebrew right-to-left passed; mobile English passed",
+          "axis_D_phase_state": "source, Tenant A adapted, Tenant B installed, Tenant B adapted, Tenant C installed, and Tenant C adapted states captured",
+          "axis_E_human_friendly": "passed with no machine-language blocker findings in the six audit records",
+          "axis_F_layers": "passed under the per-image visual audit records with zero blocked findings",
+          "verdict": "PASS",
+          "audit_commit": "615e1c032764291179c671783d1cad7a18e330dd",
+          "followups": [
+            "Re-run auth write-role checks after XIIGEN-AUTH-ROLES-GROUPS-PLAN-v3.0 phases 1 through 4 deploy."
+          ]
+        }
+      ],
+      "mobilityAuthEvidence": {
+        "declaredAt": "2026-05-01T04:03:32.802Z",
+        "earnedTier": "Tier D (full multi-tenant portability)",
+        "authStatus": "authentication deployed and verified with Docker/Vault",
+        "tierCapReason": "No tier cap remains after Docker/Vault auth deployment passed.",
+        "evidenceRecord": "docs/portability/flow-03/phase-I-certification-declaration-evidence.json",
+        "screenshotEvidence": {
+          "tenant-a-source": {
+            "directory": "docs/e2e-snapshots/event-management/tenant-a-source",
+            "pngCount": 27,
+            "expectedPngCount": 27
+          },
+          "tenant-a-v1.0.1": {
+            "directory": "docs/e2e-snapshots/event-management/tenant-a-v1.0.1",
+            "pngCount": 27,
+            "expectedPngCount": 27
+          },
+          "tenant-b-installed-from-a": {
+            "directory": "docs/e2e-snapshots/event-management/tenant-b-installed-from-a",
+            "pngCount": 27,
+            "expectedPngCount": 27
+          },
+          "tenant-b-v1.0.2": {
+            "directory": "docs/e2e-snapshots/event-management/tenant-b-v1.0.2",
+            "pngCount": 27,
+            "expectedPngCount": 27
+          },
+          "tenant-c-installed-from-b": {
+            "directory": "docs/e2e-snapshots/event-management/tenant-c-installed-from-b",
+            "pngCount": 27,
+            "expectedPngCount": 27
+          },
+          "tenant-c-v1.0.0": {
+            "directory": "docs/e2e-snapshots/event-management/tenant-c-v1.0.0",
+            "pngCount": 27,
+            "expectedPngCount": 27
+          }
+        },
+        "visualAudits": [
+          {
+            "file": "docs/screen-examination/event-management-phase3-visual-audit-2026-05-01.md",
+            "exists": true,
+            "blockedFindings": 0
+          },
+          {
+            "file": "docs/screen-examination/event-management-phase4-adapted-visual-audit-2026-05-01.md",
+            "exists": true,
+            "blockedFindings": 0
+          },
+          {
+            "file": "docs/screen-examination/event-management-phase5a-tenant-b-installed-visual-audit-2026-05-01.md",
+            "exists": true,
+            "blockedFindings": 0
+          },
+          {
+            "file": "docs/screen-examination/event-management-phase5b-tenant-b-adapted-visual-audit-2026-05-01.md",
+            "exists": true,
+            "blockedFindings": 0
+          },
+          {
+            "file": "docs/screen-examination/event-management-phase5c-tenant-c-installed-visual-audit-2026-05-01.md",
+            "exists": true,
+            "blockedFindings": 0
+          },
+          {
+            "file": "docs/screen-examination/event-management-phase5c5-tenant-c-adapted-visual-audit-2026-05-01.md",
+            "exists": true,
+            "blockedFindings": 0
+          }
+        ],
+        "roles": [
+          "anonymous",
+          "public-marketplace-visitor",
+          "tenant-user",
+          "referral-user",
+          "freelancer",
+          "business-partner",
+          "event-organiser",
+          "tenant-admin",
+          "platform-admin"
+        ],
+        "languages": [
+          "English",
+          "Hebrew right-to-left"
+        ],
+        "mobileCoverage": "English mobile captured for every role at every cascade point",
+        "dockerVaultAuthEvidence": "docs/portability/flow-03/phase-0-docker-vault-auth-evidence.json"
+      }
+    }
+  },
+  "flows_not_yet_examined_this_round": [
+    "FLOW-01 user-registration (round 1 SSO polish only; full template not run)",
+    "FLOW-02 profile-enrichment",
+    "FLOW-05 completion-gamification (admin branch only touched this round)",
+    "FLOW-11 schema-registry-dag",
+    "FLOW-15 saas-multi-tenancy",
+    "FLOW-19 durable-sagas-compliance",
+    "FLOW-21 dynamic-forms-workflows",
+    "FLOW-28 blog-cms-modules (platform-admin only this round)",
+    "FLOW-31 design-intelligence-engine",
+    "FLOW-32 sharable-flows-marketplace (platform-admin only this round)",
+    "FLOW-33 system-initiation-bootstrap (platform-admin only this round)",
+    "FLOW-35 meta-arbitration-engine",
+    "FLOW-36 feature-registry",
+    "FLOW-37 design-system-governance",
+    "FLOW-38 rag-quality-feedback",
+    "FLOW-40 client-push (platform-admin only this round)",
+    "FLOW-41/42/43/44 external adapters (INTERNAL_ONLY by design)",
+    "FLOW-46 platform-agent",
+    "FLOW-48 i18n-translation admin (RTL rendering itself tested; per-page template not yet run)"
+  ],
+  "he_rtl_visual_audit": {
+    "status": "BASELINE_SHIPPED_VISUAL_SPOT_CHECK_PENDING",
+    "baseline_commits": [
+      "7e4fdc31 (RUN-119 i18n dir flip + ms-56 logical margin)",
+      "a1069d14 (RUN-125 text-start / ms-auto on 6 tenant-consumer pages)"
+    ],
+    "pending_for_all_flows": "Per-page visual verification at dir=rtl with Playwright screenshot at he locale — not yet run this round. Expected blockers: physical ml-*/mr-*/left-*/right-* classes still present in admin-only pages (106 occurrences across 20 files per RUN-125 audit).",
+    "next_run": "RUN-128+ — capture he-RTL PNG for each of the 13 flows with cells verified above, triage per-page physical-direction class leaks"
+  },
+  "open_architectural_decisions": [
+    "Full topology drill-down (Level 2 per-phase view with inter-phase pipes) — build as shared TopologyCanvasDrillDown component retrofitted to FLOW-11/18/26/29/34/35/47, or retrofit each canvas separately? Deferred pending Luba decision.",
+    "Plain-language glossary ownership — should acronym substitutions be per-locale (Hebrew has its own translations) or English-first with i18n follow-up? Currently English-first.",
+    "Platform-admin-only engineering IDs — keep visible with plain-language companion (current), or hide behind a 'Show technical IDs' toggle?"
+  ],
+  "mobility_auth_round_2026_05_01": {
+    "FLOW_03_event_management": {
+      "declaredAt": "2026-05-01T04:03:32.802Z",
+      "earnedTier": "Tier D (full multi-tenant portability)",
+      "authStatus": "authentication deployed and verified with Docker/Vault",
+      "tierCapReason": "No tier cap remains after Docker/Vault auth deployment passed.",
+      "evidenceRecord": "docs/portability/flow-03/phase-I-certification-declaration-evidence.json",
+      "screenshotEvidence": {
+        "tenant-a-source": {
+          "directory": "docs/e2e-snapshots/event-management/tenant-a-source",
+          "pngCount": 27,
+          "expectedPngCount": 27
+        },
+        "tenant-a-v1.0.1": {
+          "directory": "docs/e2e-snapshots/event-management/tenant-a-v1.0.1",
+          "pngCount": 27,
+          "expectedPngCount": 27
+        },
+        "tenant-b-installed-from-a": {
+          "directory": "docs/e2e-snapshots/event-management/tenant-b-installed-from-a",
+          "pngCount": 27,
+          "expectedPngCount": 27
+        },
+        "tenant-b-v1.0.2": {
+          "directory": "docs/e2e-snapshots/event-management/tenant-b-v1.0.2",
+          "pngCount": 27,
+          "expectedPngCount": 27
+        },
+        "tenant-c-installed-from-b": {
+          "directory": "docs/e2e-snapshots/event-management/tenant-c-installed-from-b",
+          "pngCount": 27,
+          "expectedPngCount": 27
+        },
+        "tenant-c-v1.0.0": {
+          "directory": "docs/e2e-snapshots/event-management/tenant-c-v1.0.0",
+          "pngCount": 27,
+          "expectedPngCount": 27
+        }
+      },
+      "visualAudits": [
+        {
+          "file": "docs/screen-examination/event-management-phase3-visual-audit-2026-05-01.md",
+          "exists": true,
+          "blockedFindings": 0
+        },
+        {
+          "file": "docs/screen-examination/event-management-phase4-adapted-visual-audit-2026-05-01.md",
+          "exists": true,
+          "blockedFindings": 0
+        },
+        {
+          "file": "docs/screen-examination/event-management-phase5a-tenant-b-installed-visual-audit-2026-05-01.md",
+          "exists": true,
+          "blockedFindings": 0
+        },
+        {
+          "file": "docs/screen-examination/event-management-phase5b-tenant-b-adapted-visual-audit-2026-05-01.md",
+          "exists": true,
+          "blockedFindings": 0
+        },
+        {
+          "file": "docs/screen-examination/event-management-phase5c-tenant-c-installed-visual-audit-2026-05-01.md",
+          "exists": true,
+          "blockedFindings": 0
+        },
+        {
+          "file": "docs/screen-examination/event-management-phase5c5-tenant-c-adapted-visual-audit-2026-05-01.md",
+          "exists": true,
+          "blockedFindings": 0
+        }
+      ],
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "referral-user",
+        "freelancer",
+        "business-partner",
+        "event-organiser",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "languages": [
+        "English",
+        "Hebrew right-to-left"
+      ],
+      "mobileCoverage": "English mobile captured for every role at every cascade point",
+      "phaseICommitHash": "1a366e01b2146de770990f352fb11bbf6486d20e",
+      "dockerVaultAuthEvidence": "docs/portability/flow-03/phase-0-docker-vault-auth-evidence.json"
+    }
+  },
+  "lastUpdated": "2026-05-06T07:43:20.269Z",
+  "phaseICommitHash": "1a366e01b2146de770990f352fb11bbf6486d20e",
+  "dockerVaultAuthCommitHash": "1a366e01b2146de770990f352fb11bbf6486d20e"
+}

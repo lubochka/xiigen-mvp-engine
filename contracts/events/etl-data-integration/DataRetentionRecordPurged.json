@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DataRetentionRecordPurged",
+  "description": "Irreversible operation — compensation is audit-only. No undo event exists.",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "DataRetentionRecordPurged" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["purgeJobId","recordsDeleted","zone","retentionTtlDays","irreversible"],
+      "properties": {
+        "purgeJobId": { "type": "string" },
+        "recordsDeleted": { "type": "integer" },
+        "zone": { "type": "string" },
+        "retentionTtlDays": { "type": "integer" },
+        "irreversible": { "type": "boolean", "const": true, "description": "Compensation is audit-only" }
+      }
+    }
+  }
+}

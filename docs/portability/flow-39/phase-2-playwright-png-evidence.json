@@ -1,0 +1,68 @@
+{
+  "flowId": "FLOW-39",
+  "flowSlug": "oss-curriculum",
+  "phase": "phase-2-playwright-png",
+  "status": "completed",
+  "generatedAt": "2026-05-12T01:05:00.0000000+03:00",
+  "commands": [
+    {
+      "command": "Push-Location client; $env:FLOW39_SERVER_BASE='http://localhost:33001'; npx playwright test e2e/oss-curriculum.spec.ts e2e/oss-curriculum-crud.spec.ts e2e/oss-curriculum-mock-states.spec.ts --workers=1 --reporter=list; Pop-Location",
+      "exitCode": 0,
+      "result": "PASS",
+      "summary": "51/51 passed"
+    },
+    {
+      "command": "Push-Location client; npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts --grep 'C6-R39' --workers=1 --reporter=list; Pop-Location",
+      "exitCode": 0,
+      "result": "PASS",
+      "summary": "3/3 passed"
+    },
+    {
+      "command": "Push-Location client; npx playwright test e2e/run-65-regen.spec.ts --grep 'FLOW-39' --workers=1 --reporter=list; Pop-Location",
+      "exitCode": 0,
+      "result": "PASS",
+      "summary": "3/3 passed"
+    },
+    {
+      "command": "Push-Location client; npx playwright test e2e/visual-audit-all-flows.spec.ts --grep 'oss-curriculum' --workers=1 --reporter=list; Pop-Location",
+      "exitCode": 0,
+      "result": "PASS",
+      "summary": "3/3 passed"
+    }
+  ],
+  "pngEvidence": {
+    "flowSnapshots": {
+      "directory": "docs/e2e-snapshots/oss-curriculum",
+      "count": 13,
+      "minBytes": 33210,
+      "maxBytes": 184107
+    },
+    "c6RoleCoverage": {
+      "directory": "docs/e2e-snapshots/c6-role-coverage",
+      "count": 1,
+      "minBytes": 168798,
+      "maxBytes": 168798
+    },
+    "run65Regen": {
+      "directory": "docs/e2e-snapshots/run-65-regen",
+      "count": 1,
+      "minBytes": 184107,
+      "maxBytes": 184107
+    },
+    "visualAudit": {
+      "directory": "docs/e2e-snapshots/visual-audit/*/oss-curriculum",
+      "count": 9,
+      "minBytes": 46748,
+      "maxBytes": 321032
+    }
+  },
+  "contractFix": {
+    "reason": "The first Playwright run exposed stale FLOW-39 tests that asserted the removed AdminCrudPanel/default anonymous route. The tests now cover live API CRUD separately from the current role-aware platform-admin and anonymous UI branches.",
+    "files": [
+      "client/e2e/oss-curriculum.spec.ts",
+      "client/e2e/oss-curriculum-crud.spec.ts",
+      "client/e2e/oss-curriculum-mock-states.spec.ts"
+    ]
+  },
+  "verdict": "PASS"
+}

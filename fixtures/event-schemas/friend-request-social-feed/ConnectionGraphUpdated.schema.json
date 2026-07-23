@@ -1,0 +1,11 @@
+{
+  "eventType": "ConnectionGraphUpdated",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "connection-graph-writer",
+  "consumers": ["T79", "T80"],
+  "piiFields": [],
+  "allowedPayloadFields": ["connectionId", "userIdA", "userIdB", "tenantId", "edgeCount", "updatedAt"],
+  "forbiddenFields": ["fullAdjacencyList", "userProfile"],
+  "notes": "Emitted when the connection graph is updated (connection added or removed). edgeCount is aggregate — fullAdjacencyList is forbidden in event payload."
+}

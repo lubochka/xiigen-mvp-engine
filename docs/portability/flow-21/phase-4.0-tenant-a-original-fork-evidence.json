@@ -1,0 +1,149 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "phase4Point0TenantAOriginalFork",
+  "generatedAt": "2026-05-07T12:23:54.1212613+03:00",
+  "tenant": "acme-corp",
+  "protocolStep": "Tenant A forks the original platform source through the marketplace API.",
+  "forkApi": {
+    "method": "POST",
+    "endpoint": "http://localhost:3000/api/marketplace/packages/dynamic-forms-workflows/fork",
+    "tenantHeader": "acme-corp",
+    "requestBody": {
+      "flowId": "FLOW-21",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.0"
+    },
+    "response": {
+      "forkId": "fork-dynamic-forms-workflows-acme-corp",
+      "repoUrl": "https://github.com/lubochka/acme-corp--dynamic-forms-workflows",
+      "repoFullName": "lubochka/acme-corp--dynamic-forms-workflows",
+      "status": "FORKED",
+      "initialCommitSha": "79e1ae06674c424f926b7c7e3306d481ae54cce5"
+    }
+  },
+  "adaptationSurface": {
+    "path": "docs/portability/flow-21/adaptation-surface-dynamic-forms-workflows.json",
+    "validation": "ConvertFrom-Json passed before fork API call.",
+    "reason": "Fork assembler requires a flow-specific adaptation surface before original platform source can be packaged."
+  },
+  "github": {
+    "repository": {
+      "nameWithOwner": "lubochka/acme-corp--dynamic-forms-workflows",
+      "url": "https://github.com/lubochka/acme-corp--dynamic-forms-workflows",
+      "defaultBranch": "main",
+      "privateAfterEvidenceCapture": true
+    },
+    "actionsRun": {
+      "id": 25487062578,
+      "name": "XIIGen Flow CI — dynamic-forms-workflows",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "79e1ae06674c424f926b7c7e3306d481ae54cce5",
+      "event": "push",
+      "htmlUrl": "https://github.com/lubochka/acme-corp--dynamic-forms-workflows/actions/runs/25487062578",
+      "createdAt": "2026-05-07T09:16:31Z",
+      "updatedAt": "2026-05-07T09:17:22Z",
+      "runStartedAt": "2026-05-07T09:16:31Z"
+    },
+    "jobs": [
+      {
+        "name": "Standalone flow test — dynamic-forms-workflows",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-05-07T09:16:43Z",
+        "completedAt": "2026-05-07T09:17:20Z",
+        "htmlUrl": "https://github.com/lubochka/acme-corp--dynamic-forms-workflows/actions/runs/25487062578/job/74785273353"
+      }
+    ]
+  },
+  "localBundleValidation": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--dynamic-forms-workflows-phase40-20260507-121833",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "tscExitCode": 0,
+    "jestExitCode": 0,
+    "jestSummary": [
+      "Test Suites: 1 passed, 1 total",
+      "Tests:       1 passed, 1 total"
+    ],
+    "packExitCode": 0,
+    "package": {
+      "name": "@xiigen-fork/dynamic-forms-workflows",
+      "version": "1.0.0-fork",
+      "private": true
+    },
+    "npmPack": {
+      "name": "@xiigen-fork/dynamic-forms-workflows",
+      "version": "1.0.0-fork",
+      "filename": "xiigen-fork-dynamic-forms-workflows-1.0.0-fork.tgz",
+      "fileCount": 112,
+      "unpackedSize": 419569
+    },
+    "bundleManifest": {
+      "flowId": "FLOW-21",
+      "flowSlug": "dynamic-forms-workflows",
+      "requiredBundleChecks": {
+        "completeModuleBundle": true,
+        "adaptationSurface": true,
+        "freedomDefaults": true,
+        "tenantConfig": true,
+        "ragSeeds": true,
+        "standalonePackage": true
+      },
+      "manifestEntryCount": 111,
+      "includesAdaptationSurface": true,
+      "includesTenantConfig": true,
+      "includesWorkflow": true,
+      "includesRagSeed": true
+    }
+  },
+  "screenshots": [
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-21/phase-4.0-tenant-a-actions-run.png",
+      "bytes": 78742,
+      "nonEmpty": true
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-21/phase-4.0-tenant-a-bundle-manifest.png",
+      "bytes": 355126,
+      "nonEmpty": true
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-21/phase-4.0-tenant-a-repo.png",
+      "bytes": 131618,
+      "nonEmpty": true
+    }
+  ],
+  "visibilityHandling": {
+    "temporarilyMadePublicForUnauthenticatedBrowserScreenshot": true,
+    "restoredPrivateAfterCapture": true
+  },
+  "secretHandling": {
+    "githubTokenSource": "Vault/gh auth only; token value was never printed or written to evidence.",
+    "secretsPrinted": false,
+    "secretsCommitted": false,
+    "tenantCredentialsStoredInVault": true
+  },
+  "phaseGate": {
+    "realMarketplaceApiFork": true,
+    "realGitHubRepository": true,
+    "realGitHubActionsRun": true,
+    "completeBundleManifest": true,
+    "localTypeScript": true,
+    "localJest": true,
+    "localNpmPackDryRun": true,
+    "realGitHubScreenshots": true,
+    "noSyntheticRepos": true,
+    "noSecretsInEvidence": true,
+    "status": "passed"
+  },
+  "notes": [
+    "GitHub Actions page reports one Node.js 20 deprecation warning inherited from the generated workflow; run conclusion is success.",
+    "Repository visibility was restored to private after screenshot capture."
+  ]
+}

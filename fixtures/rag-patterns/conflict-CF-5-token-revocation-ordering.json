@@ -1,0 +1,23 @@
+{
+  "patternId": "conflict-CF-5-token-revocation-ordering",
+  "patternType": "CONFLICT_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "cfId": "CF-5",
+  "trigger": "ChangeEmailRequested creates new verification token before revoking existing one",
+  "conflictDesc": "Two active verification tokens exist. User verifies old link after email change. Account assigned to old email.",
+  "resolution": "DNA-8 ordering: storeDocument(existing token, revoked=true) BEFORE storeDocument(new token). Atomic \u2014 no window between.",
+  "flowScope": [
+    "FLOW-01"
+  ],
+  "severity": "CRITICAL",
+  "tags": [
+    "token",
+    "revocation",
+    "ordering",
+    "email-change",
+    "cf-5"
+  ],
+  "keywords": "token revocation email change ordering atomic CF-5 storeDocument before"
+}

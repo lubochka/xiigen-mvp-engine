@@ -1,0 +1,11 @@
+{
+  "eventType": "StreakUpdated",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "streak-manager",
+  "consumers": ["T85", "T98"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "currentStreak", "streakBonus", "localDate", "updatedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T96 after streak computation. localDate is computed from UTC + userTimezoneOffset. streakBonus passed to T85 (LedgerUpdater). Part of Branch A gate for T98."
+}

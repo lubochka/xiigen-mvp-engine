@@ -1,0 +1,111 @@
+﻿{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phase4Point0TenantAOriginalFork",
+    "generatedAt":  "2026-05-10T09:21:25.1487055Z",
+    "protocolVersion":  "3.0",
+    "tenant":  "acme-corp",
+    "forkApi":  {
+                    "endpoint":  "POST /api/marketplace/packages/form-builder-templates/fork",
+                    "requestTenant":  "acme-corp",
+                    "tokenSource":  "short-lived Vault-backed HS256 JWT generated in memory",
+                    "tokenPrinted":  false,
+                    "response":  {
+                                     "forkId":  "fork-form-builder-templates-acme-corp",
+                                     "repoUrl":  "https://github.com/lubochka/acme-corp--form-builder-templates",
+                                     "repoFullName":  "lubochka/acme-corp--form-builder-templates",
+                                     "status":  "FORKED",
+                                     "initialCommitSha":  "8867148cb52f6d4c498182ddf4aab2f1df2cf596"
+                                 }
+                },
+    "vaultPreflight":  {
+                           "forkManagerCredentialPayloadShape":  "secret/data/{tenant}/{key} with payload field matching key name",
+                           "tenantsSeeded":  [
+                                                 "acme-corp",
+                                                 "northwind",
+                                                 "tessera-collective"
+                                             ],
+                           "credentialReadback":  "non-empty acme-corp github_token field",
+                           "secretValuesInEvidence":  false
+                       },
+    "github":  {
+                   "repo":  "lubochka/acme-corp--form-builder-templates",
+                   "repoUrl":  "https://github.com/lubochka/acme-corp--form-builder-templates",
+                   "visibilityAfterScreenshots":  "PRIVATE",
+                   "isPrivateAfterScreenshots":  true,
+                   "initialCommitSha":  "8867148cb52f6d4c498182ddf4aab2f1df2cf596",
+                   "actionsRun":  {
+                                      "databaseId":  25624988258,
+                                      "status":  "completed",
+                                      "conclusion":  "success",
+                                      "headSha":  "8867148cb52f6d4c498182ddf4aab2f1df2cf596",
+                                      "workflowName":  "XIIGen Flow CI — form-builder-templates",
+                                      "url":  "https://github.com/lubochka/acme-corp--form-builder-templates/actions/runs/25624988258",
+                                      "createdAt":  "2026-05-10T09:16:48Z",
+                                      "updatedAt":  "2026-05-10T09:17:36Z"
+                                  }
+               },
+    "cloneValidation":  {
+                            "clonePath":  "C:/Projects/xiigen-fork-clones/acme-corp--form-builder-templates-phase40-20260510-121758",
+                            "head":  "8867148cb52f6d4c498182ddf4aab2f1df2cf596",
+                            "commands":  [
+                                             "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                             "npx tsc --noEmit --pretty false",
+                                             "npx jest --colors=false --forceExit",
+                                             "npm pack --dry-run --json"
+                                         ],
+                            "install":  "passed",
+                            "typescript":  "passed",
+                            "jest":  {
+                                         "status":  "passed",
+                                         "suites":  1,
+                                         "tests":  1
+                                     },
+                            "npmPack":  {
+                                            "status":  "passed",
+                                            "fileCount":  128,
+                                            "shasum":  "f6ee78a37c9b262a1287233c9109d3280fe56be5"
+                                        },
+                            "tenantConfig":  {
+                                                 "tenantId":  "acme-corp",
+                                                 "flowId":  "FLOW-23",
+                                                 "flowSlug":  "form-builder-templates",
+                                                 "moduleName":  "form-builder-templates",
+                                                 "moduleVersion":  "1.0.0-fork"
+                                             },
+                            "bundleManifest":  {
+                                                   "file":  "BUNDLE-MANIFEST.json",
+                                                   "requiredBundleChecks":  {
+                                                                                "completeModuleBundle":  true,
+                                                                                "adaptationSurface":  true,
+                                                                                "freedomDefaults":  true,
+                                                                                "tenantConfig":  true,
+                                                                                "ragSeeds":  true,
+                                                                                "standalonePackage":  true
+                                                                            },
+                                                   "manifestEntryCount":  127
+                                               }
+                        },
+    "screenshots":  [
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-23/phase-4.0-tenant-a-repo.png",
+                            "bytes":  126356
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-23/phase-4.0-tenant-a-actions-run.png",
+                            "bytes":  76350
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-23/phase-4.0-tenant-a-bundle-manifest.png",
+                            "bytes":  399532
+                        }
+                    ],
+    "closeScans":  {
+                       "throwNew":  0,
+                       "servicesMissingMicroserviceBase":  0,
+                       "clsImports":  0,
+                       "directTenantContextImports":  0,
+                       "highRiskSecretPatternHits":  0
+                   },
+    "verdict":  "PASS"
+}

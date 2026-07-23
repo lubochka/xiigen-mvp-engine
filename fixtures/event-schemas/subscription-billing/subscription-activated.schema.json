@@ -1,0 +1,15 @@
+{
+  "eventType": "subscription.activated",
+  "flowId": "FLOW-12",
+  "version": "1.0.0",
+  "properties": {
+    "subscriptionId": { "type": "string", "required": true },
+    "subscriberId": { "type": "string", "required": true },
+    "planId": { "type": "string", "required": true },
+    "status": { "type": "string", "enum": ["ACTIVE", "TRIALING"], "required": true },
+    "priceCents": { "type": "integer", "minimum": 1, "required": true },
+    "billingInterval": { "type": "string", "enum": ["MONTHLY", "ANNUAL", "CUSTOM"], "required": true },
+    "trialEndsAt": { "type": "string", "format": "date-time", "required": false },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

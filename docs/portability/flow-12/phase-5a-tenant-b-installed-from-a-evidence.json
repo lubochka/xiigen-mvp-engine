@@ -1,0 +1,205 @@
+{
+    "flowId":  "FLOW-12",
+    "flowSlug":  "subscription-billing",
+    "phase":  "phase5aTenantBInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T04:08:33.8220500+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "role":  "Tenant B",
+                   "installedFromTenant":  "acme-corp",
+                   "installedFromRepoFullName":  "lubochka/acme-corp--subscription-billing",
+                   "packageName":  "@xiigen-fork/acme-enterprise-billing",
+                   "packageVersion":  "1.0.1",
+                   "localRegistry":  "http://localhost:4873"
+               },
+    "marketplaceForkApi":  {
+                               "method":  "POST",
+                               "path":  "/api/marketplace/packages/acme-enterprise-billing/fork",
+                               "serverBaseUrl":  "http://localhost:3000",
+                               "targetTenant":  "northwind",
+                               "auth":  "Tenant-scoped northwind tenant-admin JWT minted from Vault signing key; token value not stored in evidence.",
+                               "request":  {
+                                               "flowId":  "FLOW-12",
+                                               "targetGitHubUsername":  "lubochka",
+                                               "initialVersion":  "1.0.1",
+                                               "repoNameOverride":  "northwind--acme-enterprise-billing",
+                                               "sourceRepoFullName":  "lubochka/acme-corp--subscription-billing"
+                                           },
+                               "result":  {
+                                              "forkId":  "fork-acme-enterprise-billing-northwind",
+                                              "repoFullName":  "lubochka/northwind--acme-enterprise-billing",
+                                              "repoUrl":  "https://github.com/lubochka/northwind--acme-enterprise-billing",
+                                              "status":  "FORKED",
+                                              "initialCommitSha":  "daa2a96e2598e4c406efd60abdf6d7e5e385103a"
+                                          }
+                           },
+    "localRegistryVerification":  {
+                                      "command":  "npm view @xiigen-fork/acme-enterprise-billing version --registry http://localhost:4873",
+                                      "expectedVersion":  "1.0.1",
+                                      "actualVersion":  "1.0.1"
+                                  },
+    "repository":  {
+                       "fullName":  "lubochka/northwind--acme-enterprise-billing",
+                       "htmlUrl":  "https://github.com/lubochka/northwind--acme-enterprise-billing",
+                       "defaultBranch":  "main",
+                       "createdAt":  "2026-05-06T00:56:54Z",
+                       "pushedAt":  "2026-05-06T01:01:53Z",
+                       "privateAfterEvidenceCapture":  true,
+                       "visibilityAfterEvidenceCapture":  "PRIVATE",
+                       "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-billing",
+                       "tenantConfig":  {
+                                            "tenantId":  "northwind",
+                                            "flowId":  "FLOW-12",
+                                            "flowSlug":  "acme-enterprise-billing",
+                                            "moduleName":  "acme-enterprise-billing",
+                                            "moduleVersion":  "1.0.1",
+                                            "repoName":  "northwind--acme-enterprise-billing",
+                                            "repoFullName":  "lubochka/northwind--acme-enterprise-billing",
+                                            "installedFromRepoFullName":  "lubochka/acme-corp--subscription-billing",
+                                            "adaptationHistoryEntries":  1,
+                                            "acmeAdaptationPreserved":  true
+                                        }
+                   },
+    "initialCi":  {
+                      "runId":  25410751817,
+                      "status":  "completed",
+                      "conclusion":  "failure",
+                      "headSha":  "daa2a96e2598e4c406efd60abdf6d7e5e385103a",
+                      "url":  "https://github.com/lubochka/northwind--acme-enterprise-billing/actions/runs/25410751817",
+                      "rootCause":  "Inherited Tenant A adaptation test asserted tenantId acme-corp after cascade fork correctly rewrote tenant.config.json for northwind."
+                  },
+    "repairCommit":  {
+                         "sha":  "e279f61885c16efb3a963bc4ae264fb38b8748c8",
+                         "message":  "Make Acme billing install test cascade-safe",
+                         "changedFiles":  [
+                                              "__tests__/subscription-billing-acme-adaptation.spec.ts",
+                                              "settings/module.settings.json"
+                                          ],
+                         "fix":  "Assert Northwind install identity and repository metadata while preserving the Acme adaptation history record and FREEDOM values."
+                     },
+    "githubActions":  {
+                          "runId":  25410855480,
+                          "workflowName":  "XIIGen Flow CI — subscription-billing",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "e279f61885c16efb3a963bc4ae264fb38b8748c8",
+                          "url":  "https://github.com/lubochka/northwind--acme-enterprise-billing/actions/runs/25410855480",
+                          "createdAt":  "2026-05-06T01:01:56Z",
+                          "updatedAt":  "2026-05-06T01:02:49Z",
+                          "jobs":  [
+                                       {
+                                           "name":  "Standalone flow test — subscription-billing",
+                                           "status":  "completed",
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/northwind--acme-enterprise-billing/actions/runs/25410855480/job/74532074785"
+                                       }
+                                   ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localCloneVerification":  {
+                                   "clonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-billing",
+                                   "headSha":  "e279f61885c16efb3a963bc4ae264fb38b8748c8",
+                                   "commands":  [
+                                                    {
+                                                        "command":  "npm install --no-audit --no-fund",
+                                                        "exitCode":  0,
+                                                        "notes":  "Completed with dependency deprecation warnings only."
+                                                    },
+                                                    {
+                                                        "command":  "npx tsc --noEmit --pretty false",
+                                                        "exitCode":  0
+                                                    },
+                                                    {
+                                                        "command":  "npx jest --colors=false --forceExit",
+                                                        "exitCode":  0,
+                                                        "result":  "2 suites passed, 3 tests passed"
+                                                    }
+                                                ],
+                                   "workingTreeCleanAfterRepair":  true
+                               },
+    "visualEvidence":  {
+                           "tenantBInstalledMatrix":  {
+                                                          "path":  "docs/e2e-snapshots/subscription-billing/tenant-b-installed-from-a",
+                                                          "expected":  30,
+                                                          "actual":  30,
+                                                          "zeroByte":  0,
+                                                          "minBytes":  24853,
+                                                          "maxBytes":  53175,
+                                                          "roles":  [
+                                                                        "anonymous",
+                                                                        "public-marketplace-visitor",
+                                                                        "tenant-user",
+                                                                        "tenant-admin",
+                                                                        "referral-user",
+                                                                        "freelancer",
+                                                                        "business-partner",
+                                                                        "event-organiser",
+                                                                        "platform-admin",
+                                                                        "platform-support"
+                                                                    ],
+                                                          "cells":  [
+                                                                        "C2-en-populated",
+                                                                        "C4-he-rtl-populated",
+                                                                        "C6-en-mobile"
+                                                                    ]
+                                                      },
+                           "repoScreenshots":  {
+                                                   "repoListing":  {
+                                                                       "path":  "docs/e2e-snapshots/repo-evidence/flow-12/northwind--acme-enterprise-billing-github-listing.png",
+                                                                       "bytes":  123973,
+                                                                       "captureMode":  "GitHub web UI while temporarily public"
+                                                                   },
+                                                   "actionsSuccess":  {
+                                                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-12/northwind--acme-enterprise-billing-actions-success.png",
+                                                                          "bytes":  73311,
+                                                                          "captureMode":  "GitHub web UI while temporarily public"
+                                                                      },
+                                                   "repoVisibilityRestoredToPrivate":  true
+                                               }
+                       },
+    "mainRepoVerification":  {
+                                 "clientTypeScript":  {
+                                                          "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                          "result":  "passed"
+                                                      },
+                                 "clientPlaywright":  {
+                                                          "command":  "VITE_PORT=5193 VITE_API_URL=http://localhost:3000 npx playwright test e2e/subscription-billing-tenant-b-installed.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                          "result":  "passed",
+                                                          "tests":  30
+                                                      },
+                                 "serverTypeScript":  {
+                                                          "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                          "result":  "passed"
+                                                      },
+                                 "serverJest":  {
+                                                    "command":  "Push-Location server; npx jest --testPathPatterns=subscription-billing --runInBand --colors=false; Pop-Location",
+                                                    "result":  "passed",
+                                                    "suites":  7,
+                                                    "tests":  78
+                                                },
+                                 "phaseCloseScans":  {
+                                                         "throwNew":  0,
+                                                         "clsImports":  0,
+                                                         "servicesMissingMicroserviceBase":  0,
+                                                         "directSdkImports":  0
+                                                     }
+                             },
+    "secretHandling":  {
+                           "committedEnvFiles":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBInstalledTenantAPackage":  true,
+                      "tenantBCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localRegistryReturnsTenantAVersion":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

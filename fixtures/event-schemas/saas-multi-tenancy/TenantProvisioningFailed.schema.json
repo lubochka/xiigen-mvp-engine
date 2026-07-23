@@ -1,0 +1,12 @@
+{
+  "eventType": "saas.tenant.provisioning.failed",
+  "flowId": "FLOW-15",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "failureCode": { "type": "string", "required": true },
+    "failureReason": { "type": "string", "required": true },
+    "failedAt": { "type": "string", "format": "date-time", "required": true },
+    "retryable": { "type": "boolean", "required": true }
+  }
+}

@@ -1,0 +1,27 @@
+{
+    "flowId":  "FLOW-37",
+    "flowSlug":  "design-system-governance",
+    "phase":  "phase-1-unit-integration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T19:22:22Z",
+    "commands":  [
+                     "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                     "Push-Location server; npx jest --testPathPatterns=design-system-governance --runInBand --colors=false; Pop-Location",
+                     "Push-Location client; npx tsc --noEmit; Pop-Location",
+                     "Static phase-close scans over server/src/engine/flows/design-system-governance and server/src/engine/flows/engine-self-awareness"
+                 ],
+    "verification":  {
+                         "serverTypeScript":  "exit 0",
+                         "clientTypeScript":  "exit 0",
+                         "designSystemGovernanceJest":  "5 suites passed, 42 tests passed",
+                         "phaseCloseScan":  {
+                                                "throwNew":  0,
+                                                "servicesMissingMicroserviceBase":  0,
+                                                "clsImports":  0,
+                                                "directTenantContextImports":  0,
+                                                "directSdkImports":  0,
+                                                "anyTypes":  0
+                                            }
+                     },
+    "verdict":  "PASS"
+}

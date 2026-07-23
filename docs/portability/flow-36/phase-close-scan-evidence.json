@@ -1,0 +1,39 @@
+{
+  "flowId": "FLOW-36",
+  "flowSlug": "feature-registry",
+  "phase": "phase-close-scans",
+  "status": "completed",
+  "generatedAt": "2026-05-11T12:36:40Z",
+  "checks": [
+    {
+      "name": "server TypeScript",
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0
+    },
+    {
+      "name": "FLOW-36 Jest",
+      "command": "Push-Location server; npx jest --testPathPatterns=feature-registry --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "result": "8 suites passed, 141 tests passed"
+    },
+    {
+      "name": "client TypeScript",
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "exitCode": 0
+    },
+    {
+      "name": "FLOW-36 static portability/auth scan",
+      "command": "Select-String scans for throw new, service base inheritance, CLS imports, direct tenant-context imports, direct SDK imports, and any types",
+      "exitCode": 0,
+      "counters": {
+        "throwNew": 0,
+        "servicesMissingMicroserviceBase": 0,
+        "clsImports": 0,
+        "directTenantContextImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0
+      }
+    }
+  ],
+  "verdict": "PASS"
+}

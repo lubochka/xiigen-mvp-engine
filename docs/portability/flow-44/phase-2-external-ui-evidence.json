@@ -1,0 +1,19 @@
+{
+    "flowId":  "FLOW-44",
+    "flowSlug":  "framer-adapter",
+    "phase":  "phase-2-external-ui-reflection",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:15:57.3135234Z",
+    "uiReflection":  {
+                         "applicable":  false,
+                         "verdict":  "INTERNAL_ONLY",
+                         "source":  "docs/sessions/FLOW-44/UI-REFLECTION-STATE.json",
+                         "reason":  "External Framer adapter package has no XIIGen tenant-facing UI or Playwright screenshot matrix in Sprint A."
+                     },
+    "pngEvidence":  {
+                        "required":  false,
+                        "invalidXiigenSnapshotDirs":  0,
+                        "repoEvidenceRequired":  false
+                    },
+    "verdict":  "PASS"
+}

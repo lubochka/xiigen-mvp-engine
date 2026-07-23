@@ -1,0 +1,31 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-32-logic_data_plane_separation",
+  "checkId": "logic_data_plane_separation",
+  "flowId": "FLOW-32",
+  "bfaRule": "CF-718",
+  "severity": "score-zero",
+  "description": "RAG blueprints shared by T528/T529/T530 must contain only structural logic. Any data-bearing term indicates a DD-323 violation — tenant data leakage risk.",
+  "taskTypeIds": ["T528", "T529", "T530"],
+  "scanFor": {
+    "banned": [
+      "embedding",
+      "embeddings",
+      "indexedContent",
+      "rawData",
+      "vectorStore.get",
+      "vectors",
+      "vectorPayload",
+      "tenantDocument",
+      "knowledgeBase.export",
+      "indexSnapshot",
+      "bulkExportIndex"
+    ],
+    "anyPresent": "FAIL",
+    "caseSensitive": false
+  },
+  "onFailure": "score-0",
+  "ddRef": "DD-323",
+  "failureMessage": "DD-323 violation: data-plane term detected in blueprint sharing task type. Logic plane only (DAGs, prompts, schemas).",
+  "active": true
+}

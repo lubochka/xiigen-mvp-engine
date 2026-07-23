@@ -1,0 +1,58 @@
+{
+  "taskTypeId": "T96",
+  "flowId": "FLOW-05",
+  "name": "StreakManager",
+  "archetype": "PROCESSING",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "timezone-aware-local-date-streak",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow05_streak_index",
+    "neutralConcepts": [
+      "userTimezoneOffset is REQUIRED input — never default to UTC",
+      "localDate = UTC timestamp + offset — computed at comparison time",
+      "streak boundary = midnight in user's local timezone",
+      "streakBonus passed to LedgerUpdater — not applied by StreakManager",
+      "idempotent by (userId, localDate)"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F194",
+      "interface": "IStreakService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T96-1",
+      "rule": "userTimezoneOffset is a REQUIRED input field. T96 must never default to UTC when timezone offset is absent — reject the request.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T96-2",
+      "rule": "localDate = UTC timestamp + userTimezoneOffset. Streak boundary comparison uses localDate — never raw UTC date.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T96-3",
+      "rule": "streakBonus value is passed to LedgerUpdater (T85) — T96 must NOT apply the bonus itself. Separation of concerns.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T96-4",
+      "rule": "Idempotent by (userId, localDate) — same local calendar day does not re-increment the streak.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "setnx_before_operation",
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["streak-manager", "timezone-aware", "local-date", "PROCESSING"],
+  "keywords": "streak manager timezone aware local date UTC offset userTimezoneOffset idempotency"
+}

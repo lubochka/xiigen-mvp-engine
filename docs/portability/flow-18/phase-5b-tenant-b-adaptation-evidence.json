@@ -1,0 +1,201 @@
+{
+    "flowId":  "FLOW-18",
+    "flowSlug":  "visual-flow-engine",
+    "phase":  "phase5bTenantBAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-07T02:27:29.9259850+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "tenantName":  "Northwind"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "acme-corp",
+                         "repo":  "lubochka/acme-corp--acme-enterprise-visual-flow-engine",
+                         "package":  "@xiigen-fork/acme-enterprise-visual-flow-engine",
+                         "version":  "1.0.1"
+                     },
+    "tenantRepository":  {
+                             "repo":  "lubochka/northwind--northwind-visual-governance-engine",
+                             "url":  "https://github.com/lubochka/northwind--northwind-visual-governance-engine",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "adaptedCommit":  "94abb077b1c48ba93b7e812ea381b69a72b01b24",
+                             "adaptedCommitMessage":  "Adapt visual flow engine for Northwind",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-visual-flow-engine-phase5a-20260507-020109",
+                             "cleanCloneStatus":  "clean",
+                             "filesChangedInTenantRepo":  [
+                                                              "package.json",
+                                                              "package-lock.json",
+                                                              "tenant.config.json",
+                                                              "freedom-config.defaults.json",
+                                                              "settings/module.settings.json",
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "__tests__/visual-flow-engine-acme-adaptation.spec.ts"
+                                                          ],
+                             "githubActionsRun":  {
+                                                      "runId":  25466441199,
+                                                      "jobId":  74720680397,
+                                                      "url":  "https://github.com/lubochka/northwind--northwind-visual-governance-engine/actions/runs/25466441199",
+                                                      "jobUrl":  "https://github.com/lubochka/northwind--northwind-visual-governance-engine/actions/runs/25466441199/job/74720680397",
+                                                      "status":  "completed",
+                                                      "conclusion":  "success",
+                                                      "workflowName":  "XIIGen Flow CI — visual-flow-engine",
+                                                      "headSha":  "94abb077b1c48ba93b7e812ea381b69a72b01b24",
+                                                      "createdAt":  "2026-05-06T23:15:46Z",
+                                                      "updatedAt":  "2026-05-06T23:16:26Z",
+                                                      "successfulSteps":  [
+                                                                              "Set up job",
+                                                                              "Run actions/checkout@v4.2.2",
+                                                                              "Run actions/setup-node@v4.4.0",
+                                                                              "Install",
+                                                                              "TypeScript check",
+                                                                              "Test",
+                                                                              "Provenance",
+                                                                              "Post Run actions/setup-node@v4.4.0",
+                                                                              "Post Run actions/checkout@v4.2.2",
+                                                                              "Complete job"
+                                                                          ]
+                                                  },
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --package-lock-only --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  115,
+                                                                 "shasum":  "2d3744e79015f47ea9efbfd04ef79f8ff0f7f646"
+                                                             }
+                                                         ],
+                             "adaptationProof":  {
+                                                     "tenantConfigTenantId":  "northwind",
+                                                     "installedFromRepoFullName":  "lubochka/acme-corp--acme-enterprise-visual-flow-engine",
+                                                     "adaptationHistoryEntries":  2,
+                                                     "lastAdaptationTenantId":  "northwind",
+                                                     "packageName":  "@xiigen-fork/northwind-visual-governance-engine",
+                                                     "packageVersion":  "1.0.2",
+                                                     "moduleName":  "northwind-visual-governance-engine",
+                                                     "displayName":  "Northwind Visual Governance Engine",
+                                                     "requiredCoInstalls":  [
+                                                                                "@xiigen-fork/northwind-code-audit-governance"
+                                                                            ],
+                                                     "requiredCoInstallPackages":  [
+                                                                                       "@xiigen-fork/northwind-code-audit-governance"
+                                                                                   ],
+                                                     "freedomDefaults":  {
+                                                                             "flow_canvas_max_nodes":  180,
+                                                                             "flow_canvas_max_edges":  360,
+                                                                             "flow_max_node_depth":  72,
+                                                                             "flow_type_compatibility_strict":  true,
+                                                                             "node_type_max_capabilities":  18,
+                                                                             "node_type_lock_ttl_ms":  450000,
+                                                                             "injection_lock_ttl_ms":  450000,
+                                                                             "injection_max_payload_size_kb":  384
+                                                                         }
+                                                 }
+                         },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "packageName":  "@xiigen-fork/northwind-visual-governance-engine",
+                          "version":  "1.0.2",
+                          "distTags":  {
+                                           "latest":  "1.0.2"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-visual-governance-engine/-/northwind-visual-governance-engine-1.0.2.tgz",
+                          "shasum":  "2d3744e79015f47ea9efbfd04ef79f8ff0f7f646",
+                          "integrity":  "sha512-O0qBVdlFVQsF5FsgOEnjqt45q69ml6mTNtSV2eEXaX18/hOfhJIepWrXUu1bV+yQQb/7Za+GxSoO2M2SAOMXSQ==",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/visual-flow-engine-northwind-v1.0.2-registry-api-evidence.json",
+                          "screenshot":  "docs/e2e-snapshots/marketplace/visual-flow-engine-northwind-v1.0.2-registry-listing.png",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/visual-flow-engine/tenant-b-v1.0.2",
+                                                      "count":  15,
+                                                      "zeroByteFiles":  0,
+                                                      "projects":  [
+                                                                       "chromium-desktop",
+                                                                       "chromium-mobile",
+                                                                       "chromium-tablet"
+                                                                   ],
+                                                      "states":  [
+                                                                     "anonymous",
+                                                                     "platform-admin",
+                                                                     "platform-support",
+                                                                     "tenant-admin",
+                                                                     "tenant-user"
+                                                                 ]
+                                                  },
+                           "screenshots":  [
+                                               {
+                                                   "kind":  "repo-homepage",
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-18/northwind--northwind-visual-governance-engine-tenant-b-v1.0.2-github-listing.png",
+                                                   "bytes":  133239
+                                               },
+                                               {
+                                                   "kind":  "actions-success",
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-18/northwind--northwind-visual-governance-engine-tenant-b-v1.0.2-actions-success.png",
+                                                   "bytes":  77252
+                                               },
+                                               {
+                                                   "kind":  "registry-listing",
+                                                   "path":  "docs/e2e-snapshots/marketplace/visual-flow-engine-northwind-v1.0.2-registry-listing.png",
+                                                   "bytes":  52030
+                                               }
+                                           ]
+                       },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "client/e2e/visual-flow-engine-tenant-b-adapted.spec.ts"
+                                                        ],
+                                              "purpose":  "Render and verify FLOW-18 Tenant B adapted package cascade-point visual evidence under docs/e2e-snapshots/visual-flow-engine/tenant-b-v1.0.2."
+                                          },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "client: npx tsc --noEmit --pretty false",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantBAdaptedPlaywright":  {
+                                                                    "command":  "client: VITE_PORT=5174 npx playwright test e2e/visual-flow-engine-tenant-b-adapted.spec.ts --reporter=line",
+                                                                    "result":  "passed",
+                                                                    "tests":  15
+                                                                },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "secretPatternHits":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBAdaptedTenantAAdaptedSource":  true,
+                      "tenantBPublishedAdaptedPackage":  true,
+                      "localRegistryReturnsTenantBAdaptedVersion":  true,
+                      "coInstallDependenciesDeclared":  true,
+                      "realGitHubActionsGreen":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantCInstall":  true
+                  },
+    "verdict":  "PASS"
+}

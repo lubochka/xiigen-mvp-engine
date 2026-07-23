@@ -1,0 +1,148 @@
+{
+  "flowId": "FLOW-32",
+  "flowSlug": "sharable-flows-marketplace",
+  "implementationSlug": "sharable-flows-marketplace",
+  "phase": "phase-4.0-tenant-a-original-fork",
+  "status": "completed",
+  "capturedAt": "2026-05-11T07:19:29.5262756Z",
+  "tenant": "acme-corp",
+  "repo": {
+    "forkId": "fork-sharable-flows-marketplace-acme-corp",
+    "repoFullName": "lubochka/acme-corp--sharable-flows-marketplace",
+    "repoUrl": "https://github.com/lubochka/acme-corp--sharable-flows-marketplace",
+    "defaultBranch": "main",
+    "initialCommitSha": "97a92265432c545e199572e87f744b31a727f74b",
+    "visibilityAfterScreenshots": "PRIVATE"
+  },
+  "forkApi": {
+    "method": "POST",
+    "url": "http://localhost:3000/api/marketplace/packages/sharable-flows-marketplace/fork",
+    "tenantHeader": "acme-corp",
+    "role": "tenant-admin",
+    "responseStatus": "FORKED",
+    "usedRealMarketplaceApi": true,
+    "syntheticRepo": false,
+    "manualRepoCreation": false,
+    "firstForkProbe": {
+      "statusCode": 202,
+      "code": "GITHUB_CREDENTIALS_MISSING",
+      "fixedBy": "Restarted the Docker server with FLOW_MOBILITY_BOOTSTRAP_VAULT_CONFIG=true so VaultSecretsManagerService could read the per-tenant Vault connection config."
+    },
+    "runtimePrerequisitesSeeded": [
+      "Added the required FLOW-32 adaptation surface on the host and rebuilt the server image so the assembler could include it.",
+      "Verified tenant GitHub, Docker registry, and JWT signing credentials are present in Vault without printing secret values.",
+      "Restarted xiigen-server with SECRETS_PROVIDER=vault and the flow-mobility tenant list acme-corp,northwind,tessera-collective."
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - sharable-flows-marketplace",
+    "runId": 25655733442,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "97a92265432c545e199572e87f744b31a727f74b",
+    "createdAt": "2026-05-11T07:11:56Z",
+    "updatedAt": "2026-05-11T07:12:49Z",
+    "url": "https://github.com/lubochka/acme-corp--sharable-flows-marketplace/actions/runs/25655733442"
+  },
+  "localValidation": {
+    "cloneDir": "C:/Projects/xiigen-fork-clones/acme-corp--sharable-flows-marketplace-phase40-20260511-101344",
+    "cloneHeadSha": "97a92265432c545e199572e87f744b31a727f74b",
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "installExit": 0,
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 1,
+      "jestSuitesTotal": 1,
+      "jestTestsPassed": 1,
+      "jestTestsTotal": 1,
+      "packDryRunExit": 0,
+      "packEntryCount": 128,
+      "workingTreeCleanAfterPackDryRun": true
+    }
+  },
+  "bundleManifest": {
+    "path": "BUNDLE-MANIFEST.json",
+    "requiredBundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    },
+    "manifestEntries": 127,
+    "packageName": "@xiigen-fork/sharable-flows-marketplace",
+    "packageVersion": "1.0.0-fork",
+    "tenantConfig": {
+      "tenantId": "acme-corp",
+      "flowId": "FLOW-32",
+      "flowSlug": "sharable-flows-marketplace",
+      "moduleName": "sharable-flows-marketplace"
+    },
+    "canonicalManifestServicePaths": 20,
+    "implementationCopiedFrom": "server/src/engine/flows/sharable-flows-marketplace",
+    "canonicalPathRequired": "server/src/engine/flows/sharable-flows-marketplace/*.ts",
+    "adaptationSurface": "docs/portability/flow-32/adaptation-surface-sharable-flows-marketplace.json"
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-32",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4.0-tenant-a-actions-run.png",
+        "bytes": 78571
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4.0-tenant-a-bundle-manifest.png",
+        "bytes": 408428
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4.0-tenant-a-repo.png",
+        "bytes": 132364
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "scanRoot": "C:/Projects/xiigen-fork-clones/acme-corp--sharable-flows-marketplace-phase40-20260511-101344/server/src/engine/flows/sharable-flows-marketplace",
+    "flowFileCount": 20,
+    "throwNew": 0,
+    "exportedServicesByPromptPattern": 20,
+    "servicesMissingMicroserviceBaseByPromptPattern": 0,
+    "clsImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0,
+    "failureLines": 0
+  },
+  "credentialHandling": {
+    "tenantCredentialsSeededInVault": true,
+    "secretValuesWrittenToEvidence": false,
+    "secretValuesCommitted": false,
+    "tenantCredentialPathsUsedByForkHandler": [
+      "github_token",
+      "github_org_name",
+      "docker_registry_url",
+      "docker_registry_token"
+    ]
+  },
+  "protocolGate": {
+    "realMarketplaceApiCall": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "fullBundle": true,
+    "localCloneValidation": true,
+    "realGitHubScreenshots": true,
+    "closeScansZeroFailureLines": true,
+    "phaseComplete": true
+  },
+  "verdict": "PASS"
+}

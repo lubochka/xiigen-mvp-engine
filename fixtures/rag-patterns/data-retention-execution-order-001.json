@@ -1,0 +1,27 @@
+{
+  "patternId": "DATA-RETENTION-EXECUTION-ORDER-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-13",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "teachingPoint": "T186 DataRetentionEnforcer execution order is MANDATORY AND INVIOLABLE: (1) legal hold check → (2) approval token → (3) governance → (4) purge+emit DataPurged with tombstoneRef ONLY. Skipping or reordering step 1 permanently deletes legally protected content.",
+  "tags": ["retention", "legal-hold", "approval-token", "irreversible", "execution-order", "purge", "tombstone", "governance"],
+  "keywords": "data retention enforcer execution order mandatory inviolable legal hold approval token governance purge tombstoneRef prohibited fields ContentRetentionExtended F424 PLATFORM-ONLY",
+  "ironRules": [
+    "EXECUTION ORDER IS MANDATORY AND INVIOLABLE: step 1=legal hold → step 2=approval token → step 3=governance → step 4=purge+emit",
+    "Step 1: ILegalHoldService.check() — if holdStatus.active === true: emit ContentRetentionExtended, return IMMEDIATELY. Do not proceed to step 2.",
+    "Step 2: IApprovalService.validate() — if token missing/invalid/expired: reject without purging, return.",
+    "Step 3: F424 IDataGovernanceService.enforceRetention() — get purge decision from governance (PLATFORM-ONLY).",
+    "Step 4: Execute purge — emit DataPurged with tombstoneRef ONLY. PROHIBITED fields: rawContent, content, payload, body, data.",
+    "F424 IDataGovernanceService is PLATFORM-ONLY — governance policies not tenant-editable.",
+    "F425 IWarehouseAuditService MUST record every purge attempt including rejected ones."
+  ],
+  "codeSnippet": "// T186 DataRetentionEnforcer — 4-step order MANDATORY\nasync enforceRetention(contentId: string): Promise<DataProcessResult<void>> {\n  // Step 1: Legal hold check — MUST be first, no exceptions\n  const hold = await this.legalHoldSvc.check(contentId, tenantId);\n  if (hold.isSuccess && hold.data?.active) {\n    await this.auditSvc.record({ action: 'legal_hold_blocked', contentId });\n    await this.queue.enqueue('ContentRetentionExtended', { contentId, holdReason: hold.data.reason });\n    return DataProcessResult.success(undefined); // early return — do NOT proceed\n  }\n\n  // Step 2: Approval token validation\n  const approval = await this.approvalSvc.validate(contentId, tenantId);\n  if (!approval.isSuccess) {\n    await this.auditSvc.record({ action: 'approval_rejected', contentId });\n    return DataProcessResult.failure('APPROVAL_REQUIRED', 'Valid approval token required');\n  }\n\n  // Step 3: Governance decision (F424 PLATFORM-ONLY — not tenant-editable)\n  await this.governanceSvc.enforceRetention(contentId, tenantId);\n\n  // Step 4: Execute purge — tombstoneRef ONLY in DataPurged\n  await this.db.deleteDocument('warehouse-content', contentId);\n  await this.auditSvc.record({ action: 'purged', contentId });\n  // ✅ CORRECT: tombstoneRef only\n  await this.queue.enqueue('DataPurged', { tombstoneRef: tombstoneId, tenantId, contentId, purgedAt, policyId });\n  // ❌ WRONG — BUILD_FAILURE: { rawContent: data } or { content: raw } or { payload: body }\n  return DataProcessResult.success(undefined);\n}",
+  "appliesTo": ["FLOW-14", "FLOW-22"],
+  "curriculumTier": 2,
+  "qualityScore": 0.95,
+  "sourceDocument": "data-warehouse-analytics-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

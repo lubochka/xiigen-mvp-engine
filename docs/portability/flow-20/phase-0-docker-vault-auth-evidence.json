@@ -1,0 +1,254 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "phase0AuthPreflight",
+  "status": "completed",
+  "generatedAt": "2026-05-07T06:59:56.9926444+03:00",
+  "environment": {
+    "serverUrl": "http://localhost:3000",
+    "protectedProbeRoute": "/api/runs/phase0-auth-probe/trace",
+    "secretsProvider": "vault",
+    "vaultStatus": {
+      "initialized": true,
+      "sealed": false,
+      "address": "http://127.0.0.1:8200"
+    },
+    "githubAuth": {
+      "login": "lubochka",
+      "tokenSource": "key-file-or-gh-auth-token",
+      "tokenPrinted": false
+    },
+    "tenants": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ]
+  },
+  "credentialSeeding": {
+    "vaultPathsVerifiedWithoutPrintingSecrets": [
+      "secret/xiigen/tenants/acme-corp/github_token",
+      "secret/xiigen/tenants/acme-corp/github_org_name",
+      "secret/xiigen/tenants/acme-corp/docker_registry_url",
+      "secret/xiigen/tenants/acme-corp/docker_registry_token",
+      "secret/xiigen/tenants/acme-corp/auth/jwt_signing_key",
+      "secret/xiigen/tenants/northwind/github_token",
+      "secret/xiigen/tenants/northwind/github_org_name",
+      "secret/xiigen/tenants/northwind/docker_registry_url",
+      "secret/xiigen/tenants/northwind/docker_registry_token",
+      "secret/xiigen/tenants/northwind/auth/jwt_signing_key",
+      "secret/xiigen/tenants/tessera-collective/github_token",
+      "secret/xiigen/tenants/tessera-collective/github_org_name",
+      "secret/xiigen/tenants/tessera-collective/docker_registry_url",
+      "secret/xiigen/tenants/tessera-collective/docker_registry_token",
+      "secret/xiigen/tenants/tessera-collective/auth/jwt_signing_key"
+    ],
+    "readbackCheck": "acme-corp github_token returned non-empty value",
+    "secretValuesInEvidence": false,
+    "tenantSigningAlgorithm": "HS256"
+  },
+  "roleMap": {
+    "canonicalLiveAuthRoles": [
+      "tenant-user",
+      "tenant-admin",
+      "platform-admin"
+    ],
+    "wrongRoleProbe": "service-account",
+    "personaRolesCoveredByUiEvidenceLater": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "business-partner",
+      "freelancer",
+      "platform-support"
+    ]
+  },
+  "matrixSummary": {
+    "total": 18,
+    "passed": 18,
+    "failed": 0,
+    "validOwnTenantExpected": 200,
+    "missingTokenExpected": 401,
+    "crossTenantExpected": 401,
+    "wrongRoleExpected": 403
+  },
+  "matrix": [
+    {
+      "name": "acme-corp-tenant-admin-own",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "role": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "acme-corp-tenant-user-own",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "role": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "acme-corp-platform-admin-own",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "role": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "acme-corp-missing-token",
+      "requestTenant": "acme-corp",
+      "tokenTenant": null,
+      "role": "anonymous",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "acme-corp-wrong-role",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "role": "service-account",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    },
+    {
+      "name": "northwind-tenant-admin-own",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "role": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "northwind-tenant-user-own",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "role": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "northwind-platform-admin-own",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "role": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "northwind-missing-token",
+      "requestTenant": "northwind",
+      "tokenTenant": null,
+      "role": "anonymous",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "northwind-wrong-role",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "role": "service-account",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    },
+    {
+      "name": "tessera-collective-tenant-admin-own",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "role": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "tessera-collective-tenant-user-own",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "role": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "tessera-collective-platform-admin-own",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "role": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true,
+      "bodyCode": "TRACE_NOT_FOUND"
+    },
+    {
+      "name": "tessera-collective-missing-token",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": null,
+      "role": "anonymous",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tessera-collective-wrong-role",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "role": "service-account",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    },
+    {
+      "name": "acme-token-in-northwind",
+      "requestTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "role": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "northwind-token-in-tessera",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "role": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "acme-token-in-tessera",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "role": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    }
+  ],
+  "commands": [
+    "docker exec xiigen-vault vault status -format=json",
+    "vault kv put/readback for all three tenant credential paths without printing values",
+    "gh api user --jq .login",
+    "Invoke-RestMethod http://localhost:3000/health/live",
+    "18-cell live auth probe against /api/runs/phase0-auth-probe/trace"
+  ],
+  "verdict": "PASS"
+}

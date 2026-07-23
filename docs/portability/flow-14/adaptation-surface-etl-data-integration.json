@@ -1,0 +1,710 @@
+﻿{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "flowTitle":  "ETL and Data Integration",
+    "protocolVersion":  "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+    "capturedAt":  "2026-05-06",
+    "capturedBy":  "Codex / FLOW-14 mobility-auth session",
+    "surfaceVersion":  "1.0.0",
+    "sources":  [
+                    "docs/sessions/FLOW-14/FLOW-14-STEP-1-INVARIANTS.md",
+                    "server/src/engine-contracts/etl-data-integration-contracts.ts",
+                    "server/src/engine/flows/etl-data-integration",
+                    "docs/flow-coverage/etl-data-integration/P1-business-logic-inventory.md",
+                    "docs/flow-coverage/etl-data-integration/P10-server-specs.md"
+                ],
+    "contractSurface":  {
+                            "taskTypeRange":  "T213-T224",
+                            "taskTypeIds":  [
+                                                "T213",
+                                                "T214",
+                                                "T215",
+                                                "T216",
+                                                "T217",
+                                                "T218",
+                                                "T219",
+                                                "T220",
+                                                "T221",
+                                                "T222",
+                                                "T223",
+                                                "T224"
+                                            ],
+                            "flowScopedFreedomPrefix":  "flow14_",
+                            "freedomKeyCount":  25,
+                            "crossFlowReadDependencies":  [
+                                                              {
+                                                                  "sourceFlow":  "FLOW-13",
+                                                                  "consumerTaskTypeId":  "T222",
+                                                                  "purpose":  "Verify data warehouse analytics peer flow is ACTIVE before cross-flow analytics query."
+                                                              }
+                                                          ],
+                            "platformOnlyFactories":  [
+                                                          "F427 Credential Vault",
+                                                          "F430 Rate Limit Guard",
+                                                          "F462 PII Classification",
+                                                          "F463 RLS Policy",
+                                                          "F459 Warehouse Audit",
+                                                          "CF-193 Cursor Checkpoint"
+                                                      ]
+                        },
+    "services":  [
+                     {
+                         "taskTypeId":  "T213",
+                         "className":  "ConnectorRegistrationHandlerService",
+                         "file":  "server/src/engine/flows/etl-data-integration/connector-registration-handler.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_rate_limit_window_ms",
+                                                  "flow14_health_probe_timeout_ms",
+                                                  "flow14_connector_retry_max_attempts"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T214",
+                         "className":  "EtlSyncSagaHandlerService",
+                         "file":  "server/src/engine/flows/etl-data-integration/etl-sync-saga-handler.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_sync_page_size",
+                                                  "flow14_rate_limit_window_ms",
+                                                  "flow14_backfill_blackout_cron"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T215",
+                         "className":  "WebhookIngestionHandlerService",
+                         "file":  "server/src/engine/flows/etl-data-integration/webhook-ingestion-handler.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_webhook_timeout_ms",
+                                                  "flow14_webhook_max_payload_bytes"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T216",
+                         "className":  "BackfillCoordinatorService",
+                         "file":  "server/src/engine/flows/etl-data-integration/backfill-coordinator.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_backfill_blackout_cron",
+                                                  "flow14_backfill_slice_size",
+                                                  "flow14_backfill_max_parallel_slices"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T217",
+                         "className":  "RawToStagingTransformerService",
+                         "file":  "server/src/engine/flows/etl-data-integration/raw-to-staging-transformer.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_normalization_rules",
+                                                  "flow14_schema_drift_quarantine_threshold"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T218",
+                         "className":  "SchemaDriftDetectorService",
+                         "file":  "server/src/engine/flows/etl-data-integration/schema-drift-detector.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_schema_drift_quarantine_threshold",
+                                                  "flow14_schema_approval_timeout_ms"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T219",
+                         "className":  "DimensionalModelBuilderService",
+                         "file":  "server/src/engine/flows/etl-data-integration/dimensional-model-builder.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_dimension_table_names",
+                                                  "flow14_version_retention_count"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T220",
+                         "className":  "MartKpiBuilderService",
+                         "file":  "server/src/engine/flows/etl-data-integration/mart-kpi-builder.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_kpi_definitions",
+                                                  "flow14_mart_refresh_schedule",
+                                                  "flow14_identity_confidence_threshold"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T221",
+                         "className":  "IdentityJoinResolverService",
+                         "file":  "server/src/engine/flows/etl-data-integration/identity-join-resolver.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_identity_confidence_threshold",
+                                                  "flow14_identity_max_join_inputs"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T222",
+                         "className":  "CrossFlowAnalyticsExecutorService",
+                         "file":  "server/src/engine/flows/etl-data-integration/cross-flow-analytics-executor.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_cross_flow_query_timeout_ms",
+                                                  "flow14_cross_flow_max_result_rows"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T223",
+                         "className":  "ReverseEtlPushHandlerService",
+                         "file":  "server/src/engine/flows/etl-data-integration/reverse-etl-push-handler.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_reverse_etl_rate_limit_window_ms",
+                                                  "flow14_reverse_etl_push_batch_size",
+                                                  "flow14_reverse_etl_lock_timeout_ms"
+                                              ]
+                     },
+                     {
+                         "taskTypeId":  "T224",
+                         "className":  "WarehouseProvisioningHandlerService",
+                         "file":  "server/src/engine/flows/etl-data-integration/warehouse-provisioning-handler.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "readsFreedomKeys":  [
+                                                  "flow14_zone_naming_convention",
+                                                  "flow14_default_rls_policy_type"
+                                              ]
+                     }
+                 ],
+    "adaptationSurface":  {
+                              "configurationKeys":  {
+                                                        "description":  "Tenant-editable FLOW-14 operating policies. All keys are flow-scoped and begin with flow14_.",
+                                                        "total":  25,
+                                                        "keys":  [
+                                                                     {
+                                                                         "key":  "flow14_rate_limit_window_ms",
+                                                                         "runtimeProjectionKey":  "rate_limit_window_ms",
+                                                                         "type":  "number",
+                                                                         "default":  60000,
+                                                                         "unit":  "milliseconds",
+                                                                         "semantic":  "External connector call budget window.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T213.ConnectorRegistrationHandlerService",
+                                                                                            "T214.EtlSyncSagaHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1000,
+                                                                                              "max":  3600000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_health_probe_timeout_ms",
+                                                                         "runtimeProjectionKey":  "health_probe_timeout_ms",
+                                                                         "type":  "number",
+                                                                         "default":  5000,
+                                                                         "unit":  "milliseconds",
+                                                                         "semantic":  "Connector registration health probe ceiling.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T213.ConnectorRegistrationHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  500,
+                                                                                              "max":  60000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_connector_retry_max_attempts",
+                                                                         "runtimeProjectionKey":  "connector_retry_max_attempts",
+                                                                         "type":  "number",
+                                                                         "default":  3,
+                                                                         "unit":  "attempts",
+                                                                         "semantic":  "Connector registration retry policy.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T213.ConnectorRegistrationHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  10,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_sync_page_size",
+                                                                         "runtimeProjectionKey":  "sync_page_size",
+                                                                         "type":  "number",
+                                                                         "default":  100,
+                                                                         "unit":  "records",
+                                                                         "semantic":  "Records requested per sync page.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T214.EtlSyncSagaHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  10000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_backfill_blackout_cron",
+                                                                         "runtimeProjectionKey":  "backfill_blackout_cron",
+                                                                         "type":  "string",
+                                                                         "default":  "none",
+                                                                         "unit":  "cron",
+                                                                         "semantic":  "Blackout schedule that suppresses backfill work.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T214.EtlSyncSagaHandlerService",
+                                                                                            "T216.BackfillCoordinatorService"
+                                                                                        ],
+                                                                         "boundedRange":  null
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_webhook_timeout_ms",
+                                                                         "runtimeProjectionKey":  "webhook_timeout_ms",
+                                                                         "type":  "number",
+                                                                         "default":  3000,
+                                                                         "unit":  "milliseconds",
+                                                                         "semantic":  "Webhook request processing timeout.",
+                                                                         "stakeholder":  "platform-support",
+                                                                         "consumedBy":  [
+                                                                                            "T215.WebhookIngestionHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  250,
+                                                                                              "max":  30000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_webhook_max_payload_bytes",
+                                                                         "runtimeProjectionKey":  "webhook_max_payload_bytes",
+                                                                         "type":  "number",
+                                                                         "default":  1048576,
+                                                                         "unit":  "bytes",
+                                                                         "semantic":  "Maximum accepted webhook payload size.",
+                                                                         "stakeholder":  "platform-support",
+                                                                         "consumedBy":  [
+                                                                                            "T215.WebhookIngestionHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1024,
+                                                                                              "max":  10485760,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_backfill_slice_size",
+                                                                         "runtimeProjectionKey":  "backfill_slice_size",
+                                                                         "type":  "number",
+                                                                         "default":  1000,
+                                                                         "unit":  "records",
+                                                                         "semantic":  "Records processed per backfill slice.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T216.BackfillCoordinatorService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  100000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_backfill_max_parallel_slices",
+                                                                         "runtimeProjectionKey":  "backfill_max_parallel_slices",
+                                                                         "type":  "number",
+                                                                         "default":  2,
+                                                                         "unit":  "slices",
+                                                                         "semantic":  "Backfill slice concurrency cap.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T216.BackfillCoordinatorService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  16,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_normalization_rules",
+                                                                         "runtimeProjectionKey":  "normalization_rules",
+                                                                         "type":  "record",
+                                                                         "default":  {
+
+                                                                                     },
+                                                                         "unit":  "map",
+                                                                         "semantic":  "Tenant field normalization policy.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T217.RawToStagingTransformerService"
+                                                                                        ],
+                                                                         "boundedRange":  null
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_schema_drift_quarantine_threshold",
+                                                                         "runtimeProjectionKey":  "schema_drift_quarantine_threshold",
+                                                                         "type":  "number",
+                                                                         "default":  0.3,
+                                                                         "unit":  "score",
+                                                                         "semantic":  "Drift score above which records or pipelines require quarantine/approval.",
+                                                                         "stakeholder":  "data-governance",
+                                                                         "consumedBy":  [
+                                                                                            "T217.RawToStagingTransformerService",
+                                                                                            "T218.SchemaDriftDetectorService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  1,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_schema_approval_timeout_ms",
+                                                                         "runtimeProjectionKey":  "schema_approval_timeout_ms",
+                                                                         "type":  "number",
+                                                                         "default":  86400000,
+                                                                         "unit":  "milliseconds",
+                                                                         "semantic":  "Maximum operator approval wait for schema changes.",
+                                                                         "stakeholder":  "data-governance",
+                                                                         "consumedBy":  [
+                                                                                            "T218.SchemaDriftDetectorService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  60000,
+                                                                                              "max":  604800000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_dimension_table_names",
+                                                                         "runtimeProjectionKey":  "dimension_table_names",
+                                                                         "type":  "record",
+                                                                         "default":  {
+
+                                                                                     },
+                                                                         "unit":  "map",
+                                                                         "semantic":  "Tenant dimension table naming map.",
+                                                                         "stakeholder":  "analytics-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T219.DimensionalModelBuilderService"
+                                                                                        ],
+                                                                         "boundedRange":  null
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_version_retention_count",
+                                                                         "runtimeProjectionKey":  "version_retention_count",
+                                                                         "type":  "number",
+                                                                         "default":  10,
+                                                                         "unit":  "versions",
+                                                                         "semantic":  "SCD version retention limit.",
+                                                                         "stakeholder":  "analytics-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T219.DimensionalModelBuilderService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  1000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_kpi_definitions",
+                                                                         "runtimeProjectionKey":  "kpi_definitions",
+                                                                         "type":  "record",
+                                                                         "default":  {
+
+                                                                                     },
+                                                                         "unit":  "map",
+                                                                         "semantic":  "Tenant KPI formula definitions.",
+                                                                         "stakeholder":  "analytics-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T220.MartKpiBuilderService"
+                                                                                        ],
+                                                                         "boundedRange":  null
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_mart_refresh_schedule",
+                                                                         "runtimeProjectionKey":  "mart_refresh_schedule",
+                                                                         "type":  "string",
+                                                                         "default":  "manual",
+                                                                         "unit":  "cron",
+                                                                         "semantic":  "Mart refresh schedule.",
+                                                                         "stakeholder":  "analytics-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T220.MartKpiBuilderService"
+                                                                                        ],
+                                                                         "boundedRange":  null
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_identity_confidence_threshold",
+                                                                         "runtimeProjectionKey":  "identity_confidence_threshold",
+                                                                         "type":  "number",
+                                                                         "default":  0.8,
+                                                                         "unit":  "score",
+                                                                         "semantic":  "Identity match confidence floor.",
+                                                                         "stakeholder":  "data-governance",
+                                                                         "consumedBy":  [
+                                                                                            "T220.MartKpiBuilderService",
+                                                                                            "T221.IdentityJoinResolverService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  1,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_identity_max_join_inputs",
+                                                                         "runtimeProjectionKey":  "identity_max_join_inputs",
+                                                                         "type":  "number",
+                                                                         "default":  100,
+                                                                         "unit":  "inputs",
+                                                                         "semantic":  "Maximum join inputs per identity resolution request.",
+                                                                         "stakeholder":  "data-governance",
+                                                                         "consumedBy":  [
+                                                                                            "T221.IdentityJoinResolverService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  10000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_cross_flow_query_timeout_ms",
+                                                                         "runtimeProjectionKey":  "cross_flow_query_timeout_ms",
+                                                                         "type":  "number",
+                                                                         "default":  10000,
+                                                                         "unit":  "milliseconds",
+                                                                         "semantic":  "Cross-flow analytics query timeout.",
+                                                                         "stakeholder":  "analytics-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T222.CrossFlowAnalyticsExecutorService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  500,
+                                                                                              "max":  120000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_cross_flow_max_result_rows",
+                                                                         "runtimeProjectionKey":  "cross_flow_max_result_rows",
+                                                                         "type":  "number",
+                                                                         "default":  1000,
+                                                                         "unit":  "rows",
+                                                                         "semantic":  "Maximum cross-flow analytics result rows.",
+                                                                         "stakeholder":  "analytics-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T222.CrossFlowAnalyticsExecutorService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  100000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_reverse_etl_rate_limit_window_ms",
+                                                                         "runtimeProjectionKey":  "reverse_etl_rate_limit_window_ms",
+                                                                         "type":  "number",
+                                                                         "default":  60000,
+                                                                         "unit":  "milliseconds",
+                                                                         "semantic":  "Reverse ETL throttle window.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T223.ReverseEtlPushHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1000,
+                                                                                              "max":  3600000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_reverse_etl_push_batch_size",
+                                                                         "runtimeProjectionKey":  "reverse_etl_push_batch_size",
+                                                                         "type":  "number",
+                                                                         "default":  100,
+                                                                         "unit":  "records",
+                                                                         "semantic":  "Records per reverse ETL push.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T223.ReverseEtlPushHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  10000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_reverse_etl_lock_timeout_ms",
+                                                                         "runtimeProjectionKey":  "reverse_etl_lock_timeout_ms",
+                                                                         "type":  "number",
+                                                                         "default":  300000,
+                                                                         "unit":  "milliseconds",
+                                                                         "semantic":  "Reverse ETL push lock TTL.",
+                                                                         "stakeholder":  "data-operations",
+                                                                         "consumedBy":  [
+                                                                                            "T223.ReverseEtlPushHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  {
+                                                                                              "min":  1000,
+                                                                                              "max":  86400000,
+                                                                                              "rationale":  "Tenant may tune the operating policy inside this range while MACHINE security and ordering invariants remain fixed."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_zone_naming_convention",
+                                                                         "runtimeProjectionKey":  "zone_naming_convention",
+                                                                         "type":  "string",
+                                                                         "default":  "{tenantId}_{zone}",
+                                                                         "unit":  "template",
+                                                                         "semantic":  "Zone index naming template.",
+                                                                         "stakeholder":  "platform-support",
+                                                                         "consumedBy":  [
+                                                                                            "T224.WarehouseProvisioningHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  null
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow14_default_rls_policy_type",
+                                                                         "runtimeProjectionKey":  "default_rls_policy_type",
+                                                                         "type":  "enum",
+                                                                         "default":  "tenant_id_equals_context",
+                                                                         "unit":  "policy",
+                                                                         "semantic":  "Default RLS policy for provisioned zones.",
+                                                                         "stakeholder":  "platform-support",
+                                                                         "consumedBy":  [
+                                                                                            "T224.WarehouseProvisioningHandlerService"
+                                                                                        ],
+                                                                         "boundedRange":  null
+                                                                     }
+                                                                 ]
+                                                    },
+                              "grammarAdaptation":  {
+                                                        "description":  "No tenant-editable grammar surface. CloudEvent schemas, HMAC verification, and event names remain MACHINE.",
+                                                        "total":  0,
+                                                        "keys":  [
+
+                                                                 ]
+                                                    },
+                              "roleScopeAdaptation":  {
+                                                          "description":  "Tenant role isolation is fixed for certification. Tenants may not weaken admin/support boundaries or cross-tenant denial rules.",
+                                                          "total":  0,
+                                                          "keys":  [
+
+                                                                   ]
+                                                      },
+                              "businessDomainAdaptation":  {
+                                                               "description":  "Tenant ETL operating policies that can vary without changing security, ordering, or fabric constraints.",
+                                                               "total":  4,
+                                                               "edgeCases":  [
+                                                                                 {
+                                                                                     "id":  "high-volume-sync",
+                                                                                     "name":  "High-volume sync",
+                                                                                     "semantic":  "Tenant A raises sync page and backfill slice sizes for bulk migration.",
+                                                                                     "extensionPoint":  "flow14_sync_page_size + flow14_backfill_slice_size",
+                                                                                     "currentImplementation":  "T214/T216 preserve rate checks, cursor monotonicity, raw append-only storage, and store-before-enqueue."
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "strict-schema-governance",
+                                                                                     "name":  "Strict schema governance",
+                                                                                     "semantic":  "Tenant A lowers drift threshold and shortens approval timeout.",
+                                                                                     "extensionPoint":  "flow14_schema_drift_quarantine_threshold + flow14_schema_approval_timeout_ms",
+                                                                                     "currentImplementation":  "T218 pauses on drift and emits SchemaDriftDetected before continuation."
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "sensitive-identity-mode",
+                                                                                     "name":  "Sensitive identity mode",
+                                                                                     "semantic":  "Tenant A raises identity confidence floor and lowers join input cap.",
+                                                                                     "extensionPoint":  "flow14_identity_confidence_threshold + flow14_identity_max_join_inputs",
+                                                                                     "currentImplementation":  "T221 still blocks cross-tenant inputs before persistence."
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "reverse-etl-batching",
+                                                                                     "name":  "Reverse ETL batching",
+                                                                                     "semantic":  "Tenant A changes push batch size and lock TTL for a destination system.",
+                                                                                     "extensionPoint":  "flow14_reverse_etl_push_batch_size + flow14_reverse_etl_lock_timeout_ms",
+                                                                                     "currentImplementation":  "T223 remains queue-fabric-only and rate-limited before lock check."
+                                                                                 }
+                                                                             ]
+                                                           }
+                          },
+    "ironRulesMACHINE":  {
+                             "description":  "Fixed invariants that tenant adaptation cannot change.",
+                             "rules":  [
+                                           "Task type range remains T213 through T224.",
+                                           "All tenant-editable configuration keys use the flow14_ prefix.",
+                                           "Raw zone remains append-only with no update/delete path.",
+                                           "Connector credentials remain Vault-only and never appear in event payloads.",
+                                           "HMAC verification remains timing-safe and fail-closed.",
+                                           "Cross-tenant identity joins remain blocked.",
+                                           "FLOW-13 peer ACTIVE check remains required for T222.",
+                                           "Reverse ETL remains queue-fabric-only with no direct HTTP.",
+                                           "RLS is mandatory for mart, identity, cross-flow, and zone provisioning results.",
+                                           "storeDocument occurs before enqueue for all emitted workflow events."
+                                       ]
+                         },
+    "adaptationExamples":  {
+                               "tenantAHighVolumeMigration":  {
+                                                                  "description":  "Tenant A increases sync throughput for an initial migration.",
+                                                                  "change":  {
+                                                                                 "flow14_sync_page_size":  1000,
+                                                                                 "flow14_backfill_slice_size":  5000,
+                                                                                 "flow14_backfill_max_parallel_slices":  4
+                                                                             },
+                                                                  "impact":  "Bulk migration completes faster while rate checks, cursor monotonicity, and raw append-only behavior remain enforced.",
+                                                                  "testable":  "Tenant A adaptation evidence records the policy in tenant.config.json and fork CI still passes."
+                                                              },
+                               "tenantAStrictGovernance":  {
+                                                               "description":  "Tenant A lowers schema drift tolerance and raises identity confidence.",
+                                                               "change":  {
+                                                                              "flow14_schema_drift_quarantine_threshold":  0.15,
+                                                                              "flow14_identity_confidence_threshold":  0.92
+                                                                          },
+                                                               "impact":  "More schema changes require approval and identity joins become more conservative without weakening tenant isolation.",
+                                                               "testable":  "Before/after assertions show changed drift and confidence thresholds with 401/403 auth checks still passing."
+                                                           }
+                           },
+    "notPartOfAdaptationSurface":  {
+                                       "description":  "MACHINE elements that must not change during tenant adaptation.",
+                                       "elements":  [
+                                                        "Task IDs T213-T224",
+                                                        "Provider SDK boundary",
+                                                        "Vault credential paths",
+                                                        "CloudEvent envelope",
+                                                        "Raw-zone append-only rule",
+                                                        "HMAC timing-safe verification",
+                                                        "Cross-tenant join denial",
+                                                        "RLS enforcement",
+                                                        "Queue-fabric-only reverse ETL",
+                                                        "Store-before-enqueue ordering",
+                                                        "FLOW-13 peer activation check"
+                                                    ]
+                                   },
+    "passCriteria":  [
+                         "Every FREEDOM key is flow-scoped with flow14_.",
+                         "STEP-1 invariants list all configuration keys before Phase 1 reads them.",
+                         "Tenant adaptations can change at least one FLOW-14 policy value without changing MACHINE rules.",
+                         "Auth checks still return 401 for missing/cross-tenant token and 403 for wrong-role token after adaptation."
+                     ]
+}

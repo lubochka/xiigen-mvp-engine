@@ -1,0 +1,11 @@
+{
+  "eventType": "QuestionnaireAnswered",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "questionnaire-service",
+  "consumers": ["T83", "T88", "T90"],
+  "piiFields": ["answers"],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "answers", "timeTaken", "userTimezoneOffset", "submittedAt"],
+  "forbiddenFields": ["earnedPoints"],
+  "notes": "Trigger event for FLOW-05. earnedPoints is FORBIDDEN — server calculates points server-side. timeTaken is the only performance metric accepted. userTimezoneOffset required for T96 streak calculation."
+}

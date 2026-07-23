@@ -1,0 +1,239 @@
+﻿{
+    "flowId":  "FLOW-12",
+    "flowSlug":  "subscription-billing",
+    "phase":  "phase5c5TenantCAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T04:53:10.8875089+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "Type A (FREEDOM key value change)",
+                       "packageName":  "@xiigen-fork/tessera-community-billing",
+                       "packageVersion":  "1.0.3",
+                       "moduleName":  "tessera-community-billing",
+                       "displayName":  "Tessera Community Billing",
+                       "sourceModuleName":  "northwind-revenue-recovery-billing",
+                       "visiblePlainLanguage":  "Tessera community billing policy: 28-day trials, community-paced recovery at 72/168/336/504 hours, four-year plan audit retention, and 180-day billing analytics while preserving Acme and Northwind history.",
+                       "adaptationHistoryEntries":  3,
+                       "acmeHistoryPreserved":  true,
+                       "northwindHistoryPreserved":  true,
+                       "tesseraHistoryAdded":  true,
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "subscription_billing_plan_audit_retention",
+                                                  "from":  1095,
+                                                  "to":  1460
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_default_trial_days",
+                                                  "from":  21,
+                                                  "to":  28
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_dunning_schedule",
+                                                  "from":  [
+                                                               {
+                                                                   "wait_hours":  24,
+                                                                   "attempt":  0
+                                                               },
+                                                               {
+                                                                   "wait_hours":  96,
+                                                                   "attempt":  1
+                                                               },
+                                                               {
+                                                                   "wait_hours":  216,
+                                                                   "attempt":  2
+                                                               },
+                                                               {
+                                                                   "wait_hours":  360,
+                                                                   "attempt":  3
+                                                               }
+                                                           ],
+                                                  "to":  [
+                                                             {
+                                                                 "wait_hours":  72,
+                                                                 "attempt":  0
+                                                             },
+                                                             {
+                                                                 "wait_hours":  168,
+                                                                 "attempt":  1
+                                                             },
+                                                             {
+                                                                 "wait_hours":  336,
+                                                                 "attempt":  2
+                                                             },
+                                                             {
+                                                                 "wait_hours":  504,
+                                                                 "attempt":  3
+                                                             }
+                                                         ]
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_metrics_window_days",
+                                                  "from":  120,
+                                                  "to":  180
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "prices remain integer cents",
+                                                   "payment validation remains before subscription state writes",
+                                                   "billing locks remain before invoice and charge execution",
+                                                   "invoice identifiers remain tenant, subscription, and period scoped",
+                                                   "billing audit records remain stored before billing events are emitted",
+                                                   "role access remains unchanged",
+                                                   "Acme and Northwind adaptation history remains visible to downstream tenants"
+                                               ],
+                       "adaptedFilesInTenantRepo":  [
+                                                        "ADAPTATION-CHANGELOG.md",
+                                                        "__tests__/subscription-billing-acme-adaptation.spec.ts",
+                                                        "freedom-config.defaults.json",
+                                                        "package.json",
+                                                        "settings/module.settings.json",
+                                                        "tenant.config.json"
+                                                    ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--tessera-community-billing",
+                             "url":  "https://github.com/lubochka/tessera-collective--tessera-community-billing",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "previousRepoName":  "lubochka/tessera-collective--northwind-revenue-recovery-billing",
+                             "adaptedCommit":  "6e0b454c1c53060af52bf8cdb324005f281fab87",
+                             "adaptedCommitMessage":  "Adapt Tessera community billing policy",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-revenue-recovery-billing",
+                             "cleanCloneStatus":  "clean",
+                             "adaptationHistoryEntries":  3,
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --package-lock-only --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  3
+                                                             }
+                                                         ]
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — subscription-billing",
+                          "runId":  25412098419,
+                          "url":  "https://github.com/lubochka/tessera-collective--tessera-community-billing/actions/runs/25412098419",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "6e0b454c1c53060af52bf8cdb324005f281fab87",
+                          "createdAt":  "2026-05-06T01:47:01Z",
+                          "updatedAt":  "2026-05-06T01:47:40Z",
+                          "jobs":  [
+                                       {
+                                           "name":  "Standalone flow test — subscription-billing",
+                                           "status":  "completed",
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/tessera-collective--tessera-community-billing/actions/runs/25412098419/job/74535881216"
+                                       }
+                                   ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation in prior runs; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/tessera-community-billing",
+                          "publishedVersion":  "1.0.3",
+                          "viewCommand":  "npm view @xiigen-fork/tessera-community-billing version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+                          "npmViewVersion":  "1.0.3",
+                          "distTags":  {
+                                           "latest":  "1.0.3"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/tessera-community-billing/-/tessera-community-billing-1.0.3.tgz",
+                          "shasum":  "74ee9410d55f927b04617b29393d62d3f4358453",
+                          "gitHead":  "6e0b454c1c53060af52bf8cdb324005f281fab87",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.3-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "applicationEvidence":  {
+                                "filesChangedInMainRepo":  [
+                                                               "client/e2e/subscription-billing-tenant-c-adaptation.spec.ts",
+                                                               "client/src/pages/MarketplacePage.tsx",
+                                                               "client/src/pages/subscription-billing/BillingDashboardPage.tsx"
+                                                           ],
+                                "visibleAdaptationSummary":  "28-day trials, community-paced recovery at 72/168/336/504 hours, four-year plan audit retention, and 180-day analytics while preserving Acme and Northwind history.",
+                                "playwright":  {
+                                                   "command":  "VITE_PORT=5196 VITE_API_URL=http://localhost:3000 npx playwright test e2e/subscription-billing-tenant-c-adaptation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                   "result":  "passed",
+                                                   "tests":  31
+                                               },
+                                "screenshots":  {
+                                                    "tenantCascadeDirectory":  "docs/e2e-snapshots/subscription-billing/tenant-c-v1.0.3",
+                                                    "tenantCascadeCount":  30,
+                                                    "tenantCascadeZeroByte":  0,
+                                                    "tenantCascadeMinBytes":  25216,
+                                                    "tenantCascadeMaxBytes":  53168,
+                                                    "marketplaceListingPath":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.3-listing.png",
+                                                    "marketplaceListingBytes":  352189,
+                                                    "registryApiEvidencePath":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.3-registry-api-evidence.json",
+                                                    "repoListingPath":  "docs/e2e-snapshots/repo-evidence/flow-12/tessera-collective--tessera-community-billing-github-listing.png",
+                                                    "repoListingBytes":  134234,
+                                                    "repoActionsSuccessPath":  "docs/e2e-snapshots/repo-evidence/flow-12/tessera-collective--tessera-community-billing-actions-success.png",
+                                                    "repoActionsSuccessBytes":  74207,
+                                                    "repoCaptureNote":  "GitHub screenshots were captured during a temporary public visibility window; gh repo view after capture confirmed visibility PRIVATE."
+                                                }
+                            },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "clientPlaywright":  {
+                                                            "command":  "subscription-billing-tenant-c-adaptation.spec.ts chromium-desktop",
+                                                            "result":  "passed",
+                                                            "tests":  31
+                                                        },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=subscription-billing --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  7,
+                                                      "tests":  78
+                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0
+                                                 },
+                                   "gitDiffCheck":  "passed"
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCAdaptedFlow":  true,
+                      "tenantCCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "marketplaceScreenshotPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForAuthDecorationCheck":  true
+                  },
+    "verdict":  "PASS"
+}

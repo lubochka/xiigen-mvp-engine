@@ -1,0 +1,194 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phase5bTenantBAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-05T06:45:17.7459667+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "role":  "Tenant B",
+                   "inheritedFromTenant":  "acme-corp",
+                   "inheritedPackage":  "@xiigen-fork/acme-launch-bundles@1.0.1"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "name":  "northwind-launch-bundles",
+                       "packageName":  "@xiigen-fork/northwind-launch-bundles",
+                       "version":  "1.0.2",
+                       "sourceRepoBeforeRename":  "lubochka/northwind--acme-launch-bundles",
+                       "sourceRepoAfterRename":  "lubochka/northwind--northwind-launch-bundles",
+                       "sourceCommitSha":  "215a228ae001431058d66c60489d115a41b26e65",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow00_activation_stage_labels.dryRun",
+                                                  "from":  "Check bundle readiness",
+                                                  "to":  "Confirm branch readiness"
+                                              },
+                                              {
+                                                  "key":  "flow00_activation_stage_labels.activate",
+                                                  "from":  "Launch approved bundle",
+                                                  "to":  "Release branch bundle"
+                                              },
+                                              {
+                                                  "key":  "flow00_activation_stage_labels.track",
+                                                  "from":  "Watch launch health",
+                                                  "to":  "Monitor branch health"
+                                              },
+                                              {
+                                                  "key":  "flow00_support_escalation_channel",
+                                                  "from":  "acme-launch-desk",
+                                                  "to":  "northwind-branch-ops"
+                                              },
+                                              {
+                                                  "key":  "flow00_activation_duration_estimates.perFlowActivationMs",
+                                                  "from":  9000,
+                                                  "to":  11000
+                                              }
+                                          ],
+                       "visiblePlainLanguage":  "Northwind branch launch policy: readiness step Confirm branch readiness, support route Northwind branch ops, full launch estimate about 11 seconds.",
+                       "invariantsPreserved":  [
+                                                   "required flow validation remains unchanged",
+                                                   "readiness check still runs before full activation",
+                                                   "activation ordering remains unchanged",
+                                                   "tenant isolation and role access remain unchanged",
+                                                   "Acme adaptation history remains preserved as the first cascade entry"
+                                               ]
+                   },
+    "forkRepoVerification":  {
+                                 "path":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-launch-bundles",
+                                 "remote":  "https://github.com/lubochka/northwind--northwind-launch-bundles.git",
+                                 "commitSha":  "215a228ae001431058d66c60489d115a41b26e65",
+                                 "commands":  [
+                                                  {
+                                                      "command":  "npx tsc --noEmit",
+                                                      "exitCode":  0
+                                                  },
+                                                  {
+                                                      "command":  "npx jest --colors=false --forceExit",
+                                                      "exitCode":  0,
+                                                      "result":  "2 suites passed, 3 tests passed"
+                                                  }
+                                              ],
+                                 "changedFiles":  [
+                                                      "package.json",
+                                                      "tenant.config.json",
+                                                      "freedom-config.defaults.json",
+                                                      "settings/module.settings.json",
+                                                      "ADAPTATION-CHANGELOG.md",
+                                                      "__tests__/bundle-activation-acme-adaptation.spec.ts"
+                                                  ],
+                                 "adaptationHistoryEntries":  2,
+                                 "workingTreeClean":  true
+                             },
+    "githubActions":  {
+                          "runId":  25356472550,
+                          "workflowName":  "XIIGen Flow CI - bundle-activation",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "215a228ae001431058d66c60489d115a41b26e65",
+                          "url":  "https://github.com/lubochka/northwind--northwind-launch-bundles/actions/runs/25356472550"
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/northwind-launch-bundles@1.0.2",
+                          "verificationCommand":  "npm view @xiigen-fork/northwind-launch-bundles version --registry http://localhost:4873",
+                          "verificationResult":  "1.0.2"
+                      },
+    "applicationEvidence":  {
+                                "clientTypecheck":  {
+                                                        "command":  "npx tsc --noEmit",
+                                                        "workingDirectory":  "client",
+                                                        "exitCode":  0
+                                                    },
+                                "playwright":  {
+                                                   "command":  "npx playwright test e2e/bundle-activation-tenant-b-adaptation.spec.ts e2e/bundle-activation-marketplace-listing.spec.ts --project=chromium-desktop --workers=1",
+                                                   "environment":  {
+                                                                       "SERVER_PORT":  "33001",
+                                                                       "VITE_API_URL":  "http://localhost:33001",
+                                                                       "VITE_PORT":  "5190"
+                                                                   },
+                                                   "result":  "11 passed, 0 failed"
+                                               },
+                                "snapshots":  {
+                                                  "tenantCascadeDirectory":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2",
+                                                  "tenantCascadePngCount":  9,
+                                                  "tenantCascadeMinimumBytes":  36878,
+                                                  "tenantCascadeMaximumBytes":  96895,
+                                                  "marketplaceListingPath":  "docs/e2e-snapshots/marketplace/bundle-activation-v1.0.2-listing.png",
+                                                  "marketplaceListingBytes":  182210,
+                                                  "files":  [
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/platform-admin-C2-en-populated.png",
+                                                                    "bytes":  96895
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/platform-admin-C4-he-rtl-populated.png",
+                                                                    "bytes":  91447
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/platform-admin-C6-en-mobile.png",
+                                                                    "bytes":  82068
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/platform-support-C2-en-populated.png",
+                                                                    "bytes":  77440
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/platform-support-C4-he-rtl-populated.png",
+                                                                    "bytes":  71576
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/platform-support-C6-en-mobile.png",
+                                                                    "bytes":  61764
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/tenant-admin-C2-en-populated.png",
+                                                                    "bytes":  47312
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/tenant-admin-C4-he-rtl-populated.png",
+                                                                    "bytes":  44516
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2/tenant-admin-C6-en-mobile.png",
+                                                                    "bytes":  36878
+                                                                }
+                                                            ]
+                                              }
+                            },
+    "repositoryEvidence":  {
+                               "repoFullName":  "lubochka/northwind--northwind-launch-bundles",
+                               "privateAfterEvidenceCapture":  true,
+                               "screenshots":  {
+                                                   "repoListing":  {
+                                                                       "path":  "docs/e2e-snapshots/repo-evidence/northwind--northwind-launch-bundles-github-listing.png",
+                                                                       "bytes":  166164,
+                                                                       "captureMode":  "GitHub web UI while temporarily public"
+                                                                   },
+                                                   "repoHomepage":  {
+                                                                        "path":  "docs/e2e-snapshots/repo-evidence/northwind--northwind-launch-bundles-repo-homepage.png",
+                                                                        "bytes":  125034,
+                                                                        "captureMode":  "GitHub web UI while temporarily public"
+                                                                    },
+                                                   "actionsSuccess":  {
+                                                                          "path":  "docs/e2e-snapshots/repo-evidence/northwind--northwind-launch-bundles-actions-success.png",
+                                                                          "bytes":  75017,
+                                                                          "captureMode":  "GitHub web UI while temporarily public"
+                                                                      }
+                                               }
+                           },
+    "mainRepoVerification":  {
+                                 "clientTypecheck":  "npx tsc --noEmit: passed",
+                                 "playwright":  "Tenant B adaptation plus marketplace listing: 11 passed",
+                                 "repoScreenshotSecretScan":  "0 hits for token patterns in Northwind v1.0.2 repo evidence PNGs"
+                             },
+    "secretHandling":  {
+                           "githubTokenPrinted":  false,
+                           "tenantJwtPrinted":  false,
+                           "vaultSigningKeyPrinted":  false,
+                           "registryTokenPrinted":  false,
+                           "repoScreenshotsContainApiDownloadTokens":  false
+                       },
+    "verdict":  "PASS"
+}

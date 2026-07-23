@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.git
+.github
+*.spec.ts
+*.test.ts
+jest.config.js
+.eslintrc.json
+.prettierrc
+README.md
+docs/

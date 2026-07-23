@@ -1,0 +1,32 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-32-integer_arithmetic_settlement",
+  "checkId": "integer_arithmetic_settlement",
+  "flowId": "FLOW-32",
+  "bfaRule": "CF-734",
+  "severity": "score-zero",
+  "description": "T532 revenue settlement must use integer arithmetic (BigInt cents). Floating-point operations cause rounding errors in multi-currency settlement, producing billing discrepancies.",
+  "taskTypeIds": ["T532"],
+  "scanFor": {
+    "banned": [
+      "parseFloat(",
+      "toFixed(",
+      "Math.round(",
+      "Number.parseFloat",
+      ".toFixed(",
+      "* 1.0",
+      "/ 100.0",
+      "0.01 *",
+      "0.001 *"
+    ],
+    "anyPresent": "FAIL",
+    "caseSensitive": false
+  },
+  "required": {
+    "atLeastOne": ["BigInt", "bigint", "cents", "basisPoints"]
+  },
+  "onFailure": "score-0",
+  "stRef": "ST-451",
+  "failureMessage": "CF-734/ST-451: Float-billing violation in T532 settlement. Use BigInt integer arithmetic (cents/basis points) for all monetary calculations.",
+  "active": true
+}

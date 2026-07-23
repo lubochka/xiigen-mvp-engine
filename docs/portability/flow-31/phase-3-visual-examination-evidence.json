@@ -1,0 +1,85 @@
+{
+  "flowId": "FLOW-31",
+  "flowSlug": "design-intelligence-engine",
+  "implementationSlug": "design-system-governance",
+  "phase": "phase3VisualExamination",
+  "recordedAt": "2026-05-11T04:09:38.4078435Z",
+  "groundTruthLoaded": [
+    "docs/screen-examination/design-intelligence-engine-examination.md",
+    "docs/flow-coverage/design-intelligence-engine/P1-business-logic-inventory.md",
+    "docs/flow-coverage/design-intelligence-engine/P5-ui-specs.md",
+    "docs/flow-coverage/design-intelligence-engine/P2-ui-gap-analysis.md",
+    "docs/sessions/FLOW-31/FLOW-31-MOBILITY-AUTH-STATE.json"
+  ],
+  "missingOptionalGroundTruth": [
+    "docs/design-context/design-intelligence-engine/.impeccable.md",
+    "docs/design-reviews/XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md"
+  ],
+  "pngMatrix": {
+    "totalPngCount": 42,
+    "zeroByteCount": 0,
+    "flowViewportPngCount": 33,
+    "roleViewportPngCount": 9,
+    "viewports": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "roleBranches": [
+      "platform-admin",
+      "platform-support",
+      "tenant-admin-freedom-on",
+      "tenant-admin-freedom-off"
+    ]
+  },
+  "axisResults": {
+    "shell": "PASS",
+    "roleSpecificContent": "PASS",
+    "layoutAndRtlProxy": "PASS",
+    "domainFields": "PASS",
+    "internalIdentifiers": "PASS",
+    "mobileUsability": "PASS",
+    "visualPolish": "PASS"
+  },
+  "fixesDuringExamination": [
+    {
+      "file": "client/src/pages/design-intelligence-engine/DesignIntelligenceEnginePage.tsx",
+      "summary": "Replaced visible CF-style rollback trigger copy with plain admin-facing wording."
+    }
+  ],
+  "verification": [
+    {
+      "name": "client TypeScript after visual copy fix",
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "name": "recapture rollback state across all viewports",
+      "command": "Push-Location client; npx playwright test e2e/design-intelligence-engine-mock-states.spec.ts -g \"state-6\" --workers=1 --timeout=60000 --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 3,
+      "result": "passed"
+    },
+    {
+      "name": "expanded FLOW-31 C6 role matrix",
+      "command": "Push-Location client; npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts -g \"C6-R31\" --reporter=line --workers=1 --timeout=60000; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 9,
+      "result": "passed"
+    },
+    {
+      "name": "visible-copy internal-code scan",
+      "command": "Select-String -Path client/src/pages/design-intelligence-engine/DesignIntelligenceEnginePage.tsx -Pattern forbidden human-language patterns",
+      "failureLines": 0,
+      "result": "passed"
+    }
+  ],
+  "blockedFindings": 0,
+  "secretHandling": {
+    "containsCredentials": false,
+    "containsSigningKeys": false,
+    "containsBearerTokens": false
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,32 @@
+{
+  "patternId": "plan-flow01-user-registration-onboarding",
+  "patternType": "PLAN_EXEMPLAR",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "summary": "Wave-0 user registration funnel. T47 (ROUTING) accepts signup, T48 (PROCESSING) holds for email verification, T49 (ORCHESTRATION) delivers onboarding wizard.",
+  "taskSequence": [
+    "T47",
+    "T48",
+    "T49"
+  ],
+  "archetypes": [
+    "ROUTING",
+    "PROCESSING",
+    "ORCHESTRATION"
+  ],
+  "keyPatterns": [
+    "idempotency via IScopedMemoryService",
+    "scheduled delay via ISchedulerService",
+    "multi-step resume via completedSteps[]"
+  ],
+  "crossFlowGate": "UserOnboardingCompleted from T49 triggers FLOW-02",
+  "tags": [
+    "plan",
+    "wave-0",
+    "registration",
+    "onboarding",
+    "sequential"
+  ],
+  "keywords": "registration onboarding plan sequential ROUTING PROCESSING ORCHESTRATION wave-0"
+}

@@ -1,0 +1,24 @@
+{
+  "patternId": "arch--partial-input-partial-output",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-02",
+  "domainId": "generic",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "archetype": "DATA_PIPELINE",
+  "tags": [
+    "partial-input",
+    "partial-output",
+    "forward-partial",
+    "never-fail-on-partial",
+    "pipeline-continuation",
+    "B1-B2-chain"
+  ],
+  "keywords": "partial input output forward continuation never fail pipeline chain circuit breaker upstream downstream",
+  "codeSnippet": "// When upstream input is partial (circuit breaker fired), produce partial output — not failure.\n// B1 returned 3 matches instead of 20? B2 returns 3 suggestions.\n// DataProcessResult.failure is reserved for INFRASTRUCTURE errors, not partial upstream.\n\n// B2 receives from B1:\nconst { matchedBusinessIds, partialResults } = b1Result.data!;\n// partialResults: true when B1 hit 30s timeout\n\n// WRONG: if (partialResults) return DataProcessResult.failure('INSUFFICIENT_MATCHES')\n// → blocks onboarding for all users on slow tenants\n\n// CORRECT: forward partial flag, produce N suggestions from N inputs\nconst suggestions = await Promise.all(\n  matchedBusinessIds.map(async (id) => {\n    const globalProfile = await this.db.searchDocuments(MATCHING_PROFILES_INDEX, { userId: id });\n    return this.buildSuggestion(id, globalProfile.data?.[0], partialResults);\n  })\n);\n\n// partialResults forwarded to output — UI shows 'finding more connections'\nreturn DataProcessResult.success({\n  suggestions,\n  partialResults,      // ← forwarded, not swallowed\n  suggestionCount: suggestions.length,\n});",
+  "ironRules": [
+    "partial upstream input → partial output, never DataProcessResult.failure",
+    "partialResults flag forwarded through entire chain to UI",
+    "suggestion count = match list count — never a hardcoded cap",
+    "'still finding connections' is a valid UI state"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "flowId": "FLOW-13",
+  "slug": "data-warehouse-analytics",
+  "primaryTaskType": "T173",
+  "primaryTaskName": "QueryExecutionEngine",
+  "description": "Data warehouse analytics pipeline with three-layer security gate (quota→RLS→PII masking). T173 QueryExecutionEngine orchestrates inline quota check, RLS, and PII masking before query execution.",
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "WarehouseQueryRequested event (tenant query dispatch)",
+  "primaryFabric": "DATABASE",
+  "nodes": {
+    "n1": { "id": "n1", "type": "validate", "label": "ValidateQueryRequest", "description": "Validate query syntax, tenant scope, and required fields" },
+    "n2": { "id": "n2", "type": "rag-retrieve", "label": "RetrieveQueryPatterns", "description": "RAG retrieval of known query optimization patterns and security gate blueprints" },
+    "n3": { "id": "n3", "type": "decompose", "label": "DecomposeQueryPlan", "description": "Decompose complex query into executable steps with gate ordering" },
+    "n4": { "id": "n4", "type": "ai-generate", "label": "GenerateQueryExecutor", "description": "AI generates T173 QueryExecutionEngine with correct three-layer gate: T187 quota INLINE → F422 RLS → F423 PII masking. Content: constructor inlines QuotaManager, @Inject F422 and F423 as PLATFORM-ONLY, gate order is immutable." },
+    "n5": { "id": "n5", "type": "validate", "label": "ValidateSecurityGate", "description": "Validate T187 is inline (not injected), F422/F423 cannot be disabled, gate order is correct" },
+    "n6": { "id": "n6", "type": "score", "label": "ScoreQueryExecutor", "description": "Score implementation: gate order compliance, inline service correctness, PII masking placement" },
+    "n7": { "id": "n7", "type": "route", "label": "RouteOnScore", "description": "Route to feedback (score >= 0.85) or iterate (score < 0.85)" },
+    "n8": { "id": "n8", "type": "feedback", "label": "StoreFeedback", "description": "DPO triple: chosen=T187-inline-constructor + F422-layer2 + F423-layer3-before-serialization + recordUsage-after-query, rejected=T187-@Inject OR F426-referenced OR gate-layers-reordered OR PII-masking-after-serialization. Record model used, score, gate compliance flag, inline service correctness flag.", "discriminatingConstraint": "T187 @Inject OR F426 referenced OR gate layers reordered from T187→F422→F423 receives score=0 and triggers n3 re-iteration. Correct implementation: T187 instantiated inline in constructor at layer 1, F422 at layer 2, F423 at layer 3, all gates BEFORE executeQuery.", "curriculumTier": 2 }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85" }
+  ],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

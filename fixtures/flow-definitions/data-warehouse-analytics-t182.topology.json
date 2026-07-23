@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T182",
+  "name": "data-warehouse-analytics-training-dataset-builder",
+  "description": "T182 TrainingDatasetBuilder — ANALYTICS_ENGINE archetype. Tenant-scoped datasets. F423 IPIIMaskingService runs before dataset export. featureCount and rowCount validated before emit.",
+  "archetype": "ANALYTICS_ENGINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: F423 PII masking before export, featureCount and rowCount validated (> 0) before emit, tenant-scoped datasets"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ANALYTICS_ENGINE arch pattern + pii-masking-before-export + feature-count-validation + training-dataset + tenant-scoped-dataset patterns for T182",
+      "params": {
+        "archetype": "ANALYTICS_ENGINE",
+        "taskTypeRef": "T182",
+        "topK": 5,
+        "patternIds": [
+          "pii-masking-before-export-001",
+          "feature-count-validation-001",
+          "training-dataset-001",
+          "tenant-scoped-dataset-001",
+          "analytics-engine-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T182 into: consume queue event → load tenant dataset config → query DATABASE (tenant-scoped) → F423 mask PII fields → validate featureCount > 0 and rowCount > 0 → storeDocument(dataset) → emit DatasetBuilt"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate training-dataset-builder.service.ts — queue consumer. F423 IPIIMaskingService runs BEFORE dataset is assembled for export. featureCount and rowCount are validated: if either === 0 emit DatasetBuildFailed with EMPTY_DATASET code. Tenant-scoped from ALS. NEVER export dataset with unmasked PII. DNA-8: storeDocument BEFORE emit."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: pii_masking_before_assembly, feature_count_validated_positive, row_count_validated_positive, tenant_scoped_dataset, empty_dataset_error_handled"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T182 iron rules: PII masking order, featureCount/rowCount validation, tenant isolation, empty dataset error"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=pii-masking-first+count-validated+empty-dataset-error, rejected=pii-masking-after-assembly OR zero-count-accepted OR cross-tenant-dataset. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Queue consumer",
+  "primaryFabric": "DATABASE"
+}

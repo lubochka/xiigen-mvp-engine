@@ -1,0 +1,155 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "phase5aTenantBInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T11:28:50.3218144Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "tenantName":  "Northwind"
+               },
+    "sourcePackage":  {
+                          "repoFullName":  "lubochka/acme-corp--acme-safety-console",
+                          "packageName":  "@xiigen-fork/acme-safety-console",
+                          "packageVersion":  "1.0.1",
+                          "sourceCommit":  "eb4970cdcdfccefbb06de27a7e2a5d2eb7aae754"
+                      },
+    "forkApi":  {
+                    "endpoint":  "POST /api/marketplace/packages/ai-safety-moderation/fork",
+                    "sourceRepoFullName":  "lubochka/acme-corp--acme-safety-console",
+                    "repoNameOverride":  "northwind--acme-safety-console",
+                    "response":  {
+                                     "forkId":  "fork-ai-safety-moderation-northwind",
+                                     "repoUrl":  "https://github.com/lubochka/northwind--acme-safety-console",
+                                     "repoFullName":  "lubochka/northwind--acme-safety-console",
+                                     "status":  "FORKED",
+                                     "initialCommitSha":  "6f6449d4e0e2b3cda1026bc6831d42f7448744a2"
+                                 }
+                },
+    "tenantRepository":  {
+                             "repo":  "lubochka/northwind--acme-safety-console",
+                             "url":  "https://github.com/lubochka/northwind--acme-safety-console",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "6f6449d4e0e2b3cda1026bc6831d42f7448744a2",
+                             "initialActionsRunId":  [
+                                                         25627444202,
+                                                         25627379365
+                                                     ],
+                             "initialActionsConclusion":  [
+                                                              "success",
+                                                              "failure"
+                                                          ],
+                             "repairCommit":  "495ed516fe2e5a8ff87187c78e868da610a1d948",
+                             "repairCommitMessage":  "Repair Acme safety adaptation test for Northwind cascade install",
+                             "githubActionsRunId":  [
+                                                        25627444202,
+                                                        25627379365
+                                                    ],
+                             "githubActionsConclusion":  [
+                                                             "success",
+                                                             "failure"
+                                                         ],
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-safety-console-phase5a-20260510-142132",
+                             "cleanCloneStatus":  "clean against repaired/main",
+                             "tenantConfig":  {
+                                                  "tenantId":  "northwind",
+                                                  "moduleName":  "acme-safety-console",
+                                                  "repoFullName":  "lubochka/northwind--acme-safety-console",
+                                                  "installedFromRepoFullName":  "lubochka/acme-corp--acme-safety-console",
+                                                  "adaptationHistoryEntries":  1,
+                                                  "firstAdaptationTenant":  "acme-corp"
+                                              },
+                             "package":  {
+                                             "name":  "@xiigen-fork/acme-safety-console",
+                                             "version":  "1.0.1"
+                                         },
+                             "bundleManifestItemCount":  111
+                         },
+    "tenantCloneVerification":  [
+                                    {
+                                        "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx tsc --noEmit --pretty false",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx jest --colors=false --forceExit",
+                                        "result":  "passed",
+                                        "suites":  2,
+                                        "tests":  4
+                                    },
+                                    {
+                                        "command":  "npm pack --dry-run --json",
+                                        "result":  "passed",
+                                        "entryCount":  112,
+                                        "shasum":  "7d1f79729c42cf091c2efc5b10b23549d1aa1794"
+                                    }
+                                ],
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "package":  "@xiigen-fork/acme-safety-console",
+                          "version":  "1.0.1",
+                          "shasum":  "1be1919dd9f3edd2b44e2c73569f6bc5b9c3b490",
+                          "gitHead":  "eb4970cdcdfccefbb06de27a7e2a5d2eb7aae754",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/ai-safety-moderation-acme-v1.0.1-registry-api-evidence-phase5a.json",
+                          "verified":  true
+                      },
+    "playwrightEvidence":  {
+                               "spec":  "client/e2e/ai-safety-moderation-tenant-b-installed.spec.ts",
+                               "command":  "VITE_PORT=52424 npx playwright test ai-safety-moderation-tenant-b-installed.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                               "passed":  15,
+                               "failed":  0,
+                               "pngDirectory":  "docs/e2e-snapshots/ai-safety-moderation/tenant-b-installed-from-a",
+                               "pngCount":  15,
+                               "emptyPngCount":  0,
+                               "totalBytes":  621488
+                           },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/ai-safety-moderation-acme-v1.0.1-registry-listing-phase5a.png",
+                                                   "bytes":  18388
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-24/northwind--acme-safety-console-tenant-b-installed-from-a-actions-success.png",
+                                                   "bytes":  79715
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-24/northwind--acme-safety-console-tenant-b-installed-from-a-github-listing.png",
+                                                   "bytes":  128104
+                                               }
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypescript":  "passed",
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "highRiskSecretPatternHits":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBForkedFromTenantARepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localCloneValidationPassed":  true,
+                      "localRegistryStillReturnsTenantAAdaptedVersion":  true,
+                      "playwrightCascadeScreenshotsPresent":  true,
+                      "repoEvidenceScreenshotsPresent":  true,
+                      "readyForTenantBAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

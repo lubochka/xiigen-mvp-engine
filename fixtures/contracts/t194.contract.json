@@ -1,0 +1,26 @@
+{
+  "taskTypeId": "T194",
+  "flowId": "FLOW-11",
+  "name": "SchemaPublisher",
+  "archetype": "TRANSACTION",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "database": ["xiigen-schema-registry", "xiigen-schema-audit", "xiigen-idempotency-keys"],
+    "queue": ["SchemaPublished", "SchemaPublishConflict", "SchemaPublishBlocked"],
+    "aiEngine": []
+  },
+  "factories": [
+    { "token": "DATABASE_SERVICE", "fabricType": "DATABASE" },
+    { "token": "QUEUE_SERVICE", "fabricType": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T194-1", "rule": "storeDocumentWithOCC(schema, versionPin) — never plain storeDocument(). Read versionPin via getDocumentWithVersion() immediately before write. On OCC_CONFLICT: emit SchemaPublishConflict.", "severity": "BLOCKING" },
+    { "id": "IR-T194-2", "rule": "BREAKING changeType: verify approvalToken SETNX before OCC write. No token → SchemaPublishBlocked. ADDITIVE: no token check.", "severity": "BLOCKING" },
+    { "id": "IR-T194-3", "rule": "storeDocument(publishAudit) executes BEFORE enqueue(SchemaPublished). DNA-8.", "severity": "BLOCKING" },
+    { "id": "IR-T194-4", "rule": "Prior version superseded: updateDocument(previousVersionId, { activeUntil: now }) after new schemaVersion write succeeds.", "severity": "BLOCKING" }
+  ],
+  "namedChecks": ["irreversible_purge_requires_approval_token"],
+  "machineComponents": ["OCC_PROTECTED_WRITE", "SCHEMA_VERSION_PIN", "BREAKING_TOKEN_GATE"],
+  "freedomComponents": ["schema_registry_approval_window_ms"]
+}

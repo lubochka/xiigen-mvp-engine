@@ -1,0 +1,58 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "preExistingDefectCheck",
+    "generatedAt":  "2026-05-10T10:28:05.9772240Z",
+    "productDecision":  {
+                            "status":  "initialized-from-functional-spec-and-current-state",
+                            "sources":  [
+                                            "docs/business-flows/functional-specs/FLOW-24-ai-safety-moderation-functional-spec.md",
+                                            "docs/flow-coverage/ai-safety-moderation/P1-business-logic-inventory.md",
+                                            "docs/flow-coverage/ai-safety-moderation/P5-ui-specs.md",
+                                            "docs/sessions/FLOW-24/FLOW-24-CURRENT-STATE.json",
+                                            "docs/sessions/FLOW-24/FLOW-24-IMPL-STATE.json",
+                                            "docs/design-reviews/ROLE-ANALYSIS-BATCH-05.md FLOW-24 section",
+                                            "server/src/engine/flows/ai-safety-moderation"
+                                        ],
+                            "decision":  "FLOW-24 ai-safety-moderation is eligible to proceed through mobility/auth certification after repairing the pre-existing MicroserviceBase and direct tenant context defects in ConsentAndEnrollmentGateService."
+                        },
+    "repairedDefects":  [
+                            {
+                                "file":  "server/src/engine/flows/ai-safety-moderation/consent-and-enrollment-gate.service.ts",
+                                "defects":  [
+                                                "service did not extend MicroserviceBase",
+                                                "service imported ClsService from nestjs-cls",
+                                                "service imported TenantContext/TENANT_CONTEXT_KEY directly"
+                                            ],
+                                "repair":  "Service now extends MicroserviceBase and obtains tenant id through TenantContextResolver."
+                            }
+                        ],
+    "verification":  {
+                         "serverTypeScript":  {
+                                                  "command":  "npx tsc --noEmit -p tsconfig.json --pretty false",
+                                                  "workingDirectory":  "server",
+                                                  "exitCode":  0,
+                                                  "result":  "PASS"
+                                              },
+                         "flowJest":  {
+                                          "command":  "npx jest --testPathPatterns=ai-safety-moderation --runInBand --colors=false",
+                                          "workingDirectory":  "server",
+                                          "exitCode":  0,
+                                          "testSuitesPassed":  4,
+                                          "testSuitesTotal":  4,
+                                          "testsPassed":  91,
+                                          "testsTotal":  91,
+                                          "result":  "PASS"
+                                      },
+                         "sourceScans":  {
+                                             "throwNew":  0,
+                                             "servicesMissingMicroserviceBase":  0,
+                                             "clsImports":  0,
+                                             "directTenantContextImports":  0,
+                                             "directSdkImports":  0,
+                                             "anyTypes":  0,
+                                             "result":  "PASS"
+                                         }
+                     },
+    "verdict":  "PASS"
+}

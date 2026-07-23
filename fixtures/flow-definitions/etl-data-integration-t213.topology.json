@@ -1,0 +1,32 @@
+{
+  "flowId": "FLOW-14",
+  "slug": "etl-data-integration",
+  "primaryTaskType": "T213",
+  "primaryTaskName": "ConnectorRegistrationHandler",
+  "description": "ETL & Data Integration pipeline covering connector registration, EP-4 sync saga, webhook HMAC ingestion, backfill, raw→staging transformation, schema drift detection, SCD-2 dimensional modeling, PII-gated mart writes, identity join, cross-flow analytics, reverse ETL via queue fabric, and tenant warehouse provisioning.",
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "ConnectorRegistrationRequested event (tenant registers new data connector)",
+  "primaryFabric": "DATABASE",
+  "nodes": {
+    "n1": { "id": "n1", "type": "validate", "label": "ValidateConnectorRequest", "description": "Validate connector config, credentials present, required fields, tenant scope" },
+    "n2": { "id": "n2", "type": "rag-retrieve", "label": "RetrieveEtlPatterns", "description": "RAG retrieval of ETL integration patterns: EP-4 saga cycle, CF-192 zone order, CF-193 cursor monotonic, CF-211 HMAC timing-safe, DR-62 SCD-2, DR-63 PII gate, DR-64 queue-fabric-only" },
+    "n3": { "id": "n3", "type": "decompose", "label": "DecomposeEtlPipeline", "description": "Decompose into 12 service tasks: T213 registration → T214 sync saga → T215 webhook → T216 backfill → T217 transform → T218 drift → T219 SCD-2 → T220 mart → T221 identity → T222 cross-flow → T223 reverse → T224 warehouse" },
+    "n4": { "id": "n4", "type": "ai-generate", "label": "GenerateConnectorRegistration", "description": "AI generates T213 ConnectorRegistrationHandler with F430 rate check at ORDER 1, F427 vault at ORDER 2, idempotency at ORDER 3, storeDocument BEFORE enqueue. Content: ConnectorRegistered payload has no credentials — only opaque connectorId. ConnectorRegistrationFailed on any failure path. CF-211 HMAC timing-safe required for T215." },
+    "n5": { "id": "n5", "type": "validate", "label": "ValidateEtlSecurityGates", "description": "Validate CF-211 timingSafeEqual not ===, CF-192 append-only raw zone, CF-193 monotonic cursor, DR-62 no updateDocument, DR-63 PII gate at ORDER 1, DR-64 no HTTP to SaaS" },
+    "n6": { "id": "n6", "type": "score", "label": "ScoreEtlImplementation", "description": "Score: CF rules compliance, iron rule ordering, DNA-8 outbox, knowledgeScope PRIVATE on all records" },
+    "n7": { "id": "n7", "type": "route", "label": "RouteOnScore", "description": "Route to feedback (score >= 0.85) or iterate (score < 0.85)" },
+    "n8": { "id": "n8", "type": "feedback", "label": "StoreFeedback", "description": "DPO triple: chosen=CF-211-timingSafeEqual + CF-192-append-only + CF-193-monotonic + DR-62-no-updateDocument + DR-63-pii-order-1 + DR-64-queue-fabric-only + DNA-8-store-before-enqueue, rejected=string-equality-hmac OR updateDocument-on-raw OR cursor-non-monotonic OR direct-HTTP-to-SaaS OR enqueue-before-store. Record model, score, CF compliance flags.", "discriminatingConstraint": "Using === for HMAC comparison (CF-211 violation) OR calling updateDocument on raw zone (CF-192 violation) OR skipping PII gate (DR-63 violation) OR direct HTTP to SaaS for reverse ETL (DR-64 violation) receives score=0 and triggers n3 re-iteration.", "curriculumTier": 2 }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85" }
+  ],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

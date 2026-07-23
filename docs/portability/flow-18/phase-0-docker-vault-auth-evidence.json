@@ -1,0 +1,219 @@
+﻿{
+    "flowId":  "FLOW-18",
+    "flowSlug":  "visual-flow-engine",
+    "phase":  "phase0AuthPreflight",
+    "generatedAt":  "2026-05-07T00:40:47.5501685+03:00",
+    "status":  "completed",
+    "infrastructure":  {
+                           "dockerRunning":  true,
+                           "vaultRunning":  true,
+                           "vaultSealed":  false,
+                           "serverHealth":  "OK",
+                           "githubAuthenticated":  true,
+                           "githubLogin":  "lubochka",
+                           "tenantCredentialsSeeded":  {
+                                                           "acme-corp":  true,
+                                                           "northwind":  true,
+                                                           "tessera-collective":  true
+                                                       }
+                       },
+    "roleMap":  {
+                    "status":  "defined",
+                    "source":  [
+                                   "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md FLOW-18 Visual Flow Engine section",
+                                   "docs/business-flows/functional-specs/FLOW-18-visual-flow-engine-functional-spec.md",
+                                   "client/src/pages/visual-flow-engine/FlowCanvasPage.tsx RoleScopedView cases"
+                               ],
+                    "roles":  [
+                                  {
+                                      "role":  "anonymous",
+                                      "coverage":  "none",
+                                      "use":  "no admin visual-flow access",
+                                      "authProbeExpected":  null,
+                                      "note":  "protected route verifies missing-token 401"
+                                  },
+                                  {
+                                      "role":  "tenant-user",
+                                      "coverage":  "fallback",
+                                      "use":  "non-admin fallback view only; no distinct authoring template",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "tenant-admin",
+                                      "coverage":  "full",
+                                      "use":  "TENANT_OPS low-code flow builder, tenant-scoped palette, publish gate",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "platform-admin",
+                                      "coverage":  "full",
+                                      "use":  "PLATFORM_OPS cross-tenant flow registry and engine-template editor",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "platform-support",
+                                      "coverage":  "partial",
+                                      "use":  "read-only canvas viewer for debugging",
+                                      "authProbeExpected":  403,
+                                      "note":  "wrong-role case for run trace probe because probe permits tenant-user, tenant-admin, and platform-admin"
+                                  }
+                              ],
+                    "notes":  [
+                                  "FLOW-18 role analysis defines 2 full cells plus 1 partial support cell; all other roles use fallback/non-distinct behavior."
+                              ]
+                },
+    "server":  {
+                   "url":  "http://localhost:33001",
+                   "route":  "/api/runs/phase0-auth-probe/trace",
+                   "health":  "passed"
+               },
+    "vault":  {
+                  "container":  "xiigen-vault",
+                  "sealed":  false,
+                  "signingKeysReadFromVault":  {
+                                                   "northwind":  true,
+                                                   "tessera-collective":  true,
+                                                   "acme-corp":  true
+                                               }
+              },
+    "liveAuthMatrix":  [
+                           {
+                               "name":  "valid acme tenant-admin token in acme tenant",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "valid northwind tenant-admin token in northwind tenant",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "northwind",
+                               "tokenTenant":  "northwind",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "valid tessera tenant-admin token in tessera tenant",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "tessera-collective",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "missing token denied",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  null,
+                               "roles":  [
+
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "acme token in northwind tenant denied",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "northwind",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "northwind token in tessera tenant denied",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "northwind",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "acme token in tessera tenant denied",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "wrong platform-support role denied on run trace",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "platform-support"
+                                         ],
+                               "expectedStatus":  403,
+                               "actualStatus":  403,
+                               "pass":  true
+                           }
+                       ],
+    "summary":  {
+                    "passed":  8,
+                    "total":  8,
+                    "allPassed":  true
+                },
+    "verification":  {
+                         "serverTypeScript":  "passed in pre-existing repair phase: npx tsc --noEmit -p tsconfig.json --pretty false",
+                         "serverJest":  "passed in pre-existing repair phase: npx jest --testPathPatterns=visual-flow-engine --runInBand --colors=false (9 suites / 98 tests)",
+                         "sourceScan":  {
+                                            "throwNew":  0,
+                                            "servicesMissingMicroserviceBase":  0,
+                                            "clsImports":  0,
+                                            "directTenantContextImports":  0,
+                                            "directSdkImports":  0,
+                                            "anyTypes":  0,
+                                            "secretPatternHits":  0
+                                        }
+                     },
+    "secretHandling":  {
+                           "tokenMaterialPrinted":  false,
+                           "signingKeysWrittenToEvidence":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false
+                       },
+    "commands":  [
+                     "Used already-running Docker server after previous restart completed.",
+                     "GET http://localhost:33001/health/live",
+                     "Read tenant JWT signing keys from Vault without printing values.",
+                     "Generated short-lived HS256 JWT probes in memory only.",
+                     "Invoke-WebRequest status-code auth matrix against http://localhost:33001/api/runs/phase0-auth-probe/trace",
+                     "FLOW-18 role map read from ROLE-ANALYSIS-BATCH-04, functional spec, and FlowCanvasPage role branches."
+                 ],
+    "verdict":  "PASS"
+}

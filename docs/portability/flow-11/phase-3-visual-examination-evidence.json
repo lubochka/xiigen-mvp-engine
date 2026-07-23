@@ -1,0 +1,85 @@
+{
+  "flowId": "FLOW-11",
+  "flowSlug": "schema-registry-dag",
+  "phase": "phase3VisualExamination",
+  "status": "passed",
+  "recordedAt": "2026-05-06T00:37:08.3920399+03:00",
+  "visualSamplesReviewed": [
+    {
+      "file": "docs/e2e-snapshots/schema-registry-dag/r-03-after.png",
+      "result": "pass",
+      "notes": "Schema registry list renders populated cards, status badges, search controls, and primary action without incoherent overlap."
+    },
+    {
+      "file": "docs/e2e-snapshots/schema-registry-dag/r-07-after.png",
+      "result": "pass",
+      "notes": "Schema submission success state is readable and contained."
+    },
+    {
+      "file": "docs/e2e-snapshots/schema-registry-dag/r-08-after.png",
+      "result": "pass_after_fix",
+      "notes": "Initial audit found React Flow controls overlapping the DAG nodes. The final regenerated screenshot shows controls below the graph row with nodes visible."
+    },
+    {
+      "file": "docs/topology-snapshots/schema-registry-dag/tvq-10-page-render.png",
+      "result": "pass_after_fix",
+      "notes": "DagVisualizationPage renders React Flow nodes rather than Mermaid text; controls no longer occlude the node row."
+    }
+  ],
+  "fixesApplied": [
+    {
+      "file": "client/src/components/topology/TopologyViewer.tsx",
+      "summary": "Increased fitView padding to 0.35 and moved controls to bottom-right with the nonessential interactivity toggle hidden to avoid node overlap."
+    },
+    {
+      "file": "client/e2e/schema-registry-dag.spec.ts",
+      "summary": "Raised FLOW-11 navigation/render timeout from 10 seconds to 30 seconds so cold startup does not become a skip."
+    },
+    {
+      "file": "client/e2e/topology/schema-registry-dag-topology-qa.spec.ts",
+      "summary": "Raised FLOW-11 topology QA navigation timeout from 10 seconds to 30 seconds for the same cold-start guard."
+    }
+  ],
+  "commands": [
+    {
+      "name": "focused visual regeneration",
+      "command": "$env:VITE_PORT='5174'; $env:CLIENT_URL='http://localhost:5174'; $env:VITE_API_URL='http://localhost:33001'; $env:SERVER_URL='http://localhost:33001'; Push-Location client; npx playwright test e2e/schema-registry-dag.spec.ts e2e/topology/schema-registry-dag-topology-qa.spec.ts -g \"R-08|TVQ-10\" --reporter=list; Pop-Location",
+      "exitCode": 0,
+      "result": "6 passed, 0 failed"
+    },
+    {
+      "name": "client TypeScript",
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-11 Playwright suites",
+      "command": "$env:VITE_PORT='5174'; $env:CLIENT_URL='http://localhost:5174'; $env:VITE_API_URL='http://localhost:33001'; $env:SERVER_URL='http://localhost:33001'; Push-Location client; npx playwright test e2e/schema-registry-dag.spec.ts e2e/topology/schema-registry-dag-topology-qa.spec.ts --reporter=list; Pop-Location",
+      "exitCode": 0,
+      "result": "72 passed, 0 failed, 0 skipped"
+    },
+    {
+      "name": "diff whitespace check",
+      "command": "git diff --check",
+      "exitCode": 0,
+      "result": "passed"
+    }
+  ],
+  "pngEvidence": {
+    "docs/e2e-snapshots/schema-registry-dag": {
+      "count": 14,
+      "r08AfterBytes": 67557
+    },
+    "docs/topology-snapshots/schema-registry-dag": {
+      "count": 2,
+      "tvq10Bytes": 66925
+    }
+  },
+  "phaseCloseScan": {
+    "visualOverlapFindings": 0,
+    "playwrightFailures": 0,
+    "playwrightSkips": 0,
+    "typescriptErrors": 0
+  }
+}

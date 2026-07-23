@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RecordQuarantined",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "RecordQuarantined" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["recordId","quarantineReason","sourceZone","normalizationError"],
+      "properties": {
+        "recordId": { "type": "string" },
+        "quarantineReason": { "type": "string" },
+        "sourceZone": { "type": "string", "enum": ["raw","staging","core","mart"] },
+        "normalizationError": { "type": "string" }
+      }
+    }
+  }
+}

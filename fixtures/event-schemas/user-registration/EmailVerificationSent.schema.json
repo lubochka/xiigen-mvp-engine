@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.user-registration.email-verification-sent.v1",
+  "taskTypeId": "T48",
+  "flowId": "FLOW-01",
+  "description": "Emitted by T48 EmailVerificationWaitState when a verification email is dispatched (initial or resend).",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.user-registration.email-verification-sent.v1",
+    "source": "xiigen/flows/user-registration-onboarding/t48",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "userId": {
+      "type": "string",
+      "description": "Opaque user identifier \u00e2\u20ac\u201d no PII (CF-8)"
+    },
+    "tokenId": {
+      "type": "string",
+      "description": "Verification token reference (not the token value itself)"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Token expiry (24h from issuance)"
+    },
+    "isResend": {
+      "type": "boolean",
+      "description": "True if this is a resend of an existing verification"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "Token value never included \u00e2\u20ac\u201d only tokenId reference. No email address in payload (CF-8).",
+  "requiredByFlows": [
+    "FLOW-01"
+  ],
+  "seededAt": "2026-03-24T22:09:46.555074+00:00"
+}

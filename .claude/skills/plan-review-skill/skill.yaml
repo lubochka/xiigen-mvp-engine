@@ -1,0 +1,29 @@
+name: plan-review-skill
+version: "1.0.0"
+sk_number: SK-410
+priority: MANDATORY
+load_order: 8
+description: >
+  Systematic plan validation with 12 failure classes (FC-1 through FC-12)
+  and three-gate approval protocol. FC-1 through FC-11 catch structural
+  consistency failures (count drift, phantom skills, stale numbers, etc.).
+  FC-12 catches foundational principles compliance (P1–P8). All three gates
+  required: Gate A (automated FC checks), Gate B (2 AI models), Gate C
+  (Luba written approval).
+author: luba
+updated: "2026-03-18"
+triggers:
+  - "review the plan"
+  - "validate the plan"
+  - "check the plan"
+  - "is this plan correct"
+  - "plan inconsistency"
+  - "plan gaps"
+  - "FC check"
+  - "SESSION-0"
+  - "plan review"
+entry: SKILL.md
+dependencies:
+  - agent-output-format-skill
+  - planning-skill
+  - xiigen-core-principles-skill

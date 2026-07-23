@@ -1,0 +1,92 @@
+[
+  {
+    "patternId": "DR-26-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-26-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-26-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-26-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-26-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-26-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-26-01",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-26-02",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-26-03",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-26-04",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-26",
+    "domainId": "meta-flow-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

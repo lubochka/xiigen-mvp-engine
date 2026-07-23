@@ -1,0 +1,44 @@
+{
+  "taskTypeId": "T223",
+  "flowId": "FLOW-14",
+  "name": "ReverseEtlPushHandler",
+  "archetype": "activation",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "rate-check-then-lock-check-then-queue-push-then-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IQueueService",
+    "freedomConfigKey": "flow14_reverse_etl_max_batch_size",
+    "neutralConcepts": [
+      "DR-64: queue_fabric only for reverse ETL push — no direct HTTP to SaaS",
+      "IRateLimitGuardService (F430) at ORDER 1 before lock check",
+      "Connector push lock checked at ORDER 2 — ConnectorPushLocked if locked",
+      "ReverseETLPushed.transport MUST equal 'queue_fabric'",
+      "RateLimitExhausted MUST be emitted — never silent",
+      "storeDocument(push_record) BEFORE enqueue(ReverseETLPushed) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F430", "interface": "IRateLimitGuardService", "fabric": "CORE" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T223-1", "rule": "DR-64: MUST use queue_fabric only for reverse ETL — never direct HTTP to SaaS.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T223-2", "rule": "IRateLimitGuardService (F430) at ORDER 1 — before lock check.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T223-3", "rule": "ReverseETLPushed.transport MUST equal 'queue_fabric'.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T223-4", "rule": "RateLimitExhausted MUST be emitted — never silent on rate limit.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T223-5", "rule": "storeDocument BEFORE enqueue(ReverseETLPushed) — DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "queue_fabric_only_no_http",
+    "rate_check_before_lock_check",
+    "transport_queue_fabric_in_payload",
+    "rate_limit_exhausted_not_silent",
+    "store_before_enqueue"
+  ],
+  "bfaRules": ["DR-64"],
+  "tags": ["reverse-etl", "queue-fabric", "rate-limit", "push", "activation"],
+  "keywords": "reverse ETL push handler DR-64 queue fabric only no HTTP rate limit guard connector push lock ReverseETLPushed transport queue_fabric RateLimitExhausted ConnectorPushLocked"
+}

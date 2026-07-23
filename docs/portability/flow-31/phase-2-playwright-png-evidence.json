@@ -1,0 +1,86 @@
+{
+  "flowId": "FLOW-31",
+  "flowSlug": "design-intelligence-engine",
+  "implementationSlug": "design-system-governance",
+  "phase": "phase2E2EPlaywright",
+  "recordedAt": "2026-05-11T03:52:14.4711404Z",
+  "fixesApplied": [
+    {
+      "file": "client/src/pages/design-intelligence-engine/DesignIntelligenceEnginePage.tsx",
+      "summary": "Expanded the platform-admin raw-index panel by default for CRUD coverage and gave the nested AdminCrudPanel a unique page test id."
+    },
+    {
+      "file": "client/e2e/design-intelligence-engine-crud.spec.ts",
+      "summary": "Drove the FLOW-31 primary platform-admin role, supplied the master-tenant header for direct dynamic API calls, and made screenshots viewport-qualified."
+    },
+    {
+      "file": "client/e2e/design-intelligence-engine-mock-states.spec.ts",
+      "summary": "Made mock-state screenshots viewport-qualified."
+    },
+    {
+      "file": "client/e2e/c6-role-coverage-runs-22-44.spec.ts",
+      "summary": "Made the FLOW-31 C6 role screenshot viewport-qualified."
+    }
+  ],
+  "verification": [
+    {
+      "name": "client TypeScript",
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-31 Playwright desktop",
+      "command": "Push-Location client; npx playwright test e2e/design-intelligence-engine-mock-states.spec.ts e2e/design-intelligence-engine-crud.spec.ts --project=chromium-desktop --workers=1 --timeout=60000 --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 11,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-31 Playwright tablet",
+      "command": "Push-Location client; npx playwright test e2e/design-intelligence-engine-mock-states.spec.ts e2e/design-intelligence-engine-crud.spec.ts --project=chromium-tablet --workers=1 --timeout=60000 --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 11,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-31 Playwright mobile",
+      "command": "Push-Location client; npx playwright test e2e/design-intelligence-engine-mock-states.spec.ts e2e/design-intelligence-engine-crud.spec.ts --project=chromium-mobile --workers=1 --timeout=60000 --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 11,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-31 C6 role branch",
+      "command": "Push-Location client; npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts -g \"C6-R31\" --reporter=line --workers=1 --timeout=60000; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 9,
+      "result": "passed"
+    }
+  ],
+  "pngMatrix": {
+    "flowViewportPngCount": 33,
+    "roleViewportPngCount": 9,
+    "totalViewportPngCount": 42,
+    "expectedFlowViewportPngCount": 33,
+    "expectedRoleViewportPngCount": 9,
+    "expectedTotalViewportPngCount": 42,
+    "zeroByteCount": 0,
+    "roots": [
+      "docs/e2e-snapshots/design-intelligence-engine",
+      "docs/e2e-snapshots/c6-role-coverage"
+    ],
+    "note": "FLOW-31 matrix covers 7 mock/default states and 4 CRUD screenshots across desktop, tablet, and mobile, plus platform-support read-only, tenant-admin FREEDOM-on, and tenant-admin FREEDOM-off C6 role branches across the same 3 viewports."
+  },
+  "knownNonBlockingTypecheckDrift": {
+    "command": "Push-Location client; npx tsc --noEmit -p e2e/tsconfig.json; Pop-Location",
+    "status": "blocked-by-inherited-unrelated-e2e-spec-errors",
+    "flow31ChangedFilesCheckedByPlaywright": true
+  },
+  "secretHandling": {
+    "containsCredentials": false,
+    "containsSigningKeys": false,
+    "containsBearerTokens": false
+  },
+  "verdict": "PASS"
+}

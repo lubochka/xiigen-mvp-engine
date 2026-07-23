@@ -1,0 +1,90 @@
+{
+  "taskTypeId": "T621",
+  "flowId": "FLOW-19",
+  "name": "SagaOrchestrator",
+  "archetype": "orchestration",
+  "domainId": "durable-sagas-compliance",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T621-1",
+      "rule": "storeDocumentWithOCC(sagaState, {status:RUNNING}, sagaId, {versionPin:-1}) at ORDER 1 — OCC conflict → SagaAlreadyRunning (idempotent, not error). CF-19-1.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T621-2",
+      "rule": "SETNX(step-lock:{sagaId}:{stepIndex}) at ORDER 2 BEFORE step body executes — prevents concurrent duplicate step execution on crash replay. CF-19-1.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T621-3",
+      "rule": "Register compensation strategy at ORDER 3 BEFORE step body — ensures rollback available even if step crashes. CF-19-1.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T621-4",
+      "rule": "storeDocument(checkpoint) at ORDER 5 BEFORE enqueue(SagaStepExecuted) — DNA-8 outbox pattern. CF-19-1.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T621-5",
+      "rule": "SagaFailed emitted on step body failure with sagaId, failedStep, compensationStrategy. Not silent drop.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1554",
+      "token": "ISagaStateRepository",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1555",
+      "token": "ISagaStepLockService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1556",
+      "token": "ICompensationRegistry",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "OCC_VERSION_PIN_MINUS_ONE_INIT_GUARD",
+    "SETNX_STEP_LOCK_CONCURRENT_PREVENTION",
+    "COMPENSATION_BEFORE_STEP_BODY",
+    "CHECKPOINT_PERSIST_BEFORE_DISPATCH"
+  ],
+  "freedomComponents": [
+    "flow19_saga_max_retries",
+    "flow19_saga_rto_threshold_ms",
+    "flow19_saga_compensation_strategy"
+  ],
+  "stackCoupling": {
+    "queue": ["SagaStepExecuted", "SagaCompleted", "SagaFailed", "SagaAlreadyRunning"],
+    "database": ["xiigen-sagas", "xiigen-saga-checkpoints", "xiigen-saga-steps"]
+  },
+  "handlers": [
+    "occ_init_saga",
+    "acquire_step_lock",
+    "register_compensation",
+    "execute_step_body",
+    "persist_checkpoint",
+    "emit_step_event"
+  ],
+  "namedChecks": [
+    "occ_version_pin_minus_one_at_order_1",
+    "setnx_step_lock_before_step_body",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "durable-sagas",
+    "orchestration",
+    "occ",
+    "setnx",
+    "persist-before-dispatch",
+    "cf-19-1",
+    "dna-8"
+  ],
+  "keywords": "SagaOrchestrator storeDocumentWithOCC versionPin -1 SETNX step-lock persist-before-dispatch compensation T621 DNA-8 CF-19-1 checkpoint OCC idempotent"
+}

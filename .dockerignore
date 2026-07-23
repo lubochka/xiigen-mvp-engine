@@ -1,0 +1,11 @@
+.git
+**/node_modules
+**/dist
+**/coverage
+**/.cache
+**/.turbo
+**/.next
+docs/e2e-snapshots
+docs/topology-snapshots
+*.zip
+*.log

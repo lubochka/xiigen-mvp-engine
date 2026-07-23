@@ -1,0 +1,49 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "phase1UnitTests",
+  "generatedAt": "2026-05-07T11:58:15.0000000+03:00",
+  "protocolVersion": "3.0",
+  "verification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0,
+      "status": "passed"
+    },
+    "flowJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=dynamic-forms-workflows --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "status": "passed",
+      "testSuites": {
+        "passed": 8,
+        "total": 8
+      },
+      "tests": {
+        "passed": 84,
+        "total": 84
+      },
+      "snapshots": {
+        "total": 0
+      }
+    },
+    "recursiveSourceScans": {
+      "scope": "server/src/engine/flows/dynamic-forms-workflows/**/*.ts excluding spec files",
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "status": "passed"
+    }
+  },
+  "testSuitesObserved": [
+    "server/test/e2e/dynamic-forms-workflows/dynamic-forms-workflows-proper-flow.e2e.spec.ts",
+    "server/test/e2e/dynamic-forms-workflows/dynamic-forms-workflows.e2e.spec.ts",
+    "server/test/e2e/dynamic-forms-workflows/phase-a.spec.ts",
+    "server/test/e2e/dynamic-forms-workflows/phase-b.spec.ts",
+    "server/test/e2e/dynamic-forms-workflows/phase-c.spec.ts",
+    "server/test/e2e/dynamic-forms-workflows/phase-d.spec.ts",
+    "server/test/e2e/dynamic-forms-workflows/dynamic-forms-workflows-integration.spec.ts",
+    "server/src/engine-contracts/__tests__/dynamic-forms-workflows-bfa-rules.spec.ts"
+  ],
+  "secretValuesInEvidence": false,
+  "verdict": "PASS"
+}

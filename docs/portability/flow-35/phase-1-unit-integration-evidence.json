@@ -1,0 +1,25 @@
+{
+  "flowId": "FLOW-35",
+  "flowSlug": "meta-arbitration-engine",
+  "phase": "phase-1-unit-integration",
+  "status": "completed",
+  "generatedAt": "2026-05-12T03:35:00Z",
+  "verification": {
+    "serverTypeScript": "exit 0",
+    "metaArbitrationJest": "11 suites passed, 140 tests passed",
+    "phaseCloseScan": "throwNew=0, servicesMissingMicroserviceBase=0, clsImports=0",
+    "importTrace": "docs/flow-analysis/FLOW-35/import-trace-result.json concluded NO_DIRECT_FLOW35_FLOW36_COUPLING_IN_SCANNED_SOURCE"
+  },
+  "commands": [
+    "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+    "Push-Location server; npx jest --runInBand --colors=false test/meta-arbitration-engine test/e2e/meta-arbitration src/engine-contracts/__tests__/meta-arbitration-engine-bfa-rules.spec.ts; Pop-Location"
+  ],
+  "sourceScan": {
+    "source": "server/src/engine/flows/meta-arbitration",
+    "files": 8,
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0
+  },
+  "verdict": "PASS"
+}

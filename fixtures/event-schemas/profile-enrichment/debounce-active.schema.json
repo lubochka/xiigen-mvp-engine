@@ -1,0 +1,11 @@
+{
+  "eventType": "DebounceActive",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "SUBFLOW-02D-D1 (debounce-key-check.service.ts)",
+  "consumers": ["SUBFLOW-02D-D2"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "windowSeconds", "discardedAt"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges"],
+  "notes": "SUBFLOW-02D: emitted by D1 (debounce key check) when window is active. Triggers D2 (return existing profile READ-ONLY) and D3 (write persistent discard record to xiigen-debounce-discards). Debounce key = 'debounce:{tenantId}:{userId}' — compound. Single-dimension userId key contaminates cross-tenant."
+}

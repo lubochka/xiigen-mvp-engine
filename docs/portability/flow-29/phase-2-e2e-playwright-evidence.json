@@ -1,0 +1,82 @@
+{
+    "flowId":  "FLOW-29",
+    "flowSlug":  "adaptive-rag-deep-research",
+    "implementationSlug":  "rag-optimization",
+    "phase":  "phase-2-e2e-playwright",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T21:19:15.3829630+00:00",
+    "clientTypescript":  {
+                             "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                             "status":  "passed",
+                             "exitCode":  0
+                         },
+    "playwright":  {
+                       "command":  "$env:VITE_PORT=52929; Push-Location client; npx playwright test e2e/adaptive-rag-deep-research-mock-states.spec.ts e2e/adaptive-rag-deep-research-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line; Pop-Location",
+                       "status":  "passed",
+                       "testsPassed":  12,
+                       "testsTotal":  12,
+                       "project":  "chromium-desktop",
+                       "workers":  1
+                   },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/adaptive-rag-deep-research",
+                        "files":  [
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\api-round-trip-topology.png",
+                                          "bytes":  159677
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\default.png",
+                                          "bytes":  15784
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\state-1-query-received.png",
+                                          "bytes":  23793
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\state-2-plan-queued.png",
+                                          "bytes":  22432
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\state-3-search-running.png",
+                                          "bytes":  22520
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\state-4-sources-gathered.png",
+                                          "bytes":  22849
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\state-5-synthesis-done.png",
+                                          "bytes":  23799
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\state-6-search-failed.png",
+                                          "bytes":  22387
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\state-7-clarification-escalated.png",
+                                          "bytes":  23735
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\support-readonly-topology.png",
+                                          "bytes":  83363
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\adaptive-rag-deep-research\\topology-node-detail.png",
+                                          "bytes":  171784
+                                      }
+                                  ],
+                        "pngCount":  11,
+                        "zeroByteCount":  0
+                    },
+    "repairsApplied":  [
+                           "Updated adaptive-rag-deep-research CRUD spec to match the current topology operations console instead of stale list/create test IDs.",
+                           "Kept dynamic API create/list/delete coverage while asserting the platform-admin topology and platform-support read-only branches with explicit role query parameters."
+                       ],
+    "firstFailingRun":  {
+                            "playwrightStatus":  "failed",
+                            "failures":  3,
+                            "cause":  "Stale test expected removed list/create controls under the default anonymous role."
+                        },
+    "verdict":  "PASS"
+}

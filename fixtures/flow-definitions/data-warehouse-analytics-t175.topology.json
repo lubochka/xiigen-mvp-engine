@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T175",
+  "name": "data-warehouse-analytics-kpi-dashboard-generator",
+  "description": "T175 KPIDashboardGenerator — ANALYTICS_ENGINE archetype. Generates KPI snapshots. alertFired computed from FREEDOM config thresholds. Tenant-scoped output.",
+  "archetype": "ANALYTICS_ENGINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: alertFired from FREEDOM config thresholds (NEVER hardcoded), tenant-scoped KPI snapshot, threshold comparison logic"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ANALYTICS_ENGINE arch pattern + kpi-snapshot + freedom-config-threshold + alert-computed patterns for T175",
+      "params": {
+        "archetype": "ANALYTICS_ENGINE",
+        "taskTypeRef": "T175",
+        "topK": 5,
+        "patternIds": [
+          "kpi-snapshot-001",
+          "freedom-config-threshold-001",
+          "alert-computed-001",
+          "tenant-scoped-dashboard-001",
+          "analytics-engine-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T175 into: receive trigger → load tenant KPI config from FREEDOM → aggregate current metrics → compare against FREEDOM thresholds → set alertFired=true if threshold exceeded → storeDocument(kpiSnapshot) → return snapshot"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate kpi-dashboard-generator.service.ts — queue consumer or HTTP trigger, loads KPI thresholds from FREEDOM config (NEVER hardcoded). alertFired = currentValue > threshold from FREEDOM config. Tenant-scoped from ALS. Generates KPISnapshot with tenantId, kpiValues, alertFired, generatedAt. DNA-8: storeDocument(snapshot) before returning."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: alert_fired_from_freedom_config, thresholds_not_hardcoded, tenant_scoped_output, kpi_snapshot_stored, tenant_id_from_als"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T175 iron rules: FREEDOM config thresholds, alertFired computation, tenant isolation, KPI snapshot structure"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=freedom-config-thresholds+alert-fired-computed+tenant-scoped, rejected=hardcoded-thresholds OR alert-fired-hardcoded OR cross-tenant-kpi. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Queue consumer or HTTP trigger",
+  "primaryFabric": "DATABASE"
+}

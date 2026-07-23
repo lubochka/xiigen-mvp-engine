@@ -1,0 +1,18 @@
+{
+  "taskTypeId": "T634",
+  "taskName": "ContentApprovalWorkflow",
+  "archetype": "ORCHESTRATION",
+  "flowId": "FLOW-22",
+  "description": "Orchestrates sequential approval workflow with 4 stages: validation, security, legal, publish",
+  "triggerEvent": "ContentVersionDraft",
+  "emittedEvents": ["ContentApprovalComplete", "ContentApprovalRejected"],
+  "ironRules": [
+    "IR-1: Stages execute sequentially, never in parallel",
+    "IR-2: Unanimous approval required per stage",
+    "IR-3: Role-to-stage mapping from FREEDOM config",
+    "IR-4: Approval records append-only (DNA-8)",
+    "IR-5: tenantId from ALS only (DNA-5)"
+  ],
+  "patternReferences": ["SEQUENTIAL-GATE-ARBITER-001"],
+  "qualityScore": 0.89
+}

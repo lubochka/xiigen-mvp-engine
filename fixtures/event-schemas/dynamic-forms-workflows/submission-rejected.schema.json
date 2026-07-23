@@ -1,0 +1,17 @@
+{
+  "eventId": "submission-rejected",
+  "eventName": "SubmissionRejected",
+  "flowId": "FLOW-21",
+  "taskTypeId": "T630",
+  "description": "Emitted when form submission validation fails",
+  "properties": {
+    "submissionId": { "type": "string", "description": "The ID of the rejected submission" },
+    "formId": { "type": "string", "description": "The ID of the form" },
+    "errors": { "type": "array", "items": { "type": "object" }, "description": "Validation errors" },
+    "reason": { "type": "string", "description": "Failure reason code" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "tenantId": { "type": "string" }
+  },
+  "required": ["submissionId", "formId", "reason"],
+  "version": "1.0"
+}

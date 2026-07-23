@@ -1,0 +1,114 @@
+[
+  {
+    "patternId": "FLOW-00-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "BUNDLE_VALIDATION_BEFORE_ACTIVATION",
+    "sourceFlow": "FLOW-00",
+    "teachingPoint": "Bundle activation must validate the complete bundle before any provisioning side effect starts. BundleValidator reads the manifest, verifies every required flow, and enqueues the full cross-flow BFA check before BundleActivationOrchestrator can proceed.",
+    "positiveExample": "T574 validates requiredFlows and returns valid true before T575 starts DRY_RUN.",
+    "negativeExample": "T575 starts provisioning the first flow while later required flows have not been validated.",
+    "discriminatingConstraint": "The handoff from T574 to T575 requires a valid BundleValidationReport.",
+    "appliesTo": [
+      "FLOW-30",
+      "FLOW-32",
+      "FLOW-47"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.96,
+    "sourceDocument": "docs/sessions/FLOW-00/FLOW-00-STEP-1-INVARIANTS.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-00",
+    "domainId": "bundle-activation",
+    "seededAt": "2026-05-04T00:00:00Z",
+    "tags": [
+      "bundle-activation",
+      "validation",
+      "portability"
+    ],
+    "keywords": "bundle validation complete requiredFlows BFA before activation"
+  },
+  {
+    "patternId": "FLOW-00-DR-02",
+    "patternType": "ARCH_PATTERN",
+    "category": "DRY_RUN_BEFORE_FULL",
+    "sourceFlow": "FLOW-00",
+    "teachingPoint": "Every required flow in a solution bundle must pass DRY_RUN before FULL activation. Skipping the preview removes the safety gate that protects tenants from partial provisioning.",
+    "positiveExample": "T575 calls bootstrapFlow(flowId, { mode: 'DRY_RUN' }) and only then calls bootstrapFlow(flowId, { mode: 'FULL' }).",
+    "negativeExample": "T575 calls FULL directly for each required flow.",
+    "discriminatingConstraint": "A FULL activation call is legal only after the same flow has a successful DRY_RUN result in the current activation.",
+    "appliesTo": [
+      "FLOW-47"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.97,
+    "sourceDocument": "server/src/engine-contracts/bundle-activation-contracts.ts",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-00",
+    "domainId": "bundle-activation",
+    "seededAt": "2026-05-04T00:00:00Z",
+    "tags": [
+      "dry-run",
+      "activation",
+      "safety-gate"
+    ],
+    "keywords": "DRY_RUN before FULL required flow activation safety"
+  },
+  {
+    "patternId": "FLOW-00-DR-03",
+    "patternType": "ARCH_PATTERN",
+    "category": "ADDITIVE_FREEDOM_DEFAULTS",
+    "sourceFlow": "FLOW-00",
+    "teachingPoint": "Bundle activation may seed FREEDOM defaults, but it must never overwrite a tenant's existing values. Activation adds missing defaults only.",
+    "positiveExample": "T575 checks existing FREEDOM keys and stores only keys that are absent.",
+    "negativeExample": "T575 writes the bundle default object over the tenant's current FREEDOM config.",
+    "discriminatingConstraint": "Existing tenant FREEDOM keys always win over bundle defaults.",
+    "appliesTo": [
+      "FLOW-32",
+      "FLOW-47"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "sourceDocument": "docs/portability/flow-00/adaptation-surface-bundle-activation.json",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-00",
+    "domainId": "bundle-activation",
+    "seededAt": "2026-05-04T00:00:00Z",
+    "tags": [
+      "freedom",
+      "tenant-adaptation",
+      "no-overwrite"
+    ],
+    "keywords": "FREEDOM defaults additive existing tenant values preserved"
+  },
+  {
+    "patternId": "FLOW-00-DR-04",
+    "patternType": "ARCH_PATTERN",
+    "category": "BUNDLE_STATUS_ISOLATION",
+    "sourceFlow": "FLOW-00",
+    "teachingPoint": "BundleStatusTracker must check all bundles that include a regenerated flow and must scope status changes to the current tenant. A degraded bundle in one tenant cannot degrade another tenant's bundle.",
+    "positiveExample": "T576 finds every active bundle containing the regenerated flow, persists the tenant-scoped status transition, then emits BundleDegraded or BundleRestored.",
+    "negativeExample": "T576 updates the first matching bundle globally and emits a degradation event before persistence.",
+    "discriminatingConstraint": "Bundle status transition is tenant-scoped and persisted before event emission.",
+    "appliesTo": [
+      "FLOW-30",
+      "FLOW-47"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.94,
+    "sourceDocument": "server/src/engine/flows/bundle-activation/bundle-status-tracker.service.ts",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-00",
+    "domainId": "bundle-activation",
+    "seededAt": "2026-05-04T00:00:00Z",
+    "tags": [
+      "status-tracking",
+      "tenant-isolation",
+      "dna-8"
+    ],
+    "keywords": "BundleStatusTracker all bundles tenant scoped degraded restored persisted before enqueue"
+  }
+]

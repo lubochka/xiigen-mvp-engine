@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xiigen.io/schemas/solution-bundle/v1",
+  "title": "XIIGen Solution Bundle",
+  "description": "A named collection of features that together deliver a complete product domain. Bundles are activated by FLOW-00 (not FLOW-34). Each bundle carries default FREEDOM config that tenants inherit additively.",
+  "type": "object",
+  "required": ["schemaVersion", "bundleId", "name", "description", "features"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0" },
+    "bundleId": {
+      "type": "string",
+      "pattern": "^B-[0-9]{3,6}$",
+      "description": "Stable bundle identifier"
+    },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "targetDomain": {
+      "type": "string",
+      "description": "Business domain this bundle addresses (e.g. marketplace, community, content)"
+    },
+    "features": {
+      "type": "array",
+      "description": "FT-IDs included in this bundle",
+      "items": {
+        "type": "string",
+        "pattern": "^FT-[0-9]{3,6}$"
+      },
+      "minItems": 1
+    },
+    "defaultFreedomConfig": {
+      "type": "object",
+      "description": "D-BUNDLE-2: Pre-populates FREEDOM config values tenants inherit. Tenant overrides are additive — cannot remove keys set by bundle.",
+      "additionalProperties": true
+    },
+    "incompatibleWith": {
+      "type": "array",
+      "description": "Bundle IDs that conflict with this bundle (symmetric — both directions must be declared)",
+      "items": {
+        "type": "string",
+        "pattern": "^B-[0-9]{3,6}$"
+      }
+    },
+    "requiredFlows": {
+      "type": "array",
+      "description": "FLOW IDs that must be active for this bundle to function",
+      "items": { "type": "string" }
+    },
+    "minFlowVersions": {
+      "type": "object",
+      "description": "Minimum promoted version required per flow. Used by FLOW-33 bundle degradation check.",
+      "additionalProperties": { "type": "string" }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "DEGRADED", "PLANNED", "DEPRECATED"],
+      "description": "Runtime status. DEGRADED = at least one required flow version is below minFlowVersions."
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant this bundle is provisioned for (set by FLOW-00 at activation time)"
+    },
+    "activatedAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

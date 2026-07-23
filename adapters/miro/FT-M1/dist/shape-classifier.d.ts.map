@@ -1,0 +1,1 @@
+{"version":3,"file":"shape-classifier.d.ts","sourceRoot":"","sources":["../src/shape-classifier.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,aAAa,EAAE,uBAAuB,EAAE,MAAM,SAAS,CAAC;AAUtE,wBAAgB,iBAAiB,CAAC,IAAI,EAAE,aAAa,GAAG,uBAAuB,CA2C9E;AAED,wBAAgB,kBAAkB,CAAC,KAAK,EAAE,aAAa,EAAE,GAAG,uBAAuB,EAAE,CAEpF"}

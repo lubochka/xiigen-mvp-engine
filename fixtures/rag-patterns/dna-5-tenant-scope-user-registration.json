@@ -1,0 +1,18 @@
+{
+  "patternId": "dna-5-tenant-scope-user-registration",
+  "patternType": "DNA_PATTERN_EXAMPLE",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "dnaId": "DNA-5",
+  "dnaName": "ScopeIsolation",
+  "tags": [
+    "dna-5",
+    "tenant-scope",
+    "isolation",
+    "tenantId"
+  ],
+  "keywords": "tenant scope isolation tenantId every query database operation DNA-5",
+  "codeSnippet": "// DNA-5: tenantId on EVERY database operation\nconst filter = buildSearchFilter({ tenantId, userId });\nconst result = await this.db.searchDocuments(tenantId, 'users', filter);\n// tenantId is the first argument \u2014 never omit it",
+  "antiPattern": "this.db.searchDocuments('users', filter)  // WRONG: no tenantId"
+}

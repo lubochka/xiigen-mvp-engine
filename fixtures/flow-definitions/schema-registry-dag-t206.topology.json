@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T206",
+  "name": "schema-registry-dag-schema-quality-analyzer",
+  "description": "T206 SchemaQualityAnalyzer — SCHEDULED archetype. Analyzes schema quality metrics: completeness, field coverage, deprecation ratio. Tenant-scoped. Emits SchemaQualityReport.",
+  "archetype": "SCHEDULED",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: scheduled entry, tenant-scoped quality metrics, completeness+coverage+deprecation metrics, SchemaQualityReport emission"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve SCHEDULED arch pattern + quality-metrics + schema-completeness + deprecation-ratio + tenant-scoped-analytics patterns for T206",
+      "params": {
+        "archetype": "SCHEDULED",
+        "taskTypeRef": "T206",
+        "topK": 5,
+        "patternIds": [
+          "quality-metrics-001",
+          "schema-completeness-001",
+          "deprecation-ratio-001",
+          "scheduled-analytics-001",
+          "tenant-scoped-analytics-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T206 into: scheduled trigger → load all schemas for tenant → compute completeness score → compute field coverage → compute deprecation ratio → build QualityReport → storeDocument → emit SchemaQualityReport"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-quality-analyzer.service.ts — CRON or queue-scheduled, reads all schemas via DATABASE (tenant-scoped from ALS), computes: completeness (required fields present ratio), fieldCoverage (average field documentation ratio), deprecationRatio (deprecated/total). DNA-8: storeDocument(qualityReport) BEFORE emitting SchemaQualityReport."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: scheduled_entry, tenant_scoped_from_als, completeness_metric_computed, field_coverage_computed, deprecation_ratio_computed, store_before_emit"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T206 iron rules: scheduled entry, all three quality metrics, tenant isolation, DNA-8 compliance"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=scheduled-entry+all-three-metrics+tenant-scoped+store-before-emit, rejected=http-triggered OR missing-metric OR cross-tenant-read OR emit-before-store. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Scheduled task",
+  "primaryFabric": "DATABASE"
+}

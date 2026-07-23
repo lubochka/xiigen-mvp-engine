@@ -1,0 +1,155 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phase5a-tenant-b-installs-tenant-a-adapted-version",
+  "generatedAt": "2026-05-03T21:42:31.0461997+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "role": "Tenant B"
+  },
+  "source": {
+    "tenantARepoFullName": "lubochka/acme-corp--quiet-community-feed",
+    "tenantAPackage": "@xiigen-fork/acme-quiet-community-feed",
+    "tenantAPackageVersion": "1.0.1",
+    "registryUrl": "http://localhost:4873",
+    "registryVerification": "npm view @xiigen-fork/acme-quiet-community-feed version --registry http://localhost:4873 returned 1.0.1"
+  },
+  "forkApi": {
+    "endpoint": "POST http://localhost:33001/api/marketplace/packages/quiet-community-feed/fork",
+    "auth": "Tenant-scoped northwind tenant-admin JWT minted from Vault signing key; token value not printed or stored.",
+    "request": {
+      "flowId": "FLOW-07",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.1",
+      "repoNameOverride": "northwind--quiet-community-feed",
+      "sourceRepoFullName": "lubochka/acme-corp--quiet-community-feed"
+    },
+    "result": {
+      "forkId": "fork-quiet-community-feed-northwind",
+      "repoFullName": "lubochka/northwind--quiet-community-feed",
+      "repoUrl": "https://github.com/lubochka/northwind--quiet-community-feed",
+      "status": "FORKED",
+      "initialCommitSha": "60bc123ec183884a86da7b11d5b7ce3536df1c04"
+    }
+  },
+  "forkEngineRepair": {
+    "issue": "Cascade fork rewrite preserved the source repoFullName in tenant.config.json.",
+    "fix": "ForkFlowHandlerService now writes repoFullName from the installing tenant org and repoName.",
+    "files": [
+      "server/src/engine/flows/module-lifecycle/fork-flow.handler.ts",
+      "server/src/engine/flows/module-lifecycle/__tests__/fork-flow.handler.spec.ts"
+    ],
+    "verification": "server npx jest --testPathPatterns=module-lifecycle/__tests__/fork-flow.handler.spec.ts --runInBand: 18 tests passed"
+  },
+  "tenantBForkRepair": {
+    "commitSha": "def73a52c63998ba5ba28d4731328aa8e153e5bb",
+    "message": "chore: record Tenant B repo identity",
+    "tenantConfigAssertions": {
+      "tenantId": "northwind",
+      "moduleName": "quiet-community-feed",
+      "repoName": "northwind--quiet-community-feed",
+      "repoFullName": "lubochka/northwind--quiet-community-feed",
+      "installedFromRepoFullName": "lubochka/acme-corp--quiet-community-feed",
+      "adaptationHistoryEntries": 1
+    }
+  },
+  "githubActions": [
+    {
+      "runId": 25287341924,
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "60bc123ec183884a86da7b11d5b7ce3536df1c04",
+      "url": "https://github.com/lubochka/northwind--quiet-community-feed/actions/runs/25287341924",
+      "purpose": "initial Tenant B fork"
+    },
+    {
+      "runId": 25287415610,
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "def73a52c63998ba5ba28d4731328aa8e153e5bb",
+      "url": "https://github.com/lubochka/northwind--quiet-community-feed/actions/runs/25287415610",
+      "purpose": "Tenant B repo identity metadata repair"
+    }
+  ],
+  "localCloneVerification": {
+    "clonePath": "<WORKSPACE>\\AppData\\Local\\Temp\\flow07-northwind-installed-verification",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "exitCode": 0,
+        "notes": "Completed with dependency deprecation warnings only."
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "1 suite passed, 1 test passed"
+      }
+    ]
+  },
+  "authPreflight": {
+    "serverBaseUrl": "http://localhost:33001",
+    "checksPassed": 5,
+    "checksFailed": 0,
+    "checks": [
+      {
+        "name": "northwind tenant-user /api/auth/me returns 200",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "northwind tenant-admin role-protected trace returns 200",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "missing token role-protected trace returns 401",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "wrong role token returns 403",
+        "expectedStatus": 403,
+        "actualStatus": 403
+      },
+      {
+        "name": "acme token in northwind context returns 401",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      }
+    ]
+  },
+  "screenshots": [
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/northwind--quiet-community-feed-github-listing.png",
+      "source": "Authenticated Chromium capture of https://api.github.com/repos/lubochka/northwind--quiet-community-feed",
+      "status": 200,
+      "bytes": 203279
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/northwind--quiet-community-feed-repo-homepage.png",
+      "source": "Authenticated Chromium capture of https://raw.githubusercontent.com/lubochka/northwind--quiet-community-feed/main/tenant.config.json",
+      "status": 200,
+      "bytes": 44909
+    }
+  ],
+  "tenantBInstalledVisuals": {
+    "directory": "docs/e2e-snapshots/friend-request-social-feed/tenant-b-installed-from-a",
+    "roleCount": 7,
+    "cellsPerRole": 3,
+    "expectedPngCount": 21,
+    "actualPngCount": 21,
+    "smallPngCount": 0,
+    "minimumBytes": 27810,
+    "playwrightResult": "21 passed"
+  },
+  "secretHandling": {
+    "githubTokenPrinted": false,
+    "tenantJwtPrinted": false,
+    "vaultSigningKeyPrinted": false
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,90 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "phase": "4.0-tenant-a-original-fork",
+  "completedAt": "2026-05-03T10:35:21.7247991+03:00",
+  "tenant": "acme-corp",
+  "githubOrg": "lubochka",
+  "localRegistry": {
+    "url": "http://localhost:4874",
+    "package": "@xiigen/completion-gamification",
+    "publishedVersion": "1.0.0",
+    "latestTagVerified": "1.0.0"
+  },
+  "forkApi": {
+    "method": "POST",
+    "path": "/api/marketplace/packages/completion-gamification/fork",
+    "httpStatus": 202,
+    "status": "FORKED",
+    "repoFullName": "lubochka/acme-corp--completion-gamification",
+    "initialCommitShaPresent": true,
+    "usedDockerServer": "http://localhost:33001",
+    "usedVaultSecrets": true,
+    "manualRepoCreationUsed": false,
+    "manualFileCopyUsed": false
+  },
+  "githubRepo": {
+    "nameWithOwner": "lubochka/acme-corp--completion-gamification",
+    "url": "https://github.com/lubochka/acme-corp--completion-gamification",
+    "visibility": "PRIVATE",
+    "defaultBranch": "main",
+    "pushedAt": "2026-05-03T07:31:09Z"
+  },
+  "githubActions": {
+    "runId": 25273166667,
+    "workflow": "XIIGen Flow CI - completion-gamification",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "09577e3a5964890de19ddebe28a00b26028275ed",
+    "createdAt": "2026-05-03T07:31:14Z",
+    "updatedAt": "2026-05-03T07:31:55Z",
+    "runUrl": "https://github.com/lubochka/acme-corp--completion-gamification/actions/runs/25273166667"
+  },
+  "standaloneCloneVerification": {
+    "clonePath": "<WORKSPACE>/AppData/Local/Temp/xiigen-flow05-tenant-a-clone",
+    "packageName": "@xiigen-fork/completion-gamification",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "installPassed": true,
+    "tscPassed": true,
+    "jestPassed": true,
+    "jestSuitesPassed": 1,
+    "jestTestsPassed": 1,
+    "bundleManifestEntries": 124,
+    "bundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    }
+  },
+  "repoEvidence": {
+    "captureMode": "github-api-endpoint-png",
+    "privateRepoWebUiAttempt": {
+      "attempted": true,
+      "result": "GitHub web UI returned 404 for PAT-backed Basic auth against the private repo",
+      "tokenPrinted": false
+    },
+    "screenshots": [
+      "docs/e2e-snapshots/repo-evidence/acme-corp--completion-gamification-github-listing.png",
+      "docs/e2e-snapshots/repo-evidence/acme-corp--completion-gamification-repo-homepage.png",
+      "docs/e2e-snapshots/repo-evidence/acme-corp--completion-gamification-actions-success.png"
+    ]
+  },
+  "reviewScans": {
+    "throwNewInFlowServices": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImportsInFlowServices": 0,
+    "tenantConsumerInternalCopyHits": 0
+  },
+  "notes": [
+    "Server was rebuilt after the FLOW-05 adaptation surface was added so the Docker image could assemble the required bundle file.",
+    "Tenant fork credentials were mirrored from the Phase 0 Vault schema into the fork-engine Vault schema without printing secret values.",
+    "GitHub Actions and the independent clone test both exercised the assembled tenant repo, not a local temporary fork substitute."
+  ]
+}

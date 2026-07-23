@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-16",
+  "name": "Marketplace Payments",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T609",
+      "taskTypeId": "T609",
+      "name": "MarketplaceCheckoutGateway",
+      "archetype": "validation",
+      "entry": "POST /checkout (BOLA + cart lock SETNX)"
+    },
+    {
+      "id": "T610",
+      "taskTypeId": "T610",
+      "name": "MarketplacePaymentSplitter",
+      "archetype": "transaction",
+      "entry": "SETNX idempotency + FREEDOM platform fee bps"
+    },
+    {
+      "id": "T611",
+      "taskTypeId": "T611",
+      "name": "MarketplaceEscrowController",
+      "archetype": "orchestration",
+      "entry": "LIFO saga compensation (REFUND \u2192 RESTORE)"
+    },
+    {
+      "id": "T612",
+      "taskTypeId": "T612",
+      "name": "SellerPayoutWriter",
+      "archetype": "emit",
+      "entry": "SETNX payout-lock + vault-ref-only"
+    }
+  ],
+  "edges": [
+    {
+      "from": "CheckoutInitiated",
+      "to": "T609",
+      "event": "xiigen.marketplace-payments.checkout-initiated.v1"
+    },
+    {
+      "from": "T609",
+      "to": "T610",
+      "event": "xiigen.marketplace-payments.checkout-reserved.v1"
+    },
+    {
+      "from": "T610",
+      "to": "T611",
+      "event": "xiigen.marketplace-payments.order-confirmed.v1"
+    },
+    {
+      "from": "T611",
+      "to": "T612",
+      "event": "xiigen.marketplace-payments.escrow-released.v1",
+      "condition": "delivery-confirmed"
+    },
+    {
+      "from": "T612",
+      "to": "PaymentsLifecycleComplete",
+      "event": "xiigen.marketplace-payments.payout-executed.v1",
+      "condition": "terminal"
+    }
+  ]
+}

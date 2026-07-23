@@ -1,0 +1,201 @@
+{
+    "flowId":  "FLOW-15",
+    "flowSlug":  "saas-multi-tenancy",
+    "phase":  "phase-3-visual-examination",
+    "generatedAt":  "2026-05-06T13:57:18.5800679+03:00",
+    "branch":  "Skills_Creation_Claude",
+    "protocol":  "FLOW-MOBILITY-AUTH phase-3 visual examination",
+    "screenshots":  {
+                        "root":  "docs/e2e-snapshots/saas-multi-tenancy",
+                        "count":  18,
+                        "expected":  18,
+                        "projects":  [
+                                         "chromium-desktop",
+                                         "chromium-tablet",
+                                         "chromium-mobile"
+                                     ],
+                        "images":  [
+                                       {
+                                           "path":  "chromium-desktop/01-t605-atomic-tenant-provisioning.png",
+                                           "bytes":  30161,
+                                           "width":  1440,
+                                           "height":  900,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-desktop/02-t606-machine-locked-config-keys.png",
+                                           "bytes":  30161,
+                                           "width":  1440,
+                                           "height":  900,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-desktop/03-t607-atomic-quota-materialization.png",
+                                           "bytes":  30161,
+                                           "width":  1440,
+                                           "height":  900,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-desktop/04-t608-suspend-not-delete-lifecycle.png",
+                                           "bytes":  20461,
+                                           "width":  1440,
+                                           "height":  900,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-desktop/05-tenant-identity-context-isolation.png",
+                                           "bytes":  20461,
+                                           "width":  1440,
+                                           "height":  900,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-desktop/06-flow-15-governance-rules-seeded.png",
+                                           "bytes":  20461,
+                                           "width":  1440,
+                                           "height":  900,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-mobile/01-t605-atomic-tenant-provisioning.png",
+                                           "bytes":  96025,
+                                           "width":  1082,
+                                           "height":  2202,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-mobile/02-t606-machine-locked-config-keys.png",
+                                           "bytes":  96025,
+                                           "width":  1082,
+                                           "height":  2202,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-mobile/03-t607-atomic-quota-materialization.png",
+                                           "bytes":  96025,
+                                           "width":  1082,
+                                           "height":  2202,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-mobile/04-t608-suspend-not-delete-lifecycle.png",
+                                           "bytes":  67983,
+                                           "width":  1082,
+                                           "height":  2202,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-mobile/05-tenant-identity-context-isolation.png",
+                                           "bytes":  67983,
+                                           "width":  1082,
+                                           "height":  2202,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-mobile/06-flow-15-governance-rules-seeded.png",
+                                           "bytes":  67983,
+                                           "width":  1082,
+                                           "height":  2202,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-tablet/01-t605-atomic-tenant-provisioning.png",
+                                           "bytes":  29720,
+                                           "width":  820,
+                                           "height":  1180,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-tablet/02-t606-machine-locked-config-keys.png",
+                                           "bytes":  29720,
+                                           "width":  820,
+                                           "height":  1180,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-tablet/03-t607-atomic-quota-materialization.png",
+                                           "bytes":  29720,
+                                           "width":  820,
+                                           "height":  1180,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-tablet/04-t608-suspend-not-delete-lifecycle.png",
+                                           "bytes":  20029,
+                                           "width":  820,
+                                           "height":  1180,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-tablet/05-tenant-identity-context-isolation.png",
+                                           "bytes":  20029,
+                                           "width":  820,
+                                           "height":  1180,
+                                           "nonEmpty":  true
+                                       },
+                                       {
+                                           "path":  "chromium-tablet/06-flow-15-governance-rules-seeded.png",
+                                           "bytes":  20029,
+                                           "width":  820,
+                                           "height":  1180,
+                                           "nonEmpty":  true
+                                       }
+                                   ]
+                    },
+    "manualReview":  [
+                         {
+                             "image":  "chromium-desktop/01-t605-atomic-tenant-provisioning.png",
+                             "status":  "PASS",
+                             "notes":  "Plan cards are visible within the viewport; Enterprise label and Custom price are no longer clipped."
+                         },
+                         {
+                             "image":  "chromium-desktop/04-t608-suspend-not-delete-lifecycle.png",
+                             "status":  "PASS",
+                             "notes":  "Readonly lifecycle status content is visible, readable, and non-overlapping."
+                         },
+                         {
+                             "image":  "chromium-mobile/01-t605-atomic-tenant-provisioning.png",
+                             "status":  "PASS",
+                             "notes":  "Plan cards stack vertically on mobile; text fits without horizontal clipping."
+                         },
+                         {
+                             "image":  "chromium-mobile/04-t608-suspend-not-delete-lifecycle.png",
+                             "status":  "PASS",
+                             "notes":  "Lifecycle status card fits the mobile viewport with readable wrapping and no overlap."
+                         }
+                     ],
+    "fixedFindings":  [
+                          {
+                              "id":  "FLOW-15-VIS-001",
+                              "severity":  "blocking",
+                              "status":  "fixed",
+                              "finding":  "Anonymous provisioning plan grid used a 640px minimum width inside a max-w-xl container, clipping the Enterprise plan on desktop and causing mobile horizontal overflow.",
+                              "fix":  "Replaced the overflow/min-width grid with a responsive one-column/sm-three-column grid and added min-w-0 plus break-words on plan labels and prices.",
+                              "file":  "client/src/pages/saas-multi-tenancy/TenantProvisioningPage.tsx",
+                              "verification":  [
+                                                   "client: npx tsc --noEmit — PASS",
+                                                   "client: npx playwright test e2e/saas-multi-tenancy.spec.ts --reporter=list — PASS, 18/18",
+                                                   "Manual image review confirms Enterprise text fits on desktop/mobile"
+                                               ]
+                          }
+                      ],
+    "automatedChecks":  {
+                            "imageCountPassed":  true,
+                            "allImagesNonEmpty":  true,
+                            "clientTypecheckPassed":  true,
+                            "playwrightPassed":  true
+                        },
+    "phaseGate":  {
+                      "visualFindingResolved":  true,
+                      "screenshotSetComplete":  true,
+                      "phase3Complete":  true
+                  },
+    "commands":  [
+                     "view_image desktop provisioning before fix — found Enterprise text clipping",
+                     "client: npx tsc --noEmit — PASS after layout fix",
+                     "client: npx playwright test e2e/saas-multi-tenancy.spec.ts --reporter=list — PASS, 18/18 after layout fix",
+                     "view_image desktop/mobile provisioning and lifecycle after fix — PASS",
+                     "PowerShell image dimension/count verification — 18 PNGs, all non-empty"
+                 ]
+}

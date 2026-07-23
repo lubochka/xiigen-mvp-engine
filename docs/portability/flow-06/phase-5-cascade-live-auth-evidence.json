@@ -1,0 +1,94 @@
+{
+  "flowId": "FLOW-06",
+  "flowSlug": "user-groups-communities",
+  "evidenceKind": "phase-5-cascade-live-auth-regression",
+  "checkedAt": "2026-05-03T12:24:18.9655564Z",
+  "serverBaseUrl": "http://localhost:33001",
+  "cascadeRepos": [
+    "lubochka/acme-corp--user-groups-communities",
+    "lubochka/northwind--user-groups-communities",
+    "lubochka/tessera-collective--user-groups-communities"
+  ],
+  "tokenEvidence": "Per-tenant JWTs signed from tenant Vault jwt_signing_key values; token strings and signing keys were not printed or persisted.",
+  "checks": [
+    {
+      "check": "acme-corp own tenant token",
+      "tenantContext": "acme-corp",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "check": "acme-corp missing token",
+      "tenantContext": "acme-corp",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "check": "northwind own tenant token",
+      "tenantContext": "northwind",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "check": "northwind missing token",
+      "tenantContext": "northwind",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "check": "tessera-collective own tenant token",
+      "tenantContext": "tessera-collective",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "check": "tessera-collective missing token",
+      "tenantContext": "tessera-collective",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "check": "tenant A token in tenant B context",
+      "tenantContext": "northwind",
+      "tokenTenant": "acme-corp",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "check": "tenant B token in tenant C context",
+      "tenantContext": "tessera-collective",
+      "tokenTenant": "northwind",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "check": "tenant A token in tenant C context",
+      "tenantContext": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "check": "wrong-role service-account on role-protected route",
+      "tenantContext": "acme-corp",
+      "route": "POST /api/flow/execute",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    }
+  ],
+  "summary": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0
+  }
+}

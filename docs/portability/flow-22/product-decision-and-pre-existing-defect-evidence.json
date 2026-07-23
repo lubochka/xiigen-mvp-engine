@@ -1,0 +1,81 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "phase": "preExistingDefectCheck",
+  "generatedAt": "2026-05-10T08:43:38.3613564+03:00",
+  "status": "completed",
+  "productDecision": {
+    "status": "eligible-after-portability-repair",
+    "decision": "FLOW-22 CMS Publishing can proceed through the mobility/auth protocol after repairing the pre-existing service inheritance and tenant-context coupling defects.",
+    "sources": [
+      "docs/business-flows/functional-specs/FLOW-22-cms-publishing-functional-spec.md",
+      "docs/sessions/FLOW-22/FLOW-22-CURRENT-STATE.json",
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-05.md FLOW-22 CMS Publishing section",
+      "server/src/engine/flows/cms-publishing",
+      "PER-FLOW-FIX-MAP-v2.9.md FLOW-22 row"
+    ],
+    "notes": [
+      "Functional state identifies FLOW-22 as designed with four service files and no topology-source portability test yet.",
+      "The current client route has reader, contributor, editor, platform oversight, and support fallback surfaces; role evidence still needs to be produced through the protocol phases.",
+      "The per-flow fix map names tenant context service decoupling as the first unblocking portability repair."
+    ]
+  },
+  "baseline": {
+    "jest": {
+      "command": "server: npx jest --testPathPatterns=cms-publishing --runInBand --colors=false",
+      "result": "passed",
+      "suites": 4,
+      "tests": 133
+    },
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 4,
+      "clsImports": 4,
+      "directTenantContextImports": 4,
+      "filesScanned": 4
+    }
+  },
+  "repair": {
+    "filesChanged": [
+      "server/src/engine/flows/cms-publishing/content-analytics-aggregator.service.ts",
+      "server/src/engine/flows/cms-publishing/content-approval-workflow.service.ts",
+      "server/src/engine/flows/cms-publishing/content-schedule-dispatcher.service.ts",
+      "server/src/engine/flows/cms-publishing/content-version-publisher.service.ts"
+    ],
+    "changes": [
+      "Extended all four FLOW-22 services from MicroserviceBase with T633-T636 service descriptors.",
+      "Replaced direct ClsService and tenant-context key imports with TenantContextResolver.",
+      "Kept a legacy get(tenant) fallback so existing tests and harnesses remain compatible while production paths use the resolver.",
+      "Renamed injected database and queue members to dbFabric and queueFabric to avoid MicroserviceBase accessor collisions."
+    ]
+  },
+  "verification": {
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "jest": {
+      "command": "server: npx jest --testPathPatterns=cms-publishing --runInBand --colors=false",
+      "result": "passed",
+      "suites": 4,
+      "tests": 133
+    },
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "phaseGate": {
+    "preExistingDefectsIdentified": true,
+    "portabilityDefectsRepaired": true,
+    "serverTypeScriptPassed": true,
+    "flowJestPassed": true,
+    "sourceScansClean": true,
+    "readyForPhase0AuthPreflight": true
+  },
+  "verdict": "PASS"
+}

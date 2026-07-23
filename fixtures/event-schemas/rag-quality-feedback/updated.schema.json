@@ -1,0 +1,37 @@
+{
+  "title": "rag-quality-feedback-Updated-event-schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "entityId": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "rag-quality-feedback.Updated"
+      ]
+    },
+    "data": {
+      "type": "object"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "timestamp",
+    "entityId",
+    "eventType"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "batch_id": "E",
+  "summary_table": [
+    {"slug":"module-lifecycle","verdict":"PASS","total_score":23,"max":25,"issue":"Module registry + publish/deprecate/retire + version history; platform-support read-only + audit log + escalate. Exemplary"},
+    {"slug":"oss-curriculum","verdict":"PASS","total_score":21,"max":25,"issue":"Curriculum tier cards + DPO triple counts + shadow runs comparison. platform-support fully BLOCKED (should be read-only investigate)"},
+    {"slug":"platform-agent","verdict":"PASS","total_score":23,"max":25,"issue":"BEST-IN-BATCH 4-role scope: admin console + support audit log (GDPR Art 30) + tenant-admin workspace-scoped permissions + tenant-user lock. 2 captures missing"},
+    {"slug":"profile-enrichment","verdict":"PASS_MINIMAL","total_score":18,"max":25,"issue":"2-field enrichment form acceptable for needs_purpose_built_ui=NO; default-primary variants visually identical — no variant signal"},
+    {"slug":"rag-quality-feedback","verdict":"PASS","total_score":23,"max":25,"issue":"RAG-specific: DPO triples + pattern-flow mapping + Success/Wasted/Escalate tags. Support read-only with tenant-ID anonymization (GDPR-aware)"},
+    {"slug":"reviews-reputation","verdict":"PASS","total_score":20,"max":25,"issue":"Three-role split correct: user submits, admin moderates flagged, anonymous browses with Sign-in gate. Moderation flag cards should add flag timestamp"},
+    {"slug":"saas-multi-tenancy","verdict":"FAIL","total_score":14,"max":25,"issue":"CRITICAL: tenant-user sees Terminate Tenant button (scope isolation violation); default-platform-admin route 404; no tenant context/metrics; 'Reactivate Tenant' shown disabled while Active"},
+    {"slug":"schema-registry-dag","verdict":"PASS","total_score":19,"max":25,"issue":"Read-only schema list works for all three roles; missing platform-admin register/approve CTA"}
+  ],
+  "batch_summary": {
+    "total_points":161,
+    "max_points":200,
+    "percentage":80.5,
+    "failing_flows":["saas-multi-tenancy"],
+    "highest":["module-lifecycle (23)","platform-agent (23)","rag-quality-feedback (23)"],
+    "missing_captures":["platform-agent desktop tenant-admin","platform-agent mobile platform-support"]
+  },
+  "key_findings": [
+    "saas-multi-tenancy 14/25 FAIL: tenant-user exposed to Terminate Tenant + default route 404 + no tenant context",
+    "platform-agent demonstrates best-in-class 4-role scope with GDPR processing-basis annotations",
+    "module-lifecycle and rag-quality-feedback both implement excellent platform-support read-only + escalate",
+    "oss-curriculum platform-support is fully blocked — inconsistent with sibling read-only pattern",
+    "profile-enrichment default vs primary variants visually identical — variant signal absent"
+  ]
+}

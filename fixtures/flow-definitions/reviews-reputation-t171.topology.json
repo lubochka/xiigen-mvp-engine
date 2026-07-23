@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-10",
+  "taskTypeId": "T171",
+  "name": "reviews-reputation-reputation-score-aggregator",
+  "description": "T171 ReputationScoreAggregator — DATA_PIPELINE archetype. Additive-subtractive aggregate: subscribes to both ReviewPublished (add) and ReviewRetracted (remove). Both handlers call recalculate() which fetches PUBLISHED-only reviews. Score clamped [1.0, 5.0].",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: retraction-removes-from-aggregate, published-filter-only, score-clamp-1-to-5, store-before-enqueue"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch pattern for T171: additive-subtractive-aggregate-001, reputation-score-clamping-001",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T171",
+        "topK": 5,
+        "patternIds": [
+          "additive-subtractive-aggregate-001",
+          "reputation-score-clamping-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T171 into: two @EventPattern handlers (ReviewPublished + ReviewRetracted) → both call recalculate() → fetch PUBLISHED-only → weighted avg → clamp [1.0,5.0] → storeDocument → enqueue"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate reputation-score-aggregator.service.ts — additive-subtractive pattern. Both event handlers call same recalculate(). PUBLISHED filter. Math.max(1.0, Math.min(5.0, rawScore)) before write."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: retraction_removes_from_aggregate, reputation_score_clamped_1_to_5, published_filter_only, store_before_enqueue"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T171 iron rules: both event subscriptions present, PUBLISHED filter, score clamp, DNA-8"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=additive-subtractive-two-event-subscription, rejected=additive-only-no-retraction-handler. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "ReviewPublished event OR ReviewRetracted event",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "phase": "phase3VisualExamination",
+  "status": "completed",
+  "generatedAt": "2026-05-10T12:52:13.998Z",
+  "protocolVersion": "3.0",
+  "commands": [
+    "plain-language/internal-term scan over client/src/pages/bfa-cross-flow-governance and client/src/components/bfa-cross-flow-governance",
+    "Push-Location client",
+    "VITE_PORT=52425 npx playwright test visual-audit-axis-d-full.spec.ts --grep bfa-cross-flow-governance --workers=1 --reporter=line",
+    "Get-ChildItem docs/e2e-snapshots/visual-audit/*/bfa-cross-flow-governance -Filter *.png -File | zero-byte check"
+  ],
+  "plainLanguageScan": {
+    "rawSourceMatchesReviewed": 76,
+    "tenantConsumerPage": false,
+    "failureLines": 0,
+    "classification": "FLOW-25 is an admin/platform governance surface. Raw matches were comments, internal slugs/test ids/data, or platform-admin/support-only rule identifiers. Tenant-admin visible branch hides rule ids."
+  },
+  "visualAudit": {
+    "command": "npx playwright test visual-audit-axis-d-full.spec.ts --grep bfa-cross-flow-governance --workers=1 --reporter=line",
+    "workingDirectory": "client",
+    "exitCode": 0,
+    "testsPassed": 9,
+    "testsTotal": 9,
+    "cells": [
+      "platform-admin primary",
+      "platform-support primary",
+      "platform-admin populated"
+    ],
+    "projects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ]
+  },
+  "screenshots": {
+    "totalPngs": 9,
+    "totalZeroBytePngs": 0,
+    "byProject": [
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-desktop/bfa-cross-flow-governance",
+        "pngCount": 3,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png"
+        ]
+      },
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-tablet/bfa-cross-flow-governance",
+        "pngCount": 3,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png"
+        ]
+      },
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-mobile/bfa-cross-flow-governance",
+        "pngCount": 3,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png"
+        ]
+      }
+    ]
+  },
+  "verdict": "PASS"
+}

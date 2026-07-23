@@ -1,0 +1,12 @@
+{
+  "eventType": "warehouse.report.scheduled",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "reportId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "reportType": { "type": "string", "required": true },
+    "scheduleAt": { "type": "string", "format": "date-time", "description": "Must be a future date-time", "required": true },
+    "scheduledAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "patternId": "arch--dual-record-write",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-02",
+  "domainId": "generic",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "archetype": "ORCHESTRATION",
+  "tags": [
+    "dual-record",
+    "scope-isolation",
+    "PRIVATE",
+    "GLOBAL",
+    "privacy-by-design",
+    "matching-profiles",
+    "business-profiles"
+  ],
+  "keywords": "dual record write private global scope isolation privacy design matching profile public safe subset",
+  "codeSnippet": "// DUAL-RECORD-WRITE: A1 writes two records with different scopes\n// PRIVATE: full profile — only this user reads it\n// GLOBAL: curated 4-field subset — any node in the tenant may read it\n// B1 and B2 read from GLOBAL only — cannot access challenges[] by architecture\n\n// Record 1: Full business profile (PRIVATE)\nawait this.db.storeDocument(BUSINESS_PROFILES_INDEX, {\n  profileId, userId, tenantId,\n  skills: input.skills, goals: input.goals, challenges: input.challenges,\n  industryCode, businessStage, locationProximity, teamSizeTier,\n  connectionType: 'FLOW_SCOPED', knowledgeScope: 'PRIVATE',  // ← PRIVATE\n}, profileId);\n\n// Record 2: Matching profile (GLOBAL — match-safe fields ONLY)\nawait this.db.storeDocument(MATCHING_PROFILES_INDEX, {\n  matchingProfileId, userId, tenantId,\n  industryCode,       // ← public\n  businessStage,      // ← public\n  locationProximity,  // ← computed tier (local/regional/national/international)\n  teamSizeTier,       // ← derived tier (micro/small/medium/large)\n  // challenges[], goals[], revenue NEVER here — PRIVATE fields\n  connectionType: 'FLOW_SCOPED', knowledgeScope: 'GLOBAL',  // ← GLOBAL\n}, matchingProfileId);\n\n// Both writes happen BEFORE BusinessProfileCreated emit (DNA-8)",
+  "ironRules": [
+    "GLOBAL record contains ONLY the 4 match-safe fields — no private fields",
+    "B1 reads from GLOBAL index only — never PRIVATE index",
+    "Both storeDocument calls complete BEFORE any event emit (DNA-8)",
+    "locationProximity is a COMPUTED TIER value — not raw location data"
+  ]
+}

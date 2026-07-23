@@ -1,0 +1,99 @@
+{
+  "flowId": "FLOW-11",
+  "flowSlug": "schema-registry-dag",
+  "phase": "phase2E2ETests",
+  "status": "passed",
+  "recordedAt": "2026-05-06T00:10:37.5661947+03:00",
+  "server": {
+    "url": "http://localhost:33001",
+    "health": {
+      "success": true,
+      "status": "OK"
+    },
+    "secretsProvider": "vault"
+  },
+  "commands": [
+    {
+      "name": "docker server health",
+      "command": "Invoke-RestMethod 'http://localhost:33001/health/live' | ConvertTo-Json -Compress",
+      "exitCode": 0,
+      "result": "success=true, status=OK"
+    },
+    {
+      "name": "FLOW-11 Playwright suites",
+      "command": "$env:VITE_PORT='5174'; $env:CLIENT_URL='http://localhost:5174'; $env:VITE_API_URL='http://localhost:33001'; $env:SERVER_URL='http://localhost:33001'; Push-Location client; npx playwright test e2e/schema-registry-dag.spec.ts e2e/topology/schema-registry-dag-topology-qa.spec.ts --reporter=list; Pop-Location",
+      "exitCode": 0,
+      "result": "72 passed, 0 failed"
+    },
+    {
+      "name": "client TypeScript",
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "name": "phase-close portability/auth scan",
+      "command": "FLOW-11 server flow scan for throw new, MicroserviceBase, nestjs-cls, direct SDK imports, and any types",
+      "exitCode": 0,
+      "result": "zero failure lines"
+    }
+  ],
+  "playwright": {
+    "projects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "specs": [
+      "client/e2e/schema-registry-dag.spec.ts",
+      "client/e2e/topology/schema-registry-dag-topology-qa.spec.ts"
+    ],
+    "testsPassed": 72,
+    "testsFailed": 0,
+    "notes": [
+      "R-08 now enters the platform-admin DAG branch explicitly.",
+      "The main schema/DAG spec now uses the real FLOW-11 topology fixture for /api/topology/FLOW-11, matching the topology QA evidence path.",
+      "P1 coverage health checks use SERVER_URL/VITE_API_URL so Docker server port 33001 is supported."
+    ]
+  },
+  "pngEvidence": {
+    "docs/e2e-snapshots/schema-registry-dag": {
+      "count": 14,
+      "files": [
+        "01-schemaregistrationgateway-transaction-st.png",
+        "02-schemaversionmanager-validation-step-ent.png",
+        "03-dagcycledetector-validation-step-entered.png",
+        "04-schemacompatibilitychecker-validation-st.png",
+        "05-schemapublisher-transaction-step-entered.png",
+        "06-dagtopologybuilder-data-pipeline-step-en.png",
+        "r-03-after.png",
+        "r-03-before.png",
+        "r-06-after.png",
+        "r-06-before.png",
+        "r-07-after.png",
+        "r-07-before.png",
+        "r-08-after.png",
+        "r-08-before.png"
+      ]
+    },
+    "docs/topology-snapshots/schema-registry-dag": {
+      "count": 2,
+      "files": [
+        "tvq-09-topology-render.png",
+        "tvq-10-page-render.png"
+      ]
+    },
+    "docs/e2e-snapshots/repo-evidence": {
+      "count": 97,
+      "note": "Repo evidence screenshots exist globally; FLOW-11 cascade-specific repo screenshots are produced during fork cascade phases."
+    }
+  },
+  "phaseCloseScan": {
+    "flowFileCount": 20,
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-05",
+  "taskTypeId": "T83-T84-T85",
+  "name": "flow-05-branch-a-completion-points-ledger",
+  "description": "Branch A: T83 CompletionRecorder → T84 PointsCalculator → T85 LedgerUpdater. SETNX idempotency on T83, server-side calculation on T84, atomic ledger write on T85.",
+  "archetype": "PROCESSING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: T83 SETNX check, T84 earnedPoints absent from input, T85 atomic incrementAndRecord"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve server-side-calculation and timezone-streak patterns for FLOW-05 Branch A",
+      "params": {
+        "archetype": "PROCESSING",
+        "taskTypeRef": "T83-T84-T85",
+        "topK": 4,
+        "patternIds": [
+          "SERVER-SIDE-CALCULATION-ONLY-001",
+          "TIMEZONE-AWARE-STREAK-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break into: T83 (SETNX + answers from store + CompletionRecorded) + T84 (server-side points from raw answers) + T85 (atomic ledger write waits T84+T96)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate completion-recorder.service.ts (T83), points-calculator.service.ts (T84), ledger-updater.service.ts (T85). T83 SETNX on (questionnaireId, userId). T84 input has no earnedPoints. T85 atomic incrementAndRecord."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check: setnx_before_operation (T83), config_over_hardcode (T84), store_before_enqueue (T85)"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score against iron rules: T83 idempotency, T84 server-side, T85 atomic"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=server-side-calculation+atomic-ledger, rejected=client-earnedPoints+separate-read-write. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "QuestionnaireAnswered event",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,104 @@
+{
+  "name": "@xiigen/completion-gamification",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-05 completion-gamification - lesson completion recording, gamification ledger updates, streak management, achievement unlocks, ML adaptation triggers, and social sharing lifecycle (T83-T98). Portability artifact declaring plugin SDK and co-install relationships.",
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "services": [
+      "CompletionRecorder",
+      "PointsCalculator",
+      "LedgerUpdater",
+      "LevelUpChecker",
+      "AchievementGate",
+      "MLCurriculumTrigger",
+      "MLAdaptationProcessor",
+      "SocialShareGateService",
+      "SocialShareDistributorService",
+      "SocialPostCreatorService",
+      "SocialFeedUpdaterService",
+      "SocialNotificationSenderService",
+      "SocialAnalyticsRecorderService",
+      "StreakManager",
+      "GamificationAnalytics",
+      "LearningFlowCompleted"
+    ],
+    "taskTypeIds": [
+      "T83",
+      "T84",
+      "T85",
+      "T86",
+      "T87",
+      "T88",
+      "T89",
+      "T90",
+      "T91",
+      "T92",
+      "T93",
+      "T94",
+      "T95",
+      "T96",
+      "T97",
+      "T98"
+    ],
+    "freedomKeys": [
+      "flow05_achievement_criteria",
+      "flow05_award_thresholds",
+      "flow05_level_thresholds",
+      "flow05_ml_cooldown_days",
+      "flow05_ml_max_changes",
+      "flow05_points_base",
+      "flow05_points_bonus",
+      "flow05_points_bonus_threshold",
+      "flow05_points_formula",
+      "flow05_points_per_completion",
+      "flow05_social_broadcast_enabled",
+      "flow05_streak_grace_hours",
+      "flow05_streak_multiplier_max",
+      "flow05_streak_multiplier_step"
+    ],
+    "emitsEventsConsumedBy": [
+      "FLOW-09/FLOW-10 downstream learning and reputation consumers (LearningFlowCompleted and social broadcast events)",
+      "Tenant feed surfaces (social.post.created, social.feed.updated, social.notification.sent)",
+      "Analytics and reporting surfaces (gamification analytics and social analytics records)"
+    ],
+    "readsFromOtherFlows": [],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_CANDIDATE_IN_GENERATION"
+  },
+  "xiigen": {
+    "requiredCoInstalls": [],
+    "pluginSdk": "@xiigen/plugin-sdk@^1.0.0"
+  },
+  "requiredCoInstalls": [],
+  "coInstallNotes": "FLOW-05 stands alone for its 16 services (T83-T98). It reads questionnaire result records from the tenant-scoped xiigen-questionnaire-results index but does not import another flow's service code. Downstream learning, social, and analytics consumers receive events through the queue fabric and are not required for FLOW-05 to boot.",
+  "dependencies": {
+    "@xiigen/plugin-sdk": "^1.0.0"
+  },
+  "peerDependencies": {
+    "xiigen-server": "^1.0.0"
+  },
+  "dna": {
+    "compliance": [
+      "DNA-1",
+      "DNA-2",
+      "DNA-3",
+      "DNA-4",
+      "DNA-5",
+      "DNA-6",
+      "DNA-7",
+      "DNA-8",
+      "DNA-9"
+    ],
+    "portabilityInvariants": [
+      "P-1",
+      "P-2",
+      "P-3",
+      "P-4",
+      "P-5"
+    ]
+  },
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v2.0"
+}

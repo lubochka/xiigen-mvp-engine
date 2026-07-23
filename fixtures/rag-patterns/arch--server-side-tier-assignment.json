@@ -1,0 +1,17 @@
+{
+  "patternId": "SERVER-SIDE-TIER-ASSIGNMENT-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-06",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ROUTING",
+  "tags": ["server-side-tier", "subscription-authority", "trust-boundary", "requestedTier-forbidden"],
+  "keywords": "server side tier assignment subscription authority trust boundary requestedTier forbidden xiigen-subscriptions GLOBAL",
+  "ironRules": [
+    "requestedTier is NOT in T100 input shape — client-submitted tier has no legitimate use",
+    "assignedTier derived from xiigen-subscriptions (GLOBAL) lookup — never from request",
+    "Output: { assignedTier, accessLevels[], subscriptionId } — never just tier string",
+    "Subscription read must be GLOBAL scope — written by FLOW-02, intentionally GLOBAL"
+  ],
+  "codeSnippet": "// CORRECT: read tier from GLOBAL subscriptions — no client input for tier\nconst subResult = await this.db.searchDocuments('xiigen-subscriptions', { userId, tenantId });\nconst subscription = subResult.data?.[0];\nconst assignedTier = subscription?.tier ?? 'FREE';\nconst accessLevels = TIER_ACCESS_MAP[assignedTier] ?? ['FREE'];\nreturn DataProcessResult.success({ assignedTier, accessLevels, subscriptionId: subscription?.id });\n// WRONG: read requestedTier from client input\n// const { requestedTier, userId } = payload;\n// const assignedTier = requestedTier; // client-controlled tier = privilege escalation"
+}

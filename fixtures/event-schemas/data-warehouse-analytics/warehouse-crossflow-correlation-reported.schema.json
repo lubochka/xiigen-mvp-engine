@@ -1,0 +1,11 @@
+{
+  "eventType": "warehouse.crossflow.correlation",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "correlationId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "sourceFlows": { "type": "array", "items": { "type": "string" }, "minItems": 2, "required": true },
+    "reportedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TrainingDatasetReady",
+  "type": "object",
+  "required": ["specversion", "type", "source", "id", "time", "data"],
+  "properties": {
+    "specversion": { "type": "string", "enum": ["1.0"] },
+    "type": { "type": "string", "enum": ["warehouse.training.dataset"] },
+    "source": { "type": "string" },
+    "id": { "type": "string" },
+    "time": { "type": "string", "format": "date-time" },
+    "data": {
+      "type": "object",
+      "required": ["datasetId", "tenantId", "featureCount", "rowCount"],
+      "properties": {
+        "datasetId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "featureCount": { "type": "integer", "minimum": 1 },
+        "rowCount": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

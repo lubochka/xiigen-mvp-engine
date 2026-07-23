@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T198",
+  "name": "schema-registry-dag-schema-search-service",
+  "description": "T198 SchemaSearchService — DATA_PIPELINE archetype. Full-text schema search. Returns matching schemas by type, version, domain. Tenant-scoped results only.",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: full-text search via BuildSearchFilter, tenant-scoped results only, search by type/version/domain, read-only"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch pattern + build-search-filter + tenant-scoped-search + full-text-schema-search patterns for T198",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T198",
+        "topK": 5,
+        "patternIds": [
+          "build-search-filter-001",
+          "tenant-scoped-search-001",
+          "full-text-search-001",
+          "dynamic-controller-get-001",
+          "read-only-query-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T198 into: receive type/version/domain query params → build search filter with tenantId → searchDocuments() via DATABASE → filter to tenant-scoped results → return matching schemas"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-search-service.service.ts — HTTP GET via DynamicController, uses BuildSearchFilter (DNA-2) with schemaType, version, domain as optional filters, tenantId always injected from ALS. NEVER returns cross-tenant results. searchDocuments() only — no raw query construction. Read-only — no mutations."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: build_search_filter_used, tenant_id_from_als, cross_tenant_results_impossible, type_version_domain_optional_filters, read_only"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T198 iron rules: BuildSearchFilter usage, tenant isolation, search param flexibility, no raw query construction"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=build-search-filter+tenant-scoped+optional-params, rejected=raw-query-construction OR cross-tenant-leakage OR hardcoded-tenant-id. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "HTTP GET via DynamicController",
+  "primaryFabric": "DATABASE"
+}

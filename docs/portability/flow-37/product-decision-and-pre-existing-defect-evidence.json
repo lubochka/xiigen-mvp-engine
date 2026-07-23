@@ -1,0 +1,39 @@
+{
+    "flowId":  "FLOW-37",
+    "flowSlug":  "design-system-governance",
+    "phase":  "pre-existing-defect-check",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T19:22:22Z",
+    "implementationSourceDirs":  [
+                                     "server/src/engine/flows/design-system-governance",
+                                     "server/src/engine/flows/engine-self-awareness"
+                                 ],
+    "roleMap":  {
+                    "primaryRoles":  [
+                                         "platform-admin",
+                                         "tenant-admin"
+                                     ],
+                    "partialRoles":  [
+                                         "platform-support"
+                                     ],
+                    "source":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-08.md and docs/design-reviews/XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md",
+                    "wrongRoleProbe":  "platform-support",
+                    "note":  "FLOW-37 is a platform operations stack-porting and design-governance surface. Platform-admin and tenant-admin can exercise the full screen; platform-support is the read-only/wrong-role probe."
+                },
+    "commands":  [
+                     "Push-Location server; npx jest --testPathPatterns=design-system-governance --runInBand --colors=false; Pop-Location",
+                     "Static scans over server/src/engine/flows/design-system-governance and server/src/engine/flows/engine-self-awareness for throw new, services missing MicroserviceBase, nestjs-cls, direct tenant context, direct SDK imports, and any types"
+                 ],
+    "verification":  {
+                         "jest":  "5 suites passed, 42 tests passed",
+                         "phaseCloseScan":  {
+                                                "throwNew":  0,
+                                                "servicesMissingMicroserviceBase":  0,
+                                                "clsImports":  0,
+                                                "directTenantContextImports":  0,
+                                                "directSdkImports":  0,
+                                                "anyTypes":  0
+                                            }
+                     },
+    "verdict":  "PASS"
+}

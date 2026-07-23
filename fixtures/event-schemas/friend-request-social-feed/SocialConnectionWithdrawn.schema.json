@@ -1,0 +1,11 @@
+{
+  "eventType": "SocialConnectionWithdrawn",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "connection-graph-writer",
+  "consumers": ["T80", "T82"],
+  "piiFields": [],
+  "allowedPayloadFields": ["connectionId", "userIdA", "userIdB", "tenantId", "withdrawnAt"],
+  "forbiddenFields": ["withdrawalReason", "userProfile", "privacySettings"],
+  "notes": "Emitted when a social connection is withdrawn (unfriend). T80 triggers full mutual count recompute on this event — same algorithm as ConnectionEstablished, idempotent by design. withdrawalReason is FORBIDDEN."
+}

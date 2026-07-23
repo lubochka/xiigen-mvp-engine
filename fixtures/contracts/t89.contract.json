@@ -1,0 +1,61 @@
+{
+  "taskTypeId": "T89",
+  "flowId": "FLOW-05",
+  "name": "CurriculumAdapter",
+  "archetype": "PROCESSING",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "ml-output-three-guards",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow05_max_adaptation_changes",
+    "neutralConcepts": [
+      "three guards: count ceiling ≤3, protected required modules, recency guard",
+      "LearningPlanSkipped is a success — not failure",
+      "ML inference timeout → partialResults:true in successModes",
+      "recency check BEFORE ML call"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F191",
+      "interface": "ICurriculumAdaptationService",
+      "fabric": "AI_ENGINE"
+    },
+    {
+      "factoryId": "F192",
+      "interface": "IAdaptationHistoryService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T89-1",
+      "rule": "Count ceiling: apply at most min(3, FREEDOM config) changes. MACHINE ceiling of 3 — never apply more than 3 curriculum changes per adaptation.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T89-2",
+      "rule": "Protected invariants: drop any ML suggestion that removes a required curriculum module. Required modules are never in applied changes.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T89-3",
+      "rule": "Recency guard: < 2 lessons since last adaptation → return DataProcessResult.success({ skipped: true, reason: 'TOO_RECENT' }) — emit LearningPlanSkipped. This is a success, not failure.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T89-4",
+      "rule": "ML inference timeout → DataProcessResult.success({ partialResults: true }) in successModes — not failureModes.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "config_over_hardcode",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["curriculum-adapter", "ml-validation", "three-guards", "PROCESSING"],
+  "keywords": "curriculum adapter ML validation three guards count ceiling required modules recency LearningPlanSkipped"
+}

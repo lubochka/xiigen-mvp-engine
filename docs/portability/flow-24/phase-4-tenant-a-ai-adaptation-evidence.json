@@ -1,0 +1,250 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "phase4AiAdaptation",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T11:17:39.1609775Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "acme-corp",
+                   "tenantName":  "Acme Corp"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "FREEDOM key value change plus tenant package metadata",
+                       "packageName":  "@xiigen-fork/acme-safety-console",
+                       "packageVersion":  "1.0.1",
+                       "moduleName":  "acme-safety-console",
+                       "displayName":  "Acme Safety Console",
+                       "sourceModuleName":  "ai-safety-moderation",
+                       "sourcePackageVersion":  "1.0.0-fork",
+                       "visiblePlainLanguage":  "Acme safety-console defaults: pending consent by default, faster consent review, higher safety threshold, expanded rejected-category labels, shorter grading timeout, async gamification dispatch, profile-only timezone messaging, safe domain-pack skip, fabric-only calendar sync, and advanced progress enabled while consent fail-closed behavior, safety token enforcement, ordering, server-side grading, append-only ledger, provider boundaries, audit ordering, and tenant isolation remain unchanged.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow24_consent_default_outcome",
+                                                  "from":  null,
+                                                  "to":  "PENDING"
+                                              },
+                                              {
+                                                  "key":  "flow24_consent_review_sla_hours",
+                                                  "from":  null,
+                                                  "to":  8
+                                              },
+                                              {
+                                                  "key":  "flow24_safety_score_threshold",
+                                                  "from":  null,
+                                                  "to":  0.92
+                                              },
+                                              {
+                                                  "key":  "flow24_safety_rejected_categories",
+                                                  "from":  null,
+                                                  "to":  "self-harm,sexual-minors,violent-extremism,private-data,financial-scam"
+                                              },
+                                              {
+                                                  "key":  "flow24_grading_timeout_ms",
+                                                  "from":  null,
+                                                  "to":  20000
+                                              },
+                                              {
+                                                  "key":  "flow24_gamification_dispatch_mode",
+                                                  "from":  null,
+                                                  "to":  "async-after-response"
+                                              },
+                                              {
+                                                  "key":  "flow24_timezone_missing_policy",
+                                                  "from":  null,
+                                                  "to":  "require-profile-timezone"
+                                              },
+                                              {
+                                                  "key":  "flow24_domain_pack_mode",
+                                                  "from":  null,
+                                                  "to":  "skip-when-missing"
+                                              },
+                                              {
+                                                  "key":  "flow24_calendar_sync_mode",
+                                                  "from":  null,
+                                                  "to":  "fabric-connector-only"
+                                              },
+                                              {
+                                                  "key":  "flow24_advanced_progress_enabled",
+                                                  "from":  null,
+                                                  "to":  true
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "Consent gate records remain written for every consent outcome.",
+                                                   "Missing consent remains fail-closed for downstream actions.",
+                                                   "SafetyGateToken approval remains mandatory before publish-facing actions.",
+                                                   "Compose, safety review, and publish order remains fixed by saga evidence.",
+                                                   "Client-submitted score fields remain rejected before server-side grading.",
+                                                   "Gamification ledger operations remain append-only and asynchronous after response.",
+                                                   "Timezone remains profile-sourced and calendar sync remains fabric-connector-only.",
+                                                   "Tenant context resolution remains automatic through TenantContextResolver."
+                                               ],
+                       "adaptedFiles":  [
+                                            "ADAPTATION-CHANGELOG.md",
+                                            "BUNDLE-MANIFEST.json",
+                                            "__tests__/ai-safety-moderation-acme-adaptation.spec.ts",
+                                            "freedom-config.defaults.json",
+                                            "package.json",
+                                            "settings/module.settings.json",
+                                            "tenant.config.json"
+                                        ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/acme-corp--acme-safety-console",
+                             "url":  "https://github.com/lubochka/acme-corp--acme-safety-console",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "originalForkRepo":  "lubochka/acme-corp--ai-safety-moderation",
+                             "renamedFromOriginalForkRepo":  true,
+                             "originalForkCommit":  "6404e2c8d632dace0ba8bb5469aba6e242a92a29",
+                             "adaptedCommit":  "eb4970cdcdfccefbb06de27a7e2a5d2eb7aae754",
+                             "adaptedCommitMessage":  "Adapt AI safety moderation for Acme safety console",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--ai-safety-moderation-phase40-20260510-140103",
+                             "cleanCloneStatus":  "clean against adapted/main",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/ai-safety-moderation-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  112,
+                                                                 "shasum":  "1be1919dd9f3edd2b44e2c73569f6bc5b9c3b490"
+                                                             }
+                                                         ],
+                             "adaptationHistoryEntries":  1,
+                             "bundleManifestItemCount":  111
+                         },
+    "githubActions":  {
+                          "workflowName":  [
+                                               "XIIGen Flow CI — ai-safety-moderation",
+                                               "XIIGen Flow CI — ai-safety-moderation"
+                                           ],
+                          "runId":  [
+                                        25627207238,
+                                        25626975353
+                                    ],
+                          "url":  [
+                                      "https://github.com/lubochka/acme-corp--acme-safety-console/actions/runs/25627207238",
+                                      "https://github.com/lubochka/acme-corp--acme-safety-console/actions/runs/25626975353"
+                                  ],
+                          "event":  [
+                                        "push",
+                                        "push"
+                                    ],
+                          "status":  [
+                                         "completed",
+                                         "completed"
+                                     ],
+                          "conclusion":  [
+                                             "success",
+                                             "success"
+                                         ],
+                          "headSha":  [
+                                          "eb4970cdcdfccefbb06de27a7e2a5d2eb7aae754",
+                                          "6404e2c8d632dace0ba8bb5469aba6e242a92a29"
+                                      ],
+                          "createdAt":  [
+                                            "2026-05-10T11:11:47Z",
+                                            "2026-05-10T11:00:01Z"
+                                        ],
+                          "updatedAt":  [
+                                            "2026-05-10T11:12:28Z",
+                                            "2026-05-10T11:00:40Z"
+                                        ]
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "ping":  "passed",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public --loglevel=notice",
+                          "publishedPackage":  "@xiigen-fork/acme-safety-console",
+                          "publishedVersion":  "1.0.1",
+                          "viewCommand":  "npm view @xiigen-fork/acme-safety-console@1.0.1 dist version dist-tags gitHead --registry http://localhost:4873 --json",
+                          "npmViewVersion":  "1.0.1",
+                          "distTags":  {
+                                           "latest":  "1.0.1"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/acme-safety-console/-/acme-safety-console-1.0.1.tgz",
+                          "shasum":  "1be1919dd9f3edd2b44e2c73569f6bc5b9c3b490",
+                          "gitHead":  "eb4970cdcdfccefbb06de27a7e2a5d2eb7aae754",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/ai-safety-moderation-acme-v1.0.1-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/ai-safety-moderation-acme-v1.0.1-registry-listing.png",
+                                                   "sizeBytes":  18388
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-24/acme-corp--acme-safety-console-tenant-a-v1.0.1-actions-success.png",
+                                                   "sizeBytes":  78154
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-24/acme-corp--acme-safety-console-tenant-a-v1.0.1-github-listing.png",
+                                                   "sizeBytes":  130273
+                                               }
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "tenantValidation":  {
+                                                            "typescript":  "passed",
+                                                            "jest":  "passed: 2 suites, 4 tests",
+                                                            "packDryRun":  "passed"
+                                                        },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "tenantContextResolverReferences":  2,
+                                                     "highRiskSecretPatternHits":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tenantSecretsStoredInVault":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true,
+                           "registryTokenPrinted":  false
+                       },
+    "phaseGate":  {
+                      "tenantAAdaptedFlow":  true,
+                      "tenantACommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "registryScreenshotPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBInstall":  true
+                  },
+    "verdict":  "PASS"
+}

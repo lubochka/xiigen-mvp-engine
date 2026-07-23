@@ -1,0 +1,1 @@
+{"type":"object","properties":{"projectId":{"type":"string"},"frameId":{"type":"string"},"componentCount":{"type":"integer"},"maxDepth":{"type":"integer"},"hierarchyNormalized":{"type":"boolean"},"cssSelectorsParsed":{"type":"integer"},"fetchedAt":{"type":"string"}},"required":["projectId","frameId","componentCount","fetchedAt"]}

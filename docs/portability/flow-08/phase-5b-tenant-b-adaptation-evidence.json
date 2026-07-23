@@ -1,0 +1,166 @@
+﻿{
+    "flowId":  "FLOW-08",
+    "flowSlug":  "marketplace",
+    "phase":  "phase5bTenantBAdapts",
+    "generatedAt":  "2026-05-05T14:49:21.9118869+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "sourceTenantId":  "acme-corp",
+                   "sourcePackage":  "@xiigen-fork/acme-curated-marketplace@1.0.1",
+                   "adaptedPackage":  "@xiigen-fork/northwind-partner-marketplace@1.0.2"
+               },
+    "tenantBAdaptation":  {
+                              "displayName":  "Northwind Partner Marketplace",
+                              "moduleName":  "northwind-partner-marketplace",
+                              "packageName":  "@xiigen-fork/northwind-partner-marketplace",
+                              "version":  "1.0.2",
+                              "packageId":  "pkg-marketplace-northwind-partner-marketplace",
+                              "visiblePlainLanguage":  "Northwind partner marketplace: preserves Acme service-first listings, raises launch price cap to 7500, and adds sponsor-ready partner positioning.",
+                              "freedomOverride":  "flow08_marketplace_max_price_cap.northwind=7500",
+                              "tenantRepoCommit":  "5f9aefee7ae5e7d55e30a6d961f820216e7d9872",
+                              "tenantRepoCommitMessage":  "Tenant B adaptation: Northwind partner marketplace",
+                              "localForkVerification":  {
+                                                            "clonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-curated-marketplace",
+                                                            "npmInstall":  "previous Phase 5b tenant clone verification passed npm install --no-audit --no-fund",
+                                                            "typeScript":  "npx tsc --noEmit passed",
+                                                            "jest":  "npx jest --colors=false --forceExit passed with 3 suites and 9 tests"
+                                                        }
+                          },
+    "tenantRepository":  {
+                             "renamedFrom":  "lubochka/northwind--acme-curated-marketplace",
+                             "nameWithOwner":  "lubochka/northwind--northwind-partner-marketplace",
+                             "url":  "https://github.com/lubochka/northwind--northwind-partner-marketplace",
+                             "defaultBranch":  "main",
+                             "visibility":  "PRIVATE",
+                             "isPrivate":  true,
+                             "createdAt":  "2026-05-05T11:14:42Z",
+                             "pushedAt":  "2026-05-05T11:36:05Z"
+                         },
+    "githubActions":  {
+                          "runId":  25374002238,
+                          "jobId":  74404329155,
+                          "workflowName":  "XIIGen Flow CI - marketplace",
+                          "originalWorkflowName":  "XIIGen Flow CI - marketplace",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "5f9aefee7ae5e7d55e30a6d961f820216e7d9872",
+                          "url":  "https://github.com/lubochka/northwind--northwind-partner-marketplace/actions/runs/25374002238",
+                          "jobUrl":  "https://github.com/lubochka/northwind--northwind-partner-marketplace/actions/runs/25374002238/job/74404329155",
+                          "createdAt":  "2026-05-05T11:36:07Z",
+                          "updatedAt":  "2026-05-05T11:36:49Z",
+                          "successfulSteps":  [
+                                                  "Set up job",
+                                                  "Run actions/checkout@v4.2.2",
+                                                  "Run actions/setup-node@v4.4.0",
+                                                  "Install",
+                                                  "TypeScript check",
+                                                  "Test",
+                                                  "Provenance",
+                                                  "Post Run actions/setup-node@v4.4.0",
+                                                  "Post Run actions/checkout@v4.2.2",
+                                                  "Complete job"
+                                              ],
+                          "inheritedWarnings":  [
+                                                    "Node.js 20 action deprecation annotation remains tracked as AGENTS debt-011."
+                                                ]
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "evidencePath":  "docs/e2e-snapshots/marketplace/marketplace-v1.0.2-registry-api-evidence.json",
+                          "packageName":  "@xiigen-fork/northwind-partner-marketplace",
+                          "selectedVersion":  "1.0.2",
+                          "latest":  "1.0.2",
+                          "gitHead":  "5f9aefee7ae5e7d55e30a6d961f820216e7d9872",
+                          "shasum":  "2313ac8902e8a99d7a352bd9cbcbd55603f9e1d1",
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-partner-marketplace/-/northwind-partner-marketplace-1.0.2.tgz"
+                      },
+    "visualEvidence":  {
+                           "marketplaceListingScreenshot":  "C:\\Projects\\xiigen mvp\\docs\\e2e-snapshots\\marketplace\\marketplace-v1.0.2-listing.png",
+                           "marketplaceListingBytes":  13817,
+                           "roleMatrixDirectory":  "docs/e2e-snapshots/marketplace/tenant-b-v1.0.2",
+                           "roleMatrixCount":  9,
+                           "roleMatrixMinBytes":  208962,
+                           "roleMatrixMaxBytes":  237601,
+                           "roleMatrixFiles":  [
+                                                   {
+                                                       "name":  "platform-admin-C2-en-populated.png",
+                                                       "bytes":  216240
+                                                   },
+                                                   {
+                                                       "name":  "platform-admin-C4-he-rtl-populated.png",
+                                                       "bytes":  217069
+                                                   },
+                                                   {
+                                                       "name":  "platform-admin-C6-en-mobile.png",
+                                                       "bytes":  237601
+                                                   },
+                                                   {
+                                                       "name":  "platform-support-C2-en-populated.png",
+                                                       "bytes":  216240
+                                                   },
+                                                   {
+                                                       "name":  "platform-support-C4-he-rtl-populated.png",
+                                                       "bytes":  217069
+                                                   },
+                                                   {
+                                                       "name":  "platform-support-C6-en-mobile.png",
+                                                       "bytes":  237601
+                                                   },
+                                                   {
+                                                       "name":  "tenant-admin-C2-en-populated.png",
+                                                       "bytes":  208962
+                                                   },
+                                                   {
+                                                       "name":  "tenant-admin-C4-he-rtl-populated.png",
+                                                       "bytes":  209832
+                                                   },
+                                                   {
+                                                       "name":  "tenant-admin-C6-en-mobile.png",
+                                                       "bytes":  237601
+                                                   }
+                                               ],
+                           "repoScreenshot":  "C:\\Projects\\xiigen mvp\\docs\\e2e-snapshots\\repo-evidence\\northwind--northwind-partner-marketplace-repo-homepage.png",
+                           "repoScreenshotBytes":  135141,
+                           "actionsScreenshot":  "C:\\Projects\\xiigen mvp\\docs\\e2e-snapshots\\repo-evidence\\northwind--northwind-partner-marketplace-actions-success.png",
+                           "actionsScreenshotBytes":  65315,
+                           "repoVisibilityRestoredAfterCapture":  true
+                       },
+    "commands":  {
+                     "clientTypeScript":  "Push-Location client; npx tsc --noEmit; Pop-Location: passed",
+                     "playwright":  "client npx playwright test e2e/marketplace-phase5b-tenant-b-adaptation.spec.ts --project=chromium-desktop --workers=1: 10 passed, 10 total",
+                     "dockerHealth":  "Invoke-RestMethod http://localhost:33001/health/live: success=true, status=OK",
+                     "serverTypeScript":  "server npx tsc --noEmit -p tsconfig.json: passed",
+                     "serverJest":  "server npx jest --testPathPatterns=marketplace --runInBand: 60 suites passed, 1146 tests passed",
+                     "scans":  {
+                                   "throwNew":  0,
+                                   "clsImports":  0,
+                                   "servicesMissingMicroserviceBase":  0,
+                                   "unscopedFreedomReads":  0,
+                                   "localConfigClones":  0,
+                                   "directSdkImports":  0,
+                                   "controllerUseGuards":  true,
+                                   "controllerRouteCount":  4,
+                                   "controllerRolesOrPublicDeclarations":  4,
+                                   "controllerPublicRoutes":  0
+                               }
+                 },
+    "filesWritten":  [
+                         "client/src/pages/MarketplacePage.tsx",
+                         "client/e2e/marketplace-phase5b-tenant-b-adaptation.spec.ts",
+                         "docs/e2e-snapshots/marketplace/marketplace-v1.0.2-listing.png",
+                         "docs/e2e-snapshots/marketplace/tenant-b-v1.0.2/*.png",
+                         "docs/e2e-snapshots/marketplace/marketplace-v1.0.2-registry-api-evidence.json",
+                         "docs/e2e-snapshots/repo-evidence/northwind--northwind-partner-marketplace-repo-homepage.png",
+                         "docs/e2e-snapshots/repo-evidence/northwind--northwind-partner-marketplace-actions-success.png",
+                         "docs/portability/flow-08/phase-5b-tenant-b-adaptation-evidence.json",
+                         "docs/sessions/FLOW-08/FLOW-08-MOBILITY-AUTH-STATE.json"
+                     ],
+    "secretHandling":  {
+                           "tokenPrinted":  false,
+                           "tokenCommitted":  false,
+                           "tenantCredentialsRemainVaultBacked":  true,
+                           "note":  "No GitHub token, JWT signing key, or Vault secret value is stored in this evidence file."
+                       },
+    "phaseCloseResult":  "ready-for-phase-5c-tenant-c-installs-after-precommit-commit-push"
+}

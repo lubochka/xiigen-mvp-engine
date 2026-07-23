@@ -1,0 +1,37 @@
+{
+  "taskTypeId": "T175",
+  "flowId": "FLOW-13",
+  "name": "KPIDashboardGenerator",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "freedom-threshold-kpi-snapshot",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "warehouse_kpi_alert_thresholds",
+    "neutralConcepts": [
+      "KPI values are tenant-scoped",
+      "alertFired must be computed based on configured thresholds (FREEDOM config key: warehouse_kpi_alert_thresholds)",
+      "alertFired is a derived boolean — never hardcoded threshold in service code",
+      "Emit KPISnapshotGenerated (warehouse.kpi.snapshot) on completion"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T175-1", "rule": "KPI values MUST be tenant-scoped — no cross-tenant KPI visibility.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T175-2", "rule": "alertFired MUST be computed from FREEDOM config thresholds — never hardcoded. Hardcoded threshold is a MACHINE violation.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T175-3", "rule": "Emit KPISnapshotGenerated (warehouse.kpi.snapshot) on completion.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "tenant_scoped_kpi_values",
+    "alert_fired_from_freedom_config_not_hardcoded",
+    "emit_kpi_snapshot_on_completion"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "kpi", "dashboard", "freedom-config", "alert", "ANALYTICS_ENGINE"],
+  "keywords": "KPI dashboard generator tenant scoped alertFired FREEDOM config thresholds KPISnapshotGenerated warehouse.kpi.snapshot"
+}

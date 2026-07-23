@@ -1,0 +1,31 @@
+{
+  "title": "platform-agent-ConsentResolved-event-schema",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "entityId": { "type": "string" },
+    "source": { "type": "string" },
+    "eventType": {
+      "type": "string",
+      "enum": ["platform-agent.ConsentResolved"]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "consentId": { "type": "string" },
+        "sessionId": { "type": "string" },
+        "contributionId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "decision": {
+          "type": "string",
+          "enum": ["SHARE", "KEEP_PRIVATE", "EXPIRED"]
+        },
+        "resolvedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["consentId", "sessionId", "contributionId", "tenantId", "decision"]
+    },
+    "metadata": { "type": "object" }
+  },
+  "required": ["id", "timestamp", "entityId", "eventType"]
+}

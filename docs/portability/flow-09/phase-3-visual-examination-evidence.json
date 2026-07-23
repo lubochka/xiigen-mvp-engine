@@ -1,0 +1,113 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "phase": "phase-3-visual-examination",
+  "generatedAt": "2026-05-05T17:03:54.8994351+03:00",
+  "visualEvidenceReviewed": {
+    "roleMatrixDirectoryPattern": "docs/e2e-snapshots/visual-audit/{viewport}/transactional-event-participation",
+    "roles": [
+      "anonymous",
+      "tenant-user",
+      "event-organiser",
+      "platform-admin"
+    ],
+    "viewports": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "expectedPngCount": 12,
+    "actualPngCount": 12,
+    "missingPngCount": 0,
+    "zeroBytePngCount": 0,
+    "byteSizeCheck": {
+      "chromium-desktop": {
+        "count": 4,
+        "minBytes": 34122,
+        "maxBytes": 67666
+      },
+      "chromium-tablet": {
+        "count": 4,
+        "minBytes": 38642,
+        "maxBytes": 70466
+      },
+      "chromium-mobile": {
+        "count": 4,
+        "minBytes": 147359,
+        "maxBytes": 211697
+      }
+    },
+    "manualSpotChecks": [
+      {
+        "file": "docs/e2e-snapshots/visual-audit/chromium-desktop/transactional-event-participation/primary-anonymous.png",
+        "result": "PASS",
+        "notes": [
+          "Checkout heading, sign-in prompt, order summary, payment details, and payment button are visible.",
+          "Button text fits its container and no engine-internal terms are visible."
+        ]
+      },
+      {
+        "file": "docs/e2e-snapshots/visual-audit/chromium-mobile/transactional-event-participation/primary-tenant-user.png",
+        "result": "PASS",
+        "notes": [
+          "Ticket cards stack cleanly on mobile with visible event names, dates, QR placeholders, ticket IDs, and View ticket actions.",
+          "Text remains readable and does not overlap across the inspected mobile capture."
+        ]
+      },
+      {
+        "file": "docs/e2e-snapshots/visual-audit/chromium-mobile/transactional-event-participation/primary-event-organiser.png",
+        "result": "PASS",
+        "notes": [
+          "Check-in kiosk metrics, scanner area, ticket-code input, and recent check-ins are visible in the mobile capture.",
+          "The primary Check in action wraps cleanly and remains tappable."
+        ]
+      },
+      {
+        "file": "docs/e2e-snapshots/visual-audit/chromium-desktop/transactional-event-participation/primary-platform-admin.png",
+        "result": "PASS",
+        "notes": [
+          "Admin refund queue, totals, disputed transaction indicator, and approve/deny actions are visible.",
+          "Operator/admin shell is expected for the platform-admin role; no tenant-consumer shell regression observed."
+        ]
+      }
+    ]
+  },
+  "playwright": {
+    "command": "npx playwright test e2e/visual-audit-axis-d-full.spec.ts -g \"transactional-event-participation\" --workers=1",
+    "workingDirectory": "client",
+    "result": {
+      "passed": 12,
+      "total": 12
+    }
+  },
+  "plainLanguageGate": {
+    "scopedPath": "client/src/pages/transactional-event-participation",
+    "patterns": [
+      "\\bBFA\\b",
+      "\\bDNA-[1-9]\\b",
+      "\\bAF[- ]station\\b",
+      "\\barbiter\\b",
+      "FREEDOM config",
+      "MACHINE code",
+      "DataProcessResult",
+      "ENGINE_INTERNAL",
+      "\\bT[0-9]{3}\\b",
+      "\\bCF-[0-9]{3}\\b"
+    ],
+    "matches": 0,
+    "status": "PASS"
+  },
+  "phaseCloseScans": {
+    "flowFileCount": 20,
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "flowScopedAnnotations": 20,
+    "unscopedFreedomReads": 0,
+    "localConfigClones": 0,
+    "directSdkImports": 0
+  },
+  "blockedFindings": [],
+  "result": "passed",
+  "secretsPrinted": false
+}

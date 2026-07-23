@@ -1,0 +1,119 @@
+{
+  "project": "xiigen-skill-adaptation",
+  "version": "3.3",
+  "phase": 2,
+  "phaseStatus": "COMPLETE",
+  "planRevAtCompletion": "3.3",
+  "completedAt": "2026-03-18",
+
+  "deliverables": [
+    ".claude/skills/infrastructure-discovery/SKILL.md",
+    ".claude/skills/infrastructure-discovery/AGENTS.md",
+    ".claude/skills/infrastructure-discovery/skill.yaml",
+    ".claude/skills/planning-skill/SKILL.md",
+    ".claude/skills/planning-skill/AGENTS.md",
+    ".claude/skills/planning-skill/skill.yaml",
+    ".claude/skills/xiigen-core-principles-skill/SKILL.md",
+    ".claude/skills/xiigen-core-principles-skill/AGENTS.md",
+    ".claude/skills/xiigen-core-principles-skill/skill.yaml",
+    ".claude/skills/plan-review-skill/SKILL.md",
+    ".claude/skills/plan-review-skill/AGENTS.md",
+    ".claude/skills/plan-review-skill/skill.yaml",
+    ".claude/skills/plan-review-skill/SESSION-0-PLAN-REVIEW-TEMPLATE.md",
+    ".claude/skills/plan-review-skill/references/foundational-principles.md",
+    ".claude/skills/plan-review-skill/references/failure-class-catalog.md",
+    ".claude/skills/plan-review-skill/references/root-cause-analysis.md",
+    ".claude/skills/plan-review-skill/references/detection-commands.md"
+  ],
+
+  "skillsCreated": {
+    "infrastructure-discovery": {
+      "skNumber": "SK-407",
+      "priority": "MANDATORY",
+      "loadOrder": 5,
+      "protocol": "10-step (Step 0: Pre-existing Failure Audit added Rev 3.3)"
+    },
+    "planning-skill": {
+      "skNumber": "SK-408",
+      "priority": "MANDATORY",
+      "loadOrder": 6,
+      "gates": 8,
+      "gate7": "Foundational Principles P1-P8 (added Rev 3.2)"
+    },
+    "xiigen-core-principles-skill": {
+      "skNumber": "SK-409",
+      "priority": "SUPREME",
+      "loadOrder": 7,
+      "principles": 8,
+      "checklistItems": 32
+    },
+    "plan-review-skill": {
+      "skNumber": "SK-410",
+      "priority": "MANDATORY",
+      "loadOrder": 8,
+      "failureClasses": 12,
+      "bugFixesApplied": [
+        "Bug fix 3: '12 failure classes' (not '11') in all created files",
+        "Bug fix 4: FC-12 row added to AGENTS.md table"
+      ],
+      "referenceFiles": 4
+    }
+  },
+
+  "sessionGate": {
+    "build": {
+      "command": "cd server && npm run build",
+      "result": "PASS",
+      "errors": 0
+    },
+    "serverTests": {
+      "command": "cd server && npm test",
+      "result": "PASS",
+      "suites": 98,
+      "tests": 2342,
+      "meetsBaseline": true,
+      "baseline": 2342
+    },
+    "clientTests": {
+      "command": "cd client && npm test -- --watchAll=false",
+      "result": "PASS",
+      "suites": 7,
+      "tests": 220,
+      "newFailuresDelta": 0,
+      "zeroRegressionRuleMet": true
+    }
+  },
+
+  "preExistingFailures": {
+    "server": [],
+    "client": ["vite build: Could not resolve entry module 'index.html' (gitignored, never in repo — confirmed git show 0d658a1)"],
+    "protocol": "Zero-regression gate = Δ new failures vs this list must equal 0",
+    "capturedAt": "Phase 1 session start, before any code change",
+    "NOTE": "Client test suite ran 220 tests successfully — index.html failure is a build artifact issue, not a test failure in jest"
+  },
+
+  "artifactNumbers": {
+    "nextFactory": "READ_FROM_LIVE_DOCS",
+    "nextTaskType": "READ_FROM_LIVE_DOCS",
+    "nextSkill": "SK-411 (next after SK-410 plan-review-skill)",
+    "NOTE": "Phase 2 created no factory/task-type artifacts — only skill files"
+  },
+
+  "phasesComplete": [1, 2],
+  "nextPhase": 3,
+  "nextPhaseSkills": [
+    "agent-output-format (PORT, v1.0 → v2.0)",
+    "how-to-prepare-a-plan-skill (NEW)"
+  ],
+  "nextPhaseSourceDir": "<WORKSPACE>\\Documents\\xiigen\\Planning sessions\\planning-skills-v3-final (3)\\",
+  "nextPhaseFixes": [
+    "Bug fix 1: how-to-prepare-a-plan AGENTS.md — '4 Sub-Skills' → '5 Sub-Skills'",
+    "Bug fix 2: how-to-prepare-a-plan skill.yaml — version '1.0.0' → '2.0.0', sub_skills_in_order to 5 items",
+    "Bug fix 3: agent-output-format SKILL.md + AGENTS.md — '11 failure classes' → '12 failure classes'",
+    "v17-skill-library-reference: add 5 companion registration fixes to README, INSTRUCTIONS, NEW-TASK-PLANNING-PROMPT"
+  ],
+
+  "totalNewSkills": 23,
+  "skillsCreatedToDate": 9,
+  "remainingSkills": 14
+}

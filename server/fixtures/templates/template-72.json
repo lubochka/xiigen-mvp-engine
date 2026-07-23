@@ -1,0 +1,13 @@
+{
+  "_id": "template-72",
+  "templateId": 72,
+  "name": "component-render-workflow",
+  "flow": "FLOW-23",
+  "nodes": [
+    { "position": 0, "taskTypeId": "T360", "name": "TenantIsolationEnforcer", "required": true, "note": "CF-447: MUST be position 0" },
+    { "position": 1, "taskTypeId": "T351", "name": "ComponentLibraryResolve", "required": true },
+    { "position": 2, "taskTypeId": "T355", "name": "StyleTokenApply" },
+    { "position": 3, "taskTypeId": "T357", "name": "TemplateModeRender" }
+  ],
+  "bfaRules": ["CF-447", "CF-444", "CF-448"]
+}

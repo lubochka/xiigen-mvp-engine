@@ -1,0 +1,72 @@
+{
+  "flowId": "FLOW-05",
+  "taskTypeId": "T87-T96",
+  "name": "flow-05-branch-a-achievement-streak",
+  "description": "Branch A: T87 AchievementGate + T96 StreakManager. T87 idempotent by (userId, achievementId), T96 timezone-aware streak with userTimezoneOffset.",
+  "archetype": "ROUTING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: T87 history-check before emit, T96 userTimezoneOffset required"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve timezone-aware-streak and achievement idempotency patterns",
+      "params": {
+        "archetype": "ROUTING",
+        "taskTypeRef": "T87-T96",
+        "topK": 4,
+        "patternIds": [
+          "TIMEZONE-AWARE-STREAK-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break into: T87 (read achievement-records → check (userId, achievementId) → emit if new) + T96 (userTimezoneOffset → localDate → streak increment → streakBonus to T85)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate achievement-gate.service.ts (T87) and streak-manager.service.ts (T96). T87 reads history before emit. T96 computes localDate from UTC + offset."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check: setnx_before_operation (T87 history check), store_before_enqueue (both), tenant_id_on_writes"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score against iron rules: T87 idempotency, T96 timezone-aware"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=history-check-before-emit+localDate-from-offset, rejected=no-history-check+UTC-only. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "CompletionRecorded event (T83 output)",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,47 @@
+{
+  "taskTypeId": "T224",
+  "flowId": "FLOW-14",
+  "name": "WarehouseProvisioningHandler",
+  "archetype": "provisioning",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "zone-order-then-rls-per-zone-then-audit-then-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_warehouse_provisioning_timeout_ms",
+    "neutralConcepts": [
+      "CF-192: zone provisioning MUST follow raw→staging→core→mart order — no skipping",
+      "F463 IRlsPolicyService.registerPolicy() called for EACH zone (4 calls total)",
+      "F459 IWarehouseAuditService.recordProvisioning() called after all zones provisioned",
+      "WarehouseTenantProvisioned includes zonesProvisioned + rlsPoliciesRegistered: true",
+      "storeDocument(warehouse_tenant) BEFORE enqueue(WarehouseTenantProvisioned) — DNA-8",
+      "Tenant-namespaced zone index: xiigen-warehouse-{tenantId}-{zone}"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F463", "interface": "IRlsPolicyService", "fabric": "CORE" },
+    { "factoryId": "F459", "interface": "IWarehouseAuditService", "fabric": "CORE" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T224-1", "rule": "CF-192: zones MUST be provisioned in raw→staging→core→mart order — no skipping.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T224-2", "rule": "F463 IRlsPolicyService.registerPolicy() called for each zone — 4 calls minimum.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T224-3", "rule": "F459 IWarehouseAuditService.recordProvisioning() called after all zones.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T224-4", "rule": "WarehouseTenantProvisioned MUST include zonesProvisioned and rlsPoliciesRegistered: true.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T224-5", "rule": "storeDocument(warehouse_tenant) BEFORE enqueue(WarehouseTenantProvisioned) — DNA-8.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T224-6", "rule": "Zone index MUST be tenant-namespaced: xiigen-warehouse-{tenantId}-{zone}.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "zone_order_raw_staging_core_mart",
+    "rls_per_zone_4_calls",
+    "audit_service_called",
+    "zones_provisioned_in_payload",
+    "store_before_enqueue",
+    "tenant_namespaced_zone_index"
+  ],
+  "bfaRules": ["CF-192"],
+  "tags": ["warehouse", "provisioning", "zone-order", "rls", "audit"],
+  "keywords": "warehouse provisioning handler CF-192 zone order raw staging core mart RLS per zone IWarehouseAuditService F459 F463 WarehouseTenantProvisioned zonesProvisioned rlsPoliciesRegistered tenant-namespaced"
+}

@@ -1,0 +1,108 @@
+{
+  "$schema": "xiigen-tenant-freedom-profile-v1",
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "tenantId": "acme-pro-members",
+  "profileVersion": "1.0.0",
+  "adaptationCategory": "freedom-config",
+  "basedOnDefaultsVersion": "FLOW-02 XIIGEN_FREEDOM_DEFAULTS (server/src/freedom/config-schema.ts)",
+  "publishedAt": "2026-04-23",
+  "publishedBy": "architect-mode / FLOW-PORTABILITY-TEST-PROTOCOL-v1.2 / session vigorous-margulis",
+  "reuseTenantFromFlow01": "Same acme-pro-members sub-tenant; this profile layers FLOW-02 FREEDOM overrides on top of FLOW-01 overrides already published for that tenant.",
+
+  "overrides": {
+    "flow02_match_weight_industry": {
+      "value": 0.55,
+      "rationale": "Acme Pro tenant prioritizes same-industry peer matching (developer community with strong industry-specialization value)",
+      "stakeholder": "product-growth",
+      "serviceWiringStatus": "ACTIVE",
+      "readBy": "CompatibilityScoringService.scoreCompatibility (server/src/engine/flows/profile-enrichment/compatibility-scoring.service.ts:85)"
+    },
+    "flow02_match_weight_stage": {
+      "value": 0.25,
+      "rationale": "De-emphasize business stage for peer matching; developer peer matches valuable across stages",
+      "stakeholder": "product-growth",
+      "serviceWiringStatus": "ACTIVE",
+      "readBy": "CompatibilityScoringService.scoreCompatibility:89"
+    },
+    "flow02_match_weight_location": {
+      "value": 0.10,
+      "rationale": "Remote-first tenant; location proximity a minor signal",
+      "stakeholder": "product-growth",
+      "serviceWiringStatus": "ACTIVE",
+      "readBy": "CompatibilityScoringService.scoreCompatibility:92"
+    },
+    "flow02_match_weight_team": {
+      "value": 0.10,
+      "rationale": "Team size tier minor signal for peer matching in developer community",
+      "stakeholder": "product-growth",
+      "serviceWiringStatus": "ACTIVE",
+      "readBy": "CompatibilityScoringService.scoreCompatibility:96"
+    },
+    "flow02_match_timeout_seconds": {
+      "value": 15,
+      "rationale": "Tighter tenant SLA; acme users expect matching within 15s instead of default 30s",
+      "stakeholder": "sre",
+      "serviceWiringStatus": "PROFILE_READY_SERVICE_CARRY_FORWARD",
+      "carryForwardGap": "Gap-FLOW-02-B: FREEDOM key registered in config-schema but CompatibilityScoringService currently uses input.timeoutMs ?? DEFAULT_TIMEOUT_MS (server:line 109). Service wiring to freedomConfig is a future patch; profile pre-declares the desired tenant value.",
+      "notTestedInThisPhase": true
+    },
+    "flow02_debounce_window_seconds": {
+      "value": 60,
+      "rationale": "Smaller tenant; shorter debounce for quicker re-matching after profile edits",
+      "stakeholder": "product-growth",
+      "serviceWiringStatus": "PROFILE_READY_SERVICE_CARRY_FORWARD",
+      "carryForwardGap": "Gap-FLOW-02-B: FREEDOM key registered in config-schema but no service reads it yet. Profile pre-declares the desired tenant value.",
+      "notTestedInThisPhase": true
+    }
+  },
+
+  "weightSumInvariant": {
+    "rule": "flow02_match_weight_industry + flow02_match_weight_stage + flow02_match_weight_location + flow02_match_weight_team === 1.00",
+    "acmeSum": "0.55 + 0.25 + 0.10 + 0.10 = 1.00",
+    "defaultSum": "0.40 + 0.30 + 0.20 + 0.10 = 1.00",
+    "verifiedIn": "FC-ADAPT-1 / FC-ADAPT-4"
+  },
+
+  "deploymentInstructions": {
+    "seedIndex": "xiigen-freedom-config",
+    "seedMethod": "IFreedomConfigService.set() per key, within tenant's AsyncLocalStorage context",
+    "sampleSeedScript": "for (const [key, cfg] of Object.entries(overrides)) { await cls.runWith({ tenantId }, () => freedomConfig.set(key, cfg.value)); }",
+    "idempotent": true,
+    "requiresRestart": false
+  },
+
+  "verificationContract": {
+    "testFile": "server/test/profile-enrichment/phase-02-adaptation-freedom-config.spec.ts",
+    "testsRunForThisProfile": [
+      "FC-ADAPT-1",
+      "FC-ADAPT-2",
+      "FC-ADAPT-3",
+      "FC-ADAPT-4",
+      "FC-ADAPT-5"
+    ],
+    "testedOverrides": [
+      "flow02_match_weight_industry",
+      "flow02_match_weight_stage",
+      "flow02_match_weight_location",
+      "flow02_match_weight_team"
+    ],
+    "carriedForwardOverrides": [
+      "flow02_match_timeout_seconds",
+      "flow02_debounce_window_seconds"
+    ],
+    "allPassed": "TBD — to be populated after jest run in Phase 2"
+  },
+
+  "machineInvariantsPreserved": [
+    "Event names: BusinessProfileCreated, UserSegmentAssigned, LearningPathAssigned, BusinessMatchesFound, SuggestionsGenerated, MatchingPageRendered, PersonalizationCompleted",
+    "Task-type IDs: T50 (fan_in), T51 (convergence), T52 (broadcast)",
+    "Business profile schema: dual-record write (PRIVATE xiigen-business-profiles + GLOBAL xiigen-matching-profiles); GLOBAL restricted to 4 match-safe fields",
+    "knowledge_scope literals: GLOBAL (matching), PRIVATE (profiles + matches + segments)",
+    "connection_type literals: FLOW_SCOPED",
+    "DNA-8 outbox ordering: storeDocument before enqueue (all services)",
+    "DNA-7 idempotency: sha256 key for scoringId; same idempotencyKey returns same scoringId",
+    "TIMEOUT-AS-SUCCESS-MODE: partialResults=true on timeout, not failure",
+    "Uniform VALIDATION_FAILURE shape (no field leakage)"
+  ]
+}

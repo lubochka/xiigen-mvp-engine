@@ -1,0 +1,10 @@
+{
+  "eventType": "node.type.registered",
+  "flowId": "FLOW-18",
+  "version": "1.0.0",
+  "properties": {
+    "nodeTypeId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "registeredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

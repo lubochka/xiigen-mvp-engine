@@ -1,0 +1,38 @@
+{
+  "taskTypeId": "T630",
+  "name": "FormSubmissionProcessor",
+  "flowId": "FLOW-21",
+  "domainId": "dynamic-forms-workflows",
+  "archetype": "data_pipeline",
+  "purpose": "Submission processing with BOLA check and validation against published schema",
+  "entry": "FormSubmitted event",
+  "ironRules": [
+    "IR-1: BOLA check at ORDER 1 — submitterTenantId === form.tenantId",
+    "IR-2: Validate against published schema only (immutable version)",
+    "IR-3: Validation errors returned as success (never failure)",
+    "IR-4: tenantId from ALS only",
+    "IR-5: Store submission before emitting events (outbox)"
+  ],
+  "machineComponents": [
+    "BOLA check at ORDER 1",
+    "Published schema validation",
+    "Error response handling",
+    "Outbox pattern enforcement"
+  ],
+  "freedomComponents": [
+    "submission_validation_timeout_ms",
+    "submission_max_field_count"
+  ],
+  "factories": [
+    {
+      "factoryId": "F1505",
+      "interface": "IDatabaseService",
+      "provider": "elasticsearch"
+    },
+    {
+      "factoryId": "F1506",
+      "interface": "IQueueService",
+      "provider": "rabbitmq"
+    }
+  ]
+}

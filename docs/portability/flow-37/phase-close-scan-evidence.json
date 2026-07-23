@@ -1,0 +1,32 @@
+{
+    "flowId":  "FLOW-37",
+    "flowSlug":  "design-system-governance",
+    "phase":  "phase-close-scans",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T19:22:22Z",
+    "commands":  [
+                     "Static scans over server/src/engine/flows/design-system-governance/**/*.ts and server/src/engine/flows/engine-self-awareness/**/*.ts",
+                     "gh repo view visibility for all FLOW-37 tenant repos",
+                     "npm view @xiigen-fork/* FLOW-37 packages against http://localhost:4873"
+                 ],
+    "scanResults":  {
+                        "throwNew":  0,
+                        "servicesMissingMicroserviceBase":  0,
+                        "clsImports":  0,
+                        "directTenantContextImports":  0,
+                        "directSdkImports":  0,
+                        "anyTypes":  0
+                    },
+    "repoVisibilityRestored":  {
+                                   "acme":  "PRIVATE",
+                                   "northwind":  "PRIVATE",
+                                   "tessera":  "PRIVATE"
+                               },
+    "registryReadbacks":  [
+                              "1.0.1",
+                              "1.0.2",
+                              "1.0.3"
+                          ],
+    "failureLines":  0,
+    "verdict":  "PASS"
+}

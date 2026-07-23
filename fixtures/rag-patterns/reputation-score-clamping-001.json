@@ -1,0 +1,24 @@
+{
+  "patternId": "reputation-score-clamping-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-10",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": ["score-clamping", "range-enforcement", "reputation-scale", "weighted-average"],
+  "keywords": "score clamp reputation scale 1.0 5.0 weighted average float escape named check star rating FLOW-06 confusion",
+  "ironRules": [
+    "Score range [1.0, 5.0] — star-rating scale, NOT a quality score [0,1] (do not confuse with FLOW-06)",
+    "Math.max(1.0, Math.min(5.0, rawScore)) applied before storeDocument",
+    "Named check: reputation_score_clamped_1_to_5",
+    "Weighted average with recency weights can produce values below 1.0 or above 5.0 with sparse data",
+    "rawScore written directly = BUILD_FAILURE — downstream consumers receive out-of-range scores"
+  ],
+  "codeSnippet": "// CORRECT: clamp before write\nconst rawScore = this.computeWeightedAverage(ratings, weights);\nconst score = Math.max(1.0, Math.min(5.0, rawScore)); // clamp [1.0,5.0]\nawait db.storeDocument('xiigen-reputation-scores', { score, ... });\n\n// WRONG: raw write\nawait db.storeDocument('xiigen-reputation-scores', { score: rawScore }); // 0.8 or 5.3 possible",
+  "appliesTo": ["FLOW-06"],
+  "curriculumTier": 1,
+  "qualityScore": 0.87,
+  "sourceDocument": "FLOW-10-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,15 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F969",
+  "factoryId": "F969",
+  "flowId": "FLOW-23",
+  "interface": "ICloudEventsEnvelopeService",
+  "injectionToken": "CLOUD_EVENTS_ENVELOPE",
+  "fabric": "QUEUE",
+  "platformOnly": true,
+  "platformOnlyReason": "CloudEvents envelope is an engine primitive — not tenant-configurable",
+  "taskTypes": "all",
+  "bfaRules": ["CF-448"],
+  "injectedFields": ["id", "time", "tenantId", "traceparent", "flowId", "correlationId"],
+  "spec8Fields": "Injects all 8 SK-419 Mode C required fields automatically"
+}

@@ -1,0 +1,71 @@
+{
+  "index": "xiigen-engine-contracts",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "taskTypeId":        { "type": "keyword" },
+      "archetype":         { "type": "keyword" },
+      "name":              { "type": "keyword" },
+      "family":            { "type": "integer" },
+      "flowId":            { "type": "keyword" },
+      "version":           { "type": "keyword" },
+      "description":       { "type": "text", "analyzer": "standard" },
+      "requiredFactories": { "type": "keyword" },
+      "bfaRules":          { "type": "keyword" },
+      "ironRules":         { "type": "text" },
+      "arbiters":          { "type": "keyword" },
+      "executionModel":    { "type": "keyword" },
+      "entryType":         { "type": "keyword" },
+      "handlers":          { "type": "object", "dynamic": true },
+      "machineConstants":  { "type": "object", "dynamic": true },
+      "machineFreedom":    { "type": "object", "dynamic": true },
+      "createdAt":         { "type": "date" },
+
+      "_ec5": {
+        "type": "object",
+        "properties": {
+          "ep5Required":   { "type": "boolean" },
+          "dna9Required":  { "type": "boolean" },
+
+          "compensationSaga": {
+            "type": "object",
+            "properties": {
+              "lifoEnforced": { "type": "boolean" },
+              "steps": {
+                "type": "nested",
+                "properties": {
+                  "name":       { "type": "keyword" },
+                  "forward":    { "type": "keyword" },
+                  "compensate": { "type": "keyword" }
+                }
+              }
+            }
+          },
+
+          "crossTaskEventTriggers": {
+            "type": "nested",
+            "properties": {
+              "onEvent":        { "type": "keyword" },
+              "targetTaskType": { "type": "keyword" },
+              "synchronous":    { "type": "boolean" }
+            }
+          },
+
+          "prohibitedImports": { "type": "keyword" },
+
+          "readOnlyConstraints": {
+            "type": "nested",
+            "properties": {
+              "description":           { "type": "text" },
+              "prohibitedOperations":  { "type": "keyword" },
+              "cfRule":                { "type": "keyword" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

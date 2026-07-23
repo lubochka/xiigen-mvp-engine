@@ -1,0 +1,83 @@
+{
+  "flowId": "FLOW-12",
+  "flowSlug": "subscription-billing",
+  "phase": "phase3VisualExamination",
+  "status": "passed",
+  "recordedAt": "2026-05-06T03:14:51.3019761+03:00",
+  "visualSamplesReviewed": [
+    {
+      "file": "docs/e2e-snapshots/visual-audit/chromium-desktop/subscription-billing/primary-tenant-admin.png",
+      "result": "pass",
+      "notes": "Tenant-admin billing dashboard renders compact plan strip, invoice list, failed invoice dunning status, and retry action without overlap."
+    },
+    {
+      "file": "docs/e2e-snapshots/visual-audit/chromium-mobile/subscription-billing/primary-tenant-admin.png",
+      "result": "pass",
+      "notes": "Mobile tenant-admin view keeps status badges, retry action, and invoice cards legible; no text collision or clipping observed."
+    },
+    {
+      "file": "docs/e2e-snapshots/visual-audit/chromium-desktop/subscription-billing/primary-business-partner.png",
+      "result": "pass",
+      "notes": "Business-partner invoicing table remains scannable on desktop with contract, terms, balance, and invoice status visible."
+    },
+    {
+      "file": "docs/e2e-snapshots/visual-audit/chromium-mobile/subscription-billing/primary-business-partner.png",
+      "result": "pass",
+      "notes": "Mobile business-partner view uses the existing wide-table grammar without incoherent overlap; columns remain readable in the captured viewport."
+    },
+    {
+      "file": "docs/e2e-snapshots/visual-audit/chromium-mobile/subscription-billing/primary-tenant-user.png",
+      "result": "pass",
+      "notes": "Tenant-user mobile invoice history makes the failed invoice and retry payment action visually dominant, matching the Stripe billing reference."
+    },
+    {
+      "file": "docs/e2e-snapshots/visual-audit/chromium-mobile/subscription-billing/primary-platform-admin.png",
+      "result": "pass",
+      "notes": "Platform-admin mobile summary has clear state counts and action links without clipping."
+    }
+  ],
+  "fixesApplied": [],
+  "commands": [
+    {
+      "name": "focused visual verification",
+      "command": "$env:VITE_PORT='5176'; Push-Location client; npx playwright test e2e/subscription-billing.spec.ts -g \"R-07|R-08|P1-04\" --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "result": "9 passed, 0 failed, 0 skipped"
+    },
+    {
+      "name": "diff whitespace check",
+      "command": "git diff --check",
+      "exitCode": 0,
+      "result": "passed"
+    }
+  ],
+  "pngEvidence": {
+    "docs/e2e-snapshots/subscription-billing": {
+      "count": 9,
+      "p1StateCoverageBytes": 102316
+    },
+    "docs/e2e-snapshots/visual-audit/chromium-desktop/subscription-billing": {
+      "count": 5
+    },
+    "docs/e2e-snapshots/visual-audit/chromium-tablet/subscription-billing": {
+      "count": 5
+    },
+    "docs/e2e-snapshots/visual-audit/chromium-mobile/subscription-billing": {
+      "count": 5
+    }
+  },
+  "phaseCloseScan": {
+    "visualOverlapFindings": 0,
+    "playwrightFailures": 0,
+    "playwrightSkips": 0,
+    "typescriptErrors": 0
+  },
+  "mandateChecks": {
+    "swap": "pass",
+    "squint": "pass",
+    "signature": "pass",
+    "aiSlop": "pass",
+    "token": "pass",
+    "nonTechnicalReviewer": "pass"
+  }
+}

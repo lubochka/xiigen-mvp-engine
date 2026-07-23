@@ -1,0 +1,203 @@
+{
+  "flowId": "FLOW-27",
+  "flowSlug": "human-interaction-gate",
+  "phase": "phase-i-certification-declaration",
+  "status": "completed",
+  "generatedAt": "2026-05-10T17:21:38.967Z",
+  "certification": {
+    "earnedTier": "Tier 2+ (Tier 3 not declared)",
+    "tier3BlockedBy": "package-signing first pass remains pending",
+    "decision": "FLOW-27 human-interaction-gate completes the mobility/auth protocol evidence through three tenant repos, three adapted packages, green GitHub Actions, Verdaccio readbacks, GitHub screenshots, and Docker/Vault auth checks. Certification is capped at Tier 2+ until package-signing first pass is implemented.",
+    "basis": [
+      "Pre-existing FLOW-27 defects were closed before cascade work.",
+      "Docker/Vault auth was verified with tenant-scoped signing keys and no secrets in evidence.",
+      "Tenant A forked the original platform source through the marketplace API.",
+      "Tenant A, B, and C each committed adapted packages to real GitHub repos.",
+      "All final tenant repo GitHub Actions runs concluded success.",
+      "All three adapted packages were published to and read back from http://localhost:4873.",
+      "Real GitHub evidence screenshots exist for original fork and all adapted cascade points.",
+      "Phase H auth decoration and live marketplace auth checks passed.",
+      "Tier 3 is withheld because package signing first pass is still pending."
+    ]
+  },
+  "tenantRepos": [
+    {
+      "tenant": "acme-corp",
+      "repo": "lubochka/acme-corp--human-interaction-gate",
+      "package": "@xiigen-fork/acme-approval-ops@1.0.1",
+      "finalActionsRunId": 25634194085,
+      "finalActionsConclusion": "success",
+      "finalCommit": "7b82c9eba37801daa76754ef1bf4fdd7eb9fb6dd",
+      "defaultBranch": "main",
+      "private": true
+    },
+    {
+      "tenant": "northwind",
+      "repo": "lubochka/northwind--acme-approval-ops",
+      "package": "@xiigen-fork/northwind-review-router@1.0.2",
+      "finalActionsRunId": 25634474563,
+      "finalActionsConclusion": "success",
+      "finalCommit": "cccb806f87d3b8e523cdef8f490ac486d9654f17",
+      "defaultBranch": "main",
+      "private": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "repo": "lubochka/tessera-collective--northwind-review-router",
+      "package": "@xiigen-fork/tessera-human-gate-studio@1.0.3",
+      "finalActionsRunId": 25634727151,
+      "finalActionsConclusion": "success",
+      "finalCommit": "31d0cc874430b943a83083e35e0a281e2f62bb7a",
+      "defaultBranch": "main",
+      "private": true
+    }
+  ],
+  "registryVerification": [
+    {
+      "package": "@xiigen-fork/acme-approval-ops",
+      "expectedVersion": "1.0.1",
+      "actualVersion": "1.0.1",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "package": "@xiigen-fork/northwind-review-router",
+      "expectedVersion": "1.0.2",
+      "actualVersion": "1.0.2",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "package": "@xiigen-fork/tessera-human-gate-studio",
+      "expectedVersion": "1.0.3",
+      "actualVersion": "1.0.3",
+      "registry": "http://localhost:4873",
+      "verified": true
+    }
+  ],
+  "visualEvidence": {
+    "repoScreenshotDirectory": "docs/e2e-snapshots/repo-evidence/flow-27",
+    "repoScreenshots": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4-tenant-a-v1.0.1-actions-success.png",
+        "bytes": 78172
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4-tenant-a-v1.0.1-github-listing.png",
+        "bytes": 133543
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4-tenant-a-v1.0.1-package-json.png",
+        "bytes": 114735
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4.0-tenant-a-actions-run.png",
+        "bytes": 76154
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4.0-tenant-a-bundle-manifest.png",
+        "bytes": 371498
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4.0-tenant-a-repo.png",
+        "bytes": 125268
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-b-v1.0.2-actions-success.png",
+        "bytes": 77014
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-b-v1.0.2-github-listing.png",
+        "bytes": 133298
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-b-v1.0.2-package-json.png",
+        "bytes": 113961
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-c-v1.0.3-actions-success.png",
+        "bytes": 78775
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-c-v1.0.3-github-listing.png",
+        "bytes": 135495
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-c-v1.0.3-package-json.png",
+        "bytes": 115538
+      }
+    ],
+    "repoScreenshotCount": 12,
+    "zeroByteScreenshots": 0
+  },
+  "authVerdict": {
+    "phase0Evidence": "docs/portability/flow-27/phase-0-docker-vault-auth-evidence.json",
+    "phaseHEvidence": "docs/portability/flow-27/phase-h-auth-decoration-evidence.json",
+    "finalCascadeAuthEvidence": "docs/portability/flow-27/phase-5-tenant-c-install-adapt-auth-evidence.json",
+    "phase0LiveChecks": {
+      "passed": 18,
+      "failed": 0
+    },
+    "phaseHLiveChecks": {
+      "passed": 8,
+      "failed": 0
+    },
+    "finalCascadeLiveChecks": {
+      "passed": 12,
+      "failed": 0
+    },
+    "missingTokenDenied": true,
+    "crossTenantJwtIsolationPassed": true,
+    "roleProtectedRoutesReturn403ForWrongRole": true,
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesCommittedOrWrittenToEvidence": false
+  },
+  "completedPhases": [
+    "preExistingDefectCheck",
+    "phase0DockerVaultAuth",
+    "phase1UnitIntegration",
+    "phase2E2EPlaywright",
+    "phase3VisualExamination",
+    "phase4TenantAOriginalFork",
+    "phase4TenantAAdaptation",
+    "phase5TenantBInstallAdaptPublish",
+    "phase5TenantCInstallAdaptAuth",
+    "phaseHAuthDecoration",
+    "phaseICertificationDeclaration"
+  ],
+  "sourceEvidenceFiles": [
+    "docs/portability/flow-27/product-decision-and-pre-existing-defect-evidence.json",
+    "docs/portability/flow-27/phase-0-docker-vault-auth-evidence.json",
+    "docs/portability/flow-27/phase-1-unit-integration-evidence.json",
+    "docs/portability/flow-27/phase-2-e2e-playwright-evidence.json",
+    "docs/portability/flow-27/phase-3-visual-examination-evidence.json",
+    "docs/portability/flow-27/phase-4.0-tenant-a-original-fork-evidence.json",
+    "docs/portability/flow-27/phase-4-tenant-a-ai-adaptation-evidence.json",
+    "docs/portability/flow-27/phase-5-tenant-b-install-adapt-publish-evidence.json",
+    "docs/portability/flow-27/phase-5-tenant-c-install-adapt-auth-evidence.json",
+    "docs/portability/flow-27/phase-h-auth-decoration-evidence.json"
+  ],
+  "completionGate": {
+    "allPriorPhasesCompleted": true,
+    "trackedAcceptedIssues": 2,
+    "openBlockers": 0,
+    "realMarketplaceApiForks": true,
+    "realGitHubRepos": true,
+    "greenGitHubActions": true,
+    "localRegistryCascadeVerified": true,
+    "dockerVaultAuthVerified": true,
+    "crossTenantJwtIsolationPassed": true,
+    "roleProtectedRoutesReturn403ForWrongRole": true,
+    "missingTokensReturn401": true,
+    "repoScreenshotsAtAllCascadePoints": true,
+    "secretsCommittedOrWrittenToEvidence": false,
+    "packageSigningFirstPass": false
+  },
+  "certificationGaps": [
+    {
+      "gap": "Package-signing first pass is not implemented for adapted marketplace packages.",
+      "effect": "Tier 3 is not declared."
+    }
+  ],
+  "verdict": "PASS"
+}

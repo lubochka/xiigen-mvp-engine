@@ -1,0 +1,34 @@
+{
+  "taskTypeId": "T669",
+  "flowId": "FLOW-48",
+  "name": "TranslationPolicyGate",
+  "archetype": "VALIDATION",
+  "domainId": "i18n-translation",
+  "seededAt": "2026-04-19T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "inline-policy-check-never-throws",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "i18n.enabledLocales",
+    "neutralConcepts": [
+      "inline call from T666 Step 2 — not an HTTP endpoint",
+      "permitted IFF locale in freedom_config['i18n.enabledLocales'] OR xiigen-translation-requests has doc for (tenantId, locale)",
+      "tenantId from ALS — no parameter override (CF-810)",
+      "English ('en') always permitted — it is the bundle fallback path",
+      "NEVER throws — any fabric error → DataProcessResult.success(false) (CF-812)",
+      "denied → caller renders { fallback: true, locale: 'en' } at HTTP layer"
+    ]
+  },
+  "factories": [],
+  "ironRules": [
+    {
+      "id": "CF-812",
+      "rule": "This gate NEVER throws. All fabric errors → success(false). Callers render the fallback response shape.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": ["never_throws_on_fabric_error"],
+  "bfaRules": ["CF-812"],
+  "tags": ["validation", "inline", "policy-gate", "CF-812", "FLOW-48"],
+  "keywords": "translation policy gate validation inline permitted enabledLocales never throws fallback FLOW-48"
+}

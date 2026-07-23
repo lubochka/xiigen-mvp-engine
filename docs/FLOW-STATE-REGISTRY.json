@@ -1,0 +1,454 @@
+{
+  "lastUpdated": "2026-04-14",
+  "baseline": { "testsPass": 10114, "tsFailing": 0, "branch": "claude/vigorous-margulis" },
+  "protocol": "FLOW-PREP → SIMULATION → GAP-PREP → GAP-TRANSLATE → CODE-FIXES → IMPL-REVIEW → E2E-UI → DONE",
+  "stages": ["FLOW_PREP","SIMULATION","GAP_PREP","GAP_TRANSLATE","CODE_FIXES","IMPL_REVIEW","E2E_UI","DONE"],
+  "legend": { "DONE":"stage complete", "IN_PROGRESS":"partially complete", "NOT_STARTED":"not begun" },
+  "flows": {
+    "FLOW-01": {
+      "name": "Content Creation & Publishing",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 17,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "17 SESSION-GAP files ready. Contract file and archetypes missing."
+    },
+    "FLOW-02": {
+      "name": "Profile Enrichment & Matching",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 17,
+        "gapsApplied": false, "contractFile": "profile-enrichment-matching-contracts.ts",
+        "e2eTests": false, "uiTests": "STUB_ONLY", "archetypesRegistered": true
+      },
+      "notes": "Contract exists. FAN_IN/CONVERGENCE/BROADCAST archetypes registered. 3 named checks tested. UI stubs only (5 .todo()). Closest to done after code fixes."
+    },
+    "FLOW-03": {
+      "name": "Community Event Creation & Promotion",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": "STUB_ONLY", "archetypesRegistered": false
+      },
+      "notes": "No SESSION-GAP files. Contract file missing. Custom archetypes (REGISTRATION, PROMOTION, ANALYTICS) not in enum. 28 UI stubs."
+    },
+    "FLOW-04": {
+      "name": "Event Attendance & Management",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": "STUB_ONLY", "archetypesRegistered": false
+      },
+      "notes": "No SESSION-GAP files. Contract missing. 4 UI stubs vs 16 expected. All phases NOT_STARTED per STATE.json."
+    },
+    "FLOW-05": {
+      "name": "Completion & Gamification",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 12,
+        "gapsApplied": true, "contractFile": "completion-gamification-contracts.ts",
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "Code fixes committed. COMPLETION/GAMIFICATION/BROADCAST_SOCIAL archetypes registered. Missing E2E + UI tests."
+    },
+    "FLOW-06": {
+      "name": "Membership & Group Feed",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 10,
+        "gapsApplied": true, "contractFile": "membership-group-feed-contracts.ts",
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "Code fixes committed. MEMBERSHIP/GROUP_FEED archetypes registered. Missing E2E + UI tests."
+    },
+    "FLOW-07": {
+      "name": "Unknown — session files exist",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "NOT_STARTED", "GAP_PREP": "NOT_STARTED", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Only FLOW-PREP done. Needs SIMULATION run before any further stages."
+    },
+    "FLOW-08": {
+      "name": "Unknown — session files exist",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "NOT_STARTED", "GAP_PREP": "NOT_STARTED", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Only FLOW-PREP done. Needs SIMULATION run before any further stages."
+    },
+    "FLOW-09": {
+      "name": "Unknown — simulation in zip archives",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Simulation/gap-prep in zip archives — needs extraction. dependsOn: FLOW-05 per CF-2."
+    },
+    "FLOW-10": {
+      "name": "Reviews & Reputation",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 32,
+        "gapsApplied": true, "contractFile": "reviews-reputation-contracts.ts",
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "SUBMISSION_GATEWAY/MODERATION/AGGREGATION archetypes. ensureIndex, human-queue, peerFlowMustBeActive all implemented. Missing E2E + UI."
+    },
+    "FLOW-11": {
+      "name": "Schema Registry & DAG",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 19,
+        "gapsApplied": true, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "ES_INDEX constants, graph-utils DFS, DAG renderer, OCC, Python adapter, NamedCheckRegistry all implemented. Missing E2E + UI."
+    },
+    "FLOW-12": {
+      "name": "Subscription & Billing",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 20,
+        "gapsApplied": true, "contractFile": "flow-12-contracts.ts",
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "ALS re-bind, idempotency, BFA CF-789-791, DnaValidator C-7 scoping all done. Missing E2E + UI."
+    },
+    "FLOW-13": {
+      "name": "Data Warehouse & Analytics",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "IN_PROGRESS", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 20,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "Archetypes + 10 named checks registered. 20 SESSION-GAP files need code application."
+    },
+    "FLOW-14": {
+      "name": "ETL Pipeline",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "IN_PROGRESS", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 22,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "TRANSFORM/MODELING/ACTIVATION + 10 named checks registered. 22 SESSION-GAP files pending."
+    },
+    "FLOW-15": {
+      "name": "SaaS Platform Builder",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "IN_PROGRESS", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 25,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "10 archetypes + 8 named checks registered. 25 SESSION-GAP files pending."
+    },
+    "FLOW-16": {
+      "name": "Marketplace & Payments",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "IN_PROGRESS", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 28,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "14 BFA named checks (CF-256–269) registered. No new archetypes needed. 28 SESSION-GAP files pending. KYC/payment/dispute logic."
+    },
+    "FLOW-17": {
+      "name": "Digital Asset & IP Management",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "IN_PROGRESS", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 25,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "11 named checks registered. No new archetypes. 25 SESSION-GAP files pending."
+    },
+    "FLOW-18": {
+      "name": "Platform Infrastructure",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 18,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "No archetypes or named checks (platform infra: hot code injection, AI consensus, CRDT, sandbox). 18 SESSION-GAP files pending."
+    },
+    "FLOW-19": {
+      "name": "Durable Sagas & Compliance",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 11,
+        "gapsApplied": true, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "GAP-NEW-24 NamedCheckRegistry resolved. 9 evaluators, EP-5 crash harness. Missing E2E + UI."
+    },
+    "FLOW-20": {
+      "name": "AI Safety & Content Moderation",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "IN_PROGRESS", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 12,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "REQUEST_RESPONSE archetype + 10 named checks registered. 12 SESSION-GAP files pending."
+    },
+    "FLOW-21": {
+      "name": "Dynamic Forms & Workflows",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 7,
+        "gapsApplied": true, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Topology enforcer, persist-before-emit, payment fan-out, DLQ retry, HMAC webhook all done. Missing E2E + UI."
+    },
+    "FLOW-22": {
+      "name": "CMS & Publishing Platform",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 9,
+        "gapsApplied": true, "contractFile": "flow-22-*.ts (7 files)",
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "7 contract files, pgFirstSequential, 15 named checks. Missing E2E + UI."
+    },
+    "FLOW-23": {
+      "name": "Form Builder & Templates",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 8,
+        "gapsApplied": true, "contractFile": "flow-23-*.ts (8 files)",
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "8 contract files, 8 named checks, CI gate script, fixtures. Missing E2E + UI."
+    },
+    "FLOW-24": {
+      "name": "AI Tutoring & Learning",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "IN_PROGRESS", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 9,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "8 named checks registered (safety/consent/gamification/calendar). 9 SESSION-GAP files pending code application."
+    },
+    "FLOW-25": {
+      "name": "BFA Cross-Flow Governance (already implemented in codebase)",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "DONE", "IMPL_REVIEW": "DONE", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": false, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null,
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "INGESTION/IMPACT_ANALYSIS/BLAST_RADIUS/ARBITRATION/SYNTHESIS/GOVERNANCE archetypes already in enum. Implemented in guardrails/bfa.ts."
+    },
+    "FLOW-26": {
+      "name": "Meta-Arbitration Feedback Loop",
+      "stages": {
+        "FLOW_PREP": "NOT_STARTED", "SIMULATION": "NOT_STARTED", "GAP_PREP": "NOT_STARTED", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": false, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Not yet initiated. Depends on FLOW-25."
+    },
+    "FLOW-27": {
+      "name": "Dynamic Flow Adaptation",
+      "stages": {
+        "FLOW_PREP": "NOT_STARTED", "SIMULATION": "NOT_STARTED", "GAP_PREP": "NOT_STARTED", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": false, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Not yet initiated. Depends on FLOW-25."
+    },
+    "FLOW-28": {
+      "name": "Blog / CMS Modules (reserved, not yet implemented)",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 17,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Namespace F1129-F1175, T423-T440 reserved per CLAUDE.md. 17 SESSION-GAP files exist."
+    },
+    "FLOW-29": {
+      "name": "Adaptive RAG Deep Research Engine",
+      "stages": {
+        "FLOW_PREP": "NOT_STARTED", "SIMULATION": "NOT_STARTED", "GAP_PREP": "NOT_STARTED", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": false, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "RETRIEVAL/ROUTING/GUARD/LEARNING/OBSERVABILITY/BUILD/EVALUATION/EXPERIMENTATION/ANALYSIS archetypes already in enum. Session files not yet created."
+    },
+    "FLOW-30": {
+      "name": "RAG Result Aggregation & Ranking",
+      "stages": {
+        "FLOW_PREP": "NOT_STARTED", "SIMULATION": "NOT_STARTED", "GAP_PREP": "NOT_STARTED", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": false, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Not yet initiated. Depends on FLOW-29."
+    },
+    "FLOW-31": {
+      "name": "RAG Continuous Learning",
+      "stages": {
+        "FLOW_PREP": "NOT_STARTED", "SIMULATION": "NOT_STARTED", "GAP_PREP": "NOT_STARTED", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": false, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": false
+      },
+      "notes": "Not yet initiated. Depends on FLOW-30."
+    },
+    "FLOW-32": {
+      "name": "Skill Graph",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 18,
+        "gapsApplied": false, "contractFile": "skill-graph-contracts.ts",
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "RETRIEVAL/ROUTING/GUARD/LEARNING archetypes. 18 SESSION-GAP files pending. Contract file exists."
+    },
+    "FLOW-33": {
+      "name": "System Initiation — Self-Building Bootstrap",
+      "stages": {
+        "FLOW_PREP": "NOT_STARTED", "SIMULATION": "NOT_STARTED", "GAP_PREP": "NOT_STARTED", "GAP_TRANSLATE": "NOT_STARTED",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": false, "gapsMasterPlan": false, "gapTranslateFiles": 0,
+        "gapsApplied": false, "contractFile": null, "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "STATE_MACHINE/AI_GENERATION_LOOP/AI_CONSENSUS/CHANGE_DETECTION archetypes in enum. Not yet initiated."
+    },
+    "FLOW-34": {
+      "name": "Feature Registry",
+      "stages": {
+        "FLOW_PREP": "DONE", "SIMULATION": "DONE", "GAP_PREP": "DONE", "GAP_TRANSLATE": "DONE",
+        "CODE_FIXES": "NOT_STARTED", "IMPL_REVIEW": "NOT_STARTED", "E2E_UI": "NOT_STARTED", "DONE": "NOT_DONE"
+      },
+      "evidence": {
+        "sessionDir": true, "gapsMasterPlan": true, "gapTranslateFiles": 29,
+        "gapsApplied": false, "contractFile": "feature-registry-contracts.ts",
+        "e2eTests": false, "uiTests": false, "archetypesRegistered": true
+      },
+      "notes": "META_COLLECTION/META_DECISION archetypes. 29 SESSION-GAP files pending. Contract file exists. FT-ID namespace reserved."
+    }
+  },
+  "summary": {
+    "totalFlows": 34,
+    "DONE": 0,
+    "codeFixesDone": ["FLOW-05","FLOW-06","FLOW-10","FLOW-11","FLOW-12","FLOW-19","FLOW-21","FLOW-22","FLOW-23"],
+    "gapTranslateReadyForCode": ["FLOW-01","FLOW-02","FLOW-13","FLOW-14","FLOW-15","FLOW-16","FLOW-17","FLOW-18","FLOW-20","FLOW-24","FLOW-28","FLOW-32","FLOW-34"],
+    "needsGapTranslate": ["FLOW-03","FLOW-04"],
+    "needsSimulation": ["FLOW-07","FLOW-08"],
+    "notInitiated": ["FLOW-26","FLOW-27","FLOW-30","FLOW-31","FLOW-33"],
+    "e2eUiMissing": "ALL 34 flows — zero flow-specific E2E tests exist",
+    "criticalBlockers": [
+      "E2E + UI tests missing for ALL flows (non-negotiable per delivery protocol)",
+      "FLOW-03 and FLOW-04 have no SESSION-GAP files and no contract files",
+      "FLOW-07 and FLOW-08 need SIMULATION runs before proceeding",
+      "9 flows with code fixes done are blocked at E2E_UI stage"
+    ]
+  }
+}

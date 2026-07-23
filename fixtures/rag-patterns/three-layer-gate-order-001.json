@@ -1,0 +1,25 @@
+{
+  "patternId": "THREE-LAYER-GATE-ORDER-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-13",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "VALIDATION",
+  "teachingPoint": "T173 QueryExecutionEngine three-layer security gate order is MANDATORY AND IMMUTABLE: T187 quota (INLINE, layer 1) → F422 RLS (layer 2) → F423 PII masking (layer 3) → executeQuery. Any reordering is a BUILD_FAILURE.",
+  "tags": ["security-gate", "layer-ordering", "inline-service", "quota", "rls", "pii-masking", "warehouse", "platform-only"],
+  "keywords": "three layer gate order T187 quota inline F422 RLS F423 PII masking mandatory immutable warehouse query execution platform-only canBeDisabled false",
+  "ironRules": [
+    "GATE ORDER IS MANDATORY: T187 quota (INLINE, layer 1) → F422 RLS (layer 2) → F423 PII masking (layer 3) → executeQuery",
+    "T187 QuotaManager is INLINE — instantiated in T173 constructor, NOT @Inject()-ed. F426 does NOT exist.",
+    "F422 IRowLevelSecurityService is PLATFORM-ONLY — tenant cannot disable (canBeDisabled: false)",
+    "F423 IPIIMaskingService runs BEFORE result serialization — no skipMasking opt-out",
+    "Any reordering of the three layers is a BUILD_FAILURE"
+  ],
+  "codeSnippet": "// T173 QueryExecutionEngine — three-layer security gate\n// Layer order is MANDATORY AND IMMUTABLE\nconstructor(\n  @Inject(DATABASE_SERVICE) private db: IDatabaseService,\n  @Inject('F422') private rls: IRowLevelSecurityService,   // PLATFORM-ONLY\n  @Inject('F423') private piiMask: IPIIMaskingService,      // PLATFORM-ONLY\n) {\n  // T187 is INLINE — no @Inject, no F426\n  this.quotaManager = new QuotaManager(config);\n}\n\nasync executeQuery(query: Record<string, unknown>): Promise<DataProcessResult<unknown>> {\n  // Layer 1: T187 inline quota check (INLINE — never injected)\n  const quota = await this.quotaManager.check(tenantId);\n  if (!quota.isSuccess) {\n    await this.queue.enqueue('QueryFailed', { reason: 'quota_exceeded' });\n    return DataProcessResult.failure('QUOTA_EXCEEDED', 'Quota limit reached');\n  }\n  // Layer 2: F422 RLS (PLATFORM-ONLY — canBeDisabled: false)\n  const rlsResult = await this.rls.apply(tenantId, query);\n  if (!rlsResult.isSuccess) {\n    await this.queue.enqueue('QueryFailed', { reason: 'rls_denied' });\n    return DataProcessResult.failure('RLS_DENIED', 'Row-level security denied');\n  }\n  // Layer 3: F423 PII masking BEFORE serialization (PLATFORM-ONLY)\n  const masked = await this.piiMask.mask(results);\n  if (!masked.isSuccess) {\n    await this.queue.enqueue('QueryFailed', { reason: 'masking_error' });\n    return DataProcessResult.failure('MASKING_ERROR', 'PII masking failed');\n  }\n  await this.quotaManager.recordUsage(tenantId); // AFTER successful query\n  return DataProcessResult.success(masked.data);\n}",
+  "appliesTo": ["FLOW-14", "FLOW-19"],
+  "curriculumTier": 2,
+  "qualityScore": 0.94,
+  "sourceDocument": "data-warehouse-analytics-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-04",
+  "taskTypeId": "T66",
+  "name": "flow-04-feedback-window-controller",
+  "description": "T66 FeedbackWindowController — PROCESSING archetype. TTL-keyed window: feedback window closes at event end + configured buffer. Never extended.",
+  "archetype": "PROCESSING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: ttl-window-close-at-end, never-extended, config-driven buffer"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve PROCESSING arch pattern for T66: TTL-keyed feedback window, time-bounded closure",
+      "params": {
+        "archetype": "PROCESSING",
+        "taskTypeRef": "T66",
+        "topK": 5,
+        "patternIds": [
+          "arch--ttl-keyed-window",
+          "arch--time-bounded-feedback-window",
+          "arch--no-manual-close-trigger"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T66 into: on EventEnded → compute TTL (end + buffer from config) → set SETNX window key with TTL → emit FeedbackWindowOpened"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate feedback-window-controller.service.ts — TTL-keyed window: feedback window closes at event end + configured buffer. Never extended."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: ttl_window_close_at_end, no_manual_extension, config_driven_buffer"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T66 iron rules: TTL window, config-driven buffer, no extension path"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=ttl-window-close-at-end, rejected=manual-close-trigger. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "EventEnded event (@EventPattern)",
+  "primaryFabric": "QUEUE"
+}

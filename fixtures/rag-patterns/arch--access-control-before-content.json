@@ -1,0 +1,17 @@
+{
+  "patternId": "ACCESS-CONTROL-BEFORE-CONTENT-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-06",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ROUTING",
+  "tags": ["access-control-ordering", "topology-constraint", "before-content", "MembershipActivated"],
+  "keywords": "access control ordering topology constraint content before access provisioned MembershipActivated trigger upstream event",
+  "ironRules": [
+    "ContentFeedSeeder (T104) triggers on MembershipActivated — NOT MemberJoinRequested",
+    "AccessControlProvisioner (T101) emits MembershipActivated after storeDocument",
+    "No content branch may start before MembershipActivated is emitted",
+    "T104 @EventPattern = 'MembershipActivated' — any other trigger = BUILD_FAILURE"
+  ],
+  "codeSnippet": "// CORRECT: T104 triggers on T101's output (MembershipActivated)\n@EventPattern('MembershipActivated')    // ← T101's output event\nasync handleMembershipActivated(event: CloudEvent): Promise<void> {\n  return this.seedInitialFeed(event.data as { userId: string; groupId: string; accessLevels: string[] });\n}\n// WRONG: T104 triggers on original flow trigger — access may not be provisioned yet\n// @EventPattern('MemberJoinRequested')   // shares trigger with T101\n// async handleJoinRequest(event: CloudEvent): Promise<void> { ... }"
+}

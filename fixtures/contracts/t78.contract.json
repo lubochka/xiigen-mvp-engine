@@ -1,0 +1,68 @@
+{
+  "taskTypeId": "T78",
+  "flowId": "FLOW-07",
+  "name": "FeedDeliveryOrchestrator",
+  "archetype": "ORCHESTRATION",
+  "domainId": "social-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "executionModel": "async",
+  "knowledgeScope": "PRIVATE",
+  "stackCoupling": {
+    "mechanism": "two-phase-privacy-independent-check",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow07_delivery_score_threshold",
+    "neutralConcepts": [
+      "T81 called UNCONDITIONALLY independent of T76 privacy check result",
+      "Privacy settings can change between T76 generation and T78 delivery",
+      "Below delivery threshold = DataProcessResult.success({ suppressed: true }) — NOT failure",
+      "DNA-8: storeDocument BEFORE FeedDelivered enqueue",
+      "Delivery threshold from FREEDOM config — not hardcoded"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F-T78-1",
+      "interface": "IFeedDeliveryService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F-T78-2",
+      "interface": "IPrivacyGatekeeper",
+      "fabric": "CORE"
+    },
+    {
+      "factoryId": "F-T78-3",
+      "interface": "IFeedDeliveryQueue",
+      "fabric": "QUEUE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T78-1",
+      "rule": "T81 PrivacyGatekeeper.check() called UNCONDITIONALLY — independent of T76 result. T78 cannot read feedItem.privacyCheckPassedAtGeneration as a substitute. = BUILD_FAILURE",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T78-2",
+      "rule": "Below delivery threshold = DataProcessResult.success({ suppressed: true }) — never failure(). Suppression is a valid delivery outcome.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T78-3",
+      "rule": "DNA-8: storeDocument('xiigen-feed-deliveries', ...) BEFORE queue.enqueue('FeedDelivered', ...)",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "two_phase_privacy_independent",
+    "privacy_gate_before_emit",
+    "store_before_enqueue"
+  ],
+  "freedomComponents": [
+    "flow07_delivery_score_threshold",
+    "flow07_max_feed_inserts_per_connection"
+  ],
+  "tags": ["T78", "T81", "two-phase", "privacy", "independent", "feed-delivery"],
+  "keywords": "feed delivery orchestrator T78 two phase privacy independent T81 unconditional FREEDOM threshold"
+}

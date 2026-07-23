@@ -1,0 +1,518 @@
+{
+  "flowId": "FLOW-31",
+  "flowSlug": "design-intelligence-engine",
+  "implementationSlug": "design-system-governance",
+  "flowTitle": "Design Intelligence Engine",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-31 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-31-design-intelligence-engine-functional-spec.md",
+    "server/src/engine-contracts/design-system-governance-contracts.ts",
+    "server/src/engine-contracts/design-intelligence-engine-bfa-rules.ts",
+    "server/src/engine/flows/design-system-governance",
+    "server/src/bootstrap/history-seeds/design-intelligence-engine-design-corpus.json",
+    "server/src/bootstrap/history-seeds/design-system-governance-design-corpus.json",
+    "docs/flow-coverage/design-intelligence-engine/P1-business-logic-inventory.md",
+    "docs/flow-coverage/design-intelligence-engine/P5-ui-specs.md",
+    "docs/flow-coverage/design-intelligence-engine/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T489-T515",
+    "taskTypeIds": [
+      "T489",
+      "T490",
+      "T491",
+      "T492",
+      "T493",
+      "T494",
+      "T495",
+      "T496",
+      "T497",
+      "T498",
+      "T499",
+      "T500",
+      "T501",
+      "T502",
+      "T503",
+      "T504",
+      "T505",
+      "T506",
+      "T507",
+      "T508",
+      "T509",
+      "T510",
+      "T511",
+      "T512",
+      "T513",
+      "T514",
+      "T515"
+    ],
+    "factoryIdRange": "F1271-F1329",
+    "freedomKeyCount": 14,
+    "securityClassification": "platform-admin design quality, design-system governance, token, component, deployment, feedback, and prompt-effectiveness controls",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-31 keeps design-intelligence-engine as the portability, UI, and package slug while the current runtime services live under server/src/engine/flows/design-system-governance. Fork assembly copies that implementation directory into the canonical package slug path.",
+    "coreGuarantees": [
+      "Design spec ingestion, component parsing, token extraction, and contextual enrichment stay tenant scoped.",
+      "Conflict detection, compatibility checking, rule validation, and token conflict scanning remain hard-stop governance checks.",
+      "Quality, schema, consistency, and deployment gates remain business failures rather than uncaught exceptions.",
+      "Design decision, version, and evolution records remain insert-only history.",
+      "Token library and component catalog updates preserve store-before-event ordering.",
+      "Design feedback learning is asynchronous and never runs on the live request path.",
+      "Cross-design impact analysis remains bounded by configurable depth and severity thresholds.",
+      "Publication and top-level orchestration remain idempotent by design run identity.",
+      "Platform-support can inspect read-only evidence; tenant-admin access remains FREEDOM-gated."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-31 can influence downstream design quality gates and deployment approval behavior; Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T489-T493",
+      "className": "Design Ingestion Pipeline",
+      "file": "server/src/engine/flows/design-system-governance",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow31_required_spec_fields",
+        "flow31_max_spec_document_size",
+        "flow31_supported_spec_formats",
+        "flow31_component_hierarchy_depth",
+        "flow31_token_categories",
+        "flow31_token_naming_convention",
+        "flow31_context_metadata_fields",
+        "flow31_pattern_categories"
+      ],
+      "machineLockedRules": [
+        "ingested design artifacts are tenant scoped",
+        "spec and derived records are persisted before downstream events",
+        "token and component parsing cannot bypass fabric interfaces"
+      ]
+    },
+    {
+      "taskTypeId": "T494-T498",
+      "className": "Design Arbitration And Debt Analysis Pipeline",
+      "file": "server/src/engine/flows/design-system-governance",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow31_conflict_severity_threshold",
+        "flow31_compatibility_matrix_profile",
+        "flow31_rule_set_profile",
+        "flow31_token_conflict_policy",
+        "flow31_debt_score_weights"
+      ],
+      "machineLockedRules": [
+        "detected design conflicts remain blocking outcomes",
+        "compatibility and rule checks stay tenant scoped",
+        "debt analysis is stored as evidence rather than mutating source designs"
+      ]
+    },
+    {
+      "taskTypeId": "T499-T503",
+      "className": "Quality Gate And Scoring Pipeline",
+      "file": "server/src/engine/flows/design-system-governance",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow31_quality_score_threshold",
+        "flow31_schema_profile",
+        "flow31_token_consistency_threshold",
+        "flow31_complexity_score_weights",
+        "flow31_architecture_score_weights"
+      ],
+      "machineLockedRules": [
+        "quality, schema, and token gates remain hard gates",
+        "scores stay bounded and explainable",
+        "gate outcomes are persisted before publication or deployment proceeds"
+      ]
+    },
+    {
+      "taskTypeId": "T504-T509",
+      "className": "Design Build And Governance Pipeline",
+      "file": "server/src/engine/flows/design-system-governance",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow31_decision_log_retention_days",
+        "flow31_token_library_profile",
+        "flow31_component_catalog_profile",
+        "flow31_design_change_channels",
+        "flow31_health_score_thresholds"
+      ],
+      "machineLockedRules": [
+        "decision and version history remain insert-only",
+        "token library and component catalog updates are idempotent",
+        "design change events are emitted after the update record is stored"
+      ]
+    },
+    {
+      "taskTypeId": "T510-T511",
+      "className": "Feedback Learning And Impact Analysis Pipeline",
+      "file": "server/src/engine/flows/design-system-governance",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow31_learning_rate",
+        "flow31_confidence_decay_factor",
+        "flow31_feedback_signal_weights",
+        "flow31_impact_severity_thresholds",
+        "flow31_impact_analysis_depth"
+      ],
+      "machineLockedRules": [
+        "feedback learning is async-only",
+        "pattern confidence updates preserve tenant scope",
+        "impact analysis cannot mutate component or token source records"
+      ]
+    },
+    {
+      "taskTypeId": "T512-T515",
+      "className": "Design Evolution Publication And Deployment Pipeline",
+      "file": "server/src/engine/flows/design-system-governance",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow31_evolution_milestone_criteria",
+        "flow31_publish_targets",
+        "flow31_deployment_approval_roles",
+        "flow31_required_deployment_phases",
+        "flow31_pipeline_timeout_ms",
+        "flow31_module_name"
+      ],
+      "machineLockedRules": [
+        "evolution history is insert-only",
+        "publish orchestration remains idempotent",
+        "deployment blocked remains a hard-stop outcome",
+        "top-level orchestration stores the run before emitting events"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-31 values may tune design quality thresholds, schema and token policy, scoring weights, evidence retention, feedback learning posture, impact analysis depth, publication targets, deployment approval roles, and module naming without changing tenant isolation, fabric boundaries, insert-only governance records, hard-stop gates, or async-only learning.",
+      "total": 14,
+      "keys": [
+        {
+          "key": "flow31_module_name",
+          "type": "string",
+          "default": "design-intelligence-engine",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "tenant.config.json",
+            "settings/module.settings.json"
+          ],
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        },
+        {
+          "key": "flow31_quality_score_threshold",
+          "type": "number",
+          "default": 0.82,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T499.DesignQualityGate",
+            "T514.DesignDeploymentGate"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow31_token_consistency_threshold",
+          "type": "number",
+          "default": 0.9,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T501.TokenConsistencyGate"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow31_conflict_severity_threshold",
+          "type": "enum",
+          "default": "medium",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T494.DesignConflictDetector",
+            "T497.TokenConflictScanner"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          }
+        },
+        {
+          "key": "flow31_component_hierarchy_depth",
+          "type": "number",
+          "default": 8,
+          "unit": "levels",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T490.ComponentMapParser"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 32
+          }
+        },
+        {
+          "key": "flow31_debt_score_weights",
+          "type": "object",
+          "default": {
+            "complexity": 0.35,
+            "tokenDrift": 0.25,
+            "accessibility": 0.25,
+            "reuse": 0.15
+          },
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T498.DesignDebtAnalyzer",
+            "T502.DesignComplexityAnalyzer"
+          ],
+          "boundedRange": {
+            "sum": 1
+          }
+        },
+        {
+          "key": "flow31_health_score_thresholds",
+          "type": "object",
+          "default": {
+            "healthy": 0.8,
+            "degraded": 0.55
+          },
+          "stakeholder": "platform-support",
+          "consumedBy": [
+            "T509.DesignHealthScorer"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow31_feedback_signal_weights",
+          "type": "object",
+          "default": {
+            "auditScore": 0.4,
+            "deploymentOutcome": 0.35,
+            "reviewerFeedback": 0.25
+          },
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T510.DesignFeedbackLearner"
+          ],
+          "boundedRange": {
+            "sum": 1
+          }
+        },
+        {
+          "key": "flow31_impact_analysis_depth",
+          "type": "number",
+          "default": 3,
+          "unit": "dependency-hops",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T511.CrossDesignImpactAnalyzer"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 10
+          }
+        },
+        {
+          "key": "flow31_decision_log_retention_days",
+          "type": "number",
+          "default": 365,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T504.DesignDecisionLogger",
+            "T507.DesignVersionTracker",
+            "T512.DesignEvolutionTracker"
+          ],
+          "boundedRange": {
+            "min": 30,
+            "max": 3650
+          }
+        },
+        {
+          "key": "flow31_publish_targets",
+          "type": "string-array",
+          "default": [
+            "token-library",
+            "component-catalog",
+            "pattern-library"
+          ],
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T513.DesignPublishOrchestrator"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "token-library",
+              "component-catalog",
+              "pattern-library",
+              "documentation"
+            ]
+          }
+        },
+        {
+          "key": "flow31_required_deployment_phases",
+          "type": "string-array",
+          "default": [
+            "ingested",
+            "analyzed",
+            "quality_passed",
+            "schema_valid",
+            "tokens_consistent",
+            "published"
+          ],
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T514.DesignDeploymentGate"
+          ],
+          "boundedRange": {
+            "minItems": 1,
+            "maxItems": 12
+          }
+        },
+        {
+          "key": "flow31_deployment_approval_roles",
+          "type": "string-array",
+          "default": [
+            "platform-admin"
+          ],
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T514.DesignDeploymentGate"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "platform-admin",
+              "platform-support",
+              "tenant-admin"
+            ]
+          }
+        },
+        {
+          "key": "flow31_pipeline_timeout_ms",
+          "type": "number",
+          "default": 300000,
+          "unit": "milliseconds",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T515.MetaDesignOrchestrator"
+          ],
+          "boundedRange": {
+            "min": 1000,
+            "max": 3600000
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to design quality thresholds, token and component policy, evidence retention, feedback learning posture, impact analysis depth, deployment approval roles, publication targets, and module naming.",
+      "edgeCases": [
+        {
+          "id": "acme-design-quality-office",
+          "name": "Acme design quality office",
+          "semantic": "Tenant A tunes the module for enterprise design quality governance with stricter deployment thresholds and longer evidence retention.",
+          "extensionPoint": "quality threshold, deployment roles, decision log retention, module naming",
+          "currentImplementation": "Hard-stop gates, tenant isolation, and insert-only governance history remain fixed."
+        },
+        {
+          "id": "northwind-interface-control",
+          "name": "Northwind interface control",
+          "semantic": "Tenant B tunes the installed package for operational design reviews with tighter token consistency and read-only support inspection.",
+          "extensionPoint": "token threshold, health thresholds, conflict severity",
+          "currentImplementation": "Support access stays read-only and token conflicts remain blocking at the configured severity."
+        },
+        {
+          "id": "tessera-design-evolution-lab",
+          "name": "Tessera design evolution lab",
+          "semantic": "Tenant C tunes the cascade package for broader impact analysis and cautious publication.",
+          "extensionPoint": "impact depth, publish targets, required deployment phases",
+          "currentImplementation": "Publication remains idempotent and deployment cannot bypass required phases."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T489 through T515 remain fixed.",
+      "Factory IDs F1271 through F1329 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Design ingestion, scoring, governance, publication, and deployment reads remain tenant scoped.",
+      "Conflict, quality, schema, token consistency, and deployment gates remain hard-stop business outcomes.",
+      "Decision, version, and evolution history records remain insert-only.",
+      "Design feedback learning remains asynchronous and never runs on the live request path.",
+      "Impact analysis can read dependency context but cannot mutate component or token source records.",
+      "Publication and top-level orchestration remain idempotent.",
+      "Store-before-event ordering remains mandatory for design side effects.",
+      "Tenant role gates remain platform-admin primary, platform-support read-only, and tenant-admin FREEDOM-gated."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantADesignQualityOffice": {
+      "description": "Tenant A tunes Design Intelligence Engine for enterprise design quality governance.",
+      "change": {
+        "flow31_module_name": "acme-design-quality-office",
+        "flow31_quality_score_threshold": 0.88,
+        "flow31_token_consistency_threshold": 0.94,
+        "flow31_conflict_severity_threshold": "medium",
+        "flow31_component_hierarchy_depth": 10,
+        "flow31_impact_analysis_depth": 4,
+        "flow31_decision_log_retention_days": 730,
+        "flow31_deployment_approval_roles": [
+          "platform-admin"
+        ],
+        "flow31_pipeline_timeout_ms": 420000
+      },
+      "impact": "Tenant A gets a stricter design quality office package while tenant isolation, hard-stop gates, insert-only evidence, and async-only learning stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T489-T515",
+      "Factory IDs F1271-F1329",
+      "provider SDK boundaries",
+      "Vault credential paths",
+      "tenant-scoped fabric access",
+      "conflict hard-stop behavior",
+      "quality gate hard-stop behavior",
+      "schema gate hard-stop behavior",
+      "token consistency hard-stop behavior",
+      "deployment blocked hard-stop behavior",
+      "insert-only governance records",
+      "async-only feedback learning",
+      "idempotent publication and orchestration",
+      "store-before-event ordering",
+      "FLOW-31 canonical package slug"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-31 configuration values or display/module metadata.",
+    "FLOW-31 package assembly copies the design-system-governance implementation under the canonical design-intelligence-engine package slug.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

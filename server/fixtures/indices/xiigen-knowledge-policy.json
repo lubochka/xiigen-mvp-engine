@@ -1,0 +1,21 @@
+{
+  "index": "xiigen-knowledge-policy",
+  "mappings": {
+    "properties": {
+      "policyId":      { "type": "keyword" },
+      "tenantId":      { "type": "keyword" },
+      "flowId":        { "type": "keyword" },
+      "phase":         { "type": "keyword" },
+      "station":       { "type": "keyword" },
+      "depth":         { "type": "integer" },
+      "scope":         { "type": "keyword" },
+      "pricingModel":  { "type": "keyword" },
+      "pricePerUse":   { "type": "float" },
+      "ownerId":       { "type": "keyword" },
+      "approvalState": { "type": "keyword" },
+      "approvedAt":    { "type": "date" },
+      "approvedBy":    { "type": "keyword" },
+      "createdAt":     { "type": "date" }
+    }
+  }
+}

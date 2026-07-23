@@ -1,0 +1,258 @@
+﻿{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phaseICertificationDeclaration",
+    "generatedAt":  "2026-05-10T10:24:19.3742856Z",
+    "protocolVersion":  "3.0",
+    "certification":  {
+                          "earnedTier":  "Tier 2+",
+                          "tier3Declared":  false,
+                          "tier3BlockedBy":  "package-signing first pass remains pending",
+                          "verdict":  "PASS_TIER_2_PLUS"
+                      },
+    "completionGate":  {
+                           "noTechnicalDebt":  true,
+                           "dockerVaultAuth":  true,
+                           "threeTenantRepos":  true,
+                           "greenGitHubActions":  true,
+                           "registryPackagesPublished":  true,
+                           "coInstallDependenciesDeclared":  true,
+                           "fullCascade":  true,
+                           "perRoleVisualEvidence":  true,
+                           "noSecretsCommitted":  true,
+                           "packageSigningFirstPass":  false,
+                           "tier3Eligible":  false
+                       },
+    "freshVerification":  {
+                              "registryPackages":  [
+                                                       {
+                                                           "package":  "@xiigen-fork/acme-intake-template-studio",
+                                                           "version":  "1.0.1",
+                                                           "shasum":  "0ec8138aa517c20720948b2871051c9d01b53b9e",
+                                                           "registry":  "http://localhost:4873",
+                                                           "verified":  true
+                                                       },
+                                                       {
+                                                           "package":  "@xiigen-fork/northwind-operations-gallery",
+                                                           "version":  "1.0.2",
+                                                           "shasum":  "b5d76c6d4f4c0b37b864fd1498d7c72af0ebcf37",
+                                                           "registry":  "http://localhost:4873",
+                                                           "verified":  true
+                                                       },
+                                                       {
+                                                           "package":  "@xiigen-fork/tessera-collection-forms",
+                                                           "version":  "1.0.3",
+                                                           "shasum":  "ee3aa9f593ca6cd37843019f1c156aafbb2bb3c8",
+                                                           "registry":  "http://localhost:4873",
+                                                           "verified":  true
+                                                       }
+                                                   ],
+                              "githubActions":  [
+                                                    {
+                                                        "repo":  "lubochka/acme-corp--form-builder-templates",
+                                                        "runId":  25624988258,
+                                                        "status":  "completed",
+                                                        "conclusion":  "success",
+                                                        "headSha":  "8867148cb52f6d4c498182ddf4aab2f1df2cf596"
+                                                    },
+                                                    {
+                                                        "repo":  "lubochka/acme-corp--acme-intake-template-studio",
+                                                        "runId":  25625176972,
+                                                        "status":  "completed",
+                                                        "conclusion":  "success",
+                                                        "headSha":  "97a041ba34b2f9dad43aeec5aea19eecc94b6cee"
+                                                    },
+                                                    {
+                                                        "repo":  "lubochka/northwind--acme-intake-template-studio",
+                                                        "runId":  25625447827,
+                                                        "status":  "completed",
+                                                        "conclusion":  "success",
+                                                        "headSha":  "85e5bbf0d02d945dbbd3cab8c2c0961d84f427d8"
+                                                    },
+                                                    {
+                                                        "repo":  "lubochka/northwind--northwind-operations-gallery",
+                                                        "runId":  25625684999,
+                                                        "status":  "completed",
+                                                        "conclusion":  "success",
+                                                        "headSha":  "4989f0a61057d890b9fa33c4fbadaedc20323f5f"
+                                                    },
+                                                    {
+                                                        "repo":  "lubochka/tessera-collective--northwind-operations-gallery",
+                                                        "runId":  25625845431,
+                                                        "status":  "completed",
+                                                        "conclusion":  "success",
+                                                        "headSha":  "22a1b3dcf3ccf4786aa8eb71151bfb9c8eafd13b"
+                                                    },
+                                                    {
+                                                        "repo":  "lubochka/tessera-collective--tessera-collection-forms",
+                                                        "runId":  25626007712,
+                                                        "status":  "completed",
+                                                        "conclusion":  "success",
+                                                        "headSha":  "b05775373954b16e3765896f29dc941f3ac803a1"
+                                                    }
+                                                ],
+                              "pngEvidence":  [
+                                                  {
+                                                      "path":  "docs/e2e-snapshots/form-builder-templates/role-matrix",
+                                                      "pngCount":  6,
+                                                      "emptyCount":  0
+                                                  },
+                                                  {
+                                                      "path":  "docs/e2e-snapshots/form-builder-templates/tenant-b-installed-from-a",
+                                                      "pngCount":  18,
+                                                      "emptyCount":  0
+                                                  },
+                                                  {
+                                                      "path":  "docs/e2e-snapshots/form-builder-templates/tenant-b-v1.0.2",
+                                                      "pngCount":  18,
+                                                      "emptyCount":  0
+                                                  },
+                                                  {
+                                                      "path":  "docs/e2e-snapshots/form-builder-templates/tenant-c-installed-from-b",
+                                                      "pngCount":  18,
+                                                      "emptyCount":  0
+                                                  },
+                                                  {
+                                                      "path":  "docs/e2e-snapshots/form-builder-templates/tenant-c-v1.0.3",
+                                                      "pngCount":  18,
+                                                      "emptyCount":  0
+                                                  },
+                                                  {
+                                                      "path":  "docs/e2e-snapshots/repo-evidence/flow-23",
+                                                      "pngCount":  13,
+                                                      "emptyCount":  0
+                                                  }
+                                              ],
+                              "highRiskSecretPatternHits":  0,
+                              "postCascadeAuthEvidence":  "docs/portability/flow-23/phase-h-auth-decoration-evidence.json"
+                          },
+    "tenantCascade":  {
+                          "tenantAOriginalFork":  {
+                                                      "tenantId":  "acme-corp",
+                                                      "repoFullName":  "lubochka/acme-corp--form-builder-templates",
+                                                      "repoUrl":  "https://github.com/lubochka/acme-corp--form-builder-templates",
+                                                      "visibility":  "PRIVATE",
+                                                      "initialCommitSha":  "8867148cb52f6d4c498182ddf4aab2f1df2cf596",
+                                                      "actionsRunId":  25624988258,
+                                                      "actionsConclusion":  "success",
+                                                      "cloneValidation":  "passed"
+                                                  },
+                          "tenantAAdaptation":  {
+                                                    "repoFullName":  "lubochka/acme-corp--acme-intake-template-studio",
+                                                    "repoUrl":  "https://github.com/lubochka/acme-corp--acme-intake-template-studio",
+                                                    "visibilityAfterEvidence":  "PRIVATE",
+                                                    "packageName":  "@xiigen-fork/acme-intake-template-studio",
+                                                    "packageVersion":  "1.0.1",
+                                                    "moduleName":  "acme-intake-template-studio",
+                                                    "adaptedCommit":  "97a041ba34b2f9dad43aeec5aea19eecc94b6cee",
+                                                    "adaptedCommitMessage":  "Adapt form builder templates for Acme intake studio",
+                                                    "githubActionsRunId":  25625176972,
+                                                    "githubActionsRunUrl":  "https://github.com/lubochka/acme-corp--acme-intake-template-studio/actions/runs/25625176972",
+                                                    "githubActionsConclusion":  "success",
+                                                    "registryPackage":  "@xiigen-fork/acme-intake-template-studio",
+                                                    "registryVersion":  "1.0.1",
+                                                    "registryTarball":  "http://localhost:4873/@xiigen-fork/acme-intake-template-studio/-/acme-intake-template-studio-1.0.1.tgz",
+                                                    "registryShasum":  "0ec8138aa517c20720948b2871051c9d01b53b9e",
+                                                    "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--form-builder-templates-phase40-20260510-121758",
+                                                    "screenshots":  [
+                                                                        "docs/e2e-snapshots/marketplace/form-builder-templates-acme-v1.0.1-registry-listing.png",
+                                                                        "docs/e2e-snapshots/repo-evidence/flow-23/acme-corp--acme-intake-template-studio-tenant-a-v1.0.1-github-listing.png",
+                                                                        "docs/e2e-snapshots/repo-evidence/flow-23/acme-corp--acme-intake-template-studio-tenant-a-v1.0.1-actions-success.png"
+                                                                    ]
+                                                },
+                          "tenantBInstalledFromA":  {
+                                                        "repoFullName":  "lubochka/northwind--acme-intake-template-studio",
+                                                        "repoUrl":  "https://github.com/lubochka/northwind--acme-intake-template-studio",
+                                                        "sourceRepoFullName":  "lubochka/acme-corp--acme-intake-template-studio",
+                                                        "packageName":  "@xiigen-fork/acme-intake-template-studio",
+                                                        "packageVersion":  "1.0.1",
+                                                        "initialInstallCommit":  "ab1de79a5208799bce48e38ca55b6e043ce31d16",
+                                                        "initialActionsRunId":  25625360539,
+                                                        "initialActionsConclusion":  "failure",
+                                                        "repairCommit":  "85e5bbf0d02d945dbbd3cab8c2c0961d84f427d8",
+                                                        "githubActionsRunId":  25625447827,
+                                                        "githubActionsConclusion":  "success",
+                                                        "registryVersion":  "1.0.1",
+                                                        "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-intake-template-studio-phase5a-20260510-123728",
+                                                        "screenshots":  [
+                                                                            "docs/e2e-snapshots/marketplace/form-builder-templates-acme-v1.0.1-registry-listing-phase5a.png",
+                                                                            "docs/e2e-snapshots/repo-evidence/flow-23/northwind--acme-intake-template-studio-tenant-b-installed-from-a-github-listing.png",
+                                                                            "docs/e2e-snapshots/repo-evidence/flow-23/northwind--acme-intake-template-studio-tenant-b-installed-from-a-actions-success.png",
+                                                                            "docs/e2e-snapshots/form-builder-templates/tenant-b-installed-from-a"
+                                                                        ]
+                                                    },
+                          "tenantBAdaptation":  {
+                                                    "repoFullName":  "lubochka/northwind--northwind-operations-gallery",
+                                                    "repoUrl":  "https://github.com/lubochka/northwind--northwind-operations-gallery",
+                                                    "sourceRepoFullName":  "lubochka/acme-corp--acme-intake-template-studio",
+                                                    "packageName":  "@xiigen-fork/northwind-operations-gallery",
+                                                    "packageVersion":  "1.0.2",
+                                                    "adaptedCommit":  "4989f0a61057d890b9fa33c4fbadaedc20323f5f",
+                                                    "githubActionsRunId":  25625684999,
+                                                    "githubActionsConclusion":  "success",
+                                                    "registryVersion":  "1.0.2",
+                                                    "registryTarball":  "http://localhost:4873/@xiigen-fork/northwind-operations-gallery/-/northwind-operations-gallery-1.0.2.tgz",
+                                                    "registryShasum":  "b5d76c6d4f4c0b37b864fd1498d7c72af0ebcf37",
+                                                    "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-intake-template-studio-phase5a-20260510-123728",
+                                                    "screenshots":  [
+                                                                        "docs/e2e-snapshots/marketplace/form-builder-templates-northwind-v1.0.2-registry-listing.png",
+                                                                        "docs/e2e-snapshots/repo-evidence/flow-23/northwind--northwind-operations-gallery-tenant-b-v1.0.2-github-listing.png",
+                                                                        "docs/e2e-snapshots/repo-evidence/flow-23/northwind--northwind-operations-gallery-tenant-b-v1.0.2-actions-success.png",
+                                                                        "docs/e2e-snapshots/form-builder-templates/tenant-b-v1.0.2"
+                                                                    ]
+                                                },
+                          "tenantCInstalledFromB":  {
+                                                        "repoFullName":  "lubochka/tessera-collective--northwind-operations-gallery",
+                                                        "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-operations-gallery",
+                                                        "sourceRepoFullName":  "lubochka/northwind--northwind-operations-gallery",
+                                                        "packageName":  "@xiigen-fork/northwind-operations-gallery",
+                                                        "packageVersion":  "1.0.2",
+                                                        "initialInstallCommit":  "22a1b3dcf3ccf4786aa8eb71151bfb9c8eafd13b",
+                                                        "githubActionsRunId":  25625845431,
+                                                        "githubActionsConclusion":  "success",
+                                                        "registryVersion":  "1.0.2",
+                                                        "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-operations-gallery-phase5c-20260510-130215",
+                                                        "screenshots":  [
+                                                                            "docs/e2e-snapshots/marketplace/form-builder-templates-northwind-v1.0.2-registry-listing-phase5c.png",
+                                                                            "docs/e2e-snapshots/repo-evidence/flow-23/tessera-collective--northwind-operations-gallery-tenant-c-installed-from-b-github-listing.png",
+                                                                            "docs/e2e-snapshots/repo-evidence/flow-23/tessera-collective--northwind-operations-gallery-tenant-c-installed-from-b-actions-success.png",
+                                                                            "docs/e2e-snapshots/form-builder-templates/tenant-c-installed-from-b"
+                                                                        ]
+                                                    },
+                          "tenantCAdaptation":  {
+                                                    "repoFullName":  "lubochka/tessera-collective--tessera-collection-forms",
+                                                    "repoUrl":  "https://github.com/lubochka/tessera-collective--tessera-collection-forms",
+                                                    "packageName":  "@xiigen-fork/tessera-collection-forms",
+                                                    "packageVersion":  "1.0.3",
+                                                    "adaptedCommit":  "b05775373954b16e3765896f29dc941f3ac803a1",
+                                                    "githubActionsRunId":  25626007712,
+                                                    "githubActionsConclusion":  "success",
+                                                    "registryVersion":  "1.0.3",
+                                                    "registryShasum":  "ee3aa9f593ca6cd37843019f1c156aafbb2bb3c8",
+                                                    "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-operations-gallery-phase5c-20260510-130215",
+                                                    "screenshots":  [
+                                                                        "docs/e2e-snapshots/marketplace/form-builder-templates-tessera-v1.0.3-registry-listing.png",
+                                                                        "docs/e2e-snapshots/repo-evidence/flow-23/tessera-collective--tessera-collection-forms-tenant-c-v1.0.3-github-listing.png",
+                                                                        "docs/e2e-snapshots/repo-evidence/flow-23/tessera-collective--tessera-collection-forms-tenant-c-v1.0.3-actions-success.png",
+                                                                        "docs/e2e-snapshots/form-builder-templates/tenant-c-v1.0.3"
+                                                                    ]
+                                                }
+                      },
+    "evidenceFiles":  {
+                          "phase0Auth":  "docs/portability/flow-23/phase-0-docker-vault-auth-evidence.json",
+                          "phase1UnitIntegration":  "docs/portability/flow-23/phase-1-unit-integration-evidence.json",
+                          "phase2Playwright":  "docs/portability/flow-23/phase-2-playwright-png-evidence.json",
+                          "phase3Visual":  "docs/portability/flow-23/phase-3-visual-examination-evidence.json",
+                          "phase40TenantAOriginalFork":  "docs/portability/flow-23/phase-4.0-tenant-a-original-fork-evidence.json",
+                          "phase4TenantAAdaptation":  "docs/portability/flow-23/phase-4-tenant-a-ai-adaptation-evidence.json",
+                          "phase5aTenantBInstall":  "docs/portability/flow-23/phase-5a-tenant-b-installed-from-a-evidence.json",
+                          "phase5bTenantBAdaptation":  "docs/portability/flow-23/phase-5b-tenant-b-adaptation-evidence.json",
+                          "phase5cTenantCInstall":  "docs/portability/flow-23/phase-5c-tenant-c-installed-from-b-evidence.json",
+                          "phase5c5TenantCAdaptation":  "docs/portability/flow-23/phase-5c5-tenant-c-adaptation-evidence.json",
+                          "phaseHAuthDecoration":  "docs/portability/flow-23/phase-h-auth-decoration-evidence.json"
+                      },
+    "notes":  [
+                  "FLOW-23 completed the full tenant A to tenant B to tenant C cascade using real marketplace API forks, real GitHub repositories, real GitHub Actions runs, local registry publishes, and captured PNG evidence.",
+                  "Tier 3 is not declared because package signing first pass is still pending by protocol."
+              ]
+}

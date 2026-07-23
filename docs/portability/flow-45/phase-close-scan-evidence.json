@@ -1,0 +1,49 @@
+{
+    "flowId":  "FLOW-45",
+    "flowSlug":  "history-bootstrap",
+    "phase":  "phase-close-scan",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:46:33.5909757Z",
+    "checks":  {
+                   "dockerVaultAuthFailures":  0,
+                   "serverTestSuitesPassed":  3,
+                   "serverTestsPassed":  47,
+                   "clientTestSuitesPassed":  1,
+                   "clientTestsPassed":  24,
+                   "serverTypecheckExitCode":  0,
+                   "clientTypecheckExitCode":  0,
+                   "playwrightTestsPassed":  5,
+                   "throwNewInBootstrapSource":  0,
+                   "nonMicroserviceServiceClassesInBootstrapSource":  1,
+                   "clsServiceImportsInBootstrapSource":  1,
+                   "roleSpecificHistoryBootstrapClientHits":  0,
+                   "jwtPatternHitsInChangedEvidence":  0,
+                   "githubTokenPatternHitsInChangedEvidence":  0,
+                   "localFlowPngCount":  0,
+                   "repoEvidencePngCount":  440,
+                   "topologyManifestPresent":  true,
+                   "seedDependencyManifestPresent":  true,
+                   "canonicalFlowDirectoryExists":  false,
+                   "canonicalEngineFlowThrowNewHits":  0,
+                   "canonicalEngineFlowNonMicroserviceHits":  0,
+                   "canonicalEngineFlowClsServiceImportHits":  0
+               },
+    "failureLines":  0,
+    "limitations":  [
+                        "FLOW-45 is a bootstrap prerequisite and not a tenant-distributed marketplace package; the fork-cascade package publication step is not applicable to this provisioning artifact.",
+                        "No tenant credentials, JWTs, signing keys, or GitHub token values are written to evidence."
+                    ],
+    "verdict":  "PASS",
+    "informationalBootstrapHits":  [
+                                       {
+                                           "note":  "Existing bootstrap provisioning service outside server/src/engine/flows; FLOW-45 implementation location is bootstrap infrastructure.",
+                                           "file":  "server/src/bootstrap/bootstrap-from-documents.service.ts",
+                                           "line":  "export class BootstrapFromDocumentsService"
+                                       },
+                                       {
+                                           "note":  "Existing engine bootstrapper dependency outside FLOW-45 generated flow directory.",
+                                           "file":  "server/src/bootstrap/engine-bootstrapper.ts",
+                                           "line":  "import { ClsService } from \u0027nestjs-cls\u0027"
+                                       }
+                                   ]
+}

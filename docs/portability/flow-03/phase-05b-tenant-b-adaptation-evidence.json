@@ -1,0 +1,90 @@
+﻿{
+    "phase":  "Phase 5b - Tenant B adapts and publishes",
+    "flowId":  "FLOW-03",
+    "flowSlug":  "event-management",
+    "tenantId":  "northwind",
+    "sourceModuleName":  "event-management-acme-curated-events",
+    "adaptedModuleName":  "event-management-northwind-sponsor-forums",
+    "packageName":  "@xiigen-fork/event-management-northwind-sponsor-forums",
+    "packageVersion":  "1.0.2",
+    "completedAt":  "2026-05-01T02:31:10.6562570Z",
+    "aiAdaptation":  {
+                         "tenantId":  "northwind",
+                         "originModuleName":  "event-management-acme-curated-events",
+                         "proposedModuleName":  "event-management-northwind-sponsor-forums",
+                         "changeType":  "Type A (FREEDOM key value change)",
+                         "freedomKeyChanged":  "flow03_waitlist_max_size",
+                         "previousValue":  null,
+                         "newValue":  12,
+                         "rationale":  "Northwind needs a curated sponsor forum workflow with a bounded partner-review waitlist while preserving Acme small-group event limits.",
+                         "nameChangeRationale":  "The module now serves sponsor forum intake and review, so the module name changes from the Acme curated-events package to Northwind sponsor forums."
+                     },
+    "inheritedTenantAValues":  {
+                                   "flow03_max_events_per_organizer":  3,
+                                   "flow03_max_attendees":  10,
+                                   "flow03_promotion_channels":  [
+                                                                     "in-app"
+                                                                 ],
+                                   "flow03_campaign_engagement_threshold":  5
+                               },
+    "tenantBValues":  {
+                          "flow03_waitlist_max_size":  12,
+                          "flow_module_name":  "event-management-northwind-sponsor-forums"
+                      },
+    "tenantRepo":  {
+                       "repoName":  "northwind--event-management-northwind-sponsor-forums",
+                       "repoUrl":  "https://github.com/lubochka/northwind--event-management-northwind-sponsor-forums",
+                       "tenantRepoCommitHash":  "34aad069bef4f6acf88dac213ffd9f37246f291c",
+                       "workflowConclusion":  "success",
+                       "workflowRunUrl":  "https://github.com/lubochka/northwind--event-management-northwind-sponsor-forums/actions/runs/25199201449",
+                       "localClonePath":  "<WORKSPACE>/AppData/Local/Temp/xiigen-flow03-tenant-b-installed-from-a",
+                       "localChecks":  [
+                                           "npx tsc --noEmit",
+                                           "npx jest --colors=false --forceExit"
+                                       ]
+                   },
+    "registry":  {
+                     "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                     "registryUrl":  "http://localhost:4873",
+                     "latestVerified":  "1.0.2",
+                     "packageUrl":  "http://localhost:4873/@xiigen-fork%2fevent-management-northwind-sponsor-forums"
+                 },
+    "authRegression":  {
+                           "status":  "partial under authentication deferred deployment",
+                           "harness":  "JwtTokenProvider with per-tenant signing keys and CLS tenant context",
+                           "noTokenVerify":  401,
+                           "northwindTenantAdminVerify":  200,
+                           "acmeContextUsingNorthwindToken":  401,
+                           "roles":  [
+                                         "tenant-admin"
+                                     ],
+                           "writeRoleCheck":  "deferred because no deployed Tenant B write-route/user-role provisioning path exists in this auth deployment"
+                       },
+    "visualEvidence":  {
+                           "snapshotVariant":  "tenant-b-v1.0.2",
+                           "directory":  "docs/e2e-snapshots/event-management/tenant-b-v1.0.2/",
+                           "pngCount":  27,
+                           "expectedPngCount":  27,
+                           "marketplaceListingPng":  "docs/e2e-snapshots/marketplace/event-management-v1.0.2-listing.png",
+                           "playwrightCommand":  "XIIGEN_EVENT_MANAGEMENT_SNAPSHOT_VARIANT=tenant-b-v1.0.2 VITE_PORT=5185 npx playwright test event-management-visual.spec.ts event-management-phase4-marketplace.spec.ts --project=chromium-desktop --reporter=list",
+                           "playwrightResult":  "29 passed",
+                           "tenantAChangeVisible":  true,
+                           "tenantBChangeVisible":  true
+                       },
+    "repoEvidence":  {
+                         "githubListingPng":  "docs/e2e-snapshots/repo-evidence/northwind--event-management-northwind-sponsor-forums-github-listing.png",
+                         "repoHomepagePng":  "docs/e2e-snapshots/repo-evidence/northwind--event-management-northwind-sponsor-forums-repo-homepage.png",
+                         "repoWasRestoredToPrivateAfterCapture":  true
+                     },
+    "platformTests":  {
+                          "jestCommand":  "npx jest --testPathPatterns=event-management --runInBand",
+                          "jestSuitesPassed":  10,
+                          "jestTestsPassed":  139
+                      },
+    "cascadeAssertions":  {
+                              "adaptationHistoryEntries":  2,
+                              "tenantAEntryPreserved":  true,
+                              "tenantBEntryAdded":  true,
+                              "moduleNameDiffersFromTenantA":  true
+                          }
+}

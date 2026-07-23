@@ -1,0 +1,17 @@
+{
+  "index": "xiigen-run-traces",
+  "mappings": {
+    "properties": {
+      "runId": { "type": "keyword" },
+      "taskTypeId": { "type": "keyword" },
+      "flowId": { "type": "keyword" },
+      "tenantId": { "type": "keyword" },
+      "status": { "type": "keyword" },
+      "score": { "type": "float" },
+      "nodes": { "type": "object", "dynamic": true },
+      "dpoTriple": { "type": "object", "dynamic": true },
+      "startedAt": { "type": "date" },
+      "completedAt": { "type": "date" }
+    }
+  }
+}

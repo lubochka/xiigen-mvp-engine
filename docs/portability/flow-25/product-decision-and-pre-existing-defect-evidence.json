@@ -1,0 +1,112 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "preExistingDefectCheck",
+  "status": "completed",
+  "generatedAt": "2026-05-10T12:29:37.741Z",
+  "branch": "Skills_Creation_Claude",
+  "productDecision": {
+    "decision": "Proceed with FLOW-25 mobility/auth certification using bfa-cross-flow-governance as the portability/UI slug and bfa-conflict-arbitration as the implemented service directory.",
+    "sources": [
+      "docs/business-flows/functional-specs/FLOW-25-bfa-cross-flow-governance-functional-spec.md",
+      "docs/flow-coverage/bfa-cross-flow-governance/P1-business-logic-inventory.md",
+      "docs/flow-coverage/bfa-cross-flow-governance/P5-ui-specs.md",
+      "docs/sessions/FLOW-25/FLOW-25-CURRENT-STATE.json",
+      "docs/sessions/FLOW-25/FLOW-25-IMPL-STATE.json",
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-05.md FLOW-25 section",
+      "server/src/engine/flows/bfa-conflict-arbitration"
+    ]
+  },
+  "roleMap": {
+    "status": "defined",
+    "source": "docs/design-reviews/ROLE-ANALYSIS-BATCH-05.md FLOW-25 role table",
+    "roles": [
+      {
+        "role": "platform-admin",
+        "coverage": "full",
+        "use": "operates BFA gate, reviews arbiter traces, resolves cross-flow conflicts, and approves flow shipment",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "platform-support",
+        "coverage": "partial",
+        "use": "read-only BFA support inspection and gate-history review",
+        "authProbeExpected": 403
+      },
+      {
+        "role": "tenant-admin",
+        "coverage": "partial",
+        "use": "read-only status for tenant-submitted flow BFA results and remediation hints",
+        "authProbeExpected": 200
+      }
+    ],
+    "authProbeRoles": [
+      "platform-admin",
+      "tenant-admin"
+    ],
+    "uiPersonaRolesForLaterEvidence": [
+      "platform-admin",
+      "platform-support",
+      "tenant-admin"
+    ]
+  },
+  "preExistingDefects": [
+    {
+      "id": "FLOW-25-DNA4-MICROSERVICEBASE",
+      "status": "fixed",
+      "files": [
+        "server/src/engine/flows/bfa-conflict-arbitration/analytics-emitter.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/arbitration-state-machine.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/blast-radius-calculator.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/change-intake-parser.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/cross-tenant-conflict-guard.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/decision-audit-trail.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/dependency-index-query.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/human-resolution-capture.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/impact-report-generator.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/multi-tenant-isolation-gate.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/resolution-applier.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/semantic-impact-analyzer.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/severity-aggregator.service.ts",
+        "server/src/engine/flows/bfa-conflict-arbitration/static-conflict-detector.service.ts"
+      ],
+      "before": {
+        "exportedClassesMissingMicroserviceBase": 14,
+        "note": "FLOW-25 service tests already passed, but source scan found plain exported service classes without MicroserviceBase inheritance."
+      },
+      "repair": "Added MicroserviceBase inheritance and ServiceDescriptor metadata to all FLOW-25 implemented services; renamed local db/queue dependency fields to avoid base-class private-slot collisions; preserved existing fabric interfaces and behavior.",
+      "after": {
+        "exportedClassesMissingMicroserviceBase": 0
+      }
+    }
+  ],
+  "verification": {
+    "serverTypeScript": {
+      "command": "npx tsc --noEmit -p tsconfig.json --pretty false",
+      "workingDirectory": "server",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "flowJest": {
+      "command": "npx jest --testPathPatterns=bfa-cross-flow-governance --runInBand --colors=false",
+      "workingDirectory": "server",
+      "testSuitesPassed": 32,
+      "testSuitesTotal": 32,
+      "testsPassed": 353,
+      "testsTotal": 353,
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "sourceScans": {
+      "throwNew": 0,
+      "exportedClassesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "result": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

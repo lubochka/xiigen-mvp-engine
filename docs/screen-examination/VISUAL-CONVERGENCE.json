@@ -1,0 +1,114 @@
+{
+  "$schema": "visual-convergence.v1",
+  "status_amendment_RUN-150": "RETRACTED: earlier 'CONVERGED' verdict was on a 13-of-45 flow sample (29% coverage). Re-running as PARTIAL_SAMPLE. A proper convergence claim requires scoring across all 45 product flows (48 minus 3 INTERNAL_ONLY adapters). New rounds V-R4..V-Rn will execute at full coverage before any convergence claim is made.",
+  "coverage_actual_as_of_V_R3": {
+    "flows_with_at_least_one_PNG_read": 13,
+    "flows_total_with_UI": 45,
+    "coverage_pct": 28.9,
+    "flows_read": ["bundle-activation","user-registration","profile-enrichment","event-attendance","friend-request-social-feed","marketplace","subscription-billing","data-warehouse-analytics","saas-multi-tenancy","ads-platform","cms-publishing","bfa-cross-flow-governance","adaptive-rag-deep-research"],
+    "flows_not_visually_verified": ["event-management","completion-gamification","user-groups-communities","transactional-event-participation","reviews-reputation","schema-registry-dag","etl-data-integration","marketplace-payments","freelancer-marketplace","visual-flow-engine","durable-sagas-compliance","dynamic-forms-workflows","form-builder-templates","ai-safety-moderation","meta-flow-engine","human-interaction-gate","blog-cms-modules","tenant-lifecycle-manager","design-intelligence-engine","sharable-flows-marketplace","system-initiation-bootstrap","marketplace-plugin-adapter","meta-arbitration-engine","feature-registry","design-system-governance","rag-quality-feedback","oss-curriculum","client-push","ai-self-modification","history-bootstrap","platform-agent","cycle-chain-extension","module-lifecycle","admin-i18n"]
+  },
+  "purpose": "Per-round visible-quality scoring against the rendered PNG set. Measures against the 11-axis rubric from VISUAL-REEXAMINATION-PLAN.md applied to images read with the Read tool.",
+  "measurement_method": "For each round, capture the full 60-PNG baseline (21 cells x 3 viewports: mobile/tablet/desktop) via client/e2e/visual-audit-baseline.spec.ts. Read a representative sample of 5 cells (marketplace mobile tenant-user, ads-platform desktop + mobile + he-RTL platform-admin, user-registration mobile anonymous). Score each against: UX-P1 Accessibility, UX-P2 Touch, UX-P4 Style, UX-P5 Responsive, UX-P6 Typography, UX-P8 Forms, UX-P9 Navigation, G grammar fit, R reference parity, H human language, S state legibility. Offence weights: BLOCKER=3, MAJOR=2, MINOR=1.",
+  "convergence_target": "round_over_round_improvement_pct < 1%",
+
+  "rounds": [
+    {
+      "round": 0,
+      "label": "V-R0 baseline \u2014 21 cells \u00d7 3 viewports captured; 5 scored",
+      "commit": "13689abe",
+      "commit_tag": "RUN-146",
+      "score": 22,
+      "offences_by_axis": {
+        "UX-P5_responsive_mobile_breakage": 5,
+        "UX-P2_touch_target_below_44px": 1,
+        "i18n_url_wiring_absent": 3,
+        "raw_JSON_leak_to_user": 3,
+        "H_human_language_MONO_MODEL_CALIBRATION": 1,
+        "S_state_legibility_stacked_error_plus_empty": 1,
+        "R_grammar_gaps_marketplace_G3_missing_card_grid": 2,
+        "SSO_placeholder_icons_text_glyphs": 1,
+        "tenant_identifier_system_leaked_in_error_copy": 1,
+        "H_human_language_page_content_English_on_he_RTL": 0,
+        "R_ref_parity_marketplace_zero_vs_Etsy_Shopify": 2,
+        "state_legibility_stacked_error_and_empty": 1,
+        "H_human_language_TENANT_NOT_FOUND_SCREAMING_SNAKE": 1
+      },
+      "delta_vs_prev": null,
+      "improvement_pct": null
+    },
+    {
+      "round": 1,
+      "label": "V-R1 \u2014 three systemic fixes: AppShell mobile-responsive, URL \u2192 i18n sync, api/client snake_case error envelope",
+      "commit": "4ae1a673",
+      "commit_tag": "RUN-147",
+      "score": 8,
+      "delta_vs_prev": -14,
+      "improvement_pct": 63.64,
+      "fixes": [
+        "S1 AppShell: sidebar becomes a slide-over drawer below md (w-56 hidden md:flex + hamburger button in topbar + min-h-[44px] nav items + main ms-0 md:ms-56)",
+        "S2 useURLLanguageSync hook in AppShell: ?lang=he triggers i18n.changeLanguage; existing languageChanged handler flips document.dir",
+        "S3 api/client.ts extracts human message from error_message / errorMessage / message / error.message with generic fallback; unwraps both isSuccess and is_success DataProcessResult envelopes on 2xx"
+      ],
+      "newly_surfaced_offences": "Hebrew layout unlock revealed hardcoded English page content (h1, subtitle, column labels) \u2014 tracked as V-R3+ per-flow i18n work. This is an expected visibility shift, not a regression."
+    },
+    {
+      "round": 2,
+      "label": "V-R2 \u2014 four targeted fixes on V-R1 residuals",
+      "commit": "d36e5828",
+      "commit_tag": "RUN-148",
+      "score": 2,
+      "delta_vs_prev": -6,
+      "improvement_pct": 75.00,
+      "fixes": [
+        "Marketplace one-state rule: error OR empty, never stacked; friendly error copy + reference-platform empty pattern with primary CTA",
+        "Banner locale JSON (en + he + fr): 'MONO_MODEL_CALIBRATION' \u2192 'Training data will use fallback calibration until real keys are configured'",
+        "Real SSO brand SVGs on RegistrationPage (Google 4-color G / GitHub Octicon / Microsoft 4-square), 44px min-h touch targets",
+        "Tenant identifier leak 'system' implicitly resolved by marketplace error copy rewrite"
+      ]
+    },
+    {
+      "round": 3,
+      "label": "V-R3 \u2014 convergence check: recapture + rescore same 5 cells",
+      "score": 2,
+      "delta_vs_prev": 0,
+      "improvement_pct": 0.00,
+      "convergence_verdict": "CONVERGED \u2014 0% \u226a 1% target, no change round-over-round",
+      "residual_2_offences": "Both in the same class: per-flow hardcoded English strings that don't translate when ?lang=he (ads-platform page h1 + subtitle + column labels). Systemic fixes exhausted; further reduction requires per-flow i18n wiring which scales linearly with flow count and is properly tracked per-cell in ROUND-2-COVERAGE-MATRIX.json."
+    }
+  ],
+
+  "cumulative_trajectory": {
+    "R0": 22,
+    "R1": 8,
+    "R2": 2,
+    "R3": 2,
+    "total_delta": -20,
+    "total_improvement_pct": 90.91
+  },
+
+  "axes_improved_vs_unchanged": {
+    "improved": [
+      "UX-P5 Responsive mobile breakage: 5 \u2192 0",
+      "UX-P2 Touch target: 1 \u2192 0",
+      "i18n URL wiring: 3 \u2192 0",
+      "Raw JSON leaks: 3 \u2192 0",
+      "H Banner MONO_MODEL_CALIBRATION: 1 \u2192 0",
+      "SSO placeholder icons: 1 \u2192 0",
+      "Tenant 'system' identifier leak: 1 \u2192 0",
+      "S State legibility stacked: 1 \u2192 0",
+      "R Grammar/ref parity marketplace: 2 \u2192 0"
+    ],
+    "residual": [
+      "H Page content hardcoded English on he-RTL: 2 (across the ads-platform sample; extrapolated ~40-80 across the whole product; per-flow work)"
+    ]
+  },
+
+  "visible_artefacts": {
+    "baseline_PNGs": "docs/e2e-snapshots/visual-audit/{chromium-desktop,chromium-tablet,chromium-mobile}/<slug>/<state>-<role>.png",
+    "per_round_scores": "docs/screen-examination/VISUAL-ROUND-{0,1,2}-SCORES.md",
+    "plan": "docs/screen-examination/VISUAL-REEXAMINATION-PLAN.md",
+    "capture_spec": "client/e2e/visual-audit-baseline.spec.ts",
+    "this_file": "docs/screen-examination/VISUAL-CONVERGENCE.json"
+  }
+}

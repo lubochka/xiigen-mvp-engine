@@ -1,0 +1,52 @@
+﻿{
+    "flowId":  "FLOW-01",
+    "flowSlug":  "user-registration",
+    "phase":  "Phase 4.5 Tenant A repo rename and evidence",
+    "recordedAt":  "2026-04-30T13:35:23.5650617+03:00",
+    "tenantId":  "acme-corp",
+    "repoRenamed":  true,
+    "repoName":  "acme-corp--user-registration-acme-pro-members",
+    "repoUrl":  "https://github.com/lubochka/acme-corp--user-registration-acme-pro-members",
+    "repoRenameSource":  "acme-corp--user-registration",
+    "repoRenameTarget":  "acme-corp--user-registration-acme-pro-members",
+    "repoEvidenceType":  "GitHub API JSON evidence approved by Luba for private repo data",
+    "githubListingEvidencePath":  "docs/e2e-snapshots/repo-evidence/acme-corp--user-registration-acme-pro-members-github-listing-api-evidence.json",
+    "repoHomepageEvidencePath":  "docs/e2e-snapshots/repo-evidence/acme-corp--user-registration-acme-pro-members-repo-homepage-api-evidence.json",
+    "githubListingPngExists":  false,
+    "repoHomepagePngExists":  false,
+    "ciRunPassed":  true,
+    "workflowConclusion":  "success",
+    "workflowRunUrl":  "https://github.com/lubochka/acme-corp--user-registration-acme-pro-members/actions/runs/25160658180",
+    "workflowHeadSha":  "945f2d70e58977970df537be4a0fdd9b0f8933c7",
+    "forkRepoConfigCommit":  "945f2d70e58977970df537be4a0fdd9b0f8933c7",
+    "tenantAAdaptedVisualEvidence":  {
+                                         "directory":  "docs/e2e-snapshots/user-registration/tenant-a-acme-v1.0.1",
+                                         "freshPngCount":  288,
+                                         "c2c4c6PngCount":  144,
+                                         "rolesCovered":  8,
+                                         "pagesCovered":  6,
+                                         "zeroBytePngs":  0,
+                                         "minimumProtocolCount":  "roles multiplied by three cells; Flow 01 captured six pages across all roles, so the evidence exceeds the minimum"
+                                     },
+    "completionGate":  {
+                           "repoRenamedConfirmedViaGitHubApi":  true,
+                           "workflowConclusionIsSuccess":  true,
+                           "repoListingEvidenceExists":  true,
+                           "repoHomepageEvidenceExists":  true,
+                           "tenantAAdaptedVisualEvidenceExists":  true,
+                           "perImageRepoEvidenceBlockedVerdicts":  0
+                       },
+    "phaseReviewGate":  {
+                            "directContextImports":  0,
+                            "nonFlowScopedConnectionAnnotations":  0,
+                            "freedomKeyPrefixWarnings":  0,
+                            "controllerFiles":  0,
+                            "authScanFailures":  0,
+                            "directSdkImports":  0,
+                            "throwStatements":  0,
+                            "servicesNotExtendingBase":  0,
+                            "scanner":  "PowerShell Select-String case-sensitive fallback"
+                        },
+    "phaseWorkCommitHash":  "d4c10f7ccf7c5fe3ead08a85dac1b16ddfaefafa",
+    "stateUpdatedAt":  "2026-04-30T13:39:53.2141634+03:00"
+}

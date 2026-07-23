@@ -1,0 +1,17 @@
+{
+  "batch_id": "V-R10-E",
+  "captured_after": "RUN-173 (cdcf739d)",
+  "p0_fix_verification": {"P0_1_saas_tenant_user_gate": "CONFIRMED_FIXED — tenant-user now sees 'Workspace Status' page with informational card; NO Suspend/Reactivate/Terminate buttons"},
+  "flows": [
+    {"slug":"module-lifecycle","prior":"PASS","new":"PASS","score":0.92,"delta":"STABLE","notes":"Best 3-role gating in batch: admin full CRUD, support read-only with audit log + escalate"},
+    {"slug":"oss-curriculum","prior":"PASS","new":"PASS","score":0.78,"delta":"STABLE","issue":"P3-OSS-SUPPORT-BARE-GATE persists: platform-support sees only 'OSS curriculum is not available for your current role' — no read-only diagnostic surface"},
+    {"slug":"platform-agent","prior":"PASS","new":"PASS","score":0.95,"delta":"STABLE","notes":"Best-in-batch: 5-role segmentation + GDPR Art.30 + Processing basis annotations"},
+    {"slug":"profile-enrichment","prior":"PASS_MINIMAL","new":"PASS_MINIMAL","score":0.55,"delta":"STABLE","issue":"default-tenant-user identical to primary-tenant-user; no cycle-state differentiation"},
+    {"slug":"rag-quality-feedback","prior":"PASS","new":"PASS","score":0.90,"delta":"STABLE","notes":"Strong support-read-only with tenant anonymization (tenant-***-a1b2)"},
+    {"slug":"reviews-reputation","prior":"PASS","new":"PASS","score":0.85,"delta":"STABLE","notes":"Three-role progression (anon read → user write w/ verification warning → admin moderate)"},
+    {"slug":"saas-multi-tenancy","prior":"FAIL","new":"PASS","score":0.82,"delta":"+5 IMPROVED","notes":"P0-1 FIX VERIFIED. tenant-user gets 'Workspace Status' informational card, no destructive buttons. Default-platform-admin route still 404 (P4 polish)"},
+    {"slug":"schema-registry-dag","prior":"PASS","new":"PASS_WITH_ROLE_AMBIGUITY","score":0.72,"delta":"REVISED","issue":"platform-support indistinguishable from platform-admin (no read-only banner); tenant-admin sees cross-tenant schemas (scope-isolation question vs copy)"}
+  ],
+  "batch_summary": {"pass":7,"pass_minimal":1,"fail":0,"improved":1,"regressed":0,"score_mean":0.81},
+  "p3_p4_open": ["P3-OSS-SUPPORT-BARE-GATE","P4-PROFILE-DEFAULT-EQUALS-PRIMARY","P4-SCHEMA-NO-ROLE-GATING","P4-SCHEMA-CROSS-TENANT-LEAK","P4-6-SAAS-DEFAULT-404"]
+}

@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T191",
+  "name": "schema-registry-dag-dag-cycle-detector",
+  "description": "T191 DagCycleDetector — VALIDATION archetype (inline). THREE-COLOR DFS: WHITE→GRAY on entry, GRAY→BLACK on exit. GRAY re-encounter = CYCLE_DETECTED. Single visited Set cannot distinguish back edges.",
+  "archetype": "VALIDATION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: three-color DFS algorithm, WHITE/GRAY/BLACK state machine, back-edge detection via GRAY re-encounter, inline call contract"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve VALIDATION arch pattern + three-color-dfs + cycle-detection + back-edge-detection patterns for T191",
+      "params": {
+        "archetype": "VALIDATION",
+        "taskTypeRef": "T191",
+        "topK": 5,
+        "patternIds": [
+          "three-color-dfs-001",
+          "cycle-detection-001",
+          "back-edge-detection-001",
+          "dag-validation-001",
+          "graph-traversal-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T191 into: initialize WHITE map → DFS traverse → mark GRAY on entry → recurse neighbors → mark BLACK on exit → detect GRAY re-encounter as CYCLE_DETECTED → return boolean"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate dag-cycle-detector.service.ts — THREE-COLOR DFS using Map<nodeId, 'WHITE'|'GRAY'|'BLACK'>. WHITE=unvisited, GRAY=in-stack, BLACK=completed. GRAY re-encounter triggers CYCLE_DETECTED. Single Set<visited> is WRONG — cannot distinguish back edges. checkCycle() pure function, no state stored between calls."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: three_color_map_used, white_to_gray_on_entry, gray_to_black_on_exit, gray_reencounter_is_cycle, no_single_visited_set"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T191 iron rules: three-color DFS correctness, back-edge detection, no false positives from cross edges"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=three-color-dfs-with-gray-reencounter, rejected=single-visited-set-cannot-detect-back-edges OR two-color-marks-cross-edges-as-cycles. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "inline call from T189",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,98 @@
+{
+    "flowId":  "FLOW-37",
+    "flowSlug":  "design-system-governance",
+    "phase":  "phase-0-docker-vault-auth",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T19:06:23.3295811Z",
+    "docker":  {
+                   "dockerInfo":  "exit 0",
+                   "serverVersion":  "29.4.0",
+                   "compose":  "docker-compose.platform.yml",
+                   "serverCompose":  "docker-compose.yml"
+               },
+    "vault":  {
+                  "sealed":  false,
+                  "initialized":  true,
+                  "credentialsSeededForTenants":  [
+                                                      "acme-corp",
+                                                      "northwind",
+                                                      "tessera-collective"
+                                                  ],
+                  "tokenMaterialRedacted":  true
+              },
+    "server":  {
+                   "url":  "http://localhost:33001",
+                   "healthLive":  {
+                                      "success":  true,
+                                      "data":  {
+                                                   "status":  "OK",
+                                                   "timestamp":  1778526259434
+                                               }
+                                  },
+                   "secretsProvider":  "vault"
+               },
+    "authMatrix":  [
+                       {
+                           "name":  "valid token in acme tenant returns 200",
+                           "tenantContext":  "acme-corp",
+                           "expectedStatus":  200,
+                           "actualStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "valid token in northwind tenant returns 200",
+                           "tenantContext":  "northwind",
+                           "expectedStatus":  200,
+                           "actualStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "valid token in tessera tenant returns 200",
+                           "tenantContext":  "tessera-collective",
+                           "expectedStatus":  200,
+                           "actualStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "missing token returns 401",
+                           "tenantContext":  "acme-corp",
+                           "expectedStatus":  401,
+                           "actualStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "tenant A token in tenant B context returns 401",
+                           "tenantContext":  "northwind",
+                           "expectedStatus":  401,
+                           "actualStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "tenant B token in tenant C context returns 401",
+                           "tenantContext":  "tessera-collective",
+                           "expectedStatus":  401,
+                           "actualStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "tenant A token in tenant C context returns 401",
+                           "tenantContext":  "tessera-collective",
+                           "expectedStatus":  401,
+                           "actualStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "wrong role token on role-protected route returns 403",
+                           "tenantContext":  "acme-corp",
+                           "expectedStatus":  403,
+                           "actualStatus":  403,
+                           "passed":  true
+                       }
+                   ],
+    "summary":  {
+                    "passed":  8,
+                    "total":  8,
+                    "failed":  0
+                },
+    "verdict":  "PASS"
+}

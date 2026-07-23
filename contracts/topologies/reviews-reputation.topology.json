@@ -1,0 +1,65 @@
+{
+  "flowId": "FLOW-10",
+  "name": "Reviews and Reputation",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T169",
+      "taskTypeId": "T169",
+      "name": "ReviewSubmissionGateway",
+      "archetype": "submission_gateway",
+      "entry": "POST /reviews (eligibility check + audit write + event emit)"
+    },
+    {
+      "id": "T170",
+      "taskTypeId": "T170",
+      "name": "ReviewModerationEngine",
+      "archetype": "moderation",
+      "entry": "ReviewSubmitted event"
+    },
+    {
+      "id": "T171",
+      "taskTypeId": "T171",
+      "name": "ReputationScoreAggregator",
+      "archetype": "aggregation",
+      "entry": "ReviewApproved event (rolling aggregate by entity)"
+    },
+    {
+      "id": "T172",
+      "taskTypeId": "T172",
+      "name": "ReviewResponseOrchestrator",
+      "archetype": "orchestration",
+      "entry": "OwnerResponseRequested event (stub — blocked by P1-1_F10)"
+    }
+  ],
+  "edges": [
+    { "from": "ReviewSubmitted", "to": "T169", "event": "xiigen.reviews-reputation.submitted.v1" },
+    { "from": "T169", "to": "T170", "event": "xiigen.reviews-reputation.review-accepted.v1", "condition": "eligibility passed" },
+    { "from": "T169", "to": "ReviewRejected", "event": "xiigen.reviews-reputation.review-rejected.v1", "condition": "eligibility failed — terminal" },
+    { "from": "T170", "to": "T171", "event": "xiigen.reviews-reputation.review-approved.v1", "condition": "moderation passed" },
+    { "from": "T170", "to": "ReviewQuarantined", "event": "xiigen.reviews-reputation.review-quarantined.v1", "condition": "moderation failed — terminal" },
+    { "from": "T171", "to": "T172", "event": "xiigen.reviews-reputation.owner-response-requested.v1", "condition": "negative review" },
+    { "from": "T171", "to": "ReputationUpdated", "event": "xiigen.reviews-reputation.reputation-updated.v1", "condition": "aggregate persisted" },
+    { "from": "T172", "to": "OwnerResponsePublished", "event": "xiigen.reviews-reputation.owner-response-published.v1", "condition": "terminal" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": [],
+      "notQueueable": ["ReviewSubmitted", "ReviewResponseSubmitted"],
+      "notQueueableReason": {
+        "ReviewSubmitted": "Eligibility check required live (FLOW-04/09 cross-flow)",
+        "ReviewResponseSubmitted": "Ownership check required live"
+      }
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T-reputation-aggregator",
+        "runsWhileUserViews": "EntityProfile or ListingDetail",
+        "signalType": "realtime-push",
+        "signalText": null
+      }
+    ]
+  }
+}

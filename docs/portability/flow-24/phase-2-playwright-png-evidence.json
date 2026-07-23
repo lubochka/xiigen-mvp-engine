@@ -1,0 +1,57 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "phase2E2ETests",
+    "generatedAt":  "2026-05-10T10:40:55.1210210Z",
+    "verification":  {
+                         "clientTypeScript":  {
+                                                  "command":  "npx tsc --noEmit --pretty false",
+                                                  "workingDirectory":  "client",
+                                                  "exitCode":  0,
+                                                  "result":  "PASS"
+                                              },
+                         "playwright":  {
+                                            "command":  "$env:VITE_PORT=\"52424\"; npx playwright test ai-safety-moderation.spec.ts ai-safety-moderation-mock-states.spec.ts ai-safety-moderation-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                            "workingDirectory":  "client",
+                                            "exitCode":  0,
+                                            "passed":  19,
+                                            "failed":  0,
+                                            "project":  "chromium-desktop",
+                                            "result":  "PASS"
+                                        },
+                         "pngCount":  {
+                                          "path":  "docs/e2e-snapshots/ai-safety-moderation",
+                                          "pngCount":  19,
+                                          "emptyCount":  0,
+                                          "totalBytes":  1341794,
+                                          "result":  "PASS"
+                                      }
+                     },
+    "repairedTestAssumptions":  [
+                                    "P1 and mock-state specs now request explicit FLOW-24 role/mock routes instead of the default role fallback.",
+                                    "CRUD spec opens the platform-admin raw-index details and expands the engine-internal panel before asserting CRUD controls.",
+                                    "Network-idle waits were replaced with DOM/content and visible sentinel waits for the role-scoped page."
+                                ],
+    "screenshots":  [
+                        "01-every-task-type-in-t421-t460-has-at-leas.png",
+                        "02-every-plan-step-is-scoped-to-a-single-re.png",
+                        "03-no-step-imports-provider-sdks-directly-f.png",
+                        "04-no-step-creates-entity-specific-controll.png",
+                        "05-all-steps-return-dataprocessresult-t.png",
+                        "06-focus-areas-covered-cf-465-iron-rule-saf.png",
+                        "c-03-before.png",
+                        "crud-after-create.png",
+                        "crud-initial-load.png",
+                        "crud-list-with-test-row.png",
+                        "default.png",
+                        "state-1-content-received.png",
+                        "state-2-moderation-running.png",
+                        "state-3-content-approved.png",
+                        "state-4-content-flagged.png",
+                        "state-5-human-review.png",
+                        "state-6-content-rejected.png",
+                        "state-7-consent-pending.png",
+                        "state-8-consent-granted.png"
+                    ],
+    "verdict":  "PASS"
+}

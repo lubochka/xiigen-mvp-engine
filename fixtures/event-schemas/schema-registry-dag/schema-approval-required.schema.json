@@ -1,0 +1,14 @@
+{
+  "eventType": "SchemaApprovalRequired",
+  "flowId": "FLOW-11",
+  "version": "1.0.0",
+  "properties": {
+    "schemaId": { "type": "string", "required": true },
+    "schemaType": { "type": "string", "required": true },
+    "version": { "type": "string", "required": true },
+    "changeType": { "type": "string", "enum": ["BREAKING"], "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "breakingFields": { "type": "array", "items": { "type": "string" }, "required": false },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

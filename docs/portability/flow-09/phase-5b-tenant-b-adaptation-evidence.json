@@ -1,0 +1,272 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "phase": "phase5bTenantBAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-05T19:15:56+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "role": "Tenant B",
+    "adaptedFromTenant": "acme-corp",
+    "sourceRepoFullName": "lubochka/acme-corp--transactional-event-participation",
+    "sourcePackageName": "@xiigen-fork/acme-fast-release-ticketing",
+    "sourcePackageVersion": "1.0.1",
+    "adaptedPackageName": "@xiigen-fork/northwind-exchange-ticketing",
+    "adaptedPackageVersion": "1.0.2",
+    "localRegistry": "http://localhost:4873"
+  },
+  "adaptation": {
+    "changeType": "Type A (FREEDOM key value change)",
+    "moduleName": "northwind-exchange-ticketing",
+    "repoName": "northwind--northwind-exchange-ticketing",
+    "repoFullName": "lubochka/northwind--northwind-exchange-ticketing",
+    "plainLanguagePolicy": "Northwind exchange ticketing policy: 4-minute seat holds, 72-hour refunds, 3.5% platform fee, 2.8% processing fee, and reviewed capacity changes before publication.",
+    "freedomChanges": [
+      {
+        "key": "flow09_seat_ttl_seconds",
+        "from": 180,
+        "to": 240
+      },
+      {
+        "key": "flow09_refund_window_hours",
+        "from": 48,
+        "to": 72
+      },
+      {
+        "key": "flow09_platform_fee_rate",
+        "from": 0.04,
+        "to": 0.035
+      },
+      {
+        "key": "flow09_processing_fee_rate",
+        "from": 0.031,
+        "to": 0.028
+      },
+      {
+        "key": "flow09_capacity_change_requires_approval",
+        "from": false,
+        "to": true
+      }
+    ],
+    "invariantsPreserved": [
+      "seat holds remain tenant-scoped and stored before payment is requested",
+      "payment records remain stored before ticket issuance events",
+      "refund records remain stored before refund events",
+      "capacity review changes remain represented through FREEDOM configuration instead of handler rewrites",
+      "role access remains unchanged"
+    ],
+    "adaptationHistory": {
+      "entries": 2,
+      "history0": "Acme v1.0.1 adaptation preserved",
+      "history1": "Northwind v1.0.2 adaptation added"
+    }
+  },
+  "tenantRepository": {
+    "initialRepoFullName": "lubochka/northwind--acme-fast-release-ticketing",
+    "renamedRepoFullName": "lubochka/northwind--northwind-exchange-ticketing",
+    "repoUrl": "https://github.com/lubochka/northwind--northwind-exchange-ticketing",
+    "defaultBranch": "main",
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-fast-release-ticketing",
+    "localRemote": "https://github.com/lubochka/northwind--northwind-exchange-ticketing.git",
+    "adaptedCommitSha": "0570630dd6767d5fe6f91636cdf6e4a3ddac2295",
+    "commitMessage": "Adapt Northwind exchange ticketing policy",
+    "workingTreeCleanAfterPublish": true,
+    "privateAfterEvidenceCapture": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/transactional-event-participation-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-fast-release-ticketing",
+    "headSha": "0570630dd6767d5fe6f91636cdf6e4a3ddac2295",
+    "commands": [
+      {
+        "command": "Get-Content tenant.config.json,freedom-config.defaults.json,settings/module.settings.json | ConvertFrom-Json",
+        "exitCode": 0,
+        "result": "json-ok"
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0,
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      }
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - transactional-event-participation",
+    "runId": 25387790249,
+    "jobId": 74453677731,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "0570630dd6767d5fe6f91636cdf6e4a3ddac2295",
+    "url": "https://github.com/lubochka/northwind--northwind-exchange-ticketing/actions/runs/25387790249",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/northwind-exchange-ticketing",
+    "publishedVersion": "1.0.2",
+    "viewCommand": "npm view @xiigen-fork/northwind-exchange-ticketing version --registry http://localhost:4873",
+    "viewReturned": "1.0.2",
+    "verified": true
+  },
+  "applicationEvidence": {
+    "filesChangedInMainRepo": [
+      "client/e2e/transactional-event-participation-tenant-b-adaptation.spec.ts",
+      "client/src/pages/MarketplacePage.tsx",
+      "client/src/pages/transactional-event-participation/TicketPurchasePage.tsx"
+    ],
+    "visibleAdaptationSummary": "4-minute seat holds, 72-hour refunds, 3.5% platform fee, 2.8% processing fee, and reviewed capacity changes.",
+    "playwright": {
+      "command": "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/transactional-event-participation-tenant-b-adaptation.spec.ts --project=chromium-desktop --workers=1",
+      "result": "passed",
+      "tests": 13
+    },
+    "screenshots": {
+      "tenantCascadeDirectory": "docs/e2e-snapshots/transactional-event-participation/tenant-b-v1.0.2",
+      "tenantCascadeCount": 12,
+      "tenantCascadeZeroByte": 0,
+      "tenantCascadeMinBytes": 38679,
+      "tenantCascadeMaxBytes": 73156,
+      "marketplaceListingPath": "docs/e2e-snapshots/marketplace/transactional-event-participation-v1.0.2-listing.png",
+      "marketplaceListingBytes": 250065,
+      "repoListingPath": "docs/e2e-snapshots/repo-evidence/northwind--northwind-exchange-ticketing-github-listing.png",
+      "repoListingBytes": 132692,
+      "repoActionsSuccessPath": "docs/e2e-snapshots/repo-evidence/northwind--northwind-exchange-ticketing-actions-success.png",
+      "repoActionsSuccessBytes": 75482
+    }
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-05T19:13:52.4304714+03:00",
+    "serverBaseUrl": "http://localhost:33001",
+    "passed": 8,
+    "total": 8,
+    "allPassed": true,
+    "matrix": [
+      {
+        "name": "valid acme token in acme tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "valid northwind token in northwind tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "valid tessera token in tessera tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "missing token denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token in northwind tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "northwind token in tessera tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token in tessera tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "wrong referral-user role denied on Northwind fork endpoint",
+        "method": "POST",
+        "path": "/api/marketplace/packages/northwind-exchange-ticketing/fork",
+        "expectedStatus": 403,
+        "actualStatus": 403
+      }
+    ]
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "result": "passed"
+    },
+    "clientPlaywright": {
+      "command": "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/transactional-event-participation-tenant-b-adaptation.spec.ts --project=chromium-desktop --workers=1",
+      "result": "passed",
+      "tests": 13
+    },
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=transactional-event-participation --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 8,
+      "tests": 133
+    },
+    "flowScans": {
+      "flowFileCount": 20,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "flowScopedAnnotations": 42,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 0,
+      "directSdkImports": 0
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false
+  },
+  "phaseGate": {
+    "tenantBAdaptedTenantAPackage": true,
+    "tenantBCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstall": true
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,310 @@
+{
+  "flowId": "FLOW-40",
+  "flowSlug": "client-push",
+  "implementationSlug": "client-push",
+  "flowTitle": "Client Push",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-40 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "server/src/engine/flows/client-push",
+    "server/src/engine-contracts/client-push-contracts.ts",
+    "server/src/engine-contracts/client-push-bfa-rules.ts",
+    "server/src/fabrics/interfaces/sse-connection-pool.interface.ts",
+    "client/src/pages/client-push/ClientPushPage.tsx",
+    "client/src/components/client-push/ClientPushScreen.tsx",
+    "docs/sessions/FLOW-40/FLOW-40-STEP-1-INVARIANTS.md",
+    "docs/flow-coverage/client-push/P1-business-logic-inventory.md",
+    "docs/flow-coverage/client-push/P5-ui-specs.md",
+    "docs/flow-coverage/client-push/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T587-T589",
+    "taskTypeIds": [
+      "T587",
+      "T588",
+      "T589"
+    ],
+    "factoryIdRange": "F1561-F1575",
+    "topologyTaskTypeIds": [
+      "T412"
+    ],
+    "freedomKeyCount": 9,
+    "securityClassification": "tenant-scoped real-time SSE delivery substrate, notification preferences, delivery audit, and platform push operations",
+    "directRuntimePeerDependencies": [
+      "ISseConnectionPool",
+      "IDatabaseService"
+    ],
+    "identityNote": "FLOW-40 uses client-push as the canonical portability, UI, package, and runtime implementation slug.",
+    "coreGuarantees": [
+      "Connection registration validates tenant and correlation context before pool registration.",
+      "SSE pool lookups and event delivery remain tenant-scoped.",
+      "Cross-tenant delivery attempts fail before payload dispatch.",
+      "Missing connections are discarded without retry queues.",
+      "Keepalive cadence is config-driven and dropped connections are cleaned before further emit.",
+      "Dropped connections are informational, not error conditions.",
+      "Provider and transport access remain behind fabric interfaces.",
+      "Tenant credentials are resolved from Vault and are never package material.",
+      "Role-specific UI surfaces expose user preferences, tenant admin controls, platform ops, and read-only support trace without internal flow codes."
+    ]
+  },
+  "roleSurface": {
+    "full": [
+      "tenant-user",
+      "tenant-admin",
+      "platform-admin"
+    ],
+    "partial": [
+      "platform-support"
+    ],
+    "substrate": true,
+    "notes": "Notification content is authored by host flows, while FLOW-40 owns preferences, delivery infrastructure, delivery trace, and push substrate behavior."
+  },
+  "services": [
+    {
+      "taskTypeId": "T587",
+      "className": "SseConnectionManager",
+      "file": "server/src/engine/flows/client-push/sse-connection-manager.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow40_module_name",
+        "flow40_connection_label",
+        "flow40_connection_audit_retention_days"
+      ],
+      "machineLockedRules": [
+        "Authentication and correlation validation happen before pool registration.",
+        "Connection audit is written after pool registration and remains tenant scoped.",
+        "Expired correlation IDs return failure, not exceptions."
+      ]
+    },
+    {
+      "taskTypeId": "T588",
+      "className": "FlowEventBridge",
+      "file": "server/src/engine/flows/client-push/flow-event-bridge.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow40_event_family_label",
+        "flow40_delivery_log_label",
+        "flow40_missing_connection_policy"
+      ],
+      "machineLockedRules": [
+        "FlowEventBridge never emits into user-facing source domains.",
+        "Pool lookups are tenant scoped.",
+        "Missing connections are discarded without retry."
+      ]
+    },
+    {
+      "taskTypeId": "T589",
+      "className": "SseKeepaliveScheduler",
+      "file": "server/src/engine/flows/client-push/sse-keepalive-scheduler.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow40_keepalive_interval_ms",
+        "flow40_dropped_connection_threshold_ms",
+        "flow40_support_trace_visibility"
+      ],
+      "machineLockedRules": [
+        "Keepalive interval and dropped threshold are config inputs, not inline constants.",
+        "Dropped connections are closed before any further push attempt.",
+        "Dropped connection cleanup logs at info level and does not throw."
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-40 values may tune labels, retention, keepalive cadence, and support trace visibility without changing tenant isolation, auth-before-registration, no-retry missing-connection policy, or cleanup-before-emit behavior.",
+      "total": 9,
+      "keys": [
+        {
+          "key": "flow40_module_name",
+          "type": "string",
+          "default": "client-push",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        },
+        {
+          "key": "flow40_connection_label",
+          "type": "string",
+          "default": "Client push connection",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "minLength": 3,
+            "maxLength": 80
+          }
+        },
+        {
+          "key": "flow40_connection_audit_retention_days",
+          "type": "number",
+          "default": 90,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 7,
+            "max": 730
+          }
+        },
+        {
+          "key": "flow40_event_family_label",
+          "type": "string",
+          "default": "Notification events",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "minLength": 3,
+            "maxLength": 80
+          }
+        },
+        {
+          "key": "flow40_delivery_log_label",
+          "type": "string",
+          "default": "Delivery log",
+          "stakeholder": "platform-support",
+          "boundedRange": {
+            "minLength": 3,
+            "maxLength": 80
+          }
+        },
+        {
+          "key": "flow40_missing_connection_policy",
+          "type": "string",
+          "default": "discard-with-info",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "allowedValues": [
+              "discard-with-info"
+            ]
+          }
+        },
+        {
+          "key": "flow40_keepalive_interval_ms",
+          "type": "number",
+          "default": 15000,
+          "unit": "milliseconds",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 5000,
+            "max": 120000
+          }
+        },
+        {
+          "key": "flow40_dropped_connection_threshold_ms",
+          "type": "number",
+          "default": 45000,
+          "unit": "milliseconds",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 15000,
+            "max": 600000
+          }
+        },
+        {
+          "key": "flow40_support_trace_visibility",
+          "type": "string",
+          "default": "read-only-redacted",
+          "stakeholder": "platform-support",
+          "boundedRange": {
+            "allowedValues": [
+              "read-only-redacted",
+              "read-only-summary"
+            ]
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to push module naming, delivery labels, audit retention, keepalive thresholds, and support trace presentation.",
+      "edgeCases": [
+        {
+          "id": "acme-client-push-lab",
+          "name": "Acme client push lab",
+          "semantic": "Tenant A tunes FLOW-40 for compact internal delivery telemetry and shorter retention.",
+          "extensionPoint": "module labels, retention, and keepalive cadence",
+          "currentImplementation": "Tenant isolation and missing-connection no-retry policy remain fixed."
+        },
+        {
+          "id": "northwind-delivery-signal-hub",
+          "name": "Northwind delivery signal hub",
+          "semantic": "Tenant B tunes FLOW-40 for higher-volume delivery history and tenant-admin friendly labels.",
+          "extensionPoint": "delivery labels, retention, support visibility, and package metadata",
+          "currentImplementation": "FlowEventBridge remains read-only toward user-facing source domains."
+        },
+        {
+          "id": "tessera-notification-ops-loop",
+          "name": "Tessera notification ops loop",
+          "semantic": "Tenant C tunes FLOW-40 for support-focused delivery investigation with summarized traces.",
+          "extensionPoint": "support trace display, keepalive thresholds, and module naming",
+          "currentImplementation": "Dropped cleanup still happens before emit and remains info-only."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T587 through T589 remain fixed for the runtime implementation bundle.",
+      "Provider and transport access remain behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Authentication and correlation validation happen before connection registration.",
+      "SSE connection pool operations remain tenant scoped.",
+      "FlowEventBridge does not emit into user-facing source domains.",
+      "Missing connections are discarded without retry queues.",
+      "Dropped connections are cleaned before any further push attempt.",
+      "Dropped connections are logged as informational only.",
+      "Marketplace forks must use tenant credentials from Vault.",
+      "GitHub Actions and local registry readback are required cascade evidence."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAClientPushLab": {
+      "change": {
+        "flow40_module_name": "acme-client-push-lab",
+        "flow40_connection_audit_retention_days": 45,
+        "flow40_keepalive_interval_ms": 12000,
+        "flow40_dropped_connection_threshold_ms": 40000,
+        "flow40_support_trace_visibility": "read-only-summary"
+      }
+    },
+    "tenantBDeliverySignalHub": {
+      "change": {
+        "flow40_module_name": "northwind-delivery-signal-hub",
+        "flow40_connection_audit_retention_days": 180,
+        "flow40_keepalive_interval_ms": 15000,
+        "flow40_dropped_connection_threshold_ms": 60000,
+        "flow40_support_trace_visibility": "read-only-redacted"
+      }
+    },
+    "tenantCNotificationOpsLoop": {
+      "change": {
+        "flow40_module_name": "tessera-notification-ops-loop",
+        "flow40_connection_audit_retention_days": 365,
+        "flow40_keepalive_interval_ms": 20000,
+        "flow40_dropped_connection_threshold_ms": 90000,
+        "flow40_support_trace_visibility": "read-only-summary"
+      }
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "elements": [
+      "Task IDs T587-T589",
+      "tenant-scoped pool lookup",
+      "auth-before-registration",
+      "no-retry missing-connection behavior",
+      "cleanup-before-emit ordering",
+      "info-only dropped cleanup",
+      "Vault credential paths",
+      "marketplace API as the only valid fork origin"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-40 configuration values or display/module metadata.",
+    "FLOW-40 package assembly copies the client-push implementation under the canonical package slug path.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps.",
+    "GitHub repo evidence screenshots and local registry publish/readback must exist at each cascade point."
+  ]
+}

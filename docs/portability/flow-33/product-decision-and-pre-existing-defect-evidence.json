@@ -1,0 +1,112 @@
+{
+  "flowId": "FLOW-33",
+  "flowSlug": "system-initiation-bootstrap",
+  "phase": "preExistingDefectCheck",
+  "generatedAt": "2026-05-11T08:55:58.7645713Z",
+  "protocolGate": "Pre-existing Jest suite plus static portability/auth scan must pass with zero failure lines, and the per-flow fix-map task range collision must be corrected before live auth begins.",
+  "roleMapSource": "docs/design-reviews/ROLE-ANALYSIS-BATCH-07.md",
+  "roleMap": {
+    "primaryRoles": [
+      "platform-admin"
+    ],
+    "partialRoles": [
+      "platform-support",
+      "anonymous"
+    ],
+    "wrongRoleForProtectedRoute": "tenant-user",
+    "note": "FLOW-33 is engine-internal. Platform-admin owns full access; platform-support is read-only/partial; anonymous is limited to first-run bootstrap."
+  },
+  "loadedSources": [
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\flow portability prompt.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\auth-pkg-extracted\\FLOW-MOBILITY-AND-AUTH-MASTER-GUIDE.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\auth-pkg-extracted\\FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\auth-pkg-extracted\\TENANT-CICD-CONNECTION-GUIDANCE-v1.0.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\auth-pkg-extracted\\FORK-FLOW-ENGINE-PLAN-v1.2.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\auth-pkg-extracted\\XIIGEN-AUTH-ROLES-GROUPS-PLAN-v3.0.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\auth-pkg-extracted\\PER-FLOW-FIX-MAP-v2.9.md",
+    "docs/sessions/FLOW-33/FLOW-33-IMPL-STATE.json",
+    "docs/sessions/FLOW-33/FLOW-33-RAG.md",
+    "docs/sessions/FLOW-33/FLOW-33-RECONCILIATION-STATE.md",
+    "docs/sessions/FLOW-33/UI-REFLECTION-STATE.json"
+  ],
+  "initialFindings": {
+    "implementationStateDrift": "FLOW-33 implementation state and reconciliation evidence disagree with the active server tree: the expected system-initiation-bootstrap source directory is absent, while UI reflection points to meta-arbitration as the observed implementation directory for FLOW-33 services.",
+    "taskRangeCollision": {
+      "before": "T516-T522",
+      "after": "T536-T542",
+      "collision": "FLOW-32 owns T516-T535, so active FLOW-33 references to T516-T522 were treated as a portability blocker.",
+      "fixMapDirective": "PER-FLOW-FIX-MAP-v2.9 orders FLOW-33 task range collision correction before directory correction, shared-interface dedup, governance generation, and GitHub repo provisioning."
+    },
+    "preFixJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=system-initiation-bootstrap --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "testSuites": "8 passed, 8 total",
+      "tests": "139 passed, 139 total",
+      "note": "The name pattern also matched FLOW-45 system-initiation-bootstrap-v2 suites; this is recorded as inherited suite overlap, not a failure."
+    },
+    "staticScanBeforeFix": {
+      "certificationSourceRoot": "server/src/engine/flows/meta-arbitration",
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directoryDriftRoot": "server/src/engine/flows/generation-loop",
+      "directoryDriftServicesMissingMicroserviceBase": [
+        "flow-lifecycle.service.ts",
+        "improvement-detector.service.ts",
+        "model-fitness.service.ts",
+        "security-circuit-breaker.service.ts",
+        "self-modification.service.ts",
+        "spend-governor.service.ts"
+      ]
+    }
+  },
+  "fixesApplied": [
+    "Corrected FLOW-33 contract task IDs from T516-T522 to T536-T542 in generation-loop contracts and seed prompts.",
+    "Corrected FLOW-33 registry seed entries in EngineBootstrapper to T536-T542 while restoring FLOW-32's T516-T535 range comment.",
+    "Corrected feature-registry bootstrap-internal task IDs and tests from old FLOW-33 task IDs to T536/T539/T540/T541.",
+    "Corrected bundle activation references so per-flow bootstrap orchestration calls T536 BootstrapOrchestrator.",
+    "Updated FLOW-33 planning/session docs and the canonical architecture registry rows to remove the FLOW-32 collision."
+  ],
+  "verification": {
+    "status": "passed-for-task-range-collision-fix",
+    "flow33Jest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=system-initiation-bootstrap --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "testSuites": "8 passed, 8 total",
+      "tests": "139 passed, 139 total",
+      "note": "The name pattern also matched FLOW-45 system-initiation-bootstrap-v2 suites; no failures."
+    },
+    "featureRegistryJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=feature-registry --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "testSuites": "8 passed, 8 total",
+      "tests": "141 passed, 141 total"
+    },
+    "typescript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0
+    },
+    "staticScanAfterFix": {
+      "root": "server/src/engine/flows/meta-arbitration",
+      "fileCount": 8,
+      "protocolThrowNewScan": 0,
+      "protocolExportedServiceScan": 0,
+      "protocolServicesMissingMicroserviceBase": 0,
+      "protocolClsImportScan": 0,
+      "failureLines": 0,
+      "note": "The protocol's exported *Service class scan returns zero because the FLOW-33 classes are task-named in .service.ts files; directory/name correction remains tracked in the FLOW-33 state file."
+    },
+    "activeOldTaskReferenceScan": {
+      "command": "Scan active FLOW-33 contract, bootstrap, service, and test files for old T516-T522 task declarations.",
+      "result": "NO_ACTIVE_FLOW33_OLD_TASK_RANGE_REFERENCES"
+    },
+    "rangeAssertions": {
+      "flow32BootstrapRange": "FLOW-32 remains T516-T535",
+      "flow33BootstrapRange": "FLOW-33 is T536-T542",
+      "flow33ContractRange": "FLOW-33 generation-loop contracts are T536-T542",
+      "bundleActivationBootstrapCall": "FLOW-00 bundle activation references T536 BootstrapOrchestrator"
+    }
+  },
+  "result": "PASS",
+  "nextPhase": "directoryNameCorrection"
+}

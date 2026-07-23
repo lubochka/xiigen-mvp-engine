@@ -1,0 +1,12 @@
+{
+  "eventType": "SchemaRegistrationRequested",
+  "flowId": "FLOW-11",
+  "version": "1.0.0",
+  "properties": {
+    "schemaType": { "type": "string", "required": true },
+    "jsonSchema": { "type": "object", "required": true },
+    "requestedBy": { "type": "string", "required": true },
+    "dependencies": { "type": "array", "items": { "type": "string" }, "required": false },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

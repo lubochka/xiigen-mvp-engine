@@ -1,0 +1,83 @@
+{
+  "taskTypeId": "T617",
+  "flowId": "FLOW-18",
+  "name": "FlowCanvasWriter",
+  "archetype": "VISUAL_CREATION",
+  "domainId": "visual-flow-engine",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T617-1",
+      "rule": "BOLA check (flow.tenantId === ALS.tenantId) at ORDER 1 — before any state check or write. Cross-tenant canvas hijacking rejected immediately.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T617-2",
+      "rule": "FLOW_IMMUTABLE guard (flow.status !== PUBLISHED) at ORDER 2 — after BOLA, before any write. FlowImmutableRejected emitted on published flow write.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T617-3",
+      "rule": "Canvas write (storeDocument or updateDocument) at ORDER 3 — only if DRAFT state confirmed. No write attempt on PUBLISHED flows.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T617-4",
+      "rule": "storeDocument(audit) at ORDER 4 BEFORE enqueue(FlowCanvasUpdated). DNA-8.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T617-5",
+      "rule": "FlowImmutableRejected emitted on published flow write attempt. FlowCanvasUpdateFailed emitted on BOLA violation.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1547",
+      "token": "IFlowCanvasService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1548",
+      "token": "ICanvasAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "BOLA_OWNERSHIP_CHECK",
+    "FLOW_IMMUTABLE_STATE_GUARD",
+    "DRAFT_ONLY_WRITE"
+  ],
+  "freedomComponents": [
+    "flow_canvas_max_nodes",
+    "flow_canvas_max_edges"
+  ],
+  "stackCoupling": {
+    "queue": ["FlowCanvasUpdated", "FlowCanvasUpdateFailed", "FlowImmutableRejected"],
+    "database": ["xiigen-flow-canvases", "xiigen-canvas-audit"]
+  },
+  "handlers": [
+    "validate_bola_ownership",
+    "enforce_flow_immutable_guard",
+    "write_canvas_content",
+    "write_canvas_audit",
+    "emit_flow_canvas_updated"
+  ],
+  "namedChecks": [
+    "bola_before_immutable_guard",
+    "immutable_guard_before_write",
+    "draft_state_confirmed",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "visual-flow",
+    "canvas-write",
+    "BOLA",
+    "FLOW_IMMUTABLE",
+    "DRAFT",
+    "PUBLISHED",
+    "validation"
+  ],
+  "keywords": "flow canvas writer BOLA FLOW_IMMUTABLE DRAFT PUBLISHED FlowCanvasUpdated FlowImmutableRejected two-guard state T617 visual flow engine"
+}

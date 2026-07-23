@@ -1,0 +1,12 @@
+{
+  "eventType": "reputation.updated",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "targetEntityId": { "type": "string", "required": true },
+    "targetEntityType": { "type": "string", "required": true },
+    "score": { "type": "number", "minimum": 1.0, "maximum": 5.0, "required": true },
+    "reviewCount": { "type": "integer", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

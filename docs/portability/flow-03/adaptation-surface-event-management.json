@@ -1,0 +1,103 @@
+{
+  "flowSlug": "event-management",
+  "flowId": "FLOW-03",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2",
+  "generatedAt": "2026-04-23",
+  "generator": "Phase 1 AI read of STEP-1-INVARIANTS + engine-contracts/event-management-contracts.ts + 4 service files",
+
+  "freedomKeys": [
+    {
+      "name": "flow03_max_events_per_organizer",
+      "currentDefault": "per contracts (value TBD — read at P2)",
+      "semantics": "Max events an organizer can create per rolling calendar month before rate-limit error",
+      "irCitation": "CF-03-rateLimit (event-creation.service.ts A1; contracts:147)",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A", "TYPE-D"],
+      "readBy": ["EventCreationOrchestrator (event-creation.service.ts:143)"],
+      "observableVia": "POST /events response — RATE_LIMIT_EXCEEDED when threshold crossed; acme override lowers threshold (e.g. 50 \u2192 3) to prove divergence"
+    },
+    {
+      "name": "flow03_max_attendees",
+      "currentDefault": "per contracts (contracts:245)",
+      "semantics": "Default max attendees per event when organizer does not explicitly set capacity",
+      "irCitation": "CF-03-capacity (event-registration.service.ts IR-60-3)",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"],
+      "readBy": ["EventRegistrationManager (event-registration.service.ts:161)"],
+      "observableVia": "GET /events/{id} — capacity field; registration returns WAITLIST when full; acme override (e.g. 100 \u2192 10) proves divergence"
+    },
+    {
+      "name": "flow03_waitlist_max_size",
+      "currentDefault": "per contracts (contracts — verify at P2 read site)",
+      "semantics": "Max waitlist size before WAITLIST_FULL rejection when event at capacity",
+      "irCitation": "CF-03-waitlist (event-registration.service.ts IR-60-3 docblock)",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A", "TYPE-D"],
+      "readBy": ["EventRegistrationManager (event-registration.service.ts — verify read site at P2)"],
+      "observableVia": "Registration response — WAITLIST_FULL vs WAITLIST; acme override (e.g. 500 \u2192 5) proves rapid waitlist saturation"
+    },
+    {
+      "name": "flow03_promotion_channels",
+      "currentDefault": "per contracts (contracts:326)",
+      "semantics": "Comma- or array-encoded list of enabled promotion channels (in-app, push, email, sms)",
+      "irCitation": "CF-03-channels (event-promotion.service.ts docblock)",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A", "TYPE-B"],
+      "readBy": ["EventPromotionEngine (event-promotion.service.ts:121)"],
+      "observableVia": "NotificationsSent event payload — channels array; acme override (e.g. ['in-app','push','email'] \u2192 ['in-app']) proves channel pruning"
+    },
+    {
+      "name": "flow03_analytics_counter_ttl",
+      "currentDefault": "per contracts (contracts:424)",
+      "semantics": "TTL (seconds) for analytics counter records before aggregation rollup",
+      "irCitation": "CF-03-analytics (event-analytics.service.ts docblock)",
+      "profile": 3,
+      "adaptationTypes": ["TYPE-A"],
+      "readBy": ["EventAnalyticsTracker (event-analytics.service.ts:113)"],
+      "observableVia": "NOT DIRECTLY TENANT-VISIBLE — internal data retention; acme would rarely override profile-3 keys; include only for completeness"
+    },
+    {
+      "name": "flow03_campaign_engagement_threshold",
+      "currentDefault": "per contracts (event-analytics.service.ts:127 — verify at P2)",
+      "semantics": "Minimum engagement score for PromotionCampaignCompleted to flag campaign as SUCCESSFUL",
+      "irCitation": "CF-03-analytics (event-analytics.service.ts docblock)",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"],
+      "readBy": ["EventAnalyticsTracker (event-analytics.service.ts:127)"],
+      "observableVia": "PromotionCampaignCompleted event payload — campaign.status SUCCESS vs BELOW_THRESHOLD; acme override (e.g. 0.6 \u2192 0.3) proves faster-SUCCESS classification"
+    }
+  ],
+
+  "adaptationCandidates": ["TYPE-A", "TYPE-B", "TYPE-C", "TYPE-D"],
+
+  "chosenAdaptationForThisSession": {
+    "type": "TYPE-A",
+    "category": "FREEDOM-config parametric override",
+    "rationale": "Parallel to FLOW-02 successful TIER-D precedent. TYPE-A is the fastest demonstrable proof with tenant-observable behavior. Covers Req-3 (AI adaptation) without introducing grammar changes or role scope expansion.",
+    "proposedKeys": [
+      "flow03_max_events_per_organizer  (organiser-facing rate limit — high UX visibility)",
+      "flow03_max_attendees  (capacity cap — high UX visibility in registration flow)",
+      "flow03_waitlist_max_size  (waitlist behavior divergence — edge case TYPE-D covered by same test)",
+      "flow03_promotion_channels  (notification fan-out divergence — touches FLOW-03→FLOW-04 boundary)"
+    ],
+    "whyFourKeys": "FLOW-02 proved 6 keys; FLOW-03 has 6 keys in surface but 4 are high-UX-visibility. Choosing 4 keeps Layer 1 spec focused while proving each orthogonal surface (creation gate, registration gate, waitlist gate, promotion fan-out).",
+    "excludedKeys": [
+      "flow03_analytics_counter_ttl (profile 3 — internal retention; not tenant-observable)",
+      "flow03_campaign_engagement_threshold (profile 2 but deep-internal state; deferrable to v1.0.x)"
+    ]
+  },
+
+  "crossFlowBoundary": {
+    "readsFromFLOW02": "none (confirmed via grep)",
+    "readsFromFLOW04": "none (confirmed — CloudEvents queue only)",
+    "emitsToFLOW04": [
+      "xiigen.flow03.event.created   \u2192 FLOW-04 RSVPOrchestrator",
+      "xiigen.flow03.target.audience.identified \u2192 FLOW-04 NotificationService",
+      "xiigen.flow03.feeds.updated   \u2192 FLOW-04 (via UI layer)",
+      "xiigen.flow03.promotion.campaign.completed \u2192 Billing (no direct FLOW-04 consumption)"
+    ],
+    "coInstallImpact": "Installing FLOW-03 alone is valid for organiser experience (create + list events); installing without FLOW-04 degrades attendee experience (no RSVP, no waitlist, no check-in). A tenant consuming the full event lifecycle SHOULD install FLOW-03 + FLOW-04 together; tenant consuming organiser-only tooling CAN install FLOW-03 alone."
+  },
+
+  "phase1Verdict": "PASS — 6 FREEDOM keys with four-field catalog populated; at least 4 tenant-observable and scoped for Phase 2 adaptation. GAP-09 is NOT applicable (flow03_ prefix is consistent). READY for Phase 2 apply-and-verify."
+}

@@ -1,0 +1,383 @@
+[
+  {
+    "patternId": "FLOW-03-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "Return eventId at storage. Everything after EventCreated is async — organizer does not wait for audience scoring or notifications.",
+    "positiveExample": "NODE A2 stores event, emits EventCreated, returns { eventId } synchronously. B/C/T62 all async.",
+    "negativeExample": "Organizer waits for search indexing or audience matching before receiving eventId — unusable UX.",
+    "discriminatingConstraint": "Synchronous response boundary ends at storage — not at completion of downstream async operations.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R1.md (DR-03-A)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design"
+    ],
+    "keywords": "eventId storage Everything EventCreated async organizer wait audience scoring notifications"
+  },
+  {
+    "patternId": "FLOW-03-DR-02",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "T62 Campaign Analytics is time-decoupled from NODE D completion gate. EventPromotionCompleted fires when promotion pipeline completes (minutes). PromotionCampaignCompleted fires after 7-day attribution window. Never couple them.",
+    "positiveExample": "T62 triggers on EventCreated independently. NODE D gate: A2+B2+C1+C2. T62 NOT in gate.",
+    "negativeExample": "Include T62 in NODE D gate — EventPromotionCompleted fires 7 days later. FLOW-08 receives nothing during promotion window. No local error.",
+    "discriminatingConstraint": "When two processes have different time scales, they must have different completion events.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R1.md (DR-03-B)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "promotion",
+      "analytics"
+    ],
+    "keywords": "Campaign Analytics time-decoupled completion gate EventPromotionCompleted fires promotion pipeline completes minutes PromotionCampaignCompleted"
+  },
+  {
+    "patternId": "FLOW-03-DR-03",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "Feed injection uses F201 IFeedInjectionService (WRITE interface), not FLOW-02's F188/F189 (READ interfaces). Same domain, different operations, different scaling profiles.",
+    "positiveExample": "C1 declares dependency on F201 IFeedInjectionService. CQRS: read and write are separate interfaces.",
+    "negativeExample": "Reuse existing feed service from FLOW-02 — CQRS violation. Read interface cannot handle mass writes. Fails silently under load.",
+    "discriminatingConstraint": "When read and write serve the same domain, they require separate interfaces with separate scaling profiles.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R1.md (DR-03-C)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design"
+    ],
+    "keywords": "Feed injection uses F201 IFeedInjectionService WRITE interface FLOW-02 F188 F189 READ interfaces"
+  },
+  {
+    "patternId": "FLOW-03-DR-04",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "Notification channel selection is a platform trust boundary, not an organizer preference. Channel rules are MACHINE. Wording is FREEDOM. An organizer who can select SMS for all users at score 0.1 can flood the platform.",
+    "positiveExample": "C2 channel rules MACHINE: IN_APP=always, PUSH=score>=0.6, EMAIL=score>=0.4, SMS=urgent+score>=0.8+50km.",
+    "negativeExample": "Let organizer select push, email, SMS for their event — platform trust boundary violated.",
+    "discriminatingConstraint": "Channel selection is enforcement, not configuration.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R1.md (DR-03-D)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "freedom-config"
+    ],
+    "keywords": "Notification channel selection platform trust boundary organizer preference rules MACHINE Wording FREEDOM"
+  },
+  {
+    "patternId": "FLOW-03-DR-05",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "Audience scoring reads from xiigen-matching-profiles (GLOBAL index written by FLOW-02 A1). Never reads from xiigen-business-profiles (PRIVATE). Four public-safe fields only.",
+    "positiveExample": "B1 reads from xiigen-matching-profiles GLOBAL. Security arbiter BLOCKS any read from PRIVATE profiles.",
+    "negativeExample": "Score users using their full business profiles — PRIVATE data exposed during scoring. No local error.",
+    "discriminatingConstraint": "Matching reads from the GLOBAL index. The GLOBAL record IS the enforcement layer.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R1.md (DR-03-E)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "scope-isolation"
+    ],
+    "keywords": "Audience scoring reads xiigen-matching-profiles GLOBAL index written FLOW-02 xiigen-business-profiles PRIVATE Four public-safe"
+  },
+  {
+    "patternId": "FLOW-03-DR-06",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "A niche event with zero matching users is a valid successful promotion. audienceSize:0 is not an error. The event must exist for future matching when new users onboard.",
+    "positiveExample": "NODE D gate passes with audienceSize:0. EventPromotionCompleted emits. DR-03-F.",
+    "negativeExample": "audienceSize:0 → DataProcessResult.failure or gate blocks — prevents future discovery of the event.",
+    "discriminatingConstraint": "Empty result is a valid state. No result is the only failure.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.9,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R2.md (DR-03-F)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "promotion"
+    ],
+    "keywords": "niche zero matching users valid successful promotion audienceSize error exist future onboard"
+  },
+  {
+    "patternId": "FLOW-03-DR-07",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "T62 emits 'PromotionCampaignCompleted' — not 'EventPromotionCompleted'. Two events, same trigger (EventCreated), different timelines, different consumers. Same name = duplicate signal to FLOW-08.",
+    "positiveExample": "T62 triggers on EventCreated. Emits 'PromotionCampaignCompleted' after 7-day window.",
+    "negativeExample": "T62 emits 'EventPromotionCompleted' — collision with NODE D. FLOW-08 receives duplicate bootstrap. No local error.",
+    "discriminatingConstraint": "Time-decoupled processes share a trigger but must produce separate completion events.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R2.md (T62 IronRules arbiter)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "promotion"
+    ],
+    "keywords": "PromotionCampaignCompleted EventPromotionCompleted events trigger EventCreated different timelines consumers name duplicate signal FLOW-08"
+  },
+  {
+    "patternId": "FLOW-03-DR-08",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "A3 reads the stored event's knowledgeScope before writing the index entry. Unconditional GLOBAL indexing makes private paid events searchable cross-tenant. No local error.",
+    "positiveExample": "A3 reads event's stored knowledgeScope. GLOBAL events → GLOBAL index entry. PRIVATE events → PRIVATE index entry.",
+    "negativeExample": "A3 unconditionally writes knowledgeScope:GLOBAL — private events leak cross-tenant via search.",
+    "discriminatingConstraint": "Scope set at creation (A2) propagates to all derived records. Each derived-record writer reads source scope.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R2.md (A3 conditional scope)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "tenant-scope",
+      "multi-tenant",
+      "scope-isolation",
+      "cross-flow"
+    ],
+    "keywords": "reads knowledgeScope writing index entry Unconditional GLOBAL indexing private paid events searchable"
+  },
+  {
+    "patternId": "FLOW-03-DR-09",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-03",
+    "teachingPoint": "A1 isPaidEvent check requires a payment config read from xiigen-payment-configs. If this read is absent, paid events are created without payment setup. Failure surfaces at payment time with no traceable connection to A1.",
+    "positiveExample": "A1 CONNECTIONS: reads from xiigen-payment-configs when isPaidEvent=true. PAYMENT_CONFIG_MISSING if absent.",
+    "negativeExample": "Validation-only node with no reads — isPaidEvent check silently passes on null config.",
+    "discriminatingConstraint": "MACHINE checks that depend on external records must name the read source in CONNECTIONS.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.89,
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R2.md (A1 payment config)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "config-over-code",
+      "payment"
+    ],
+    "keywords": "isPaidEvent check payment config read xiigen-payment-configs absent paid events created without setup"
+  },
+  {
+    "patternId": "FLOW-03-RAG-01",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "BROADCAST",
+    "tags": [
+      "cqrs",
+      "write-interface",
+      "feed-injection",
+      "scaling"
+    ],
+    "keywords": "CQRS write interface feed injection F201 IFeedInjectionService mass write ZADD scaling",
+    "teachingPoint": "When read and write serve the same domain, they are different interfaces with different scaling profiles. FLOW-02's F188/F189 reads a user's feed (cache-optimized). F201 injects one event into N users' feeds (write-optimized ZADD). Reusing the read interface for mass writes produces wrong architecture that fails silently under load.",
+    "ironRules": [
+      "F201 IFeedInjectionService is the ONLY interface for mass feed injection",
+      "F188/F189 read interfaces must not be called in a loop for write operations",
+      "Write path scales independently of read path — separate interfaces enforce this"
+    ],
+    "codeSnippet": "// CORRECT: write interface\nawait this.feedInjection.injectBatch(audienceIds, event); // F201\n// WRONG: read interface reused for writes\nfor (const id of audienceIds) { await this.feedRead.getUserFeed(id); }",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "qualityScore": 0.93,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R1.md"
+  },
+  {
+    "patternId": "FLOW-03-RAG-02",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "ORCHESTRATION",
+    "tags": [
+      "time-decoupled",
+      "completion-events",
+      "machine-constant",
+      "attribution-window"
+    ],
+    "keywords": "time decoupled completion events different timescale attribution window PromotionCampaignCompleted EventPromotionCompleted",
+    "teachingPoint": "When two processes triggered by the same event have different time scales, they must have different completion events. Coupling a 15-minute process and a 7-day process in one gate delays the 15-minute process by 7 days.",
+    "ironRules": [
+      "Processes with different time scales emit distinct completion events",
+      "T62 emits 'PromotionCampaignCompleted' — never 'EventPromotionCompleted'",
+      "NODE D gate excludes T62 — T62 resolves after 7-day attribution window"
+    ],
+    "codeSnippet": "// NODE D gate — excludes T62:\nif (a2Done && b2Done && c1Done && c2Done) emit('EventPromotionCompleted')\n// T62 separately, after 7-day window:\nemit('PromotionCampaignCompleted') // MACHINE literal — not EventPromotionCompleted",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "qualityScore": 0.92,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R1.md"
+  },
+  {
+    "patternId": "FLOW-03-RAG-03",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "BROADCAST",
+    "tags": [
+      "platform-trust-boundary",
+      "machine-rules",
+      "notification-channel",
+      "freedom-config"
+    ],
+    "keywords": "notification channel machine rules platform trust boundary MACHINE enforcement wording FREEDOM SMS push email threshold",
+    "teachingPoint": "Notification channel selection is a platform trust boundary. Actor-configurable channel selection allows flooding. Channel rules are MACHINE: the platform decides which channel fires at which score threshold. Wording is FREEDOM (tenant-configurable). Rules are not.",
+    "ironRules": [
+      "Channel selection (IN_APP/PUSH/EMAIL/SMS) is MACHINE — score-threshold rules, not organizer config",
+      "Channel wording is FREEDOM — tenant configures message content, not channel",
+      "Organizer-selectable channels = platform trust boundary violation"
+    ],
+    "codeSnippet": "// MACHINE: channel by score\nif (score >= 0.8) sendPush(); // platform rule\nif (score >= 0.5) sendEmail(); // platform rule\n// FREEDOM: wording only\nconst msg = freedomConfig.get('flow03_promotion_message')",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "qualityScore": 0.91,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R1.md"
+  },
+  {
+    "patternId": "FLOW-03-RAG-04",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-03",
+    "domainId": "event-management",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "DATA_PIPELINE",
+    "tags": [
+      "conditional-scope",
+      "scope-propagation",
+      "private-events",
+      "derived-records"
+    ],
+    "keywords": "conditional scope propagation private events derived records PRIVATE GLOBAL knowledgeScope A3 index",
+    "teachingPoint": "Scope set at creation time propagates to all derived records. Each derived-record writer reads the source record's scope. Hardcoding scope in derived records defeats the conditional scope established at creation — silently and permanently.",
+    "ironRules": [
+      "A3 reads the stored event's knowledgeScope before writing the search index entry",
+      "PRIVATE events produce PRIVATE index entries — never unconditionally GLOBAL",
+      "Derived record scope = source record scope — never hardcoded"
+    ],
+    "codeSnippet": "// CORRECT: read scope from source\nconst event = await db.get(eventId);\nawait indexEntry({ ...fields, knowledgeScope: event.knowledgeScope });\n// WRONG: hardcoded\nawait indexEntry({ ...fields, knowledgeScope: 'GLOBAL' });",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "qualityScore": 0.91,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-03-DESIGN-SIMULATION-R2.md"
+  }
+]

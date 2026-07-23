@@ -1,0 +1,182 @@
+﻿{
+    "flowId":  "FLOW-13",
+    "flowSlug":  "data-warehouse-analytics",
+    "phase":  "phase5cTenantCInstalls",
+    "status":  "completed",
+    "capturedAt":  "2026-05-06T09:10:39.1306288+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "northwind",
+                         "repo":  "lubochka/northwind--northwind-exchange-warehouse-analytics",
+                         "package":  "@xiigen-fork/northwind-exchange-warehouse-analytics",
+                         "version":  "1.0.2"
+                     },
+    "marketplaceFork":  {
+                            "method":  "POST /api/marketplace/packages/data-warehouse-analytics/fork",
+                            "createdByMarketplaceApi":  true,
+                            "manualRepoCreationUsed":  false,
+                            "httpClientTimedOut":  true,
+                            "timeoutNote":  "The PowerShell HTTP client timed out after 120 seconds, but the backend completed the marketplace fork and created the real GitHub repo.",
+                            "sourceRepoFullName":  "lubochka/northwind--northwind-exchange-warehouse-analytics",
+                            "repoFullName":  "lubochka/tessera-collective--northwind-exchange-warehouse-analytics",
+                            "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-exchange-warehouse-analytics",
+                            "initialCommitSha":  "18a017305ba0eec252d33ab14c44f12b9eb3bd3a",
+                            "initialVersion":  "1.0.2",
+                            "forkId":  "fork-data-warehouse-analytics-tessera-collective"
+                        },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--northwind-exchange-warehouse-analytics",
+                             "url":  "https://github.com/lubochka/tessera-collective--northwind-exchange-warehouse-analytics",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "18a017305ba0eec252d33ab14c44f12b9eb3bd3a",
+                             "repairCommit":  "dc203b2082821fe02c86b740655964bdcb52d43e",
+                             "repairCommitMessage":  "Repair Tessera install proof for Northwind analytics",
+                             "repairActionsRun":  {
+                                                      "runId":  25419284445,
+                                                      "url":  "https://github.com/lubochka/tessera-collective--northwind-exchange-warehouse-analytics/actions/runs/25419284445",
+                                                      "status":  "completed",
+                                                      "conclusion":  "success",
+                                                      "headSha":  "dc203b2082821fe02c86b740655964bdcb52d43e",
+                                                      "createdAt":  "2026-05-06T06:05:28Z",
+                                                      "updatedAt":  "2026-05-06T06:06:22Z"
+                                                  },
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-exchange-warehouse-analytics-phase5c-20260506-090256",
+                             "filesChangedInTenantRepo":  [
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/data-warehouse-analytics-acme-adaptation.spec.ts",
+                                                              "__tests__/data-warehouse-analytics-northwind-adaptation.spec.ts",
+                                                              "settings/module.settings.json"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  3,
+                                                                 "tests":  8
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  128
+                                                             }
+                                                         ],
+                             "installProof":  {
+                                                  "tenantConfigTenantId":  "tessera-collective",
+                                                  "installedFromRepoFullName":  "lubochka/northwind--northwind-exchange-warehouse-analytics",
+                                                  "adaptationHistoryEntries":  2,
+                                                  "firstAdaptationTenantId":  "acme-corp",
+                                                  "secondAdaptationTenantId":  "northwind",
+                                                  "settingsTenantIdRepairedTo":  "tessera-collective"
+                                              }
+                         },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "packageName":  "@xiigen-fork/northwind-exchange-warehouse-analytics",
+                          "version":  "1.0.2",
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-exchange-warehouse-analytics/-/northwind-exchange-warehouse-analytics-1.0.2.tgz",
+                          "shasum":  "429248a47c11d49cc81f71251783d7d3acdd1942",
+                          "gitHead":  "20074df8746706e5547a329b8737b022b9d2c4b8",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/data-warehouse-analytics-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b",
+                                                      "count":  9,
+                                                      "zeroByteFiles":  0,
+                                                      "roles":  [
+                                                                    "tenant-admin",
+                                                                    "business-partner",
+                                                                    "platform-admin"
+                                                                ],
+                                                      "cells":  [
+                                                                    "C2-en-populated",
+                                                                    "C4-he-rtl-populated",
+                                                                    "C6-en-mobile"
+                                                                ],
+                                                      "files":  [
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/business-partner-C2-en-populated.png",
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/business-partner-C4-he-rtl-populated.png",
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/business-partner-C6-en-mobile.png",
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/platform-admin-C2-en-populated.png",
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/platform-admin-C4-he-rtl-populated.png",
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/platform-admin-C6-en-mobile.png",
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/tenant-admin-C2-en-populated.png",
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/tenant-admin-C4-he-rtl-populated.png",
+                                                                    "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b/tenant-admin-C6-en-mobile.png"
+                                                                ]
+                                                  },
+                           "screenshots":  [
+                                               "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b",
+                                               "docs/e2e-snapshots/repo-evidence/flow-13/tessera-collective--northwind-exchange-warehouse-analytics-tenant-c-installed-from-b-github-listing.png",
+                                               "docs/e2e-snapshots/repo-evidence/flow-13/tessera-collective--northwind-exchange-warehouse-analytics-tenant-c-installed-from-b-actions-success.png",
+                                               "docs/e2e-snapshots/marketplace/data-warehouse-analytics-northwind-v1.0.2-registry-listing-phase5c.png"
+                                           ]
+                       },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "client/e2e/data-warehouse-analytics-tenant-c-installed.spec.ts"
+                                                        ],
+                                              "purpose":  "Render and verify FLOW-13 cascade-point visual evidence under docs/e2e-snapshots/data-warehouse-analytics/tenant-c-installed-from-b."
+                                          },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantCInstalledPlaywright":  {
+                                                                      "command":  "Push-Location client; npx playwright test e2e/data-warehouse-analytics-tenant-c-installed.spec.ts --project=chromium-desktop; Pop-Location",
+                                                                      "result":  "passed",
+                                                                      "tests":  9
+                                                                  },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  2,
+                                                      "tests":  63
+                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "clsImports":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCForkedTenantBAdaptedSource":  true,
+                      "tenantCInstalledPackagePreservedTenantBValues":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localRegistryReturnsTenantBPackage":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantCAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

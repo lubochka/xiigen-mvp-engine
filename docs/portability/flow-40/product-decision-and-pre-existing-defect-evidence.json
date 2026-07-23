@@ -1,0 +1,42 @@
+{
+  "flowId": "FLOW-40",
+  "flowSlug": "client-push",
+  "phase": "product-decision-and-pre-existing-defect-check",
+  "status": "completed",
+  "generatedAt": "2026-05-11T23:04:11.455Z",
+  "productDecision": {
+    "classification": "cross-cutting delivery substrate",
+    "roleMap": {
+      "full": [
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "partial": [
+        "platform-support"
+      ]
+    },
+    "routing": "existing /admin/client-push route with role query coverage"
+  },
+  "preExistingDefectCheck": {
+    "jestBeforeFix": {
+      "command": "server npx jest --testPathPatterns=client-push --runInBand",
+      "passed": 37,
+      "failed": 0
+    },
+    "staticBeforeFix": {
+      "serviceFiles": 3,
+      "missingMicroserviceBase": 3,
+      "missingConnectionAnnotation": 3,
+      "throwNew": 0,
+      "clsImports": 0,
+      "directTenantContextMentions": 0
+    },
+    "fixApplied": [
+      "Added MicroserviceBase and ServiceDescriptor to T587-T589 services.",
+      "Added FLOW_SCOPED portability annotations.",
+      "Renamed SseConnectionManager db injection to dbFabric to avoid MicroserviceBase db getter collision."
+    ]
+  },
+  "verdict": "PASS"
+}

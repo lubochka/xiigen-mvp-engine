@@ -1,0 +1,81 @@
+{
+  "flowId": "FLOW-39",
+  "flowSlug": "oss-curriculum",
+  "phase": "phase-h-auth-decoration-post-cascade",
+  "status": "completed",
+  "generatedAt": "2026-05-11T22:25:28.933Z",
+  "tenantRepos": [
+    "lubochka/acme-corp--oss-curriculum-f39",
+    "lubochka/northwind--oss-curriculum-f39",
+    "lubochka/tessera-collective--oss-curriculum-f39"
+  ],
+  "packages": [
+    "@xiigen-fork/acme-oss-curriculum-lab@1.0.1",
+    "@xiigen-fork/northwind-shadow-learning-hub@1.0.2",
+    "@xiigen-fork/tessera-oss-teaching-loop@1.0.3"
+  ],
+  "authMatrix": [
+    {
+      "name": "valid token in acme tenant returns 200",
+      "tenantContext": "acme-corp",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "name": "valid token in northwind tenant returns 200",
+      "tenantContext": "northwind",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "name": "valid token in tessera tenant returns 200",
+      "tenantContext": "tessera-collective",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "name": "missing token returns 401",
+      "tenantContext": "acme-corp",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant A token in tenant B context returns 401",
+      "tenantContext": "northwind",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant B token in tenant C context returns 401",
+      "tenantContext": "tessera-collective",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant A token in tenant C context returns 401",
+      "tenantContext": "tessera-collective",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "wrong role token on role-protected route returns 403",
+      "tenantContext": "acme-corp",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "total": 8,
+    "failed": 0
+  },
+  "verdict": "PASS"
+}

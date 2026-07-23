@@ -1,0 +1,149 @@
+# ═══════════════════════════════════════════════════════
+# XIIGen Engine — Docker Compose
+# ═══════════════════════════════════════════════════════
+#
+# Usage:
+#   docker compose up                    → server + client
+#   docker compose --profile infra up    → server + client + elasticsearch + redis
+#
+# Health checks on all services.
+# Environment from .env file (copy .env.example → .env).
+
+version: "3.9"
+
+services:
+  # ── Server (NestJS) ──────────────────────────────
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: xiigen-server
+    ports:
+      - "${SERVER_PORT:-3000}:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=3000
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_PRETTY=${LOG_PRETTY:-false}
+      - DATABASE_PROVIDER=${DATABASE_PROVIDER:-in_memory}
+      - QUEUE_PROVIDER=${QUEUE_PROVIDER:-in_memory}
+      - SECRETS_PROVIDER=${SECRETS_PROVIDER:-in_memory}
+      - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+      - VAULT_TOKEN=${VAULT_TOKEN:-}
+      - FLOW_MOBILITY_BOOTSTRAP_VAULT_CONFIG=${FLOW_MOBILITY_BOOTSTRAP_VAULT_CONFIG:-false}
+      - FLOW_MOBILITY_TEST_TENANTS=${FLOW_MOBILITY_TEST_TENANTS:-}
+      - SUBDOMAIN_BASE_DOMAIN=${SUBDOMAIN_BASE_DOMAIN:-}
+      - ELASTICSEARCH_URL=${ELASTICSEARCH_URL:-http://elasticsearch:9200}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health/live"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  # ── Client (React.js via nginx) ──────────────────
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: xiigen-client
+    ports:
+      - "80:80"
+    depends_on:
+      server:
+        condition: service_healthy
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+  # ── Elasticsearch (optional — infra profile) ─────
+  elasticsearch:
+    image: elasticsearch:8.12.0
+    container_name: xiigen-elasticsearch
+    profiles:
+      - infra
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # ── nano-graphrag (optional — infra profile) ────────
+  nano-graphrag:
+    build:
+      context: ./nano-graphrag-server
+      dockerfile: Dockerfile
+    container_name: xiigen-nano-graphrag
+    ports:
+      - "8080:8080"
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-mock}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://localhost:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5-coder:7b}
+      - WORKING_DIR=/app/graphrag_workspaces
+    volumes:
+      - graphrag-data:/app/graphrag_workspaces
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    profiles:
+      - infra
+    restart: unless-stopped
+
+  # ── Redis (optional — infra profile) ─────────────
+  redis:
+    image: redis:7-alpine
+    container_name: xiigen-redis
+    profiles:
+      - infra
+    ports:
+      - "6379:6379"
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+# ── Networks ─────────────────────────────────────────
+networks:
+  xiigen-net:
+    driver: bridge
+
+# ── Volumes ──────────────────────────────────────────
+volumes:
+  es-data:
+    driver: local
+  graphrag-data:
+    driver: local

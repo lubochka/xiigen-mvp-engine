@@ -1,0 +1,23 @@
+{
+  "patternId": "conflict-CF-1-email-uniqueness",
+  "patternType": "CONFLICT_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "cfId": "CF-1",
+  "trigger": "T47 creates user record without first checking email uniqueness",
+  "conflictDesc": "Duplicate user records created for same email. FK references corrupt. Cross-flow identity resolution breaks.",
+  "resolution": "Email uniqueness check via buildSearchFilter BEFORE storeDocument. Return DataProcessResult.failure('DUPLICATE_EMAIL') on collision.",
+  "flowScope": [
+    "FLOW-01"
+  ],
+  "severity": "CRITICAL",
+  "tags": [
+    "uniqueness",
+    "email",
+    "duplicate",
+    "registration",
+    "cf-1"
+  ],
+  "keywords": "email uniqueness duplicate registration user record conflict CF-1"
+}

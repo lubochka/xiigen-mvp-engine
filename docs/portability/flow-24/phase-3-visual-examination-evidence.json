@@ -1,0 +1,57 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "phase3VisualExamination",
+    "generatedAt":  "2026-05-10T10:51:46.0624048Z",
+    "verification":  {
+                         "clientTypeScript":  {
+                                                  "command":  "npx tsc --noEmit --pretty false",
+                                                  "workingDirectory":  "client",
+                                                  "exitCode":  0,
+                                                  "result":  "PASS"
+                                              },
+                         "visualAudit":  {
+                                             "command":  "$env:VITE_PORT=\"52424\"; npx playwright test visual-audit-axis-d-full.spec.ts --grep \"ai-safety-moderation\" --workers=1 --reporter=line",
+                                             "workingDirectory":  "client",
+                                             "exitCode":  0,
+                                             "passed":  18,
+                                             "failed":  0,
+                                             "viewports":  [
+                                                               "chromium-desktop",
+                                                               "chromium-tablet",
+                                                               "chromium-mobile"
+                                                           ],
+                                             "result":  "PASS"
+                                         },
+                         "pngEvidence":  [
+                                             {
+                                                 "path":  "docs/e2e-snapshots/visual-audit/chromium-desktop/ai-safety-moderation",
+                                                 "pngCount":  6,
+                                                 "emptyCount":  0,
+                                                 "totalBytes":  227221
+                                             },
+                                             {
+                                                 "path":  "docs/e2e-snapshots/visual-audit/chromium-tablet/ai-safety-moderation",
+                                                 "pngCount":  6,
+                                                 "emptyCount":  0,
+                                                 "totalBytes":  219255
+                                             },
+                                             {
+                                                 "path":  "docs/e2e-snapshots/visual-audit/chromium-mobile/ai-safety-moderation",
+                                                 "pngCount":  6,
+                                                 "emptyCount":  0,
+                                                 "totalBytes":  845403
+                                             }
+                                         ],
+                         "plainLanguageScan":  {
+                                                   "command":  "Select-String client/src/pages/ai-safety-moderation and client/src/components/ai-safety-moderation for internal terms",
+                                                   "failureLines":  0,
+                                                   "result":  "PASS"
+                                               }
+                     },
+    "repairedVisualHarness":  [
+                                  "visual-audit-axis-d-full now waits for domcontentloaded plus the existing settle delay instead of networkidle, matching the role-scoped page behavior.",
+                                  "FLOW-24 page comments, mock fixture labels, and raw-index classification literal were adjusted so tenant-facing source scans do not contain internal rule identifiers."
+                              ],
+    "verdict":  "PASS"
+}

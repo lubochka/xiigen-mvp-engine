@@ -1,0 +1,92 @@
+[
+  {
+    "patternId": "DR-30-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-30-01",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-30-02",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-30-03",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-30-04",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

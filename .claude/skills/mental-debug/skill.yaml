@@ -1,0 +1,20 @@
+name: mental-debug
+sk_number: SK-416
+version: "1.0.0"
+load_order: 16
+priority: RECOMMENDED
+status: APPROVED
+description: |
+  Runtime debugging discipline for the XIIGen engine. 14 rules covering pattern
+  recognition, execution tracing, boundary analysis, loop bugs, error handling gaps,
+  and XIIGen-specific failure modes (fabric resolution, tenant scope leaks,
+  sibling guard gaps, generated service compliance).
+triggers:
+  - "debug"
+  - "fabric returns wrong result"
+  - "tenant isolation broken"
+  - "AF pipeline quality flatlines"
+  - "BFA false positive"
+  - "silent failure"
+  - "wrong result"
+phase_created: 6

@@ -1,0 +1,267 @@
+{
+  "flowId": "FLOW-26",
+  "flowSlug": "meta-flow-engine",
+  "implementationSlug": "flow-extension-engine",
+  "flowTitle": "Meta Flow Engine",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-10",
+  "capturedBy": "Codex / FLOW-26 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-26-meta-flow-engine-functional-spec.md",
+    "server/src/engine-contracts/flow-extension-engine-contracts.ts",
+    "server/src/engine-contracts/flow-extension-engine-seed-prompts.ts",
+    "server/src/engine-contracts/meta-flow-engine-bfa-rules.ts",
+    "server/src/engine/flows/flow-extension-engine",
+    "docs/flow-coverage/meta-flow-engine/P1-business-logic-inventory.md",
+    "docs/flow-coverage/meta-flow-engine/P5-ui-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T389-T412",
+    "taskTypeIds": [
+      "T389",
+      "T390",
+      "T391",
+      "T392",
+      "T393",
+      "T394",
+      "T395",
+      "T396",
+      "T397",
+      "T398",
+      "T399",
+      "T400",
+      "T401",
+      "T402",
+      "T403",
+      "T404",
+      "T405",
+      "T406",
+      "T407",
+      "T408",
+      "T409",
+      "T410",
+      "T411",
+      "T412"
+    ],
+    "freedomKeyCount": 10,
+    "securityClassification": "engine-internal meta-flow proposal, generation, validation, registration, deployment, learning, audit, and health scoring controls",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-26 keeps meta-flow-engine as the portability/UI/package slug while current runtime services live under server/src/engine/flows/flow-extension-engine. Fork assembly copies that implementation directory into the canonical meta-flow-engine package path.",
+    "coreGuarantees": [
+      "Flow specifications remain tenant-scoped and idempotent.",
+      "Spec validation blocks invalid task plans before code generation.",
+      "Dependency mapping keeps cross-flow impact explicit.",
+      "Generated service code retains DataProcessResult return contracts.",
+      "Generated tests and contracts remain linked to the source task types.",
+      "DNA compliance checks and conflict scans remain deployment-blocking.",
+      "Quality gates and syntax validation must pass before registration.",
+      "Task type, factory, seed prompt, and deployment registration remain ordered.",
+      "Learning, evolution tracking, audit, and health scoring remain append-only records.",
+      "Meta-flow orchestration records are stored before downstream events."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-26 creates or extends engine capabilities, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-26 operating values. Tenants may tune proposal confidence thresholds, variant counts, review timeouts, deployment phase labels, audit channel display, and module naming without changing tenant isolation, outbox order, DNA checks, BFA conflict checks, or package provenance requirements.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow26_min_confidence_score",
+          "type": "number",
+          "default": 0.72,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 0.5,
+            "max": 0.95
+          }
+        },
+        {
+          "key": "flow26_max_variants_per_request",
+          "type": "number",
+          "default": 3,
+          "unit": "variants",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 5
+          }
+        },
+        {
+          "key": "flow26_generation_timeout_seconds",
+          "type": "number",
+          "default": 120,
+          "unit": "seconds",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 30,
+            "max": 600
+          }
+        },
+        {
+          "key": "flow26_review_required_before_deploy",
+          "type": "boolean",
+          "default": true,
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "allowedValues": [
+              true
+            ]
+          }
+        },
+        {
+          "key": "flow26_quality_gate_threshold",
+          "type": "number",
+          "default": 0.85,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 0.75,
+            "max": 0.99
+          }
+        },
+        {
+          "key": "flow26_dependency_scan_depth",
+          "type": "number",
+          "default": 4,
+          "unit": "hops",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 8
+          }
+        },
+        {
+          "key": "flow26_audit_channels",
+          "type": "string-list",
+          "default": "web,cli,chat",
+          "stakeholder": "platform-support",
+          "boundedRange": {
+            "minimumRequiredValues": [
+              "web"
+            ]
+          }
+        },
+        {
+          "key": "flow26_health_degraded_threshold",
+          "type": "number",
+          "default": 0.65,
+          "unit": "ratio",
+          "stakeholder": "platform-support",
+          "boundedRange": {
+            "min": 0.4,
+            "max": 0.85
+          }
+        },
+        {
+          "key": "flow26_proposal_label",
+          "type": "string",
+          "default": "Meta-flow proposal",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "maxLength": 80
+          }
+        },
+        {
+          "key": "flow26_module_name",
+          "type": "string",
+          "default": "meta-flow-engine",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to meta-flow console naming, proposal confidence posture, review and generation timing, reporting channels, dependency-scan depth, and module naming.",
+      "edgeCases": [
+        {
+          "id": "acme-extension-control-room",
+          "name": "Acme extension control room",
+          "semantic": "Tenant A tunes the meta-flow package for stricter proposal approval and shorter generation-review cycles.",
+          "extensionPoint": "confidence threshold, timeout, quality threshold, module naming",
+          "currentImplementation": "DNA checks, conflict scans, tenant isolation, and store-before-event ordering remain fixed."
+        },
+        {
+          "id": "northwind-flow-foundry",
+          "name": "Northwind flow foundry",
+          "semantic": "Tenant B tunes the package for operations teams that need more variants and broader audit routing.",
+          "extensionPoint": "variant count, audit channels, proposal label",
+          "currentImplementation": "Task IDs, factory IDs, registration order, and deployment gate rules remain fixed."
+        },
+        {
+          "id": "tessera-capability-studio",
+          "name": "Tessera capability studio",
+          "semantic": "Tenant C tunes health and dependency thresholds for slower collaborative review cycles.",
+          "extensionPoint": "health threshold, dependency depth, timeout, proposal label",
+          "currentImplementation": "Append-only audit, learning records, and package provenance remain fixed."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T389 through T412 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Tenant scope is mandatory for every flow spec, dependency, registration, and audit record.",
+      "Generated services retain DataProcessResult return contracts.",
+      "DNA compliance checks remain mandatory before deployment.",
+      "Conflict scanning remains deployment-blocking when blocking conflicts are present.",
+      "Quality gates and syntax validation remain deployment-blocking.",
+      "Task type and factory registration order remains fixed.",
+      "Learning, evolution, and audit records remain append-only.",
+      "Meta-flow orchestration records are stored before downstream events.",
+      "Package provenance and GitHub Actions CI evidence remain required for certification."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAExtensionControlRoom": {
+      "description": "Tenant A tunes Meta Flow Engine for strict internal extension approval.",
+      "change": {
+        "flow26_min_confidence_score": 0.82,
+        "flow26_max_variants_per_request": 2,
+        "flow26_generation_timeout_seconds": 90,
+        "flow26_review_required_before_deploy": true,
+        "flow26_quality_gate_threshold": 0.9,
+        "flow26_dependency_scan_depth": 5,
+        "flow26_audit_channels": "web,chat",
+        "flow26_health_degraded_threshold": 0.72,
+        "flow26_proposal_label": "Acme extension proposal",
+        "flow26_module_name": "acme-extension-control-room"
+      },
+      "impact": "Tenant A gets stricter extension review defaults while DNA checks, conflict scanning, tenant isolation, package provenance, and outbox ordering stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T389-T412",
+      "implementation provider boundaries",
+      "Vault credential paths",
+      "tenant-scoped queries",
+      "DataProcessResult return contracts",
+      "DNA compliance requirement",
+      "blocking conflict scan behavior",
+      "quality gate and syntax validation requirement",
+      "registration ordering",
+      "append-only audit and evolution records",
+      "store-before-event ordering",
+      "package provenance requirements"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-26 configuration values or display/module metadata.",
+    "FLOW-26 services remain MicroserviceBase subclasses after fork assembly.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

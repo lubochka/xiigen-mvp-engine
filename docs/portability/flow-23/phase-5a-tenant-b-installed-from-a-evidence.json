@@ -1,0 +1,142 @@
+﻿{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phase5aTenantBInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T09:49:16.0528731Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "tenantName":  "Northwind"
+               },
+    "sourcePackage":  {
+                          "repoFullName":  "lubochka/acme-corp--acme-intake-template-studio",
+                          "packageName":  "@xiigen-fork/acme-intake-template-studio",
+                          "packageVersion":  "1.0.1",
+                          "sourceCommit":  "97a041ba34b2f9dad43aeec5aea19eecc94b6cee"
+                      },
+    "forkApi":  {
+                    "endpoint":  "POST /api/marketplace/packages/form-builder-templates/fork",
+                    "sourceRepoFullName":  "lubochka/acme-corp--acme-intake-template-studio",
+                    "repoNameOverride":  "northwind--acme-intake-template-studio",
+                    "response":  {
+                                     "forkId":  "fork-form-builder-templates-northwind",
+                                     "repoUrl":  "https://github.com/lubochka/northwind--acme-intake-template-studio",
+                                     "repoFullName":  "lubochka/northwind--acme-intake-template-studio",
+                                     "status":  "FORKED",
+                                     "initialCommitSha":  "ab1de79a5208799bce48e38ca55b6e043ce31d16"
+                                 }
+                },
+    "tenantRepository":  {
+                             "repo":  "lubochka/northwind--acme-intake-template-studio",
+                             "url":  "https://github.com/lubochka/northwind--acme-intake-template-studio",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "ab1de79a5208799bce48e38ca55b6e043ce31d16",
+                             "initialActionsRunId":  25625360539,
+                             "initialActionsConclusion":  "failure",
+                             "repairCommit":  "85e5bbf0d02d945dbbd3cab8c2c0961d84f427d8",
+                             "repairCommitMessage":  "Repair Acme adaptation test for Northwind cascade install",
+                             "githubActionsRunId":  25625447827,
+                             "githubActionsConclusion":  "success",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-intake-template-studio-phase5a-20260510-123728",
+                             "cleanCloneStatus":  "clean against repaired/main",
+                             "tenantConfig":  {
+                                                  "tenantId":  "northwind",
+                                                  "moduleName":  "acme-intake-template-studio",
+                                                  "repoFullName":  "lubochka/northwind--acme-intake-template-studio",
+                                                  "adaptationHistoryEntries":  1,
+                                                  "firstAdaptationTenant":  "acme-corp"
+                                              },
+                             "package":  {
+                                             "name":  "@xiigen-fork/acme-intake-template-studio",
+                                             "version":  "1.0.1"
+                                         },
+                             "bundleManifestItemCount":  129
+                         },
+    "tenantCloneVerification":  [
+                                    {
+                                        "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx tsc --noEmit --pretty false",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx jest --colors=false --forceExit",
+                                        "result":  "passed",
+                                        "suites":  2,
+                                        "tests":  4
+                                    },
+                                    {
+                                        "command":  "npm pack --dry-run --json",
+                                        "result":  "passed",
+                                        "entryCount":  130,
+                                        "shasum":  "1b4454cd6e8dc45653009c5f2f1b803bb5669b3f"
+                                    }
+                                ],
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "package":  "@xiigen-fork/acme-intake-template-studio",
+                          "version":  "1.0.1",
+                          "shasum":  "0ec8138aa517c20720948b2871051c9d01b53b9e",
+                          "gitHead":  "97a041ba34b2f9dad43aeec5aea19eecc94b6cee",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/form-builder-templates-acme-v1.0.1-registry-api-evidence-phase5a.json",
+                          "verified":  true
+                      },
+    "playwrightEvidence":  {
+                               "spec":  "client/e2e/form-builder-templates-tenant-b-installed.spec.ts",
+                               "command":  "VITE_PORT=52036 npx playwright test e2e/form-builder-templates-tenant-b-installed.spec.ts --project=chromium-desktop --reporter=dot --workers=3",
+                               "passed":  18,
+                               "failed":  0,
+                               "pngDirectory":  "docs/e2e-snapshots/form-builder-templates/tenant-b-installed-from-a",
+                               "pngCount":  18,
+                               "emptyPngCount":  0,
+                               "totalBytes":  662861
+                           },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/form-builder-templates-acme-v1.0.1-registry-listing-phase5a.png",
+                                                   "sizeBytes":  47942
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-23/northwind--acme-intake-template-studio-tenant-b-installed-from-a-github-listing.png",
+                                                   "sizeBytes":  132609
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-23/northwind--acme-intake-template-studio-tenant-b-installed-from-a-actions-success.png",
+                                                   "sizeBytes":  79098
+                                               }
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypescript":  "passed",
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "highRiskSecretPatternHits":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBForkedFromTenantARepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localCloneValidationPassed":  true,
+                      "localRegistryStillReturnsTenantAAdaptedVersion":  true,
+                      "playwrightCascadeScreenshotsPresent":  true,
+                      "repoEvidenceScreenshotsPresent":  true,
+                      "readyForTenantBAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,13 @@
+{
+  "_id": "template-74",
+  "templateId": 74,
+  "name": "collaboration-export-workflow",
+  "flow": "FLOW-23",
+  "nodes": [
+    { "position": 0, "taskTypeId": "T360", "name": "TenantIsolationEnforcer", "required": true, "note": "CF-447: MUST be position 0" },
+    { "position": 1, "taskTypeId": "T361", "name": "CollaborativeEditingSync" },
+    { "position": 2, "taskTypeId": "T362", "name": "VersionSnapshotCreate" },
+    { "position": 3, "taskTypeId": "T363", "name": "CodeExportGate" }
+  ],
+  "bfaRules": ["CF-447", "CF-446", "CF-448", "CF-449"]
+}

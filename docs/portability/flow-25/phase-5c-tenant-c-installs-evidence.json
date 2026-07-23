@@ -1,0 +1,103 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase-5c-tenant-c-installs",
+  "status": "passed",
+  "checkedAt": "2026-05-10T16:54:09.4535604+03:00",
+  "tenant": "tessera-collective",
+  "sourceTenant": "northwind",
+  "marketplaceFork": {
+    "endpoint": "POST /api/marketplace/packages/bfa-cross-flow-governance/fork",
+    "request": {
+      "flowId": "FLOW-25",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.2",
+      "repoNameOverride": "tessera-collective--northwind-risk-sentinel-console",
+      "sourceRepoFullName": "lubochka/northwind--risk-sentinel-console"
+    },
+    "response": {
+      "forkId": "fork-bfa-cross-flow-governance-tessera-collective",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-risk-sentinel-console",
+      "repoFullName": "lubochka/tessera-collective--northwind-risk-sentinel-console",
+      "status": "FORKED",
+      "initialCommitSha": "e5f24fa1e30f887db879682afd5ab60d698ef64c"
+    }
+  },
+  "registryReadback": {
+    "registry": "http://localhost:4873",
+    "package": "@xiigen-fork/northwind-risk-sentinel-console",
+    "version": "1.0.2",
+    "distTagLatest": "1.0.2",
+    "gitHead": "a4178a5d85ba50883433d2c5b3e7cefd98b43652",
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-risk-sentinel-console/-/northwind-risk-sentinel-console-1.0.2.tgz",
+    "shasum": "e6c75f91d9a63078634311f93dabd9d008d61633",
+    "matchesTenantBAdaptedVersion": true,
+    "apiEvidence": "docs/e2e-snapshots/marketplace/bfa-cross-flow-governance-northwind-v1.0.2-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/bfa-cross-flow-governance-northwind-v1.0.2-registry-listing.png"
+  },
+  "githubActions": {
+    "repo": "lubochka/tessera-collective--northwind-risk-sentinel-console",
+    "runId": 25630422643,
+    "workflow": "XIIGen Flow CI - bfa-cross-flow-governance",
+    "headSha": "e5f24fa1e30f887db879682afd5ab60d698ef64c",
+    "conclusion": "success",
+    "createdAt": "2026-05-10T13:50:00Z",
+    "updatedAt": "2026-05-10T13:50:35Z"
+  },
+  "localValidation": {
+    "clonePath": "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-risk-sentinel-console-phase5c-20260510-165100",
+    "head": "e5f24fa1e30f887db879682afd5ab60d698ef64c",
+    "packageName": "@xiigen-fork/northwind-risk-sentinel-console",
+    "packageVersion": "1.0.2",
+    "tenantId": "tessera-collective",
+    "installedFromRepoFullName": "lubochka/northwind--risk-sentinel-console",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+        "exitCode": 0
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit --json --outputFile=<outside clone>",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "exitCode": 0,
+        "result": "123 files, shasum 3397f041f2c4f756c549f85658a8015b91c0602e"
+      }
+    ]
+  },
+  "repoEvidence": {
+    "listingScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/tessera-collective--northwind-risk-sentinel-console-tenant-c-phase5c-github-listing.png",
+    "actionsScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/tessera-collective--northwind-risk-sentinel-console-tenant-c-phase5c-actions-success.png",
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "highRiskSecretPatternHits": 0
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokensCommitted": false,
+    "envFilesCommitted": false,
+    "highRiskSecretPatternHits": 0
+  },
+  "phaseGate": {
+    "tenantCForkedFromTenantBRepo": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "localRegistryReturnsTenantBAdaptedVersion": true,
+    "repoScreenshotsCaptured": true,
+    "phaseCloseScansPassed": true
+  }
+}

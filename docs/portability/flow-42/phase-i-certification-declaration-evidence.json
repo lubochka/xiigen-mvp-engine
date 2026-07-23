@@ -1,0 +1,26 @@
+{
+    "flowId":  "FLOW-42",
+    "flowSlug":  "miro-shape-adapter",
+    "phase":  "phase-i-certification-declaration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T00:42:32.6056227Z",
+    "earnedTier":  "Tier 1 external-adapter Sprint A",
+    "basis":  [
+                  "Miro adapter package is publishable and includes STEP-1-INVARIANTS.md plus FUNCTIONAL-SPEC.md.",
+                  "Standalone adapter install, typecheck, 50-test package suite, 26-test legacy server suite, production webpack build, and named static checks passed.",
+                  "Local registry publish/readback returned @xiigen/miro-ai-architect@1.0.1.",
+                  "Docker/Vault live auth matrix passed 8/8 against guarded marketplace routes.",
+                  "FLOW-42 has no XIIGen PNG by design; external Miro SDK UI evidence is recorded as N/A with invalid snapshot dirs verified absent."
+              ],
+    "limitations":  [
+                        "Full three-tenant external repository fork cascade is not declared complete for FLOW-42; this commit closes Sprint A package/auth certification only."
+                    ],
+    "evidenceFiles":  [
+                          "docs/portability/flow-42/phase-0-docker-vault-auth-evidence.json",
+                          "docs/portability/flow-42/phase-1-adapter-package-evidence.json",
+                          "docs/portability/flow-42/phase-2-external-ui-evidence.json",
+                          "docs/portability/flow-42/phase-3-external-adapter-publication-evidence.json",
+                          "docs/portability/flow-42/phase-close-scan-evidence.json"
+                      ],
+    "verdict":  "PASS"
+}

@@ -1,0 +1,63 @@
+{
+  "flowId": "FLOW-14",
+  "name": "ETL Data Integration",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T213",
+      "taskTypeId": "T213",
+      "name": "ConnectorRegistrationHandler",
+      "archetype": "orchestration",
+      "entry": "POST /etl/connectors (register + validate)"
+    },
+    {
+      "id": "T214",
+      "taskTypeId": "T214",
+      "name": "IdentityJoinResolver",
+      "archetype": "processing",
+      "entry": "IdentityJoinRequested event (raw-zone lookup)"
+    },
+    {
+      "id": "T215",
+      "taskTypeId": "T215",
+      "name": "DimensionalModelBuilder",
+      "archetype": "processing",
+      "entry": "SCD-2 close_old + open_new writer"
+    },
+    {
+      "id": "T216",
+      "taskTypeId": "T216",
+      "name": "BackfillCoordinator",
+      "archetype": "observability",
+      "entry": "CRON: reverse-ETL via queue fabric only"
+    }
+  ],
+  "edges": [
+    {
+      "from": "EtlSourceRegistered",
+      "to": "T213",
+      "event": "xiigen.etl-data-integration.connector-registered.v1"
+    },
+    {
+      "from": "T213",
+      "to": "T214",
+      "event": "xiigen.etl-data-integration.join-requested.v1"
+    },
+    {
+      "from": "T214",
+      "to": "T215",
+      "event": "xiigen.etl-data-integration.dim-model-ready.v1"
+    },
+    {
+      "from": "T215",
+      "to": "T216",
+      "event": "xiigen.etl-data-integration.backfill-scheduled.v1"
+    },
+    {
+      "from": "T216",
+      "to": "EtlLifecycleComplete",
+      "event": "xiigen.etl-data-integration.backfill-completed.v1",
+      "condition": "terminal"
+    }
+  ]
+}

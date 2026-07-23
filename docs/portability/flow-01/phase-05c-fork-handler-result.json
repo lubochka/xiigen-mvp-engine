@@ -1,0 +1,13 @@
+{
+  "isSuccess": true,
+  "errorCode": null,
+  "errorMessage": null,
+  "data": {
+    "forkId": "fork-user-registration-northwind-guild-tessera-collective",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--user-registration-northwind-guild",
+    "repoFullName": "lubochka/tessera-collective--user-registration-northwind-guild",
+    "status": "FORKED",
+    "initialCommitSha": "d0ffcf6f0b91bdebd18d2d74f656fbc6bb7e214c"
+  },
+  "timestamp": "2026-04-30T15:28:57.263Z"
+}

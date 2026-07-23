@@ -1,0 +1,273 @@
+{
+  "flowId": "FLOW-08",
+  "flowSlug": "marketplace",
+  "phase": "phase4Point0TenantAOriginalFork",
+  "generatedAt": "2026-05-05T13:33:00+03:00",
+  "tenant": "acme-corp",
+  "marketplaceFork": {
+    "endpoint": "POST /api/marketplace/packages/marketplace/fork",
+    "status": "FORKED",
+    "forkId": "fork-marketplace-acme-corp",
+    "repoUrl": "https://github.com/lubochka/acme-corp--marketplace",
+    "repoFullName": "lubochka/acme-corp--marketplace",
+    "initialCommitSha": "eda7c0efb624d8ee48b90726fcf1ee8eea8dd994",
+    "usedVaultSecrets": true,
+    "secretsPrinted": false,
+    "preflightNote": "The first fork attempt failed before repository side effects with MISSING_REQUIRED_BUNDLE_FILE because docs/portability/flow-08/adaptation-surface-marketplace.json did not exist in the server image. The missing FLOW-08 adaptation surface was added, the Docker server was rebuilt, runtime tenant FREEDOM config was reseeded after restart, and the retry succeeded through the marketplace API."
+  },
+  "prerequisitesCreated": [
+    "docs/portability/flow-08/adaptation-surface-marketplace.json"
+  ],
+  "vaultAndAuth": {
+    "dockerDesktopReady": true,
+    "vaultContainer": "xiigen-vault",
+    "vaultSealed": false,
+    "canonicalTenantPathsVerified": [
+      "secret/xiigen/tenants/acme-corp/github_token",
+      "secret/xiigen/tenants/acme-corp/github_org_name",
+      "secret/xiigen/tenants/acme-corp/auth/jwt_signing_key"
+    ],
+    "runtimeForkManagerPathsSeeded": [
+      "secret/acme-corp/github_token",
+      "secret/acme-corp/github_org_name",
+      "secret/acme-corp/docker_registry_url",
+      "secret/acme-corp/docker_registry_token"
+    ],
+    "tenantFreedomRuntimeConfig": [
+      "vault_address",
+      "vault_token"
+    ],
+    "githubCliUser": "lubochka",
+    "tokenValuesPrinted": false
+  },
+  "githubRepository": {
+    "created_at": "2026-05-05T10:23:16Z",
+    "default_branch": "main",
+    "full_name": "lubochka/acme-corp--marketplace",
+    "html_url": "https://github.com/lubochka/acme-corp--marketplace",
+    "id": "R_kgDOSUwfRg",
+    "owner": "lubochka",
+    "private": true,
+    "pushed_at": "2026-05-05T10:25:00Z",
+    "visibility": "PRIVATE"
+  },
+  "githubActions": {
+    "workflow": {
+      "id": 271284583,
+      "name": "XIIGen Flow CI - marketplace",
+      "path": ".github/workflows/flow-ci.yml",
+      "state": "active"
+    },
+    "run": {
+      "conclusion": "success",
+      "createdAt": "2026-05-05T10:25:04Z",
+      "databaseId": 25370945048,
+      "event": "push",
+      "headSha": "eda7c0efb624d8ee48b90726fcf1ee8eea8dd994",
+      "jobs": [
+        {
+          "completedAt": "2026-05-05T10:25:43Z",
+          "conclusion": "success",
+          "databaseId": 74393996728,
+          "name": "Standalone flow test - marketplace",
+          "startedAt": "2026-05-05T10:25:08Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-05-05T10:25:10Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-05-05T10:25:09Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:11Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4.2.2",
+              "number": 2,
+              "startedAt": "2026-05-05T10:25:10Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:12Z",
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4.4.0",
+              "number": 3,
+              "startedAt": "2026-05-05T10:25:11Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:34Z",
+              "conclusion": "success",
+              "name": "Install",
+              "number": 4,
+              "startedAt": "2026-05-05T10:25:12Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:37Z",
+              "conclusion": "success",
+              "name": "TypeScript check",
+              "number": 5,
+              "startedAt": "2026-05-05T10:25:34Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:40Z",
+              "conclusion": "success",
+              "name": "Test",
+              "number": 6,
+              "startedAt": "2026-05-05T10:25:37Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:40Z",
+              "conclusion": "success",
+              "name": "Provenance",
+              "number": 7,
+              "startedAt": "2026-05-05T10:25:40Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:40Z",
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4.4.0",
+              "number": 13,
+              "startedAt": "2026-05-05T10:25:40Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:40Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4.2.2",
+              "number": 14,
+              "startedAt": "2026-05-05T10:25:40Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-05T10:25:40Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "startedAt": "2026-05-05T10:25:40Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/lubochka/acme-corp--marketplace/actions/runs/25370945048/job/74393996728"
+        }
+      ],
+      "status": "completed",
+      "updatedAt": "2026-05-05T10:25:44Z",
+      "url": "https://github.com/lubochka/acme-corp--marketplace/actions/runs/25370945048",
+      "workflowName": "XIIGen Flow CI - marketplace"
+    },
+    "green": true,
+    "warnings": [
+      "GitHub Actions reported the inherited Node.js 20 action deprecation annotation for actions/checkout@v4.2.2 and actions/setup-node@v4.4.0; repo root AGENTS.md already tracks this as debt-011."
+    ]
+  },
+  "screenshotEvidence": {
+    "path": "docs/e2e-snapshots/repo-evidence/acme-corp--marketplace-github-listing.png",
+    "bytes": 118849,
+    "captureUrl": "https://github.com/lubochka/acme-corp--marketplace",
+    "visibilityDuringCapture": "public",
+    "visibilityAfterCapture": "private",
+    "verifiedVisual": true
+  },
+  "forkCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--marketplace-phase40",
+    "headSha": "eda7c0efb624d8ee48b90726fcf1ee8eea8dd994",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed",
+        "notes": "422 packages added; npm deprecation warnings only."
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --forceExit",
+        "result": "passed",
+        "notes": "1 suite passed, 1 test passed."
+      }
+    ],
+    "workingTreeClean": true
+  },
+  "bundleManifest": {
+    "requiredBundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    },
+    "fileCount": 118,
+    "requiredFilesPresent": [
+      "package.json",
+      "tsconfig.json",
+      "jest.config.js",
+      ".github/workflows/flow-ci.yml",
+      "freedom-config.defaults.json",
+      "tenant.config.json",
+      "settings/module.settings.json",
+      "docs/adaptation-surface.json",
+      "docs/STEP-1-INVARIANTS.md",
+      "docs/FUNCTIONAL-SPEC.md",
+      "rag-seeds/marketplace-design-corpus.json",
+      "BUNDLE-MANIFEST.json"
+    ],
+    "tenantConfig": {
+      "tenantId": "acme-corp",
+      "flowId": "FLOW-08",
+      "flowSlug": "marketplace",
+      "moduleName": "marketplace",
+      "moduleVersion": "1.0.0-fork",
+      "adaptationHistoryCount": 0
+    },
+    "adaptationSurface": {
+      "flowId": "FLOW-08",
+      "flowSlug": "marketplace",
+      "surfaceVersion": "1.0.0",
+      "freedomKeyCount": 1,
+      "passCriteriaCount": 4
+    }
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "result": "passed",
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location"
+    },
+    "serverJest": {
+      "result": "passed",
+      "command": "Push-Location server; npx jest --testPathPatterns=marketplace --runInBand; Pop-Location",
+      "suites": 60,
+      "tests": 1146
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 0,
+      "directSdkImports": 0
+    },
+    "authDeclarationScan": {
+      "useGuardsPresent": true,
+      "routeCount": 4,
+      "rolesOrPublicDeclarations": 4
+    }
+  },
+  "phaseGate": {
+    "tenantAForkedOriginalPlatformSource": true,
+    "marketplaceApiUsed": true,
+    "realGitHubRepo": true,
+    "realGitHubActionsGreen": true,
+    "realGitHubScreenshot": true,
+    "localForkCloneTestsPassed": true,
+    "readyForStateTransition": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "patternId": "svc-F178-IOnboardingTemplateStore",
+  "patternType": "SERVICE_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "factoryId": "F178",
+  "interfaceName": "IOnboardingTemplateStore",
+  "archetype": "RAG_RETRIEVAL",
+  "fabric": "RAG",
+  "fabricProvider": "Elasticsearch",
+  "skillRefs": [
+    "SK-00a"
+  ],
+  "taskTypeRefs": [
+    "T49"
+  ],
+  "tags": [
+    "onboarding",
+    "template",
+    "rag",
+    "tenant-customized"
+  ],
+  "keywords": "onboarding template RAG retrieval tenant-customized questionnaire profile schema",
+  "codeSnippet": "const filter = buildSearchFilter({ templateType: 'onboarding', bundleId });\nconst template = await this.rag.search(tenantId, filter);\nif (!template.isSuccess || !template.data?.length) {\n  // Fallback to default from FREEDOM config\n  return this.freedom.get(tenantId, 'default_onboarding_template');\n}"
+}

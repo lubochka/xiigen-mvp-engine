@@ -1,0 +1,61 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "phase3VisualExamination",
+  "status": "completed",
+  "generatedAt": "2026-05-07T07:41:07.7853540+03:00",
+  "visualSamplesReviewed": [
+    {
+      "path": "docs/e2e-snapshots/ads-platform/default.png",
+      "result": "pass",
+      "notes": "Anonymous advertising landing view is legible, centered, and free of internal engine language."
+    },
+    {
+      "path": "docs/e2e-snapshots/ads-platform/state-7-political-review.png",
+      "result": "pass",
+      "notes": "Political-review state is readable with no text collision or cropped status badge."
+    },
+    {
+      "path": "docs/e2e-snapshots/ads-platform/06-focus-areas-covered-request-response-spe.png",
+      "result": "fixed-then-pass",
+      "notes": "Initial visual sample showed a red Bad Request fetch error. ConsentGatePage now uses the dynamic CRUD client against xiigen-consent-records with the required tenant header; the refreshed PNG shows the quiet empty consent state."
+    }
+  ],
+  "repair": {
+    "file": "client/src/pages/ads-platform/ConsentGatePage.tsx",
+    "summary": "Replaced direct /api/dynamic/consent-records calls with listDocs/createDoc on the valid xiigen-consent-records index and MASTER_TENANT_ID scoping."
+  },
+  "verification": [
+    {
+      "cwd": "client",
+      "command": "npx tsc --noEmit --pretty false",
+      "status": "passed"
+    },
+    {
+      "cwd": "client",
+      "command": "VITE_PORT=52020 npx playwright test e2e/ads-platform.spec.ts e2e/ads-platform-mock-states.spec.ts --reporter=line",
+      "status": "passed",
+      "tests": {
+        "passed": 45,
+        "total": 45
+      }
+    },
+    {
+      "cwd": ".",
+      "command": "PNG non-empty count for docs/e2e-snapshots/ads-platform",
+      "status": "passed",
+      "pngCount": 15,
+      "smallOrEmpty": 0,
+      "totalBytes": 1090015
+    }
+  ],
+  "temporaryProcesses": {
+    "viteScanProcessesStopped": 6,
+    "ports": [
+      52021,
+      52022,
+      52023
+    ]
+  },
+  "verdict": "PASS"
+}

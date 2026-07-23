@@ -1,0 +1,364 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "flowTitle": "XIIGen Social Platform - Friend Requests and Social Feed",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-03",
+  "capturedBy": "Codex / FLOW-07 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-07/FLOW-07-STEP-1-INVARIANTS.md",
+    "docs/business-flows/07-friend-request-social-feed.md",
+    "server/src/engine/flows/friend-request-social-feed/package.json",
+    "server/src/engine/flows/friend-request-social-feed/feed-item-generator.service.ts",
+    "server/src/engine/flows/friend-request-social-feed/feed-scorer.service.ts",
+    "server/src/engine/flows/friend-request-social-feed/feed-delivery-orchestrator.service.ts",
+    "server/src/engine/flows/friend-request-social-feed/social-notification-dispatcher.service.ts"
+  ],
+  "services": [
+    {
+      "taskTypeId": "T73",
+      "className": "FriendRequestProcessorService",
+      "file": "server/src/engine/flows/friend-request-social-feed/friend-request-processor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.friend.request.sent"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T74",
+      "className": "FriendRequestResponderService",
+      "file": "server/src/engine/flows/friend-request-social-feed/friend-request-responder.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.friend.request.accepted",
+        "social.friend.request.rejected"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T75",
+      "className": "ConnectionGraphWriterService",
+      "file": "server/src/engine/flows/friend-request-social-feed/connection-graph-writer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.connection.established"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T76",
+      "className": "FeedItemGeneratorService",
+      "file": "server/src/engine/flows/friend-request-social-feed/feed-item-generator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.feed.item.generated"
+      ],
+      "readsFreedomKeys": [
+        "flow07_feed_items_per_connection"
+      ]
+    },
+    {
+      "taskTypeId": "T77",
+      "className": "FeedScorerService",
+      "file": "server/src/engine/flows/friend-request-social-feed/feed-scorer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.feed.item.scored"
+      ],
+      "readsFreedomKeys": [
+        "flow07_feed_scoring_weights"
+      ]
+    },
+    {
+      "taskTypeId": "T78",
+      "className": "FeedDeliveryOrchestratorService",
+      "file": "server/src/engine/flows/friend-request-social-feed/feed-delivery-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.feed.item.delivered"
+      ],
+      "readsFreedomKeys": [
+        "flow07_delivery_score_threshold",
+        "flow07_max_feed_inserts_per_connection"
+      ]
+    },
+    {
+      "taskTypeId": "T79",
+      "className": "SocialNotificationDispatcherService",
+      "file": "server/src/engine/flows/friend-request-social-feed/social-notification-dispatcher.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.notification.sent"
+      ],
+      "readsFreedomKeys": [
+        "flow07_notification_channels"
+      ]
+    },
+    {
+      "taskTypeId": "T80",
+      "className": "MutualConnectionCounterService",
+      "file": "server/src/engine/flows/friend-request-social-feed/mutual-connection-counter.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.mutual-count.updated"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T81",
+      "className": "PrivacyGatekeeperService",
+      "file": "server/src/engine/flows/friend-request-social-feed/privacy-gatekeeper.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T82",
+      "className": "SocialGraphAnalyticsService",
+      "file": "server/src/engine/flows/friend-request-social-feed/social-graph-analytics.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "social.graph.analytics.emitted"
+      ],
+      "readsFreedomKeys": []
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe values that can change at fork time without changing friend-request state, privacy checks, tenant scope, or event ordering.",
+      "total": 5,
+      "keys": [
+        {
+          "key": "flow07_feed_items_per_connection",
+          "type": "number",
+          "default": 10,
+          "unit": "items",
+          "semantic": "Maximum number of feed items generated for one accepted connection activity.",
+          "stakeholder": "community-operations",
+          "consumedBy": [
+            "T76.FeedItemGeneratorService.generateFeedItem"
+          ],
+          "ironRuleReferences": [
+            "IR-1",
+            "DNA-8"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 50,
+            "rationale": "Keeps feed fan-out bounded while allowing denser or quieter tenant communities."
+          }
+        },
+        {
+          "key": "flow07_feed_scoring_weights",
+          "type": "object",
+          "default": {
+            "recencyWeight": 0.5,
+            "relationshipStrengthWeight": 0.3,
+            "activityTypeWeight": 0.2
+          },
+          "unit": "scoring-weight-map",
+          "semantic": "Controls how the feed scorer balances recency, relationship strength, and activity type.",
+          "stakeholder": "product / community-quality",
+          "consumedBy": [
+            "T77.FeedScorerService.scoreFeedItem"
+          ],
+          "ironRuleReferences": [
+            "IR-2"
+          ],
+          "boundedRange": {
+            "recencyWeight": {
+              "min": 0,
+              "max": 1
+            },
+            "relationshipStrengthWeight": {
+              "min": 0,
+              "max": 1
+            },
+            "activityTypeWeight": {
+              "min": 0,
+              "max": 1
+            },
+            "rationale": "Weights are AI-scoring inputs; score=0 remains valid and delivery filtering stays in T78."
+          }
+        },
+        {
+          "key": "flow07_delivery_score_threshold",
+          "type": "number",
+          "default": 0.1,
+          "unit": "score",
+          "semantic": "Minimum score required before a feed item is delivered to a recipient.",
+          "stakeholder": "community-quality",
+          "consumedBy": [
+            "T78.FeedDeliveryOrchestratorService.deliverFeedItem"
+          ],
+          "ironRuleReferences": [
+            "IR-1",
+            "IR-2"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1,
+            "rationale": "Score filtering is tenant-tunable, but below-threshold remains a successful suppressed delivery decision."
+          }
+        },
+        {
+          "key": "flow07_max_feed_inserts_per_connection",
+          "type": "number",
+          "default": 25,
+          "unit": "items",
+          "semantic": "Upper bound on feed insert fan-out for one connection activity.",
+          "stakeholder": "community-operations",
+          "consumedBy": [
+            "T78.FeedDeliveryOrchestratorService.deliverFeedItem"
+          ],
+          "ironRuleReferences": [
+            "DNA-8"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 100,
+            "rationale": "Protects tenant feed volume while preserving delivery ordering and privacy re-checks."
+          }
+        },
+        {
+          "key": "flow07_notification_channels",
+          "type": "list",
+          "default": [
+            "push"
+          ],
+          "unit": "channel-list",
+          "semantic": "Allowed delivery channels for social notifications after recipient consent succeeds.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T79.SocialNotificationDispatcherService.dispatchNotification"
+          ],
+          "ironRuleReferences": [
+            "IR-3"
+          ],
+          "allowedValues": [
+            "push",
+            "email",
+            "in_app"
+          ]
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-07 has no tenant-editable DSL grammar surface.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "FLOW-07 role branching is implemented through role-aware client surfaces and server authorization. Tenants may tune copy and feed behavior, not bypass role isolation.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Domain policies a tenant can tune through existing FREEDOM keys while MACHINE invariants remain fixed.",
+      "total": 3,
+      "edgeCases": [
+        {
+          "id": "quiet-community-feed",
+          "name": "Quiet community feed",
+          "semantic": "A tenant can raise the delivery threshold and reduce feed fan-out for smaller trusted communities.",
+          "extensionPoint": "flow07_delivery_score_threshold and flow07_max_feed_inserts_per_connection",
+          "currentImplementation": "T78 treats below-threshold delivery as a successful non-delivery result."
+        },
+        {
+          "id": "freshness-weighted-feed",
+          "name": "Freshness-weighted feed",
+          "semantic": "A tenant can favor recent relationship activity without changing AI scoring or privacy checks.",
+          "extensionPoint": "flow07_feed_scoring_weights",
+          "currentImplementation": "T77 passes weights into the scoring provider; score=0 remains valid."
+        },
+        {
+          "id": "notification-channel-policy",
+          "name": "Notification channel policy",
+          "semantic": "A tenant can allow push-only, email-only, or in-app notification channels after consent passes.",
+          "extensionPoint": "flow07_notification_channels",
+          "currentImplementation": "T79 checks consent before channel selection and stores notification records privately."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "Friend requests stay tenant-private and cannot write cross-tenant graph edges.",
+      "T76 calls PrivacyGatekeeperService before storing or emitting generated feed items.",
+      "T78 re-checks privacy unconditionally before delivery, even when T76 already checked.",
+      "Score 0 is valid; delivery filtering happens only in T78.",
+      "Notification consent is checked before channel selection and dispatch.",
+      "storeDocument completes before enqueue for feed, delivery, notification, graph, and analytics events.",
+      "All services remain FLOW_SCOPED and return DataProcessResult."
+    ]
+  },
+  "adaptationExamples": {
+    "tenant-a-quiet-feed": {
+      "description": "Tenant A runs a smaller professional community and wants fewer low-signal feed deliveries.",
+      "change": [
+        {
+          "key": "flow07_delivery_score_threshold",
+          "from": 0.1,
+          "to": 0.35
+        },
+        {
+          "key": "flow07_max_feed_inserts_per_connection",
+          "from": 25,
+          "to": 12
+        }
+      ],
+      "impact": "The feed becomes more selective while privacy re-checks, graph writes, event names, and authorization stay unchanged.",
+      "testable": "Tenant A adapted visual evidence shows quieter feed positioning/copy, and service tests still prove below-threshold delivery is a success result."
+    },
+    "tenant-a-fresh-feed": {
+      "description": "Tenant A wants recent activity to outrank older popularity signals.",
+      "change": {
+        "key": "flow07_feed_scoring_weights",
+        "from": {
+          "recencyWeight": 0.5,
+          "relationshipStrengthWeight": 0.3,
+          "activityTypeWeight": 0.2
+        },
+        "to": {
+          "recencyWeight": 0.7,
+          "relationshipStrengthWeight": 0.2,
+          "activityTypeWeight": 0.1
+        }
+      },
+      "impact": "Scoring becomes more time-sensitive while delivery and privacy invariants remain fixed.",
+      "testable": "FeedScorerService receives the adapted FREEDOM weight map and still emits scored items when score is 0."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T73 through T82",
+      "Friend-request accepted/rejected state transitions",
+      "Tenant and user scope isolation",
+      "PrivacyGatekeeperService invocation order",
+      "Notification consent requirement",
+      "CloudEvents envelope usage",
+      "DataProcessResult return contract",
+      "Connection graph record privacy"
+    ]
+  },
+  "passCriteria": [
+    "Tenant A can apply a TYPE-A value change without altering MACHINE constraints.",
+    "The adapted value is present in tenant.config.json adaptationHistory.",
+    "The adapted value is visible in Tenant A visual evidence.",
+    "Auth checks still return 401 for missing token, 401 for cross-tenant token, and 403 for wrong-role token after adaptation."
+  ]
+}

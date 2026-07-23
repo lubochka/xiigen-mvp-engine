@@ -1,0 +1,32 @@
+{
+  "flowId": "FLOW-40",
+  "flowSlug": "client-push",
+  "phase": "phase-1-unit-integration",
+  "status": "completed",
+  "generatedAt": "2026-05-11T23:04:11.455Z",
+  "commands": [
+    {
+      "command": "server npx tsc --noEmit -p tsconfig.json",
+      "exitCode": 0
+    },
+    {
+      "command": "server npx jest --testPathPatterns=client-push --runInBand --colors=false",
+      "exitCode": 0,
+      "testSuites": 3,
+      "testsPassed": 37
+    },
+    {
+      "command": "client npx tsc --noEmit",
+      "exitCode": 0
+    }
+  ],
+  "staticScan": {
+    "serviceFiles": 3,
+    "missingMicroserviceBase": 0,
+    "missingConnectionAnnotation": 0,
+    "throwNew": 0,
+    "clsImports": 0,
+    "typedAny": 0
+  },
+  "verdict": "PASS"
+}

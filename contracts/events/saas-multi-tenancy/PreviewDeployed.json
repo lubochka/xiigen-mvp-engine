@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PreviewDeployed",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "PreviewDeployed" },
+    "flowId": { "type": "string", "const": "FLOW-15" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["previewId","ephemeralUrl","ttlMs"],
+      "properties": {"previewId":{"type":"string"},"ephemeralUrl":{"type":"string"},"ttlMs":{"type":"integer","description":"TTL from FREEDOM config flow15_sandbox_ttl_hours"}}
+    }
+  }
+}

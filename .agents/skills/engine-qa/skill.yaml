@@ -1,0 +1,34 @@
+name: engine-qa-skill
+sk_number: SK-413
+version: "1.0.0"
+status: APPROVED
+load_order: 11
+priority: RECOMMENDED
+entry: SKILL.md
+author: luba
+updated: "2026-03-18"
+phase_8_approved: true
+
+description: >
+  Provides bug classification taxonomy (Class A–F) for XIIGen engine bugs,
+  a stable FIX template for all BUG-ENGINE-NN reports, and the known-violations
+  registry. Taxonomy approved in Phase 8 review session.
+
+taxonomy_decisions:
+  Q1_fabricType_mismatch: "CLASS F = fix contract; CLASS A = registry normalization (separate, file when desired)"
+  Q2_dna_violation_attribution: "CLASS C = violation in output; CLASS D = root cause traceable to specific AF station"
+  Q3_skill_injection: "Subtype of CLASS D — AF Pipeline failure (AF-4 selected wrong skill block)"
+
+triggers:
+  - "bug classification"
+  - "BUG-ENGINE"
+  - "classify bug"
+  - "engine bug"
+  - "CLASS A"
+  - "CLASS B"
+  - "CLASS C"
+  - "CLASS D"
+  - "CLASS E"
+  - "CLASS F"
+  - "FIX template"
+  - "known violations"

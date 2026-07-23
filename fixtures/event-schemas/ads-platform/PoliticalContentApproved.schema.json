@@ -1,0 +1,15 @@
+{
+  "eventType": "ads.political.content-approved",
+  "flowId": "FLOW-20",
+  "version": "1.0.0",
+  "description": "Emitted by T628 PoliticalContentReviewer after explicit human reviewer approval. Allows content to proceed in ad delivery pipeline.",
+  "properties": {
+    "contentId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "humanReviewQueueId": { "type": "string", "required": true },
+    "reviewerId": { "type": "string", "required": true },
+    "approvalReason": { "type": "string", "required": true },
+    "auditRecordId": { "type": "string", "required": true },
+    "approvedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

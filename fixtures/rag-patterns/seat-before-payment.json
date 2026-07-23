@@ -1,0 +1,20 @@
+{
+  "patternId": "seat-before-payment",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-09",
+  "domainId": "transactional-event-participation",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": ["T99", "seat-hold", "payment-ordering", "TTL", "double-booking"],
+  "keywords": "seat before payment TTL hold reserve atomic ordering race condition double booking last ticket",
+  "appliesTo": ["T99"],
+  "qualityScore": 0.92,
+  "curriculumTier": 2,
+  "ironRules": [
+    "Seat must be atomically reserved (TTL hold) BEFORE payment is initiated — no exceptions",
+    "TTL hold must be placed via F274 ICapacityLockService — no direct DB writes",
+    "If payment fails, TTL hold expires automatically — no manual release needed",
+    "Any code path initiating payment before seat hold is a BUILD_FAILURE per CF-09-1"
+  ],
+  "codeSnippet": "// T99 SeatReservationHandler — CORRECT ordering\nasync handle(input: PurchaseInput): Promise<DataProcessResult<TicketResult>> {\n  // Step 1: Reserve seat with TTL BEFORE payment\n  const holdResult = await this.capacityLock.reserveSeat({\n    eventId: input.eventId,\n    userId: input.userId,\n    ttlSeconds: 300, // 5-minute hold\n  });\n  if (!holdResult.isSuccess) {\n    return DataProcessResult.failure('SEAT_UNAVAILABLE', 'No seats available');\n  }\n  // DNA-8: storeDocument BEFORE enqueue\n  await this.db.storeDocument('ticket-purchases', { status: 'PENDING', holdId: holdResult.data.holdId, knowledgeScope: 'PRIVATE' }, purchaseId);\n  // Step 2: Enqueue payment AFTER seat hold confirmed\n  await this.queue.enqueue('payment.process.requested', { purchaseId, holdId: holdResult.data.holdId });\n  return DataProcessResult.success({ purchaseId, status: 'PAYMENT_PENDING' });\n}\n// WRONG: await this.queue.enqueue('payment.process.requested', ...); then reserveSeat()"
+}

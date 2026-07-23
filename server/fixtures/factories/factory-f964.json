@@ -1,0 +1,13 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F964",
+  "factoryId": "F964",
+  "flowId": "FLOW-23",
+  "interface": "ICmsContentReader",
+  "injectionToken": "CMS_CONTENT_READER",
+  "fabric": "DATABASE",
+  "platformOnly": false,
+  "taskTypes": ["T357"],
+  "bfaRules": ["CF-444"],
+  "note": "READ-ONLY CMS access. No write methods on this interface by design."
+}

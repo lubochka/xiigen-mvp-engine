@@ -1,0 +1,239 @@
+{
+  "flowId": "FLOW-32",
+  "flowSlug": "sharable-flows-marketplace",
+  "implementationSlug": "sharable-flows-marketplace",
+  "phase": "phase-i-certification-declaration",
+  "status": "completed",
+  "generatedAt": "2026-05-11T08:14:27.2350459Z",
+  "certification": {
+    "earnedTier": "Tier 2+ (Tier 3 not declared)",
+    "tier3BlockedBy": "package-signing first pass remains pending",
+    "decision": "FLOW-32 sharable-flows-marketplace completes the mobility/auth protocol evidence through three tenant repos, three adapted packages, green GitHub Actions, Verdaccio readbacks, real GitHub screenshots, and Docker/Vault auth checks. Certification is capped at Tier 2+ until package-signing first pass is implemented.",
+    "basis": [
+      "Pre-existing FLOW-32 defects were checked and accepted protocol drift was recorded before cascade work.",
+      "Docker/Vault auth was verified with tenant-scoped credentials and no secrets in evidence.",
+      "Tenant A forked the original platform source through the marketplace API.",
+      "Tenant A, B, and C each committed adapted packages to real GitHub repos.",
+      "All final tenant repo GitHub Actions runs concluded success.",
+      "All three adapted packages were published to and read back from http://localhost:4873.",
+      "Real GitHub evidence screenshots exist for original fork and all adapted cascade points.",
+      "Phase H auth decoration and live marketplace auth checks passed.",
+      "Tier 3 is withheld because package signing first pass is still pending."
+    ]
+  },
+  "tenantRepos": [
+    {
+      "tenant": "acme-corp",
+      "repo": "lubochka/acme-corp--sharable-flows-marketplace",
+      "package": "@xiigen-fork/acme-curated-flow-store@1.0.1",
+      "sourceCommit": "97a92265432c545e199572e87f744b31a727f74b",
+      "finalCommit": "152bb6838dd19f7e9d5e030a2c3241827ea06481",
+      "finalActionsRunId": 25656475462,
+      "finalActionsConclusion": "success",
+      "defaultBranch": "main",
+      "private": true
+    },
+    {
+      "tenant": "northwind",
+      "repo": "lubochka/northwind--sharable-flows-marketplace",
+      "package": "@xiigen-fork/northwind-partner-template-exchange@1.0.2",
+      "sourcePackage": "@xiigen-fork/acme-curated-flow-store@1.0.1",
+      "initialCommit": "53d863c9086eb4b8795fb578fc0d5495907b1ac2",
+      "finalCommit": "dd011320cb9845a7ecb83e0842dcbd61d59f5e76",
+      "initialActionsRunId": 25656954239,
+      "initialActionsConclusion": "failure",
+      "initialFailureDisposition": "resolved by Northwind adaptation commit",
+      "finalActionsRunId": 25657248309,
+      "finalActionsConclusion": "success",
+      "defaultBranch": "main",
+      "private": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "repo": "lubochka/tessera-collective--sharable-flows-marketplace",
+      "package": "@xiigen-fork/tessera-community-pattern-library@1.0.3",
+      "sourcePackage": "@xiigen-fork/northwind-partner-template-exchange@1.0.2",
+      "initialCommit": "7c994e3986b4622758978bff6284eee6dc3d7f90",
+      "finalCommit": "d68e8bc17574f5456048504c0f2391fcc10ed47d",
+      "initialActionsRunId": 25657716506,
+      "initialActionsConclusion": "failure",
+      "initialFailureDisposition": "resolved by Tessera adaptation commit",
+      "finalActionsRunId": 25657932502,
+      "finalActionsConclusion": "success",
+      "defaultBranch": "main",
+      "private": true
+    }
+  ],
+  "registryVerification": [
+    {
+      "package": "@xiigen-fork/acme-curated-flow-store",
+      "expectedVersion": "1.0.1",
+      "actualVersion": "1.0.1",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "package": "@xiigen-fork/northwind-partner-template-exchange",
+      "expectedVersion": "1.0.2",
+      "actualVersion": "1.0.2",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "package": "@xiigen-fork/tessera-community-pattern-library",
+      "expectedVersion": "1.0.3",
+      "actualVersion": "1.0.3",
+      "registry": "http://localhost:4873",
+      "verified": true
+    }
+  ],
+  "visualEvidence": {
+    "repoScreenshotDirectory": "docs/e2e-snapshots/repo-evidence/flow-32",
+    "repoScreenshots": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4.0-tenant-a-actions-run.png",
+        "bytes": 78571
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4.0-tenant-a-bundle-manifest.png",
+        "bytes": 408428
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4.0-tenant-a-repo.png",
+        "bytes": 132364
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4-tenant-a-v1.0.1-actions-success.png",
+        "bytes": 81081
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4-tenant-a-v1.0.1-github-listing.png",
+        "bytes": 140782
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4-tenant-a-v1.0.1-package-json.png",
+        "bytes": 116418
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-b-v1.0.2-actions-success.png",
+        "bytes": 81978
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-b-v1.0.2-github-listing.png",
+        "bytes": 142880
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-b-v1.0.2-package-json.png",
+        "bytes": 117285
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-c-v1.0.3-actions-success.png",
+        "bytes": 82291
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-c-v1.0.3-github-listing.png",
+        "bytes": 142652
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-5-tenant-c-v1.0.3-package-json.png",
+        "bytes": 118384
+      }
+    ],
+    "repoScreenshotCount": 12,
+    "zeroByteScreenshots": 0,
+    "minimumScreenshotBytes": 78571
+  },
+  "authVerdict": {
+    "phase0Evidence": "docs/portability/flow-32/phase-0-docker-vault-auth-evidence.json",
+    "phaseHEvidence": "docs/portability/flow-32/phase-h-auth-decoration-evidence.json",
+    "finalCascadeAuthEvidence": "docs/portability/flow-32/phase-5-tenant-c-install-adapt-auth-evidence.json",
+    "phase0LiveChecks": {
+      "passed": 24,
+      "failed": 0
+    },
+    "phaseHLiveChecks": {
+      "passed": 8,
+      "failed": 0
+    },
+    "finalCascadeLiveChecks": {
+      "tenantA": {
+        "passed": 12,
+        "failed": 0
+      },
+      "tenantB": {
+        "passed": 12,
+        "failed": 0
+      },
+      "tenantC": {
+        "passed": 12,
+        "failed": 0
+      }
+    },
+    "missingTokenDenied": true,
+    "crossTenantJwtIsolationPassed": true,
+    "roleProtectedRoutesReturn403ForWrongRole": true,
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesCommittedOrWrittenToEvidence": false
+  },
+  "completedPhases": [
+    "preExistingDefectCheck",
+    "phase0DockerVaultAuth",
+    "phase1UnitIntegration",
+    "phase2E2EPlaywright",
+    "phase3VisualExamination",
+    "phase4TenantAOriginalFork",
+    "phase4TenantAAdaptation",
+    "phase5TenantBInstallAdaptPublish",
+    "phase5TenantCInstallAdaptAuth",
+    "phaseHAuthDecoration",
+    "phaseICertificationDeclaration"
+  ],
+  "sourceEvidenceFiles": [
+    "docs/portability/flow-32/product-decision-and-pre-existing-defect-evidence.json",
+    "docs/portability/flow-32/phase-0-docker-vault-auth-evidence.json",
+    "docs/portability/flow-32/phase-1-unit-integration-evidence.json",
+    "docs/portability/flow-32/phase-2-playwright-png-evidence.json",
+    "docs/portability/flow-32/phase-3-visual-examination-evidence.json",
+    "docs/portability/flow-32/phase-4.0-tenant-a-original-fork-evidence.json",
+    "docs/portability/flow-32/phase-4-tenant-a-ai-adaptation-evidence.json",
+    "docs/portability/flow-32/phase-5-tenant-b-install-adapt-publish-evidence.json",
+    "docs/portability/flow-32/phase-5-tenant-c-install-adapt-auth-evidence.json",
+    "docs/portability/flow-32/phase-h-auth-decoration-evidence.json"
+  ],
+  "completionGate": {
+    "allPriorPhasesCompleted": true,
+    "acceptedTrackedStateDrift": 2,
+    "openBlockers": 0,
+    "realMarketplaceApiForks": true,
+    "realGitHubRepos": true,
+    "greenGitHubActions": true,
+    "localRegistryCascadeVerified": true,
+    "dockerVaultAuthVerified": true,
+    "crossTenantJwtIsolationPassed": true,
+    "roleProtectedRoutesReturn403ForWrongRole": true,
+    "missingTokensReturn401": true,
+    "repoScreenshotsAtAllCascadePoints": true,
+    "secretsCommittedOrWrittenToEvidence": false,
+    "packageSigningFirstPass": false,
+    "certificationDeclared": true
+  },
+  "certificationGaps": [
+    {
+      "gap": "Package-signing first pass is not implemented for adapted marketplace packages.",
+      "effect": "Tier 3 is not declared."
+    }
+  ],
+  "openIssues": [
+    {
+      "id": "FLOW-32-IMPL-STATE-DRIFT",
+      "status": "accepted-for-this-protocol-run",
+      "note": "FLOW-32 IMPL-STATE claims NOT_STARTED while server/src/engine/flows/sharable-flows-marketplace has implementation files on disk."
+    },
+    {
+      "id": "FLOW-32-UI-COVERAGE-DRIFT",
+      "status": "tracked",
+      "note": "Historical UI reflection state drift did not block current Playwright, PNG, visual examination, auth, or fork cascade evidence."
+    }
+  ],
+  "verdict": "PASS"
+}

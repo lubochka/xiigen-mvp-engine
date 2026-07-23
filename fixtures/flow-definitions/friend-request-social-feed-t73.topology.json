@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-07",
+  "taskTypeId": "T73",
+  "name": "flow-07-friend-request-processor",
+  "description": "T73 FriendRequestProcessor — ROUTING archetype. Inline T81 privacy check → SETNX idempotency → storeDocument → FriendRequestSent emit.",
+  "archetype": "ROUTING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: privacy_gate_before_emit, store_before_enqueue, connection_id_direction_independent"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ROUTING arch patterns for T73: inline privacy gate, SETNX idempotency, connection ID direction independence",
+      "params": {
+        "archetype": "ROUTING",
+        "taskTypeRef": "T73",
+        "topK": 4,
+        "patternIds": [
+          "privacy-gatekeeper-inline-invocation",
+          "bidirectional-atomic-graph-write",
+          "plan-flow07-friend-request-social-feed"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T73 into: inline T81 check → SETNX idempotency on requestId → mutual-pending auto-forward detection → storeDocument → FriendRequestSent emit"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate friend-request.service.ts: inject PrivacyGatekeeper (T81), call check() synchronously first, SETNX on requestId, storeDocument('xiigen-friend-requests') BEFORE enqueue('FriendRequestSent')"
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: privacy_gate_before_emit, store_before_enqueue, connection_id_direction_independent"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T73 iron rules: T81 inline before emit, SETNX idempotency, DNA-8 ordering"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=inline T81 check (synchronous, constructor-injected), rejected=queue-driven privacy check (emit privacy.check.requested). curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "FriendRequestReceived event (@EventPattern)",
+  "primaryFabric": "DATABASE"
+}

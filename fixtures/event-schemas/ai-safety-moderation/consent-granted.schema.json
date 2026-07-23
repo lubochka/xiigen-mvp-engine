@@ -1,0 +1,11 @@
+{
+  "eventType": "ai-safety-moderation.consent.granted",
+  "flowId": "FLOW-24",
+  "version": "1.0.0",
+  "properties": {
+    "userId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "consentType": { "type": "string", "required": true },
+    "grantedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

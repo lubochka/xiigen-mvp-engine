@@ -1,0 +1,140 @@
+﻿{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phase5bTenantBAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T09:57:52.2936153Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "tenantName":  "Northwind"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "FREEDOM key value change plus tenant package metadata",
+                       "packageName":  "@xiigen-fork/northwind-operations-gallery",
+                       "packageVersion":  "1.0.2",
+                       "moduleName":  "northwind-operations-gallery",
+                       "displayName":  "Northwind Operations Gallery",
+                       "sourceModuleName":  "acme-intake-template-studio",
+                       "visiblePlainLanguage":  "Northwind operations-gallery defaults: broader internal operations templates, longer publication and instantiation timeouts, small unresolved-variable tolerance, slower popularity recalculation, larger analytics sample threshold, lower recency weighting, balanced export threshold, and higher webhook retry posture while validation order, immutability, OCC, idempotency, audit ordering, PII exclusion, permission source, and tenant isolation remain unchanged.",
+                       "adaptedFiles":  [
+                                            "ADAPTATION-CHANGELOG.md",
+                                            "BUNDLE-MANIFEST.json",
+                                            "__tests__/form-builder-templates-acme-adaptation.spec.ts",
+                                            "__tests__/form-builder-templates-northwind-adaptation.spec.ts",
+                                            "freedom-config.defaults.json",
+                                            "package.json",
+                                            "settings/module.settings.json",
+                                            "tenant.config.json"
+                                        ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/northwind--northwind-operations-gallery",
+                             "url":  "https://github.com/lubochka/northwind--northwind-operations-gallery",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "sourceRepoFullName":  "lubochka/acme-corp--acme-intake-template-studio",
+                             "adaptedCommit":  "4989f0a61057d890b9fa33c4fbadaedc20323f5f",
+                             "adaptedCommitMessage":  "Adapt form builder templates for Northwind operations gallery",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-intake-template-studio-phase5a-20260510-123728",
+                             "cleanCloneStatus":  "clean against adapted/main",
+                             "adaptationHistoryEntries":  2,
+                             "bundleManifestItemCount":  130
+                         },
+    "tenantCloneVerification":  [
+                                    {
+                                        "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx tsc --noEmit --pretty false",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx jest --colors=false --forceExit",
+                                        "result":  "passed",
+                                        "suites":  3,
+                                        "tests":  6
+                                    },
+                                    {
+                                        "command":  "npm pack --dry-run --json",
+                                        "result":  "passed",
+                                        "entryCount":  131,
+                                        "shasum":  "b5d76c6d4f4c0b37b864fd1498d7c72af0ebcf37"
+                                    }
+                                ],
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — form-builder-templates",
+                          "runId":  25625684999,
+                          "url":  "https://github.com/lubochka/northwind--northwind-operations-gallery/actions/runs/25625684999",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "4989f0a61057d890b9fa33c4fbadaedc20323f5f",
+                          "createdAt":  "2026-05-10T09:52:49Z",
+                          "updatedAt":  "2026-05-10T09:53:35Z"
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "package":  "@xiigen-fork/northwind-operations-gallery",
+                          "version":  "1.0.2",
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-operations-gallery/-/northwind-operations-gallery-1.0.2.tgz",
+                          "shasum":  "b5d76c6d4f4c0b37b864fd1498d7c72af0ebcf37",
+                          "gitHead":  "4989f0a61057d890b9fa33c4fbadaedc20323f5f",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/form-builder-templates-northwind-v1.0.2-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "playwrightEvidence":  {
+                               "spec":  "client/e2e/form-builder-templates-tenant-b-adapted.spec.ts",
+                               "passed":  18,
+                               "failed":  0,
+                               "pngDirectory":  "docs/e2e-snapshots/form-builder-templates/tenant-b-v1.0.2",
+                               "pngCount":  18,
+                               "emptyPngCount":  0,
+                               "totalBytes":  662861
+                           },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/form-builder-templates-northwind-v1.0.2-registry-listing.png",
+                                                   "sizeBytes":  48971
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-23/northwind--northwind-operations-gallery-tenant-b-v1.0.2-github-listing.png",
+                                                   "sizeBytes":  138060
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-23/northwind--northwind-operations-gallery-tenant-b-v1.0.2-actions-success.png",
+                                                   "sizeBytes":  79833
+                                               }
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypescript":  "passed",
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "highRiskSecretPatternHits":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "phaseGate":  {
+                      "tenantBAdaptedFlow":  true,
+                      "tenantBCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "playwrightCascadeScreenshotsPresent":  true,
+                      "readyForTenantCInstall":  true
+                  },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "verdict":  "PASS"
+}

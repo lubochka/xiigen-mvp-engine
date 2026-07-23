@@ -1,0 +1,18 @@
+{
+  "patternId": "GROUP-JOIN-IDEMPOTENCY-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-06",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ROUTING",
+  "tags": ["group-join-idempotency", "setnx", "duplicate-join", "ALREADY_MEMBER"],
+  "keywords": "group join idempotency SETNX duplicate join ALREADY_MEMBER ACTIVE PENDING membership userId groupId",
+  "ironRules": [
+    "SETNX on membership:{userId}:{groupId} — duplicate join returns success (not failure)",
+    "ALREADY_MEMBER check covers both ACTIVE and PENDING status",
+    "group.type read from DB (xiigen-groups) — NOT from request payload",
+    "PRIVATE group → PENDING state → emit MembershipPending (NOT MembershipActivated)",
+    "storeDocument BEFORE any emit — DNA-8"
+  ],
+  "codeSnippet": "// CORRECT: SETNX on composite membership key\nconst key = `membership:${userId}:${groupId}`;\nconst existing = await this.db.searchDocuments('xiigen-memberships', { userId, groupId });\nif (existing.data?.length > 0) {\n  const status = existing.data[0].status;\n  if (status === 'ACTIVE' || status === 'PENDING') {\n    return DataProcessResult.success({ alreadyMember: true, status }); // idempotent\n  }\n}\nconst group = await this.db.getDocument('xiigen-groups', groupId);\nconst newStatus = group.data?.type === 'PRIVATE' ? 'PENDING' : 'ACTIVE';\n// WRONG: return failure on duplicate\n// if (existing.data?.length > 0) return DataProcessResult.failure('ALREADY_MEMBER', 'already joined');"
+}

@@ -1,0 +1,1 @@
+{"type":"object","properties":{"projectId":{"type":"string"},"refreshReason":{"type":"string","enum":["INITIAL_FETCH","401_RESPONSE","TTL_EXPIRY"]},"tokenValid":{"type":"boolean"},"refreshedAt":{"type":"string"},"expiresAt":{"type":"string"},"attempts":{"type":"integer"}},"required":["projectId","refreshReason","tokenValid","refreshedAt"]}

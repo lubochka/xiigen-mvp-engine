@@ -1,0 +1,67 @@
+{
+  "name": "@acme-pro-members/user-registration",
+  "version": "1.0.1",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-01 user-registration — acme-pro-members tenant fork. Email-based intake, uniqueness verification, credential hashing, idempotent account creation, email verification, and onboarding-material delivery. Adapted from @xiigen/user-registration v1.0.0 with 4 FREEDOM-config overrides; zero MACHINE invariants modified.",
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "publisher": "acme-pro-members",
+  "basedOn": "@xiigen/user-registration@1.0.0",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "tenantId": "acme-pro-members",
+    "adaptationCategory": "freedom-config",
+    "services": [
+      "RegistrationService",
+      "EmailVerificationService",
+      "OnboardingDeliveryService"
+    ],
+    "taskTypeIds": ["T47", "T48", "T49"],
+    "freedomKeys": [
+      "flow01_resend_rate_limit_minutes",
+      "flow01_email_verification_ttl_seconds",
+      "flow01_invitation_inviter_name",
+      "flow01_invitation_community_name",
+      "flow01_captcha_trigger_threshold",
+      "flow01_registration_rate_limit_per_tenant_hour",
+      "flow01_onboarding_reminder_days"
+    ],
+    "tenantOverrides": {
+      "flow01_resend_rate_limit_minutes": 15,
+      "flow01_email_verification_ttl_seconds": 3600,
+      "flow01_invitation_inviter_name": "The Acme Pro Team",
+      "flow01_invitation_community_name": "Acme Pro Members"
+    },
+    "emitsEventsConsumedBy": [
+      "FLOW-02 (AccountCreated → PersonalizationCompletionService)",
+      "FLOW-48 (AccountCreated → TranslationRequestRegistrar via acceptLanguage)",
+      "FLOW-08 (OnboardingCompleted → marketplace activation gate)",
+      "Email infrastructure (VerificationEmailRequested → fire-and-forget delivery)",
+      "FLOW-02 (VerificationCompleted → activation listeners)"
+    ],
+    "readsFromOtherFlows": [],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_TENANT_FORK"
+  },
+  "requiredCoInstalls": [],
+  "coInstallNotes": "Inherits from platform source — FLOW-01 stands alone for its 3 services (T47-T49). Downstream flows (FLOW-02, FLOW-08, FLOW-48) consume FLOW-01 events but are NOT required for FLOW-01 to boot. Circular co-install runtime test: server/test/user-registration/phase-01-circular-install.spec.ts proves FLOW-01 services boot standalone.",
+  "peerDependencies": {
+    "xiigen-server": "^1.0.0"
+  },
+  "dna": {
+    "compliance": ["DNA-1", "DNA-2", "DNA-3", "DNA-4", "DNA-5", "DNA-6", "DNA-7", "DNA-8", "DNA-9"],
+    "portabilityInvariants": ["P-1", "P-2", "P-3", "P-4", "P-5"]
+  },
+  "adaptationProvenance": {
+    "sourceVersion": "@xiigen/user-registration@1.0.0",
+    "tenantId": "acme-pro-members",
+    "adaptationDate": "2026-04-22",
+    "adaptationMethod": "XIIGen AI Adaptation Cycle Phases 1-4",
+    "adaptationPlan": "docs/portability/flow-01/adaptation-plan-freedom-config-user-registration.md",
+    "tenantProfile": "docs/portability/flow-01/tenant-profile-acme-pro-members.json",
+    "verificationContract": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts",
+    "machineInvariantsPreserved": true,
+    "freedomKeysOverridden": 4
+  },
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v2.0"
+}

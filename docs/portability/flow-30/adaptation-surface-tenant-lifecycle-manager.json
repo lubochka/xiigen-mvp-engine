@@ -1,0 +1,361 @@
+{
+  "flowId": "FLOW-30",
+  "flowSlug": "tenant-lifecycle-manager",
+  "implementationSlug": "tenant-lifecycle",
+  "flowTitle": "Tenant Lifecycle Manager",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-30 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-30-tenant-lifecycle-manager-functional-spec.md",
+    "server/src/engine-contracts/tenant-lifecycle-contracts.ts",
+    "server/src/engine-contracts/tenant-lifecycle-manager-bfa-rules.ts",
+    "server/src/engine/flows/tenant-lifecycle",
+    "server/src/bootstrap/history-seeds/tenant-lifecycle-manager-design-corpus.json",
+    "docs/flow-coverage/tenant-lifecycle-manager/P1-business-logic-inventory.md",
+    "docs/flow-coverage/tenant-lifecycle-manager/P5-ui-specs.md",
+    "docs/flow-coverage/tenant-lifecycle-manager/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T468-T477",
+    "taskTypeIds": [
+      "T468",
+      "T469",
+      "T470",
+      "T471",
+      "T472",
+      "T473",
+      "T474",
+      "T475",
+      "T476",
+      "T477"
+    ],
+    "factoryIdRange": "F1200-F1219",
+    "freedomKeyCount": 8,
+    "securityClassification": "platform tenant lifecycle orchestration, quota, policy, health, audit, isolation, and offboarding controls",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-30 keeps tenant-lifecycle-manager as the portability, UI, and package slug while the current runtime services live under server/src/engine/flows/tenant-lifecycle. Fork assembly copies that implementation directory into the canonical package slug path.",
+    "coreGuarantees": [
+      "Tenant provisioning remains idempotent by tenant and returns queued status immediately.",
+      "Quota allocation, quota enforcement, config inheritance, and policy enforcement stay tenant scoped.",
+      "Isolation violations hard-stop with an auditable failure path.",
+      "Audit and offboarding records remain insert-only lifecycle evidence.",
+      "Offboarding is scheduled with a retention window and never immediate deletion.",
+      "Health scoring keeps bounded scores from 0 to 1.",
+      "Usage metrics aggregation remains asynchronous and off the live request path.",
+      "Lifecycle side effects preserve store-before-event ordering."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-30 can govern tenant provisioning, offboarding, quota, and isolation behavior; Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T468",
+      "className": "TenantProvisionOrchestrator",
+      "file": "server/src/engine/flows/tenant-lifecycle/tenant-provision-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow30_default_plan_id",
+        "flow30_module_name"
+      ],
+      "machineLockedRules": [
+        "tenant provisioning is idempotent by tenantId",
+        "provision records are stored before tenant.provisioned events",
+        "the live response remains queued and non-blocking"
+      ]
+    },
+    {
+      "taskTypeId": "T469",
+      "className": "ResourceQuotaAllocator",
+      "file": "server/src/engine/flows/tenant-lifecycle/resource-quota-allocator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow30_quota_tier",
+        "flow30_storage_limit_gb",
+        "flow30_compute_unit_limit"
+      ],
+      "machineLockedRules": [
+        "quota documents are tenant scoped",
+        "quota allocation events are emitted after persistence",
+        "quota tier names are tenant metadata, not isolation boundaries"
+      ]
+    },
+    {
+      "taskTypeId": "T470",
+      "className": "TenantConfigInheritance",
+      "file": "server/src/engine/flows/tenant-lifecycle/tenant-config-inheritance.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow30_config_template_chain"
+      ],
+      "machineLockedRules": [
+        "resolution order remains global, plan, tenant override",
+        "effective config is resolved per tenant",
+        "resolution events are emitted after persistence"
+      ]
+    },
+    {
+      "taskTypeId": "T471-T472",
+      "className": "Quota And Isolation Guards",
+      "file": "server/src/engine/flows/tenant-lifecycle",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow30_quota_alert_threshold"
+      ],
+      "machineLockedRules": [
+        "quota excess remains a hard stop",
+        "isolation violations remain hard stops",
+        "cross-tenant access attempts are always auditable"
+      ]
+    },
+    {
+      "taskTypeId": "T473-T474",
+      "className": "Tenant Audit And Offboarding Governance",
+      "file": "server/src/engine/flows/tenant-lifecycle",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow30_retention_days",
+        "flow30_audit_retention_days"
+      ],
+      "machineLockedRules": [
+        "audit records are insert-only",
+        "offboarding is scheduled rather than immediate",
+        "retention policy does not delete active tenant records"
+      ]
+    },
+    {
+      "taskTypeId": "T475-T477",
+      "className": "Health Metrics And Policy Pipeline",
+      "file": "server/src/engine/flows/tenant-lifecycle",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow30_health_warning_threshold",
+        "flow30_policy_profile",
+        "flow30_usage_window_minutes"
+      ],
+      "machineLockedRules": [
+        "health scores stay within 0 to 1",
+        "usage aggregation is async-only",
+        "policy violation remains a guarded failure code"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-30 operating values. These values may tune lifecycle labeling, quota profile, template chain, audit and offboarding retention, health warning posture, and usage aggregation cadence without changing tenant isolation, hard-stop guards, async-only metrics, or store-before-event ordering.",
+      "total": 8,
+      "keys": [
+        {
+          "key": "flow30_module_name",
+          "type": "string",
+          "default": "tenant-lifecycle-manager",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "tenant.config.json",
+            "settings/module.settings.json"
+          ],
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        },
+        {
+          "key": "flow30_quota_tier",
+          "type": "enum",
+          "default": "standard",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T469.ResourceQuotaAllocator",
+            "T471.QuotaEnforcementGate"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "starter",
+              "standard",
+              "enterprise"
+            ]
+          }
+        },
+        {
+          "key": "flow30_storage_limit_gb",
+          "type": "number",
+          "default": 250,
+          "unit": "gigabytes",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T469.ResourceQuotaAllocator",
+            "T471.QuotaEnforcementGate"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 100000
+          }
+        },
+        {
+          "key": "flow30_compute_unit_limit",
+          "type": "number",
+          "default": 100,
+          "unit": "compute-units",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T469.ResourceQuotaAllocator",
+            "T471.QuotaEnforcementGate"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 10000
+          }
+        },
+        {
+          "key": "flow30_retention_days",
+          "type": "number",
+          "default": 30,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T474.TenantOffboardingHandler"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 3650
+          }
+        },
+        {
+          "key": "flow30_audit_retention_days",
+          "type": "number",
+          "default": 365,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T473.TenantAuditEmitter"
+          ],
+          "boundedRange": {
+            "min": 30,
+            "max": 3650
+          }
+        },
+        {
+          "key": "flow30_health_warning_threshold",
+          "type": "number",
+          "default": 0.7,
+          "unit": "ratio",
+          "stakeholder": "platform-support",
+          "consumedBy": [
+            "T475.TenantHealthScorer"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow30_usage_window_minutes",
+          "type": "number",
+          "default": 60,
+          "unit": "minutes",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T476.UsageMetricsAggregator"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 10080
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to module naming, tenant lifecycle quotas, policy posture, retention windows, health thresholds, and usage aggregation windows.",
+      "edgeCases": [
+        {
+          "id": "acme-tenant-ops",
+          "name": "Acme tenant ops",
+          "semantic": "Tenant A tunes the module for enterprise tenant provisioning with higher quota limits and longer audit retention.",
+          "extensionPoint": "quota tier, storage limit, audit retention, module naming",
+          "currentImplementation": "Tenant isolation, guard failures, and store-before-event ordering remain fixed."
+        },
+        {
+          "id": "northwind-lifecycle-control",
+          "name": "Northwind lifecycle control",
+          "semantic": "Tenant B tunes the installed package for tighter standard quota controls and shorter usage windows.",
+          "extensionPoint": "quota limit, health threshold, usage aggregation window",
+          "currentImplementation": "Quota excess remains a hard stop and metrics aggregation remains asynchronous."
+        },
+        {
+          "id": "tessera-tenant-governance",
+          "name": "Tessera tenant governance",
+          "semantic": "Tenant C tunes the cascade package for governance-heavy offboarding and policy enforcement.",
+          "extensionPoint": "retention window, policy profile, audit retention",
+          "currentImplementation": "Offboarding remains scheduled and audit records remain insert-only."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T468 through T477 remain fixed.",
+      "Factory IDs F1200 through F1219 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Tenant lifecycle reads and writes remain tenant scoped.",
+      "Tenant provisioning stays idempotent by tenantId.",
+      "Quota excess remains a hard stop.",
+      "Cross-tenant isolation violations remain hard stops and are auditable.",
+      "Audit records remain insert-only.",
+      "Offboarding remains scheduled and never immediate deletion.",
+      "Health scores remain bounded from 0 to 1.",
+      "Usage metrics aggregation remains async-only.",
+      "Store-before-event ordering remains mandatory for lifecycle side effects."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantATenantOps": {
+      "description": "Tenant A tunes Tenant Lifecycle Manager for enterprise tenant operations.",
+      "change": {
+        "flow30_module_name": "acme-tenant-ops",
+        "flow30_quota_tier": "enterprise",
+        "flow30_storage_limit_gb": 2000,
+        "flow30_compute_unit_limit": 500,
+        "flow30_retention_days": 90,
+        "flow30_audit_retention_days": 730,
+        "flow30_health_warning_threshold": 0.82,
+        "flow30_usage_window_minutes": 30
+      },
+      "impact": "Tenant A gets a higher-capacity lifecycle control package while tenant isolation, quota hard stops, scheduled offboarding, and audit immutability stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T468-T477",
+      "Factory IDs F1200-F1219",
+      "provider SDK boundaries",
+      "Vault credential paths",
+      "tenant-scoped access rules",
+      "idempotent tenant provisioning",
+      "quota hard-stop behavior",
+      "cross-tenant isolation hard-stop behavior",
+      "insert-only audit records",
+      "scheduled offboarding",
+      "bounded health score range",
+      "async-only usage metrics",
+      "store-before-event ordering"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-30 configuration values or display/module metadata.",
+    "FLOW-30 package assembly copies the tenant-lifecycle implementation under the canonical tenant-lifecycle-manager package slug.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

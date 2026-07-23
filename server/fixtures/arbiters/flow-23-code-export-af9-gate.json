@@ -1,0 +1,19 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-23-code_export_af9_gate",
+  "checkId": "code_export_af9_gate",
+  "flowId": "FLOW-23",
+  "bfaRule": "CF-446",
+  "severity": "score-zero",
+  "description": "T363 AF-9 threshold must be 0.8 fractional — not 80 integer",
+  "taskTypeId": "T363",
+  "threshold": 0.8,
+  "thresholdType": "fractional",
+  "thresholdRange": "0.0 to 1.0",
+  "requiredConstant": "EXPORT_QUALITY_THRESHOLD",
+  "requiredEventOnFail": "com.xiigen.code.export.quality.failed",
+  "requiredFieldOnFail": "deficit",
+  "violationPattern": "threshold >= 80 or threshold === 80",
+  "violationCode": "CF-446_THRESHOLD_MISCONFIGURED",
+  "active": true
+}

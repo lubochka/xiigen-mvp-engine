@@ -1,0 +1,12 @@
+{
+  "eventType": "review.flaggedForHuman",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "reviewId": { "type": "string", "required": true },
+    "targetEntityId": { "type": "string", "required": true },
+    "status": { "type": "string", "enum": ["PENDING"], "required": true },
+    "moderationScore": { "type": "number", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

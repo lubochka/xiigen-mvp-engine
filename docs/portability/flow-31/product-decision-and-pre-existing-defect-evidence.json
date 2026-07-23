@@ -1,0 +1,75 @@
+{
+    "flowId":  "FLOW-31",
+    "flowSlug":  "design-intelligence-engine",
+    "implementationSlug":  "design-system-governance",
+    "phase":  "product-decision-and-pre-existing-defect-check",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T01:27:15.6436721Z",
+    "productDecisionGate":  {
+                                "gateId":  "slug and ownership reconciliation",
+                                "question":  "FLOW-31 design-intelligence-engine maps to implementation directory design-system-governance also referenced by FLOW-37.",
+                                "tenantProtocolClarification":  "For this mobility/auth run, FLOW-31 uses canonical product slug design-intelligence-engine and existing implementation substrate server/src/engine/flows/design-system-governance because FLOW-31 tests and contracts exercise that implementation. FLOW-37 ownership remains a tracked cross-flow attribution issue, not a blocker to this protocol run.",
+                                "recordedForTenantAdaptation":  true,
+                                "blocksThisTenantPortabilityRun":  false
+                            },
+    "tests":  {
+                  "jestPattern":  "design-intelligence-engine",
+                  "testSuitesPassed":  8,
+                  "testSuitesTotal":  8,
+                  "testsPassed":  274,
+                  "testsTotal":  274,
+                  "command":  "Push-Location server; npx jest --testPathPatterns=design-intelligence-engine --runInBand --colors=false; Pop-Location",
+                  "exitCode":  0
+              },
+    "scans":  {
+                  "canonicalScanRoot":  "server/src/engine/flows/design-intelligence-engine",
+                  "canonicalScanRootExists":  false,
+                  "implementationScanRoot":  "server/src/engine/flows/design-system-governance",
+                  "sourceFlowFileCount":  27,
+                  "throwNew":  0,
+                  "exportedServicesByPromptPattern":  0,
+                  "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                  "clsImports":  0,
+                  "directSdkImports":  0,
+                  "anyTypes":  0,
+                  "failureLines":  0,
+                  "note":  "FLOW-31 runtime classes do not use the Service suffix; the prompt-pattern service scan is therefore zero. A broader class-name scan finds 27 classes without MicroserviceBase and is tracked as inherited design-system-governance drift, matching the existing reconciliation state."
+              },
+    "openIssues":  [
+                       {
+                           "id":  "FLOW-31-SLUG-MISMATCH",
+                           "severity":  "tracked",
+                           "summary":  "Protocol slug design-intelligence-engine maps to implementation directory design-system-governance.",
+                           "status":  "accepted-for-this-protocol-run",
+                           "source":  "FLOW-31-CURRENT-STATE and passing Jest evidence"
+                       },
+                       {
+                           "id":  "FLOW-31-CROSS-FLOW-ATTRIBUTION",
+                           "severity":  "tracked",
+                           "summary":  "FLOW-31 and FLOW-37 both reference design-system-governance substrate in historical state files.",
+                           "status":  "accepted-for-this-protocol-run",
+                           "source":  "FLOW-31-IMPL-STATE reconciliation_2026_04_17"
+                       },
+                       {
+                           "id":  "FLOW-31-STATE-DRIFT",
+                           "severity":  "tracked",
+                           "summary":  "IMPL-STATE says NOT_STARTED while 27 implementation files and 274 passing tests exist.",
+                           "status":  "accepted-for-this-protocol-run",
+                           "source":  "FLOW-31 Jest evidence"
+                       },
+                       {
+                           "id":  "FLOW-31-TASK-RANGE-DRIFT",
+                           "severity":  "tracked",
+                           "summary":  "IMPL-STATE task_range T480-T506 is stale relative to passing contract tests T489-T515.",
+                           "status":  "accepted-for-this-protocol-run",
+                           "source":  "FLOW-31 phase-31-a Jest evidence"
+                       }
+                   ],
+    "phaseGate":  {
+                      "preExistingDefectsRecorded":  true,
+                      "testLayerPassed":  true,
+                      "promptScansHaveZeroFailureLines":  true,
+                      "readyForDockerVaultAuth":  true
+                  },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T199",
+  "name": "schema-registry-dag-dag-render-gateway",
+  "description": "T199 DagRenderGateway — DATA_PIPELINE archetype. Returns DAG topology for rendering. Reads from T197 output. Never computes DAG inline — reads pre-built topology record.",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: reads pre-built DagTopology from DATABASE only, NEVER computes DAG inline, read-only gateway, T197 output consumption"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch pattern + pre-built-topology-read + read-only-gateway + dag-render patterns for T199",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T199",
+        "topK": 5,
+        "patternIds": [
+          "pre-built-topology-read-001",
+          "read-only-gateway-001",
+          "dag-render-001",
+          "dynamic-controller-get-001",
+          "topology-consumer-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T199 into: receive render request → load DagTopology document from DATABASE (T197 output) → return topology for frontend rendering → NEVER recompute adjacency or traverse graph"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate dag-render-gateway.service.ts — HTTP GET via DynamicController, reads DagTopology document stored by T197, returns pre-built ordered node list and edge set. NEVER calls T191 cycle detector or traverses adjacency inline. Read-only — no mutations. Returns 404 if topology not yet built."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: reads_prebuilt_topology_only, never_computes_inline, read_only_no_mutations, returns_404_if_not_built, no_cycle_detector_call"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T199 iron rules: pre-built read only, no inline DAG computation, read-only gateway, correct 404 handling"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=prebuilt-topology-read+read-only-return, rejected=inline-dag-compute OR calling-T191-on-read OR traversing-adjacency-in-gateway. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "HTTP GET via DynamicController",
+  "primaryFabric": "DATABASE"
+}

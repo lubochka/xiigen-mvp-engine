@@ -1,0 +1,43 @@
+{
+  "checkpoint": "STATE-S1-B",
+  "addendum": "FEATURE-REGISTRY-S1",
+  "phase": "S1-B",
+  "status": "COMPLETE",
+  "date": "2026-03-20",
+  "gate_checks": {
+    "feature-manifest-figma-plugin-v1_present": true,
+    "manifest_validates_against_schema_v1": true,
+    "ft_entries_count": 10,
+    "minimum_5_ft_entries": true,
+    "each_ft_has_ftId": true,
+    "each_ft_has_name": true,
+    "each_ft_has_description": true,
+    "each_ft_has_platforms_figma": true,
+    "each_ft_has_portingConstraints": true,
+    "FLOW-34_annotation_deferred": "FLOW-34-REFERENCE-PLAN.md does not exist yet — annotation text recorded below for when FLOW-34 is planned"
+  },
+  "last_ft_assigned": "FT-010",
+  "ft_range": "FT-001 through FT-010",
+  "ft_ids_assigned": [
+    "FT-001: DesignToCodeExtraction",
+    "FT-002: InteractiveElementPreview",
+    "FT-003: LiveStyleEditor",
+    "FT-004: AICodeEnhancement",
+    "FT-005: DesignFidelityCorrection",
+    "FT-006: DesignGenerationFromPrompt",
+    "FT-007: LayoutOptimizer",
+    "FT-008: GenerationSessionMemory",
+    "FT-009: ElementTreeInspector",
+    "FT-010: ScenePackageExport"
+  ],
+  "deferred_annotations": {
+    "FLOW-34_phase_A": "Feature-Manifest Integration (added FEATURE-REGISTRY-S1): Before generating any platform adapter, Phase A reads the source platform's feature-manifest-{platform}-v{N}.json from contracts/features/. It extracts the FT-IDs of features to be ported and passes them to the PortingCostEstimator (FLOW-36 T-XXX). The PortingDecisionGate (FLOW-36 T-XXX) must emit FeaturePortingApproved before any adapter code is generated. The adapter output is written back to the FT record's platforms[] array with status: 'implemented' and the adapter path. FLOW-34 does NOT assign new FT-IDs — it only attaches adapters to existing FT records."
+  },
+  "artifacts_produced": [
+    "contracts/features/feature-manifest-figma-plugin-v1.json",
+    "STATE-S1-B.json"
+  ],
+  "addendum_status": "COMPLETE",
+  "engine_state": "UNCHANGED — no code, no tests, no enum values, no task types, no factories",
+  "next_step": "FLOW-33"
+}

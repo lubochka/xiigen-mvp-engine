@@ -1,0 +1,13 @@
+{
+  "_id": "template-73",
+  "templateId": 73,
+  "name": "data-binding-workflow",
+  "flow": "FLOW-23",
+  "nodes": [
+    { "position": 0, "taskTypeId": "T360", "name": "TenantIsolationEnforcer", "required": true, "note": "CF-447: MUST be position 0" },
+    { "position": 1, "taskTypeId": "T353", "name": "CmsDataBindingSet" },
+    { "position": 2, "taskTypeId": "T356", "name": "DynamicDataSlotResolve" },
+    { "position": 3, "taskTypeId": "T359", "name": "DataPanelSlotMap" }
+  ],
+  "bfaRules": ["CF-447", "CF-435", "CF-437"]
+}

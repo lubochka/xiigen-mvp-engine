@@ -1,0 +1,18 @@
+{
+  "patternId": "PLAN-FLOW05-001",
+  "patternType": "PLAN_EXEMPLAR",
+  "flowId": "FLOW-05",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": ["completion", "gamification", "parallel-branches", "FLOW-05"],
+  "keywords": "completion gamification streak achievement social share ML adaptation parallel branches time-decoupled",
+  "ironRules": [
+    "LearningFlowCompleted gates on Branch A only (T85+T96+T87) — Branches B and C time-decoupled",
+    "T84 server-side calculation — no earnedPoints from client",
+    "T96 timezone-aware streak — userTimezoneOffset required",
+    "T90 is SOLE social branch entry — T91 triggers on SocialShareApproved",
+    "T89 applies ≤3 ML changes, protects required modules, checks recency"
+  ],
+  "codeSnippet": "// taskSequence: T83→T84→T85→T86→T87→T88→T89→T90→T91→T92→T93→T94→T95→T96→T97→T98\n// Branch A (gamification): T83, T84, T85, T86, T87, T96, T97 — LearningFlowCompleted (T98)\n// Branch B (ML): T88, T89 — LearningPlanAdapted (time-decoupled)\n// Branch C (social): T90, T91, T92, T93, T94, T95 — QuestionnairePostDistributed"
+}

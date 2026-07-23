@@ -1,0 +1,97 @@
+{
+    "flowId":  "FLOW-30",
+    "flowSlug":  "tenant-lifecycle-manager",
+    "implementationSlug":  "tenant-lifecycle",
+    "phase":  "phase-2-e2e-playwright",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T23:34:05.7169883Z",
+    "clientTypescript":  {
+                             "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                             "status":  "passed",
+                             "exitCode":  0
+                         },
+    "playwright":  {
+                       "command":  "Push-Location client; npx playwright test tenant-lifecycle-manager-mock-states.spec.ts tenant-lifecycle-manager-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line; Pop-Location",
+                       "status":  "passed",
+                       "testsPassed":  13,
+                       "testsTotal":  13,
+                       "project":  "chromium-desktop",
+                       "workers":  1
+                   },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/tenant-lifecycle-manager",
+                        "pngCount":  13,
+                        "zeroByteCount":  0,
+                        "files":  [
+                                      {
+                                          "name":  "c-03-before.png",
+                                          "bytes":  85804
+                                      },
+                                      {
+                                          "name":  "crud-after-create.png",
+                                          "bytes":  88180
+                                      },
+                                      {
+                                          "name":  "crud-initial-load.png",
+                                          "bytes":  85804
+                                      },
+                                      {
+                                          "name":  "crud-list-with-test-row.png",
+                                          "bytes":  88748
+                                      },
+                                      {
+                                          "name":  "default.png",
+                                          "bytes":  14019
+                                      },
+                                      {
+                                          "name":  "state-1-tenant-created.png",
+                                          "bytes":  21699
+                                      },
+                                      {
+                                          "name":  "state-2-provisioning.png",
+                                          "bytes":  22788
+                                      },
+                                      {
+                                          "name":  "state-3-onboarding.png",
+                                          "bytes":  22926
+                                      },
+                                      {
+                                          "name":  "state-4-active.png",
+                                          "bytes":  20745
+                                      },
+                                      {
+                                          "name":  "state-5-quota-exceeded.png",
+                                          "bytes":  20632
+                                      },
+                                      {
+                                          "name":  "state-6-policy-violation.png",
+                                          "bytes":  21174
+                                      },
+                                      {
+                                          "name":  "state-7-suspended.png",
+                                          "bytes":  20851
+                                      },
+                                      {
+                                          "name":  "state-8-offboarded.png",
+                                          "bytes":  22961
+                                      }
+                                  ]
+                    },
+    "repairsApplied":  [
+                           "Updated tenant-lifecycle-manager-crud.spec.ts to navigate as platform-admin for the role-scoped FLOW-30 page.",
+                           "Expanded the engine-internal raw index before asserting CRUD rows and forms.",
+                           "Narrowed duplicate page test-id locators to avoid strict-mode collisions between the page wrapper and AdminCrudPanel."
+                       ],
+    "roleCoverage":  {
+                         "primaryRoleExercised":  "platform-admin",
+                         "mockStatesCaptured":  8,
+                         "crudScreenshotsCaptured":  4,
+                         "defaultScreenshotCaptured":  true
+                     },
+    "phaseGate":  {
+                      "clientTypeScriptPassed":  true,
+                      "playwrightPassed":  true,
+                      "screenshotsPresent":  true,
+                      "readyForVisualExamination":  true
+                  }
+}

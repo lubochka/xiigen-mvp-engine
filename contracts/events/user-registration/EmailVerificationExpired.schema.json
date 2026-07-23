@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.user-registration.email-verification-expired.v1",
+  "taskTypeId": "T48",
+  "flowId": "FLOW-01",
+  "description": "Emitted by T48 EmailVerificationWaitState when the 24-hour verification SLA has elapsed without confirmation.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.user-registration.email-verification-expired.v1",
+    "source": "xiigen/flows/user-registration-onboarding/t48",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "userId": { "type": "string", "description": "Opaque user identifier — no PII (CF-8)" },
+    "tokenId": { "type": "string", "description": "Expired token reference" },
+    "expiredAt": { "type": "string", "format": "date-time" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "No email address or token value in payload (CF-8).",
+  "requiredByFlows": ["FLOW-01"]
+}

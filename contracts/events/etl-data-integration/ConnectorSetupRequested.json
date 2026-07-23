@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ConnectorSetupRequested",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","sessionId","clientTimestamp","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "ConnectorSetupRequested" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "sessionId": { "type": "string", "description": "UI session identifier for connector setup wizard" },
+    "clientTimestamp": { "type": "string", "format": "date-time", "description": "Client-side timestamp of the setup request" },
+    "data": {
+      "type": "object",
+      "required": ["connectorType","configSnapshot"],
+      "properties": {
+        "connectorType": { "type": "string" },
+        "configSnapshot": { "type": "object", "description": "Connector configuration (credentials excluded)" }
+      }
+    }
+  }
+}

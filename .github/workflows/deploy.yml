@@ -1,0 +1,50 @@
+# XIIGen — AWS ECS Deployment Workflow
+# Triggers on push to main after CI passes.
+# Required GitHub secrets: AWS_ACCOUNT_ID, AWS_REGION, ECR_REGISTRY, ECS_CLUSTER,
+#                          AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+
+name: XIIGen Deploy
+
+on:
+  workflow_run:
+    workflows: ["XIIGen CI"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy to ECS
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ secrets.AWS_REGION }}
+
+      - name: Set image tag
+        id: tag
+        run: echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Deploy server + client
+        env:
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_REGION:     ${{ secrets.AWS_REGION }}
+          ECR_REGISTRY:   ${{ secrets.ECR_REGISTRY }}
+          ECS_CLUSTER:    ${{ secrets.ECS_CLUSTER }}
+          IMAGE_TAG:      ${{ steps.tag.outputs.tag }}
+        run: ./infra/scripts/deploy.sh all
+
+      - name: Post deploy summary
+        if: always()
+        run: |
+          echo "## Deploy Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image tag:** ${{ steps.tag.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Cluster:** ${{ secrets.ECS_CLUSTER }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by:** ${{ github.event.workflow_run.head_sha }}" >> $GITHUB_STEP_SUMMARY

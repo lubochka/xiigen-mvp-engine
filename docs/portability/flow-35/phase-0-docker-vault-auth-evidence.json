@@ -1,0 +1,153 @@
+{
+  "flowId": "FLOW-35",
+  "flowSlug": "meta-arbitration-engine",
+  "phase": "phase-0-docker-vault-auth",
+  "status": "completed",
+  "generatedAt": "2026-05-12T03:32:43.8946602Z",
+  "environment": {
+    "serverBaseUrl": "http://localhost:33001",
+    "serverHealthStatus": "OK",
+    "vaultSealed": false,
+    "tokenMaterialPrinted": false
+  },
+  "tenantCredentialSeeding": [
+    {
+      "tenantId": "acme-corp",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "seeded"
+    },
+    {
+      "tenantId": "northwind",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "seeded"
+    },
+    {
+      "tenantId": "tessera-collective",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "seeded"
+    }
+  ],
+  "roleMap": {
+    "source": "docs/design-reviews/ROLE-ANALYSIS-BATCH-07.md",
+    "primaryRoles": [
+      "platform-admin"
+    ],
+    "partialRoles": [
+      "platform-support"
+    ],
+    "validRoleProbe": "platform-admin",
+    "wrongRoleProbe": "public-marketplace-visitor",
+    "wrongRoleProbeRoute": "GET /api/runs/phase0-auth-probe/trace"
+  },
+  "requiredChecks": [
+    "valid token in its own tenant returns 200",
+    "missing token returns 401",
+    "tenant A token in tenant B context returns 401",
+    "tenant B token in tenant C context returns 401",
+    "tenant A token in tenant C context returns 401",
+    "wrong-role token on a role-protected route returns 403"
+  ],
+  "liveAuthMatrix": [
+    {
+      "name": "valid platform-admin token in acme-corp",
+      "method": "GET",
+      "path": "/api/engine/check-fabric",
+      "contextTenant": "acme-corp",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid platform-admin token in northwind",
+      "method": "GET",
+      "path": "/api/engine/check-fabric",
+      "contextTenant": "northwind",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid platform-admin token in tessera-collective",
+      "method": "GET",
+      "path": "/api/engine/check-fabric",
+      "contextTenant": "tessera-collective",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "missing token denied in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/engine/check-fabric",
+      "contextTenant": "acme-corp",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "method": "GET",
+      "path": "/api/engine/check-fabric",
+      "contextTenant": "northwind",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/engine/check-fabric",
+      "contextTenant": "tessera-collective",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/engine/check-fabric",
+      "contextTenant": "tessera-collective",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "wrong public-marketplace-visitor role denied on run-trace route",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "allPassed": true
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeysPrinted": false
+  },
+  "notes": [
+    "Per-tenant JWTs were minted in memory from Vault signing keys and were not printed or stored.",
+    "curl.exe status-code probes were used because PowerShell Invoke-WebRequest timed out after successful auth on some protected handlers."
+  ],
+  "verdict": "PASS"
+}

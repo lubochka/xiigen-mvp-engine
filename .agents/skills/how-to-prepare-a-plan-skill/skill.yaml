@@ -1,0 +1,44 @@
+name: how-to-prepare-a-plan-skill
+sk_number: SK-412
+version: "2.0.0"
+priority: SUPREME
+load_order: 10
+entry: SKILL.md
+author: luba
+updated: "2026-03-18"
+
+description: >
+  Master orchestration skill. Sequences the 5 sub-skills for producing
+  plans that Claude Code can actually execute: agent-output-format (first),
+  xiigen-core-principles (Gate 0 — 8 principles check), infrastructure-discovery,
+  planning-skill, plan-review-skill. Defines the 3-gate approval protocol
+  (automated FC checks, 2 AI cross-reviews, Luba approval) before handoff.
+
+triggers:
+  - "make a plan for Claude Code"
+  - "prepare a plan"
+  - "how do I plan"
+  - "planning for autonomous"
+  - "instructions for Claude Code"
+  - "start of web session"
+
+sub_skills_in_order:
+  1: agent-output-format-skill       # Declare consumer FORMAT first (session start)
+  2: xiigen-core-principles-skill    # Gate 0: 8 principles check BEFORE discovery
+  3: infrastructure-discovery        # Verify codebase FACTS third
+  4: planning-skill                  # Validate plan CONTENT fourth (8 gates)
+  5: plan-review-skill               # Validate plan STRUCTURE fifth (FC-1 to FC-12)
+
+approval_gates:
+  A: "Claude Code runs SESSION-0 FC checks (automated, 12 steps)"
+  B: "2 AI models review independently (cross-validate)"
+  C: "Luba written approval (human judgment)"
+
+key_rule: >
+  agent-output-format-skill is invoked at session START, not at the end.
+  xiigen-core-principles-skill is Gate 0 — runs before infrastructure discovery.
+  Format + principles must both be decided before any content is written.
+
+origin: >
+  Built from 7-round, 23-correction review of XIIGen skill migration plan.
+  v2.0: added xiigen-core-principles as mandatory Gate 0 (sub-skill #2).

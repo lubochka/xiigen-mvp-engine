@@ -1,0 +1,40 @@
+{
+  "taskTypeId": "T670",
+  "flowId": "FLOW-48",
+  "name": "UserPreferencesManager",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "i18n-translation",
+  "seededAt": "2026-04-19T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "http-crud-user-preferences-with-override-flag",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "i18n.defaultLocale",
+    "neutralConcepts": [
+      "GET /api/users/:userId/preferences → { locale, userOverride } (or null/false on miss)",
+      "PUT /api/users/:userId/preferences { locale, userOverride? } — docId = userId",
+      "userOverride: true means tenant defaultLocale changes do NOT propagate",
+      "userOverride: false (or missing record) means tenant default applies",
+      "Reset-to-tenant-default button sends userOverride: false",
+      "tenantId from ALS (CF-810) — stored on every write",
+      "DNA-8: storeDocument before PUT returns"
+    ]
+  },
+  "factories": [],
+  "ironRules": [
+    {
+      "id": "CF-810",
+      "rule": "Every setPreferences write stamps tenantId from ALS context. No parameter override.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "DNA-8",
+      "rule": "storeDocument completes before method returns. No async side effects on user preference writes.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": ["tenant_id_on_writes", "dna_8_outbox_ordering"],
+  "bfaRules": ["CF-810"],
+  "tags": ["data-pipeline", "user-preferences", "user-override", "FLOW-48"],
+  "keywords": "user preferences manager locale override tenant default reset data pipeline FLOW-48"
+}

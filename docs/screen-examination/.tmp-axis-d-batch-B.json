@@ -1,0 +1,24 @@
+{
+  "batch_id": "B",
+  "summary_table": [
+    {"slug":"cms-publishing","verdict":"CONCERN","axis_d":"PARTIAL","module_pct":55,"cells_pass":10,"cells_concern":3,"cells_block":5,"issue":"Reader ships for anon/visitor/user/platform-admin; tenant-admin falls to raw CRUD with ui-177 IDs; /cms/:slug reader route 404"},
+    {"slug":"completion-gamification","verdict":"BLOCK","axis_d":"NOT_SHIPPED","module_pct":0,"cells_pass":0,"cells_concern":3,"cells_block":6,"issue":"All 9 cells render identical skeleton (commit 8788312f stabilised skeleton but never built celebratory kiosk); no XP/streak/badge; no role differentiation; 'Gamification' jargon on tenant-user"},
+    {"slug":"data-warehouse-analytics","verdict":"CONCERN","axis_d":"PARTIAL","module_pct":50,"cells_pass":6,"cells_concern":3,"cells_block":3,"issue":"Business-partner + platform-admin ship real analytics; tenant-admin is raw CRUD not G6 dashboard; populated mock exposes KMS key + export IDs"},
+    {"slug":"design-intelligence-engine","verdict":"PASS","axis_d":"SHIPPED","module_pct":75,"cells_pass":10,"cells_concern":2,"cells_block":0,"issue":"Full 3-role branching: admin governance, support read-only, tenant-admin add-on upsell. Topology graph not yet; populated leaks FLOW-04"},
+    {"slug":"design-system-governance","verdict":"PASS","axis_d":"SHIPPED","module_pct":85,"cells_pass":7,"cells_concern":2,"cells_block":0,"issue":"Best-shipped in batch: stack coupling grid + compatibility reports + per-dim tags + role branch (admin+support read-only)"},
+    {"slug":"durable-sagas-compliance","verdict":"BLOCK","axis_d":"NOT_SHIPPED","module_pct":25,"cells_pass":0,"cells_concern":0,"cells_block":12,"issue":"ALL 4 roles see SAME engineering surface ('Saga', 'Execute Saga', saga-sample-payment-001); tenant-user has no GDPR slice; platform-support has no read-only variant and CAN trigger writes"},
+    {"slug":"dynamic-forms-workflows","verdict":"CONCERN","axis_d":"PARTIAL","module_pct":30,"cells_pass":7,"cells_concern":3,"cells_block":2,"issue":"MAJOR uplift: role-aware form demo SHIPPED with 4/3/2 field visibility per role. Still missing G7 three-column builder + Typeform kiosk + modules C-J"}
+  ],
+  "batch_systemic_patterns": [
+    "P1 Raw CRUD fallback for tenant-admin (cms-publishing, data-warehouse-analytics)",
+    "P2 Populated-state mocks expose engineering identifiers (FLOW-XX, schemaId, kms-key, DS-RULE, DIE)",
+    "P3 Role branching inconsistent: DIE+DSG do it well; sagas+gamification show 1 surface for all roles",
+    "P4 Engineering jargon on consumer-facing roles (Saga/Gamification/admin-view)",
+    "P5 CMS /cms/:slug reader route returns 404",
+    "P6 completion-gamification skeleton-stable pattern stabilised EMPTY — surface never built",
+    "P7 Best-shipped template (DSG, DIE): dense domain data + role variants + lock-banner support + adoption %"
+  ],
+  "batch_total_cells": 84,
+  "batch_total_pass": 40,
+  "batch_total_block": 28
+}

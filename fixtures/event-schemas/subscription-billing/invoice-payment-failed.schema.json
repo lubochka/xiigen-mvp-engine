@@ -1,0 +1,14 @@
+{
+  "eventType": "invoice.payment.failed",
+  "flowId": "FLOW-12",
+  "version": "1.0.0",
+  "properties": {
+    "invoiceId": { "type": "string", "required": true },
+    "subscriptionId": { "type": "string", "required": true },
+    "amountCents": { "type": "integer", "minimum": 1, "required": true },
+    "attemptNumber": { "type": "integer", "minimum": 1, "required": true },
+    "failureCode": { "type": "string", "required": true },
+    "nextAttemptAt": { "type": "string", "format": "date-time", "required": false },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,87 @@
+{
+    "flowId":  "FLOW-38",
+    "flowSlug":  "rag-quality-feedback",
+    "phase":  "phase-h-auth-decoration-post-cascade",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T21:00:51.1160739Z",
+    "server":  {
+                   "url":  "http://localhost:33001",
+                   "secretsProvider":  "vault",
+                   "healthLive":  {
+                                      "success":  true,
+                                      "data":  {
+                                                   "status":  "OK",
+                                                   "timestamp":  1778533251017
+                                               }
+                                  }
+               },
+    "cascadeRepos":  [
+                         "lubochka/acme-corp--rag-quality-feedback-f38",
+                         "lubochka/northwind--rag-quality-feedback-f38",
+                         "lubochka/tessera-collective--rag-quality-feedback-f38"
+                     ],
+    "authMatrix":  [
+                       {
+                           "actualStatus":  200,
+                           "tenantContext":  "acme-corp",
+                           "name":  "valid token in acme tenant returns 200",
+                           "expectedStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "actualStatus":  200,
+                           "tenantContext":  "northwind",
+                           "name":  "valid token in northwind tenant returns 200",
+                           "expectedStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "actualStatus":  200,
+                           "tenantContext":  "tessera-collective",
+                           "name":  "valid token in tessera tenant returns 200",
+                           "expectedStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "actualStatus":  401,
+                           "tenantContext":  "acme-corp",
+                           "name":  "missing token returns 401",
+                           "expectedStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "actualStatus":  401,
+                           "tenantContext":  "northwind",
+                           "name":  "tenant A token in tenant B context returns 401",
+                           "expectedStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "actualStatus":  401,
+                           "tenantContext":  "tessera-collective",
+                           "name":  "tenant B token in tenant C context returns 401",
+                           "expectedStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "actualStatus":  401,
+                           "tenantContext":  "tessera-collective",
+                           "name":  "tenant A token in tenant C context returns 401",
+                           "expectedStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "actualStatus":  403,
+                           "tenantContext":  "acme-corp",
+                           "name":  "wrong role token on role-protected route returns 403",
+                           "expectedStatus":  403,
+                           "passed":  true
+                       }
+                   ],
+    "summary":  {
+                    "failed":  0,
+                    "total":  8,
+                    "passed":  8
+                },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,13 @@
+{
+  "eventType": "ads.delivery.authorized",
+  "flowId": "FLOW-20",
+  "version": "1.0.0",
+  "description": "Emitted by T625 ConsentGateEnforcer after successful consent verification at ORDER 1. Signals downstream systems that ad delivery is permitted for this user.",
+  "properties": {
+    "userId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "consentExpiresAt": { "type": "string", "format": "date-time", "required": true },
+    "authorizedAt": { "type": "string", "format": "date-time", "required": true },
+    "auditRecordId": { "type": "string", "required": true }
+  }
+}

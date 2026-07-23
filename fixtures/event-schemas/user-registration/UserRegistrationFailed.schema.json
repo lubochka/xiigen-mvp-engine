@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.user-registration.registration-failed.v1",
+  "taskTypeId": "T47",
+  "flowId": "FLOW-01",
+  "description": "Emitted by T47 SSOAndEmailAuth when registration cannot proceed (duplicate email, SSO error, etc.).",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.user-registration.registration-failed.v1",
+    "source": "xiigen/flows/user-registration-onboarding/t47",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "correlationId": {
+      "type": "string",
+      "description": "Idempotency key from the failed attempt"
+    },
+    "failureCode": {
+      "type": "string",
+      "description": "Structured failure code (e.g. DUPLICATE_EMAIL, SSO_TOKEN_INVALID)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "No email or credentials in payload. failureCode is a structured enum value only (CF-8).",
+  "requiredByFlows": [
+    "FLOW-01"
+  ],
+  "seededAt": "2026-03-24T22:09:46.555074+00:00"
+}

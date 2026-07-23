@@ -1,0 +1,15 @@
+{
+  "eventType": "SchemaPublished",
+  "flowId": "FLOW-11",
+  "version": "1.0.0",
+  "properties": {
+    "schemaId": { "type": "string", "required": true },
+    "schemaType": { "type": "string", "required": true },
+    "version": { "type": "string", "required": true },
+    "changeType": { "type": "string", "enum": ["ADDITIVE", "BREAKING"], "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "publishedAt": { "type": "string", "format": "date-time", "required": true },
+    "previousVersion": { "type": "string", "required": false },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

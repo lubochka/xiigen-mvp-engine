@@ -1,0 +1,121 @@
+{
+  "flowId": "FLOW-10",
+  "flowSlug": "reviews-reputation",
+  "phase": "phase-3-visual-examination",
+  "generatedAt": "2026-05-05T21:23:02.1790916+03:00",
+  "visualEvidenceReviewed": {
+    "roleMatrixDirectoryPattern": "docs/e2e-snapshots/visual-audit/{viewport}/reviews-reputation",
+    "roles": [
+      "tenant-user",
+      "tenant-admin",
+      "anonymous"
+    ],
+    "viewports": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "expectedPngCount": 9,
+    "actualPngCount": 9,
+    "missingPngCount": 0,
+    "zeroBytePngCount": 0,
+    "byteSizeCheck": {
+      "chromium-desktop": {
+        "count": 3,
+        "minBytes": 21854,
+        "maxBytes": 36483
+      },
+      "chromium-tablet": {
+        "count": 3,
+        "minBytes": 21387,
+        "maxBytes": 35668
+      },
+      "chromium-mobile": {
+        "count": 3,
+        "minBytes": 72714,
+        "maxBytes": 126602
+      }
+    },
+    "manualSpotChecks": [
+      {
+        "file": "docs/e2e-snapshots/visual-audit/chromium-mobile/reviews-reputation/primary-tenant-user.png",
+        "result": "PASS",
+        "notes": [
+          "Tenant-user mobile capture shows the submit-review form, visible labels, five star buttons, the review textarea, and a clear Submit Review action.",
+          "Text fits the mobile viewport and no XIIGen engine sidebar or backend-warning banner is visible."
+        ]
+      },
+      {
+        "file": "docs/e2e-snapshots/visual-audit/chromium-desktop/reviews-reputation/primary-anonymous.png",
+        "result": "PASS",
+        "notes": [
+          "Anonymous desktop capture shows public review cards, sign-in/register links, star ratings, verified purchase labels, and no form intended for authenticated tenants.",
+          "The surface has kiosk/module framing with no engine sidebar and no internal terminology."
+        ]
+      },
+      {
+        "file": "docs/e2e-snapshots/visual-audit/chromium-desktop/reviews-reputation/primary-tenant-admin.png",
+        "result": "PASS",
+        "notes": [
+          "Tenant-admin desktop capture shows the moderation queue, flagged review reasons, and Review/Remove/Hide actions.",
+          "The admin shell is expected for tenant-admin; copy is plain-language moderation copy rather than engine internals."
+        ]
+      },
+      {
+        "file": "docs/e2e-snapshots/reviews-reputation/r-04-after.png",
+        "result": "PASS",
+        "notes": [
+          "Submit-success source-state capture shows Review submitted successfully with the review identifier and no overlapping UI.",
+          "Success and unverified-purchase notices are readable and visually distinct."
+        ]
+      }
+    ]
+  },
+  "playwright": {
+    "command": "npx playwright test e2e/visual-audit-axis-d-full.spec.ts -g \"reviews-reputation\" --workers=1 --reporter=line",
+    "workingDirectory": "client",
+    "result": {
+      "passed": 9,
+      "total": 9
+    },
+    "notes": [
+      "Vite logged backend proxy errors for the key-status endpoint because the temporary localhost:3000 bridge was stopped before this visual-only rerun.",
+      "Manual screenshot inspection confirmed those backend warnings did not leak into the representative FLOW-10 captures."
+    ]
+  },
+  "plainLanguageGate": {
+    "scopedPath": "client/src/pages/reviews-reputation",
+    "patterns": [
+      "\\bBFA\\b",
+      "\\bDNA-[1-9]\\b",
+      "\\bAF[- ]station\\b",
+      "\\barbiter\\b",
+      "FREEDOM config",
+      "MACHINE code",
+      "DataProcessResult",
+      "ENGINE_INTERNAL",
+      "\\bT[0-9]{3}\\b",
+      "\\bCF-[0-9]{3}\\b"
+    ],
+    "rawMatches": 4,
+    "visibleCodeMatches": 0,
+    "rawMatchNote": "The four raw hits are non-rendered file header comments naming FLOW-10 task IDs; visible-code filtering returned zero matches.",
+    "status": "PASS"
+  },
+  "phaseCloseScans": {
+    "flowFileCount": 4,
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "flowScopedAnnotations": 4,
+    "flowIdAnnotations": 4,
+    "localConfigClones": 0,
+    "canonicalFreedomGets": 3,
+    "unscopedFreedomReads": 0,
+    "directSdkImports": 0,
+    "productionAnyTypes": 0
+  },
+  "blockedFindings": [],
+  "result": "passed",
+  "tokenMaterialWrittenToEvidence": false
+}

@@ -1,0 +1,102 @@
+{
+  "taskTypeId": "T50",
+  "flowId": "FLOW-02",
+  "name": "ProfileEnrichmentFanIn",
+  "archetype": "FAN_IN",
+  "domainId": "business-onboarding",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "stackCoupling": {
+    "mechanism": "dual-record-write-fan-out",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow02_debounce_window_seconds",
+    "neutralConcepts": [
+      "DUAL-RECORD-WRITE: PRIVATE full profile + GLOBAL 4 match-safe fields only",
+      "FAN_IN: Promise.allSettled for A1+A2 parallel — Promise.all forbidden",
+      "A3 @EventPattern = BusinessProfileCreated — NEVER QuestionnaireCompleted",
+      "DNA-8: both storeDocument calls before BusinessProfileCreated emit",
+      "Debounce key: compound tenantId+userId — single-dimension key contaminates cross-tenant"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F182",
+      "interface": "IBusinessProfileService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F183",
+      "interface": "IMatchingProfileService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F184",
+      "interface": "IAnalyticsSegmentService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F185",
+      "interface": "ILearningProgramService",
+      "fabric": "AI_ENGINE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T50-1",
+      "rule": "A1 writes TWO records: xiigen-business-profiles (PRIVATE, full schema incl. questionnaire) + xiigen-matching-profiles (GLOBAL, 4 fields: industry_code, business_stage, location_proximity, team_size_tier)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T50-2",
+      "rule": "A3 @EventPattern must be 'BusinessProfileCreated' — NEVER 'QuestionnaireCompleted'. A3 triggers on A1's output event, not the original trigger.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T50-3",
+      "rule": "FAN_IN parallel enrichment: use Promise.allSettled([A1, A2]). Promise.all is forbidden — source failure must not block sibling enrichment.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T50-4",
+      "rule": "DNA-8: both storeDocument calls (PRIVATE + GLOBAL) BEFORE BusinessProfileCreated enqueue. Order: store-private → store-global → enqueue.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T50-5",
+      "rule": "GLOBAL record (xiigen-matching-profiles) must NOT contain questionnaire, goals, challenges, skillGaps, revenue, or any sensitive field. Only 4 match-safe fields allowed.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T50-6",
+      "rule": "Debounce key = 'debounce:{tenantId}:{userId}' — compound. A userId-only key contaminates across tenants. SUBFLOW-02D handles debounce: D1 key check / D2 profile return / D3 discard record.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "dual_record_write_private_global",
+    "upstream_event_not_trigger",
+    "fan_in_pattern"
+  ],
+  "bfaRules": [
+    "CF-797",
+    "CF-798",
+    "CF-799"
+  ],
+  "handlers": [
+    "validate_questionnaire_schema",
+    "check_debounce_key",
+    "store_private_profile",
+    "store_global_matching_profile",
+    "emit_business_profile_created",
+    "run_analytics_segmentation",
+    "generate_learning_program"
+  ],
+  "tags": [
+    "fan-in",
+    "dual-record-write",
+    "private-global",
+    "debounce-subflow",
+    "upstream-event-not-trigger"
+  ],
+  "keywords": "business profile enrichment fan-in dual record write private global matching profiles debounce tenant isolation"
+}

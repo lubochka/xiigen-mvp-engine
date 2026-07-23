@@ -1,0 +1,57 @@
+{
+  "taskTypeId": "T85",
+  "flowId": "FLOW-05",
+  "name": "LedgerUpdater",
+  "archetype": "PROCESSING",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "atomic-increment-and-record",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow05_ledger_index",
+    "neutralConcepts": [
+      "atomic incrementAndRecord() ONE call — no separate read-then-write",
+      "waits for T84 (pointBreakdown) AND T96 (streakBonus) before writing",
+      "storeDocument BEFORE LedgerUpdated emit",
+      "knowledgeScope PRIVATE — ledger record is per-user",
+      "DNA-8: storeDocument before enqueue"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F189",
+      "interface": "ILedgerService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T85-1",
+      "rule": "atomic incrementAndRecord() is ONE call — never a separate getBalance → computeNew → setBalance sequence (race condition)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T85-2",
+      "rule": "T85 waits for BOTH T84 (pointBreakdown) AND T96 (streakBonus) before writing the ledger record",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T85-3",
+      "rule": "DNA-8: storeDocument BEFORE LedgerUpdated enqueue. Order: store-ledger → enqueue.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T85-4",
+      "rule": "knowledgeScope = PRIVATE — ledger records are per-user and must not be stored as GLOBAL",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["ledger-updater", "atomic", "increment", "PROCESSING"],
+  "keywords": "ledger updater atomic increment record points streak bonus private"
+}

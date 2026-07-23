@@ -1,0 +1,25 @@
+name: integration-testing
+version: "1.0.0"
+priority: HIGH
+load_order: 15
+author: luba
+updated: "2026-06-29"
+description: >
+  Verify boundaries between components with at least two REAL implementations on the
+  path under test (no stub on the tested contract), a fabric-coverage matrix where
+  every fabric implementation has >=1 real-input/real-output test, no shared state,
+  and a fresh instance per test. Adapted for xiigen mvp: NestJS 11 + Jest, containerized
+  fabrics (Elasticsearch/Redis) via docker-compose.test.yml, FastAPI RAG sidecar.
+triggers:
+  - "integration test"
+  - "boundary test"
+  - "crosses services"
+  - "fabric coverage"
+  - "real implementation not mock"
+  - "two components together"
+  - "test the boundary"
+integrates_with:
+  - test-integrity (Rule 6 behavioral assertions; FM-1 stub-fix masking)
+  - three-level-verification (Level 2 = the integration level, real wiring not L1 mocks)
+  - docker-local-testing (container startup / fabric coverage harness)
+  - bug-to-tests (the integration test is one of the 3 failing tests)

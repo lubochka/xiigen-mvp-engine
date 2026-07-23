@@ -1,0 +1,23 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-23-jsonpath_dynamic_binding",
+  "checkId": "jsonpath_dynamic_binding",
+  "flowId": "FLOW-23",
+  "bfaRules": ["DNA-1"],
+  "cfRules": ["CF-435"],
+  "severity": "score-zero",
+  "description": "T353/T356/T359 must use Record<string,unknown> — no typed binding models",
+  "taskTypeIds": ["T353", "T356", "T359"],
+  "forbiddenPatterns": [
+    "class CmsBindingTarget",
+    "interface CmsBindingTarget",
+    "class DataSlotDefinition",
+    "interface DataSlotDefinition",
+    "class DataPanelSlot",
+    "interface DataPanelSlot",
+    "class CmsDataSource"
+  ],
+  "requiredPattern": "Record<string, unknown>",
+  "violationCode": "DNA-1_TYPED_BINDING_MODEL",
+  "active": true
+}

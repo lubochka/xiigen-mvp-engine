@@ -1,0 +1,124 @@
+{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "phaseICertificationDeclaration",
+    "generatedAt":  "2026-05-06T12:57:19.3758765+03:00",
+    "status":  "completed",
+    "earnedTier":  "Tier 3",
+    "productDecisionClosure":  {
+                                   "status":  "completed",
+                                   "decision":  "FLOW-14 declares its FLOW-13 peer requirement as portable co-install metadata in package xiigen.requiredCoInstalls, not as bundled upstream source or hidden infrastructure. This satisfies the product gate for the mobility/auth certification path under Luba direct instruction to continue the flow plan.",
+                                   "evidence":  [
+                                                    "npm view @xiigen-fork/acme-enterprise-etl-data-integration@1.0.1 returned xiigen.requiredCoInstalls=[FLOW-13].",
+                                                    "npm view @xiigen-fork/northwind-exchange-etl-data-integration@1.0.2 returned xiigen.requiredCoInstalls=[FLOW-13].",
+                                                    "npm view @xiigen-fork/tessera-community-etl-data-integration@1.0.3 returned xiigen.requiredCoInstalls=[FLOW-13].",
+                                                    "T222 keeps FLOW-13 peer ACTIVE enforcement as a runtime invariant and does not bundle FLOW-13 source."
+                                                ]
+                               },
+    "tierBasis":  [
+                      "Docker/Vault auth completed with tenant credentials and signing keys under all three tenant Vault paths.",
+                      "Tenant A forked original FLOW-14 source through the marketplace API, adapted, published v1.0.1, and passed real GitHub Actions.",
+                      "Tenant B forked Tenant A through the marketplace API, adapted, published v1.0.2, and passed real GitHub Actions.",
+                      "Tenant C forked Tenant B through the marketplace API, adapted, published v1.0.3, and passed real GitHub Actions.",
+                      "Local registry readbacks match each adapted repo gitHead and each package declares requiredCoInstalls=[FLOW-13].",
+                      "Real repo, Actions, registry, and role/language/viewport screenshots exist for every cascade point.",
+                      "Post-cascade auth matrix passed 8/8 with Vault-backed JWTs and no secret material committed.",
+                      "Second design review behavioral assertion is covered by T222-2 PEER_FLOW_INACTIVE and peer-inactive visual state evidence."
+                  ],
+    "tenantPackages":  [
+                           {
+                               "tenant":  "acme-corp",
+                               "package":  "@xiigen-fork/acme-enterprise-etl-data-integration",
+                               "version":  "1.0.1",
+                               "gitHead":  "de347571f2aae5ed7b78f6b56642c8b0fcf79fea",
+                               "shasum":  "a326ff0a89410bfbe9a874bf3d88909d2a207075",
+                               "repo":  "lubochka/acme-corp--etl-data-integration",
+                               "actionsRunId":  25424911022,
+                               "requiredCoInstalls":  [
+                                                          "FLOW-13"
+                                                      ]
+                           },
+                           {
+                               "tenant":  "northwind",
+                               "package":  "@xiigen-fork/northwind-exchange-etl-data-integration",
+                               "version":  "1.0.2",
+                               "gitHead":  "f8bb9bffd0308bb4b846c6ed67a79caf35fee3a5",
+                               "shasum":  "c598809aacaed5316ff5c327ee66cdacef011bce",
+                               "repo":  "lubochka/northwind--northwind-exchange-etl-data-integration",
+                               "actionsRunId":  25426505550,
+                               "requiredCoInstalls":  [
+                                                          "FLOW-13"
+                                                      ]
+                           },
+                           {
+                               "tenant":  "tessera-collective",
+                               "package":  "@xiigen-fork/tessera-community-etl-data-integration",
+                               "version":  "1.0.3",
+                               "gitHead":  "9ff8f468a37758d377c9678c6cf300b4526b6325",
+                               "shasum":  "25167b9641c4ddb3308eeb7de6ee999df5d01d3d",
+                               "repo":  "lubochka/tessera-collective--tessera-community-etl-data-integration",
+                               "actionsRunId":  25427832514,
+                               "requiredCoInstalls":  [
+                                                          "FLOW-13"
+                                                      ]
+                           }
+                       ],
+    "visualCascade":  [
+                          {
+                              "cascadePoint":  "tenant-b-installed-from-a",
+                              "pngCount":  12,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "cascadePoint":  "tenant-b-v1.0.2",
+                              "pngCount":  12,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "cascadePoint":  "tenant-c-installed-from-b",
+                              "pngCount":  12,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "cascadePoint":  "tenant-c-v1.0.3",
+                              "pngCount":  12,
+                              "zeroByteFiles":  0
+                          }
+                      ],
+    "protocolCompletionGate":  {
+                                   "noTechnicalDebt":  true,
+                                   "dockerVaultAuth":  true,
+                                   "threeTenantRepos":  true,
+                                   "greenGitHubActions":  true,
+                                   "registryPackagesPublished":  true,
+                                   "coInstallDependenciesDeclared":  true,
+                                   "fullCascade":  true,
+                                   "perRoleVisualEvidence":  true,
+                                   "noSecretsCommitted":  true
+                               },
+    "evidenceFiles":  [
+                          "docs/portability/flow-14/product-decision-and-pre-existing-defect-evidence.json",
+                          "docs/portability/flow-14/configuration-key-scoping-evidence.json",
+                          "docs/portability/flow-14/ai-protocol-phase-1-evidence.json",
+                          "docs/portability/flow-14/governance-risk-reverify-evidence.json",
+                          "docs/portability/flow-14/phase-0-docker-vault-auth-evidence.json",
+                          "docs/portability/flow-14/phase-1-unit-integration-evidence.json",
+                          "docs/portability/flow-14/phase-2-e2e-playwright-evidence.json",
+                          "docs/portability/flow-14/phase-3-visual-examination-evidence.json",
+                          "docs/portability/flow-14/phase-4.0-tenant-a-original-fork-evidence.json",
+                          "docs/portability/flow-14/phase-4-tenant-a-ai-adaptation-evidence.json",
+                          "docs/portability/flow-14/phase-5a-tenant-b-installed-from-a-evidence.json",
+                          "docs/portability/flow-14/phase-5b-tenant-b-adaptation-evidence.json",
+                          "docs/portability/flow-14/phase-5c-tenant-c-installed-from-b-evidence.json",
+                          "docs/portability/flow-14/phase-5c5-tenant-c-adaptation-evidence.json",
+                          "docs/portability/flow-14/phase-H-auth-decoration-evidence.json"
+                      ],
+    "verification":  {
+                         "registryReadbacks":  "passed for Acme v1.0.1, Northwind v1.0.2, and Tessera v1.0.3; all returned requiredCoInstalls=[FLOW-13] and matching gitHead values.",
+                         "githubActions":  "passed for adapted Tenant A, Tenant B, and Tenant C repos.",
+                         "cascadePngs":  "48 cascade PNGs across four cascade points, zero zero-byte files.",
+                         "auth":  "post-cascade live auth matrix passed 8/8.",
+                         "behavioralAssertion":  "T222-2 asserts FLOW-13 INACTIVE returns PEER_FLOW_INACTIVE; phase-2 visual evidence includes peer-inactive UI state."
+                     },
+    "verdict":  "PASS"
+}

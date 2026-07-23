@@ -1,0 +1,96 @@
+{
+    "flowId":  "FLOW-13",
+    "flowSlug":  "data-warehouse-analytics",
+    "phase":  "phase5c5TenantCAdapts",
+    "capturedAt":  "2026-05-06T09:20:36.5377541+03:00",
+    "tenant":  "tessera-collective",
+    "status":  "completed",
+    "sourceTenant":  "northwind",
+    "sourcePackage":  {
+                          "packageName":  "@xiigen-fork/northwind-exchange-warehouse-analytics",
+                          "packageVersion":  "1.0.2",
+                          "sourceRepoFullName":  "lubochka/northwind--northwind-exchange-warehouse-analytics"
+                      },
+    "tenantAdaptedRepo":  {
+                              "previousRepoFullName":  "lubochka/tessera-collective--northwind-exchange-warehouse-analytics",
+                              "repoFullName":  "lubochka/tessera-collective--tessera-community-warehouse-analytics",
+                              "repoUrl":  "https://github.com/lubochka/tessera-collective--tessera-community-warehouse-analytics",
+                              "adaptedCommitSha":  "7740148e86731dea4a57614ef7a8094b1087d0bf",
+                              "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-exchange-warehouse-analytics-phase5c-20260506-090256"
+                          },
+    "githubActions":  {
+                          "runId":  25419628790,
+                          "runUrl":  "https://github.com/lubochka/tessera-collective--tessera-community-warehouse-analytics/actions/runs/25419628790",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "7740148e86731dea4a57614ef7a8094b1087d0bf",
+                          "workflowName":  "XIIGen Flow CI — data-warehouse-analytics",
+                          "createdAt":  "2026-05-06T06:16:01Z",
+                          "updatedAt":  "2026-05-06T06:16:49Z"
+                      },
+    "localTenantValidation":  [
+                                  "npx tsc --noEmit --pretty false passed.",
+                                  "npx jest --colors=false --forceExit passed: 4 suites / 11 tests.",
+                                  "npm pack --dry-run --json returned @xiigen-fork/tessera-community-warehouse-analytics@1.0.3 with 129 files."
+                              ],
+    "registryPublication":  {
+                                "registry":  "http://localhost:4873",
+                                "packageName":  "@xiigen-fork/tessera-community-warehouse-analytics",
+                                "packageVersion":  "1.0.3",
+                                "shasum":  "b27e25162be9edde72e4227e7d5a4045a52e30d9",
+                                "gitHead":  "7740148e86731dea4a57614ef7a8094b1087d0bf",
+                                "tarball":  "http://localhost:4873/@xiigen-fork/tessera-community-warehouse-analytics/-/tessera-community-warehouse-analytics-1.0.3.tgz",
+                                "registryApiEvidence":  "docs/e2e-snapshots/marketplace/data-warehouse-analytics-tessera-v1.0.3-registry-api-evidence.json"
+                            },
+    "tenantAdaptationSummary":  {
+                                    "packageName":  "@xiigen-fork/tessera-community-warehouse-analytics",
+                                    "packageVersion":  "1.0.3",
+                                    "newTenant":  "tessera-collective",
+                                    "inheritedAdaptation":  "northwind v1.0.2 over acme-corp v1.0.1",
+                                    "freedomChanges":  [
+                                                           "Changed alert rules to Tessera community program volume and member engagement dropoff alerts.",
+                                                           "Lowered retention policy from 365 days to 180 days for community reporting privacy posture.",
+                                                           "Lowered training dataset max rows from 100000 to 75000.",
+                                                           "Retained Acme daily query, retention cohort, export TTL, and KPI safeguards.",
+                                                           "Retained Northwind warehouse health latency threshold at 2500 ms."
+                                                       ]
+                                },
+    "visualEvidence":  {
+                           "playwrightSpec":  "client/e2e/data-warehouse-analytics-tenant-c-adaptation.spec.ts",
+                           "command":  "npx playwright test e2e/data-warehouse-analytics-tenant-c-adaptation.spec.ts --project=chromium-desktop",
+                           "result":  "9 passed",
+                           "pngDirectory":  "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3",
+                           "pngCount":  9,
+                           "pngFiles":  [
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/business-partner-C2-en-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/business-partner-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/business-partner-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/platform-admin-C2-en-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/platform-admin-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/platform-admin-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/tenant-admin-C2-en-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/tenant-admin-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3/tenant-admin-C6-en-mobile.png"
+                                        ]
+                       },
+    "screenshots":  [
+                        "docs/e2e-snapshots/data-warehouse-analytics/tenant-c-v1.0.3",
+                        "docs/e2e-snapshots/repo-evidence/flow-13/tessera-collective--tessera-community-warehouse-analytics-tenant-c-v1.0.3-github-listing.png",
+                        "docs/e2e-snapshots/repo-evidence/flow-13/tessera-collective--tessera-community-warehouse-analytics-tenant-c-v1.0.3-actions-success.png",
+                        "docs/e2e-snapshots/marketplace/data-warehouse-analytics-tessera-v1.0.3-registry-listing.png"
+                    ],
+    "phaseCloseChecks":  {
+                             "clientTypeScript":  "passed: npx tsc --noEmit --pretty false",
+                             "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+                             "serverJest":  "passed: npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false (2 suites / 63 tests)",
+                             "sourceScan":  {
+                                                "throwNew":  0,
+                                                "servicesMissingMicroserviceBase":  0,
+                                                "clsImports":  0,
+                                                "directTenantContextImports":  0,
+                                                "directSdkImports":  0,
+                                                "anyTypes":  0
+                                            }
+                         },
+    "result":  "Tenant C adapted Tenant B package, published v1.0.3 to the local registry, proved green GitHub Actions, and completed the three-tenant FLOW-13 cascade evidence."
+}

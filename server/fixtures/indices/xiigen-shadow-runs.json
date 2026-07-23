@@ -1,0 +1,22 @@
+{
+  "index": "xiigen-shadow-runs",
+  "mappings": {
+    "properties": {
+      "shadowRunId":          { "type": "keyword" },
+      "taskTypeId":           { "type": "keyword" },
+      "flowId":               { "type": "keyword" },
+      "tenantId":             { "type": "keyword" },
+      "runId":                { "type": "keyword" },
+      "archetypeTier":        { "type": "integer" },
+      "expensiveModelScore":  { "type": "float" },
+      "ossScore":             { "type": "float" },
+      "gapScore":             { "type": "float" },
+      "expensiveModel":       { "type": "keyword" },
+      "ossModel":             { "type": "keyword" },
+      "shadowStatus":         { "type": "keyword" },
+      "curriculumTier":       { "type": "integer" },
+      "createdAt":            { "type": "date" },
+      "updatedAt":            { "type": "date" }
+    }
+  }
+}

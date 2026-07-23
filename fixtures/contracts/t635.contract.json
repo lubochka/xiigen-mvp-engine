@@ -1,0 +1,19 @@
+{
+  "taskTypeId": "T635",
+  "taskName": "ContentScheduleDispatcher",
+  "archetype": "ORCHESTRATION",
+  "flowId": "FLOW-22",
+  "description": "Schedules content publishing with SETNX idempotent locking and durable timer support",
+  "triggerEvent": "ContentScheduleRequested",
+  "emittedEvents": ["ContentScheduleConfirmed", "ContentPublishCancelled"],
+  "ironRules": [
+    "IR-1: SETNX idempotency lock per schedule entry",
+    "IR-2: Lock held → return cached result",
+    "IR-3: Durable timer retries with exponential backoff",
+    "IR-4: Lock TTL from FREEDOM config",
+    "IR-5: Timestamp validation >= now + min_advance_minutes",
+    "IR-6: tenantId from ALS only (DNA-5)"
+  ],
+  "patternReferences": ["IDEMPOTENT-RETRY-LOCK-001"],
+  "qualityScore": 0.91
+}

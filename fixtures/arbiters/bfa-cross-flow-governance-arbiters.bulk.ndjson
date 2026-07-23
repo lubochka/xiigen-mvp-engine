@@ -1,0 +1,4 @@
+{"index": {"_index": "xiigen-arbiters", "_id": "bfa-t375-iron-rules"}}
+{"arbiterId": "bfa-t375-iron-rules", "flowId": "FLOW-25", "taskTypeId": "T375", "arbiterType": "iron_rules", "cfId": "CF-25-1", "seededAt": "2026-04-14T00:00:00Z", "description": "T375 ChangeIntakeLedger MUST use content-addressed deduplication via SHA-256 hash", "scope": ["T375"], "blockConditions": [], "passConditions": [], "connectionType": "FLOW_SCOPED", "knowledgeScope": "PRIVATE"}
+{"index": {"_index": "xiigen-arbiters", "_id": "bfa-scope-isolation-t375"}}
+{"arbiterId": "bfa-scope-isolation-t375", "flowId": "FLOW-25", "taskTypeId": "T375", "arbiterType": "scope_isolation", "seededAt": "2026-04-14T00:00:00Z", "description": "FC-32 Mandatory scope isolation arbiter for T375", "scope": ["T375"], "connectionType": "FLOW_SCOPED", "knowledgeScope": "PRIVATE"}

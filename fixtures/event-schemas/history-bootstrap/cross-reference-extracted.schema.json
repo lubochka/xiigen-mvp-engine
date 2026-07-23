@@ -1,0 +1,1 @@
+{"type":"object","properties":{"referenceId":{"type":"string"},"sourceDecisionId":{"type":"string"},"referencedFlows":{"type":"array","items":{"type":"string"}},"referencedServices":{"type":"array","items":{"type":"string"}},"bidirectional":{"type":"boolean"},"extractedAt":{"type":"string"}},"required":["referenceId","sourceDecisionId","extractedAt"]}

@@ -1,0 +1,144 @@
+{
+    "flowId":  "FLOW-37",
+    "flowSlug":  "design-system-governance",
+    "phase":  "phase-3-fork-cascade",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T19:22:22Z",
+    "registry":  {
+                     "url":  "http://localhost:4873",
+                     "packageReadbacks":  [
+                                              {
+                                                  "package":  "@xiigen-fork/acme-stack-governance-hub",
+                                                  "version":  "1.0.1",
+                                                  "registryReadback":  "1.0.1"
+                                              },
+                                              {
+                                                  "package":  "@xiigen-fork/northwind-stack-readiness-console",
+                                                  "version":  "1.0.2",
+                                                  "registryReadback":  "1.0.2"
+                                              },
+                                              {
+                                                  "package":  "@xiigen-fork/tessera-design-portability-lab",
+                                                  "version":  "1.0.3",
+                                                  "registryReadback":  "1.0.3"
+                                              }
+                                          ]
+                 },
+    "cascade":  [
+                    {
+                        "tenantId":  "acme-corp",
+                        "role":  "tenant-admin",
+                        "source":  "original platform source via marketplace fork API",
+                        "repo":  "lubochka/acme-corp--design-system-governance",
+                        "repoUrl":  "https://github.com/lubochka/acme-corp--design-system-governance",
+                        "initialForkCommit":  "dfb2141732bf40a62f7c666b2e56a070dafd49c2",
+                        "initialForkRun":  {
+                                               "databaseId":  25689286333,
+                                               "conclusion":  "success",
+                                               "url":  "https://github.com/lubochka/acme-corp--design-system-governance/actions/runs/25689286333"
+                                           },
+                        "adaptedCommit":  "797314385debd61fdc2728a1e42fbb7aa1fb2b18",
+                        "adaptedRun":  {
+                                           "databaseId":  25689615132,
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/acme-corp--design-system-governance/actions/runs/25689615132"
+                                       },
+                        "package":  {
+                                        "name":  "@xiigen-fork/acme-stack-governance-hub",
+                                        "version":  "1.0.1",
+                                        "registryReadback":  "1.0.1"
+                                    },
+                        "localValidation":  {
+                                                "npmInstall":  "exit 0",
+                                                "typescript":  "exit 0",
+                                                "jest":  "1 suite passed, 1 test passed",
+                                                "npmPackDryRun":  "exit 0"
+                                            }
+                    },
+                    {
+                        "tenantId":  "northwind",
+                        "role":  "tenant-admin",
+                        "source":  "Tenant B forked Tenant A package/repo through marketplace API",
+                        "repo":  "lubochka/northwind--design-system-governance",
+                        "repoUrl":  "https://github.com/lubochka/northwind--design-system-governance",
+                        "initialForkCommit":  "225ed5d44aeb97c091c172af9c33f90a95c7d99f",
+                        "initialForkRun":  {
+                                               "databaseId":  25689840125,
+                                               "conclusion":  "success",
+                                               "url":  "https://github.com/lubochka/northwind--design-system-governance/actions/runs/25689840125"
+                                           },
+                        "adaptedCommit":  "720ac7efd0b6a17eed4b595abaa00e247788dcb2",
+                        "adaptedRun":  {
+                                           "databaseId":  25690109739,
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/northwind--design-system-governance/actions/runs/25690109739"
+                                       },
+                        "package":  {
+                                        "name":  "@xiigen-fork/northwind-stack-readiness-console",
+                                        "version":  "1.0.2",
+                                        "registryReadback":  "1.0.2"
+                                    },
+                        "localValidation":  {
+                                                "npmInstall":  "exit 0",
+                                                "typescript":  "exit 0",
+                                                "jest":  "1 suite passed, 1 test passed",
+                                                "npmPackDryRun":  "exit 0"
+                                            }
+                    },
+                    {
+                        "tenantId":  "tessera-collective",
+                        "role":  "tenant-admin",
+                        "source":  "Tenant C forked Tenant B package/repo through marketplace API",
+                        "repo":  "lubochka/tessera-collective--design-system-governance",
+                        "repoUrl":  "https://github.com/lubochka/tessera-collective--design-system-governance",
+                        "initialForkCommit":  "5b2ead7fdacdda8061961d1843a6371e76d82e02",
+                        "initialForkRun":  {
+                                               "databaseId":  25690341801,
+                                               "conclusion":  "success",
+                                               "url":  "https://github.com/lubochka/tessera-collective--design-system-governance/actions/runs/25690341801"
+                                           },
+                        "adaptedCommit":  "c0f32706a334e332ac03625991abbacb3bd150ed",
+                        "adaptedRun":  {
+                                           "databaseId":  25690598942,
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/tessera-collective--design-system-governance/actions/runs/25690598942"
+                                       },
+                        "package":  {
+                                        "name":  "@xiigen-fork/tessera-design-portability-lab",
+                                        "version":  "1.0.3",
+                                        "registryReadback":  "1.0.3"
+                                    },
+                        "localValidation":  {
+                                                "npmInstall":  "exit 0",
+                                                "typescript":  "exit 0",
+                                                "jest":  "1 suite passed, 1 test passed",
+                                                "npmPackDryRun":  "exit 0"
+                                            }
+                    }
+                ],
+    "repoEvidenceScreenshots":  [
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/acme-corp/acme-actions-success.png",
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/acme-corp/acme-package-json.png",
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/acme-corp/acme-repo-home.png",
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/northwind/northwind-actions-success.png",
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/northwind/northwind-package-json.png",
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/northwind/northwind-repo-home.png",
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/tessera-collective/tessera-actions-success.png",
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/tessera-collective/tessera-package-json.png",
+                                    "docs/e2e-snapshots/repo-evidence/flow-37/tessera-collective/tessera-repo-home.png"
+                                ],
+    "privacyRestoration":  {
+                               "acme-corp--design-system-governance":  true,
+                               "northwind--design-system-governance":  true,
+                               "tessera-collective--design-system-governance":  true
+                           },
+    "protocolChecks":  {
+                           "marketplaceApiUsedForForks":  true,
+                           "manualTenantRepoCreationUsed":  false,
+                           "temporaryLocalForkDirectoriesUsedAsProof":  false,
+                           "githubActionsUsed":  true,
+                           "localRegistryPublishAndReadbackUsed":  true,
+                           "repoEvidenceScreenshotsCaptured":  true
+                       },
+    "verdict":  "PASS"
+}

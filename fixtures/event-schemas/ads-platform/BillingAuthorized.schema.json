@@ -1,0 +1,14 @@
+{
+  "eventType": "ads.billing.authorized",
+  "flowId": "FLOW-20",
+  "version": "1.0.0",
+  "description": "Emitted by T627 FraudPreBillingValidator after fraud checks pass. Authorizes downstream payment processing and settlement workflows.",
+  "properties": {
+    "transactionId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "billingAmount": { "type": "integer", "minimum": 1, "required": true },
+    "fraudScore": { "type": "number", "minimum": 0, "maximum": 1, "required": true },
+    "fraudAuditId": { "type": "string", "required": true },
+    "authorizedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

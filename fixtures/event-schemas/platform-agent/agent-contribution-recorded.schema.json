@@ -1,0 +1,37 @@
+{
+  "title": "platform-agent-AgentContributionRecorded-event-schema",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "entityId": { "type": "string" },
+    "source": { "type": "string" },
+    "eventType": {
+      "type": "string",
+      "enum": ["platform-agent.AgentContributionRecorded"]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "contributionId": { "type": "string" },
+        "sessionId": { "type": "string" },
+        "patternId": { "type": "string" },
+        "path": {
+          "type": "string",
+          "enum": ["A", "B"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["RECORDED", "SHARED", "KEPT_PRIVATE", "SANITIZATION_FAILED"]
+        },
+        "tenantId": { "type": "string" },
+        "strippedCount": { "type": "integer" },
+        "preSanitizationFields": { "type": "array", "items": { "type": "string" } },
+        "postSanitizationFields": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["contributionId", "sessionId", "path", "status", "tenantId"]
+    },
+    "metadata": { "type": "object" }
+  },
+  "required": ["id", "timestamp", "entityId", "eventType"]
+}

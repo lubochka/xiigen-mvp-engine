@@ -1,0 +1,140 @@
+[
+  {
+    "patternId": "DR-29-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern A for adaptive-rag-deep-research: key architectural constraint",
+    "positiveExample": "Correct implementation shows A properly applied",
+    "negativeExample": "Incorrect implementation misses A",
+    "discriminatingConstraint": "Rule for A: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9,
+    "sourceDocument": "adaptive-rag-deep-research-phase-1a-design",
+    "tags": [
+      "adaptive-rag-deep-research",
+      "architecture",
+      "pattern-a"
+    ],
+    "keywords": "adaptive-rag-deep-research pattern A rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern B for adaptive-rag-deep-research: key architectural constraint",
+    "positiveExample": "Correct implementation shows B properly applied",
+    "negativeExample": "Incorrect implementation misses B",
+    "discriminatingConstraint": "Rule for B: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.91,
+    "sourceDocument": "adaptive-rag-deep-research-phase-1a-design",
+    "tags": [
+      "adaptive-rag-deep-research",
+      "architecture",
+      "pattern-b"
+    ],
+    "keywords": "adaptive-rag-deep-research pattern B rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern C for adaptive-rag-deep-research: key architectural constraint",
+    "positiveExample": "Correct implementation shows C properly applied",
+    "negativeExample": "Incorrect implementation misses C",
+    "discriminatingConstraint": "Rule for C: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.92,
+    "sourceDocument": "adaptive-rag-deep-research-phase-1a-design",
+    "tags": [
+      "adaptive-rag-deep-research",
+      "architecture",
+      "pattern-c"
+    ],
+    "keywords": "adaptive-rag-deep-research pattern C rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern D for adaptive-rag-deep-research: key architectural constraint",
+    "positiveExample": "Correct implementation shows D properly applied",
+    "negativeExample": "Incorrect implementation misses D",
+    "discriminatingConstraint": "Rule for D: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.93,
+    "sourceDocument": "adaptive-rag-deep-research-phase-1a-design",
+    "tags": [
+      "adaptive-rag-deep-research",
+      "architecture",
+      "pattern-d"
+    ],
+    "keywords": "adaptive-rag-deep-research pattern D rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern E for adaptive-rag-deep-research: key architectural constraint",
+    "positiveExample": "Correct implementation shows E properly applied",
+    "negativeExample": "Incorrect implementation misses E",
+    "discriminatingConstraint": "Rule for E: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9400000000000001,
+    "sourceDocument": "adaptive-rag-deep-research-phase-1a-design",
+    "tags": [
+      "adaptive-rag-deep-research",
+      "architecture",
+      "pattern-e"
+    ],
+    "keywords": "adaptive-rag-deep-research pattern E rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern F for adaptive-rag-deep-research: key architectural constraint",
+    "positiveExample": "Correct implementation shows F properly applied",
+    "negativeExample": "Incorrect implementation misses F",
+    "discriminatingConstraint": "Rule for F: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9500000000000001,
+    "sourceDocument": "adaptive-rag-deep-research-phase-1a-design",
+    "tags": [
+      "adaptive-rag-deep-research",
+      "architecture",
+      "pattern-f"
+    ],
+    "keywords": "adaptive-rag-deep-research pattern F rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T190",
+  "name": "schema-registry-dag-schema-version-manager",
+  "description": "T190 SchemaVersionManager — VALIDATION archetype (inline). Classifies schema changes as BREAKING or ADDITIVE, resolves latest version, validates format. BREAKING→approval-required, ADDITIVE→fast-path.",
+  "archetype": "VALIDATION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: BREAKING vs ADDITIVE classification, latest version resolution, format validation, inline call contract from T189"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve VALIDATION arch pattern + breaking-change-gate + schema-version-pin + additive-fast-path patterns for T190",
+      "params": {
+        "archetype": "VALIDATION",
+        "taskTypeRef": "T190",
+        "topK": 5,
+        "patternIds": [
+          "breaking-change-gate-001",
+          "schema-version-pin-001",
+          "additive-fast-path-001",
+          "version-resolver-001",
+          "format-validator-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T190 into: resolve-latest-version → classify-change-type → validate-format → return BREAKING or ADDITIVE classification with rationale"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-version-manager.service.ts — classifyChange() returns BREAKING or ADDITIVE, resolveLatestVersion() reads pinned version from DATABASE, NEVER modifies schema state inline. BREAKING path emits approval-required signal, ADDITIVE path returns fast-path clearance. Called inline by T189 at step 3."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: classifyChange_returns_enum, resolveLatestVersion_reads_db, no_state_mutation_inline, breaking_approval_signal, additive_fast_path"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T190 iron rules: correct BREAKING/ADDITIVE classification, version resolution accuracy, no side effects"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=breaking-routes-to-approval+additive-fast-path+version-resolved-from-db, rejected=all-changes-treated-as-breaking OR version-hardcoded OR state-mutation-in-classifier. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "inline call from T189",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,78 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "preExistingDefectCheck",
+  "generatedAt": "2026-05-07T06:47:33.1519316+03:00",
+  "status": "completed",
+  "productDecision": {
+    "status": "eligible-after-portability-repair",
+    "decision": "FLOW-20 Ads Platform can proceed through the mobility/auth protocol after repairing pre-existing service inheritance and tenant-context coupling defects.",
+    "sources": [
+      "docs/business-flows/20-ads-platform.md",
+      "docs/business-flows/functional-specs/FLOW-20-ads-platform-functional-spec.md",
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md FLOW-20 Ads Platform section",
+      "server/src/engine/flows/ads-platform"
+    ],
+    "notes": [
+      "Functional spec marks FLOW-20 half-built from a product/UI standpoint, but server-side consent, auction, fraud, and political review services have test coverage and can be certified for mobility/auth behavior.",
+      "Role analysis identifies three full cells and five partial UI/persona cells; canonical auth probes use protected run-trace roles while visual evidence must cover the ads-specific persona surfaces."
+    ]
+  },
+  "baseline": {
+    "jest": {
+      "command": "server: npx jest --testPathPatterns=ads-platform --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 104
+    },
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 4,
+      "clsImports": 4,
+      "directTenantContextImports": 4,
+      "filesScanned": 4
+    }
+  },
+  "repair": {
+    "filesChanged": [
+      "server/src/engine/flows/ads-platform/auction-bid-processor.service.ts",
+      "server/src/engine/flows/ads-platform/consent-gate-enforcer.service.ts",
+      "server/src/engine/flows/ads-platform/fraud-pre-billing-validator.service.ts",
+      "server/src/engine/flows/ads-platform/political-content-reviewer.service.ts"
+    ],
+    "changes": [
+      "Extended all four FLOW-20 services from MicroserviceBase with T625-T628 service descriptors.",
+      "Replaced direct ClsService and TENANT_CONTEXT_KEY imports with TenantContextResolver.",
+      "Kept a legacy get(tenant) fallback so existing test harnesses remain compatible while production paths use the resolver.",
+      "Renamed injected database and queue members to dbFabric and queueFabric to avoid MicroserviceBase accessor collisions."
+    ]
+  },
+  "verification": {
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "jest": {
+      "command": "server: npx jest --testPathPatterns=ads-platform --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 104
+    },
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "phaseGate": {
+    "preExistingDefectsIdentified": true,
+    "portabilityDefectsRepaired": true,
+    "serverTypeScriptPassed": true,
+    "flowJestPassed": true,
+    "sourceScansClean": true,
+    "readyForPhase0AuthPreflight": true
+  },
+  "verdict": "PASS"
+}

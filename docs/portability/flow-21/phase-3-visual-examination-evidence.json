@@ -1,0 +1,71 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "phase3VisualExamination",
+  "status": "completed",
+  "generatedAt": "2026-05-07T12:10:30.0000000+03:00",
+  "visualSamplesReviewed": [
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-desktop/dynamic-forms-workflows/populated-tenant-admin.png",
+      "result": "pass",
+      "notes": "Tenant-admin populated builder view is legible, centered, and free of overlapping text."
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-mobile/dynamic-forms-workflows/populated-tenant-admin.png",
+      "result": "pass",
+      "notes": "Mobile tenant-admin populated view wraps headings and public URL text without clipping or collision."
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-desktop/dynamic-forms-workflows/populated-tenant-user.png",
+      "result": "pass",
+      "notes": "Tenant-user populated respondent view uses the consumer shell and keeps the published-state message readable."
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-mobile/dynamic-forms-workflows/populated-anonymous.png",
+      "result": "pass",
+      "notes": "Anonymous populated respondent view renders without admin navigation and without internal engine language."
+    }
+  ],
+  "repair": {
+    "file": "client/src/pages/dynamic-forms-workflows/DynamicFormsWorkflowsPage.tsx",
+    "summary": "Changed the collapsed admin debug panel classification from ENGINE_INTERNAL to ADMIN_FACING so the FLOW-21 tenant page passes the plain-language internal-term scan."
+  },
+  "verification": [
+    {
+      "cwd": "client",
+      "command": "npx tsc --noEmit --pretty false",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "cwd": "client",
+      "command": "VITE_PORT=52022 npx playwright test e2e/visual-audit-flow-21-pilot.spec.ts --reporter=line",
+      "status": "passed",
+      "tests": {
+        "passed": 9,
+        "total": 9
+      },
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ]
+    },
+    {
+      "cwd": ".",
+      "command": "Plain-language internal-term scan for client/src/pages/dynamic-forms-workflows/*.tsx",
+      "status": "passed",
+      "failureLines": 0
+    },
+    {
+      "cwd": ".",
+      "command": "PNG non-empty count for docs/e2e-snapshots/visual-audit/**/dynamic-forms-workflows",
+      "status": "passed",
+      "pngCount": 24,
+      "populatedPilotCount": 9,
+      "zeroByteCount": 0,
+      "totalBytes": 2393540
+    }
+  ],
+  "verdict": "PASS"
+}

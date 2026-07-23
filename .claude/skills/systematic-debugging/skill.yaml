@@ -1,0 +1,21 @@
+name: systematic-debugging
+version: "2.1.0"
+priority: MANDATORY
+entry: SKILL.md
+author: claudekit (adapted)
+updated: "2026-03-18"
+description: >
+  Four-phase debugging framework: Root Cause Investigation → Pattern Analysis →
+  Hypothesis Testing → Implementation. Iron Law: no fixes without root cause
+  investigation first. Use ESPECIALLY under time pressure.
+triggers:
+  - "bug"
+  - "test failure"
+  - "unexpected behavior"
+  - "it doesn't work"
+  - "fix didn't help"
+integrates_with:
+  - root-cause-tracing
+  - defense-in-depth
+  - verification-before-completion
+  - debug-session-skill

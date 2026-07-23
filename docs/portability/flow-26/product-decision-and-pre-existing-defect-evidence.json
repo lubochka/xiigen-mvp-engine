@@ -1,0 +1,84 @@
+{
+  "flowId": "FLOW-26",
+  "flowSlug": "meta-flow-engine",
+  "implementationSlug": "flow-extension-engine",
+  "recordedAt": "2026-05-10T17:19:43.0248817+03:00",
+  "phase": "pre-existing-defect-check",
+  "status": "passed",
+  "productDecision": {
+    "decision": "Use meta-flow-engine as the portability slug and flow-extension-engine as the implementation directory.",
+    "reason": "FLOW-26 current state records slug meta-flow-engine while the reconciled implementation state identifies the actual service implementation in server/src/engine/flows/flow-extension-engine and the Jest suite under server/test/meta-flow-engine.",
+    "renamedPaths": false
+  },
+  "loadedSources": [
+    "docs/sessions/FLOW-26/FLOW-26-CURRENT-STATE.json",
+    "docs/sessions/FLOW-26/FLOW-26-IMPL-STATE.json",
+    "docs/design-reviews/ROLE-ANALYSIS-BATCH-06.md",
+    "server/src/engine/flows/flow-extension-engine",
+    "server/test/meta-flow-engine"
+  ],
+  "roleMap": {
+    "primaryRole": "platform-admin",
+    "readOnlyRole": "platform-support",
+    "tenantExposedRoles": [],
+    "allOtherRoles": "not exposed",
+    "source": "docs/design-reviews/ROLE-ANALYSIS-BATCH-06.md"
+  },
+  "repair": {
+    "before": {
+      "requiredScan": "^export class.*Service",
+      "filesScanned": 24,
+      "exportedServiceMatches": 1,
+      "servicesMissingMicroserviceBase": 1,
+      "missingServiceExamples": [
+        "server/src/engine/flows/flow-extension-engine/service-code-generator.service.ts: export class ServiceCodeGenerator"
+      ]
+    },
+    "change": {
+      "file": "server/src/engine/flows/flow-extension-engine/service-code-generator.service.ts",
+      "summary": "ServiceCodeGenerator now extends MicroserviceBase with ServiceDescriptor serviceId T394, serviceName ServiceCodeGenerator, and flowId FLOW-26. Constructor fields were renamed to avoid conflict with MicroserviceBase accessors."
+    },
+    "after": {
+      "filesScanned": 24,
+      "throwNew": 0,
+      "exportedServiceMatches": 1,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextReferences": 1,
+      "directTenantContextReferenceNotes": [
+        "dna-compliance-checker.service.ts contains a DNA rule description string mentioning AsyncLocalStorage; no import or direct tenant-context access was found."
+      ],
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "verification": {
+    "typescript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0
+    },
+    "jest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=meta-flow-engine --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "testSuites": {
+        "passed": 8,
+        "total": 8
+      },
+      "tests": {
+        "passed": 250,
+        "total": 250
+      }
+    },
+    "staticScans": {
+      "command": "Scanned server/src/engine/flows/flow-extension-engine recursively for throw new, service-base inheritance, nestjs-cls imports, direct tenant-context references, direct SDK imports, and any usage.",
+      "exitCode": 0,
+      "failureLines": 0
+    }
+  },
+  "secretHandling": {
+    "secretsRead": false,
+    "secretsPrinted": false,
+    "vaultTouched": false
+  },
+  "nextPhase": "phase-0-docker-vault-auth"
+}

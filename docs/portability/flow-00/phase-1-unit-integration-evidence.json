@@ -1,0 +1,30 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phase1UnitTests",
+    "generatedAt":  "2026-05-04T22:26:02.2337618+03:00",
+    "commands":  [
+                     {
+                         "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+                         "result":  "passed"
+                     },
+                     {
+                         "command":  "Push-Location server; npx jest --testPathPatterns=bundle-activation --runInBand; Pop-Location",
+                         "result":  "7 suites passed, 73 tests passed"
+                     }
+                 ],
+    "scans":  {
+                  "flowLocalThrowNewHits":  0,
+                  "serviceClassesMissingMicroserviceBase":  0,
+                  "flowLocalClsImports":  0,
+                  "flowLocalControllers":  0,
+                  "directProviderSdkImports":  0,
+                  "serviceFilesMissingFlowScopedAnnotation":  0
+              },
+    "summary":  {
+                    "status":  "passed",
+                    "testsPassed":  73,
+                    "testSuitesPassed":  7,
+                    "failedScans":  0
+                }
+}

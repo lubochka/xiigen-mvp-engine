@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.marketplace.listing-feed-generated.v1",
+  "taskTypeId": "T85",
+  "flowId": "FLOW-08",
+  "description": "Emitted by T85 ListingFeedGenerator. Payload is { count: N } ONLY — no listing IDs, no reference IDs.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.marketplace.listing-feed-generated.v1",
+    "source": "xiigen/flows/marketplace-listings-catalog/t85",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "count": { "type": "number", "description": "Number of listings in this feed batch — the ONLY payload field" },
+    "tenantId": { "type": "string", "description": "Tenant scope — from AsyncLocalStorage" },
+    "correlationId": { "type": "string", "description": "Idempotency key" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "prohibitedFields": ["listingId", "sellerId", "ids", "referenceIds"],
+  "piiGuard": "count is an aggregate number. No listing or user identifiers allowed in this payload.",
+  "requiredByFlows": ["FLOW-08"]
+}

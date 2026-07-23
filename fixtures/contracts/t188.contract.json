@@ -1,0 +1,36 @@
+{
+  "taskTypeId": "T188",
+  "flowId": "FLOW-13",
+  "name": "WarehouseHealthMonitor",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "read-only-health-checks-tenant-scoped",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "data_warehouse_health_check_thresholds",
+    "neutralConcepts": [
+      "T188 performs read-only health checks — no write operations",
+      "Health monitoring is tenant-scoped — no cross-tenant health data exposure",
+      "F425 IWarehouseAuditService is NOT required for health reads (audit only required for write operations)",
+      "Health check results are ephemeral — no storeDocument required for health probes"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T188-1", "rule": "T188 performs READ-ONLY health checks. No write operations permitted inside the health monitor.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T188-2", "rule": "Health monitoring is tenant-scoped — every health query must include tenantId predicate. Cross-tenant health data exposure is forbidden.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T188-3", "rule": "F425 IWarehouseAuditService is NOT required for health reads. Audit is only required for write operations (purge, export). Do not add F425 to T188.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "read_only_health_checks",
+    "tenant_scoped_monitoring",
+    "no_audit_for_reads"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "health", "monitoring", "read-only", "tenant-scoped", "ANALYTICS_ENGINE"],
+  "keywords": "warehouse health monitor read-only health checks tenant-scoped no audit F425 not required analytics data warehouse"
+}

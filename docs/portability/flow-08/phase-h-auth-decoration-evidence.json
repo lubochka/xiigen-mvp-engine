@@ -1,0 +1,167 @@
+{
+  "flowId": "FLOW-08",
+  "flowSlug": "marketplace",
+  "phase": "phaseHAuthDecorationCheck",
+  "status": "PASS",
+  "generatedAt": "2026-05-05T15:45:03.4426928+03:00",
+  "controllerAuthDecoration": {
+    "controllerPath": "server/src/api/marketplace-package.controller.ts",
+    "controller": "MarketplacePackageController",
+    "guardDeclaration": "@UseGuards(GlobalJwtAuthGuard, RolesGuard)",
+    "controllerUseGuards": true,
+    "routeCount": 4,
+    "rolesOrPublicDeclarations": 4,
+    "publicRoutes": 0,
+    "forkRoute": {
+      "route": "POST /api/marketplace/packages/:flowSlug/fork",
+      "roles": [
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "forkRouteHasRoles": true
+    },
+    "viewRoles": [
+      "public-marketplace-visitor",
+      "tenant-user",
+      "referral-user",
+      "freelancer",
+      "business-partner",
+      "event-organiser",
+      "tenant-admin",
+      "platform-admin"
+    ],
+    "adminRoles": [
+      "tenant-admin",
+      "platform-admin"
+    ]
+  },
+  "portabilityScans": {
+    "generatedAt": "2026-05-05T15:44:44.3591320+03:00",
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "unscopedFreedomReads": 0,
+    "localConfigClones": 0,
+    "directSdkImports": 0,
+    "controllerUseGuards": true,
+    "controllerRouteCount": 4,
+    "controllerRolesOrPublicDeclarations": 4,
+    "controllerPublicRoutes": 0,
+    "forkRouteHasRoles": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-05T12:44:00.773Z",
+    "server": "http://localhost:33001",
+    "tenantSigningKeyReadback": {
+      "acme-corp": {
+        "present": true,
+        "algorithm": "HS256"
+      },
+      "northwind": {
+        "present": true,
+        "algorithm": "HS256"
+      },
+      "tessera-collective": {
+        "present": true,
+        "algorithm": "HS256"
+      }
+    },
+    "passed": 8,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "acme own marketplace browse",
+        "tenantHeader": "acme-corp",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "northwind own marketplace browse",
+        "tenantHeader": "northwind",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "tessera own marketplace browse",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "missing token denied",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "acme token in northwind context denied",
+        "tenantHeader": "northwind",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "northwind token in tessera context denied",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "acme token in tessera context denied",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "wrong role cannot fork adapted Tessera package",
+        "tenantHeader": "tessera-collective",
+        "method": "POST",
+        "path": "/api/marketplace/packages/tessera-community-marketplace/fork",
+        "expectedStatus": 403,
+        "actualStatus": 403,
+        "pass": true
+      }
+    ],
+    "tokenMaterialPrinted": false
+  },
+  "verification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+      "status": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=marketplace --runInBand; Pop-Location",
+      "status": "passed",
+      "testSuites": 60,
+      "tests": 1146
+    }
+  },
+  "secretHandling": {
+    "tokenPrinted": false,
+    "tokenCommitted": false,
+    "signingKeyPrinted": false,
+    "tenantCredentialsRemainVaultBacked": true,
+    "note": "The live auth matrix minted short-lived JWTs from tenant-specific Vault signing keys; token strings and signing key values were not printed or stored."
+  },
+  "verdict": "Phase H auth decoration check passed and is ready for Phase I certification declaration."
+}

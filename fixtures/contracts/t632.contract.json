@@ -1,0 +1,35 @@
+{
+  "taskTypeId": "T632",
+  "name": "SubmissionAnalyticsCollector",
+  "flowId": "FLOW-21",
+  "domainId": "dynamic-forms-workflows",
+  "archetype": "data_pipeline",
+  "purpose": "Append-only analytics with PII exclusion and tenant-scoped aggregation",
+  "entry": "SubmissionProcessed event",
+  "ironRules": [
+    "IR-1: Append-only storage — insert only, no updates",
+    "IR-2: PII exclusion — email, phone, ssn, password never indexed",
+    "IR-3: Tenant-scoped aggregation via tenantId from ALS",
+    "IR-4: Aggregate metrics: count, avg field count, error rate %",
+    "IR-5: Date partitioning for time-series efficiency"
+  ],
+  "machineComponents": [
+    "PII field filtering",
+    "Append-only insert pattern",
+    "Tenant-scoped queries",
+    "Date partition routing",
+    "Aggregate metric calculation"
+  ],
+  "freedomComponents": [
+    "analytics_pii_fields",
+    "analytics_aggregation_window",
+    "analytics_storage_retention_days"
+  ],
+  "factories": [
+    {
+      "factoryId": "F1509",
+      "interface": "IDatabaseService",
+      "provider": "elasticsearch"
+    }
+  ]
+}

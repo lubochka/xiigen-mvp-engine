@@ -1,0 +1,81 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "phase": "phase-2-playwright-and-png-count",
+  "generatedAt": "2026-05-05T16:53:09.8840588+03:00",
+  "playwrightRuns": [
+    {
+      "command": "npx playwright test e2e/transactional-event-participation.spec.ts --project=chromium-desktop --workers=1",
+      "workingDirectory": "client",
+      "serverBridge": "localhost:3000 bridged to Docker server localhost:33001",
+      "result": {
+        "passed": 30,
+        "total": 30
+      },
+      "notes": [
+        "The FLOW-09 route coverage tests passed after updating stale assertions for the current purchase button label and the booking page no-selection state.",
+        "The P1 source-state suite passed and refreshed all expected transactional-event-participation PNG evidence."
+      ]
+    }
+  ],
+  "clientVerification": [
+    {
+      "command": "npx tsc --noEmit",
+      "workingDirectory": "client",
+      "exitCode": 0
+    }
+  ],
+  "serverVerification": [
+    {
+      "command": "npx tsc --noEmit -p tsconfig.json",
+      "workingDirectory": "server",
+      "exitCode": 0
+    },
+    {
+      "command": "npx jest --testPathPatterns=transactional-event-participation --runInBand",
+      "workingDirectory": "server",
+      "result": {
+        "testSuitesPassed": 8,
+        "testSuitesTotal": 8,
+        "testsPassed": 133,
+        "testsTotal": 133
+      }
+    }
+  ],
+  "pngEvidence": {
+    "p1StateCoverage": {
+      "directory": "docs/e2e-snapshots/transactional-event-participation",
+      "expectedPngCount": 32,
+      "actualPngCount": 32,
+      "zeroBytePngCount": 0,
+      "minimumBytes": 9039,
+      "maximumBytes": 42519,
+      "totalBytes": 574484,
+      "status": "present"
+    },
+    "repoEvidence": {
+      "directory": "docs/e2e-snapshots/repo-evidence",
+      "phaseScope": "pre-fork-phase-2",
+      "status": "fork-cascade-specific GitHub repo screenshots remain phase-4-through-phase-5 deliverables"
+    },
+    "tenantCascadeScreenshots": {
+      "phaseScope": "pre-fork-phase-2",
+      "status": "source flow screenshots present; tenant cascade screenshots remain phase-4-through-phase-5 deliverables"
+    }
+  },
+  "phaseCloseScans": {
+    "flowFileCount": 20,
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "flowScopedAnnotations": 20,
+    "unscopedFreedomReads": 0,
+    "localConfigClones": 0,
+    "directSdkImports": 0
+  },
+  "port3000Note": {
+    "dockerBindAttempted": false,
+    "workaround": "A local Node HTTP bridge exposed localhost:3000 and proxied to the healthy Docker server on localhost:33001 for Playwright readiness and API requests."
+  },
+  "secretsPrinted": false
+}

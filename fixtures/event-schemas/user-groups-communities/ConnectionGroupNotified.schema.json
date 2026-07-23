@@ -1,0 +1,11 @@
+{
+  "eventType": "ConnectionGroupNotified",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "connection-notifier",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "connectedUserIds", "notifiedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T111 to notify existing group connections of new member. Branch C notification sub-step."
+}

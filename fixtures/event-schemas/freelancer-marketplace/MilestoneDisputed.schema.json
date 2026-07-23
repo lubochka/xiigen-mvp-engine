@@ -1,0 +1,12 @@
+{
+  "eventType": "freelancer.milestone.disputed",
+  "flowId": "FLOW-17",
+  "version": "1.0.0",
+  "properties": {
+    "milestoneId": { "type": "string", "required": true },
+    "contractId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "disputedAt": { "type": "string", "format": "date-time", "required": true },
+    "disputeReason": { "type": "string", "required": true }
+  }
+}

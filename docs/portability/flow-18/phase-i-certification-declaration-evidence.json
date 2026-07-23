@@ -1,0 +1,197 @@
+{
+  "flowId": "FLOW-18",
+  "flowSlug": "visual-flow-engine",
+  "phase": "phaseICertificationDeclaration",
+  "generatedAt": "2026-05-07T03:16:00.0000000+03:00",
+  "status": "completed",
+  "earnedTier": "Tier 2+ (Tier 3 not declared)",
+  "tier3Eligibility": {
+    "eligible": false,
+    "blockerId": "FLOW-18-PACKAGE-SIGNING-FIRST-PASS",
+    "blocker": "Tier 3 ineligible until package signing first pass is completed for the adapted marketplace packages and required co-install dependency metadata.",
+    "reason": "FLOW-18 completed the full three-tenant fork cascade, local registry publication/readback, green GitHub Actions evidence, viewport screenshots, and post-cascade live Docker/Vault auth checks. Package signing first pass remains pending, so the earned certification is capped at Tier 2+."
+  },
+  "productDecisionClosure": {
+    "status": "completed-with-tier3-blocker",
+    "decision": "FLOW-18 visual-flow-engine completes the mobility/auth protocol evidence through three tenant repos, three adapted packages, green GitHub Actions, Verdaccio readbacks, screenshots, and post-cascade live auth. Certification is capped at Tier 2+ until package-signing first pass is implemented.",
+    "evidence": [
+      "Tenant A adapted and published @xiigen-fork/acme-enterprise-visual-flow-engine@1.0.1.",
+      "Tenant B installed from Tenant A, adapted, and published @xiigen-fork/northwind-visual-governance-engine@1.0.2.",
+      "Tenant C installed from Tenant B, adapted, and published @xiigen-fork/tessera-visual-federation-engine@1.0.3.",
+      "Post-cascade live Docker/Vault auth matrix passed 15/15.",
+      "Package-signing first pass remains pending and prevents Tier 3 declaration."
+    ]
+  },
+  "tierBasis": [
+    "Docker/Vault auth completed with tenant credentials and tenant signing material under all three tenant Vault paths.",
+    "Tenant A forked original FLOW-18 source through the marketplace API, adapted, published v1.0.1, and passed real GitHub Actions.",
+    "Tenant B forked Tenant A through the marketplace API, adapted, published v1.0.2, and passed real GitHub Actions.",
+    "Tenant C forked Tenant B through the marketplace API, adapted, published v1.0.3, and passed real GitHub Actions.",
+    "Local registry readbacks match each adapted package version, git head, and package shasum.",
+    "Real repo, Actions, registry, and viewport screenshots exist for each cascade point.",
+    "Post-cascade auth matrix passed 15/15 with Vault-backed JWTs and no secret material committed.",
+    "Tier 3 is withheld because package signing first pass is still pending."
+  ],
+  "tenantPackages": [
+    {
+      "tenant": "acme-corp",
+      "package": "@xiigen-fork/acme-enterprise-visual-flow-engine",
+      "version": "1.0.1",
+      "gitHead": "65cdd74626aa87b1a84cf270c948678d7a072ae5",
+      "shasum": "b57d5e0b5fd200fbfd3c0354ccbdabd4809941ae",
+      "repo": "lubochka/acme-corp--acme-enterprise-visual-flow-engine",
+      "actionsRunId": 25465470047,
+      "requiredCoInstalls": [
+        "FLOW-16"
+      ],
+      "requiredCoInstallPackages": [
+        "@xiigen-fork/acme-secure-code-audit"
+      ],
+      "pluginSdk": "@xiigen/plugin-sdk@^1.0.0"
+    },
+    {
+      "tenant": "northwind",
+      "package": "@xiigen-fork/northwind-visual-governance-engine",
+      "version": "1.0.2",
+      "gitHead": "94abb077b1c48ba93b7e812ea381b69a72b01b24",
+      "shasum": "2d3744e79015f47ea9efbfd04ef79f8ff0f7f646",
+      "repo": "lubochka/northwind--northwind-visual-governance-engine",
+      "actionsRunId": 25466441199,
+      "requiredCoInstalls": [
+        "FLOW-16"
+      ],
+      "requiredCoInstallPackages": [
+        "@xiigen-fork/northwind-code-audit-governance"
+      ],
+      "pluginSdk": "@xiigen/plugin-sdk@^1.0.0"
+    },
+    {
+      "tenant": "tessera-collective",
+      "package": "@xiigen-fork/tessera-visual-federation-engine",
+      "version": "1.0.3",
+      "gitHead": "3a4ca4af867860d89587be5460d8db0c2eceb857",
+      "shasum": "0ca6e599b9c05226240c3c9eb03f1c39c19abbfb",
+      "repo": "lubochka/tessera-collective--tessera-visual-federation-engine",
+      "actionsRunId": 25467662218,
+      "requiredCoInstalls": [
+        "FLOW-16"
+      ],
+      "requiredCoInstallPackages": [
+        "@xiigen-fork/tessera-code-audit-governance"
+      ],
+      "pluginSdk": "@xiigen/plugin-sdk@^1.0.0"
+    }
+  ],
+  "visualCascade": [
+    {
+      "directory": "docs/e2e-snapshots/visual-flow-engine/tenant-b-installed-from-a",
+      "pngCount": 15,
+      "zeroByteFiles": 0
+    },
+    {
+      "directory": "docs/e2e-snapshots/visual-flow-engine/tenant-b-v1.0.2",
+      "pngCount": 15,
+      "zeroByteFiles": 0
+    },
+    {
+      "directory": "docs/e2e-snapshots/visual-flow-engine/tenant-c-installed-from-b",
+      "pngCount": 15,
+      "zeroByteFiles": 0
+    },
+    {
+      "directory": "docs/e2e-snapshots/visual-flow-engine/tenant-c-v1.0.3",
+      "pngCount": 15,
+      "zeroByteFiles": 0
+    }
+  ],
+  "repoEvidence": {
+    "repoEvidencePngsChecked": 13,
+    "missingRepoEvidencePngs": 0,
+    "zeroByteRepoEvidencePngs": 0
+  },
+  "githubActions": {
+    "tenantAOriginalFork": {
+      "repo": "lubochka/acme-corp--visual-flow-engine",
+      "runId": 25464854883,
+      "conclusion": "success"
+    },
+    "tenantAAdapted": {
+      "repo": "lubochka/acme-corp--acme-enterprise-visual-flow-engine",
+      "runId": 25465470047,
+      "conclusion": "success"
+    },
+    "tenantBInstalled": {
+      "repo": "lubochka/northwind--acme-enterprise-visual-flow-engine",
+      "runId": 25465993725,
+      "conclusion": "success",
+      "note": "initial inherited assertion run failed, repaired package assertion run passed"
+    },
+    "tenantBAdapted": {
+      "repo": "lubochka/northwind--northwind-visual-governance-engine",
+      "runId": 25466441199,
+      "conclusion": "success"
+    },
+    "tenantCInstalled": {
+      "repo": "lubochka/tessera-collective--northwind-visual-governance-engine",
+      "runId": 25467265434,
+      "conclusion": "success",
+      "note": "initial inherited assertion run failed, repaired package assertion run passed"
+    },
+    "tenantCAdapted": {
+      "repo": "lubochka/tessera-collective--tessera-visual-federation-engine",
+      "runId": 25467662218,
+      "conclusion": "success"
+    }
+  },
+  "authSummary": {
+    "evidence": "docs/portability/flow-18/phase-h-auth-decoration-evidence.json",
+    "postCascadeMatrix": "passed 15/15",
+    "route": "/api/runs/phase0-auth-probe/trace",
+    "validRoles": [
+      "tenant-admin",
+      "tenant-user"
+    ],
+    "wrongRole": "platform-support",
+    "tenants": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ]
+  },
+  "protocolCompletionGate": {
+    "noTechnicalDebt": true,
+    "dockerVaultAuth": true,
+    "threeTenantRepos": true,
+    "greenGitHubActions": true,
+    "registryPackagesPublished": true,
+    "coInstallDependenciesDeclared": true,
+    "fullCascade": true,
+    "perRoleVisualEvidence": true,
+    "noSecretsCommitted": true,
+    "packageSigningFirstPass": false,
+    "tier3Eligible": false
+  },
+  "evidenceFiles": [
+    "docs/portability/flow-18/product-decision-and-pre-existing-defect-evidence.json",
+    "docs/portability/flow-18/phase-0-docker-vault-auth-evidence.json",
+    "docs/portability/flow-18/phase-1-unit-integration-evidence.json",
+    "docs/portability/flow-18/phase-2-playwright-png-evidence.json",
+    "docs/portability/flow-18/phase-3-visual-examination-evidence.json",
+    "docs/portability/flow-18/phase-4.0-tenant-a-original-fork-evidence.json",
+    "docs/portability/flow-18/phase-4-tenant-a-ai-adaptation-evidence.json",
+    "docs/portability/flow-18/phase-5a-tenant-b-installed-from-a-evidence.json",
+    "docs/portability/flow-18/phase-5b-tenant-b-adaptation-evidence.json",
+    "docs/portability/flow-18/phase-5c-tenant-c-installed-from-b-evidence.json",
+    "docs/portability/flow-18/phase-5c5-tenant-c-ai-adaptation-evidence.json",
+    "docs/portability/flow-18/phase-h-auth-decoration-evidence.json"
+  ],
+  "verification": {
+    "registryReadbacks": "passed for Acme v1.0.1, Northwind v1.0.2, and Tessera v1.0.3; all returned expected versions, git heads, and package shasums.",
+    "githubActions": "passed for original Tenant A fork plus adapted Tenant A, Tenant B, and Tenant C repos; Tenant B/C install repos passed after tenant assertion repair.",
+    "cascadePngs": "60 cascade PNGs across four cascade points, 0 zero-byte files; 13 repo-evidence PNG files present for FLOW-18.",
+    "auth": "post-cascade live auth matrix passed 15/15.",
+    "behavioralAssertion": "FLOW-18 visual flow safeguards preserved: BOLA before state checks or writes, published flow immutability, DFS cycle detection before type checks, OCC publication, SETNX node-type registration locks, pre-write injection audit, append-only injection audit records, and required co-install metadata.",
+    "blocker": "Package-signing first pass remains pending; Tier 3 not declared."
+  },
+  "verdict": "PASS_WITH_TIER3_BLOCKER"
+}

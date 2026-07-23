@@ -1,0 +1,26 @@
+{
+  "taskTypeId": "T189",
+  "flowId": "FLOW-11",
+  "name": "SchemaRegistrationGateway",
+  "archetype": "TRANSACTION",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "database": ["xiigen-schema-registry", "xiigen-schema-audit", "xiigen-idempotency-keys"],
+    "queue": ["SchemaQueued", "SchemaApprovalRequired", "SchemaRejected"],
+    "aiEngine": []
+  },
+  "factories": [
+    { "token": "DATABASE_SERVICE", "fabricType": "DATABASE" },
+    { "token": "QUEUE_SERVICE", "fabricType": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T189-1", "rule": "Structure validation (F195) executes as ORDER 1 — before SETNX. Invalid schema never consumes an idempotency key.", "severity": "BLOCKING" },
+    { "id": "IR-T189-2", "rule": "T191 DagCycleDetector called inline after SETNX and before SchemaQueued. CycleDetected → SchemaRejected. T194 not reached.", "severity": "BLOCKING" },
+    { "id": "IR-T189-3", "rule": "BREAKING changeType routes to SchemaApprovalRequired — never to SchemaQueued. ADDITIVE with T191 PASS routes to SchemaQueued.", "severity": "BLOCKING" },
+    { "id": "IR-T189-4", "rule": "storeDocument(audit) executes BEFORE any enqueue call. DNA-8.", "severity": "BLOCKING" }
+  ],
+  "namedChecks": ["schema_evolution_additive_auto_approved_breaking_needs_approval"],
+  "machineComponents": ["SETNX_IDEMPOTENCY", "ADDITIVE_BREAKING_CLASSIFIER", "CYCLE_CHECK_PRE_PUBLISH"],
+  "freedomComponents": []
+}

@@ -1,0 +1,75 @@
+{
+  "flowId": "FLOW-02",
+  "taskTypeId": "T50",
+  "name": "flow-02-profile-enrichment-fan-in",
+  "description": "T50 ProfileEnrichmentFanIn — FAN_IN archetype. Dual-record-write (PRIVATE+GLOBAL) with parallel A1+A2 enrichment and A3 triggered by BusinessProfileCreated.",
+  "archetype": "FAN_IN",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: dual-record-write contract, upstream-event-not-trigger, fan-in pattern"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve FAN_IN arch pattern + dual-record-write + debounce-as-subflow patterns for T50",
+      "params": {
+        "archetype": "FAN_IN",
+        "taskTypeRef": "T50",
+        "topK": 5,
+        "patternIds": [
+          "arch--fan-in-parallel-merge",
+          "arch--dual-record-write",
+          "arch--upstream-event-not-trigger",
+          "arch--debounce-as-subflow"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T50 into: A1 (dual-record-write) + A2 (analytics, parallel) + A3 (learning program, BusinessProfileCreated trigger) + SUBFLOW-02D (debounce)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate business-profile.service.ts with dual-record-write: xiigen-business-profiles (PRIVATE, full schema) + xiigen-matching-profiles (GLOBAL, 4 fields: industry_code, business_stage, location_proximity, team_size_tier). Promise.allSettled for A1+A2."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: dual_record_write_private_global, upstream_event_not_trigger, fan_in_pattern"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T50 iron rules: dual-record isolation, event trigger correctness, DNA-8 ordering"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=dual-record-write (PRIVATE+GLOBAL isolated, Promise.allSettled), rejected=single-record-write (questionnaire in GLOBAL, Promise.all). curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "QuestionnaireCompleted event (via SUBFLOW-02D debounce check)",
+  "primaryFabric": "DATABASE"
+}

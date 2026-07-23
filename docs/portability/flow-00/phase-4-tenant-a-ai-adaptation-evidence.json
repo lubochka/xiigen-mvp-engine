@@ -1,0 +1,146 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phase4-tenant-a-ai-adaptation",
+    "generatedAt":  "2026-05-04T23:50:41.7665063+03:00",
+    "tenant":  {
+                   "tenantId":  "acme-corp",
+                   "role":  "Tenant A"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "name":  "acme-launch-bundles",
+                       "packageName":  "@xiigen-fork/acme-launch-bundles",
+                       "version":  "1.0.1",
+                       "sourceRepo":  "lubochka/acme-corp--bundle-activation",
+                       "sourceCommitSha":  "56a28282e3790954cebf1ce1ef9bf8bd43289682",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow00_activation_stage_labels.dryRun",
+                                                  "from":  "Preview activation",
+                                                  "to":  "Check bundle readiness"
+                                              },
+                                              {
+                                                  "key":  "flow00_support_escalation_channel",
+                                                  "from":  "platform-support",
+                                                  "to":  "acme-launch-desk"
+                                              },
+                                              {
+                                                  "key":  "flow00_activation_duration_estimates.perFlowActivationMs",
+                                                  "from":  10000,
+                                                  "to":  9000
+                                              }
+                                          ],
+                       "visiblePlainLanguage":  "Acme launch policy: readiness step Check bundle readiness, support route Acme launch desk, full launch estimate about 9 seconds.",
+                       "invariantsPreserved":  [
+                                                   "required flow validation remains unchanged",
+                                                   "readiness check still runs before full activation",
+                                                   "activation ordering remains unchanged",
+                                                   "tenant isolation and role access remain unchanged"
+                                               ]
+                   },
+    "forkRepoVerification":  {
+                                 "path":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--bundle-activation",
+                                 "commands":  [
+                                                  {
+                                                      "command":  "npx tsc --noEmit",
+                                                      "exitCode":  0
+                                                  },
+                                                  {
+                                                      "command":  "npx jest --colors=false --forceExit",
+                                                      "exitCode":  0,
+                                                      "result":  "2 suites passed, 3 tests passed"
+                                                  }
+                                              ],
+                                 "changedFiles":  [
+                                                      "package.json",
+                                                      "tenant.config.json",
+                                                      "freedom-config.defaults.json",
+                                                      "settings/module.settings.json",
+                                                      "BUNDLE-MANIFEST.json",
+                                                      "ADAPTATION-CHANGELOG.md",
+                                                      "__tests__/bundle-activation-acme-adaptation.spec.ts"
+                                                  ],
+                                 "adaptationHistoryEntries":  1,
+                                 "workingTreeClean":  true
+                             },
+    "githubActions":  {
+                          "runId":  25342562302,
+                          "workflowName":  "XIIGen Flow CI — bundle-activation",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "56a28282e3790954cebf1ce1ef9bf8bd43289682",
+                          "url":  "https://github.com/lubochka/acme-corp--bundle-activation/actions/runs/25342562302",
+                          "createdAt":  "2026-05-04T20:44:39Z",
+                          "updatedAt":  "2026-05-04T20:45:38Z"
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/acme-launch-bundles@1.0.1",
+                          "verificationCommand":  "npm view @xiigen-fork/acme-launch-bundles version --registry http://localhost:4873",
+                          "verificationResult":  "1.0.1"
+                      },
+    "applicationEvidence":  {
+                                "clientTypecheck":  {
+                                                        "command":  "npx tsc --noEmit",
+                                                        "workingDirectory":  "client",
+                                                        "exitCode":  0
+                                                    },
+                                "playwright":  {
+                                                   "commands":  [
+                                                                    "npx playwright test e2e/bundle-activation-tenant-a-adaptation.spec.ts e2e/bundle-activation-marketplace-listing.spec.ts --project=chromium-desktop --workers=1",
+                                                                    "npx playwright test e2e/bundle-activation-marketplace-listing.spec.ts --project=chromium-desktop --workers=1"
+                                                                ],
+                                                   "environment":  {
+                                                                       "SERVER_PORT":  "33001",
+                                                                       "VITE_API_URL":  "http://localhost:33001",
+                                                                       "VITE_PORT":  "5187/5188"
+                                                                   },
+                                                   "result":  "Tenant A adaptation and marketplace listing assertions passed; 10 total tests passed before listing copy tightening, then marketplace listing re-run passed."
+                                               },
+                                "snapshots":  {
+                                                  "tenantCascadeDirectory":  "docs/e2e-snapshots/bundle-activation/tenant-a-v1.0.1",
+                                                  "tenantCascadePngCount":  9,
+                                                  "tenantCascadeSmallPngCount":  0,
+                                                  "tenantCascadeMinimumBytes":  35011,
+                                                  "marketplaceListingPath":  "docs/e2e-snapshots/marketplace/bundle-activation-v1.0.1-listing.png",
+                                                  "marketplaceListingBytes":  174859
+                                              }
+                            },
+    "mainRepoVerification":  {
+                                 "serverTypecheck":  {
+                                                         "command":  "npx tsc --noEmit -p server/tsconfig.json",
+                                                         "exitCode":  0
+                                                     },
+                                 "serverJest":  {
+                                                    "command":  "npx jest --testPathPatterns=bundle-activation --runInBand",
+                                                    "exitCode":  0,
+                                                    "suites":  7,
+                                                    "tests":  73
+                                                },
+                                 "scans":  {
+                                               "throwNew":  0,
+                                               "servicesMissingMicroserviceBase":  0,
+                                               "clsImports":  0,
+                                               "internalCopyHits":  0
+                                           }
+                             },
+    "secretHandling":  {
+                           "githubTokenPrinted":  false,
+                           "tenantJwtPrinted":  false,
+                           "vaultSigningKeyPrinted":  false,
+                           "registryTokenPrinted":  false
+                       },
+    "verdict":  "PASS",
+    "preCommitRemediation":  {
+                                 "firstPreCommitAttempt":  "failed server tests because Ollama availability probe timed out before intended skip path",
+                                 "rootCause":  "server/test/e2e/ollama-provider.integration.spec.ts used fetch without an abort timeout when probing /api/tags",
+                                 "fix":  "added a 1500ms AbortController timeout for the Ollama /api/tags availability probe",
+                                 "targetedVerification":  {
+                                                              "tests":  18,
+                                                              "command":  "npx jest test/e2e/ollama-provider.integration.spec.ts --runInBand --colors=false",
+                                                              "result":  "passed"
+                                                          }
+                             }
+}

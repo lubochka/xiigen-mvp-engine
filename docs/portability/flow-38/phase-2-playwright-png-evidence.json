@@ -1,0 +1,45 @@
+{
+    "flowId":  "FLOW-38",
+    "flowSlug":  "rag-quality-feedback",
+    "phase":  "phase-2-playwright-png",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T21:15:25.9457268Z",
+    "commands":  [
+                     {
+                         "exitCode":  0,
+                         "command":  "client npx playwright test e2e/rag-quality.spec.ts e2e/rag-quality-feedback-crud.spec.ts e2e/rag-quality-feedback-mock-states.spec.ts --workers=1 --reporter=line",
+                         "result":  "51/51 passed"
+                     },
+                     {
+                         "exitCode":  0,
+                         "command":  "client npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts --grep C6-R38 --workers=1 --reporter=line",
+                         "result":  "3/3 passed"
+                     },
+                     {
+                         "exitCode":  0,
+                         "command":  "client npx playwright test e2e/run-65-regen.spec.ts --grep FLOW-38 --workers=1 --reporter=line",
+                         "result":  "3/3 passed"
+                     },
+                     {
+                         "exitCode":  0,
+                         "command":  "client npx playwright test e2e/visual-audit-all-flows.spec.ts --grep rag-quality-feedback --workers=1 --reporter=line",
+                         "result":  "3/3 passed"
+                     }
+                 ],
+    "pngEvidence":  {
+                        "flowScreenshots":  "docs/e2e-snapshots/rag-quality-feedback/* plus C6/run-65/visual-audit outputs",
+                        "repoEvidenceCount":  9,
+                        "repoEvidenceFiles":  [
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/acme-corp/actions-success.png",
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/acme-corp/package-json.png",
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/acme-corp/repo-home.png",
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/northwind/actions-success.png",
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/northwind/package-json.png",
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/northwind/repo-home.png",
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/tessera-collective/actions-success.png",
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/tessera-collective/package-json.png",
+                                                  "docs/e2e-snapshots/repo-evidence/flow-38/tessera-collective/repo-home.png"
+                                              ]
+                    },
+    "verdict":  "PASS"
+}

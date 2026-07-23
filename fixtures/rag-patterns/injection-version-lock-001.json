@@ -1,0 +1,33 @@
+{
+  "patternId": "injection-version-lock-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-18",
+  "domainId": "visual-flow-engine",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "CODE_INJECTION",
+  "tags": [
+    "version-lock",
+    "pre-write-audit",
+    "rollback-pointer",
+    "append-only",
+    "code-injection",
+    "non-repudiation",
+    "three-phase-audit"
+  ],
+  "keywords": "version lock injection-version-lock SETNX PRE_WRITE COMPLETE FAILED append-only audit rollback pointer NON-REPUDIATION-AUDIT-001 CodeInjected InjectionConflict InjectionFailed storeDocument before inject",
+  "teachingPoint": "T620 CodeInjectionProcessor enforces injection safety via: ORDER 1 = version lock (SETNX injection-version-lock:{nodeId}:{version} — InjectionConflict on lock held), ORDER 2 = pre-write audit storeDocument with phase PRE_WRITE BEFORE injection (rollback pointer per NON-REPUDIATION-AUDIT-001), ORDER 3 = inject (storeDocument to INJECTION_RESULTS_INDEX), catch = storeDocument FAILED + enqueue InjectionFailed. On success: storeDocument COMPLETE + enqueue CodeInjected. Never updateDocument — append-only audit.",
+  "ironRules": [
+    "ORDER 1 version lock: SETNX injection-version-lock:{nodeId}:{version} — lock already held returns InjectionConflict; never updateDocument on injection results",
+    "ORDER 2 PRE_WRITE audit storeDocument MUST happen BEFORE the injection storeDocument — this is the rollback pointer per NON-REPUDIATION-AUDIT-001",
+    "Injection audit is append-only: three phases PRE_WRITE, COMPLETE, FAILED stored as separate documents — never update an existing audit record",
+    "catch block MUST storeDocument FAILED phase AND enqueue InjectionFailed — both required; catch must not re-throw",
+    "INJECTION_AUDIT_PHASES = ['PRE_WRITE', 'COMPLETE', 'FAILED'] as const — compile-time constant, not runtime strings"
+  ],
+  "codeSnippet": "// T620 CodeInjectionProcessor — version lock + pre-write audit + append-only\nconst INJECTION_LOCK_PREFIX = 'injection-version-lock' as const;\nconst INJECTION_AUDIT_PHASES = ['PRE_WRITE', 'COMPLETE', 'FAILED'] as const;\n\nasync injectCode(nodeId: string, version: string, code: string): Promise<DataProcessResult<Record<string, unknown>>> {\n  const tenantId = this.tenantContext.getTenantId();\n  const lockKey = `${INJECTION_LOCK_PREFIX}:${nodeId}:${version}`;\n\n  // ORDER 1: version lock — SETNX\n  const lockResult = await this.db.searchDocuments('injection-locks', { lockKey });\n  if (lockResult.data?.length) {\n    await this.queue.enqueue('InjectionConflict', { nodeId, version, tenantId, lockKey });\n    return DataProcessResult.failure('INJECTION_CONFLICT', 'Version lock held — concurrent injection in progress');\n  }\n  await this.db.storeDocument('injection-locks', { lockKey, nodeId, version, tenantId, createdAt: new Date().toISOString() });\n\n  // ORDER 2: PRE_WRITE audit BEFORE injection (rollback pointer)\n  const auditId = `audit-${nodeId}-${version}-${Date.now()}`;\n  await this.db.storeDocument('injection-audit', { auditId, nodeId, version, tenantId, phase: INJECTION_AUDIT_PHASES[0], startedAt: new Date().toISOString() });\n\n  try {\n    // ORDER 3: inject\n    await this.db.storeDocument('injection-results', { nodeId, version, tenantId, code, injectedAt: new Date().toISOString() });\n\n    // COMPLETE audit (append-only — new document, not update)\n    await this.db.storeDocument('injection-audit', { auditId: `${auditId}-complete`, nodeId, version, tenantId, phase: INJECTION_AUDIT_PHASES[1], completedAt: new Date().toISOString() });\n    await this.queue.enqueue('CodeInjected', { nodeId, version, tenantId, injectedAt: new Date().toISOString() });\n    return DataProcessResult.success({ nodeId, version, tenantId });\n  } catch (err) {\n    // FAILED audit (append-only) + InjectionFailed event\n    await this.db.storeDocument('injection-audit', { auditId: `${auditId}-failed`, nodeId, version, tenantId, phase: INJECTION_AUDIT_PHASES[2], failedAt: new Date().toISOString(), error: String(err) }).catch(() => {});\n    await this.queue.enqueue('InjectionFailed', { nodeId, version, tenantId }).catch(() => {});\n    return DataProcessResult.failure('INJECTION_FAILED', String(err));\n  }\n}",
+  "appliesTo": ["FLOW-19", "FLOW-22", "FLOW-26", "FLOW-35"],
+  "curriculumTier": 3,
+  "qualityScore": 0.98,
+  "sourceDocument": "server/src/engine/flows/visual-flow-engine/code-injection-processor.service.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

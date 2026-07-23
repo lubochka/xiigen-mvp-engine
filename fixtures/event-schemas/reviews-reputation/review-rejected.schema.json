@@ -1,0 +1,11 @@
+{
+  "eventType": "review.rejected",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "reviewerId": { "type": "string", "required": true },
+    "targetEntityId": { "type": "string", "required": true },
+    "reason": { "type": "string", "enum": ["not_eligible", "invalid_rating", "duplicate_review", "peer_flow_unavailable"], "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

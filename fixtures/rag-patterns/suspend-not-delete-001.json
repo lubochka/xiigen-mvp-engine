@@ -1,0 +1,34 @@
+{
+  "patternId": "suspend-not-delete-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-15",
+  "domainId": "saas-multi-tenancy",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": [
+    "saas",
+    "tenant-lifecycle",
+    "suspend-not-delete",
+    "cascade-subscriptions",
+    "delegated-purge",
+    "tombstone-ref",
+    "sha256",
+    "compliance"
+  ],
+  "keywords": "suspend not delete updateDocument cascadeToSubscriptions TenantSuspended DataPurgeRequested tombstoneRef SHA-256 one-way hash TenantTerminated compliance audit trail termination delegation",
+  "teachingPoint": "T608 TenantLifecycleManager MUST use updateDocument for suspension — deleteDocument destroys the audit trail. TenantSuspended MUST carry cascadeToSubscriptions:true. Data purge is delegated via DataPurgeRequested event on termination only — never on suspension. tombstoneRef in purge/termination events MUST be SHA-256 hash of tenantId, never the raw value.",
+  "ironRules": [
+    "Suspension uses updateDocument({ status: 'SUSPENDED' }) — deleteDocument is prohibited",
+    "TenantSuspended event always includes cascadeToSubscriptions: true",
+    "DataPurgeRequested emitted only in termination path — never during suspension",
+    "tombstoneRef = SHA-256 hash of tenantId — raw tenantId never in purge or termination events",
+    "Data retention window from FREEDOM config (tenant_data_retention_days) — no hardcoded retention period"
+  ],
+  "codeSnippet": "// T608 TenantLifecycleManager — suspend-not-delete + delegated purge\n\nasync suspend(reason: string): Promise<DataProcessResult<void>> {\n  const tenantId = this.tenantContext.getTenantId(); // ALS only\n\n  // updateDocument ONLY — deleteDocument is prohibited\n  await this.registry.updateDocument('xiigen-tenants', tenantId, {\n    status: 'SUSPENDED',\n    suspendedAt: new Date().toISOString(),\n    suspensionReason: reason,\n  }); // F1519\n\n  await this.auditService.record(tenantId, 'SUSPENDED'); // F1525\n\n  // cascadeToSubscriptions:true ALWAYS — subscription service listens to this event\n  await this.queue.enqueue('TenantSuspended', {\n    tenantId,\n    cascadeToSubscriptions: true, // REQUIRED — never false, never omitted\n    suspendedAt: new Date().toISOString(),\n    suspensionReason: reason,\n    suspendedBy: 'SYSTEM',\n  });\n  return DataProcessResult.success();\n}\n\nasync terminate(): Promise<DataProcessResult<void>> {\n  const tenantId = this.tenantContext.getTenantId(); // ALS only\n\n  // One-way hash — raw tenantId NEVER in events\n  const tombstoneRef = crypto.createHash('sha256').update(tenantId).digest('hex');\n\n  // Read retention from FREEDOM — no hardcoded period\n  const retentionDays = await this.freedom.getConfig('tenant_data_retention_days');\n\n  await this.registry.updateDocument('xiigen-tenants', tenantId, {\n    status: 'TERMINATED',\n    terminatedAt: new Date().toISOString(),\n    tombstoneRef,\n  }); // F1519\n\n  await this.auditService.record(tenantId, 'TERMINATED'); // F1525\n\n  // Delegated purge — T608 never deletes data directly\n  const purgeRef = crypto.randomUUID();\n  await this.queue.enqueue('DataPurgeRequested', { tombstoneRef, retentionDays, purgeRef });\n  await this.queue.enqueue('TenantTerminated', { tombstoneRef, terminatedAt: new Date().toISOString(), dataPurgeRequestedRef: purgeRef });\n  return DataProcessResult.success();\n}",
+  "appliesTo": ["FLOW-16", "FLOW-17", "FLOW-19", "FLOW-21"],
+  "curriculumTier": 2,
+  "qualityScore": 0.96,
+  "sourceDocument": "server/src/engine-contracts/saas-multi-tenancy-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

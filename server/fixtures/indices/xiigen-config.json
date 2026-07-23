@@ -1,0 +1,12 @@
+{
+  "index": "xiigen-config",
+  "mappings": {
+    "properties": {
+      "tenantId":   { "type": "keyword" },
+      "configKey":  { "type": "keyword" },
+      "value":      { "type": "object", "enabled": false },
+      "createdAt":  { "type": "date" },
+      "updatedAt":  { "type": "date" }
+    }
+  }
+}

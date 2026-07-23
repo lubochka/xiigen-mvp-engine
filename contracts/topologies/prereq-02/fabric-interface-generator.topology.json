@@ -1,0 +1,206 @@
+{
+  "topologyId": "flow-prereq-02a-fabric-interface-generator",
+  "flowId": "FLOW-PREREQ-02",
+  "taskTypeId": "T582",
+  "version": "1.0.0",
+  "archetype": "ORCHESTRATION",
+  "purpose": "Given a PREREQ_GAP { type: MISSING_FABRIC_INTERFACE }, autonomously build the missing fabric interface: NODE convergence → multi-model generation → arbiter panel validation → compile check → derive registry fields → register in fabric registry.",
+  "trigger": "event prereq.resolution.ordered with gap.type === MISSING_FABRIC_INTERFACE",
+
+  "nodes": {
+    "n1": {
+      "handler": "rag-retrieve.handler",
+      "description": "Retrieve ARCH_PATTERN for fabric interfaces in this service category, plus existing interface examples from the codebase",
+      "config": {
+        "index": "xiigen-rag-patterns",
+        "query": "fabric interface pattern arch",
+        "size": 10,
+        "filter": {
+          "bool": {
+            "should": [
+              { "term": { "patternType.keyword": "ARCH_PATTERN" } },
+              { "term": { "patternType.keyword": "FLOW_DESIGN" } }
+            ]
+          }
+        }
+      },
+      "output": { "patterns": "ARCH_PATTERN + FLOW_DESIGN patterns for interface generation" }
+    },
+
+    "n2": {
+      "handler": "convergence.handler",
+      "description": "Build NODE for the missing interface. Multi-model convergence produces verified representation.",
+      "config": {
+        "maxRounds": "${config.convergence_max_rounds}",
+        "challengers": ["domain", "security", "completeness", "overlap_challenger"],
+        "contextScope": ["xiigen-fabric-registry", "xiigen-rag-patterns"]
+      },
+      "output": {
+        "node": "NodeRepresentation { structure, intent, constraints, quality }",
+        "convergenceHistory": "{ rounds, consensusReachedAt, verifiedBy }"
+      }
+    },
+
+    "n3": {
+      "handler": "multi-generate.handler",
+      "description": "Generate the interface file + mock provider + unit tests in parallel across N providers.",
+      "generators": ["AI_ENGINE", "AI_OPENAI_PROVIDER", "AI_GEMINI_PROVIDER"],
+      "_generatorNote": "VERIFY these token names match the actual registered provider tokens in fabrics.module.ts before Phase B.",
+      "judgeToken": "AI_JUDGE_PROVIDER",
+      "blind": true,
+      "prompt": {
+        "system": "Generate a fabric interface. Follow the NODE representation from convergence. No direct SDK imports, injectable via @Inject token, with a mock provider for testing.",
+        "user": "NODE: ${n2.node}\nExisting patterns: ${n1.patterns}\nTarget stack: NestJS + TypeScript",
+        "selfQuestionsRequired": 3
+      },
+      "output": {
+        "generated": "{ interfaceFile, mockProviderFile, unitTestFile }",
+        "modelComparison": "{ chosen, rejected, discarded, judgeModel, shuffleWasApplied }"
+      }
+    },
+
+    "n4": {
+      "handler": "arbiter-panel.handler",
+      "description": "7 specialized blind arbiters verify the generated interface. blockSemantics: ANY_BLOCK_CLASS_REJECTS.",
+      "config": {
+        "arbiters": {
+          "business_logic": { "expertise": "Does this interface correctly represent the service domain?" },
+          "security": { "expertise": "No direct SDK imports, no credential leakage, injectable via token" },
+          "skills_patterns": { "expertise": "Follows existing fabric interface patterns in the codebase" },
+          "prompts_compliance": { "expertise": "Generated from NODE, not from hallucinated requirements" },
+          "key_principles": { "expertise": "M1-M5 + P1-P22 + DNA-1..9 — isolated", "isolated": true },
+          "iron_rules": { "expertise": "DNA-8 (store before emit), DNA-1 (dict-only payloads)" },
+          "completeness": { "expertise": "Interface + mock + tests all present, all methods implemented" }
+        },
+        "blockSemantics": "ANY_BLOCK_CLASS_REJECTS",
+        "escalationGate": { "maxCycles": 3, "onMaxCycles": "HUMAN_JUDGMENT_REQUIRED" }
+      }
+    },
+
+    "n5": {
+      "handler": "validate.handler",
+      "description": "Compile check on generated files.",
+      "checks": [
+        {
+          "id": "PREREQ-001",
+          "check": "compile-check",
+          "target": "${n3.generated}",
+          "config": { "command": "npx tsc --noEmit" },
+          "severity": "score-0"
+        },
+        {
+          "id": "PREREQ-002",
+          "check": "no-direct-sdk-imports",
+          "target": "${n3.generated.interfaceFile}",
+          "config": { "bannedPatterns": ["import.*from.*aws-sdk", "import.*from.*@sendgrid", "import.*from.*twilio"] },
+          "severity": "score-0"
+        }
+      ]
+    },
+
+    "n5b": {
+      "handler": "decompose.handler",
+      "description": "Extract registry fields from the generated interface file content.",
+      "config": {
+        "extractionRules": [
+          "token: grep 'export const ([A-Z_]+)' from interfaceFile",
+          "interfaceName: grep 'export interface (I[A-Za-z]+Service)' from interfaceFile",
+          "aliases: [interfaceName, token, humanReadable(interfaceName)]"
+        ]
+      },
+      "output": {
+        "token": "string",
+        "interfaceName": "string",
+        "aliases": "string[]",
+        "serviceCategory": "string"
+      }
+    },
+
+    "n6": {
+      "handler": "route.handler",
+      "condition": "${n5.valid}",
+      "branches": { "true": "n7-register", "false": "n8-fail" }
+    },
+
+    "n7-register": {
+      "handler": "feedback.handler",
+      "description": "Register the new interface in xiigen-fabric-registry. Emit FabricInterfaceReady event. Store DESIGN_REASONING DPO triple (Tier 1).",
+      "actions": [
+        {
+          "type": "store",
+          "index": "xiigen-fabric-registry",
+          "document": {
+            "interfaceToken": "${n5b.token}",
+            "interfaceName": "${n5b.interfaceName}",
+            "serviceCategory": "${n5b.serviceCategory}",
+            "aliases": "${n5b.aliases}",
+            "status": "ACTIVE",
+            "registeredAt": "${now}"
+          }
+        },
+        {
+          "type": "emit",
+          "event": "fabric.interface.ready",
+          "payload": {
+            "interfaceToken": "${n5b.token}",
+            "specId": "${input.specId}",
+            "gapName": "${input.gap.name}"
+          }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "DPO_TRIPLE",
+          "index": "xiigen-training-data",
+          "data": {
+            "curriculumTier": 1,
+            "category": "DESIGN_REASONING",
+            "modelComparison": "${n3.modelComparison}"
+          }
+        }
+      ]
+    },
+
+    "n8-fail": {
+      "handler": "feedback.handler",
+      "description": "Compilation failed. Store failure as GAP_SIGNAL. Do NOT register the interface.",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "prereq.resolution.failed",
+          "payload": { "gapName": "${input.gap.name}", "reason": "${n5.violations}" }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "GAP_SIGNAL",
+          "index": "xiigen-capability-gap-signals",
+          "data": {
+            "flowId": "FLOW-PREREQ-02",
+            "taskType": "T582",
+            "failureClass": "COMPILATION_FAILURE",
+            "violations": "${n5.violations}"
+          }
+        }
+      ]
+    }
+  },
+
+  "edges": [
+    ["n1", "n2"], ["n2", "n3"], ["n3", "n4"], ["n4", "n5"],
+    ["n5", "n5b"], ["n5b", "n6"], ["n6.true", "n7-register"], ["n6.false", "n8-fail"]
+  ],
+
+  "ironRules": [
+    "CF-792: Generated interface MUST NOT import any SDK directly — fabric-first pattern mandatory",
+    "CF-793: Generated interface MUST include a mock provider — testability is non-negotiable",
+    "CF-794: DPO triple MUST have curriculumTier=1 and category=DESIGN_REASONING"
+  ],
+
+  "qualityGates": [
+    "Interface compiles with zero errors",
+    "Mock provider implements all interface methods",
+    "No direct SDK imports",
+    "Interface registered in xiigen-fabric-registry after generation"
+  ]
+}

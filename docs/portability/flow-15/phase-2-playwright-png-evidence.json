@@ -1,0 +1,190 @@
+{
+    "flowId":  "FLOW-15",
+    "flowSlug":  "saas-multi-tenancy",
+    "phase":  "phase-2-playwright-png-count",
+    "generatedAt":  "2026-05-06T13:57:18.5466607+03:00",
+    "branch":  "Skills_Creation_Claude",
+    "protocol":  "FLOW-MOBILITY-AUTH phase-2 Playwright and PNG count",
+    "playwright":  {
+                       "command":  "npx playwright test e2e/saas-multi-tenancy.spec.ts --reporter=list",
+                       "cwd":  "client",
+                       "passed":  true,
+                       "browserCasesPassed":  18,
+                       "browserCasesTotal":  18,
+                       "projects":  [
+                                        "chromium-desktop",
+                                        "chromium-tablet",
+                                        "chromium-mobile"
+                                    ],
+                       "states":  [
+                                      "T605 atomic tenant provisioning",
+                                      "T606 machine-locked config keys",
+                                      "T607 atomic quota materialization",
+                                      "T608 suspend-not-delete lifecycle",
+                                      "tenant identity context isolation",
+                                      "FLOW-15 governance rules seeded"
+                                  ]
+                   },
+    "typecheck":  {
+                      "command":  "npx tsc --noEmit",
+                      "cwd":  "client",
+                      "passed":  true,
+                      "exitCode":  0
+                  },
+    "pngCount":  {
+                     "expected":  18,
+                     "actual":  18,
+                     "expectedFormula":  "6 P1 state rows * 3 Playwright viewport projects",
+                     "passed":  true
+                 },
+    "snapshots":  {
+                      "root":  "docs/e2e-snapshots/saas-multi-tenancy",
+                      "images":  [
+                                     {
+                                         "path":  "chromium-desktop/01-t605-atomic-tenant-provisioning.png",
+                                         "bytes":  30161,
+                                         "width":  1440,
+                                         "height":  900,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-desktop/02-t606-machine-locked-config-keys.png",
+                                         "bytes":  30161,
+                                         "width":  1440,
+                                         "height":  900,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-desktop/03-t607-atomic-quota-materialization.png",
+                                         "bytes":  30161,
+                                         "width":  1440,
+                                         "height":  900,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-desktop/04-t608-suspend-not-delete-lifecycle.png",
+                                         "bytes":  20461,
+                                         "width":  1440,
+                                         "height":  900,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-desktop/05-tenant-identity-context-isolation.png",
+                                         "bytes":  20461,
+                                         "width":  1440,
+                                         "height":  900,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-desktop/06-flow-15-governance-rules-seeded.png",
+                                         "bytes":  20461,
+                                         "width":  1440,
+                                         "height":  900,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-mobile/01-t605-atomic-tenant-provisioning.png",
+                                         "bytes":  96025,
+                                         "width":  1082,
+                                         "height":  2202,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-mobile/02-t606-machine-locked-config-keys.png",
+                                         "bytes":  96025,
+                                         "width":  1082,
+                                         "height":  2202,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-mobile/03-t607-atomic-quota-materialization.png",
+                                         "bytes":  96025,
+                                         "width":  1082,
+                                         "height":  2202,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-mobile/04-t608-suspend-not-delete-lifecycle.png",
+                                         "bytes":  67983,
+                                         "width":  1082,
+                                         "height":  2202,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-mobile/05-tenant-identity-context-isolation.png",
+                                         "bytes":  67983,
+                                         "width":  1082,
+                                         "height":  2202,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-mobile/06-flow-15-governance-rules-seeded.png",
+                                         "bytes":  67983,
+                                         "width":  1082,
+                                         "height":  2202,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-tablet/01-t605-atomic-tenant-provisioning.png",
+                                         "bytes":  29720,
+                                         "width":  820,
+                                         "height":  1180,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-tablet/02-t606-machine-locked-config-keys.png",
+                                         "bytes":  29720,
+                                         "width":  820,
+                                         "height":  1180,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-tablet/03-t607-atomic-quota-materialization.png",
+                                         "bytes":  29720,
+                                         "width":  820,
+                                         "height":  1180,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-tablet/04-t608-suspend-not-delete-lifecycle.png",
+                                         "bytes":  20029,
+                                         "width":  820,
+                                         "height":  1180,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-tablet/05-tenant-identity-context-isolation.png",
+                                         "bytes":  20029,
+                                         "width":  820,
+                                         "height":  1180,
+                                         "nonEmpty":  true
+                                     },
+                                     {
+                                         "path":  "chromium-tablet/06-flow-15-governance-rules-seeded.png",
+                                         "bytes":  20029,
+                                         "width":  820,
+                                         "height":  1180,
+                                         "nonEmpty":  true
+                                     }
+                                 ]
+                  },
+    "repoEvidence":  {
+                         "currentFlowCascadeScreenshotsPresent":  false,
+                         "note":  "FLOW-15 fork cascade has not started yet; repo-evidence screenshots are required at cascade phases and remain a later phase gate."
+                     },
+    "docsUpdated":  [
+                        "client/e2e/saas-multi-tenancy.spec.ts preserves viewport-specific screenshots under project directories.",
+                        "docs/flow-coverage/saas-multi-tenancy/P3-automation-gap-analysis.md records the 18-artifact viewport count."
+                    ],
+    "phaseGate":  {
+                      "playwrightPassed":  true,
+                      "pngCountPassed":  true,
+                      "clientTypecheckPassed":  true,
+                      "phase2Complete":  true
+                  },
+    "commands":  [
+                     "client: npx playwright test e2e/saas-multi-tenancy.spec.ts --reporter=list — PASS, 18/18 after visual layout fix",
+                     "PowerShell image dimension/count verification — 18 PNGs, all non-empty",
+                     "client: npx tsc --noEmit — PASS"
+                 ]
+}

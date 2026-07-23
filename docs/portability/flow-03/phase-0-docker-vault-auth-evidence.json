@@ -1,0 +1,90 @@
+{
+  "flowId": "FLOW-03",
+  "flowSlug": "event-management",
+  "generatedAt": "2026-05-01T10:53:06.2798045Z",
+  "baseUrl": "http://localhost:33001",
+  "docker": {
+    "serverContainer": "xiigen-server",
+    "serverHealth": "healthy",
+    "serverPort": 33001,
+    "secretsProvider": "vault",
+    "vaultContainer": "xiigen-vault",
+    "vaultSealed": false
+  },
+  "vaultSeededTenants": [
+    "acme-corp",
+    "northwind",
+    "tessera-collective"
+  ],
+  "tenantUserSeed": {
+    "source": "deployed Docker server HTTP dynamic route",
+    "passwordPolicy": "shared non-secret test password",
+    "usersCreated": 7,
+    "usersPerTenant": {
+      "acme-corp": [
+        "tenant-admin",
+        "tenant-user",
+        "service-account"
+      ],
+      "northwind": [
+        "tenant-admin",
+        "tenant-user"
+      ],
+      "tessera-collective": [
+        "tenant-admin",
+        "tenant-user"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "acme token on acme auth me",
+      "tenant": "acme-corp",
+      "expected": 200,
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "missing token on protected auth me",
+      "tenant": "acme-corp",
+      "expected": 401,
+      "actual": 401,
+      "passed": true
+    },
+    {
+      "name": "acme token on northwind auth me",
+      "tenant": "northwind",
+      "expected": 401,
+      "actual": 401,
+      "passed": true
+    },
+    {
+      "name": "northwind token on tessera auth me",
+      "tenant": "tessera-collective",
+      "expected": 401,
+      "actual": 401,
+      "passed": true
+    },
+    {
+      "name": "acme token on tessera auth me",
+      "tenant": "tessera-collective",
+      "expected": 401,
+      "actual": 401,
+      "passed": true
+    },
+    {
+      "name": "service-account role on tenant-user/admin-protected run trace",
+      "tenant": "acme-corp",
+      "expected": 403,
+      "actual": 403,
+      "passed": true
+    }
+  ],
+  "allPassed": true,
+  "notes": [
+    "The server image was rebuilt and started through Docker Desktop using SECRETS_PROVIDER=vault, VAULT_ADDR=http://vault:8200, and a Vault token supplied as deployment configuration.",
+    "Tenant secret values remain in Vault under secret/xiigen/tenants/{tenantId}/..., not in environment variables.",
+    "Cross-tenant JWT replay failed structurally for acme-corp to northwind, northwind to tessera-collective, and acme-corp to tessera-collective.",
+    "The wrong-role check uses the canonical service-account role against a route protected for tenant-user, tenant-admin, or platform-admin."
+  ]
+}

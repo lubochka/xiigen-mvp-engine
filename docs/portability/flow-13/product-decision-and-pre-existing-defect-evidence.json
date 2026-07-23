@@ -1,0 +1,78 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "phase": "product-decision-and-pre-existing-defect-check",
+  "generatedAt": "2026-05-06T07:07:42.6615499+03:00",
+  "protocolSourcesLoaded": [
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FLOW-MOBILITY-AND-AUTH-MASTER-GUIDE.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/TENANT-CICD-CONNECTION-GUIDANCE-v1.0.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FORK-FLOW-ENGINE-PLAN-v1.2.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/XIIGEN-AUTH-ROLES-GROUPS-PLAN-v3.0.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/PER-FLOW-FIX-MAP-v2.9.md"
+  ],
+  "productDecisionGate": {
+    "fixMapRow": "FLOW-13 | Data Warehouse | stop: product decision required before continuing first | tenant context service decoupling | configuration key scoping | co-install dependency declaration | unit test layer MEDIUM | cascade requirement",
+    "fixMapQuestion": "Analytics CROSS_FLOW_DESIGN_LOCK: define acceptable Docker minimum?",
+    "status": "PASS_FOR_EXECUTION",
+    "decision": "The acceptable Docker minimum for FLOW-13 certification is the existing XIIGen Docker Desktop platform stack: docker-compose.yml, docker-compose.platform.yml, Vault, server, and local npm registry. External warehouse services are not required for Phase 0, Phase 1, or fork/auth certification unless a tenant adapter explicitly ships such a connector. Cross-flow analytics dependencies must be declared as co-install metadata and not bundled as hidden upstream source.",
+    "operatorOverride": "Luba instructed the session to continue flows 13-46 with the same plan and protocol on 2026-05-06."
+  },
+  "roleMap": {
+    "source": "docs/design-reviews/ROLE-ANALYSIS-BATCH-03.md",
+    "fullRoles": [
+      "tenant-admin",
+      "event-organiser",
+      "freelancer",
+      "business-partner",
+      "platform-admin"
+    ],
+    "partialRoles": [
+      "tenant-user",
+      "platform-support"
+    ],
+    "inactiveRoles": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "referral-user"
+    ],
+    "entryPoints": [
+      "GET /analytics/tenant",
+      "GET /analytics/my-activity",
+      "GET /organiser/analytics",
+      "GET /freelancer/analytics",
+      "GET /partner/analytics",
+      "GET /admin/platform/analytics",
+      "GET /support/tenant/:id/analytics"
+    ]
+  },
+  "baselineVerification": {
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "passedSuites": 2,
+      "passedTests": 63
+    },
+    "staticScans": {
+      "throwNew": {
+        "command": "Select-String -Path server/src/engine/flows/data-warehouse-analytics/**/*.ts -Pattern 'throw new' excluding spec files",
+        "failureLines": 0
+      },
+      "servicesMissingMicroserviceBase": {
+        "command": "Select-String -Path server/src/engine/flows/data-warehouse-analytics/**/*.ts -Pattern '^export class.*Service' excluding spec files and requiring extends MicroserviceBase",
+        "failureLines": 0
+      },
+      "nestjsClsImports": {
+        "command": "Select-String -Path server/src/engine/flows/data-warehouse-analytics/**/*.ts -Pattern \"import.*ClsService|from 'nestjs-cls'\" excluding spec files",
+        "failureLines": 0
+      }
+    },
+    "stateFile": "docs/sessions/FLOW-13/FLOW-13-MOBILITY-AUTH-STATE.json"
+  },
+  "summary": {
+    "status": "PASS",
+    "readyForPhase0DockerVaultAuth": true,
+    "secretsPrintedOrCommitted": false,
+    "technicalDebtIntroduced": false
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "flowId": "FLOW-17",
+  "name": "Freelancer Marketplace",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T613",
+      "taskTypeId": "T613",
+      "name": "GigAcceptanceLockGateway",
+      "archetype": "validation",
+      "entry": "POST /gigs/:id/accept (BOLA + SETNX + OCC)"
+    },
+    {
+      "id": "T614",
+      "taskTypeId": "T614",
+      "name": "MilestoneContractManager",
+      "archetype": "transaction",
+      "entry": "CONTRACT_IMMUTABLE_FIELDS compile-time + sum validation"
+    },
+    {
+      "id": "T615",
+      "taskTypeId": "T615",
+      "name": "DeliveryGateEscrowController",
+      "archetype": "orchestration",
+      "entry": "delivery gate before release + LIFO milestone compensation"
+    },
+    {
+      "id": "T616",
+      "taskTypeId": "T616",
+      "name": "FreelancerReviewWriter",
+      "archetype": "emit",
+      "entry": "VALID_REVIEW_DIRECTIONS + append-only audit"
+    }
+  ],
+  "edges": [
+    {
+      "from": "GigAcceptanceRequested",
+      "to": "T613",
+      "event": "xiigen.freelancer-marketplace.gig-acceptance-requested.v1"
+    },
+    {
+      "from": "T613",
+      "to": "T614",
+      "event": "xiigen.freelancer-marketplace.gig-accepted.v1"
+    },
+    {
+      "from": "T614",
+      "to": "T615",
+      "event": "xiigen.freelancer-marketplace.contract-signed.v1"
+    },
+    {
+      "from": "T615",
+      "to": "T616",
+      "event": "xiigen.freelancer-marketplace.milestone-released.v1"
+    },
+    {
+      "from": "T616",
+      "to": "FreelancerLifecycleComplete",
+      "event": "xiigen.freelancer-marketplace.review-published.v1",
+      "condition": "terminal"
+    }
+  ]
+}

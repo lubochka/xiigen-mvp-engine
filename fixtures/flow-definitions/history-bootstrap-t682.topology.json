@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-45",
+  "flowName": "history-bootstrap",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T682",
+        "name": "ArchitectureDocumentParser",
+        "order": 1,
+        "description": "Parse CLAUDE.md, ARCHITECTURE_GUIDE, DEVELOPER_ONBOARDING from docs/architecture/"
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T683",
+        "name": "DesignDecisionExtractor",
+        "order": 2,
+        "description": "Extract design decisions with problem/solution/tradeoff, assign curriculum tier"
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T684",
+        "name": "CurriculumTierAssigner",
+        "order": 3,
+        "description": "Classify extracted decisions by tier (1=foundational, 2=domain, 3=flow-specific)"
+      },
+      {
+        "nodeId": "n4",
+        "taskTypeId": "T685",
+        "name": "CrossReferenceExtractor",
+        "order": 4,
+        "description": "Extract flow and service cross-references from architecture documents"
+      },
+      {
+        "nodeId": "n5",
+        "taskTypeId": "T686",
+        "name": "RagPatternGenerator",
+        "order": 5,
+        "description": "Generate RAG patterns from architecture rules with archetype and keywords"
+      },
+      {
+        "nodeId": "n6",
+        "taskTypeId": "T687",
+        "name": "DpoTripleGenerator",
+        "order": 6,
+        "description": "Create DPO triples (instruction, preferred, dispreferred) for model training"
+      },
+      {
+        "nodeId": "n7",
+        "taskTypeId": "T688",
+        "name": "KnowledgeBaseBootstrapper",
+        "order": 7,
+        "description": "Store all extracted data: DR records, RAG patterns, DPO triples, cross-references"
+      },
+      {
+        "nodeId": "n8",
+        "taskTypeId": "T689",
+        "name": "OutboxPublisher",
+        "order": 8,
+        "description": "Emit CloudEvents to queue fabric after all storage (DNA-8 outbox pattern)"
+      }
+    ]
+  }
+}

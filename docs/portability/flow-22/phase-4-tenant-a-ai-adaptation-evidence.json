@@ -1,0 +1,213 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "phase": "phase4AiAdaptation",
+  "status": "completed",
+  "generatedAt": "2026-05-10T07:30:57.899Z",
+  "branch": "Skills_Creation_Claude",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "tenantName": "Acme Corp"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change plus tenant package metadata",
+    "packageName": "@xiigen-fork/acme-help-center-cms",
+    "packageVersion": "1.0.1",
+    "moduleName": "acme-help-center-cms",
+    "displayName": "Acme Help Center CMS",
+    "sourceModuleName": "cms-publishing",
+    "sourcePackageVersion": "1.0.0-fork",
+    "visiblePlainLanguage": "Acme help-center publishing defaults: public audience, faster review SLA, tenant-local scheduling, longer schedule locks, weekly analytics, and shorter analytics retention while conflict retry, approval gates, scheduled dispatch, analytics rollups, rollback safety, and tenant isolation remain unchanged.",
+    "freedomChanges": [
+      {
+        "key": "flow22_publish_conflict_retry_limit",
+        "from": null,
+        "to": 1
+      },
+      {
+        "key": "flow22_default_audience_mode",
+        "from": null,
+        "to": "public"
+      },
+      {
+        "key": "flow22_approval_required_stages",
+        "from": null,
+        "to": "EDITOR_REVIEW,LEGAL_REVIEW,FINAL_APPROVAL"
+      },
+      {
+        "key": "flow22_approval_sla_hours",
+        "from": null,
+        "to": 8
+      },
+      {
+        "key": "content_publish_schedule_window_ms",
+        "from": null,
+        "to": 172800000
+      },
+      {
+        "key": "flow22_schedule_timezone_policy",
+        "from": null,
+        "to": "tenant-local"
+      },
+      {
+        "key": "flow22_analytics_retention_days",
+        "from": null,
+        "to": 180
+      },
+      {
+        "key": "flow22_analytics_rollup_window",
+        "from": null,
+        "to": "week"
+      }
+    ],
+    "invariantsPreserved": [
+      "Content version publishing still uses optimistic conflict handling.",
+      "Approval workflow still requires an explicit approved state before scheduled publishing.",
+      "Scheduled dispatch still uses tenant-local context and bounded scheduling windows.",
+      "Analytics aggregation remains tenant-scoped and append-only for published content metrics.",
+      "Rollback metadata and publication version history remain in the portable bundle.",
+      "TenantContextResolver remains the tenant-context dependency in FLOW-22 services."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/cms-publishing-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/acme-corp--acme-help-center-cms",
+    "url": "https://github.com/lubochka/acme-corp--acme-help-center-cms",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "originalForkRepo": "lubochka/acme-corp--cms-publishing",
+    "renamedFromOriginalForkRepo": true,
+    "originalForkCommit": "1e5690a1974f2ea01a8f6aedbc24c0860f975479",
+    "adaptedCommit": "9bb976868074fa3e3fe5fb70ca286b05a7689219",
+    "adaptedCommitMessage": "Adapt CMS publishing for Acme help center",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--cms-publishing-phase40-20260510-095839",
+    "cleanCloneStatus": "clean against adapted/main",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/cms-publishing-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 121,
+        "shasum": "0c779ed08804dd10fd5de599934660cdb9737067"
+      }
+    ],
+    "adaptationHistoryEntries": 1,
+    "bundleManifestItemCount": 120
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - cms-publishing",
+    "runId": 25622788635,
+    "url": "https://github.com/lubochka/acme-corp--acme-help-center-cms/actions/runs/25622788635",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "9bb976868074fa3e3fe5fb70ca286b05a7689219",
+    "createdAt": "2026-05-10T07:21:16Z",
+    "updatedAt": "2026-05-10T07:22:00Z",
+    "successfulJobs": [
+      "Standalone flow test - cms-publishing"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "ping": "passed",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public --loglevel=notice",
+    "publishedPackage": "@xiigen-fork/acme-help-center-cms",
+    "publishedVersion": "1.0.1",
+    "viewCommand": "npm view @xiigen-fork/acme-help-center-cms version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+    "npmViewVersion": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-help-center-cms/-/acme-help-center-cms-1.0.1.tgz",
+    "shasum": "0c779ed08804dd10fd5de599934660cdb9737067",
+    "gitHead": "9bb976868074fa3e3fe5fb70ca286b05a7689219",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/cms-publishing-acme-v1.0.1-registry-api-evidence.json",
+    "verified": true
+  },
+  "visualEvidence": {
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/marketplace/cms-publishing-acme-v1.0.1-registry-listing.png",
+        "sizeBytes": 46712
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-22/acme-corp--acme-help-center-cms-tenant-a-v1.0.1-github-listing.png",
+        "sizeBytes": 132322
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-22/acme-corp--acme-help-center-cms-tenant-a-v1.0.1-actions-success.png",
+        "sizeBytes": 76608
+      }
+    ],
+    "repoVisibilityRestored": true
+  },
+  "phaseCloseVerification": {
+    "tenantValidation": {
+      "typescript": "passed",
+      "jest": "passed: 2 suites, 4 tests",
+      "packDryRun": "passed"
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "tenantContextResolverReferences": 8,
+      "passed": true
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tenantSecretsStoredInVault": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantAAdaptedFlow": true,
+    "tenantACommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBInstall": true
+  },
+  "verdict": "PASS"
+}

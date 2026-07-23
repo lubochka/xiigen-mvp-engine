@@ -1,0 +1,60 @@
+{
+  "batch_id": "V-R12-B",
+  "captured_after": "RUN-181 (21c06e89) + recapture RUN-182 (d64174f9)",
+  "fixes": [
+    {
+      "fix_id": "V-R12-B1",
+      "flow": "i18n-translation",
+      "role": "translator",
+      "pre_fix": "deny (same as tenant-user)",
+      "post_fix_expected": "Translator Workbench with segment editor + translation memory + save",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "Header 'Translation workbench' with pencil icon + subtitle 'Review pending strings and publish translations for tenants using your target locale.' Status filter tabs (All / Pending / In review / Approved). Purple 'Translation memory' panel: '5 similar phrases translated previously. Open suggestions.' PENDING STRINGS (6) table with columns Key / Source (en) / Target locale / Status / Action — rows show common.save_changes (he-IL, Pending), booking.confirm_reminder (he-IL, In review), error.generic_retry (he-IL, Pending), pricing.save_annual (fr-FR, Pending), nav.my_subscription (fr-FR, Approved), billing.next_bill_date (he-IL, In review). Each row has blue 'Translate' CTA. Footer 'My translations today: 1 completed.' Not a deny page.",
+      "evidence_tablet": "Same workbench layout, responsive column adjustments (Target locale column wraps). All 6 pending strings + Translation memory + status tabs + Translate CTAs present.",
+      "evidence_mobile": "Workbench content rendered but constrained to ~half viewport width (content does not fill mobile screen). Header 'Translation workbench', status tabs, Translation memory panel, 6-row pending strings table with Translate CTAs all present. Mobile layout overflow is a cosmetic issue — content is correct.",
+      "notes": "Mobile viewport renders content in left half of screen only (layout width issue, not a content/role-branch issue). Core fix verified: translator gets purpose-built workbench, not deny."
+    },
+    {
+      "fix_id": "V-R12-B2",
+      "flow": "i18n-translation",
+      "role": "tenant-user",
+      "pre_fix": "deny/generic page (same as translator pre-fix)",
+      "post_fix_expected": "3 language cards (English / Hebrew / French) with switch CTA",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "Header 'Choose your language' with globe icon + subtitle 'This only changes how the app appears to you. Other tenant members keep their own pick.' Three language cards in row: GB English (selected, blue border, Quality: 100% green); IL עברית (Hebrew) (Quality: 87% amber); FR Francais (French) (Quality: 94% amber). Blue 'Save preference' button with check icon. Footer 'Your tenant administrator decides which languages are available.'",
+      "evidence_tablet": "Same 3-card row layout, slightly narrower cards. All 3 languages (English/Hebrew/French) + quality indicators + Save preference CTA present.",
+      "evidence_mobile": "Cards stack vertically (English on top selected, Hebrew middle, French bottom). Save preference CTA full-width below. Header + subtitle + admin footer all render correctly.",
+      "notes": "Full verification: Hebrew rendered in native script (עברית) + quality percentages + selected-state styling + Save CTA. Tenant-user is clearly a language kiosk, distinct from translator workbench."
+    },
+    {
+      "fix_id": "V-R12-B3",
+      "flow": "subscription-billing",
+      "role": "populated-tenant-admin",
+      "pre_fix": "404 Page Not Found (route not wired)",
+      "post_fix_expected": "BusinessStateCard with MOCK_STATES — active subscription and/or past-due dunning",
+      "verdict": "FAILED",
+      "evidence_desktop": "Renders '404 — Page Not Found' with subtitle 'The page you're looking for doesn't exist.' + 'Back to Dashboard' link. Sidebar shows ENGINE (Dashboard/Marketplace/Monitor/Events) + ADMINISTRATION (Tenants). No BusinessStateCard, no MOCK_STATES data, no subscription details, no dunning panel.",
+      "evidence_tablet": "Same 404 — identical layout to desktop. Still 'Page Not Found'.",
+      "evidence_mobile": "Same 404 — hamburger menu + EN selector + '404 — Page Not Found' heading + Back to Dashboard link. No populated state content.",
+      "notes": "BLOCKER: route wiring fix did not land, or did not apply to populated-tenant-admin path specifically. The populated-* route for subscription-billing remains unroutable. Check if src/pages/subscription-billing/populated.tsx exists and whether router includes the populated-tenant-admin capture path."
+    },
+    {
+      "fix_id": "V-R12-C1",
+      "flow": "transactional-event-participation",
+      "role": "4-role split (anonymous / tenant-user / event-organiser / platform-admin)",
+      "pre_fix": "all 4 roles rendered IDENTICAL Checkout form",
+      "post_fix_expected": "anon=Checkout (kept) / tenant-user=Ticket wallet / event-organiser=Scanner / platform-admin=Settlement",
+      "verdict": "VERIFIED",
+      "evidence_desktop": {
+        "anonymous": "CHECKOUT preserved — 'Checkout' header + blue 'Sign in to purchase' prompt + ORDER SUMMARY (Annual Tech Summit 2026 — General Admission ticket, Qty 2 x $125, Tax $20.63, Total $270.63) + PAYMENT DETAILS panel (Event ID field, Ticket tier dropdown 'General Admission — $125', 'Pay $270.63' CTA, escrow/Stripe notice).",
+        "tenant-user": "TICKET WALLET — 'My event tickets' header + subtitle 'Tickets you've purchased. Show the QR code at the door to check in.' Three ticket cards in row: VIP TICKET Annual Tech Summit 2026 (Apr 28 2026, Moscone West, TKT-20260428-001, QR placeholder, 'View ticket' CTA); GENERAL TICKET Bay Area Product Leaders Meetup (May 15 2026, The Midway SF, TKT-20260515-042); EARLY BIRD TICKET DesignSystems Live 2026 (Jun 01 2026, Yerba Buena Center, TKT-20260601-117). All cards show QR code placeholder + View ticket CTA.",
+        "event-organiser": "SCANNER / CHECK-IN KIOSK — 'Check-in kiosk — Annual Tech Summit 2026' header + 'Scan attendee QR codes or enter ticket codes to check guests in.' 3 metrics cards: CHECKED IN 142/250 attendees, REMAINING 108 expected, PROGRESS 57% with green bar. Large camera-icon scan zone 'Scan attendee QR / Point the camera at the ticket QR code / Start camera' CTA. Manual ticket code input with 'Check in' button (placeholder TKT-20260428-001). RECENT CHECK-INS list: Priya Rao (VIP, 10:42 AM, green check), Marcus Chen (General, 10:41 AM), Elena Novak (VIP, 10:39 AM). Left sidebar shows Events/Attendance nav.",
+        "platform-admin": "SETTLEMENT / PAYOUT ADMIN — 'Ticket payments overview' header + subtitle 'Cross-tenant settlement + refund queue. Tickets are issued via Stripe Connect.' 3 metric cards: TOTAL TRANSACTIONS TODAY 1,247 (+12% vs yesterday), REFUND QUEUE 8 pending (Requires review), DISPUTED TRANSACTIONS 2 (Stripe dispute window open). 'Recent refunds' table with columns TXN/EVENT/AMOUNT/REASON/STATUS/ACTION — 3 rows (TXN-88421 $295 Event rescheduled pending, TXN-88410 $125 Duplicate charge pending, TXN-88397 $85 Attendee cancellation pending) each with green 'Approve' + grey 'Deny' CTAs. 'Open Stripe payments console' link. Platform-admin sidebar includes Designer, Flow Library, Run Flow, Super Agent, Generation Lab, Model Leaderboard, Prompt Lab, Quality Dashboard — clearly platform level."
+      },
+      "evidence_tablet": "All 4 roles distinct: anonymous=2-column Checkout; tenant-user=2x2 ticket wallet grid (3 cards flow to second row); event-organiser=narrower Check-in kiosk with metrics stacked, QR scan zone preserved, recent check-ins list; platform-admin=Ticket payments overview with narrower columns, 3 refunds rows with Approve/Deny.",
+      "evidence_mobile": "All 4 roles distinct on mobile: anonymous=Checkout stacked (Order summary above Payment details); tenant-user=3 ticket cards stacked vertically with QR + View ticket; event-organiser=Check-in kiosk with metric cards stacked, scan zone preserved, Recent check-ins list; platform-admin=Ticket payments overview with stacked metrics and refund rows with Approve/Deny CTAs.",
+      "notes": "Full 4-role split achieved across all 3 viewports. Each role has purpose-built UI: ticket purchaser (anon), ticket holder (tenant-user), event staff (organiser with scanner), finance admin (platform-admin with settlement). Pre-fix identical-checkout issue fully resolved."
+    }
+  ],
+  "batch_summary": { "verified": 3, "partial": 0, "failed": 1 }
+}

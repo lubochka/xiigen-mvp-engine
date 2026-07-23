@@ -1,0 +1,56 @@
+{
+  "flowId": "FLOW-00",
+  "flowSlug": "bundle-activation",
+  "phase": "preExistingDefectCheck",
+  "generatedAt": "2026-05-04T21:58:16+03:00",
+  "baseline": {
+    "serverJestCommand": "server npx jest --testPathPatterns=bundle-activation --runInBand",
+    "serverJestResult": "7 suites passed, 73 tests passed"
+  },
+  "confirmedDefects": [
+    {
+      "id": "FLOW-00-DNA4-SERVICES",
+      "description": "BundleValidatorService, BundleActivationOrchestratorService, and BundleStatusTrackerService lacked @Injectable() and did not extend MicroserviceBase.",
+      "fix": "Added @Injectable(), MicroserviceBase inheritance, ServiceDescriptor metadata, and FLOW_SCOPED portability annotations."
+    },
+    {
+      "id": "FLOW-00-CF-DOMAIN",
+      "description": "The universal activation DRY_RUN-before-FULL rule was tagged as CF-825 in FLOW-00/FLOW-47 references while the canonical FLOW-00 contract assigns that rule to CF-826.",
+      "fix": "Retagged DRY_RUN-before-FULL references to CF-826 and retagged additive FREEDOM config references to CF-828."
+    },
+    {
+      "id": "FLOW-00-ADMIN-PLACEHOLDER",
+      "description": "BundleActivationPage used the generic AdminCrudPanel for platform-admin operations.",
+      "fix": "Replaced the raw index panel with a purpose-built activation operations panel and updated Playwright expectations."
+    }
+  ],
+  "verification": {
+    "status": "passed",
+    "commands": [
+      {
+        "command": "server npx tsc --noEmit -p tsconfig.json",
+        "result": "passed"
+      },
+      {
+        "command": "server npx jest --testPathPatterns=bundle-activation --runInBand",
+        "result": "7 suites passed, 73 tests passed"
+      },
+      {
+        "command": "client npx tsc --noEmit",
+        "result": "passed"
+      },
+      {
+        "command": "client npx playwright test e2e/bundle-activation-crud.spec.ts --project=chromium-desktop --workers=1",
+        "result": "2 passed, 2 skipped because localhost:3000 was not running; operations panel UI checks passed"
+      }
+    ],
+    "scans": {
+      "serviceClassesMissingMicroserviceBase": 0,
+      "flowLocalThrowNewHits": 0,
+      "flowLocalClsImports": 0,
+      "adminCrudPanelRemovedFromBundlePage": true,
+      "engineInternalLabelRemovedFromBundlePage": true,
+      "cf825RemainingOnlyForCanonicalEstimatedActivationMs": true
+    }
+  }
+}

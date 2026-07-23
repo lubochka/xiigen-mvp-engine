@@ -1,0 +1,68 @@
+﻿{
+    "flowId":  "FLOW-27",
+    "flowSlug":  "human-interaction-gate",
+    "implementationSlug":  "human-approval-gate",
+    "phase":  "pre-existing-defect-check",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T15:54:43.244Z",
+    "branch":  "Skills_Creation_Claude",
+    "protocolSources":  [
+                            "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FLOW-MOBILITY-AND-AUTH-MASTER-GUIDE.md",
+                            "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED.md",
+                            "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/TENANT-CICD-CONNECTION-GUIDANCE-v1.0.md",
+                            "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FORK-FLOW-ENGINE-PLAN-v1.2.md",
+                            "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/XIIGEN-AUTH-ROLES-GROUPS-PLAN-v3.0.md",
+                            "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/PER-FLOW-FIX-MAP-v2.9.md"
+                        ],
+    "roleMap":  {
+                    "primaryRoles":  [
+                                         "tenant-admin",
+                                         "platform-admin",
+                                         "tenant-user"
+                                     ],
+                    "readOnlyRole":  "platform-support",
+                    "wrongRoleForProtectedRoute":  "platform-support",
+                    "source":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-06.md",
+                    "note":  "FLOW-27 bridges engine-internal approval gates into tenant-visible pending approvals; platform-support is read-only and used for wrong-role probes."
+                },
+    "implementationReality":  {
+                                  "canonicalSlug":  "human-interaction-gate",
+                                  "implementationSlug":  "human-approval-gate",
+                                  "acceptedMismatchSource":  "docs/sessions/FLOW-27/FLOW-27-IMPL-STATE.json reconciliation_2026_04_17",
+                                  "serviceFiles":  10,
+                                  "unitAndE2eSuitesDiscovered":  14
+                              },
+    "tests":  {
+                  "command":  "Push-Location server; npx jest --testPathPatterns=human-interaction-gate --runInBand --colors=false; Pop-Location",
+                  "status":  "passed",
+                  "testSuitesPassed":  14,
+                  "testSuitesTotal":  14,
+                  "testsPassed":  207,
+                  "testsTotal":  207,
+                  "exitCode":  0
+              },
+    "scans":  {
+                  "command":  "rg -n -e \u0027throw new\u0027 -e \u0027^export class.*Service\u0027 -e \u0027import.*ClsService\u0027 -e \u0027nestjs-cls\u0027 -e \u0027@aws\u0027 -e \u0027@google\u0027 -e \u0027openai\u0027 -e \u0027@octokit\u0027 -e \u0027: any\u0027 -e \u0027as any\u0027 server/src/engine/flows/human-approval-gate -g \u0027*.ts\u0027",
+                  "failureLines":  0,
+                  "throwNew":  0,
+                  "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                  "clsImports":  0,
+                  "directSdkImports":  0,
+                  "anyTypes":  0,
+                  "localInterfaceDetection":  {
+                                                  "idbCount":  10,
+                                                  "iqueueCount":  10,
+                                                  "status":  "tracked-map-item",
+                                                  "source":  "PER-FLOW-FIX-MAP-v2.9 FLOW-27 D(local IF) / shared interface deduplication detection check",
+                                                  "phaseImpact":  "Not a pre-existing defect blocker for the loose plain TypeScript certification path; retained as accepted map context for this run."
+                                              }
+              },
+    "closeGate":  {
+                      "jestZeroFailures":  true,
+                      "promptStaticScansZeroFailureLines":  true,
+                      "stateFileInitialized":  true,
+                      "secretsPrintedOrCommitted":  false,
+                      "canProceedToPhase0":  true
+                  },
+    "verdict":  "PASS"
+}

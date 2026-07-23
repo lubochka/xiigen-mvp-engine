@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "phase": "phase3VisualExamination",
+  "completedAt": "2026-05-03T10:09:44.7711680+03:00",
+  "screenshotDirectory": "docs/e2e-snapshots/completion-gamification/tenant-a-source",
+  "roles": [
+    "tenant-user",
+    "referral-user",
+    "freelancer",
+    "event-organiser",
+    "tenant-admin"
+  ],
+  "cells": [
+    "C2-en-populated-desktop",
+    "C4-he-rtl-populated-desktop",
+    "C6-en-populated-mobile"
+  ],
+  "screenshotsExpected": 15,
+  "screenshotsPresent": 15,
+  "playwright": {
+    "command": "npx playwright test completion-gamification-visual.spec.ts --project=chromium-desktop",
+    "workingDirectory": "client",
+    "environment": {
+      "SERVER_PORT": "33001",
+      "VITE_API_URL": "http://localhost:33001",
+      "VITE_PORT": "5186"
+    },
+    "result": "passed",
+    "testsPassed": 15,
+    "testsFailed": 0
+  },
+  "manualVisualAudit": {
+    "contactSheetReviewed": true,
+    "intent": "Completion state is now the primary screen event, with visible reward metrics and a dominant next-lesson action.",
+    "palette": "White surface with green, orange, and blue reward accents; no one-note palette.",
+    "depth": "Single elevated completion surface with supporting status and action rows.",
+    "surfaces": "Tenant-user and referral-user use consumer shell; operator/admin roles retain their existing shells.",
+    "typography": "Compact dashboard-scale type; no hero-scale copy inside constrained panels.",
+    "spacing": "Desktop and mobile screenshots show stable stacks without overlap.",
+    "signature": "Completion progression, streak, and next lesson are visible in the first viewport.",
+    "rejects": "No internal engineering vocabulary found on tenant-consumer pages."
+  },
+  "blockedFindings": [],
+  "resolvedFindings": [
+    {
+      "id": "FLOW-05-P3-001",
+      "issue": "The populated completion screen looked like a small receipt and did not make the next lesson action dominant.",
+      "resolution": "Expanded the submitted state into a stronger completion surface and added a primary Start next lesson CTA."
+    },
+    {
+      "id": "FLOW-05-P3-002",
+      "issue": "Freelancer Phase 2 visual evidence captured the form state instead of the populated completion state.",
+      "resolution": "Updated the visual spec to capture freelancer with mock=submitted while preserving the portfolio shortcut assertion."
+    }
+  ],
+  "phaseCloseScans": {
+    "throwNewInFlowServices": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsServiceImports": 0,
+    "tenantConsumerInternalCopyHits": 0
+  },
+  "result": "passed"
+}

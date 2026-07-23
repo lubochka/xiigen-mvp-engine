@@ -1,0 +1,59 @@
+{
+  "taskTypeId": "T171",
+  "flowId": "FLOW-10",
+  "name": "ReputationScoreAggregator",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "additive-subtractive-aggregate-recalculate",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow10_reputation_recency_weights",
+    "neutralConcepts": [
+      "Subscribe to ReviewPublished (add) AND ReviewRetracted (remove) — both call recalculate()",
+      "recalculate() fetches ALL PUBLISHED reviews (status=PUBLISHED filter) — not a running counter",
+      "Score range [1.0, 5.0] — clamp with Math.max(1.0, Math.min(5.0, rawScore)) before write",
+      "Recency weights from FREEDOM config: flow10_reputation_recency_weights",
+      "DNA-8: storeDocument to xiigen-reputation-scores BEFORE enqueue(reputation.updated)"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F222",
+      "interface": "IReputationScoreAggregatorService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T171-1",
+      "rule": "Subscribe to BOTH ReviewPublished AND ReviewRetracted. Additive-only aggregation permanently inflates scores when reviews are retracted.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T171-2",
+      "rule": "recalculate() MUST re-fetch all PUBLISHED reviews (status=PUBLISHED filter) — not use a running counter. Retracted reviews must not appear in the filtered set.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T171-3",
+      "rule": "Score clamped to [1.0, 5.0] before storeDocument. Named check: reputation_score_clamped_1_to_5.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T171-4",
+      "rule": "DNA-8: storeDocument to xiigen-reputation-scores BEFORE enqueue(reputation.updated).",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "retraction_removes_from_aggregate",
+    "reputation_score_clamped_1_to_5",
+    "published_filter_only",
+    "store_before_enqueue"
+  ],
+  "bfaRules": ["CF-10-3"],
+  "tags": ["additive-subtractive", "retraction", "aggregation", "DATA_PIPELINE"],
+  "keywords": "retraction aggregation ReviewPublished ReviewRetracted recalculate PUBLISHED filter score clamp 1.0 5.0 weighted average"
+}

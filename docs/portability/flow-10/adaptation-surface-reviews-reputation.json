@@ -1,0 +1,252 @@
+{
+  "flowId": "FLOW-10",
+  "flowSlug": "reviews-reputation",
+  "flowTitle": "Reviews & Reputation",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-05",
+  "capturedBy": "Codex / FLOW-10 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-10/FLOW-10-STEP-1-INVARIANTS.md",
+    "docs/business-flows/10-reviews-reputation.md",
+    "server/src/engine-contracts/reviews-reputation-contracts.ts",
+    "server/src/engine/flows/reviews-reputation",
+    "server/src/bootstrap/history-seeds/reviews-reputation-design-corpus.json"
+  ],
+  "services": [
+    {
+      "taskTypeId": "T169",
+      "className": "ReviewSubmissionGatewayService",
+      "file": "server/src/engine/flows/reviews-reputation/review-submission-gateway.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "review.rejected",
+        "review.accepted",
+        "review.submission.completed"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T170",
+      "className": "ReviewModerationEngineService",
+      "file": "server/src/engine/flows/reviews-reputation/review-moderation-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "review.published",
+        "review.rejected",
+        "review.flagged_for_human"
+      ],
+      "readsFreedomKeys": [
+        "flow10_moderation_pass_threshold",
+        "flow10_moderation_reject_threshold"
+      ]
+    },
+    {
+      "taskTypeId": "T171",
+      "className": "ReputationScoreAggregatorService",
+      "file": "server/src/engine/flows/reviews-reputation/reputation-score-aggregator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "reputation.updated"
+      ],
+      "readsFreedomKeys": [
+        "flow10_reputation_recency_weights"
+      ]
+    },
+    {
+      "taskTypeId": "T172",
+      "className": "ReviewResponseOrchestratorService",
+      "file": "server/src/engine/flows/reviews-reputation/review-response-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "review.response.rejected",
+        "review.response.published"
+      ],
+      "readsFreedomKeys": []
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe moderation and reputation scoring values that can change at fork time without changing eligibility-before-audit ordering, three-path moderation, published-only aggregation, response privacy, or tenant isolation.",
+      "total": 3,
+      "keys": [
+        {
+          "key": "flow10_moderation_pass_threshold",
+          "type": "number",
+          "default": 0.85,
+          "unit": "confidence",
+          "semantic": "Confidence at or above this threshold publishes a review.",
+          "stakeholder": "trust-and-safety",
+          "consumedBy": [
+            "T170.ReviewModerationEngineService.moderateReview"
+          ],
+          "boundedRange": {
+            "min": 0.5,
+            "max": 1.0,
+            "rationale": "Tenants may require higher confidence before publishing while preserving the UNCERTAIN human-review path."
+          }
+        },
+        {
+          "key": "flow10_moderation_reject_threshold",
+          "type": "number",
+          "default": 0.3,
+          "unit": "confidence",
+          "semantic": "Confidence below this threshold rejects a review for content policy.",
+          "stakeholder": "trust-and-safety",
+          "consumedBy": [
+            "T170.ReviewModerationEngineService.moderateReview"
+          ],
+          "boundedRange": {
+            "min": 0.0,
+            "max": 0.5,
+            "rationale": "Tenants may tune strictness while leaving the gap between reject and pass as human-review territory."
+          }
+        },
+        {
+          "key": "flow10_reputation_recency_weights",
+          "type": "number[]",
+          "default": [
+            1.0,
+            0.9,
+            0.8,
+            0.7,
+            0.6
+          ],
+          "unit": "weight",
+          "semantic": "Per-position weights applied to published reviews sorted newest first.",
+          "stakeholder": "community-operations",
+          "consumedBy": [
+            "T171.ReputationScoreAggregatorService.recalculate"
+          ],
+          "boundedRange": {
+            "minLength": 1,
+            "maxLength": 12,
+            "minItem": 0.0,
+            "maxItem": 2.0,
+            "rationale": "Tenants may emphasize recent reviews while the score range, published-only filter, and retraction recalculation stay fixed."
+          }
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-10 has no tenant-editable DSL grammar surface. Tenants may tune thresholds, recency weighting, and presentation copy without changing event contracts.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "Anonymous read surfaces, tenant-user submission, tenant-admin moderation, and platform-admin support are fixed for certification. Tenant adaptation may alter presentation and policy values, not role isolation.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Tenant review-trust policies that can change while fixed review eligibility, moderation, aggregation, and response invariants remain intact.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "strict-publication-threshold",
+          "name": "Strict publication threshold",
+          "semantic": "Tenant A can require higher moderation confidence before reviews are published.",
+          "extensionPoint": "flow10_moderation_pass_threshold",
+          "currentImplementation": "T170 reads the tenant pass threshold and stores PUBLISHED state before emitting review.published only when confidence meets it."
+        },
+        {
+          "id": "larger-human-review-band",
+          "name": "Larger human review band",
+          "semantic": "Tenant A can increase the gap between pass and reject thresholds to route more borderline reviews to human moderators.",
+          "extensionPoint": "flow10_moderation_pass_threshold and flow10_moderation_reject_threshold",
+          "currentImplementation": "T170 marks middle-band reviews PENDING, stores the moderation queue record, and emits review.flagged_for_human."
+        },
+        {
+          "id": "fresh-review-emphasis",
+          "name": "Fresh review emphasis",
+          "semantic": "Tenant A can make recent reviews count more heavily in reputation without changing the score scale.",
+          "extensionPoint": "flow10_reputation_recency_weights",
+          "currentImplementation": "T171 sorts published reviews newest first, applies the weights, and clamps the result to 1.0 through 5.0."
+        },
+        {
+          "id": "owner-response-privacy",
+          "name": "Owner response privacy",
+          "semantic": "Tenant A can adapt response guidance and presentation while keeping response text out of audit records and queue payloads.",
+          "extensionPoint": "review response presentation and tenant.config.json adaptationHistory",
+          "currentImplementation": "T172 stores audit without response text, emits response events without response text, and never emits reputation.updated."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "T169 performs eligibility before any write, validation, idempotency claim, or audit record.",
+      "T169 rejects invalid ratings before SETNX so bad input cannot consume the idempotency slot.",
+      "T169 derives reviewId server-side from tenant, reviewer, target entity, and target entity type.",
+      "T169 stores the accepted review before emitting review.accepted and review.submission.completed.",
+      "T170 preserves PASS, REJECT, and UNCERTAIN moderation paths.",
+      "T170 routes UNCERTAIN to PENDING human review, never automatic rejection.",
+      "T170 stores review state and moderation queue records before emitting moderation events.",
+      "T171 uses only PUBLISHED reviews in reputation aggregation.",
+      "T171 clamps reputation scores to 1.0 through 5.0.",
+      "T171 recalculates after retraction instead of maintaining an unchecked running counter.",
+      "T172 checks ownership before any response write or idempotency claim.",
+      "T172 allows revision only after content_policy rejection.",
+      "T172 does not write response text to audit records or queue payloads.",
+      "T172 never emits reputation.updated.",
+      "All FLOW-10 services remain FLOW_SCOPED and return DataProcessResult."
+    ]
+  },
+  "adaptationExamples": {
+    "tenant-a-trust-first-reviews": {
+      "description": "Tenant A launches reviews with stricter automatic publication and a wider human-review band.",
+      "change": {
+        "flow10_moderation_pass_threshold": 0.9,
+        "flow10_moderation_reject_threshold": 0.25
+      },
+      "impact": "More borderline reviews become PENDING human-review items, while clearly clean reviews still publish and clearly unsafe reviews still reject.",
+      "testable": "Tenant A adaptation evidence shows the policy in tenant.config.json adaptationHistory and fork CI still passes."
+    },
+    "tenant-a-fresh-reputation-weighting": {
+      "description": "Tenant A emphasizes fresh reviews for reputation while keeping old reviews in the aggregate.",
+      "change": {
+        "flow10_reputation_recency_weights": [
+          1.0,
+          0.95,
+          0.85,
+          0.75,
+          0.65
+        ]
+      },
+      "impact": "Recent published reviews have stronger influence, pending and rejected reviews stay excluded, and score output remains clamped to 1.0 through 5.0.",
+      "testable": "Tenant A before/after assertion shows the same published review set yields an adapted aggregate score while auth and MACHINE invariants remain unchanged."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T169 through T172",
+      "Eligibility-before-audit ordering",
+      "Server-derived reviewId calculation",
+      "Invalid-rating rejection before idempotency claim",
+      "Store-before-enqueue ordering",
+      "Three-path moderation behavior",
+      "UNCERTAIN to PENDING human-review routing",
+      "Published-only reputation aggregation",
+      "Score clamp to 1.0 through 5.0",
+      "Retraction recalculation",
+      "Owner response ownership check before write",
+      "Revision allowed only for content_policy rejection",
+      "Response text privacy in audits and queues",
+      "No reputation update from owner responses",
+      "Tenant scope isolation",
+      "DataProcessResult return contract"
+    ]
+  },
+  "passCriteria": [
+    "Tenant A can apply a TYPE-A moderation or reputation policy change without altering MACHINE constraints.",
+    "The adapted policy is present in tenant.config.json adaptationHistory.",
+    "At least one before/after behavior assertion proves the adapted policy changes moderation routing or reputation scoring.",
+    "Auth checks still return 401 for missing token, 401 for cross-tenant token, and 403 for wrong-role token after adaptation."
+  ]
+}

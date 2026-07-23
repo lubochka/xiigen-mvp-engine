@@ -1,0 +1,122 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase4Point0TenantAOriginalFork",
+  "generatedAt": "2026-05-10T13:08:04.694Z",
+  "protocolVersion": "3.0",
+  "tenant": "acme-corp",
+  "forkApi": {
+    "endpoint": "POST /api/marketplace/packages/bfa-cross-flow-governance/fork",
+    "requestTenant": "acme-corp",
+    "tokenSource": "short-lived Vault-backed HS256 JWT generated in memory",
+    "tokenPrinted": false,
+    "response": {
+      "forkId": "fork-bfa-cross-flow-governance-acme-corp",
+      "repoUrl": "https://github.com/lubochka/acme-corp--bfa-cross-flow-governance",
+      "repoFullName": "lubochka/acme-corp--bfa-cross-flow-governance",
+      "status": "FORKED",
+      "initialCommitSha": "a2bd4eda1bdd8efdda62f2ed6a0677d4507b7a76"
+    }
+  },
+  "assemblerRepair": {
+    "adaptationSurface": "docs/portability/flow-25/adaptation-surface-bfa-cross-flow-governance.json",
+    "implementationSlugSupport": "FlowFileAssemblerService reads implementationSlug from the adaptation surface, copies bfa-conflict-arbitration runtime services, and writes them into the canonical bfa-cross-flow-governance package path.",
+    "verification": {
+      "serverTypescript": "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "assemblerJest": "passed: npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false (1 suite / 13 tests)"
+    }
+  },
+  "dockerServer": {
+    "rebuilt": true,
+    "healthLive": "OK"
+  },
+  "github": {
+    "repo": "lubochka/acme-corp--bfa-cross-flow-governance",
+    "repoUrl": "https://github.com/lubochka/acme-corp--bfa-cross-flow-governance",
+    "visibilityAfterScreenshots": "PRIVATE",
+    "isPrivateAfterScreenshots": true,
+    "initialCommitSha": "a2bd4eda1bdd8efdda62f2ed6a0677d4507b7a76",
+    "actionsRun": {
+      "databaseId": 25629456205,
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "a2bd4eda1bdd8efdda62f2ed6a0677d4507b7a76",
+      "workflowName": "XIIGen Flow CI - bfa-cross-flow-governance",
+      "url": "https://github.com/lubochka/acme-corp--bfa-cross-flow-governance/actions/runs/25629456205",
+      "createdAt": "2026-05-10T13:03:35Z",
+      "updatedAt": "2026-05-10T13:04:16Z"
+    }
+  },
+  "cloneValidation": {
+    "clonePath": "C:/Projects/xiigen-fork-clones/acme-corp--bfa-cross-flow-governance-phase40-20260510-160439",
+    "head": "a2bd4eda1bdd8efdda62f2ed6a0677d4507b7a76",
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "install": "passed",
+    "typescript": "passed",
+    "jest": {
+      "status": "passed",
+      "suites": 1,
+      "tests": 1
+    },
+    "npmPack": {
+      "status": "passed",
+      "fileCount": 121,
+      "shasum": "fb7f3e17b341f0bf7fcb4e0fbdecebf6a972a272"
+    },
+    "tenantConfig": {
+      "tenantId": "acme-corp",
+      "flowId": "FLOW-25",
+      "flowSlug": "bfa-cross-flow-governance",
+      "moduleName": "bfa-cross-flow-governance",
+      "moduleVersion": "1.0.0-fork"
+    },
+    "bundleManifest": {
+      "file": "BUNDLE-MANIFEST.json",
+      "requiredBundleChecks": {
+        "completeModuleBundle": true,
+        "adaptationSurface": true,
+        "freedomDefaults": true,
+        "tenantConfig": true,
+        "ragSeeds": true,
+        "standalonePackage": true
+      },
+      "manifestEntryCount": 120,
+      "canonicalServicePathPresent": true,
+      "oldImplementationPathPresent": false
+    }
+  },
+  "screenshots": [
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-25/phase-4.0-tenant-a-actions-run.png",
+      "bytes": 79305
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-25/phase-4.0-tenant-a-bundle-manifest.png",
+      "bytes": 387427
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-25/phase-4.0-tenant-a-repo.png",
+      "bytes": 132605
+    }
+  ],
+  "closeScans": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "highRiskSecretPatternHits": 0
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false
+  },
+  "verdict": "PASS"
+}

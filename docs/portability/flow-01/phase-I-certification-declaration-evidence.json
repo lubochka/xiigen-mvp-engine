@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "phase": "Certification declaration",
+  "recordedAt": "2026-04-30T19:59:33.2517402+03:00",
+  "declaredTier": "Tier D (full multi-tenant portability)",
+  "declarationRationale": "Flow 01 has the unit-test layer, real fork and CI evidence, AI adaptation cascade through three tenants, full role visual evidence at all cascade points, and authentication isolation across the cascade.",
+  "phaseStatus": {
+    "phase0AuthPreflight": "completed",
+    "phase1UnitTests": "completed",
+    "phase2E2ETests": "completed",
+    "phase3VisualExamination": "completed",
+    "phase4Point0TenantAFork": "completed",
+    "phase4AiAdaptation": "completed",
+    "phase4Point5TenantARepoAndEvidence": "completed",
+    "phase5aTenantBInstalls": "completed",
+    "phase5bTenantBAdapts": "completed",
+    "phase5cTenantCInstalls": "completed",
+    "phase5c5TenantCAdapts": "completed",
+    "phaseHAuthDecorationCheck": "completed"
+  },
+  "tenantRepos": {
+    "tenantA": {
+      "repoFullName": "lubochka/acme-corp--user-registration-acme-pro-members",
+      "repoUrl": "https://github.com/lubochka/acme-corp--user-registration-acme-pro-members",
+      "workflowRunUrl": "https://github.com/lubochka/acme-corp--user-registration-acme-pro-members/actions/runs/25160658180",
+      "workflowConclusion": "success"
+    },
+    "tenantB": {
+      "repoFullName": "lubochka/northwind--user-registration-northwind-guild",
+      "repoUrl": "https://github.com/lubochka/northwind--user-registration-northwind-guild",
+      "workflowRunUrl": "https://github.com/lubochka/northwind--user-registration-northwind-guild/actions/runs/25170775128",
+      "workflowConclusion": "success"
+    },
+    "tenantC": {
+      "repoFullName": "lubochka/tessera-collective--user-registration-tessera-welcome-circle",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--user-registration-tessera-welcome-circle",
+      "workflowRunUrl": "https://github.com/lubochka/tessera-collective--user-registration-tessera-welcome-circle/actions/runs/25176422695",
+      "workflowConclusion": "success"
+    }
+  },
+  "visualEvidence": {
+    "tenant-a-source": { "pngCount": 288, "zeroBytePngs": 0 },
+    "tenant-a-acme-v1.0.1": { "pngCount": 360, "zeroBytePngs": 0 },
+    "tenant-b-installed-from-a": { "pngCount": 288, "zeroBytePngs": 0 },
+    "tenant-b-v1.0.2": { "pngCount": 288, "zeroBytePngs": 0 },
+    "tenant-c-installed-from-b": { "pngCount": 288, "zeroBytePngs": 0 },
+    "tenant-c-v1.0.0": { "pngCount": 288, "zeroBytePngs": 0 }
+  },
+  "authEvidence": {
+    "flowAuthMatrixTests": 48,
+    "crossTenantJwtTests": 12,
+    "authSuiteTests": 197,
+    "phaseHEvidencePath": "docs/portability/flow-01/phase-H-auth-decoration-evidence.json"
+  },
+  "openIssueCheck": {
+    "openTechnicalDebtItems": 0,
+    "openBlockers": 0
+  },
+  "repoEvidenceType": "GitHub API JSON evidence approved by Luba for private repo data",
+  "completionGate": {
+    "allPhasesCompleted": true,
+    "threeDistinctReposExist": true,
+    "allRepoCiSucceeded": true,
+    "allCascadeScreenshotsPresent": true,
+    "allCascadeScreenshotsNonEmpty": true,
+    "authIsolationCertified": true,
+    "allRolesCoveredInVisualEvidence": true,
+    "noOpenTechnicalDebtItems": true,
+    "noOpenBlockers": true,
+    "declaredTierWrittenToStateFiles": true
+  }
+}

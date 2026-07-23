@@ -1,0 +1,55 @@
+{
+  "flowId": "FLOW-02",
+  "name": "Business Onboarding Intelligence",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T50",
+      "taskTypeId": "T50",
+      "name": "ProfileEnrichmentFanIn",
+      "archetype": "fan_in",
+      "entry": "OnboardingCompleted event from FLOW-01 (T49)"
+    },
+    {
+      "id": "T51",
+      "taskTypeId": "T51",
+      "name": "MatchingConvergenceGate",
+      "archetype": "convergence",
+      "entry": "EnrichmentDataReady event (convergence_threshold_from_freedom_config)"
+    },
+    {
+      "id": "T52",
+      "taskTypeId": "T52",
+      "name": "OnboardingCompletionBroadcast",
+      "archetype": "broadcast",
+      "entry": "MatchingConverged event"
+    }
+  ],
+  "edges": [
+    { "from": "OnboardingCompleted", "to": "T50", "event": "xiigen.user-registration.onboarding-completed.v1", "condition": "from FLOW-01 T49" },
+    { "from": "T50", "to": "T51", "event": "xiigen.profile-enrichment.enrichment-data-ready.v1" },
+    { "from": "T51", "to": "T52", "event": "xiigen.profile-enrichment.matching-converged.v1", "condition": "threshold reached" },
+    { "from": "T51", "to": "T50", "event": "xiigen.profile-enrichment.needs-more-data.v1", "condition": "below threshold, re-fan-in" },
+    { "from": "T52", "to": "ProfileEnrichmentComplete", "event": "xiigen.profile-enrichment.completed.v1", "condition": "terminal — triggers downstream flows" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": [],
+      "notQueueable": ["OnboardingStepSubmitted", "OnboardingWizardResumed"],
+      "notQueueableReason": {
+        "OnboardingStepSubmitted": "Step validation is sequential and stateful — server may advance state while offline. Stale queued submissions would target wrong step.",
+        "OnboardingWizardResumed": "Ephemeral analytics event. Safe to drop."
+      }
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T51",
+        "runsWhileUserViews": "OnboardingWizard or post-onboarding screen",
+        "signalType": "realtime-push",
+        "signalText": null
+      }
+    ]
+  }
+}

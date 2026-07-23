@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.social-feed.friend-request-sent.v1",
+  "taskTypeId": "T73",
+  "flowId": "FLOW-07",
+  "description": "Emitted by T73 FriendRequestProcessor after a friend request is stored. Triggers T74 FriendRequestResponder.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.social-feed.friend-request-sent.v1",
+    "source": "xiigen/flows/friend-request-social-feed/t73",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "requestId": { "type": "string", "description": "Opaque friend request identifier" },
+    "senderId": { "type": "string", "description": "Opaque sender user identifier — no PII" },
+    "receiverId": { "type": "string", "description": "Opaque receiver user identifier — no PII" },
+    "correlationId": { "type": "string", "description": "Idempotency key for this request" },
+    "tenantId": { "type": "string", "description": "Tenant scope — from AsyncLocalStorage" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "senderId and receiverId are opaque references. No names, emails, or profile data in payload.",
+  "requiredByFlows": ["FLOW-07"]
+}

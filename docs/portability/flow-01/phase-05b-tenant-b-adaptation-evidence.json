@@ -1,0 +1,76 @@
+﻿{
+    "flowId":  "FLOW-01",
+    "flowSlug":  "user-registration",
+    "phase":  "Phase 5b Tenant B adapts and publishes",
+    "recordedAt":  "2026-04-30T17:26:35.0575928+03:00",
+    "tenantId":  "northwind",
+    "repoRenamed":  true,
+    "repoName":  "northwind--user-registration-northwind-guild",
+    "repoUrl":  "https://github.com/lubochka/northwind--user-registration-northwind-guild",
+    "repoFullName":  "lubochka/northwind--user-registration-northwind-guild",
+    "sourceRepoFullName":  "lubochka/acme-corp--user-registration-acme-pro-members",
+    "forkCommitSha":  "5977ab23378f592c538dad011cd4e54dfc0ec856",
+    "repoEvidenceType":  "GitHub API JSON evidence approved by Luba for private repo data",
+    "githubListingEvidencePath":  "docs/e2e-snapshots/repo-evidence/northwind--user-registration-northwind-guild-github-listing-api-evidence.json",
+    "repoHomepageEvidencePath":  "docs/e2e-snapshots/repo-evidence/northwind--user-registration-northwind-guild-repo-homepage-api-evidence.json",
+    "registryEvidencePath":  "docs/e2e-snapshots/marketplace/user-registration-v1.0.2-registry-api-evidence.json",
+    "githubListingPngExists":  false,
+    "repoHomepagePngExists":  false,
+    "ciRunPassed":  true,
+    "workflowConclusion":  "success",
+    "workflowRunUrl":  "https://github.com/lubochka/northwind--user-registration-northwind-guild/actions/runs/25170775128",
+    "localRegistry":  {
+                          "packageName":  "@xiigen-fork/user-registration-northwind-guild",
+                          "latest":  "1.0.2",
+                          "publishedVersion":  "1.0.2"
+                      },
+    "adaptation":  {
+                       "proposedModuleName":  "user-registration-northwind-guild",
+                       "freedomKeyChanged":  "flow01_resend_rate_limit_minutes",
+                       "previousValue":  15,
+                       "newValue":  5,
+                       "tenantAInvitationInviterNamePreserved":  "The Acme Pro Team",
+                       "tenantAInvitationCommunityNamePreserved":  "Acme Pro Members",
+                       "adaptationHistoryEntries":  2
+                   },
+    "forkLocalChecks":  {
+                            "clonePath":  "<WORKSPACE>\\AppData\\Local\\Temp\\xiigen-flow01-phase5b-northwind",
+                            "npmInstall":  "completed",
+                            "typeScript":  "passed: npm run tsc in Tenant B fork clone",
+                            "jest":  "passed: npm test; 2 suites, 3 tests"
+                        },
+    "monorepoChecks":  {
+                           "serverTenantBAdaptationJest":  "passed: npx jest --testPathPatterns=user-registration/phase-01-third-tenant-install.spec.ts --runInBand --forceExit; 1 suite, 7 tests",
+                           "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json from server package",
+                           "clientTypeScript":  "passed: npx tsc --noEmit from client package"
+                       },
+    "visualEvidence":  {
+                           "directory":  "docs/e2e-snapshots/user-registration/tenant-b-v1.0.2",
+                           "pngCount":  288,
+                           "expectedPngCount":  288,
+                           "zeroBytePngs":  0,
+                           "c2c4c6PngCount":  144,
+                           "rolesCovered":  8,
+                           "pagesCovered":  6,
+                           "cellsPerPageRole":  6,
+                           "tenantAAdaptationPreservedAsserted":  true,
+                           "tenantBAdaptationAsserted":  true,
+                           "playwrightCommand":  "XIIGEN_VISUAL_TARGET=tenant-b-v1.0.2 VITE_PORT=52942 npx playwright test e2e/flow-01-visual.spec.ts --project=chromium-desktop --workers=8 --reporter=dot; 288 passed"
+                       },
+    "marketplaceEvidence":  {
+                                "screenshotPath":  "docs/e2e-snapshots/marketplace/user-registration-v1.0.2-listing.png",
+                                "screenshotBytes":  106711,
+                                "playwrightCommand":  "VITE_PORT=52931 npx playwright test e2e/flow-01-phase4-marketplace.spec.ts --project=chromium-desktop --workers=1 --reporter=line; 2 passed"
+                            },
+    "completionGate":  {
+                           "differentFreedomKeyChangeFromTenantA":  true,
+                           "tenantAValuePreserved":  true,
+                           "tenantBValueApplied":  true,
+                           "adaptationHistoryHasTwoEntries":  true,
+                           "repoRenamedToTenantBNewName":  true,
+                           "workflowConclusionIsSuccess":  true,
+                           "localRegistryLatestIsTenantBVersion":  true,
+                           "visualEvidenceExists":  true,
+                           "marketplaceListingExists":  true
+                       }
+}

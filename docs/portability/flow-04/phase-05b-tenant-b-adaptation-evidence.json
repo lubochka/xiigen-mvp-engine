@@ -1,0 +1,131 @@
+{
+  "flowId": "FLOW-04",
+  "flowSlug": "event-attendance",
+  "phase": "phase5bTenantBAdapts",
+  "tenant": "northwind",
+  "generatedAt": "2026-05-01T16:28:39.114Z",
+  "sourceRepoFullName": "lubochka/northwind--event-attendance-acme-onsite-check-in",
+  "adaptedRepoFullName": "lubochka/northwind--event-attendance-northwind-sponsor-check-in",
+  "repo": {
+    "nameWithOwner": "lubochka/northwind--event-attendance-northwind-sponsor-check-in",
+    "url": "https://github.com/lubochka/northwind--event-attendance-northwind-sponsor-check-in",
+    "visibility": "PRIVATE",
+    "private": true,
+    "defaultBranch": "main",
+    "createdAt": "2026-05-01T15:41:12Z",
+    "pushedAt": "2026-05-01T16:20:56Z"
+  },
+  "ci": {
+    "workflowName": "XIIGen Flow CI - event-attendance",
+    "runId": 25222351777,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/lubochka/northwind--event-attendance-northwind-sponsor-check-in/actions/runs/25222351777",
+    "headSha": "936c352a7a1db3e95a84e059b3cdf4cb4f75b696",
+    "createdAt": "2026-05-01T16:20:58Z",
+    "updatedAt": "2026-05-01T16:21:24Z"
+  },
+  "package": {
+    "name": "@xiigen-fork/event-attendance-northwind-sponsor-check-in",
+    "version": "1.0.2",
+    "private": false,
+    "description": "XIIGen tenant fork: Northwind sponsor check-in for event attendance."
+  },
+  "tenantConfig": {
+    "tenantId": "northwind",
+    "moduleName": "event-attendance-northwind-sponsor-check-in",
+    "moduleVersion": "1.0.2",
+    "repoName": "northwind--event-attendance-northwind-sponsor-check-in",
+    "repoUrl": "https://github.com/lubochka/northwind--event-attendance-northwind-sponsor-check-in",
+    "installedFromRepoFullName": "lubochka/acme-corp--event-attendance-acme-onsite-check-in",
+    "adaptedFromRepoFullName": "lubochka/northwind--event-attendance-acme-onsite-check-in",
+    "adaptationHistoryEntries": 2,
+    "adaptationHistory": [
+      {
+        "version": "1.0.1",
+        "adaptedBy": "acme-corp",
+        "changeType": "Type A (FREEDOM key value change)",
+        "previousModuleName": "event-attendance",
+        "newModuleName": "event-attendance-acme-onsite-check-in",
+        "summary": "Onsite attendance policy: six-hour attendee cancellation window and twelve-hour feedback collection window."
+      },
+      {
+        "version": "1.0.2",
+        "adaptedBy": "northwind",
+        "changeType": "Type A (FREEDOM key value change)",
+        "previousModuleName": "event-attendance-acme-onsite-check-in",
+        "newModuleName": "event-attendance-northwind-sponsor-check-in",
+        "summary": "Sponsor check-in policy: preserves the six-hour cancellation cutoff and shortens feedback collection to eight hours."
+      }
+    ],
+    "freedomOverrides": [
+      {
+        "configKey": "flow04_rsvp_cancellation_window_hours",
+        "taskType": "xiigen-engine",
+        "configValue": 6,
+        "defaultValue": 24,
+        "reason": "Northwind preserves the inherited Acme onsite cancellation cutoff for sponsor check-in operations."
+      },
+      {
+        "configKey": "flow04_feedback_window_hours",
+        "taskType": "xiigen-engine",
+        "configValue": 8,
+        "defaultValue": 24,
+        "reason": "Northwind sponsor forums collect feedback during the same business day, so the feedback window is eight hours."
+      }
+    ]
+  },
+  "freedomDefaults": {
+    "flowId": "FLOW-04",
+    "flowSlug": "event-attendance",
+    "defaults": {
+      "flow04_rsvp_cancellation_window_hours": 6,
+      "flow04_feedback_window_hours": 8
+    }
+  },
+  "registry": {
+    "packageName": "@xiigen-fork/event-attendance-northwind-sponsor-check-in",
+    "registryUrl": "http://localhost:4873",
+    "latestVersion": "1.0.2",
+    "versionPresent": true,
+    "gitHead": "936c352a7a1db3e95a84e059b3cdf4cb4f75b696"
+  },
+  "localStandaloneVerification": {
+    "clonePath": "<WORKSPACE>/AppData/Local/Temp/xiigen-flow04-phase5b-northwind-4a1712b0628b48bf90592006c3be17ac",
+    "npmInstall": "passed",
+    "tscNoEmit": "passed",
+    "jest": "passed: 1 suite / 1 test",
+    "manifestCount": 116
+  },
+  "authRegression": {
+    "missingTokenAgainstNorthwind": 401,
+    "northwindAdminOwnTenant": 200,
+    "acmeTokenReplayAgainstNorthwind": 401,
+    "northwindTokenReplayAgainstTessera": 401,
+    "passedChecks": 4
+  },
+  "visualEvidence": {
+    "directory": "docs/e2e-snapshots/event-attendance/tenant-b-v1.0.2/",
+    "pngCount": 2,
+    "expectedPngCount": 2,
+    "organiserPolicyPng": "docs/e2e-snapshots/event-attendance/tenant-b-v1.0.2/01-northwind-sponsor-policy.png",
+    "feedbackWindowPng": "docs/e2e-snapshots/event-attendance/tenant-b-v1.0.2/02-northwind-feedback-window.png",
+    "playwrightResult": "12 passed for AT-install and AT-adapt-b across desktop/tablet/mobile",
+    "tenantAChangeVisible": true,
+    "tenantBChangeVisible": true
+  },
+  "cascadeAssertions": {
+    "adaptationHistoryEntries": 2,
+    "tenantAEntryPreserved": true,
+    "tenantBEntryAdded": true,
+    "moduleNameDiffersFromTenantA": true,
+    "inheritedCancellationHoursPreserved": true,
+    "tenantBFeedbackHoursApplied": true
+  },
+  "screenshots": {
+    "githubListing": "docs/e2e-snapshots/repo-evidence/northwind--event-attendance-northwind-sponsor-check-in-github-listing.png",
+    "repoHomepage": "docs/e2e-snapshots/repo-evidence/northwind--event-attendance-northwind-sponsor-check-in-repo-homepage.png",
+    "actionsSuccess": "docs/e2e-snapshots/repo-evidence/northwind--event-attendance-northwind-sponsor-check-in-actions-success.png"
+  },
+  "note": "Evidence is rendered from authenticated live GitHub CLI/API data and local registry API data; no secrets are printed or stored."
+}

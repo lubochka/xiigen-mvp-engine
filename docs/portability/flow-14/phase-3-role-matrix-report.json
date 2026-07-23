@@ -1,0 +1,598 @@
+﻿{
+  "config": {
+    "configFile": "C:\\Projects\\xiigen mvp\\client\\playwright.config.ts",
+    "rootDir": "C:/Projects/xiigen mvp/client/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 3
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Projects/xiigen mvp/client/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "chromium-desktop",
+        "name": "chromium-desktop",
+        "testDir": "C:/Projects/xiigen mvp/client/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/xiigen mvp/client/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "chromium-tablet",
+        "name": "chromium-tablet",
+        "testDir": "C:/Projects/xiigen mvp/client/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/xiigen mvp/client/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "chromium-mobile",
+        "name": "chromium-mobile",
+        "testDir": "C:/Projects/xiigen mvp/client/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev -- --port 5174",
+      "url": "http://localhost:5174",
+      "reuseExistingServer": true,
+      "timeout": 60000
+    }
+  },
+  "suites": [
+    {
+      "title": "etl-data-integration-role-matrix.spec.ts",
+      "file": "etl-data-integration-role-matrix.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "FLOW-14 ETL role matrix captures",
+          "file": "etl-data-integration-role-matrix.spec.ts",
+          "line": 29,
+          "column": 6,
+          "specs": [
+            {
+              "title": "primary role cell - tenant-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6578,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:16.335Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--71daf-ry-role-cell---tenant-admin-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-c54cabe71ae73506098c",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2939,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:23.187Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--57822-ary-role-cell---tenant-user-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-fb900a155cf77f3a0965",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2907,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:26.147Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--d087e--role-cell---platform-admin-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-2322d263599b86172f2b",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-support",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2589,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:29.082Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--25909-ole-cell---platform-support-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-b6bbc2beb46b91c7a6ed",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6530,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:16.308Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--71daf-ry-role-cell---tenant-admin-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-01403e407359c095f193",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2896,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:23.146Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--57822-ary-role-cell---tenant-user-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-616c3b7b8291cbc518bc",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2609,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:26.063Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--d087e--role-cell---platform-admin-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-20aa61f9370905f7117e",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-support",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2198,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:28.691Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--25909-ole-cell---platform-support-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-ab6ec1fadba6c0a75f87",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6820,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:16.338Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--71daf-ry-role-cell---tenant-admin-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-b06144416bba8b59edfe",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3011,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:23.403Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--57822-ary-role-cell---tenant-user-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-19cf2e213a515e745294",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2892,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:26.435Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--d087e--role-cell---platform-admin-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-5d09bab4c465a86fe70e",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-support",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2547,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:40:29.370Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--25909-ole-cell---platform-support-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-a0cbe3c4ed94a2fad238",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-06T07:40:13.413Z",
+    "duration": 18956.373,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "taskTypeId": "T170",
+  "flowId": "FLOW-10",
+  "name": "ReviewModerationEngine",
+  "archetype": "ROUTING",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "three-path-moderation-freedom-thresholds",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IAiProvider",
+    "freedomConfigKey": "flow10_moderation_pass_threshold",
+    "neutralConcepts": [
+      "Exactly 3 paths: PASS → ReviewPublished, REJECT → ReviewRejected, UNCERTAIN → ReviewFlaggedForHuman",
+      "UNCERTAIN maps to status=PENDING — never to status=REJECTED",
+      "Thresholds from FREEDOM config: flow10_moderation_pass_threshold and flow10_moderation_reject_threshold",
+      "DPO conflict: conflictsWith FLOW-08-binary-moderation (confidence < threshold → REJECT)",
+      "SETNX deduplication on moderation key before AI call"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F221",
+      "interface": "IReviewModerationEngineService",
+      "fabric": "AI_ENGINE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T170-1",
+      "rule": "Exactly 3 moderation outcomes: PASS → ReviewPublished, REJECT → ReviewRejected, UNCERTAIN → ReviewFlaggedForHuman(status=PENDING).",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T170-2",
+      "rule": "UNCERTAIN MUST map to PENDING status — never to REJECTED status. A PENDING review can still be published after human decision.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T170-3",
+      "rule": "Both thresholds (pass_threshold, reject_threshold) MUST be read from FREEDOM config at runtime — not hardcoded.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T170-4",
+      "rule": "DNA-8: storeDocument(moderation record) BEFORE enqueue() on all three paths.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "three_path_moderation",
+    "uncertain_maps_to_pending_not_rejected",
+    "freedom_config_thresholds",
+    "no_hardcoded_thresholds"
+  ],
+  "bfaRules": ["CF-10-2"],
+  "tags": ["three-path-moderation", "uncertain-outcome", "human-queue", "ROUTING"],
+  "keywords": "three path moderation PASS REJECT UNCERTAIN PENDING human queue FREEDOM config threshold binary collapse"
+}

@@ -1,0 +1,96 @@
+{
+  "taskTypeId": "T609",
+  "flowId": "FLOW-16",
+  "name": "MarketplaceCheckoutGateway",
+  "archetype": "VALIDATION",
+  "domainId": "marketplace-payments",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T609-1",
+      "rule": "BOLA check MUST be ORDER 1: cart.buyerTenantId === ALS.tenantId. Proceeding to cart lock before BOLA enables cross-tenant cart takeover.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T609-2",
+      "rule": "SETNX cart lock MUST be ORDER 2 with TTL from FREEDOM config key 'checkout_lock_ttl_ms'. Hardcoded TTL or lock before BOLA = BUILD_FAILURE.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T609-3",
+      "rule": "OCC inventory reservation MUST occur at ORDER 3-4 after lock acquired. Reservation before lock allows concurrent checkouts to oversell.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T609-4",
+      "rule": "DNA-8: storeDocument(audit) MUST occur BEFORE enqueue(CheckoutReserved). Record must exist before downstream T610 processes the event.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T609-5",
+      "rule": "tenantId MUST be resolved from AsyncLocalStorage only — NEVER from request payload. Accepting tenantId as a parameter enables tenant impersonation.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1528",
+      "token": "ICartLockService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1529",
+      "token": "IInventoryReservationService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1530",
+      "token": "ICheckoutAuditService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1531",
+      "token": "IFreedomConfigService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "BOLA_ORDER_1_GUARD",
+    "SETNX_CART_LOCK_ORDER_2",
+    "OCC_INVENTORY_RESERVATION",
+    "STORE_BEFORE_ENQUEUE"
+  ],
+  "freedomComponents": [
+    "checkout_lock_ttl_ms",
+    "max_cart_items",
+    "checkout_timeout_ms"
+  ],
+  "stackCoupling": {
+    "queue": ["CheckoutReserved", "CheckoutRejected"],
+    "database": ["xiigen-carts", "xiigen-inventory", "xiigen-checkout-audit", "xiigen-freedom-config"]
+  },
+  "handlers": [
+    "validate_bola_order1",
+    "acquire_cart_lock_setnx",
+    "reserve_inventory_occ",
+    "store_checkout_audit",
+    "emit_checkout_reserved"
+  ],
+  "namedChecks": [
+    "bola_order1_buyerTenantId_equals_als",
+    "setnx_cart_lock_order2_with_ttl",
+    "occ_inventory_order3",
+    "store_before_enqueue_dna8"
+  ],
+  "tags": [
+    "marketplace",
+    "checkout",
+    "bola",
+    "setnx",
+    "occ",
+    "inventory",
+    "validation",
+    "tenant-isolation"
+  ],
+  "keywords": "MarketplaceCheckoutGateway T609 BOLA ORDER 1 SETNX cart lock OCC inventory reservation storeDocument CheckoutReserved DNA-8 ALS tenantId FLOW-16"
+}

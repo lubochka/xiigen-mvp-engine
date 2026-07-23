@@ -1,0 +1,24 @@
+{
+  "generatedAt": "2026-05-12T03:33:22.6214877Z",
+  "flowId": "FLOW-35",
+  "dependentFlowId": "FLOW-36",
+  "purpose": "PER-FLOW-FIX-MAP Guard 11 import trace before co-install dependency declaration.",
+  "scanPaths": [
+    "server/src/engine/flows/meta-arbitration",
+    "server/src/engine/flows/feature-registry",
+    "server/src/engine-contracts/meta-arbitration-contracts.ts",
+    "server/src/engine-contracts/meta-arbitration-seed-prompts.ts",
+    "server/src/engine-contracts/meta-arbitration-engine-bfa-rules.ts",
+    "server/src/engine-contracts/feature-registry-contracts.ts",
+    "server/src/engine-contracts/feature-registry-seed-prompts.ts",
+    "server/src/engine-contracts/feature-registry-bfa-rules.ts"
+  ],
+  "filesMentioningBoth": [],
+  "filesMentioningBothCount": 0,
+  "conclusion": "NO_DIRECT_FLOW35_FLOW36_COUPLING_IN_SCANNED_SOURCE",
+  "coInstallDependencyDeclaration": {
+    "declared": false,
+    "reason": "No direct source coupling was found. FLOW-36 state is Tier 2+ with package signing pending, so this round records the trace and withholds a new co-install dependency claim."
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,29 @@
+{
+  "patternId": "svc-F174-IUserRepository",
+  "patternType": "SERVICE_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "factoryId": "F174",
+  "interfaceName": "IUserRepository",
+  "archetype": "STORAGE_WRITE",
+  "fabric": "DATABASE",
+  "fabricProvider": "Elasticsearch",
+  "skillRefs": [
+    "SK-05"
+  ],
+  "taskTypeRefs": [
+    "T47",
+    "T48",
+    "T49"
+  ],
+  "tags": [
+    "user",
+    "repository",
+    "storage",
+    "tenant-scoped",
+    "registration"
+  ],
+  "keywords": "user repository store document search tenant registration uniqueness check",
+  "codeSnippet": "const filter = buildSearchFilter({ tenantId, email });\nconst existing = await this.db.searchDocuments(tenantId, 'users', filter);\nif (existing.isSuccess && existing.data?.length) {\n  return DataProcessResult.failure('DUPLICATE_EMAIL');\n}\nreturn this.db.storeDocument(tenantId, 'users', userRecord, userId);"
+}

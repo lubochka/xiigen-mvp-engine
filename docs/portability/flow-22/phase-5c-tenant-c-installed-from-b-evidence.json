@@ -1,0 +1,175 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "phase": "phase5cTenantCInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-10T08:15:12.909Z",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "tenantName": "Tessera Collective"
+  },
+  "sourceTenant": {
+    "tenantId": "northwind",
+    "repo": "lubochka/northwind--northwind-editorial-ops-cms",
+    "package": "@xiigen-fork/northwind-editorial-ops-cms",
+    "version": "1.0.2"
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/cms-publishing/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "sourceRepoFullName": "lubochka/northwind--northwind-editorial-ops-cms",
+    "repoNameOverride": "tessera-collective--northwind-editorial-ops-cms",
+    "repoFullName": "lubochka/tessera-collective--northwind-editorial-ops-cms",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-editorial-ops-cms",
+    "initialCommitSha": "a2b60c8e6d9280a91f2d92c88e69b1374fc4ac2d",
+    "initialVersion": "1.0.2",
+    "requestClientDurationSeconds": 120.7,
+    "serverSideResult": "repo created and pushed; GitHub Actions run 25623662964 completed successfully"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/tessera-collective--northwind-editorial-ops-cms",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-editorial-ops-cms",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialInstallCommit": "a2b60c8e6d9280a91f2d92c88e69b1374fc4ac2d",
+    "initialActionsRun": {
+      "runId": 25623662964,
+      "jobId": 75214735712,
+      "url": "https://github.com/lubochka/tessera-collective--northwind-editorial-ops-cms/actions/runs/25623662964",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "a2b60c8e6d9280a91f2d92c88e69b1374fc4ac2d",
+      "createdAt": "2026-05-10T08:07:57Z",
+      "updatedAt": "2026-05-10T08:08:39Z",
+      "successfulJobs": [
+        "Standalone flow test - cms-publishing"
+      ]
+    },
+    "repairCommit": null,
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-editorial-ops-cms-phase5c-20260510-110905",
+    "cleanCloneStatus": "clean",
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      }
+    ],
+    "installProof": {
+      "tenantConfigTenantId": "tessera-collective",
+      "installedFromRepoFullName": "lubochka/northwind--northwind-editorial-ops-cms",
+      "adaptationHistoryEntries": 2,
+      "firstAdaptationTenantId": "acme-corp",
+      "secondAdaptationTenantId": "northwind",
+      "manifestContainsStandalonePackage": true,
+      "manifestContainsAdaptationSurface": true,
+      "manifestItemCount": 120
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/northwind-editorial-ops-cms",
+    "version": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-editorial-ops-cms/-/northwind-editorial-ops-cms-1.0.2.tgz",
+    "shasum": "1a262e0f167742179443f037aa613dd6b4a92233",
+    "gitHead": "d92b61bd18433c3bf3aefd6e7831216711f18a86",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/cms-publishing-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/cms-publishing-northwind-v1.0.2-registry-listing-phase5c.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/cms-publishing/tenant-c-installed-from-b",
+      "count": 27,
+      "zeroByteFiles": 0,
+      "totalBytes": 758156,
+      "playwrightExecutions": 27,
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "freelancer",
+        "business-partner",
+        "event-organiser",
+        "tenant-admin",
+        "platform-admin",
+        "platform-support"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/marketplace/cms-publishing-northwind-v1.0.2-registry-listing-phase5c.png",
+        "bytes": 48150
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-22/tessera-collective--northwind-editorial-ops-cms-tenant-c-installed-from-b-github-listing.png",
+        "bytes": 130833
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-22/tessera-collective--northwind-editorial-ops-cms-tenant-c-installed-from-b-actions-success.png",
+        "bytes": 76893
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/cms-publishing-tenant-c-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-22 Tenant C installed-from-B cascade-point visual evidence under docs/e2e-snapshots/cms-publishing/tenant-c-installed-from-b."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantCInstalledPlaywright": {
+      "command": "client: VITE_PORT=52029 npx playwright test e2e/cms-publishing-tenant-c-installed.spec.ts --project=chromium-desktop --reporter=dot --workers=4",
+      "result": "passed",
+      "tests": 27,
+      "distinctPngCount": 27,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCForkedTenantBAdaptedSource": true,
+    "tenantCInstalledPackagePreservedTenantBValues": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryStillReturnsTenantBPackage": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCAdaptation": true
+  },
+  "verdict": "PASS"
+}

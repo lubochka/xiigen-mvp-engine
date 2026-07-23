@@ -1,0 +1,144 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "phase5cTenantCInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T11:49:30.5691783Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "sourcePackage":  {
+                          "repoFullName":  "lubochka/northwind--northwind-trust-review",
+                          "packageName":  "@xiigen-fork/northwind-trust-review",
+                          "packageVersion":  "1.0.2",
+                          "sourceCommit":  "119d011cfab7a5e854f87312bf992f77bf6c1218"
+                      },
+    "forkApi":  {
+                    "endpoint":  "POST /api/marketplace/packages/ai-safety-moderation/fork",
+                    "sourceRepoFullName":  "lubochka/northwind--northwind-trust-review",
+                    "repoNameOverride":  "tessera-collective--northwind-trust-review",
+                    "response":  {
+                                     "forkId":  "fork-ai-safety-moderation-tessera-collective",
+                                     "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-trust-review",
+                                     "repoFullName":  "lubochka/tessera-collective--northwind-trust-review",
+                                     "status":  "FORKED",
+                                     "initialCommitSha":  "7c01fad14008d9fe686f1b845b25177afa7a7576"
+                                 }
+                },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--northwind-trust-review",
+                             "url":  "https://github.com/lubochka/tessera-collective--northwind-trust-review",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "7c01fad14008d9fe686f1b845b25177afa7a7576",
+                             "initialActionsRunId":  25627751395,
+                             "initialActionsConclusion":  "failure",
+                             "repairCommit":  "e31892e0c151e7007b0d8ef03c08bae08fdf6b9e",
+                             "repairCommitMessage":  "Repair Northwind trust review test for Tessera cascade install",
+                             "githubActionsRunId":  25627813285,
+                             "githubActionsConclusion":  "success",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-trust-review-phase5c-20260510-144023",
+                             "cleanCloneStatus":  "clean against repaired/main",
+                             "tenantConfig":  {
+                                                  "tenantId":  "tessera-collective",
+                                                  "moduleName":  "northwind-trust-review",
+                                                  "repoFullName":  "lubochka/tessera-collective--northwind-trust-review",
+                                                  "installedFromRepoFullName":  "lubochka/northwind--northwind-trust-review",
+                                                  "adaptationHistoryEntries":  2,
+                                                  "firstAdaptationTenant":  "acme-corp",
+                                                  "secondAdaptationTenant":  "northwind"
+                                              },
+                             "package":  {
+                                             "name":  "@xiigen-fork/northwind-trust-review",
+                                             "version":  "1.0.2"
+                                         },
+                             "bundleManifestItemCount":  112
+                         },
+    "tenantCloneVerification":  [
+                                    {
+                                        "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx tsc --noEmit --pretty false",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx jest --colors=false --forceExit",
+                                        "result":  "passed",
+                                        "suites":  3,
+                                        "tests":  6
+                                    },
+                                    {
+                                        "command":  "npm pack --dry-run --json",
+                                        "result":  "passed",
+                                        "entryCount":  113,
+                                        "shasum":  "e698604d383b04dd209750b26bfc721a843ad603"
+                                    }
+                                ],
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "package":  "@xiigen-fork/northwind-trust-review",
+                          "version":  "1.0.2",
+                          "shasum":  "88ef2bc5ea639a7e812e8be4e22dc97bf0819274",
+                          "gitHead":  "119d011cfab7a5e854f87312bf992f77bf6c1218",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/ai-safety-moderation-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+                          "verified":  true
+                      },
+    "playwrightEvidence":  {
+                               "spec":  "client/e2e/ai-safety-moderation-tenant-c-installed.spec.ts",
+                               "command":  "VITE_PORT=52424 npx playwright test ai-safety-moderation-tenant-c-installed.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                               "passed":  15,
+                               "failed":  0,
+                               "pngDirectory":  "docs/e2e-snapshots/ai-safety-moderation/tenant-c-installed-from-b",
+                               "pngCount":  15,
+                               "emptyPngCount":  0,
+                               "totalBytes":  621488
+                           },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/ai-safety-moderation-northwind-v1.0.2-registry-listing-phase5c.png",
+                                                   "bytes":  18388
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-24/tessera-collective--northwind-trust-review-tenant-c-installed-from-b-actions-success.png",
+                                                   "bytes":  81756
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-24/tessera-collective--northwind-trust-review-tenant-c-installed-from-b-github-listing.png",
+                                                   "bytes":  129159
+                                               }
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypescript":  "passed",
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "highRiskSecretPatternHits":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCForkedFromTenantBRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localCloneValidationPassed":  true,
+                      "localRegistryStillReturnsTenantBAdaptedVersion":  true,
+                      "playwrightCascadeScreenshotsPresent":  true,
+                      "repoEvidenceScreenshotsPresent":  true,
+                      "readyForTenantCAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

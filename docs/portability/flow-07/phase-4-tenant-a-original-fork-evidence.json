@@ -1,0 +1,120 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phase4.0-tenant-a-original-platform-fork",
+  "generatedAt": "2026-05-03T20:49:53.2460308+03:00",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "role": "Tenant A"
+  },
+  "forkApi": {
+    "endpoint": "POST http://localhost:33001/api/marketplace/packages/friend-request-social-feed/fork",
+    "auth": "Tenant-scoped acme-corp JWT minted from Vault signing key; token value not printed or stored.",
+    "request": {
+      "flowId": "FLOW-07",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.0"
+    },
+    "result": {
+      "forkId": "fork-friend-request-social-feed-acme-corp",
+      "repoFullName": "lubochka/acme-corp--friend-request-social-feed",
+      "repoUrl": "https://github.com/lubochka/acme-corp--friend-request-social-feed",
+      "status": "FORKED",
+      "initialCommitSha": "bb352e7ecf836b6bef6dabba8bee9ef814fde091"
+    }
+  },
+  "githubRepo": {
+    "nameWithOwner": "lubochka/acme-corp--friend-request-social-feed",
+    "url": "https://github.com/lubochka/acme-corp--friend-request-social-feed",
+    "isPrivate": true,
+    "defaultBranch": "main",
+    "createdAt": "2026-05-03T17:44:42Z",
+    "pushedAt": "2026-05-03T17:46:11Z",
+    "latestCommit": {
+      "sha": "bb352e7ecf836b6bef6dabba8bee9ef814fde091",
+      "message": "Initial fork: friend-request-social-feed v1.0.0",
+      "commitDate": "2026-05-03T17:46:11Z",
+      "htmlUrl": "https://github.com/lubochka/acme-corp--friend-request-social-feed/commit/bb352e7ecf836b6bef6dabba8bee9ef814fde091"
+    }
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - friend-request-social-feed",
+    "runId": 25286271658,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "bb352e7ecf836b6bef6dabba8bee9ef814fde091",
+    "url": "https://github.com/lubochka/acme-corp--friend-request-social-feed/actions/runs/25286271658",
+    "createdAt": "2026-05-03T17:46:15Z",
+    "updatedAt": "2026-05-03T17:46:54Z"
+  },
+  "localCloneVerification": {
+    "clonePath": "<WORKSPACE>\\AppData\\Local\\Temp\\flow07-acme-fork-verification",
+    "commands": [
+      {
+        "command": "gh repo clone lubochka/acme-corp--friend-request-social-feed <WORKSPACE>\\AppData\\Local\\Temp\\flow07-acme-fork-verification",
+        "exitCode": 0
+      },
+      {
+        "command": "npm install --no-audit --no-fund",
+        "exitCode": 0,
+        "notes": "Completed with dependency deprecation warnings only."
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "1 suite passed, 1 test passed"
+      }
+    ]
+  },
+  "bundleChecks": {
+    "completeModuleBundle": true,
+    "adaptationSurface": true,
+    "freedomDefaults": true,
+    "tenantConfig": true,
+    "ragSeeds": true,
+    "standalonePackage": true,
+    "requiredFilesObserved": [
+      "BUNDLE-MANIFEST.json",
+      "tenant.config.json",
+      "freedom-config.defaults.json",
+      "docs/adaptation-surface.json",
+      "docs/FUNCTIONAL-SPEC.md",
+      "docs/STEP-1-INVARIANTS.md",
+      "rag-seeds/friend-request-social-feed-design-corpus.json",
+      ".github/workflows/flow-ci.yml",
+      "__tests__/friend-request-social-feed-package.spec.ts"
+    ]
+  },
+  "screenshots": [
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/acme-corp--friend-request-social-feed-github-listing.png",
+      "source": "Authenticated Chromium capture of https://api.github.com/repos/lubochka/acme-corp--friend-request-social-feed",
+      "status": 200,
+      "width": 1440,
+      "height": 1936,
+      "bytes": 202124,
+      "note": "Private GitHub web UI returned 404 without browser cookies; API screenshot is a live GitHub response captured with an Authorization header and no token on screen."
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/acme-corp--friend-request-social-feed-github-actions-run.png",
+      "source": "Authenticated Chromium capture of https://api.github.com/repos/lubochka/acme-corp--friend-request-social-feed/actions/runs/25286271658",
+      "status": 200,
+      "width": 1440,
+      "height": 3466,
+      "bytes": 414933,
+      "note": "Shows the completed successful GitHub Actions run for the forked repo."
+    }
+  ],
+  "secretHandling": {
+    "githubTokenPrinted": false,
+    "tenantJwtPrinted": false,
+    "vaultSigningKeyPrinted": false,
+    "vaultSecretsSeededForAllTenants": true,
+    "tenantVaultTokenFreedomConfigSeededForAllTenants": true
+  },
+  "verdict": "PASS"
+}

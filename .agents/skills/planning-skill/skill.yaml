@@ -1,0 +1,29 @@
+name: planning-skill
+version: "1.0.0"
+sk_number: SK-408
+priority: MANDATORY
+load_order: 6
+description: >
+  8-gate planning validation skill for XIIGen. Runs after infrastructure-discovery
+  (Gate 0) and before any code is written. Gates 1–6 validate architecture safety,
+  fabric blast radius, flow templates, decision log, test coverage, and doc sync.
+  Gate 7 (added Rev 3.2) enforces all 8 foundational principles (P1–P8) — every
+  plan must explicitly answer all 8 questions or receive Luba sign-off that a
+  principle is out of scope.
+author: luba
+updated: "2026-03-18"
+triggers:
+  - "before writing code"
+  - "plan gate"
+  - "validate plan"
+  - "planning gate"
+  - "pre-code check"
+  - "Gate 1"
+  - "Gate 7"
+  - "P1 through P8"
+  - "foundational principles gate"
+entry: SKILL.md
+dependencies:
+  - infrastructure-discovery
+  - xiigen-core-principles-skill
+position: after-infrastructure-discovery

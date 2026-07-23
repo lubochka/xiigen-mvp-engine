@@ -1,0 +1,14 @@
+{
+  "eventType": "marketplace.escrow.released",
+  "flowId": "FLOW-16",
+  "version": "1.0.0",
+  "description": "Emitted by T611 MarketplaceEscrowController after escrow release record stored (DNA-8). Triggers T612 SellerPayoutWriter.",
+  "properties": {
+    "escrowId": { "type": "string", "required": true },
+    "orderId": { "type": "string", "required": true },
+    "sellerTenantId": { "type": "string", "required": true },
+    "releasedAmountCents": { "type": "integer", "minimum": 0, "required": true },
+    "releasedAt": { "type": "string", "format": "date-time", "required": true },
+    "escrowReleaseRecordId": { "type": "string", "required": true }
+  }
+}

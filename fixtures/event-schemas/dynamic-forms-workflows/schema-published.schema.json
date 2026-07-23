@@ -1,0 +1,17 @@
+{
+  "eventId": "schema-published",
+  "eventName": "SchemaPublished",
+  "flowId": "FLOW-21",
+  "taskTypeId": "T629",
+  "description": "Emitted when a form schema transitions from DRAFT to PUBLISHED",
+  "properties": {
+    "schemaId": { "type": "string", "description": "The ID of the published schema" },
+    "version": { "type": "integer", "description": "Schema version number" },
+    "fieldCount": { "type": "integer", "description": "Number of fields in schema" },
+    "status": { "type": "string", "enum": ["PUBLISHED"], "description": "Final status" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "tenantId": { "type": "string" }
+  },
+  "required": ["schemaId", "version", "fieldCount", "status"],
+  "version": "1.0"
+}

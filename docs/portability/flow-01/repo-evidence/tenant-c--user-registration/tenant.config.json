@@ -1,0 +1,51 @@
+{
+  "$schema": "xiigen-tenant-freedom-profile-v1",
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "tenantId": "tessera-collective",
+  "profileVersion": "1.0.1",
+  "publisher": "tessera-collective",
+  "adaptationCategory": "no-adaptation-third-party-tenant",
+  "basedOnDefaultsVersion": "FLOW-01 v1.0.0 (XIIGEN_FREEDOM_DEFAULTS — fresh root install, no cascade hop)",
+  "ultimateRoot": "FLOW-01 v1.0.0 (XIIGEN_FREEDOM_DEFAULTS)",
+  "publishedAt": "2026-04-25",
+  "publishedBy": "architect-mode / FLOW-PORTABILITY-TEST-PROTOCOL-v2.0",
+  "repoSlug": "tenant-c--user-registration",
+  "lineage": [
+    { "version": "1.0.0", "publisher": "xiigen-platform", "introduces": "FLOW-01 baseline FREEDOM-config defaults" },
+    { "version": "1.0.1", "publisher": "tessera-collective", "introduces": "Fresh root install with zero FREEDOM overrides; third-party tenant for V-13(D) cross-tenant separation confirmation; deliberately not part of the acme→northwind cascade" }
+  ],
+  "deploymentInstructions": {
+    "seedIndex": "xiigen-freedom-config",
+    "seedMethod": "no-op — tessera does not seed any FREEDOM keys for FLOW-01; their AsyncLocalStorage context falls through to the platform v1.0.0 defaults",
+    "idempotent": true,
+    "requiresRestart": false
+  },
+  "overrides": {},
+  "overridesNote": "Tessera Collective installs FLOW-01 directly from the xiigen-platform v1.0.0 baseline and does not introduce any FREEDOM-config overrides. Their tenant context returns the platform defaults: rate_limit=60, ttl=86400, inviter='you', community='our community' — exactly as XIIGEN_FREEDOM_DEFAULTS specifies. Drift comparison at row 8: tenant-c-tessera-v1.0.1 vs platform-source MUST be 0 px (zero overrides + server-side-only adaptation surface = pixel-identical client renders).",
+  "verificationContract": {
+    "testFile": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts",
+    "testsRunForThisProfile": [
+      "FC-ADAPT-1 (default fallback for unknown/non-cascade tenant — covers tessera by construction)"
+    ],
+    "allPassed": true,
+    "lastRun": "2026-04-25",
+    "note": "Tessera does not have its own override-bearing test class; the existing FC-ADAPT-1 test class covers the contract for non-cascade tenants (default values returned in the absence of overrides)."
+  },
+  "machineInvariantsPreserved": [
+    "Event names: AccountCreated, VerificationEmailRequested, VerificationCompleted, OnboardingCompleted",
+    "Task-type IDs: T47, T48, T49",
+    "User record schema including onboarding_materials:[]",
+    "Material type literals: workspace_setup, flow_tutorial, community_invitation",
+    "Idempotency key format and outbox ordering (storeDocument before enqueue)",
+    "Token hashing algorithm (sha256)",
+    "Uniform VALIDATION_FAILURE shape (no field leakage)"
+  ],
+  "v15DriftContract": {
+    "expectedDrift": "0 px on every PNG (byte-identical to platform-source baseline)",
+    "rationale": "Tessera has zero FREEDOM overrides for FLOW-01 and falls through to platform v1.0.0 defaults under their AsyncLocalStorage context; therefore the rendered output of every kiosk page is pixel-identical to the platform-source capture",
+    "contractFile": "docs/portability/flow-01/V-15-DRIFT-PASS-CONTRACT.md",
+    "behaviouralSeparationProof": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts FC-ADAPT-1 (default fallback for non-cascade tenants)",
+    "observedDrift": "0 px (V-13 instance D + V-15 instance C drift comparison: 252/252 byte-identical pairs vs platform-source AND vs tenant-a-acme-v1.0.1; PASS per contract component 1)"
+  }
+}

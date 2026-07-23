@@ -1,0 +1,25 @@
+{
+    "flowId":  "FLOW-44",
+    "flowSlug":  "framer-adapter",
+    "phase":  "phase-close-scan",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:15:57.3135234Z",
+    "checks":  {
+                   "dockerVaultAuthFailures":  0,
+                   "packageTestsPassed":  45,
+                   "legacyServerTestsPassed":  "NOT_APPLICABLE_EXTERNAL_ADAPTER",
+                   "noFigmaRuntimeHits":  0,
+                   "noBrowserStorageHits":  0,
+                   "pluginDataReadPattern":  2,
+                   "pluginDataWritePattern":  2,
+                   "textFilterPattern":  3,
+                   "step1InPackage":  true,
+                   "throwNewInSource":  0,
+                   "packageJsonPrivateFalse":  true,
+                   "registryReadback":  "1.0.0",
+                   "invalidXiigenPngDirs":  0,
+                   "secretPatternHits":  0
+               },
+    "failureLines":  0,
+    "verdict":  "PASS"
+}

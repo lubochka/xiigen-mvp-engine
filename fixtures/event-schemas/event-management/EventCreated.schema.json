@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.event-management.event-created.v1",
+  "taskTypeId": "T59",
+  "flowId": "FLOW-03",
+  "description": "Emitted by T59 EventCreationOrchestrator after storeDocument(xiigen-events) succeeds. Triggers T60 EventRegistrationManager and T61 EventPromotionEngine.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.event-management.event-created.v1",
+    "source": "xiigen/flows/event-management/t59",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "eventId": {
+      "type": "string",
+      "description": "Opaque event identifier — no PII"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant identifier from AsyncLocalStorage — never from request payload"
+    },
+    "capacity": {
+      "type": ["integer", "null"],
+      "description": "null = unlimited. 0 = fully booked. Positive integer = capacity limit."
+    },
+    "correlationId": {
+      "type": "string",
+      "description": "Idempotency key for this event creation attempt"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "No organizer name, email, or personal data in payload. tenantId and eventId are opaque references.",
+  "arbiterRef": "arb-flow03-event-store-before-emit: storeDocument BEFORE this event enqueued.",
+  "requiredByFlows": ["FLOW-03", "FLOW-04"],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

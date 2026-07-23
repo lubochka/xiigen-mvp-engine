@@ -1,0 +1,64 @@
+{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phase2E2ETests",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T08:59:52.2670174Z",
+    "clientTypeScript":  {
+                             "command":  "client: npx tsc --noEmit --pretty false",
+                             "result":  "passed"
+                         },
+    "playwright":  {
+                       "command":  "client: VITE_PORT=52034 npx playwright test e2e/form-builder-templates.spec.ts e2e/form-builder-templates-role-matrix.spec.ts --project=chromium-desktop --reporter=dot --workers=4",
+                       "result":  "passed",
+                       "tests":  12,
+                       "workers":  2
+                   },
+    "p1StateScreenshots":  {
+                               "directory":  "docs/e2e-snapshots/form-builder-templates",
+                               "count":  6,
+                               "zeroByteFiles":  0,
+                               "totalBytes":  167070
+                           },
+    "roleMatrixScreenshots":  {
+                                  "directory":  "docs/e2e-snapshots/form-builder-templates/role-matrix",
+                                  "count":  6,
+                                  "zeroByteFiles":  0,
+                                  "totalBytes":  276477,
+                                  "roles":  [
+                                                "tenant-admin",
+                                                "platform-admin",
+                                                "tenant-user",
+                                                "freelancer",
+                                                "business-partner",
+                                                "platform-support"
+                                            ]
+                              },
+    "pngSummary":  {
+                       "total":  12,
+                       "zeroByteFiles":  0,
+                       "totalBytes":  443547
+                   },
+    "repair":  {
+                   "reason":  "Existing generated FLOW-23 P1 suite used default 30s navigation timeout and wait-for-networkidle on a cold Vite route.",
+                   "filesChanged":  [
+                                        "client/e2e/form-builder-templates.spec.ts",
+                                        "client/e2e/form-builder-templates-role-matrix.spec.ts"
+                                    ],
+                   "result":  "Added stable page-open helper and explicit six-role matrix while preserving page visibility assertions."
+               },
+    "phaseGate":  {
+                      "clientTypeScriptPassed":  true,
+                      "playwrightPassed":  true,
+                      "pngsPresent":  true,
+                      "zeroByteFiles":  0,
+                      "roleMatrixCovered":  true,
+                      "readyForPhase3VisualExamination":  true
+                  },
+    "secretHandling":  {
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false
+                       },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,61 @@
+{
+  "flowId": "FLOW-39",
+  "flowSlug": "oss-curriculum",
+  "phase": "phase-3-fork-cascade",
+  "status": "completed",
+  "generatedAt": "2026-05-12T01:24:00.0000000+03:00",
+  "cascade": [
+    {
+      "tenant": "acme-corp",
+      "source": "platform original via marketplace API",
+      "repo": "lubochka/acme-corp--oss-curriculum-f39",
+      "initialCommit": "8c69f70fc5ce34aae8fa5865095670b910e110ec",
+      "initialRunId": 25700197429,
+      "package": "@xiigen-fork/acme-oss-curriculum-lab",
+      "version": "1.0.1",
+      "adaptedCommit": "6365496ffa247d9f4dace25c8c5df5b3ba338933",
+      "adaptedRunId": 25700277801,
+      "registryReadback": "1.0.1"
+    },
+    {
+      "tenant": "northwind",
+      "source": "lubochka/acme-corp--oss-curriculum-f39 via marketplace API",
+      "repo": "lubochka/northwind--oss-curriculum-f39",
+      "initialCommit": "3be4a83479352b59e1797b9e0306a1d6602e65bb",
+      "initialRunId": 25700429046,
+      "package": "@xiigen-fork/northwind-shadow-learning-hub",
+      "version": "1.0.2",
+      "adaptedCommit": "7385e749ff4a176a0cee21b20577087b25ca9a98",
+      "adaptedRunId": 25700501131,
+      "registryReadback": "1.0.2"
+    },
+    {
+      "tenant": "tessera-collective",
+      "source": "lubochka/northwind--oss-curriculum-f39 via marketplace API",
+      "repo": "lubochka/tessera-collective--oss-curriculum-f39",
+      "initialCommit": "d61b4cee73348d50c4d5677cc47ae44d362a6051",
+      "initialRunId": 25700654090,
+      "package": "@xiigen-fork/tessera-oss-teaching-loop",
+      "version": "1.0.3",
+      "adaptedCommit": "60c01c0cd5097d1b50d2f69e536e941c686826a0",
+      "adaptedRunId": 25700717540,
+      "registryReadback": "1.0.3"
+    }
+  ],
+  "localRegistry": "http://localhost:4873",
+  "repoEvidenceScreenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-39",
+    "expectedPerTenant": [
+      "repo-home.png",
+      "package-json.png",
+      "actions-success.png"
+    ],
+    "captured": {
+      "acme-corp": 3,
+      "northwind": 3,
+      "tessera-collective": 3
+    }
+  },
+  "reposRestoredPrivate": true,
+  "verdict": "PASS"
+}

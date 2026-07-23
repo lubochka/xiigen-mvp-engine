@@ -1,0 +1,23 @@
+{
+  "patternId": "arch--fan-in-parallel-merge",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-02",
+  "domainId": "generic",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "archetype": "ORCHESTRATION",
+  "tags": [
+    "fan-out",
+    "fan-in",
+    "parallel",
+    "same-input",
+    "independent-branches",
+    "dependency-tier"
+  ],
+  "keywords": "parallel fan-out fan-in same input independent branches dependency tier no-wait concurrent",
+  "codeSnippet": "// Fan-out from same trigger — A1 and A2 both receive QuestionnaireCompleted\n// Neither needs the other's output — run in parallel, not sequential\n// A3 depends on A1's output (BusinessProfileCreated), not on QuestionnaireCompleted\n// WRONG: chain A1→A2→A3 sequentially — A2 waits for A1 even though it uses raw answers\n// CORRECT:\nasync function runTier1(event: QuestionnaireCompleted) {\n  const [a1Result, a2Result] = await Promise.all([\n    this.buildBusinessProfile(event),    // A1: structured profile\n    this.analyzeSegment(event),          // A2: raw questionnaire analytics\n  ]);\n  // A3 waits for A1's output — triggers on BusinessProfileCreated\n  if (a1Result.isSuccess) {\n    await this.generateLearningProgram(a1Result.data.profileId);\n  }\n}",
+  "ironRules": [
+    "ask: does this node need the prior node's OUTPUT or the same INPUT?",
+    "same input = parallel — do not chain unnecessarily",
+    "upstream dependency = trigger on the prior node's emission event (not original trigger)"
+  ]
+}

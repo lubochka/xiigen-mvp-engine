@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xiigen.dev/schemas/design-reasoning-triple.schema.json",
+  "title": "DesignReasoningTriple",
+  "description": "Schema for architecture decisions captured as DESIGN_REASONING triples. Each entry documents a non-obvious decision with its context, challenge, resolution, and teaching point. Used in FLOW-XX-ARCHITECTURE-DECISIONS.json files and seeded to xiigen-rag-patterns.",
+  "type": "object",
+  "required": ["decisionId", "type", "capability", "context", "proposed", "challenge", "resolution", "principleApplied", "teachingPoint"],
+  "properties": {
+    "decisionId": {
+      "type": "string",
+      "pattern": "^D-[A-Z]+-[0-9]{3}$",
+      "description": "Unique decision identifier. Format: D-{PLAN_PREFIX}-{NNN}. Examples: D-EXT-001, D-FLOW01-001.",
+      "examples": ["D-EXT-001", "D-FLOW01-003"]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "INTERFACE_NAMING",
+        "INFRASTRUCTURE_CHOICE",
+        "API_DESIGN",
+        "INCOMPATIBILITY_RECLASSIFICATION",
+        "ARCHITECTURE_DECISION",
+        "VALIDATION_DESIGN",
+        "TRAINING_DATA_DESIGN",
+        "WAVE_ASSIGNMENT",
+        "CROSS_FLOW_DEPENDENCY",
+        "FABRIC_INTERFACE_INTRODUCTION",
+        "IRON_RULE_DERIVATION",
+        "Q_CLASSIFICATION"
+      ],
+      "description": "Category of this decision. Determines which RAG pool it is indexed into."
+    },
+    "capability": {
+      "type": "string",
+      "description": "The specific capability or interface being decided upon. Should be a concrete, searchable string — interface name, task type, feature name.",
+      "examples": ["IScopedMemoryService (formerly IRedisService)", "T48 EmailVerificationWait — WordPress scheduling"]
+    },
+    "context": {
+      "type": "string",
+      "description": "One to three sentences: what situation prompted this decision? Include the relevant artifact IDs (T-XXX, FLOW-XX, etc.).",
+      "minLength": 20
+    },
+    "proposed": {
+      "type": "string",
+      "description": "The naive or first proposal — the approach that was initially considered. State it plainly so future sessions can recognize the same pattern.",
+      "minLength": 10
+    },
+    "challenge": {
+      "type": "string",
+      "description": "Why the proposed approach is wrong or suboptimal. This is the core insight — the reasoning that eliminates the naive approach. Should be specific enough to generalize.",
+      "minLength": 30
+    },
+    "resolution": {
+      "type": "string",
+      "description": "What was decided instead. Include specific artifact names, interface names, config keys, or code patterns that embody the resolution.",
+      "minLength": 20
+    },
+    "principleApplied": {
+      "type": "string",
+      "description": "Which XIIGen principle (P1–P11, D-STACK-N, DNA-N, or a named rule) governed this decision. State the principle, then show how it applied.",
+      "minLength": 20
+    },
+    "teachingPoint": {
+      "type": "string",
+      "description": "A single generalized lesson that can guide future sessions facing the same pattern. Should be actionable: 'Before doing X, ask Y. If Z, then W.'",
+      "minLength": 30
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "decisionId": "D-EXT-001",
+      "type": "INTERFACE_NAMING",
+      "capability": "IScopedMemoryService (formerly IRedisService)",
+      "context": "Analytics task types need Redis-style atomic counters and idempotency locks.",
+      "proposed": "IRedisService — name the interface after the provider",
+      "challenge": "IRedisService leaks provider identity into the interface name. Same mistake as 'php-wordpress' in stackCoupling keys. Callers would be coupled to a specific technology by name, even though Memcached and Valkey implement identical semantics.",
+      "resolution": "IScopedMemoryService — named for capability (scoped, ephemeral, fast key-value with TTL) not provider. Provider resolved via FREEDOM config.",
+      "principleApplied": "Fabric interfaces named for capability, never for provider. The same principle that eliminated 'php-wordpress' keys.",
+      "teachingPoint": "Before naming a fabric interface: can the name survive provider replacement? If renaming the provider would require renaming the interface, the interface name is wrong."
+    }
+  ]
+}

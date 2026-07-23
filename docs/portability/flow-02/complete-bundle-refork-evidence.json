@@ -1,0 +1,215 @@
+{
+  "generatedAt": "2026-04-28T20:21:47.277Z",
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "status": "complete-bundle-reforked",
+  "evidence": [
+    {
+      "tenantId": "acme-corp",
+      "repoFullName": "lubochka/acme-corp--profile-enrichment",
+      "repoUrl": "https://github.com/lubochka/acme-corp--profile-enrichment",
+      "initialCommitSha": "dd27b5e5a3458d7403004ccc61f3e0b6dce100de",
+      "forkId": "fork-profile-enrichment-acme-corp",
+      "reforked": false,
+      "completeBundle": true,
+      "requiredFilesPresent": [
+        "BUNDLE-MANIFEST.json",
+        "freedom-config.defaults.json",
+        "tenant.config.json",
+        "settings/module.settings.json",
+        "docs/adaptation-surface.json",
+        "docs/FUNCTIONAL-SPEC.md",
+        "docs/STEP-1-INVARIANTS.md",
+        "docs/design-context/.impeccable.md",
+        "docs/flow-coverage/P1-business-logic-inventory.md",
+        "rag-seeds/profile-enrichment-design-corpus.json",
+        "rag-seeds/seed_profile_enrichment_patterns.py",
+        "server/src/engine/flows/profile-enrichment/business-profile.service.ts",
+        "server/src/fabrics/interfaces/database.interface.ts",
+        "server/src/kernel/data-process-result.ts",
+        "server/src/freedom/config-schema.ts",
+        "package.json",
+        "tsconfig.json",
+        "jest.config.js",
+        ".github/workflows/flow-ci.yml"
+      ],
+      "tenantConfig": {
+        "tenantId": "acme-corp",
+        "flowId": "FLOW-02",
+        "flowSlug": "profile-enrichment",
+        "moduleName": "profile-enrichment",
+        "moduleVersion": "1.0.0-fork",
+        "adaptationHistory": [],
+        "bundlePaths": {
+          "freedomConfig": "./freedom-config.defaults.json",
+          "adaptationSurface": "./docs/adaptation-surface.json",
+          "functionalSpec": "./docs/FUNCTIONAL-SPEC.md",
+          "invariants": "./docs/STEP-1-INVARIANTS.md",
+          "ragSeeds": "./rag-seeds"
+        }
+      },
+      "requiredBundleChecks": {
+        "completeModuleBundle": true,
+        "adaptationSurface": true,
+        "freedomDefaults": true,
+        "tenantConfig": true,
+        "ragSeeds": true,
+        "standalonePackage": true
+      },
+      "ciEvidence": {
+        "workflowRunId": 25075228182,
+        "workflowRunUrl": "https://github.com/lubochka/acme-corp--profile-enrichment/actions/runs/25075228182",
+        "workflowConclusion": "success",
+        "workflowStatus": "completed",
+        "headSha": "dd27b5e5a3458d7403004ccc61f3e0b6dce100de"
+      },
+      "localForkVerification": {
+        "clonePath": "C:/tmp/xiigen-forks/acme-corp--profile-enrichment-complete-bundle-20260428-2322",
+        "commands": [
+          "npm install --no-audit --no-fund",
+          "npx tsc --noEmit --pretty false",
+          "npx jest --colors=false --forceExit"
+        ],
+        "result": "package install completed, TypeScript passed, Jest passed: 1 suite, 1 test, 0 failures"
+      }
+    },
+    {
+      "tenantId": "northwind",
+      "repoFullName": "lubochka/northwind--profile-enrichment",
+      "repoUrl": "https://github.com/lubochka/northwind--profile-enrichment",
+      "initialCommitSha": "c953d146927a065c3fe44dee6b036279208de4d2",
+      "forkId": "fork-profile-enrichment-northwind",
+      "reforked": true,
+      "completeBundle": true,
+      "requiredFilesPresent": [
+        "BUNDLE-MANIFEST.json",
+        "freedom-config.defaults.json",
+        "tenant.config.json",
+        "settings/module.settings.json",
+        "docs/adaptation-surface.json",
+        "docs/FUNCTIONAL-SPEC.md",
+        "docs/STEP-1-INVARIANTS.md",
+        "docs/design-context/.impeccable.md",
+        "docs/flow-coverage/P1-business-logic-inventory.md",
+        "rag-seeds/profile-enrichment-design-corpus.json",
+        "rag-seeds/seed_profile_enrichment_patterns.py",
+        "server/src/engine/flows/profile-enrichment/business-profile.service.ts",
+        "server/src/fabrics/interfaces/database.interface.ts",
+        "server/src/kernel/data-process-result.ts",
+        "server/src/freedom/config-schema.ts",
+        "package.json",
+        "tsconfig.json",
+        "jest.config.js",
+        ".github/workflows/flow-ci.yml"
+      ],
+      "tenantConfig": {
+        "tenantId": "northwind",
+        "flowId": "FLOW-02",
+        "flowSlug": "profile-enrichment",
+        "moduleName": "profile-enrichment",
+        "moduleVersion": "1.0.0-fork",
+        "adaptationHistory": [],
+        "bundlePaths": {
+          "freedomConfig": "./freedom-config.defaults.json",
+          "adaptationSurface": "./docs/adaptation-surface.json",
+          "functionalSpec": "./docs/FUNCTIONAL-SPEC.md",
+          "invariants": "./docs/STEP-1-INVARIANTS.md",
+          "ragSeeds": "./rag-seeds"
+        }
+      },
+      "requiredBundleChecks": {
+        "completeModuleBundle": true,
+        "adaptationSurface": true,
+        "freedomDefaults": true,
+        "tenantConfig": true,
+        "ragSeeds": true,
+        "standalonePackage": true
+      },
+      "ciEvidence": {
+        "workflowRunId": 25075467113,
+        "workflowRunUrl": "https://github.com/lubochka/northwind--profile-enrichment/actions/runs/25075467113",
+        "workflowConclusion": "success",
+        "workflowStatus": "completed",
+        "headSha": "c953d146927a065c3fe44dee6b036279208de4d2"
+      },
+      "localForkVerification": {
+        "clonePath": "C:/tmp/xiigen-forks/northwind--profile-enrichment-complete-bundle-20260428-2322",
+        "commands": [
+          "npm install --no-audit --no-fund",
+          "npx tsc --noEmit --pretty false",
+          "npx jest --colors=false --forceExit"
+        ],
+        "result": "package install completed, TypeScript passed, Jest passed: 1 suite, 1 test, 0 failures"
+      }
+    },
+    {
+      "tenantId": "tessera-collective",
+      "repoFullName": "lubochka/tessera-collective--profile-enrichment",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--profile-enrichment",
+      "initialCommitSha": "329b5ae2b46277c5d6ba18157528042c9368774b",
+      "forkId": "fork-profile-enrichment-tessera-collective",
+      "reforked": true,
+      "completeBundle": true,
+      "requiredFilesPresent": [
+        "BUNDLE-MANIFEST.json",
+        "freedom-config.defaults.json",
+        "tenant.config.json",
+        "settings/module.settings.json",
+        "docs/adaptation-surface.json",
+        "docs/FUNCTIONAL-SPEC.md",
+        "docs/STEP-1-INVARIANTS.md",
+        "docs/design-context/.impeccable.md",
+        "docs/flow-coverage/P1-business-logic-inventory.md",
+        "rag-seeds/profile-enrichment-design-corpus.json",
+        "rag-seeds/seed_profile_enrichment_patterns.py",
+        "server/src/engine/flows/profile-enrichment/business-profile.service.ts",
+        "server/src/fabrics/interfaces/database.interface.ts",
+        "server/src/kernel/data-process-result.ts",
+        "server/src/freedom/config-schema.ts",
+        "package.json",
+        "tsconfig.json",
+        "jest.config.js",
+        ".github/workflows/flow-ci.yml"
+      ],
+      "tenantConfig": {
+        "tenantId": "tessera-collective",
+        "flowId": "FLOW-02",
+        "flowSlug": "profile-enrichment",
+        "moduleName": "profile-enrichment",
+        "moduleVersion": "1.0.0-fork",
+        "adaptationHistory": [],
+        "bundlePaths": {
+          "freedomConfig": "./freedom-config.defaults.json",
+          "adaptationSurface": "./docs/adaptation-surface.json",
+          "functionalSpec": "./docs/FUNCTIONAL-SPEC.md",
+          "invariants": "./docs/STEP-1-INVARIANTS.md",
+          "ragSeeds": "./rag-seeds"
+        }
+      },
+      "requiredBundleChecks": {
+        "completeModuleBundle": true,
+        "adaptationSurface": true,
+        "freedomDefaults": true,
+        "tenantConfig": true,
+        "ragSeeds": true,
+        "standalonePackage": true
+      },
+      "ciEvidence": {
+        "workflowRunId": 25075642994,
+        "workflowRunUrl": "https://github.com/lubochka/tessera-collective--profile-enrichment/actions/runs/25075642994",
+        "workflowConclusion": "success",
+        "workflowStatus": "completed",
+        "headSha": "329b5ae2b46277c5d6ba18157528042c9368774b"
+      },
+      "localForkVerification": {
+        "clonePath": "C:/tmp/xiigen-forks/tessera-collective--profile-enrichment-complete-bundle-20260428-2322",
+        "commands": [
+          "npm install --no-audit --no-fund",
+          "npx tsc --noEmit --pretty false",
+          "npx jest --colors=false --forceExit"
+        ],
+        "result": "package install completed, TypeScript passed, Jest passed: 1 suite, 1 test, 0 failures"
+      }
+    }
+  ]
+}

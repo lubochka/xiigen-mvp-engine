@@ -1,0 +1,219 @@
+{
+  "flowId": "FLOW-16",
+  "flowSlug": "marketplace-payments",
+  "phase": "phase5cTenantCInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-06T16:37:51.794Z",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "tenantName": "Tessera Collective"
+  },
+  "sourceTenant": {
+    "tenantId": "northwind",
+    "package": "@xiigen-fork/northwind-controlled-marketplace-payments",
+    "version": "1.0.2",
+    "repo": "lubochka/northwind--northwind-controlled-marketplace-payments"
+  },
+  "install": {
+    "type": "marketplace-api-fork-from-tenant-b-published-package",
+    "request": {
+      "endpoint": "POST /api/marketplace/packages/marketplace-payments/fork",
+      "tenantId": "tessera-collective",
+      "sourceRepoFullName": "lubochka/northwind--northwind-controlled-marketplace-payments",
+      "repoNameOverride": "tessera-collective--northwind-controlled-marketplace-payments",
+      "initialVersion": "1.0.2"
+    },
+    "repo": "lubochka/tessera-collective--northwind-controlled-marketplace-payments",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-controlled-marketplace-payments",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "installedFromRepoFullName": "lubochka/northwind--northwind-controlled-marketplace-payments",
+    "packageName": "@xiigen-fork/northwind-controlled-marketplace-payments",
+    "packageVersion": "1.0.2",
+    "moduleName": "northwind-controlled-marketplace-payments",
+    "tenantConfigTenantId": "tessera-collective",
+    "adaptationHistoryEntries": 2,
+    "adaptationHistoryPublishers": [
+      "acme-corp",
+      "northwind"
+    ]
+  },
+  "marketplaceFork": {
+    "forkId": "fork-marketplace-payments-tessera-collective",
+    "repoFullName": "lubochka/tessera-collective--northwind-controlled-marketplace-payments",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-controlled-marketplace-payments",
+    "status": "FORKED",
+    "initialCommitSha": "c3f19cd1340c7e22c4ec79f96bc22229502cda06",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false
+  },
+  "tenantRepository": {
+    "repo": "lubochka/tessera-collective--northwind-controlled-marketplace-payments",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-controlled-marketplace-payments",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialCommitSha": "c3f19cd1340c7e22c4ec79f96bc22229502cda06",
+    "repairCommit": "6999fbc99ad456339d61ed83040d4b903a3d7f40",
+    "repairCommitMessage": "Repair Tessera install proof for Northwind marketplace payments",
+    "cleanClonePath": "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-controlled-marketplace-payments-phase5c-20260506-192322",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "__tests__/marketplace-payments-package.spec.ts"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 1,
+        "tests": 3
+      }
+    ]
+  },
+  "githubActions": {
+    "initialRun": {
+      "runId": 25447496407,
+      "jobId": 74655511164,
+      "url": "https://github.com/lubochka/tessera-collective--northwind-controlled-marketplace-payments/actions/runs/25447496407",
+      "headSha": "c3f19cd1340c7e22c4ec79f96bc22229502cda06",
+      "status": "completed",
+      "conclusion": "failure",
+      "failureReason": "Inherited proof expected Northwind tenant identity after the fork engine correctly rewrote tenant.config.json to tessera-collective."
+    },
+    "repairRun": {
+      "workflowName": "XIIGen Flow CI - marketplace-payments",
+      "runId": 25447820537,
+      "jobId": 74656650320,
+      "url": "https://github.com/lubochka/tessera-collective--northwind-controlled-marketplace-payments/actions/runs/25447820537",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "6999fbc99ad456339d61ed83040d4b903a3d7f40",
+      "createdAt": "2026-05-06T16:28:17Z",
+      "updatedAt": "2026-05-06T16:29:26Z",
+      "successfulSteps": [
+        "Install",
+        "TypeScript check",
+        "Test",
+        "Provenance"
+      ]
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "viewCommand": "npm view @xiigen-fork/northwind-controlled-marketplace-payments@1.0.2 version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+    "packageName": "@xiigen-fork/northwind-controlled-marketplace-payments",
+    "npmViewVersion": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-controlled-marketplace-payments/-/northwind-controlled-marketplace-payments-1.0.2.tgz",
+    "shasum": "5586bf1874f1fc0678231c2d442bc09aaf8e8502",
+    "gitHead": "eac68944d82ed6aac2bc6997afad920986d1ed63",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/marketplace-payments-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/marketplace-payments-northwind-v1.0.2-registry-listing-phase5c.png",
+    "screenshotSource": "GET http://localhost:4873/@xiigen-fork%2Fnorthwind-controlled-marketplace-payments",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/marketplace-payments/tenant-c-installed-from-b",
+      "count": 18,
+      "zeroByteFiles": 0,
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "states": [
+        "installed package",
+        "buyer checkout",
+        "b2b checkout",
+        "platform reconciliation",
+        "support dispute view",
+        "payee escrow redirect"
+      ]
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-16/tessera-collective--northwind-controlled-marketplace-payments-tenant-c-installed-from-b-github-listing.png",
+      "bytes": 95022,
+      "width": 1280,
+      "height": 720
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-16/tessera-collective--northwind-controlled-marketplace-payments-tenant-c-installed-from-b-actions-success.png",
+      "bytes": 65376,
+      "width": 1280,
+      "height": 720
+    },
+    "registryScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/marketplace-payments-northwind-v1.0.2-registry-listing-phase5c.png",
+      "bytes": 42043,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/marketplace-payments-tenant-c-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-16 Tenant C installed-from-B cascade-point visual evidence under docs/e2e-snapshots/marketplace-payments/tenant-c-installed-from-b."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantCInstalledPlaywright": {
+      "command": "client: VITE_PORT=5174 npx playwright test e2e/marketplace-payments-tenant-c-installed.spec.ts --reporter=list",
+      "result": "passed",
+      "tests": 18
+    },
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "server: npx jest --testPathPatterns=marketplace-payments --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 108
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantCInstalledFromTenantB": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryReturnsTenantBAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "cascadeScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCAdaptation": true
+  },
+  "verdict": "PASS"
+}

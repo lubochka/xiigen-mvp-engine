@@ -1,0 +1,11 @@
+{
+  "eventType": "MemberWelcomeNotified",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "member-welcome-notifier",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "notificationChannels", "notifiedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T108 after notification sent. Branch C terminal event. Time-decoupled from GroupMembershipCompleted gate."
+}

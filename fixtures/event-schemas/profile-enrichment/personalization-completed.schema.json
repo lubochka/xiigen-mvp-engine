@@ -1,0 +1,11 @@
+{
+  "eventType": "PersonalizationCompleted",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T52-D (personalization-completion.service.ts)",
+  "consumers": ["FLOW-03", "FLOW-04", "FLOW-05", "FLOW-06", "FLOW-07"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "feedId", "profileId", "personalizationCompletedAt"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges", "revenue", "skillGaps"],
+  "notes": "MACHINE LITERAL: type = 'PersonalizationCompleted' as const — never computed. FLOW-01 owns 'OnboardingCompleted'; FLOW-02 owns this literal. Collision = FLOW-08 creates duplicate listing feeds for the same userId with no local error. Consent-gated: private-mode users get the completion record (DNA-8) but skip enqueue."
+}

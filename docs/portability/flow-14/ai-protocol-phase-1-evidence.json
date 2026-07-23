@@ -1,0 +1,113 @@
+﻿{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "ai-protocol-phase-1-adaptation-surface-read",
+    "generatedAt":  "2026-05-06T09:44:25.3384046+03:00",
+    "protocolSource":  "PER-FLOW-FIX-MAP-v2.9 AI ADAPTATION LOOP: Phase 1 AI reads adaptation surface (STEP-1-INVARIANTS + functional spec).",
+    "inputsRead":  [
+                       "docs/sessions/FLOW-14/FLOW-14-STEP-1-INVARIANTS.md",
+                       "docs/portability/flow-14/adaptation-surface-etl-data-integration.json",
+                       "docs/flow-coverage/etl-data-integration/P1-business-logic-inventory.md",
+                       "docs/flow-coverage/etl-data-integration/P10-server-specs.md",
+                       "server/src/engine-contracts/etl-data-integration-contracts.ts"
+                   ],
+    "adaptationSurfaceSummary":  {
+                                     "taskTypeRange":  "T213-T224",
+                                     "freedomKeyCount":  25,
+                                     "flowScopedPrefix":  "flow14_",
+                                     "crossFlowDependency":  [
+                                                                 {
+                                                                     "sourceFlow":  "FLOW-13",
+                                                                     "consumerTaskTypeId":  "T222",
+                                                                     "purpose":  "Verify data warehouse analytics peer flow is ACTIVE before cross-flow analytics query."
+                                                                 }
+                                                             ],
+                                     "machineRuleCount":  10
+                                 },
+    "aiReaderFindings":  [
+                             {
+                                 "id":  "TYPE-A-HIGH-VOLUME-SYNC",
+                                 "adaptationType":  "TYPE-A policy",
+                                 "allowed":  true,
+                                 "keys":  [
+                                              "flow14_sync_page_size",
+                                              "flow14_backfill_slice_size",
+                                              "flow14_backfill_max_parallel_slices"
+                                          ],
+                                 "machineGuards":  [
+                                                       "rate-limit-before-poll",
+                                                       "cursor-monotonic",
+                                                       "raw-zone-append-only",
+                                                       "store-before-enqueue"
+                                                   ]
+                             },
+                             {
+                                 "id":  "TYPE-A-STRICT-SCHEMA-GOVERNANCE",
+                                 "adaptationType":  "TYPE-A policy",
+                                 "allowed":  true,
+                                 "keys":  [
+                                              "flow14_schema_drift_quarantine_threshold",
+                                              "flow14_schema_approval_timeout_ms"
+                                          ],
+                                 "machineGuards":  [
+                                                       "schema-drift-event",
+                                                       "approval-before-continuation",
+                                                       "tenant-scope"
+                                                   ]
+                             },
+                             {
+                                 "id":  "TYPE-A-SENSITIVE-IDENTITY",
+                                 "adaptationType":  "TYPE-A policy",
+                                 "allowed":  true,
+                                 "keys":  [
+                                              "flow14_identity_confidence_threshold",
+                                              "flow14_identity_max_join_inputs"
+                                          ],
+                                 "machineGuards":  [
+                                                       "cross-tenant-join-blocked",
+                                                       "rls-before-return"
+                                                   ]
+                             },
+                             {
+                                 "id":  "TYPE-A-REVERSE-ETL-BATCHING",
+                                 "adaptationType":  "TYPE-A policy",
+                                 "allowed":  true,
+                                 "keys":  [
+                                              "flow14_reverse_etl_push_batch_size",
+                                              "flow14_reverse_etl_lock_timeout_ms"
+                                          ],
+                                 "machineGuards":  [
+                                                       "queue-fabric-only",
+                                                       "no-direct-http",
+                                                       "rate-limit-before-lock"
+                                                   ]
+                             },
+                             {
+                                 "id":  "TYPE-B-VERB-CHANGE",
+                                 "adaptationType":  "TYPE-B module rename",
+                                 "allowed":  false,
+                                 "reason":  "FLOW-14 certification will use TYPE-A policy adaptation only unless a tenant explicitly asks for semantic verb/domain change."
+                             },
+                             {
+                                 "id":  "SECURITY-BOUNDARY-CHANGE",
+                                 "adaptationType":  "MACHINE change",
+                                 "allowed":  false,
+                                 "reason":  "Credential vaulting, HMAC verification, RLS, tenant scope, raw append-only writes, reverse ETL transport, and store-before-enqueue are not adaptation surface."
+                             }
+                         ],
+    "tenantACandidate":  {
+                             "repoSuffix":  "acme-enterprise-etl-data-integration",
+                             "packageName":  "@xiigen-fork/acme-enterprise-etl-data-integration",
+                             "adaptationIntent":  "High-volume migration with stricter schema governance.",
+                             "proposedPolicy":  {
+                                                    "flow14_sync_page_size":  1000,
+                                                    "flow14_backfill_slice_size":  5000,
+                                                    "flow14_backfill_max_parallel_slices":  4,
+                                                    "flow14_schema_drift_quarantine_threshold":  0.15
+                                                },
+                             "expectedBehaviorAssertion":  "Before/after assertion should show the adapted package carries larger sync/backfill policy and lower drift threshold while FLOW-14 unit tests and auth checks still pass."
+                         },
+    "phase1Status":  "PASS",
+    "nextGate":  "Governance risk re-verification for FLOW-14 cross-flow rules and bootstrap visibility.",
+    "secretsPrintedOrCommitted":  false
+}

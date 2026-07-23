@@ -1,0 +1,210 @@
+{
+  "run": "V-R15",
+  "batch": "B",
+  "examined_at": "2026-04-22",
+  "flows_examined": 8,
+  "flows": [
+    {
+      "slug": "client-push",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "PASS",
+      "axis_summary": {
+        "A_shell": "PASS — admin shell on all admin views",
+        "B_role": "PASS — primary-platform-admin shows cross-tenant notification infra KPIs (Sent 142,870, Delivered 99.2%, Failed 1,142, Median latency 42ms) + Active SSE connections + Event deliveries; populated shows single saga step 4 with Event id/Connection id/Ack latency/Confirmed at; platform-support shows read-only audit log with masked user identifiers (user-***-aa12).",
+        "C_language": "PASS — en, LTR",
+        "D_state": "PASS — populated view shows meaningful step-4 delivery confirmation with domain fields; primary shows dense dashboard with domain-meaningful KPIs and connection state chips (Connected/Expired/Failed).",
+        "E_human": "PASS — minor acronyms SSE, SLA, ACK visible to platform-admin role only (appropriate for infra operators); no T-numbers, no engineering class names leaked.",
+        "F_layer1": "PASS — status chips have color+text, proper heading hierarchy, 44px CTAs",
+        "F_layer2": "PASS — 0 AI-slop tells, no hero-metric antipattern (KPIs are domain-legitimate)",
+        "F_layer3": "H1=3,H2=3,H8=3,H9=3 → 12/16 PASS",
+        "F_layer4": "PASS — DASHBOARD grammar matches",
+        "F_layer5": "PASS — signature connection-state list + delivery rail + audit chips is distinctive"
+      },
+      "concerns": [],
+      "blockers": []
+    },
+    {
+      "slug": "cms-publishing",
+      "pngs_examined": [
+        "populated-anonymous.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png",
+        "reader-anonymous.png"
+      ],
+      "verdict": "PASS",
+      "v_r14_block_status": "BLOCK_RESOLVED",
+      "axis_summary": {
+        "A_shell": "PASS — tenant-admin has admin shell; anonymous/visitor/tenant-user have kiosk/module (no engine sidebar); platform-admin has admin shell with oversight KPIs.",
+        "B_role": "PASS — tenant-admin now shows Editorial workflow with DRAFTS/IN REVIEW/APPROVED/SCHEDULED/PUBLISHED KPI strip + Editorial queue table (Title/Author/Stage/Updated/Actions) with per-row Approve/Return/Schedule/Publish/Submit-for-review/Edit-schedule/Open-thread actions + Recently published list. Raw-debug moved to collapsible 'OPEN RAW CONTENT INDEX (ADMIN DEBUG)' details. Role-correct verbs throughout.",
+        "C_language": "PASS — en, LTR",
+        "D_state": "PASS — populated-anonymous shows a single populated-state saga card with 'Author submitted draft for editor review'; primary-tenant-user is the reader reading 'Q2 Product Roadmap' article (populated); primary-anonymous shows kiosk 'Continue reading' + subscribe form; visitor shows green 'You're browsing published articles' banner; platform-admin shows oversight KPIs (Published articles today 284, Pending legal review 7, Policy violations 3) with Open content policy console + View pending legal reviews links.",
+        "E_human": "PASS — no acronyms except CMS (appropriate brand term); no engineering class names on user surfaces",
+        "F_layer4": "PASS — tenant-admin declared DASHBOARD + data-table, implemented DASHBOARD + data-table; dyn_crud_table_on_tenant_or_public=NO (raw debug is collapsed details).",
+        "F_layer5": "PASS — editorial queue stage chips + per-row action verbs are role-scoped and distinctive"
+      },
+      "concerns": [
+        "reader-anonymous.png shows generic 404 — confirm /blog/reader is intended route; 404 behavior is graceful but could indicate missing route mapping in the reader kiosk flow."
+      ],
+      "blockers": []
+    },
+    {
+      "slug": "completion-gamification",
+      "pngs_examined": [
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "PASS",
+      "axis_summary": {
+        "A_shell": "PASS — admin shell for platform-admin + tenant-admin; kiosk/module for tenant-user (no engine sidebar).",
+        "B_role": "PASS — platform-admin shows Platform learning health (Active learners 1,149, Avg streak 6.4d, Lessons/week 4,286, Tenants on platform 4) + Tenant-level gamification table + Streak distribution bars; tenant-admin shows Cohort learning health (On a streak today 42/68, Lessons this week 284, At-risk 2) + Top learners this week ranking + At-risk learners list with nudge-hint copy; tenant-user shows Duolingo-grammar learner streak (7-day streak, Today's goal 28/30 XP with green progress bar, Lv 4 with 250 XP to Level 5, Badges earned 3/12, Recent XP timeline).",
+        "C_language": "PASS — en, LTR",
+        "D_state": "PASS — all three views show meaningful populated domain data with role-specific depth. No topology edge leaks.",
+        "E_human": "PASS — 'XP' is a gamification convention (not engineering jargon); 'Lv 4' natural; no acronyms on user surfaces.",
+        "F_layer2": "PASS — 0 tells; flame emoji 🔥 for streak is a Duolingo convention, not emoji-as-action-icon.",
+        "F_layer4": "PASS — role-branched grammars: DASHBOARD (platform-admin), DASHBOARD+table (tenant-admin), PROGRESS_STRIP (tenant-user)",
+        "F_layer5": "PASS — streak-rail + medal-ranked top-learners table + at-risk flagging list are signature XIIGen patterns"
+      },
+      "concerns": [],
+      "blockers": []
+    },
+    {
+      "slug": "cycle-chain-extension",
+      "pngs_examined": [
+        "primary-platform-admin.png"
+      ],
+      "verdict": "PASS",
+      "axis_summary": {
+        "A_shell": "PASS — admin shell",
+        "B_role": "PASS — platform-admin sees Hook Registry with Active/Paused/Post-retrieval/Pre-arbitration/Payment-post/Flow-complete hooks with pause/play/delete controls + Recent hook executions log with 2026-04-19 timestamps and success/fail/timeout rows + Cycle Chain Extension raw-index as collapsible details.",
+        "C_language": "PASS — en, LTR",
+        "D_state": "PASS — populated hook list with 4 hooks + 3 execution records with success/timeout states (one 'Queue timeout after 2s — dispatch-handler did not ack' explanation).",
+        "E_human": "CONCERN — technical labels 'queue://analytics-ingest', 'function://platform.auditArbitration', 'https://acme.corp/webhook/xiigen-flow-complete' are visible; these are configuration values shown to a platform-operator role who would be configuring them, so context-appropriate.",
+        "F_layer4": "PASS — REGISTRY grammar matches",
+        "F_layer5": "PASS — hook-state rail + category chip + per-row controls distinctive"
+      },
+      "concerns": [
+        "Callback URIs with queue://, function://, https:// schemes are visible. Acceptable for a platform-admin configuring hooks, not a tenant surface."
+      ],
+      "blockers": []
+    },
+    {
+      "slug": "data-warehouse-analytics",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "populated-tenant-admin.png",
+        "primary-business-partner.png",
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png"
+      ],
+      "verdict": "BLOCK",
+      "v_r14_concern_status": "BLOCK_PERSISTS",
+      "axis_summary": {
+        "A_shell": "PASS — admin shell on admin roles; business-partner has module shell without engine admin nav.",
+        "B_role": "FAIL — primary-tenant-admin shows raw AdminCrudPanel ('Tenant Analytics Console', 'Data Warehouse & Analytics' card, 'Raw index browser (admin debug) — reads /api/dynamic/xiigen-data-warehouse-analytics', 'Admin-facing' pill, Name/Status/Notes/Actions table with 'ui-1776451836812 · active · created via UI form' rows + destructive red 'Delete' button + 'New record' CTA). This is exactly the V-R14 CONCERN — tenant-admin is receiving raw debug-grade CRUD with destructive actions on a generic dynamic index. The populated-tenant-admin view (separate snapshot) is clean BusinessStateCard, but primary (the main view the tenant-admin lands on) still shows raw AdminCrudPanel.",
+        "C_language": "PASS — en, LTR",
+        "D_state": "BLOCK — primary-tenant-admin populated state is rendered as a raw CRUD table, not as a warehouse/analytics domain surface. No pipeline states, no ingestion metrics, no dataset information, no tenant-scoped warehouse health.",
+        "E_human": "BLOCK — 'Raw index browser (admin debug)', 'xiigen-data-warehouse-analytics', 'created via UI form', 'ui-1776451836812' identifiers are all engineering leaks on a tenant-admin surface.",
+        "F_layer4": "BLOCK — dyn_crud_table_on_tenant_or_public=YES → auto-BLOCK per rubric.",
+        "F_platform_admin_populated": "CONCERN — populated-platform-admin footer leaks mock URL syntax: 'The 8 pipeline-state mocks (QUEUED, INGESTING, RUNNING, DEGRADED, COMPLETE, FAILED, BLOCKED, READY) are accessible at this route via ?mock=pipeline-queued etc.' — this is a dev-note that shipped to a role-scoped page and should be in a storybook/dev harness, not a production screen.",
+        "F_business_partner": "PASS — Partner Analytics shows funnel (Gigs posted 12 / Bids received 47 / Shortlisted 8 @ 17% / Contracted 4 @ 50%) + ROI KPI (2.4× up arrow) — business-partner view is a legitimate domain dashboard."
+      },
+      "concerns": [
+        "populated-platform-admin footer text exposes mock URL query-string syntax (dev harness leak onto production platform surface)."
+      ],
+      "blockers": [
+        "primary-tenant-admin renders raw AdminCrudPanel with destructive Delete action + 'Admin-facing' label + 'Raw index browser (admin debug)' copy + generic 'ui-NNNNN · active · created via UI form' rows. tenant-admin must receive a warehouse/pipeline/dataset management surface (pipeline state rail, dataset health chips, ingestion schedule, export queue) — not a generic dynamic CRUD table with hard Delete buttons on engineering-id rows."
+      ]
+    },
+    {
+      "slug": "design-intelligence-engine",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png"
+      ],
+      "verdict": "PASS",
+      "axis_summary": {
+        "A_shell": "PASS — admin shell on all three admin roles.",
+        "B_role": "PASS — platform-admin shows Design Intelligence cross-tenant findings (Primary CTA colour fails AA contrast at Acme Corp / Custom card component diverges at Bluebird Media / Brand colour token not registered at Castle Analytics) with severity + category pills + Pattern Registry (Primary CTA Button 92% adoption, Card Surface 78%, Alert Dialog Modal 64%, Legacy Toast 12% deprecated) with Add pattern/Edit CTAs. platform-support sees same view as READ-ONLY with disabled-state Edit buttons and a lock banner + 'Escalate to platform-admin' link. tenant-admin sees 'Design Intelligence — Available as an add-on' upsell card with bulleted value prop + 'Enable in Tenant Settings' blue CTA. populated-platform-admin shows a single step-5 'Proposal applied — design change live in flow config' with DIE-2026-0419-001 / Event attendance / 2026-04-19 11:00 / REV-0419-001.",
+        "C_language": "PASS — en, LTR",
+        "D_state": "PASS — all views show meaningful domain state. Findings have tenant-name + category, not internal IDs on user surfaces.",
+        "E_human": "PASS — 'DIE-2026-0419-001' and 'REV-0419-001' are visible on admin populated view (appropriate for admin context); tenant-admin upsell uses plain English ('scans your workspace', 'suggests fixes aligned with approved pattern registry').",
+        "F_layer4": "PASS — CARD_LIST + REGISTRY grammar matches",
+        "F_layer5": "PASS — severity-pill + tenant attribution + category chip signature"
+      },
+      "concerns": [],
+      "blockers": []
+    },
+    {
+      "slug": "design-system-governance",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "CONCERN",
+      "axis_summary": {
+        "A_shell": "CONCERN — primary-platform-admin.png renders the page body without the XIIGen admin sidebar visible (the Stack coupling classifications + compatibility reports are full-width from x=0). Expected: admin shell. populated-platform-admin HAS sidebar. platform-support HAS sidebar + a read-only banner. Potential shell-render race or chrome omission on primary.",
+        "B_role": "PASS (content) — platform-admin surface shows Stack Coupling Classifications (node-express/nestjs Neutral; python-fastapi/python-flask/go-fiber 'Impl varies'; java-spring/rust-actix 'Stack coupled'; dotnet-aspnet 'Incompatible') + Compatibility Reports (5 task-type × stack audits) with 'Flow canvas — initialize → python-fastapi Compatible', 'Flow canvas — initialize → go-fiber Degraded' with 'Async runtime model, Test framework' incompat dimensions, 'Code-injection guard → java-spring Incompatible' etc. platform-support sees same data READ-ONLY with lock banner + escalate link. populated-platform-admin shows single step-4 'Violation detected — spec conflicts with published rule (severity HIGH)' with DS-RULE-2026-0419-001 / SPEC-dialog-v2 / High / 2026-04-19 09:45.",
+        "C_language": "PASS — en, LTR",
+        "D_state": "PASS — meaningful compatibility matrix with stack identities and dimensional incompatibility tags.",
+        "E_human": "CONCERN — monospace code-style labels (node-express, python-fastapi, java-spring, rust-actix, dotnet-aspnet, 'Flow canvas — initialize', 'Code-injection guard', 'Cross-flow policy auto-registration', 'DS-RULE-2026-0419-001', 'SPEC-dialog-v2') are domain-appropriate for a platform-admin managing stack-governance but qualify as engineering leaks under strict Axis-E rubric. Given the role (platform-admin governing stack coupling), these are necessary identifiers — CONCERN not BLOCK.",
+        "F_layer4": "PASS (content) — classification grid + compatibility report grammar matches registry intent",
+        "F_layer5": "PASS — classification pills + dimensional incompatibility chips are signature"
+      },
+      "concerns": [
+        "primary-platform-admin.png missing admin sidebar chrome (page content starts at x=0). Verify whether this is a render-timing issue in snapshot or an intentional full-bleed; platform-support and populated-platform-admin show the sidebar normally.",
+        "Engineering identifiers (stack slugs, rule IDs, spec IDs) visible. Acceptable for platform-admin role managing governance, but consider humanizing rule IDs behind an aria-label if surface is ever widened to tenant-admin."
+      ],
+      "blockers": []
+    },
+    {
+      "slug": "durable-sagas-compliance",
+      "pngs_examined": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "CONCERN",
+      "axis_summary": {
+        "A_shell": "PASS — admin shell on admin roles; tenant-user has kiosk/module (no engine sidebar visible).",
+        "B_role": "PASS — platform-admin shows Durable Saga Dashboard with live 'Saga: saga-sample-payment-001' execution rail (Reserve inventory Completed / Charge payment method Completed / Dispatch confirmation email Running) + Saga Type dropdown + Step Count + blue 'Execute Saga' CTA (enabled). platform-support sees same dashboard with read-only banner + 'Escalate to a platform-admin' link + disabled grey Execute Saga button. tenant-admin sees the saga rail with a tenant-scoped read-only banner + 'Contact support for help with stuck sagas' + disabled Execute button. tenant-user sees humanized 'Your in-flight operations' page with plain-English copy ('Operations that depend on several systems (payments, orders, delivery) show their progress here while they run. This view is a summary — the platform handles retries, compensation, and timeouts for you.') + empty-state 'No operations in progress for your account' with supportive description + 'Contact support' fallback link.",
+        "C_language": "PASS — en, LTR",
+        "D_state": "PASS — saga execution rail shows meaningful step-by-step state (Completed/Running chips, ordered step list). tenant-user empty state is handled with gentle explanatory copy.",
+        "E_human": "CONCERN — 'saga-sample-payment-001' identifier is visible on tenant-admin and platform-support surfaces. The string 'Saga:' label and its raw identifier leak. tenant-user correctly avoids this by using 'Your in-flight operations' framing — so the pattern proves the engine can humanize, but tenant-admin/platform-support haven't been humanized yet. Also 'Saga Type' / 'Step Count' / 'Payment Saga' are engineering-concept labels for what tenant-admin might call 'Transaction flow' / 'Steps' / 'Payment transaction'.",
+        "F_layer4": "PASS — execution-rail grammar on admin; KIOSK grammar on tenant-user",
+        "F_layer5": "PASS — step-state rail + status chips are signature patterns"
+      },
+      "concerns": [
+        "'Saga: saga-sample-payment-001' internal identifier visible on tenant-admin and platform-support surfaces. Humanize to something like 'Payment transaction PT-001' or hide the raw saga ID behind a tooltip.",
+        "'Saga Type' / 'Step Count' / 'Payment Saga' are engineering-concept labels on the form. tenant-admin is read-only so form is disabled, but labels still read as developer-speak. Consider 'Transaction flow' / 'Number of steps' / 'Payment transaction' or hide the form entirely on tenant-admin (read-only can be list-only).",
+        "Both tenant-admin and platform-support see the same form with the same disabled CTA — consider differentiating platform-support as full-investigation with retry/compensate controls (currently they have identical UI as tenant-admin)."
+      ],
+      "blockers": []
+    }
+  ],
+  "summary": {
+    "PASS": 5,
+    "CONCERN": 2,
+    "BLOCK": 1,
+    "v_r14_block_resolutions": {
+      "cms-publishing": "BLOCK_RESOLVED"
+    },
+    "v_r14_concern_status": {
+      "data-warehouse-analytics": "BLOCK_PERSISTS (escalated from CONCERN to BLOCK)"
+    },
+    "crucial_blockers": [
+      "data-warehouse-analytics primary-tenant-admin still shows raw AdminCrudPanel with destructive Delete actions, 'Admin-facing' label, and generic 'Raw index browser (admin debug)' copy. Populated view was humanized but the primary landing view was not. tenant-admin needs a purpose-built warehouse/pipeline domain surface replacing the AdminCrudPanel shown as primary."
+    ]
+  }
+}

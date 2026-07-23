@@ -1,0 +1,70 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phaseICertificationDeclaration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-05T08:06:58.7312607+03:00",
+    "earnedTier":  {
+                       "label":  "Tier 3 - full three-tenant portability plus Vault auth cascade",
+                       "basis":  "Declared from completed protocol gates: real marketplace forks, three tenant repos, three adapted/published packages, green GitHub Actions, screenshot evidence at cascade points, and live Docker/Vault auth isolation."
+                   },
+    "tenantRepos":  [
+                        {
+                            "tenant":  "acme-corp",
+                            "repo":  "lubochka/acme-corp--acme-launch-bundles",
+                            "package":  "@xiigen-fork/acme-launch-bundles@1.0.1",
+                            "actionsRun":  25344051404
+                        },
+                        {
+                            "tenant":  "northwind",
+                            "repo":  "lubochka/northwind--northwind-launch-bundles",
+                            "package":  "@xiigen-fork/northwind-launch-bundles@1.0.2",
+                            "actionsRun":  25356472550
+                        },
+                        {
+                            "tenant":  "tessera-collective",
+                            "repo":  "lubochka/tessera-collective--tessera-community-bundles",
+                            "package":  "@xiigen-fork/tessera-community-bundles@1.0.3",
+                            "actionsRun":  25358158394
+                        }
+                    ],
+    "completedPhases":  [
+                            "preExistingDefectCheck",
+                            "phase0AuthPreflight",
+                            "phase1UnitTests",
+                            "phase2E2ETests",
+                            "phase3VisualExamination",
+                            "phase4Point0TenantAOriginalFork",
+                            "phase4AiAdaptation",
+                            "phase4Point5TenantARepoAndEvidence",
+                            "phase5aTenantBInstalls",
+                            "phase5bTenantBAdapts",
+                            "phase5cTenantCInstalls",
+                            "phase5c5TenantCAdapts",
+                            "phaseHAuthDecorationCheck",
+                            "phaseICertificationDeclaration"
+                        ],
+    "registryVerification":  [
+                                 "@xiigen-fork/acme-launch-bundles@1.0.1",
+                                 "@xiigen-fork/northwind-launch-bundles@1.0.2",
+                                 "@xiigen-fork/tessera-community-bundles@1.0.3"
+                             ],
+    "authVerdict":  {
+                        "evidence":  "docs/portability/flow-00/phase-h-auth-decoration-evidence.json",
+                        "passed":  9,
+                        "failed":  0
+                    },
+    "screenshotEvidence":  {
+                               "tenantA":  "docs/e2e-snapshots/bundle-activation/tenant-a-v1.0.1",
+                               "tenantBInstalled":  "docs/e2e-snapshots/bundle-activation/tenant-b-installed-from-a",
+                               "tenantBAdapted":  "docs/e2e-snapshots/bundle-activation/tenant-b-v1.0.2",
+                               "tenantCInstalled":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b",
+                               "tenantCAdapted":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3",
+                               "repoEvidence":  "docs/e2e-snapshots/repo-evidence",
+                               "marketplaceEvidence":  "docs/e2e-snapshots/marketplace"
+                           },
+    "certificationGaps":  [
+
+                          ],
+    "verdict":  "PASS"
+}

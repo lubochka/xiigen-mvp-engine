@@ -1,0 +1,77 @@
+{
+  "flowId": "FLOW-08",
+  "name": "Marketplace Listings",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T83",
+      "taskTypeId": "T83",
+      "name": "ListingPublisher",
+      "archetype": "submission_gateway",
+      "entry": "POST /listings (audit write FIRST, before moderation/price/persist)"
+    },
+    {
+      "id": "T87",
+      "taskTypeId": "T87",
+      "name": "ListingModerationEngine",
+      "archetype": "moderation",
+      "entry": "Called inline by T83 (failure → DRAFT, not error)"
+    },
+    {
+      "id": "T88",
+      "taskTypeId": "T88",
+      "name": "ListingPriceValidator",
+      "archetype": "guard",
+      "entry": "Called inline by T83 (price < 0 reject, price = 0 accept as free)"
+    },
+    {
+      "id": "T84",
+      "taskTypeId": "T84",
+      "name": "CatalogIndexer",
+      "archetype": "data_pipeline",
+      "entry": "ListingPublished event (uses F227 ISearchIndexService from FLOW-07)"
+    },
+    {
+      "id": "T85",
+      "taskTypeId": "T85",
+      "name": "ListingFeedGenerator",
+      "archetype": "data_pipeline",
+      "entry": "ListingIndexed event (payload: { count: N } only)"
+    },
+    {
+      "id": "T86",
+      "taskTypeId": "T86",
+      "name": "ListingAnalyticsAggregator",
+      "archetype": "analytics_engine",
+      "entry": "TTL-windowed: conversionRate = inquiries / (views || 1)"
+    }
+  ],
+  "edges": [
+    { "from": "ListingSaveRequested", "to": "T83", "event": "xiigen.marketplace.save-requested.v1" },
+    { "from": "T83", "to": "T87", "event": "xiigen.marketplace.moderation-inline.v1", "condition": "inline" },
+    { "from": "T83", "to": "T88", "event": "xiigen.marketplace.price-check-inline.v1", "condition": "inline" },
+    { "from": "T83", "to": "T84", "event": "xiigen.marketplace.listing-published.v1", "condition": "moderation passed" },
+    { "from": "T83", "to": "ListingDraftSaved", "event": "xiigen.marketplace.listing-drafted.v1", "condition": "moderation failed → DRAFT" },
+    { "from": "T84", "to": "T85", "event": "xiigen.marketplace.listing-indexed.v1" },
+    { "from": "T85", "to": "T86", "event": "xiigen.marketplace.feed-generated.v1" },
+    { "from": "T86", "to": "MarketplaceFlowComplete", "event": "xiigen.marketplace.analytics-recorded.v1", "condition": "terminal" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": true,
+    "draftSteps": ["listing-details", "listing-pricing", "listing-media"],
+    "draftFields": ["title", "description", "category", "price", "currency", "visibility", "mediaUrls"],
+    "offlineQueue": {
+      "queueable": ["ListingSaveRequested", "ListingViewRecorded"],
+      "notQueueable": [],
+      "notQueueableReason": {}
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T80",
+        "runsWhileUserViews": "ListingDetail or SellerDashboard",
+        "signalType": "realtime-push",
+        "signalText": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "eventType": "warehouse.quota.updated",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "quotaType": { "type": "string", "required": true },
+    "previousLimit": { "type": "integer", "minimum": 0, "required": true },
+    "newLimit": { "type": "integer", "minimum": 0, "required": true },
+    "updatedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

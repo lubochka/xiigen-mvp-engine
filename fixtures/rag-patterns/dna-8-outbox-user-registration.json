@@ -1,0 +1,18 @@
+{
+  "patternId": "dna-8-outbox-user-registration",
+  "patternType": "DNA_PATTERN_EXAMPLE",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "dnaId": "DNA-8",
+  "dnaName": "OutboxBeforeQueue",
+  "tags": [
+    "dna-8",
+    "outbox",
+    "store-before-emit",
+    "event-ordering"
+  ],
+  "keywords": "outbox before queue storeDocument enqueue event ordering DNA-8",
+  "codeSnippet": "// DNA-8: store FIRST, emit SECOND \u2014 always\nconst stored = await this.db.storeDocument(tenantId, 'records', record, id);\nif (!stored.isSuccess) return stored;  // never emit without store\nreturn this.queue.enqueueAsync(tenantId, createCloudEvent({ type, data }));",
+  "antiPattern": "await this.queue.enqueueAsync(...); await this.db.storeDocument(...)  // WRONG: emit before store"
+}

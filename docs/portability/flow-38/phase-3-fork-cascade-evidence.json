@@ -1,0 +1,53 @@
+{
+    "flowId":  "FLOW-38",
+    "flowSlug":  "rag-quality-feedback",
+    "phase":  "phase-3-fork-cascade",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T21:15:25.9457268Z",
+    "cascade":  [
+                    {
+                        "source":  "platform original via marketplace API",
+                        "initialCommit":  "543a56154f21",
+                        "version":  "1.0.1",
+                        "initialRunId":  25695455973,
+                        "adaptedRunId":  25696190615,
+                        "package":  "@xiigen-fork/acme-rag-quality-lab",
+                        "adaptedCommit":  "470e309f37df",
+                        "repo":  "lubochka/acme-corp--rag-quality-feedback-f38",
+                        "registryReadback":  "1.0.1",
+                        "tenant":  "acme-corp"
+                    },
+                    {
+                        "source":  "lubochka/acme-corp--rag-quality-feedback-f38 via marketplace API",
+                        "initialCommit":  "48ab580427c8",
+                        "version":  "1.0.2",
+                        "initialRunId":  25696398820,
+                        "adaptedRunId":  25696508534,
+                        "package":  "@xiigen-fork/northwind-retrieval-feedback-hub",
+                        "adaptedCommit":  "03232d3bd2ff",
+                        "repo":  "lubochka/northwind--rag-quality-feedback-f38",
+                        "registryReadback":  "1.0.2",
+                        "tenant":  "northwind"
+                    },
+                    {
+                        "source":  "lubochka/northwind--rag-quality-feedback-f38 via marketplace API",
+                        "initialCommit":  "142b45e0f0ec",
+                        "version":  "1.0.3",
+                        "initialRunId":  25696715304,
+                        "adaptedRunId":  25696832909,
+                        "package":  "@xiigen-fork/tessera-rag-learning-loop",
+                        "adaptedCommit":  "cacfcc42dddb",
+                        "repo":  "lubochka/tessera-collective--rag-quality-feedback-f38",
+                        "registryReadback":  "1.0.3",
+                        "tenant":  "tessera-collective"
+                    }
+                ],
+    "localRegistry":  "http://localhost:4873",
+    "reposRestoredPrivate":  true,
+    "staleExcludedArtifact":  {
+                                  "reason":  "first attempt exposed missing bootstrap bundle dependency before assembler fix; not used for certification; delete_repo scope unavailable for cleanup",
+                                  "repo":  "lubochka/acme-corp--rag-quality-feedback",
+                                  "runId":  25694642810
+                              },
+    "verdict":  "PASS"
+}

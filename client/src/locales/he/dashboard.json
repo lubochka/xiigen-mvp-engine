@@ -1,0 +1,13 @@
+{
+  "page_title": "לוח בקרה של המנוע",
+  "bootstrap_title": "שלבי אתחול",
+  "status_label": "סטטוס:",
+  "refresh_btn": "רענון",
+  "engine_registry_title": "רישום המנוע",
+  "registry_generations": "דורות",
+  "registry_factories": "מפעלים",
+  "registry_task_types": "סוגי משימות",
+  "registry_promotions": "קידומים",
+  "retry_btn": "נסה שוב",
+  "loading_status": "טוען סטטוס מנוע..."
+}

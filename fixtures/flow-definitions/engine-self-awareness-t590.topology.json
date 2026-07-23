@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-37",
+  "flowName": "engine-self-awareness",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T590",
+        "name": "StackCouplingAuditor",
+        "order": 1,
+        "description": "Audit stack coupling across 10 dimensions per element per stack (CF-805). Detect incompatibilities before genesis prompt (CF-799)."
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T591",
+        "name": "HybridGenesisPromptBuilder",
+        "order": 2,
+        "description": "Build hybrid genesis prompt from StackCouplingAuditor output (CF-800). Produce 4 mandatory sections (CF-806)."
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T592",
+        "name": "ArchitectureManifestLoader",
+        "order": 3,
+        "description": "Load xiigen-architecture-manifest (synthesized from history-bootstrap). Current state of all DNA, BFA, conventions."
+      },
+      {
+        "nodeId": "n4",
+        "taskTypeId": "T593",
+        "name": "StackCompatibilityMatcher",
+        "order": 4,
+        "description": "Match requested stack against known stacks and fabric capabilities. Return CouplingTier (IMPL_VARIES, INCOMPATIBLE, STACK_COUPLED)."
+      },
+      {
+        "nodeId": "n5",
+        "taskTypeId": "T594",
+        "name": "MultiStackAdaptationPlanner",
+        "order": 5,
+        "description": "Plan adaptation strategies for STACK_COUPLED tier (require special handling). Generate adaptation instructions."
+      },
+      {
+        "nodeId": "n6",
+        "taskTypeId": "T595",
+        "name": "StackDeclarationAggregator",
+        "order": 6,
+        "description": "Aggregate all stack capability declarations (known + tenant-custom). Emit StackDeclarationsReady."
+      },
+      {
+        "nodeId": "n7",
+        "taskTypeId": "T596",
+        "name": "CompatibilityReadinessGate",
+        "order": 7,
+        "description": "Validate all stack compatibility checks and adaptation plans complete. Hard gate: INCOMPATIBLE stacks fail here (CF-799)."
+      },
+      {
+        "nodeId": "n8",
+        "taskTypeId": "T597",
+        "name": "OutboxPublisher",
+        "order": 8,
+        "description": "Emit CloudEvents to queue fabric after all storage (DNA-8 outbox pattern). Publish StackCompatibilityAssessed."
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "eventType": "flow.canvas.updated",
+  "flowId": "FLOW-18",
+  "version": "1.0.0",
+  "properties": {
+    "flowId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "updatedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

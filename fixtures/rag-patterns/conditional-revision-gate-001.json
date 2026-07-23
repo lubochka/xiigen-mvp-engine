@@ -1,0 +1,24 @@
+{
+  "patternId": "conditional-revision-gate-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-10",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": ["conditional-revision", "rejection-reason", "revision-allowed", "response-gate"],
+  "keywords": "conditional revision allowed content policy not owner already responded rejection payload discriminating FLOW-12 FLOW-19",
+  "ironRules": [
+    "revision_allowed:true ONLY for content_policy rejection reason",
+    "revision_allowed:false for not_owner and already_responded — revision would be rejected again",
+    "revision_allowed is a discriminating field in rejection event payload — drives UX decision",
+    "not_owner revision attempt consumes another idempotency slot then fails again — SILENT_FAILURE",
+    "Named check: revision_allowed_content_policy_only"
+  ],
+  "codeSnippet": "// CORRECT: reason-conditional revision flag\nif (reason === 'content_policy') {\n  emit('ReviewResponseRejected', { reviewId, reason, revision_allowed: true });\n} else {\n  emit('ReviewResponseRejected', { reviewId, reason, revision_allowed: false });\n}\n\n// WRONG: always true\nemit('ReviewResponseRejected', { reviewId, reason, revision_allowed: true }); // not_owner told to revise — consumes idempotency slot, fails again",
+  "appliesTo": ["FLOW-12", "FLOW-19"],
+  "curriculumTier": 3,
+  "qualityScore": 0.89,
+  "sourceDocument": "FLOW-10-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

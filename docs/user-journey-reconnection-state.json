@@ -1,0 +1,215 @@
+{
+  "project": "user-journey-reconnection-v27",
+  "plan": "<WORKSPACE>\\.claude\\plans\\robust-dreaming-star.md",
+  "createdAt": "2026-04-15",
+  "completedAt": "2026-04-15",
+  "branch": "claude/vigorous-margulis",
+  "scope": "Track 0 (10 turns — Turn 9 folded into Turn 6) + Tracks 1-4 (5 turns)",
+  "status": "ALL_TURNS_COMPLETE",
+  "tracks": {
+    "T0": {
+      "items": 10,
+      "completed": 10,
+      "turns": {
+        "T0-TURN-1_Audit": {
+          "status": "COMPLETE",
+          "completedAt": "2026-04-15",
+          "outputs": [
+            "docs/sessions/user-journey-reconnection/user-journey-reconnection-audit-R1.md",
+            "docs/user-journey-reconnection-state.json"
+          ],
+          "namingConventionNote": "Rule 16 semantic slugs — 'track-0' renamed to 'user-journey-reconnection' per user directive 2026-04-15 (Finding KK resolved). Session dir: docs/sessions/user-journey-reconnection/. File pattern: {slug}-{stage}-R{N}.md."
+        },
+        "T0-TURN-2_TenantTopologyStore": {
+          "status": "COMPLETE",
+          "testsAdded": 14,
+          "filesCreated": [
+            "server/src/engine/tenant-topology-store.ts",
+            "server/src/engine/tenant-topology-store.spec.ts"
+          ],
+          "filesModified": ["server/src/engine/engine.module.ts"]
+        },
+        "T0-TURN-3_TopologyPublisher": {
+          "status": "COMPLETE",
+          "testsAdded": 13,
+          "filesCreated": [
+            "server/src/engine/topology-publisher.ts",
+            "server/src/engine/topology-publisher.spec.ts"
+          ],
+          "filesModified": [
+            "server/src/engine/engine.module.ts",
+            "server/src/api/cycle-chain.controller.ts"
+          ],
+          "findings": ["BB (@Optional() preserves 8 existing tests)", "S (line 78 insertion)", "V (version='v1')", "Y (userIntent passthrough)", "EE (slugify index suffix)", "II (inferArchetype='ANALYSIS')", "PP (literal slugify)"]
+        },
+        "T0-TURN-4_BootstrapSeed": {
+          "status": "COMPLETE",
+          "testsAdded": 12,
+          "filesCreated": [
+            "server/src/bootstrap/engine-bootstrapper-topology-seed.spec.ts"
+          ],
+          "filesModified": ["server/src/bootstrap/engine-bootstrapper.ts"],
+          "findings": ["N (path at project root)", "J (recursive walk)", "K (dual-format normalizer)", "L (null edge filter)", "W (version/status defaults)", "AA (flowId disambiguation)", "DD (name fallback chain 80%)", "FF (per-file try/catch)", "GG (connectionType)", "MM (IR-SEED comments)"]
+        },
+        "T0-TURN-5_FlowDefinitionsController": {
+          "status": "COMPLETE",
+          "testsAdded": 14,
+          "filesCreated": [
+            "server/src/api/flow-definitions.mapper.ts",
+            "server/src/api/flow-definitions.controller.ts",
+            "server/src/api/flow-definitions.controller.spec.ts"
+          ],
+          "filesModified": ["server/src/api/api.module.ts"],
+          "findings": ["Q (ApiModule registration)", "4#8 (501 freedom stub)"]
+        },
+        "T0-TURN-6_FlowLibraryPage_AND_DesignerPage_routing_combined": {
+          "status": "COMPLETE",
+          "testsAdded": 4,
+          "note": "v9 Issue A: DesignerPage routing folded in here, no separate Turn 9",
+          "filesCreated": [
+            "client/src/hooks/useFlowLibrary.ts",
+            "client/src/pages/FlowLibraryPage.tsx",
+            "client/__tests__/hooks/useFlowLibrary.test.tsx"
+          ],
+          "filesModified": [
+            "client/src/pages/DesignerPage.tsx",
+            "client/src/api/endpoints.ts",
+            "client/src/App.tsx"
+          ],
+          "findings": ["O (combined turns)", "R (NAV_ITEMS entry)", "T (direct import pattern)", "8.14 (DELETE render-time init)", "6 (useEffect !fd.error guard)"]
+        },
+        "T0-TURN-7_TopologyControllerBridge": {
+          "status": "COMPLETE",
+          "testsAdded": 6,
+          "filesCreated": [
+            "server/src/api/topology-response.mapper.ts",
+            "server/src/api/topology-response.mapper.spec.ts"
+          ],
+          "filesModified": [
+            "server/src/api/topology.controller.ts",
+            "server/src/api/api.module.ts"
+          ],
+          "findings": ["BB (@Optional() preserves 3 existing tests)", "CC (mapper in ApiModule.providers)", "U (description: node.name fallback)", "X (raw FlowTopology passthrough)"]
+        },
+        "T0-TURN-8_RunFlowPage": {
+          "status": "COMPLETE",
+          "testsAdded": 5,
+          "filesCreated": [
+            "client/src/hooks/useRunFlow.ts",
+            "client/src/pages/RunFlowPage.tsx",
+            "client/__tests__/hooks/useRunFlow.test.tsx"
+          ],
+          "filesModified": [
+            "client/src/api/endpoints.ts",
+            "client/src/App.tsx"
+          ],
+          "findings": ["S (cycleChainRun endpoint literal)", "R (NAV_ITEMS entry)", "T (direct import)"]
+        },
+        "T0-TURN-9_FOLDED_INTO_TURN_6": {
+          "status": "N/A",
+          "note": "v9 Issue A: folded into Turn 6 to prevent 3-turn dead Edit link"
+        },
+        "T0-TURN-10_IntegrationTestPartA": {
+          "status": "COMPLETE",
+          "testsAdded": 5,
+          "filesCreated": [
+            "server/test/integration/user-journey-reconnection-e2e.spec.ts"
+          ],
+          "filesModified": [
+            "client/__tests__/app/routing.test.tsx",
+            "client/__tests__/e2e/learning-and-e2e.test.tsx"
+          ],
+          "findings": ["V (two-run assertion)", "Y (display name assertion)", "U (description fallback)", "GG (connectionType=FLOW_SCOPED)", "tenant isolation via per-tenant physical index naming"]
+        }
+      }
+    },
+    "Tracks_1_to_4": {
+      "items": 5,
+      "completed": 5,
+      "turns": {
+        "T-11_SubflowCapture": {
+          "status": "COMPLETE",
+          "testsAdded": 2,
+          "filesModified": [
+            "server/src/engine/topology-publisher.ts",
+            "server/src/engine/topology-publisher.spec.ts",
+            "server/src/engine/tenant-topology-store.ts",
+            "server/src/engine/expand-consumer.handler.ts"
+          ],
+          "note": "Added parentRunId + parentNodeId fields; ExpandConsumerHandler publishes subflow topology with @Optional() guard (Finding BB)"
+        },
+        "T-12_MarketplacePackageController": {
+          "status": "COMPLETE",
+          "testsAdded": 9,
+          "filesCreated": [
+            "server/src/api/marketplace-package.controller.ts",
+            "server/src/api/marketplace-package.controller.spec.ts"
+          ],
+          "filesModified": ["server/src/api/api.module.ts"],
+          "routes": ["POST /api/marketplace/packages (publish)", "GET /api/marketplace/packages (browse)", "POST /api/marketplace/packages/:packageId/install"]
+        },
+        "T-13_TopologyVersioning": {
+          "status": "COMPLETE",
+          "testsAdded": 9,
+          "filesCreated": [
+            "server/src/engine/tenant-topology-store-versioning.spec.ts"
+          ],
+          "filesModified": ["server/src/engine/tenant-topology-store.ts"],
+          "methods": ["updateDraft (rejects IMMUTABLE)", "promoteDraft (DRAFT→PUBLISHED, archives prior)", "forkAsDraft (PUBLISHED→DRAFT lineage)"],
+          "bugFound": "getById now uses selectLatest() helper: PUBLISHED > DRAFT > ARCHIVED, tie-break by topologyVersion desc — caught by lineage end-to-end test"
+        },
+        "T-14_OptionB_Consolidation": {
+          "status": "COMPLETE",
+          "testsAdded": 0,
+          "filesModified": [
+            "client/src/pages/DesignerPage.tsx (JSDoc)",
+            "client/src/pages/visual-flow-engine/FlowCanvasPage.tsx (JSDoc)"
+          ],
+          "note": "Documentation-only: confirms DesignerPage uses FlowCanvas embedded (already true); locks FlowCanvasPage as FLOW-18 state-machine surface"
+        },
+        "T-15_VisualFlowEngineController": {
+          "status": "COMPLETE",
+          "testsAdded": 5,
+          "filesCreated": [
+            "server/src/engine/flows/visual-flow-engine/visual-flow-engine.module.ts",
+            "server/src/api/visual-flow-engine.controller.ts",
+            "server/src/api/visual-flow-engine.controller.spec.ts",
+            "docs/decisions/ADR-USER-JOURNEY-RECONNECTION-INDEX-RECONCILIATION.md"
+          ],
+          "filesModified": ["server/src/api/api.module.ts"],
+          "routes": ["POST /api/visual-flow/canvas", "POST /api/visual-flow/publish", "POST /api/visual-flow/node-types", "POST /api/visual-flow/inject-code"],
+          "adrDecision": "Option (b) — extend TopologyController bridge with xiigen-flow-canvases fallback later; T617 remains untouched this turn"
+        }
+      }
+    }
+  },
+  "testing": {
+    "newTestsAcrossTrack0": 77,
+    "newTestsAcrossTracks1to4": 25,
+    "serverFinal": {
+      "suitesPassed": 672,
+      "suitesFailed": 1,
+      "testsPassed": 10557,
+      "note": "1 suite fails with pre-existing FLOW-28 TS error unrelated to Track 0 (blog-cms-modules-integration.spec.ts:123 deviceType === 'mobile' vs 'tablet')"
+    },
+    "clientFinal": {
+      "suitesPassed": 63,
+      "suitesFailed": 0,
+      "testsPassed": 1208,
+      "todo": 77
+    }
+  },
+  "requirements": {
+    "Req1_DesignSimulationGeneratesFlow": "COMPLETE — Turn 3 top-level flows + Turn 11 subflow capture + Turn 13 teach/QA versioning",
+    "Req2_UIReflectsFlowVisibility": "COMPLETE — Turns 6-8 deliver FlowLibraryPage + TopologyViewer bridge + RunFlowPage + NAV_ITEMS",
+    "Req3_FlowUniquePerTenantPlusAdmin": "COMPLETE — Turns 2, 5 (per-tenant store + FlowDefinitionsController)",
+    "Req4_TenantAdaptsExportsToMarketplace": "COMPLETE — Turn 5 forkToPrivate + Turn 12 MarketplacePackageController + Turn 15 FLOW-18 wiring"
+  },
+  "findingsApplied": "All 55 cumulative findings (A-PP from v1-v27 plan review passes)",
+  "appliedFindings": {
+    "Finding_KK_resolved": "Session-file naming: semantic slug 'user-journey-reconnection' per user directive",
+    "Finding_NN_honored": "Design-vs-codebase tension documented in TenantTopologyStore IR-TOPO-1 NOTE",
+    "Finding_OO_precedent_set": "First file to import CONNECTION_TYPES from rag-init/connection-types (191 other locations still hardcode string)",
+    "ADR_produced": "docs/decisions/ADR-USER-JOURNEY-RECONNECTION-INDEX-RECONCILIATION.md (v22 Finding B decision locked as Option b)"
+  }
+}

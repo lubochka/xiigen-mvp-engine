@@ -1,0 +1,11 @@
+{
+  "eventType": "FeedIntegrationCompleted",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "feed-delivery-orchestrator",
+  "consumers": ["T82"],
+  "piiFields": [],
+  "allowedPayloadFields": ["connectionId", "userId", "tenantId", "feedItemsDelivered", "feedItemsSuppressed", "completedAt"],
+  "forbiddenFields": ["feedItemIds", "userProfile", "privacyCheckResults"],
+  "notes": "Emitted by T78 when feed integration for a connection is fully complete. Time-decoupled from SocialConnectionEstablished. feedItemsDelivered and feedItemsSuppressed are counts only — no ID lists."
+}

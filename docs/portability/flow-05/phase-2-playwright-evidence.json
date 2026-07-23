@@ -1,0 +1,67 @@
+﻿{
+    "flowId":  "FLOW-05",
+    "flowSlug":  "completion-gamification",
+    "completedAt":  "2026-05-03T09:58:56.2207378+03:00",
+    "dockerServerUrl":  "http://localhost:33001",
+    "playwright":  {
+                       "dedicatedVisualSpec":  "client/e2e/completion-gamification-visual.spec.ts --project=chromium-desktop",
+                       "dedicatedVisualResult":  "15 passed",
+                       "supplementalMatrixRuns":  [
+                                                      {
+                                                          "project":  "chromium-desktop",
+                                                          "result":  "31 passed",
+                                                          "snapshotSuffix":  "-desktop"
+                                                      },
+                                                      {
+                                                          "project":  "chromium-tablet",
+                                                          "result":  "31 passed",
+                                                          "snapshotSuffix":  "-tablet"
+                                                      },
+                                                      {
+                                                          "project":  "chromium-mobile",
+                                                          "result":  "31 passed",
+                                                          "snapshotSuffix":  "-mobile"
+                                                      }
+                                                  ]
+                   },
+    "roleMap":  [
+                    "tenant-user",
+                    "referral-user",
+                    "freelancer",
+                    "event-organiser",
+                    "tenant-admin"
+                ],
+    "expectedTenantSourcePngCount":  15,
+    "actualTenantSourcePngCount":  15,
+    "tenantSourcePngs":  [
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\event-organiser-C2-en-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\event-organiser-C4-he-rtl-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\event-organiser-C6-en-populated-mobile.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\freelancer-C2-en-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\freelancer-C4-he-rtl-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\freelancer-C6-en-populated-mobile.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\referral-user-C2-en-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\referral-user-C4-he-rtl-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\referral-user-C6-en-populated-mobile.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\tenant-admin-C2-en-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\tenant-admin-C4-he-rtl-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\tenant-admin-C6-en-populated-mobile.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\tenant-user-C2-en-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\tenant-user-C4-he-rtl-populated-desktop.png",
+                             "docs\\e2e-snapshots\\completion-gamification\\tenant-a-source\\tenant-user-C6-en-populated-mobile.png"
+                         ],
+    "supplementalRootViewportPngCount":  87,
+    "supplementalRoleViewportPngCount":  9,
+    "scans":  {
+                  "serviceThrowNewHits":  0,
+                  "servicesMissingMicroserviceBase":  0,
+                  "clsImportHits":  0,
+                  "tenantConsumerInternalCopyHits":  0
+              },
+    "fixesMade":  [
+                      "client/e2e/completion-gamification.spec.ts reads SERVER_PORT or SERVER_HEALTH_URL for server readiness",
+                      "client/e2e/lesson-completion.spec.ts, completion-gamification.spec.ts, and c6-role-coverage.spec.ts support opt-in snapshot suffixes",
+                      "client/e2e/completion-gamification-visual.spec.ts writes tenant-a-source role/cell evidence",
+                      "LessonCompletionPage result-state roots expose data-viewer-role for role-matrix verification"
+                  ]
+}

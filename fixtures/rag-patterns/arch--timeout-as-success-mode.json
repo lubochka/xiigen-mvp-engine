@@ -1,0 +1,24 @@
+{
+  "patternId": "arch--timeout-as-success-mode",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-02",
+  "domainId": "generic",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "archetype": "DATA_PIPELINE",
+  "tags": [
+    "timeout",
+    "success-mode",
+    "partial-results",
+    "circuit-breaker",
+    "degraded-valid-output",
+    "flow-continuation"
+  ],
+  "keywords": "timeout success mode partial results circuit breaker degraded valid output continuation not failure",
+  "codeSnippet": "// TIMEOUT-AS-SUCCESS-MODE: 30s timeout → partialResults:true is a SUCCESS, not failure\n// DataProcessResult.failure means: no output. Timeout produces output (partial matches).\n// WRONG: place timeout in failureModes — teaches models to handle partial results as errors\n// CORRECT:\nconst startTime = Date.now();\nconst candidates = await this.db.searchDocuments(MATCHING_PROFILES_INDEX, filter);\nconst timedOut = (Date.now() - startTime) > this.timeoutMs;\nconst partialResults = timedOut;  // ← SUCCESS MODE, not failure mode\n\n// quality.successModes = [\n//   'FULL_RESULTS: all candidates scored within limit — partialResults:false',\n//   'PARTIAL_RESULTS: timeout elapsed — partialResults:true, partial list emitted'\n// ]\n// quality.failureModes = [\n//   'CONFIG_ERROR: weight sum ≠ 1.0 — no output possible',\n//   'STORE_FAILED: cannot persist results'\n// ]\nreturn DataProcessResult.success({ matchedBusinessIds, partialResults, topScore });",
+  "ironRules": [
+    "a designed early-exit path that produces output = success mode",
+    "DataProcessResult.failure = no output produced",
+    "partialResults: boolean must appear in outputShape as a typed field",
+    "TIMEOUT in quality.successModes — NEVER in failureModes"
+  ]
+}

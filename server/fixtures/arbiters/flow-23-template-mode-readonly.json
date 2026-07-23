@@ -1,0 +1,28 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-23-template_mode_readonly",
+  "checkId": "template_mode_readonly",
+  "flowId": "FLOW-23",
+  "bfaRule": "CF-444",
+  "datDecision": "DD-209",
+  "severity": "score-zero",
+  "description": "T357 must not call write operations in template READ-ONLY context",
+  "taskTypeId": "T357",
+  "forbiddenInjections": [
+    "ICmsWriter",
+    "ICmsDataWriter",
+    "IDatabaseWriter"
+  ],
+  "forbiddenMethods": [
+    "updateContent",
+    "createContent",
+    "deleteContent",
+    "storeDocument",
+    "queue.enqueue"
+  ],
+  "requiredMethods": [
+    "templateCtx.verifyReadOnly"
+  ],
+  "violationCode": "CF-444_READONLY_VIOLATION",
+  "active": true
+}

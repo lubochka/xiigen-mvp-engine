@@ -1,0 +1,208 @@
+{
+  "flowId": "FLOW-33",
+  "flowSlug": "system-initiation-bootstrap",
+  "implementationSlug": "system-initiation-bootstrap",
+  "phase": "phase-0-docker-vault-auth",
+  "status": "completed",
+  "generatedAt": "2026-05-11T09:29:33.9511229Z",
+  "environment": {
+    "serverBaseUrl": "http://localhost:33001",
+    "serverContainer": "xiigen-server",
+    "serverDockerHealth": "healthy",
+    "serverHealthEndpoint": "http://localhost:33001/health/live",
+    "serverHealthStatus": "OK",
+    "secretsProvider": "vault",
+    "vaultAddressInContainer": "http://vault:8200",
+    "vaultContainer": "xiigen-vault",
+    "vaultSealed": false,
+    "githubLogin": "lubochka",
+    "tokenMaterialPrinted": false
+  },
+  "tenantCredentialSeeding": [
+    {
+      "tenantId": "acme-corp",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "created"
+    },
+    {
+      "tenantId": "northwind",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "created"
+    },
+    {
+      "tenantId": "tessera-collective",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "created"
+    }
+  ],
+  "roleMap": {
+    "source": "docs/design-reviews/ROLE-ANALYSIS-BATCH-07.md and FLOW-33 mobility-auth state",
+    "primaryRoles": [
+      "platform-admin"
+    ],
+    "partialRoles": [
+      "platform-support",
+      "anonymous"
+    ],
+    "validRoleProbe": "platform-admin",
+    "wrongRoleProbe": "platform-support",
+    "wrongRoleProbeRoute": "POST /api/marketplace/packages",
+    "note": "FLOW-33 is engine-internal. The shared /api/flow/execute probe allows tenant-user, tenant-admin, and platform-admin by design, so the wrong-role 403 control used an admin marketplace route that denies platform-support."
+  },
+  "requiredChecks": [
+    "valid token in its own tenant returns 200",
+    "missing token returns 401",
+    "tenant A token in tenant B context returns 401",
+    "tenant B token in tenant C context returns 401",
+    "tenant A token in tenant C context returns 401",
+    "wrong-role token on a role-protected route returns 403"
+  ],
+  "liveAuthMatrix": [
+    {
+      "name": "valid platform-admin token in acme-corp",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid platform-admin token in northwind",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid platform-admin token in tessera-collective",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "missing token denied in acme-corp tenant",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "acme-corp",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "wrong platform-support role denied on admin route",
+      "method": "POST",
+      "path": "/api/marketplace/packages",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-support"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "allPassed": true
+  },
+  "commands": [
+    "docker info",
+    "docker compose -f docker-compose.platform.yml up -d vault",
+    "docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=<redacted> xiigen-vault vault status -format=json",
+    "docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=<redacted> xiigen-vault vault kv put secret/xiigen/tenants/{tenant}/github_token value=<redacted>",
+    "docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=<redacted> xiigen-vault vault kv put secret/xiigen/tenants/{tenant}/auth/jwt_signing_key value=<redacted> algorithm=HS256",
+    "docker compose -f docker-compose.yml up -d --build server",
+    "Invoke-RestMethod http://localhost:33001/health/live",
+    "gh auth status",
+    "gh api user --jq '.login'",
+    "POST http://localhost:33001/api/tenants for acme-corp, northwind, tessera-collective",
+    "Live HTTP auth matrix against http://localhost:33001/api/flow/execute and POST /api/marketplace/packages"
+  ],
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeysPrinted": false
+  },
+  "notes": [
+    "The existing xiigen-vault container was reused after docker compose reported the container name was already present; Vault status returned sealed=false and tenant readbacks were non-empty.",
+    "Docker health for the reused Vault container is marked unhealthy, but direct Vault status and KV read/write operations succeeded.",
+    "Tokens were minted in memory from tenant-specific Vault signing keys for HTTP verification and were not printed or stored.",
+    "Cross-tenant failures are structural JWT failures because the server verifies with the context tenant key before checking the token tenant claim."
+  ],
+  "verdict": "PASS"
+}

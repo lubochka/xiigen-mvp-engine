@@ -1,0 +1,106 @@
+{
+  "batch_id": "V-R16-A",
+  "flows": [
+    {
+      "slug": "adaptive-rag-deep-research",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "PASS",
+      "v_r14_v_r15_fix_held": true,
+      "notes": "Populated card shows humanized 'Deep research · step 3' + plain labels (Research id, Active sub queries, Hits gathered, Started at). Primary canvas (platform-admin/support) is a topology viewer with role-gated read-only caption for support. Acronym 'RAG' is the flow product name so acceptable. No dev-instruction leaks."
+    },
+    {
+      "slug": "admin-i18n",
+      "pngs_read": ["primary-platform-admin.png"],
+      "verdict": "PASS",
+      "v_r14_v_r15_fix_held": true,
+      "notes": "V-R15 Wave 5 fix HELD. Subtitle now reads 'Manage the base translation dictionary and control language availability across all tenants' — the 'api/tenants/:id/config · freedom config keys' leak is gone. Language table (English 100%, French 94%, Hebrew 87%, Spanish 91%, German 42%, Japanese 18%) with Enabled/Disabled chips is clean. Missing-provider banner reads 'Missing provider keys: openai, gemini' which is acceptable product language for a platform-admin governance console. Base translation dictionary rows show domain-meaningful keys (common.save_changes, booking.confirm_reminder) with translated pills per locale."
+    },
+    {
+      "slug": "ads-platform",
+      "pngs_read": [
+        "populated-anonymous.png",
+        "populated-business-partner.png",
+        "populated-he-platform-admin.png",
+        "populated-platform-admin.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "CONCERN",
+      "v_r14_v_r15_fix_held": true,
+      "notes": "V-R15 Wave 1 fix partially HELD. anon populated shows a small fallback card (not CampaignDashboard) — good. tenant-user primary shows 'Ads console is restricted' gate — good. tenant-admin primary shows 'Your workspace ad spend' scoped view (correct). BUT business-partner populated STILL shows the full multi-tenant CampaignDashboard (Spring freelancer drive, Marketplace seller onboarding, Enterprise Pro plan awareness, Event organiser retargeting — Q2, March launch push) which looks identical to platform-admin populated. If business-partner should NOT see CampaignDashboard per V-R15 Wave 1, this is a regression. If business-partner IS the advertiser and the intent was only to hide from anon/tenant-user/tenant-admin, this is fine — but the view shown is cross-segment ('US developers', 'EU small-business owners', 'Tech managers at 100+ employee companies', 'US + Canada, all segments') which suggests a cross-advertiser view not a single-advertiser view. Both primary-platform-admin and primary-platform-support show the same CampaignDashboard without read-only gating — support should have a read-only variant. he-platform-admin RTL layout has Hebrew sidebar nav ('מנוע', 'לוח בקרה', 'מעצב'...) flipping correctly; XIIGen sidebar is appropriately on the left for LTR→RTL layout (should be right). Minor: 'RAW ADS-PLATFORM INDEX (ADMIN DEBUG)' accordion visible in all CampaignDashboard views — labeled but still an engineering leak for non-platform-admin roles."
+    },
+    {
+      "slug": "ai-safety-moderation",
+      "pngs_read": [
+        "populated-anonymous.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "PASS",
+      "v_r14_v_r15_fix_held": true,
+      "notes": "V-R15 Wave 3 fix HELD. populated-anonymous shows 'Content approved — all safety checks passed, published' with tail line 'Additional technical details are only visible to administrators.' — no dev-instruction leaks. primary-anonymous is a clean 'Report Harmful Content' kiosk form with category select + textarea + red Submit report button + emergency-services note. primary-platform-admin shows cross-tenant moderation queue with domain rows (Scam, Harassment, PII leak, Violence, Copyright) — appropriate acronyms for content moderation product domain. primary-platform-support read-only inspector gated behind content/author ID search. primary-tenant-admin shows in-tenant moderation queue with Approve/Reject/Escalate actions. primary-tenant-user shows role-gated message directing to email appeal link. All axis-D populated states render meaningful domain-field data. Small concern: 'CNT-2026-0418-1003' and 'usr-4821' ID prefixes appear in platform-admin/tenant-admin tables — these are internal moderation identifiers, tolerable for admin-tier consoles."
+    },
+    {
+      "slug": "ai-self-modification",
+      "pngs_read": ["primary-platform-admin.png"],
+      "verdict": "CONCERN",
+      "v_r14_v_r15_fix_held": true,
+      "notes": "Self-Modification Console shows pending proposals with humanized Approve/Reject buttons + expected-impact strings. 'Missing provider keys: openai, gemini. Training data will use fallback calibration until real keys are configured' banner is user-actionable. 'Trigger audit' CTA labeled. Proposals reference 'product-search' skill, 'Deep research flow', 'quality / latency' metrics — all domain-native. CONCERN: bottom 'AI Self-Modification — Raw Index' accordion reads 'Raw index browser (admin debug) — reads /api/dynamic/xiigen-self-mod-proposals' — that is a raw API path exposed in the UI surface even though labeled 'Platform only'. Consistent with blog-cms-modules tenant-admin raw-index leak pattern; low severity because visible only to platform-admin but still a terminology/human-friendliness concern (engineering leak per Axis E). Also: 'AI Self-Modification Console' + '— Raw Index' acronym split is fine (product name)."
+    },
+    {
+      "slug": "bfa-cross-flow-governance",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "CONCERN",
+      "v_r14_v_r15_fix_held": true,
+      "notes": "populated-platform-admin shows humanized 'Cross-Flow Policy Review · step 4' with fields (Rule id, Published at, Published by, Affected flows) — clean. primary-platform-admin 'Cross-Flow Policy Console' exposes multiple FLOW-NN identifiers in the conflict scan table (FLOW-41 canva-export-adapter, FLOW-42 loyalty-points-ledger, FLOW-43 cross-tenant-analytics-export, FLOW-44 adaptive-cache-invalidation, FLOW-45 billing-reconciliation) along with CF-841, CF-821, CF-814, CF-883 rule IDs and REG-2026-0420-NNN registration IDs. Per the 'humanize identifiers' feedback entry in user memory (feedback_humanize_identifiers_and_topology), FLOW-NN ids are engine-internal and should not appear in user-facing copy even for platform-admin — they should be presented as the flow's semantic slug (canva-export-adapter) only. Second concern: Axis-F Layer 4 — large CRUD-table grammar at platform-admin surface is defensible (it IS a governance console) but 'CANDIDATE FLOW / ENTITY / ROUTE / FACTORY / EVENT / DATA / SCHEMA / POLICY' column headers leak engine-internal taxonomy. primary-platform-support 'Rule Inspector (read-only)' gating is good, and repeats the same CF-NN / FLOW identifier pattern. V-R15 fix was NOT scoped to this flow, so nothing regressed — but the FLOW-NN + CF-NN leaks remain as pre-existing CONCERN."
+    },
+    {
+      "slug": "blog-cms-modules",
+      "pngs_read": [
+        "populated-anonymous.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "CONCERN",
+      "v_r14_v_r15_fix_held": true,
+      "notes": "V-R15 Wave 4 fix HELD. populated-anonymous now reads 'Blog/CMS Modules · Blog and CMS modules · SEO crawler confirmed indexing — post discoverable via search · Additional technical details are only visible to administrators.' — the prior 'Admin view of...' leak to anonymous is redacted. primary-anonymous, primary-public-marketplace-visitor, primary-tenant-user all show the clean consumer blog post view ('Launch Week Preview — What's Shipping' by writer-alex with Subscribe CTA). primary-platform-admin 'Blog Module Platform Console' is clean: tenant rollout table (847 of 1,284 tenants), Install/Uninstall actions, ACTIVE/NOT INSTALLED chips. NEW CONCERN discovered at primary-tenant-admin: shows module-settings banner + a 'Raw index browser (admin debug) — reads /api/dynamic/xiigen-blog-cms-modules' dynamic-fallback table with engineering identifiers (ui-1776451823108, ui-1776452276151). This leaks an API path and system-generated UI record IDs into a tenant-admin consumer-module surface. V-R15 only addressed the anonymous subtitle; tenant-admin path retains the raw-index fallback UI."
+    },
+    {
+      "slug": "bundle-activation",
+      "pngs_read": [
+        "active-platform-admin.png",
+        "failed-platform-admin.png",
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "CONCERN",
+      "v_r14_v_r15_fix_held": true,
+      "notes": "populated-platform-admin is clean with humanized labels ('Bundle', 'Active version', 'Required flow count', 'Activated at') and 'Step 3' phase wording. primary-platform-admin 'Bundle Activation' cross-tenant table uses domain-meaningful BDL-* bundle ids + semantic labels (Core Platform v2, Marketplace Pack, Compliance Gate, Experimental X) with Force-activate / Revoke actions — clean. primary-platform-support read-only with Escalate-to-platform-admin link — clean. REGRESSION CONCERN: active-platform-admin and failed-platform-admin still render RAW camelCase field labels ('bundleId', 'activeVersion', 'requiredFlowCount', 'activatedAt' / 'bundleId', 'errorCode', 'validatedAt') and raw enum 'EMPTY_REQUIRED_FLOWS' — inconsistent with populated which was humanized. Phase text reads 'state 3' / 'state 6' instead of 'Step 3' / 'Step 6'. This is Axis-E human-friendliness + Axis-D state-rendering inconsistency: two of three state variants skipped the humanization pass that landed on populated. Not a regression from V-R15 (which didn't touch this flow) but surfaces a gap in the active/failed state rendering."
+    }
+  ],
+  "batch_summary": {
+    "pass": 3,
+    "concern": 5,
+    "block": 0,
+    "fixes_held": 8,
+    "fixes_regressed": 0
+  }
+}

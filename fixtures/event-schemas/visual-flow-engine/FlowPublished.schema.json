@@ -1,0 +1,11 @@
+{
+  "eventType": "flow.published",
+  "flowId": "FLOW-18",
+  "version": "1.0.0",
+  "properties": {
+    "flowId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "version": { "type": "string", "required": true },
+    "publishedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

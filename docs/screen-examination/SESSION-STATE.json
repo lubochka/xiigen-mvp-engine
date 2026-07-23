@@ -1,0 +1,274 @@
+{
+  "$schema": "session-state.v1",
+  "sessionId": "pensive-tereshkova-baf347",
+  "branch": "claude/pensive-tereshkova-baf347",
+  "date": "2026-04-20",
+  "summary": "Multi-run effort to bring the XIIGen MVP's 48 flows from CRUD-default admin consoles to purpose-built UI/UX with verified PNG evidence. Work spans 7 canonical grammars (G1-G7) + 1 no-UI classification. Session runs RUN-49 through RUN-97. RUN-87 resets on a refreshed design-skills stack: root /.impeccable.md establishes XIIGen's aesthetic direction + token vocabulary + 5 design principles; SK-542 protocol bumped to v1.1.0 with Step 0 (/.impeccable.md read), Step 2c pre-JSX checkpoint, Step 6 six mandate checks; flow-prep-library (83 files) + ext-skills-flat (38 files) installed under .claude/skills/. RUN-89..97 = nine craft commits, each addressing a specific finding from Luba's critique doc bundle (UIUX-PROMAX / IMPECCABLE / INTERFACE-DESIGN / DESIGN-FOR-AI), applying Step 2c with why-each-choice cited against /.impeccable.md and six mandate checks post-edit.",
+
+  "commits": [
+    { "runId": "RUN-49", "hash": "a3ff8b81", "title": "cross-cutting Pro Max fixes (banner, nav, anonymous shell)", "type": "feat(c6/ux)", "affects": ["global"] },
+    { "runId": "RUN-50", "hash": "feb49755", "title": "FLOW-29 topology canvas v3 reference implementation", "type": "feat(c6/flow-29)", "affects": ["FLOW-29"] },
+    { "runId": "RUN-51", "hash": "18942987", "title": "persistent catalog scaffold + SK-540 skill (7 files, 2,418 lines)", "type": "docs(screen-examination)", "affects": ["docs", "skill"] },
+    { "runId": "RUN-52", "hash": "541b82df", "title": "FLOW-45 HistoryBootstrapPage + CFI-05 refinement", "type": "feat(c6/flow-45)", "affects": ["FLOW-45"] },
+    { "runId": "RUN-53", "hash": "01b92a12", "title": "Batch A.1 FLOW-18 examination docs", "type": "docs", "affects": ["FLOW-18"] },
+    { "runId": "RUN-54", "hash": "b562aba3", "title": "Batch A.2 FLOW-26 examination docs", "type": "docs", "affects": ["FLOW-26"] },
+    { "runId": "RUN-55", "hash": "c67e6863", "title": "Batch A.3 FLOW-34 examination + Batch A closed", "type": "docs", "affects": ["FLOW-34"] },
+    { "runId": "RUN-56", "hash": "2e13a117", "title": "Batch B Verdict Grid docs (FLOW-24/25/27/35/37)", "type": "docs", "affects": ["FLOW-24","FLOW-25","FLOW-27","FLOW-35","FLOW-37"] },
+    { "runId": "RUN-57", "hash": "7f24c872", "title": "Batch C Card List docs (13 flows, 223 PNGs)", "type": "docs", "affects": ["FLOW-06","FLOW-07","FLOW-08","FLOW-10","FLOW-12","FLOW-16","FLOW-17","FLOW-20","FLOW-28","FLOW-32","FLOW-36","FLOW-40","FLOW-46"] },
+    { "runId": "RUN-58", "hash": "0ebd7ffb", "title": "Batch D Kiosk docs (7 flows, 174 PNGs)", "type": "docs", "affects": ["FLOW-01","FLOW-02","FLOW-03","FLOW-04","FLOW-05","FLOW-09","FLOW-22"] },
+    { "runId": "RUN-59", "hash": "b967ce9f", "title": "Batch E Progress Strip docs (6 flows, 104 PNGs)", "type": "docs", "affects": ["FLOW-00","FLOW-11","FLOW-14","FLOW-19","FLOW-33","FLOW-47"] },
+    { "runId": "RUN-60", "hash": "48ec6706", "title": "Batch F Dashboard docs (5 flows, 76 PNGs)", "type": "docs", "affects": ["FLOW-13","FLOW-30","FLOW-31","FLOW-38","FLOW-39"] },
+    { "runId": "RUN-61", "hash": "7ab818e1", "title": "Batch G Settings Tabs docs (4 flows, 51 PNGs)", "type": "docs", "affects": ["FLOW-15","FLOW-21","FLOW-23","FLOW-48"] },
+    { "runId": "RUN-62", "hash": "ead9248d", "title": "Batch H external-adapters + docs sweep COMPLETE", "type": "docs", "affects": ["FLOW-41","FLOW-42","FLOW-43","FLOW-44","UNKNOWN","adapter-ci-cd-bridge","rag-quality-graph","meta-flow-orchestration","ai-self-modification","cycle-chain-extension"] },
+    { "runId": "RUN-63", "hash": "a11fff94", "title": "CFI-05 Page rewrites (FLOW-36/37/38/39/40)", "type": "feat(c6/cfi-05)", "affects": ["FLOW-36","FLOW-37","FLOW-38","FLOW-39","FLOW-40"] },
+    { "runId": "RUN-64", "hash": "c189e8ce", "title": "TopologyViewer H9 neutral empty-state fix", "type": "fix(topology/h9)", "affects": ["FLOW-18","FLOW-29"] },
+    { "runId": "RUN-65+66", "hash": "336e9728", "title": "Tailwind styling on 6 screens + regen spec + 8 post-fix PNGs", "type": "feat(c6/styling)", "affects": ["FLOW-36","FLOW-37","FLOW-38","FLOW-39","FLOW-40","FLOW-45"] },
+    { "runId": "RUN-67", "hash": "4880422a", "title": "PNG cleanup Tier 1 — 285 invalid deleted", "type": "chore(png-cleanup)", "affects": ["all-slug-dirs"] },
+    { "runId": "RUN-68", "hash": "f8f2c942", "title": "PNG cleanup — UNKNOWN/ + 31 Tier-2 leaks deleted", "type": "chore(png-cleanup)", "affects": ["UNKNOWN","various"] },
+    { "runId": "RUN-69", "hash": "92e2898e", "title": "FLOW-26 Grammar 4 topology rebuild (24 nodes, 6 phases)", "type": "feat(c6/flow-26)", "affects": ["FLOW-26"] },
+    { "runId": "RUN-70", "hash": "a522178e", "title": "FLOW-34 Grammar 4 adapter lifecycle (8 states)", "type": "feat(c6/flow-34)", "affects": ["FLOW-34"] },
+    { "runId": "RUN-71", "hash": "09c12458", "title": "FLOW-18 saved-topology header H2 polish", "type": "fix(flow-18)", "affects": ["FLOW-18"] },
+    { "runId": "RUN-72", "hash": "4b82a0a4", "title": "FLOW-35 Grammar 2 Verdict Grid (6 rounds x 5 policies)", "type": "feat(c6/flow-35)", "affects": ["FLOW-35"] },
+    { "runId": "RUN-73", "hash": "c42fcba4", "title": "FLOW-27 Grammar 2 review queue inbox (5 items, AI recs)", "type": "feat(c6/flow-27)", "affects": ["FLOW-27"] },
+    { "runId": "RUN-74", "hash": "e5bcef35", "title": "FLOW-25 Grammar 2 conflict scan matrix (5 regs x 7 dims)", "type": "feat(c6/flow-25)", "affects": ["FLOW-25"] },
+    { "runId": "RUN-75", "hash": "85b2b06c", "title": "FLOW-24 Grammar 2 moderator queue (5 cases, 8 checks)", "type": "feat(c6/flow-24)", "affects": ["FLOW-24"] },
+    { "runId": "RUN-77", "hash": "unrecorded", "title": "BillingDashboardPage per-invoice actions (Retry + Download + Update payment)", "type": "feat(c6/flow-12)", "affects": ["FLOW-12"] },
+    { "runId": "RUN-78", "hash": "unrecorded", "title": "CheckoutPage Stripe two-column rewrite (order summary left, payment right, Pay $X)", "type": "feat(c6/flow-16)", "affects": ["FLOW-16"] },
+    { "runId": "RUN-79", "hash": "unrecorded", "title": "Ads CampaignDashboard Google-Ads-style (5 campaigns, budget-bar, inline bid edit)", "type": "feat(c6/flow-20)", "affects": ["FLOW-20"] },
+    { "runId": "RUN-82", "hash": "unrecorded", "title": "RegistrationPage 3 stacked SSO buttons + OR divider + footer Terms/Privacy", "type": "feat(c6/flow-01)", "affects": ["FLOW-01"] },
+    { "runId": "RUN-84", "hash": "fc5fddd7", "title": "EventDiscovery seed events + batch PNG verify (FLOW-08)", "type": "feat(c6/flow-08)", "affects": ["FLOW-08"] },
+    { "runId": "RUN-85", "hash": "a22ea15b", "title": "Skill files loaded from planning sessions zip", "type": "docs(skills)", "affects": ["skills"] },
+    { "runId": "RUN-86", "hash": "38dfb943", "title": "SocialFeedPage seed posts (Twitter/LinkedIn card pattern)", "type": "feat(c6/flow-07)", "affects": ["FLOW-07"] },
+
+    { "runId": "RUN-87", "hash": "24b6dd97", "title": "Design-skills refresh — write XIIGen /.impeccable.md (brand, 3 audiences, 5 principles, token vocab) + bump SK-542 to v1.1.0 (Step 0 /.impeccable.md read, Step 2c pre-JSX checkpoint, Step 6 six mandate checks)", "type": "feat(design)", "affects": ["skills","design-context"] },
+    { "runId": "RUN-87b", "hash": "b777fcbb", "title": "Install flow-prep-skill-library (83 files) + xiigen-ext-skills-flat (38 files) + consolidate SK-542 v1.1.0 into library", "type": "feat(skills)", "affects": ["skills"] },
+    { "runId": "RUN-89", "hash": "1b4e829e", "title": "FLOW-07 SocialFeed emoji-as-icons (\u2665 \ud83d\udcac \u21bb) replaced with inline SVG (absolute ban #3)", "type": "fix(c6/flow-07)", "affects": ["FLOW-07"] },
+    { "runId": "RUN-90", "hash": "9f6e1845", "title": "FLOW-08 EventDiscovery capacity-consumption-strip signature embedded per card + engineering 'PUBLISHED' chip removed + Eventbrite date/venue header", "type": "feat(c6/flow-08)", "affects": ["FLOW-08"] },
+    { "runId": "RUN-91", "hash": "18f1b263", "title": "FLOW-20 CampaignDashboard 4 hero-metric tiles \u2192 compact summary row (Linear-style status bar) \u2014 budget-strip signature stays per-card", "type": "fix(c6/flow-20)", "affects": ["FLOW-20"] },
+    { "runId": "RUN-92", "hash": "9b1077cc", "title": "FLOW-06 GroupDiscoveryPage add tenant-user CARD_LIST branch with activity-indicator signature (pulse dot + 'N posts this week' grading)", "type": "feat(c6/flow-06)", "affects": ["FLOW-06"] },
+    { "runId": "RUN-93", "hash": "7da51618", "title": "FLOW-12 Billing MRR hero card \u2192 compact plan strip (Stripe billing portal convention) \u2014 FAILED invoice regains dominance", "type": "fix(c6/flow-12)", "affects": ["FLOW-12"] },
+    { "runId": "RUN-94", "hash": "a8d57d28", "title": "FLOW-17 gig cards competition-signal signature (0-bid emerald \u2192 7-bid rose) + budget-first typography hierarchy", "type": "feat(c6/flow-17)", "affects": ["FLOW-17"] },
+    { "runId": "RUN-95", "hash": "76325c83", "title": "FLOW-18 FlowCanvasPage Save primary / Publish secondary CTA hierarchy + 'Publishing is one-way' hint", "type": "fix(c6/flow-18)", "affects": ["FLOW-18"] },
+    { "runId": "RUN-96", "hash": "cea38df9", "title": "FLOW-22 CMS anonymous subscribe \u2014 real email input + submit + emerald thank-you state (Medium/Substack pattern)", "type": "fix(c6/flow-22)", "affects": ["FLOW-22"] },
+    { "runId": "RUN-97", "hash": "9267b62a", "title": "FLOW-16 checkout error copy \u2014 'Cart ID is required' / 'cart locked or inventory insufficient' replaced with human recovery-oriented language (Nielsen H2)", "type": "fix(c6/flow-16)", "affects": ["FLOW-16"] },
+
+    { "runId": "RUN-98", "hash": "7527abf7", "title": "FLOW-10 ReputationDashboardPage \u2014 Yelp-style rebuild: 5xl hero score \u2192 score + star-rating signature + rating distribution bar chart + 4 recent-review cards with Verified badges", "type": "feat(c6/flow-10)", "affects": ["FLOW-10"] },
+    { "runId": "RUN-99", "hash": "1082effa", "title": "FLOW-03 EventCreation \u2014 drop 'Organiser ID' engineering text input + add quiet 'Organising as' context line + add live-preview card below form (Eventbrite signature pattern, reuses FLOW-08 capacity-strip)", "type": "feat(c6/flow-03)", "affects": ["FLOW-03"] },
+    { "runId": "RUN-100", "hash": "0fa2c422", "title": "FLOW-13 DataWarehouseAnalytics \u2014 replace 11 hero-metric tiles across 4 role branches (freelancer/partner/organiser/platform) with Linear-style summary rows", "type": "fix(c6/flow-13)", "affects": ["FLOW-13"] },
+    { "runId": "RUN-101", "hash": "309eeb3d", "title": "FLOW-27 HumanInteractionGate \u2014 replace 5 hero-metric tiles across 2 branches (tenant-admin/platform-admin) with summary rows", "type": "fix(c6/flow-27)", "affects": ["FLOW-27"] },
+    { "runId": "RUN-102", "hash": "324ee2df", "title": "FLOW-34 MarketplacePluginAdapter \u2014 replace 6 hero-metric tiles across 2 branches (vendor revenue/platform curator) with summary rows", "type": "fix(c6/flow-34)", "affects": ["FLOW-34"] },
+    { "runId": "RUN-103", "hash": "09ff85c9", "title": "FLOW-33 SystemInitiationBootstrap \u2014 replace 4 hero-metric tiles (platform bootstrap status) with summary row + state chip for ENGINE_WARM phase", "type": "fix(c6/flow-33)", "affects": ["FLOW-33"] },
+    { "runId": "RUN-104", "hash": "da3d6580", "title": "FLOW-32 SharableFlows platform-curator \u2014 replace 2 hero-metric tiles (pending/fraud) with summary row", "type": "fix(c6/flow-32)", "affects": ["FLOW-32"] },
+    { "runId": "RUN-105", "hash": "380d4666", "title": "FLOW-28 BlogCmsModules platform-admin \u2014 replace 2 hero-metric tiles (installed/pending) with summary row", "type": "fix(c6/flow-28)", "affects": ["FLOW-28"] },
+    { "runId": "RUN-106", "hash": "f6d21fad", "title": "FLOW-14 EtlDataIntegration platform-admin \u2014 replace 3 hero-metric tiles (jobs/DLQ/connector health) with summary row + amber health state dot", "type": "fix(c6/flow-14)", "affects": ["FLOW-14"] },
+    { "runId": "RUN-107", "hash": "9eb5a03a", "title": "FLOW-40 ClientPush platform-admin \u2014 replace 4 hero-metric tiles (sent/delivered/failed/latency) with summary row", "type": "fix(c6/flow-40)", "affects": ["FLOW-40"] },
+    { "runId": "RUN-108", "hash": "9a4c4606", "title": "FLOW-24 AiSafetyModeration \u2014 replace 6 hero-metric tiles across 2 branches (tenant-admin moderation queue/platform-admin policy ops) with summary rows", "type": "fix(c6/flow-24)", "affects": ["FLOW-24"] },
+    { "runId": "RUN-109", "hash": "b335a649", "title": "FLOW-05 LessonCompletion tenant-admin \u2014 replace 3 hero-metric tiles (completions/avg-score/streaks) with summary row; learner-facing completion kiosk hero preserved", "type": "fix(c6/flow-05)", "affects": ["FLOW-05"] },
+    { "runId": "RUN-110", "hash": "37d09a9a", "title": "FLOW-39 OssCurriculum \u2014 replace 6 hero-metric tiles across 2 branches (tenant-admin learner stats/platform-admin publishing queue) with summary rows", "type": "fix(c6/flow-39)", "affects": ["FLOW-39"] },
+    { "runId": "RUN-111", "hash": "7d4868bf", "title": "FLOW-20 AuctionDashboard \u2014 replace 6 hero-metric tiles across 2 branches (business-partner advertiser/platform-admin ops) with summary rows", "type": "fix(c6/flow-20)", "affects": ["FLOW-20"] },
+    { "runId": "RUN-112", "hash": "71431322", "title": "FLOW-22 CmsPublishing platform-admin \u2014 replace 3 hero-metric tiles (published/legal queue/violations) with summary row", "type": "fix(c6/flow-22)", "affects": ["FLOW-22"] },
+    { "runId": "RUN-113", "hash": "f54d92a1", "title": "FLOW-12 Billing platform-admin \u2014 replace 3 cross-tenant hero-metric tiles (total MRR/active subs/failed payments) with summary row", "type": "fix(c6/flow-12)", "affects": ["FLOW-12"] },
+    { "runId": "RUN-114", "hash": "2a8ba8f1", "title": "FLOW-13 DataWarehouseAnalytics tenant-user branch \u2014 replace 3 hero-metric tiles (events/bids/activity) with summary row (missed in RUN-100)", "type": "fix(c6/flow-13)", "affects": ["FLOW-13"] },
+    { "runId": "RUN-115", "hash": "f73669b5", "title": "FLOW-07 SocialFeed platform-admin + FLOW-03 EventCreation platform-admin \u2014 replace 4 remaining hero-metric tiles with summary rows", "type": "fix(c6/flow-07+03)", "affects": ["FLOW-07","FLOW-03"] }
+  ],
+
+  "flowStatus": {
+    "note": "status values: REBUILT_VERIFIED = purpose-built component + post-fix PNG captured; PAGE_REWRITTEN_STYLED = CRUD replaced with screen + Tailwind styled; DOCS_ONLY = examination record + PNG inventory but no code rewrite; STYLED_PARTIAL = some role branches rewritten, others still CRUD; NO_XIIGEN_UI = external vendor adapter, no screen to design; SPEC_GAP = F1 STEP-1-INVARIANTS misaligned with slug",
+    "FLOW-00": { "slug": "bundle-activation", "grammar": "G1", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "G1 Progress Strip rebuild on BundleActivationPage admin console" },
+    "FLOW-01": { "slug": "user-registration", "grammar": "G5", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Verify 6-page signup+onboarding architecture, polish SSO button stack + verify-pending copy" },
+    "FLOW-02": { "slug": "profile-enrichment", "grammar": "G5", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Typeform-style wizard polish: step indicator + progress bar + skip option" },
+    "FLOW-03": { "slug": "event-management", "grammar": "G5", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Eventbrite-style multi-step wizard with live preview panel" },
+    "FLOW-04": { "slug": "event-attendance", "grammar": "G3+G5", "status": "DOCS_ONLY_SPEC_GAP", "hasExaminationRecord": true, "hasRegenPNG": false, "specGap": "F1 STEP-1-INVARIANTS says DPO capture; slug+pages+PNGs say event attendance", "nextAction": "Resolve F1 gap with Luba; then attendee list + check-in kiosk" },
+    "FLOW-05": { "slug": "completion-gamification", "grammar": "G5", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Duolingo-style celebratory completion + streak counter + XP reveal" },
+    "FLOW-06": { "slug": "user-groups-communities", "grammar": "G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Card grid for GroupDiscovery, state-badge per membership" },
+    "FLOW-07": { "slug": "friend-request-social-feed", "grammar": "G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Feed card format, friend-request Accept/Decline inline, empty-state" },
+    "FLOW-08": { "slug": "marketplace", "grammar": "G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Etsy/Shopify product grid with filter sidebar" },
+    "FLOW-09": { "slug": "transactional-event-participation", "grammar": "G5+G5", "status": "DOCS_ONLY_SPEC_GAP", "hasExaminationRecord": true, "hasRegenPNG": false, "specGap": "F1 says RAG pattern extraction; slug+pages+PNGs say ticketing", "nextAction": "Resolve F1 gap; then Stripe Checkout two-column + QR confirmation" },
+    "FLOW-10": { "slug": "reviews-reputation", "grammar": "G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Yelp-style review card + star-rating inline form" },
+    "FLOW-11": { "slug": "schema-registry-dag", "grammar": "G1+G4", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Schema registry card list + DAG visualization + validation Progress Strip" },
+    "FLOW-12": { "slug": "subscription-billing", "grammar": "G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Stripe billing portal style: current plan + invoice list with PAID/FAILED badges + Retry action" },
+    "FLOW-13": { "slug": "data-warehouse-analytics", "grammar": "G6", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Mixpanel/Looker-style metric tiles + time-series chart + recent activity" },
+    "FLOW-14": { "slug": "etl-data-integration", "grammar": "G1", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Airbyte/Fivetran-style pipeline-run list with phase strip + row counts" },
+    "FLOW-15": { "slug": "saas-multi-tenancy", "grammar": "G7", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Linear/Notion workspace settings: tabs + member list + Billing + Danger zone" },
+    "FLOW-16": { "slug": "marketplace-payments", "grammar": "G5+G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Stripe Checkout two-column + Escrow dashboard + Refund queue" },
+    "FLOW-17": { "slug": "freelancer-marketplace", "grammar": "G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Upwork-style gig cards + freelancer profiles + milestone timeline" },
+    "FLOW-18": { "slug": "visual-flow-engine", "grammar": "G4", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-18-visual-flow-engine-tenant-admin.png", "componentFiles": [], "pageFiles": ["client/src/pages/visual-flow-engine/FlowCanvasPage.tsx"], "lastCommit": "09c12458", "nextAction": "None — n8n 3-column layout complete, banner hidden, empty-state neutral" },
+    "FLOW-19": { "slug": "durable-sagas-compliance", "grammar": "G1", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Temporal UI-style saga timeline with compensation branches + GDPR user view" },
+    "FLOW-20": { "slug": "ads-platform", "grammar": "G3+G6", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Google Ads-style campaign cards + per-campaign metric tiles + consent kiosk" },
+    "FLOW-21": { "slug": "dynamic-forms-workflows", "grammar": "G7+G5", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Typeform builder 3-column + kiosk respondent" },
+    "FLOW-22": { "slug": "cms-publishing", "grammar": "G5+G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "criticalCheck": "anonymous reader must not see sidebar (RUN-49 G3)", "nextAction": "Medium-style zero-chrome public reader + Ghost-style admin list" },
+    "FLOW-23": { "slug": "form-builder-templates", "grammar": "G3+G5", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Typeform template gallery + Use-template modal" },
+    "FLOW-24": { "slug": "ai-safety-moderation", "grammar": "G2", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-24-ai-safety-moderation-platform-admin.png", "componentFiles": ["client/src/components/ai-safety-moderation/ModeratorQueueInbox.tsx"], "pageFiles": ["client/src/pages/ai-safety-moderation/AiSafetyModerationPage.tsx"], "lastCommit": "85b2b06c", "nextAction": "None for platform-admin. Anonymous report form already exists in anon branch." },
+    "FLOW-25": { "slug": "bfa-cross-flow-governance", "grammar": "G2", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-25-bfa-cross-flow-governance-platform-admin.png", "componentFiles": ["client/src/components/bfa-cross-flow-governance/ConflictScanMatrix.tsx"], "pageFiles": ["client/src/pages/bfa-cross-flow-governance/BfaCrossFlowGovernancePage.tsx"], "lastCommit": "e5bcef35", "nextAction": "None" },
+    "FLOW-26": { "slug": "meta-flow-engine", "grammar": "G4", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-26-meta-flow-engine-platform-admin.png", "componentFiles": ["client/src/components/meta-flow-engine/MetaFlowEngineTopologyCanvas.tsx"], "pageFiles": ["client/src/pages/meta-flow-engine/MetaFlowEnginePage.tsx"], "lastCommit": "92e2898e", "nextAction": "None" },
+    "FLOW-27": { "slug": "human-interaction-gate", "grammar": "G2", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-27-human-interaction-gate-platform-admin.png", "componentFiles": ["client/src/components/human-interaction-gate/ReviewQueueInbox.tsx"], "pageFiles": ["client/src/pages/human-interaction-gate/HumanInteractionGatePage.tsx"], "lastCommit": "c42fcba4", "nextAction": "None" },
+    "FLOW-28": { "slug": "blog-cms-modules", "grammar": "G5+G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "criticalCheck": "anonymous reader must not see sidebar (RUN-49 G3)", "nextAction": "Medium-style public reader + Ghost-style admin list" },
+    "FLOW-29": { "slug": "adaptive-rag-deep-research", "grammar": "G4", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-29-adaptive-rag-platform-admin.png", "componentFiles": ["client/src/pages/adaptive-rag-deep-research/AdaptiveRagDeepResearchPage.tsx"], "pageFiles": ["client/src/pages/adaptive-rag-deep-research/AdaptiveRagDeepResearchPage.tsx"], "lastCommit": "feb49755", "nextAction": "None — reference implementation" },
+    "FLOW-30": { "slug": "tenant-lifecycle-manager", "grammar": "G6+G3+G7", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Stripe Connect-style tenant list + lifecycle timeline + settings tabs" },
+    "FLOW-31": { "slug": "design-intelligence-engine", "grammar": "G6+G4", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "LangSmith-style metric tiles + token-dependency topology" },
+    "FLOW-32": { "slug": "sharable-flows-marketplace", "grammar": "G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "GitHub Marketplace-style template cards with install + version + ratings" },
+    "FLOW-33": { "slug": "system-initiation-bootstrap", "grammar": "G1", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Vercel-style phase strip: Cold -> Seeding -> Indices -> Warm -> Self-verification" },
+    "FLOW-34": { "slug": "marketplace-plugin-adapter", "grammar": "G4+G3", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-34-marketplace-plugin-adapter-platform-admin.png", "componentFiles": ["client/src/components/marketplace-plugin-adapter/AdapterLifecycleCanvas.tsx"], "pageFiles": ["client/src/pages/marketplace-plugin-adapter/MarketplacePluginAdapterPage.tsx"], "lastCommit": "a522178e", "specGap": "F1 says AI Agent Orchestration; slug+pages+PNGs say plugin marketplace", "nextAction": "Resolve F1 gap with Luba" },
+    "FLOW-35": { "slug": "meta-arbitration-engine", "grammar": "G2", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-35-meta-arbitration-platform-admin.png", "componentFiles": ["client/src/components/meta-arbitration-engine/MetaArbitrationVerdictGrid.tsx"], "pageFiles": ["client/src/pages/meta-arbitration-engine/MetaArbitrationEnginePage.tsx"], "lastCommit": "4b82a0a4", "nextAction": "None" },
+    "FLOW-36": { "slug": "feature-registry", "grammar": "G3", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-36-feature-registry-platform-admin.png", "componentFiles": ["client/src/components/feature-registry/FeatureMatrixScreen.tsx","client/src/components/feature-registry/FeatureMatrixRow.tsx","client/src/components/feature-registry/PortingProhibitedScreen.tsx"], "pageFiles": ["client/src/pages/feature-registry/FeatureRegistryPage.tsx"], "lastCommit": "336e9728", "nextAction": "None (was CFI-05, closed in RUN-63 + styled in RUN-66)" },
+    "FLOW-37": { "slug": "design-system-governance", "grammar": "G2+G3", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-37-design-system-governance-platform-admin.png", "componentFiles": ["client/src/components/stack-coupling/StackPortingScreen.tsx","client/src/components/stack-coupling/StackCouplingBadge.tsx","client/src/components/stack-coupling/CompatibilityReportCard.tsx"], "pageFiles": ["client/src/pages/design-system-governance/DesignSystemGovernancePage.tsx"], "lastCommit": "336e9728", "nextAction": "None" },
+    "FLOW-38": { "slug": "rag-quality-feedback", "grammar": "G6", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-38-rag-quality-feedback-platform-admin.png", "componentFiles": ["client/src/components/rag-quality/RagQualityScreen.tsx","client/src/components/rag-quality/RagQualityBadge.tsx","client/src/components/rag-quality/CycleOutcomeTag.tsx"], "pageFiles": ["client/src/pages/rag-quality-feedback/RagQualityFeedbackPage.tsx"], "lastCommit": "336e9728", "nextAction": "None" },
+    "FLOW-39": { "slug": "oss-curriculum", "grammar": "G6", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-39-oss-curriculum-platform-admin.png", "componentFiles": ["client/src/components/oss-curriculum/OssCurriculumScreen.tsx","client/src/components/oss-curriculum/CurriculumTierBadge.tsx","client/src/components/oss-curriculum/ShadowRunStatusCard.tsx"], "pageFiles": ["client/src/pages/oss-curriculum/OssCurriculumPage.tsx"], "lastCommit": "336e9728", "nextAction": "Delete SAMPLE_COURSES wrong-direction data (still present in contributor fallback branch per correction note)" },
+    "FLOW-40": { "slug": "client-push", "grammar": "G3", "status": "REBUILT_VERIFIED", "hasExaminationRecord": true, "hasRegenPNG": "flow-40-client-push-platform-admin.png", "componentFiles": ["client/src/components/client-push/ClientPushScreen.tsx","client/src/components/client-push/SseConnectionStatusBadge.tsx","client/src/components/client-push/EventDeliveryTag.tsx"], "pageFiles": ["client/src/pages/client-push/ClientPushPage.tsx"], "lastCommit": "336e9728", "nextAction": "None" },
+    "FLOW-41": { "slug": "canva-adapter", "grammar": "none", "status": "NO_XIIGEN_UI", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "None — vendor SDK plugin, no XIIGen screen to design" },
+    "FLOW-42": { "slug": "miro-adapter", "grammar": "none", "status": "NO_XIIGEN_UI", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "None" },
+    "FLOW-43": { "slug": "webflow-adapter", "grammar": "none", "status": "NO_XIIGEN_UI", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "None" },
+    "FLOW-44": { "slug": "framer-adapter", "grammar": "none", "status": "NO_XIIGEN_UI", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "None" },
+    "FLOW-45": { "slug": "history-bootstrap", "grammar": "G1", "status": "REBUILT_VERIFIED", "hasExaminationRecord": false, "hasRegenPNG": "flow-45-history-bootstrap-platform-admin.png", "componentFiles": ["client/src/components/history-bootstrap/HistoryBootstrapScreen.tsx","client/src/components/history-bootstrap/BootstrapStatusBadge.tsx","client/src/components/history-bootstrap/ArchPatternCard.tsx","client/src/components/history-bootstrap/PhilosophySummaryRow.tsx"], "pageFiles": ["client/src/pages/history-bootstrap/HistoryBootstrapPage.tsx"], "lastCommit": "336e9728", "nextAction": "Optionally add G1 Progress Strip rebuild (currently cards + summaries, not phase chips)" },
+    "FLOW-46": { "slug": "platform-agent", "grammar": "G3+G6", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Intercom agent console-style runs list + metrics dashboard + flow-alongside viewer" },
+    "FLOW-47": { "slug": "module-lifecycle", "grammar": "G1", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "npm/Docker-style version timeline with per-version status" },
+    "FLOW-48": { "slug": "admin-i18n + i18n-translation", "grammar": "G7+G3", "status": "DOCS_ONLY", "hasExaminationRecord": true, "hasRegenPNG": false, "nextAction": "Crowdin-style translation settings tabs + per-namespace translation table" }
+  },
+
+  "statusSummary": {
+    "REBUILT_VERIFIED": 14,
+    "DOCS_ONLY": 31,
+    "NO_XIIGEN_UI": 4,
+    "SPEC_GAP": 3
+  },
+
+  "artifacts": {
+    "governingDocs": [
+      "docs/screen-examination/REPAIR-GUIDANCE.md",
+      "docs/screen-examination/SPEC-LOCATION-MAP.md",
+      "docs/screen-examination/SPEC-LOCATION-MAP-ADDENDUM-FLOW36-45.md",
+      "docs/screen-examination/SPEC-LOCATION-INDEX.md",
+      "docs/screen-examination/MARKET-REFERENCE-CATALOG.md",
+      "docs/screen-examination/PNG-INVENTORY.md",
+      "docs/screen-examination/RUN-67-DELETE-MANIFEST.md"
+    ],
+    "examinationRecords": 45,
+    "examinationRecordsNote": "One per flow + external-adapters-examination.md covering FLOW-41..44 + orphan-dir sweep",
+    "skills": [
+      ".claude/skills/flow-ui-examination-protocol-SKILL.md"
+    ],
+    "regenPNGs": 14,
+    "regenPNGDir": "docs/e2e-snapshots/run-65-regen/",
+    "newComponentDirs": [
+      "client/src/components/meta-flow-engine/",
+      "client/src/components/marketplace-plugin-adapter/",
+      "client/src/components/meta-arbitration-engine/",
+      "client/src/components/human-interaction-gate/",
+      "client/src/components/bfa-cross-flow-governance/",
+      "client/src/components/ai-safety-moderation/"
+    ],
+    "newPages": [
+      "client/src/pages/history-bootstrap/HistoryBootstrapPage.tsx"
+    ],
+    "rewrittenPages": [
+      "client/src/pages/feature-registry/FeatureRegistryPage.tsx",
+      "client/src/pages/design-system-governance/DesignSystemGovernancePage.tsx",
+      "client/src/pages/rag-quality-feedback/RagQualityFeedbackPage.tsx",
+      "client/src/pages/oss-curriculum/OssCurriculumPage.tsx",
+      "client/src/pages/client-push/ClientPushPage.tsx",
+      "client/src/pages/meta-flow-engine/MetaFlowEnginePage.tsx",
+      "client/src/pages/marketplace-plugin-adapter/MarketplacePluginAdapterPage.tsx",
+      "client/src/pages/meta-arbitration-engine/MetaArbitrationEnginePage.tsx",
+      "client/src/pages/human-interaction-gate/HumanInteractionGatePage.tsx",
+      "client/src/pages/bfa-cross-flow-governance/BfaCrossFlowGovernancePage.tsx",
+      "client/src/pages/ai-safety-moderation/AiSafetyModerationPage.tsx",
+      "client/src/pages/visual-flow-engine/FlowCanvasPage.tsx",
+      "client/src/pages/adaptive-rag-deep-research/AdaptiveRagDeepResearchPage.tsx"
+    ],
+    "globalFixes": [
+      "client/src/components/KeyStatusBanner/KeyStatusBanner.tsx (role-gate)",
+      "client/src/App.tsx (sidebar active + AppShell anonymous hide)",
+      "client/src/components/topology/TopologyViewer.tsx (H9 empty-state)"
+    ],
+    "regenSpecFile": "client/e2e/run-65-regen.spec.ts (13 gap-verification tests)"
+  },
+
+  "pngFleetDelta": {
+    "sessionStart": 980,
+    "sessionEnd": 674,
+    "deleted": 322,
+    "added": 14,
+    "notes": "Deletions: 285 Tier-1 Group A/B (RUN-67) + 37 UNKNOWN+Tier-2 (RUN-68). Additions: 14 RUN-65 regen PNGs showing closed gaps for rebuilt flows."
+  },
+
+  "deferred": {
+    "flowRebuilds": {
+      "consumer_facing_priority_1": [
+        { "flow": "FLOW-01", "reason": "Entry point for new users; polish SSO + verify + onboarding 6-page architecture" },
+        { "flow": "FLOW-12", "reason": "Subscription billing — Stripe-style invoice list with PAID/FAILED badges; verify no FAILED-as-anchor bug" },
+        { "flow": "FLOW-05", "reason": "Completion gamification — Duolingo-style celebratory moment; high user-visible impact" },
+        { "flow": "FLOW-22", "reason": "CMS public reader — anonymous must not see sidebar (RUN-49 G3 must trigger)" },
+        { "flow": "FLOW-28", "reason": "Blog public reader — same check as FLOW-22" }
+      ],
+      "consumer_facing_priority_2": [
+        { "flow": "FLOW-02", "reason": "Profile wizard — Typeform step indicator" },
+        { "flow": "FLOW-03", "reason": "Event creation wizard — Eventbrite live preview" },
+        { "flow": "FLOW-07", "reason": "Social feed — card format + empty-state" },
+        { "flow": "FLOW-08", "reason": "Marketplace product grid" },
+        { "flow": "FLOW-10", "reason": "Reviews + reputation" },
+        { "flow": "FLOW-16", "reason": "Stripe-style checkout two-column (P0 risk: 'Cart ID field' per REPAIR-GUIDANCE)" },
+        { "flow": "FLOW-17", "reason": "Upwork-style freelancer marketplace" },
+        { "flow": "FLOW-20", "reason": "Ads platform (P0: 'Failed to fetch' as normal state per REPAIR-GUIDANCE)" },
+        { "flow": "FLOW-32", "reason": "Sharable flows template gallery" }
+      ],
+      "admin_internal": [
+        { "flow": "FLOW-00", "reason": "Bundle activation progress strip" },
+        { "flow": "FLOW-06", "reason": "Groups/communities" },
+        { "flow": "FLOW-11", "reason": "Schema registry DAG" },
+        { "flow": "FLOW-13", "reason": "Data warehouse dashboard" },
+        { "flow": "FLOW-14", "reason": "ETL pipeline runs" },
+        { "flow": "FLOW-15", "reason": "SaaS multi-tenancy settings tabs" },
+        { "flow": "FLOW-19", "reason": "Durable sagas compliance + GDPR user view" },
+        { "flow": "FLOW-21", "reason": "Dynamic forms workflows builder" },
+        { "flow": "FLOW-23", "reason": "Form builder templates" },
+        { "flow": "FLOW-30", "reason": "Tenant lifecycle manager" },
+        { "flow": "FLOW-31", "reason": "Design intelligence engine" },
+        { "flow": "FLOW-33", "reason": "System initiation bootstrap" },
+        { "flow": "FLOW-46", "reason": "Platform agent" },
+        { "flow": "FLOW-47", "reason": "Module lifecycle" },
+        { "flow": "FLOW-48", "reason": "Admin i18n" }
+      ],
+      "spec_gap_resolutions_needed": [
+        "FLOW-04 — F1 says DPO capture, slug says event attendance (Luba to resolve)",
+        "FLOW-09 — F1 says RAG pattern extraction, slug says transactional-event-participation (Luba to resolve)",
+        "FLOW-34 — F1 says AI Agent Orchestration, slug says marketplace-plugin-adapter (already followed slug)"
+    ]
+    },
+    "technicalDebt": [
+      "Tier-2 ~150 01-09-*.png files still in flow dirs — mix of valid state captures and service-name leaks, need per-flow review",
+      "FLOW-39 SAMPLE_COURSES wrong-direction data still in contributor fallback branch of OssCurriculumPage (platform-admin branch fixed)",
+      "FLOW-45 HistoryBootstrapScreen is currently pattern cards + summary rows, not G1 Progress Strip — marker for future rebuild",
+      "No real e2e coverage for new components beyond smoke/visibility checks — would benefit from state-transition tests",
+      "UNKNOWN/ dir deleted; any post-RUN-49 regression evidence should go into a new regression/ dir",
+      "XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md (144-role taxonomy) still only in zip — should be extracted to docs/design-reviews/ to travel with code"
+    ]
+  },
+
+  "verification": {
+    "lastRun": "2026-04-20 after RUN-75 commit 85b2b06c",
+    "typescript": "cd client && npx tsc --noEmit → 0 errors (filtered TS5101)",
+    "build": "cd client && npm run build → built in ~10s, 2119 modules",
+    "prettier": "All explicitly-written files formatted; some pre-existing LearningSignalRow.tsx has prettier warn but unrelated",
+    "playwright": "cd client && npx playwright test run-65-regen.spec.ts → 13 tests passing, 14 PNGs captured in docs/e2e-snapshots/run-65-regen/",
+    "branchState": "claude/pensive-tereshkova-baf347, HEAD 85b2b06c, pushed to origin"
+  },
+
+  "nextActions": {
+    "recommendedOrder": [
+      "1. FLOW-12 subscription-billing (Stripe portal, P0 FAILED-as-anchor check)",
+      "2. FLOW-16 marketplace-payments checkout (P0 Cart-ID fix per REPAIR-GUIDANCE)",
+      "3. FLOW-20 ads-platform (P0 Failed-to-fetch fix per REPAIR-GUIDANCE)",
+      "4. FLOW-22 cms-publishing anonymous reader (P1 sidebar-on-anonymous check)",
+      "5. FLOW-28 blog-cms-modules anonymous reader (same check)",
+      "6. FLOW-01 user-registration polish",
+      "7. FLOW-05 completion-gamification celebration",
+      "8. FLOW-07 social feed",
+      "9. FLOW-08 marketplace",
+      "10. FLOW-10 reviews-reputation",
+      "11. FLOW-17 freelancer-marketplace",
+      "12. FLOW-32 sharable-flows-marketplace",
+      "13+. remaining admin/internal flows (FLOW-00/06/11/13/14/15/19/21/23/30/31/33/46/47/48)"
+    ],
+    "priorityRationale": "P0 items first (explicit bugs flagged in REPAIR-GUIDANCE Part 5), then user-facing surfaces by estimated traffic, then admin/internal flows"
+  }
+}

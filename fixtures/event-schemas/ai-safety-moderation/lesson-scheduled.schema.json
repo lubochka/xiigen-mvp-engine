@@ -1,0 +1,12 @@
+{
+  "eventType": "ai-safety-moderation.lesson.scheduled",
+  "flowId": "FLOW-24",
+  "version": "1.0.0",
+  "properties": {
+    "lessonId": { "type": "string", "required": true },
+    "userId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "dueDate": { "type": "string", "format": "date-time", "required": true },
+    "scheduledAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

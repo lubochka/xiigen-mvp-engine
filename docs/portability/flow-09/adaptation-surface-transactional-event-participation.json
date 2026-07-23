@@ -1,0 +1,446 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "flowTitle": "Transactional Event Participation",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-05",
+  "capturedBy": "Codex / FLOW-09 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-09/FLOW-09-STEP-1-INVARIANTS.md",
+    "docs/business-flows/09-transactional-event-participation.md",
+    "server/src/engine-contracts/transactional-event-participation-contracts.ts",
+    "server/src/engine/flows/transactional-event-participation",
+    "server/src/bootstrap/history-seeds/transactional-event-participation-design-corpus.json"
+  ],
+  "services": [
+    {
+      "taskTypeId": "T99",
+      "className": "SeatReservationHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/seat-reservation.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "waitlist.join.requested",
+        "payment.process.requested"
+      ],
+      "readsFreedomKeys": [
+        "flow09_seat_ttl_seconds"
+      ]
+    },
+    {
+      "taskTypeId": "T100",
+      "className": "PaymentProcessorHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/payment-processor.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "payment.processed"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T102",
+      "className": "TicketIssuerHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/ticket-issuer.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "ticket.issued",
+        "ticket.purchase.completed"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T102",
+      "className": "QRCodeGeneratorHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/qr-code-generator.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "ticket.qr.generated"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T103",
+      "className": "QRCodeValidatorHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/qr-code-validator.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "ticket.validated"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T104",
+      "className": "RefundProcessorHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/refund-processor.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "refund.initiated"
+      ],
+      "readsFreedomKeys": [
+        "flow09_refund_window_hours"
+      ]
+    },
+    {
+      "taskTypeId": "T105",
+      "className": "ComplianceEscalationHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/compliance-escalation.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "refund.retry.requested",
+        "refund.failed"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T106",
+      "className": "WaitlistManagerHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/waitlist-manager.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "waitlist.joined"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T107",
+      "className": "BookingConfirmationHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/booking-confirmation.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "booking.confirmed"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T108",
+      "className": "GroupBookingCoordinatorHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/group-booking-coordinator.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "group.booking.completed"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T109",
+      "className": "SeatingMapHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/seating-map.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "seating.map.updated"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T110",
+      "className": "EarlyAccessGateHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/early-access-gate.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "early.access.granted"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T111",
+      "className": "CapacityTrackerHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/capacity-tracker.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "capacity.updated",
+        "waitlist.activation.triggered"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T112",
+      "className": "FeeCalculatorHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/fee-calculator.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [],
+      "readsFreedomKeys": [
+        "flow09_platform_fee_rate",
+        "flow09_processing_fee_rate"
+      ]
+    },
+    {
+      "taskTypeId": "T113",
+      "className": "FraudDetectorHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/fraud-detector.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "fraud.check.failed"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T114",
+      "className": "WaitlistNotifierHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/waitlist-notifier.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "waitlist.notified"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T115",
+      "className": "TicketTransferHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/ticket-transfer.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "ticket.transferred"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T116",
+      "className": "EventCapacityAdjusterHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/event-capacity-adjuster.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "capacity.adjusted"
+      ],
+      "readsFreedomKeys": [
+        "flow09_capacity_change_requires_approval"
+      ]
+    },
+    {
+      "taskTypeId": "T117",
+      "className": "SeatingAssignmentHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/seating-assignment.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "seat.assigned"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T118",
+      "className": "RegistrationAnalyticsHandler",
+      "file": "server/src/engine/flows/transactional-event-participation/registration-analytics.handler.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "analytics.registration.recorded"
+      ],
+      "readsFreedomKeys": []
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe ticketing, refund, fee, and capacity values that can change at fork time without changing seat-before-payment ordering, ticket issuance, fraud fail-open, QR validation, or tenant isolation.",
+      "total": 5,
+      "keys": [
+        {
+          "key": "flow09_seat_ttl_seconds",
+          "type": "number",
+          "default": 300,
+          "unit": "seconds",
+          "semantic": "How long a seat hold remains valid before payment completion.",
+          "stakeholder": "event-operations",
+          "consumedBy": [
+            "T99.SeatReservationHandler.reserveSeat"
+          ],
+          "boundedRange": {
+            "min": 60,
+            "max": 1800,
+            "rationale": "Short holds reduce abandoned inventory while a minimum window keeps checkout usable."
+          }
+        },
+        {
+          "key": "flow09_refund_window_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "semantic": "Refund request window before an event starts.",
+          "stakeholder": "finance-operations",
+          "consumedBy": [
+            "T104.RefundProcessorHandler.processRefund"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 720,
+            "rationale": "Tenants can tighten or relax refund policy without changing refund audit persistence."
+          }
+        },
+        {
+          "key": "flow09_platform_fee_rate",
+          "type": "number",
+          "default": 0.05,
+          "unit": "rate",
+          "semantic": "Platform service-fee rate applied to ticket purchases.",
+          "stakeholder": "revenue-operations",
+          "consumedBy": [
+            "T112.FeeCalculatorHandler.calculate"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 0.3,
+            "rationale": "Fee changes are tenant policy, while negative fees and extreme rates remain outside the safe adaptation surface."
+          }
+        },
+        {
+          "key": "flow09_processing_fee_rate",
+          "type": "number",
+          "default": 0.029,
+          "unit": "rate",
+          "semantic": "Payment processing fee rate used for checkout totals.",
+          "stakeholder": "finance-operations",
+          "consumedBy": [
+            "T112.FeeCalculatorHandler.calculate"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 0.2,
+            "rationale": "Tenants can reflect processor contracts without changing payment state transitions."
+          }
+        },
+        {
+          "key": "flow09_capacity_change_requires_approval",
+          "type": "boolean",
+          "default": true,
+          "unit": "policy-flag",
+          "semantic": "Whether event capacity changes require approval before taking effect.",
+          "stakeholder": "event-operations",
+          "consumedBy": [
+            "T116.EventCapacityAdjusterHandler.adjustCapacity"
+          ],
+          "boundedRange": {
+            "allowed": [
+              true,
+              false
+            ],
+            "rationale": "The policy can differ by tenant; the adjustment record and capacity event remain mandatory."
+          }
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-09 uses checkout, ticket list, check-in kiosk, refund queue, and QR confirmation views. Tenants may tune labels and policy values but must not remove payment, ticket, refund, or check-in state visibility.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "Anonymous checkout, tenant-user ticket access, event-organiser check-in, and platform-admin refund operations are fixed for certification. Tenant adaptation may alter copy and policy, not role isolation.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Tenant event-ticket policies that can be changed while fixed payment, ticketing, waitlist, and refund invariants remain intact.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "short-seat-hold",
+          "name": "Short seat hold for high-demand events",
+          "semantic": "Tenant A can shorten the reservation hold during high-demand sales without allowing payment before the seat hold.",
+          "extensionPoint": "flow09_seat_ttl_seconds",
+          "currentImplementation": "T99 reads the tenant-scoped TTL and stores the seat hold before payment processing is requested."
+        },
+        {
+          "id": "generous-refund-window",
+          "name": "Generous refund window",
+          "semantic": "Tenant A can allow refunds farther from event start while preserving refund record persistence and compliance escalation.",
+          "extensionPoint": "flow09_refund_window_hours",
+          "currentImplementation": "T104 reads the refund window and stores refund records before emitting refund events."
+        },
+        {
+          "id": "processor-specific-fee-policy",
+          "name": "Processor-specific fee policy",
+          "semantic": "Tenant A can tune fee rates to reflect its processor contract without changing ticket issuance or payment success criteria.",
+          "extensionPoint": "flow09_platform_fee_rate and flow09_processing_fee_rate",
+          "currentImplementation": "T112 is inline-pure and returns a fee breakdown without side effects."
+        },
+        {
+          "id": "capacity-approval-policy",
+          "name": "Capacity approval policy",
+          "semantic": "Tenant A can require or skip approval for capacity changes while every adjustment remains stored and auditable.",
+          "extensionPoint": "flow09_capacity_change_requires_approval",
+          "currentImplementation": "T116 reads the policy, stores the capacity-adjustment record, and emits capacity.adjusted."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "T99 stores the seat hold before emitting payment.process.requested.",
+      "T99 treats full capacity as WAITLISTED rather than a thrown business exception.",
+      "T100 stores payment records before payment.processed is emitted.",
+      "T102 stores tickets before ticket.issued and ticket.purchase.completed are emitted.",
+      "T102 keeps the backward cross-wave to FLOW-04 RSVP handling guarded as not a plan exemplar.",
+      "T103 validates tickets server-side before storing a ticket-validation record.",
+      "T104 stores refund records before refund.initiated is emitted.",
+      "T105 uses retry and exhausted escalation paths without throwing for business outcomes.",
+      "T106 preserves FIFO waitlist behavior.",
+      "T107 treats PENDING as a valid private booking state.",
+      "T108 group booking remains all-or-nothing inside a transaction.",
+      "T112 remains inline-pure with no database writes or queue events.",
+      "T113 fraud service outage fails open and emits a fraud check failed audit event.",
+      "T118 analytics failures do not block the purchase path.",
+      "All FLOW-09 handlers remain FLOW_SCOPED and return DataProcessResult."
+    ]
+  },
+  "adaptationExamples": {
+    "tenant-a-fast-release-event-ticketing": {
+      "description": "Tenant A shortens abandoned-checkout holds and keeps a moderate refund window for paid networking events.",
+      "change": {
+        "flow09_seat_ttl_seconds": 180,
+        "flow09_refund_window_hours": 48
+      },
+      "impact": "Seats release faster when checkout is abandoned, refunds remain available until 48 hours before event start, and payment/ticket ordering remains unchanged.",
+      "testable": "Tenant A adaptation evidence shows the policy in tenant.config.json adaptationHistory and fork CI still passes."
+    },
+    "tenant-a-processor-fee-alignment": {
+      "description": "Tenant A aligns checkout totals to its processor contract.",
+      "change": {
+        "flow09_platform_fee_rate": 0.04,
+        "flow09_processing_fee_rate": 0.031
+      },
+      "impact": "Fee display and totals change while payment, ticket issuance, refund, and check-in behavior remain fixed.",
+      "testable": "T112 fee tests still prove inline-pure calculation, and tenant visual evidence shows the adapted checkout total."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T99 through T118",
+      "Seat-before-payment ordering",
+      "Payment and refund record persistence before emitted events",
+      "Ticket issuance and QR validation persistence",
+      "PENDING as a valid private booking state",
+      "All-or-nothing group booking transaction boundary",
+      "Fraud fail-open behavior",
+      "Inline-pure fee calculation",
+      "FIFO waitlist behavior",
+      "Tenant scope isolation",
+      "CloudEvents envelope usage where events cross service boundaries",
+      "DataProcessResult return contract"
+    ]
+  },
+  "passCriteria": [
+    "Tenant A can apply a TYPE-A ticketing policy or presentation change without altering MACHINE constraints.",
+    "The adapted policy is present in tenant.config.json adaptationHistory.",
+    "Tenant A visual evidence shows the adapted checkout or ticketing policy.",
+    "Auth checks still return 401 for missing token, 401 for cross-tenant token, and 403 for wrong-role token after adaptation."
+  ]
+}

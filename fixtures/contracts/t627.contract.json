@@ -1,0 +1,26 @@
+{
+  "taskTypeId": "T627",
+  "name": "FraudPreBillingValidator",
+  "flowId": "FLOW-20",
+  "archetype": "guard",
+  "purpose": "Fraud detection gate at ORDER 1 before any billing commitment. fraudScore threshold from FREEDOM config. Budget restoration via INCRBY on rejection. PCI zero-PAN.",
+  "entry": "BidAccepted event (after auction succeeds, before billing)",
+  "ironRules": [
+    "IR-1: AI fraud detection at ORDER 1 before any billing. fraudScore threshold from FREEDOM fraud_score_threshold — never hardcoded.",
+    "IR-2: fraudScore > threshold → INCRBY(advertiser-budget:{advertiserId}, bidAmountCents) to restore budget. emit FraudDetected.",
+    "IR-3: PCI zero-PAN: card.number BLOCKED, card.cvv BLOCKED. paymentMethodToken stored only.",
+    "IR-4: Fraud check output stored in audit — catch block includes fraudScore for investigation.",
+    "IR-5: tenantId from ALS only — never from event payload."
+  ],
+  "machineComponents": [
+    "AI fraud detection at ORDER 1 before billing commitment",
+    "fraudScore threshold from FREEDOM config — never hardcoded",
+    "INCRBY budget restoration on fraud rejection",
+    "PCI zero-PAN: paymentMethodToken only, card data blocked",
+    "Fraud audit trail with fraudScore for investigation"
+  ],
+  "freedomComponents": [
+    "fraud_score_threshold — minimum fraudScore to trigger FraudDetected (0.0-1.0)",
+    "fraud_audit_retention_days — how long to retain fraud audit records"
+  ]
+}

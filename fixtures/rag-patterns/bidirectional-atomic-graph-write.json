@@ -1,0 +1,16 @@
+{
+  "patternId": "bidirectional-atomic-graph-write",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-07",
+  "domainId": "social-connections",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": ["T75", "bidirectional", "atomic", "graph", "connectionId"],
+  "keywords": "bidirectional atomic graph write social connection ORM transaction direction-independent connectionId",
+  "codeSnippet": "const connectionId = hash(sorted([userIdA, userIdB]).join(':') + ':' + tenantId);\nawait orm.transaction(async (em) => {\n  await em.upsert('graph_edges', { connectionId, from: userIdA, to: userIdB });\n  await em.upsert('graph_edges', { connectionId, from: userIdB, to: userIdA });\n});\n// WRONG: two separate storeDocument calls — partial-write window if crash between them\n// await this.db.storeDocument('graph_edges', aToB); // then crash here\n// await this.db.storeDocument('graph_edges', bToA); // never reaches B→A",
+  "ironRules": [
+    "BOTH A→B and B→A adjacency entries in ONE ORM transaction — no two-step write",
+    "connectionId = hash(sorted([userIdA, userIdB]) + tenantId) — direction-independent",
+    "Partial write (crash between A→B and B→A) is BUILD_FAILURE — graph becomes asymmetric"
+  ]
+}

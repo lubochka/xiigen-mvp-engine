@@ -1,0 +1,58 @@
+{
+  "flowId": "FLOW-48",
+  "slug": "i18n-translation",
+  "version": "1.0",
+  "entries": [
+    {
+      "patternId": "hist_flow_flow48_d_01",
+      "flowId": "FLOW-48",
+      "decisionTag": "react-i18n-bundle-first",
+      "qualityScore": 0.95,
+      "teachingPoint": "Ship English inline in every module bundle; i18next Backend plugin lazy-loads only non-English locales. English requests never hit the server. fallbackLng: 'en' makes every translation failure path resolve to the bundled English resource with zero custom fallback code.",
+      "positiveExample": "i18n.init({ resources: { en: { 'user-registration': userRegEn, ... } }, fallbackLng: 'en', backend: { loadPath: '/api/translations/{{ns}}/{{lng}}' } }); useTranslation('user-registration');",
+      "negativeExample": "fetch('/api/translations/user-registration/en').then(r => r.json()).then(setStrings); — server call for English wastes a round trip every session.",
+      "keywords": ["react-i18next", "i18next", "bundle-first", "fallbackLng", "namespace"]
+    },
+    {
+      "patternId": "hist_flow_flow48_d_02",
+      "flowId": "FLOW-48",
+      "decisionTag": "translation-pipeline-5-step",
+      "qualityScore": 0.93,
+      "teachingPoint": "The TranslationResolverService implements a 5-step pipeline: tenant CAS cache → TranslationPolicyGate (CF-812) → marketplace probe → marketplace-delta translation → full tenant translation. The delta path reads marketplace master CAS, diffs against tenant sourceKeys, and only AI-translates the delta — merging with master base.",
+      "positiveExample": "Step 4 delta-empty: tenant_keys ⊆ marketplace_keys → storeRef(tenantId, moduleId, locale, masterHash) — zero new AI call, tenant reference points at master blob.",
+      "negativeExample": "Step 4: always translate every tenant key via AI even when marketplace has it — wastes cost and attribution.",
+      "keywords": ["orchestration", "cache-first", "delta", "marketplace", "CAS"]
+    },
+    {
+      "patternId": "hist_flow_flow48_d_03",
+      "flowId": "FLOW-48",
+      "decisionTag": "master-cls-translation-job",
+      "qualityScore": 0.97,
+      "teachingPoint": "MarketplaceTranslationCacheJob (T667) is the ONLY service permitted to switch CLS context to MASTER_TENANT_ID for translation. Pattern mirrors bootstrap-seeder.service.ts master-tenant switch. All other translation calls use the current ALS context and tenant AI keys. CF-811 iron rule.",
+      "positiveExample": "await runUnderMasterTenantContext(async () => { const result = await aiProvider.generateStructured(source, schema, { systemPrompt }); await packageContentStore.store(hash, result); await f1523.storeRef({ tenantId: MASTER_TENANT_ID, moduleId, locale, contentHash: hash, sourceHash, connectionType: 'FLOW_SCOPED' }); });",
+      "negativeExample": "Any service other than T667 calling runUnderMasterTenantContext() for translation — violates CF-811.",
+      "keywords": ["master-tenant", "CLS", "AI keys", "cost attribution", "CF-811"]
+    },
+    {
+      "patternId": "hist_flow_flow48_d_04",
+      "flowId": "FLOW-48",
+      "decisionTag": "translation-endpoint-always-200",
+      "qualityScore": 0.97,
+      "teachingPoint": "GET /api/translations/:moduleId/:locale MUST return HTTP 200 in all paths. AI failure, policy denial, CAS failure all produce { fallback: true, locale: 'en' }. i18next's native fallbackLng handles the UI side — no error boundary needed on the client.",
+      "positiveExample": "try { result = await resolver.resolve(...); return sendResult(res, DataProcessResult.success({ translations: result })); } catch (err) { logger.warn('translation failure', err); return sendResult(res, DataProcessResult.success({ fallback: true, locale: 'en' })); }",
+      "negativeExample": "catch (err) { return res.status(500).json({ error: err.message }); } — propagates 5xx to client, breaks i18next fallback pipeline.",
+      "keywords": ["CF-812", "fallback", "monotonic-200", "error-free contract"]
+    },
+    {
+      "patternId": "hist_flow_flow48_d_05",
+      "flowId": "FLOW-48",
+      "decisionTag": "user-override-protects-tenant-changes",
+      "qualityScore": 0.93,
+      "teachingPoint": "User preferences store { userId, tenantId, locale, userOverride }. When userOverride === true, tenant changes to i18n.defaultLocale do NOT propagate. When userOverride === false (default), tenant changes do propagate. Pressing 'Reset to tenant default' flips userOverride to false.",
+      "positiveExample": "effectiveLocale = moduleOverride ?? (userPrefs?.userOverride ? userPrefs.locale : null) ?? tenantDefaultLocale ?? 'en'",
+      "negativeExample": "effectiveLocale = userPrefs?.locale ?? tenantDefault — ignores userOverride flag; tenant changes silently override user choice.",
+      "keywords": ["user-preferences", "userOverride", "priority chain", "module override"]
+    }
+  ],
+  "lastUpdated": "2026-04-19"
+}

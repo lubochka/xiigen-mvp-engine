@@ -1,0 +1,13 @@
+{
+  "eventType": "warehouse.funnel.analysis",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "funnelId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "entered": { "type": "integer", "minimum": 0, "required": true },
+    "converted": { "type": "integer", "minimum": 0, "required": true },
+    "conversionRate": { "type": "number", "minimum": 0, "maximum": 1, "required": true },
+    "generatedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

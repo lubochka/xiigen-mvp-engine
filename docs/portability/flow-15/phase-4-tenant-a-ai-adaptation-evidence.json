@@ -1,0 +1,201 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "phase": "phase4AiAdaptation",
+  "status": "completed",
+  "generatedAt": "2026-05-06T14:42:56.0092683+03:00",
+  "branch": "Skills_Creation_Claude",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "tenantName": "Acme Corp"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change",
+    "packageName": "@xiigen-fork/acme-enterprise-saas-multi-tenancy",
+    "packageVersion": "1.0.1",
+    "moduleName": "acme-enterprise-saas-multi-tenancy",
+    "displayName": "Acme Enterprise SaaS Multi-Tenancy",
+    "sourceModuleName": "saas-multi-tenancy",
+    "sourcePackageVersion": "1.0.0-fork",
+    "visiblePlainLanguage": "Acme enterprise tenancy policy: one-year tenant data retention, larger default API/storage/seat quotas, and unchanged tenant identity guardrails.",
+    "freedomChanges": [
+      {
+        "key": "flow15_tenant_data_retention_days",
+        "from": null,
+        "to": 365
+      },
+      {
+        "key": "flow15_tenant_default_quota_api_calls",
+        "from": null,
+        "to": 250000
+      },
+      {
+        "key": "flow15_tenant_default_quota_storage_gb",
+        "from": null,
+        "to": 2048
+      },
+      {
+        "key": "flow15_tenant_default_quota_seats",
+        "from": null,
+        "to": 500
+      }
+    ],
+    "invariantsPreserved": [
+      "masterTenantId remains machine-controlled and is not exposed as a tenant override.",
+      "Tenant identity is still resolved from tenant context or internal hash, never request body input.",
+      "Suspension keeps tenant records recoverable and termination still delegates purge to FLOW-13.",
+      "TenantSuspended still cascades to FLOW-12 subscription handling through peer install metadata.",
+      "FLOW-12 and FLOW-13 remain required co-installs instead of bundled source."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/saas-multi-tenancy-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/acme-corp--acme-enterprise-saas-multi-tenancy",
+    "url": "https://github.com/lubochka/acme-corp--acme-enterprise-saas-multi-tenancy",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "originalForkRepo": "lubochka/acme-corp--saas-multi-tenancy-r2",
+    "originalForkCommit": "ada41da761ac8e578b779e09e8350b144a2213ed",
+    "adaptedCommit": "a5472fb4da0c3457f1ed8d07e0e4c4cc5b81a2d6",
+    "adaptedCommitMessage": "Adapt SaaS multi-tenancy for Acme",
+    "cleanClonePath": "C:/Projects/xiigen-fork-clones/acme-corp--saas-multi-tenancy-r2-phase40-20260506-141720",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/saas-multi-tenancy-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 1,
+        "tests": 3
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 114,
+        "shasum": "311b7a93504a7b68f1e7e879094cd0a4e42a17d1"
+      }
+    ],
+    "adaptationHistoryEntries": 1
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - saas-multi-tenancy",
+    "runId": 25432930720,
+    "jobId": 74603479605,
+    "url": "https://github.com/lubochka/acme-corp--acme-enterprise-saas-multi-tenancy/actions/runs/25432930720",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "a5472fb4da0c3457f1ed8d07e0e4c4cc5b81a2d6",
+    "createdAt": "2026-05-06T11:37:39Z",
+    "updatedAt": "2026-05-06T11:38:18Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "ping": "passed",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/acme-enterprise-saas-multi-tenancy",
+    "publishedVersion": "1.0.1",
+    "viewCommand": "npm view @xiigen-fork/acme-enterprise-saas-multi-tenancy version --registry http://localhost:4873",
+    "npmViewVersion": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-enterprise-saas-multi-tenancy/-/acme-enterprise-saas-multi-tenancy-1.0.1.tgz",
+    "shasum": "311b7a93504a7b68f1e7e879094cd0a4e42a17d1",
+    "gitHead": "a5472fb4da0c3457f1ed8d07e0e4c4cc5b81a2d6",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/saas-multi-tenancy-acme-v1.0.1-registry-api-evidence.json",
+    "verified": true
+  },
+  "visualEvidence": {
+    "screenshots": [
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/saas-multi-tenancy-acme-v1.0.1-registry-listing.png",
+        "sizeBytes": 45735,
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-15/acme-corp--acme-enterprise-saas-multi-tenancy-tenant-a-v1.0.1-github-listing.png",
+        "sizeBytes": 127264,
+        "width": 1280,
+        "height": 1157
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-15/acme-corp--acme-enterprise-saas-multi-tenancy-tenant-a-v1.0.1-actions-success.png",
+        "sizeBytes": 74988,
+        "width": 1280,
+        "height": 872
+      }
+    ],
+    "repoVisibilityRestored": true
+  },
+  "phaseCloseVerification": {
+    "tenantValidation": {
+      "typescript": "passed",
+      "jest": "passed: 1 suite, 3 tests",
+      "packDryRun": "passed"
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "anyTypes": 0,
+      "passed": true
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tenantSecretsStoredInVault": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantAAdaptedFlow": true,
+    "tenantACommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBInstall": true
+  },
+  "verdict": "PASS"
+}

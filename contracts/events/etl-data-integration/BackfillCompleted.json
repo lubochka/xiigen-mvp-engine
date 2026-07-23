@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BackfillCompleted",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "BackfillCompleted" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["jobId","connectorId","slicesCompleted","totalRecords"],
+      "properties": {
+        "jobId": { "type": "string" },
+        "connectorId": { "type": "string" },
+        "slicesCompleted": { "type": "integer" },
+        "totalRecords": { "type": "integer" }
+      }
+    }
+  }
+}

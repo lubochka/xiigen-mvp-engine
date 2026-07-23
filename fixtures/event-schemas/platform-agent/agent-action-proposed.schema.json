@@ -1,0 +1,37 @@
+{
+  "title": "platform-agent-AgentActionProposed-event-schema",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "entityId": { "type": "string" },
+    "source": { "type": "string" },
+    "eventType": {
+      "type": "string",
+      "enum": ["platform-agent.AgentActionProposed"]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "actionId": { "type": "string" },
+        "sessionId": { "type": "string" },
+        "actionType": {
+          "type": "string",
+          "enum": ["ADVISE", "PROPOSE_EDIT", "CREATE_FLOW", "APPLY_GLOBAL"]
+        },
+        "adminTenantId": { "type": "string" },
+        "targetTenantId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "payload": { "type": "object" },
+        "draftFlowId": { "type": "string" },
+        "knowledgeScope": {
+          "type": "string",
+          "enum": ["PRIVATE", "GLOBAL"]
+        }
+      },
+      "required": ["actionId", "sessionId", "actionType", "tenantId"]
+    },
+    "metadata": { "type": "object" }
+  },
+  "required": ["id", "timestamp", "entityId", "eventType"]
+}

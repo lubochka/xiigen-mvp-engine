@@ -1,0 +1,34 @@
+{
+  "flowId": "FLOW-01",
+  "producedAt": "2026-03-26",
+  "architectureDecisions": [
+    {
+      "decisionId": "D-01-1",
+      "type": "INCOMPATIBLE_RECLASSIFICATION",
+      "question": "Should T48 WordPress be INCOMPATIBLE or IMPL_VARIES_WITH_PROVIDER?",
+      "reasoning": "WordPress has no reliable 24h scheduler natively. But Action Scheduler plugin provides equivalent mechanism. The incompatibility is at the provider level (scheduler mechanism), not at the design level (time-bounded wait state). Fabric interface ISchedulerService already abstracts scheduler providers.",
+      "principle": "P14 NODE-First Design: INCOMPATIBLE at mechanism level → IMPL_VARIES_WITH_PROVIDER + fabric interface",
+      "outcome": "T48 reclassified to IMPL_VARIES_WITH_PROVIDER. ISchedulerService fabric covers Bull (NestJS) and Action Scheduler (WordPress). FREEDOM config key: xiigen.scheduler_provider.",
+      "seededToRag": true
+    },
+    {
+      "decisionId": "D-01-2",
+      "type": "DEPENDENCY_DIRECTION",
+      "question": "Should SSE/push infrastructure live in FLOW-01 or as separate flow?",
+      "reasoning": "FLOW-01 through FLOW-24 will all need push for SLA-bearing steps. Putting it in FLOW-01 creates wrong dependency direction — 23 flows depending on FLOW-01 domain. Infrastructure flows that multiple flows depend on belong at Wave -1.",
+      "principle": "Bootstrap boundary: if N > 2 flows depend on capability X, X is infrastructure at Wave -1",
+      "outcome": "FLOW-40 at Wave -1 for SSE infrastructure. FLOW-01 through FLOW-24 consume it.",
+      "seededToRag": true
+    },
+    {
+      "decisionId": "D-01-3",
+      "type": "IRON_RULE_DERIVATION",
+      "question": "Why must ChangeEmailRequested revoke existing token before issuing new one?",
+      "reasoning": "Without revocation, two valid tokens exist simultaneously for the same user. Any concurrent verification attempt on the old token succeeds after the email has changed. The user ends up verified against an email they no longer own. Revocation must be stored (outbox) before the new token is issued.",
+      "principle": "DNA-8: storeDocument (revocation record) before enqueue (new token issuance)",
+      "outcome": "CF-5: ChangeEmailRequested revokes existing token before issuing replacement. Revocation storeDocument before new token creation.",
+      "seededToRag": true
+    }
+  ],
+  "seedingDate": "2026-03-26"
+}

@@ -1,0 +1,70 @@
+{
+  "flowId": "FLOW-10",
+  "flowSlug": "reviews-reputation",
+  "phase": "preExistingDefectCheck",
+  "recordedAt": "2026-05-05T20:44:03.3168654+03:00",
+  "guideSources": [
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\flow-mobility-auth-package-v2.zip::flow_mobility_fixed/FLOW-MOBILITY-AND-AUTH-MASTER-GUIDE.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\flow-mobility-auth-package-v2.zip::flow_mobility_fixed/FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\flow-mobility-auth-package-v2.zip::flow_mobility_fixed/TENANT-CICD-CONNECTION-GUIDANCE-v1.0.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\flow-mobility-auth-package-v2.zip::flow_mobility_fixed/FORK-FLOW-ENGINE-PLAN-v1.2.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\flow-mobility-auth-package-v2.zip::flow_mobility_fixed/XIIGEN-AUTH-ROLES-GROUPS-PLAN-v3.0.md",
+    "<WORKSPACE>\\Documents\\xiigen\\authorization\\flow-mobility-auth-package-v2.zip::flow_mobility_fixed/PER-FLOW-FIX-MAP-v2.9.md"
+  ],
+  "flowFixMapRow": {
+    "title": "Reviews & Reputation",
+    "distributionReadiness": "NCD",
+    "requiredGaps": [
+      "AI Protocol Phase 1 TODAY for many configurable parameters, including flow10_reputation_recency_weights",
+      "data classification annotation first stage, Stage A",
+      "plugin SDK publication",
+      "second design review finding 1 behavioral assertion"
+    ],
+    "firstTestable": "Phase 1 now; acceptance proof after data classification annotation+11",
+    "priority": "first unblocking step acceptance proof (the AI adaptation requirement)"
+  },
+  "baseline": {
+    "jestCommand": "Push-Location server; npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false; Pop-Location",
+    "jestResult": "8 suites passed, 113 tests passed",
+    "staticScanFindings": {
+      "throwNew": 0,
+      "missingMicroserviceBase": 4,
+      "clsImports": 0,
+      "flowScopedAnnotations": 0,
+      "flowIdAnnotations": 0,
+      "localFreedomInterfaceClones": 2,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "changes": [
+    "Added @Injectable() and MicroserviceBase inheritance to the four FLOW-10 services.",
+    "Added FLOW_SCOPED and FLOW-10 portability annotations to the four FLOW-10 services.",
+    "Renamed private db and queue constructor fields to dbFabric and queueFabric so they do not collide with MicroserviceBase accessors.",
+    "Replaced local IFreedomConfigService clones in moderation and aggregation services with the canonical server/src/freedom/freedom-config.interface.ts contract.",
+    "Updated FLOW-10 tests to mock and assert canonical freedom.get(configKey) reads."
+  ],
+  "postFixVerification": {
+    "typescriptCommand": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+    "typescriptExitCode": 0,
+    "jestCommand": "Push-Location server; npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false; Pop-Location",
+    "jestResult": "8 suites passed, 113 tests passed",
+    "staticScanFindings": {
+      "throwNew": 0,
+      "missingMicroserviceBase": 0,
+      "clsImports": 0,
+      "flowScopedAnnotations": 4,
+      "flowIdAnnotations": 4,
+      "localFreedomInterfaceClones": 0,
+      "unscopedFreedomReads": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "openPrerequisitesAfterPhase": [
+    "AI Protocol Phase 1 adaptation proof remains pending for the cascade phases.",
+    "Plugin SDK publication remains pending before Tier certification.",
+    "Behavioral before/after adaptation assertion remains pending before Tier certification."
+  ],
+  "secretHandling": "No credential values were written to this evidence file, state file, docs, or env files."
+}

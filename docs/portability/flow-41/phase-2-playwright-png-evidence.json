@@ -1,0 +1,35 @@
+{
+    "flowId":  "FLOW-41",
+    "flowSlug":  "adapter-ci-cd-bridge",
+    "implementationType":  "external-adapter-ui",
+    "phase":  "phase-2-playwright-png-evidence",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T00:16:43.1519452Z",
+    "command":  "npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts --grep \"C6-R41\" --workers=1 --reporter=list",
+    "tests":  {
+                  "projects":  [
+                                   "chromium-desktop",
+                                   "chromium-tablet",
+                                   "chromium-mobile"
+                               ],
+                  "total":  3,
+                  "passed":  3
+              },
+    "screenshots":  [
+                        {
+                            "bytes":  227065,
+                            "path":  "docs/e2e-snapshots/c6-role-coverage/adapter-ci-cd-bridge-role-platform-admin.png"
+                        }
+                    ],
+    "expectedRoleMatrix":  {
+                               "full":  [
+                                            "platform-admin"
+                                        ],
+                               "testedPrimary":  "platform-admin",
+                               "partial":  [
+                                               "tenant-admin",
+                                               "platform-support"
+                                           ]
+                           },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,159 @@
+﻿{
+    "flowId":  "FLOW-10",
+    "flowSlug":  "reviews-reputation",
+    "phase":  "phase-4.0-tenant-a-original-fork",
+    "generatedAt":  "2026-05-05T21:55:25.0553642+03:00",
+    "tenant":  "acme-corp",
+    "forkApi":  {
+                    "method":  "POST",
+                    "path":  "/api/marketplace/packages/reviews-reputation/fork",
+                    "responseStatus":  "FORKED",
+                    "forkId":  "fork-reviews-reputation-acme-corp",
+                    "repoUrl":  "https://github.com/lubochka/acme-corp--reviews-reputation",
+                    "repoFullName":  "lubochka/acme-corp--reviews-reputation",
+                    "initialCommitSha":  "86a3ba695ecb6d4266a5d51cd254fc3e3e0677ef",
+                    "tokenMaterialWrittenToEvidence":  false
+                },
+    "githubRepo":  {
+                       "nameWithOwner":  "lubochka/acme-corp--reviews-reputation",
+                       "url":  "https://github.com/lubochka/acme-corp--reviews-reputation",
+                       "defaultBranch":  "main",
+                       "visibilityAfterEvidenceCapture":  "PRIVATE",
+                       "isPrivateAfterEvidenceCapture":  true,
+                       "pushedAt":  "2026-05-05T18:48:14Z",
+                       "updatedAt":  "2026-05-05T18:53:06Z"
+                   },
+    "githubActions":  [
+                          {
+                              "databaseId":  25395718198,
+                              "workflowName":  "XIIGen Flow CI — reviews-reputation",
+                              "event":  "workflow_dispatch",
+                              "displayTitle":  "XIIGen Flow CI — reviews-reputation",
+                              "headSha":  "86a3ba695ecb6d4266a5d51cd254fc3e3e0677ef",
+                              "status":  "completed",
+                              "conclusion":  "success",
+                              "url":  "https://github.com/lubochka/acme-corp--reviews-reputation/actions/runs/25395718198",
+                              "createdAt":  "2026-05-05T18:48:55Z",
+                              "updatedAt":  "2026-05-05T18:50:04Z"
+                          },
+                          {
+                              "databaseId":  25395699232,
+                              "workflowName":  "XIIGen Flow CI — reviews-reputation",
+                              "event":  "push",
+                              "displayTitle":  "Initial fork: reviews-reputation v1.0.0",
+                              "headSha":  "86a3ba695ecb6d4266a5d51cd254fc3e3e0677ef",
+                              "status":  "completed",
+                              "conclusion":  "success",
+                              "url":  "https://github.com/lubochka/acme-corp--reviews-reputation/actions/runs/25395699232",
+                              "createdAt":  "2026-05-05T18:48:32Z",
+                              "updatedAt":  "2026-05-05T18:49:30Z"
+                          }
+                      ],
+    "screenshots":  {
+                        "captureNote":  "Repo was made public only for browser screenshot capture and restored to PRIVATE afterward.",
+                        "repo":  {
+                                     "path":  "docs/e2e-snapshots/repo-evidence/flow-10/acme-corp--reviews-reputation-repo.png",
+                                     "bytes":  127927
+                                 },
+                        "actions":  {
+                                        "path":  "docs/e2e-snapshots/repo-evidence/flow-10/acme-corp--reviews-reputation-actions.png",
+                                        "bytes":  75111
+                                    }
+                    },
+    "localCloneVerification":  {
+                                   "clonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--reviews-reputation-phase40",
+                                   "headSha":  "86a3ba695ecb6d4266a5d51cd254fc3e3e0677ef",
+                                   "headShort":  "86a3ba6",
+                                   "npmInstall":  "passed",
+                                   "typeScript":  "npx tsc --noEmit: passed",
+                                   "jest":  "npx jest --colors=false --forceExit: 1 suite passed, 1 test passed",
+                                   "requiredBundleChecks":  {
+                                                                "completeModuleBundle":  true,
+                                                                "adaptationSurface":  true,
+                                                                "freedomDefaults":  true,
+                                                                "tenantConfig":  true,
+                                                                "ragSeeds":  true,
+                                                                "standalonePackage":  true
+                                                            },
+                                   "freedomDefaultKeys":  [
+                                                              "flow10_moderation_pass_threshold",
+                                                              "flow10_moderation_reject_threshold",
+                                                              "flow10_reputation_recency_weights"
+                                                          ],
+                                   "tenantConfig":  {
+                                                        "tenantId":  "acme-corp",
+                                                        "flowId":  "FLOW-10",
+                                                        "flowSlug":  "reviews-reputation",
+                                                        "adaptationHistoryCount":  0
+                                                    }
+                               },
+    "sourceBundleInputs":  {
+                               "functionalSpec":  "docs/business-flows/10-reviews-reputation.md",
+                               "adaptationSurface":  "docs/portability/flow-10/adaptation-surface-reviews-reputation.json",
+                               "flow10FreedomDefaultsRegistered":  [
+                                                                       "flow10_moderation_pass_threshold",
+                                                                       "flow10_moderation_reject_threshold",
+                                                                       "flow10_reputation_recency_weights"
+                                                                   ],
+                               "directAssemblerProbe":  "FLOW-10 assemble returned complete module bundle with 121 files before live API fork."
+                           },
+    "tenantCredentialReadiness":  {
+                                      "vaultSealed":  false,
+                                      "runtimeVaultPathsSeeded":  [
+                                                                      "secret/{tenant}/github_token",
+                                                                      "secret/{tenant}/github_org_name",
+                                                                      "secret/{tenant}/docker_registry_url",
+                                                                      "secret/{tenant}/docker_registry_token"
+                                                                  ],
+                                      "canonicalVaultPathsSeeded":  [
+                                                                        "secret/xiigen/tenants/{tenant}/github_token",
+                                                                        "secret/xiigen/tenants/{tenant}/github_org_name",
+                                                                        "secret/xiigen/tenants/{tenant}/docker_registry_url",
+                                                                        "secret/xiigen/tenants/{tenant}/docker_registry_token"
+                                                                    ],
+                                      "tenantFreedomVaultTokenConfigured":  true,
+                                      "tokenMaterialWrittenToEvidence":  false
+                                  },
+    "phaseCloseScan":  {
+                           "flowFileCount":  4,
+                           "throwNew":  0,
+                           "servicesMissingMicroserviceBase":  0,
+                           "clsImports":  0,
+                           "flowScopedAnnotations":  4,
+                           "flowIdAnnotations":  4,
+                           "localFreedomClones":  0,
+                           "unscopedFreedomReads":  0,
+                           "directSdkImports":  0,
+                           "productionAnyTypes":  0
+                       },
+    "verification":  {
+                         "serverTypecheck":  "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location: exit 0",
+                         "serverJest":  "Push-Location server; npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false; Pop-Location: 8 suites passed, 113 tests passed",
+                         "assemblerJest":  "Push-Location server; npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false; Pop-Location: 1 suite passed, 8 tests passed",
+                         "dockerBuild":  "docker compose -f docker-compose.yml up -d --build server: server healthy on port 33001",
+                         "localForkClone":  "npm install --no-audit --no-fund; npx tsc --noEmit; npx jest --colors=false --forceExit: passed",
+                         "githubActions":  "Push-triggered and workflow_dispatch runs completed with conclusion=success."
+                     },
+    "commands":  [
+                     "Added docs/business-flows/10-reviews-reputation.md",
+                     "Added docs/portability/flow-10/adaptation-surface-reviews-reputation.json",
+                     "Registered FLOW-10 FREEDOM defaults in server/src/freedom/config-schema.ts",
+                     "server npx tsc --noEmit -p tsconfig.json",
+                     "server npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false",
+                     "server npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false",
+                     "Direct FLOW-10 FlowFileAssemblerService assemble probe",
+                     "docker compose -f docker-compose.yml up -d --build server",
+                     "POST /api/tenants for acme-corp, northwind, tessera-collective after rebuild",
+                     "Seeded runtime and canonical Vault paths without printing secret values",
+                     "POST /api/marketplace/packages/reviews-reputation/fork",
+                     "gh run watch for push and workflow_dispatch Actions runs",
+                     "gh repo clone lubochka/acme-corp--reviews-reputation and standalone npm/tsc/jest verification",
+                     "Temporary public visibility for real GitHub screenshots, then restored PRIVATE"
+                 ],
+    "notes":  [
+                  "The initial workflow run appeared after a short GitHub delay; workflow_dispatch was also run to provide explicit evidence. Both completed successfully.",
+                  "GitHub Actions emitted a Node.js 20 deprecation warning for actions/checkout@v4.2.2 and actions/setup-node@v4.4.0; the job conclusion remained success. This matches existing debt-011 in AGENTS.md.",
+                  "The repo screenshot shows the temporary Public badge because it was captured during the evidence window; gh repo view after capture confirmed visibility PRIVATE.",
+                  "No GitHub token, Vault token, signing key, or JWT material is written to this evidence file."
+              ]
+}

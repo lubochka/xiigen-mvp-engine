@@ -1,0 +1,12 @@
+{
+  "eventType": "freelancer.duplicate.review.rejected",
+  "flowId": "FLOW-17",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "engagementId": { "type": "string", "required": true },
+    "direction": { "type": "string", "enum": ["CLIENT_TO_FREELANCER", "FREELANCER_TO_CLIENT"], "required": true },
+    "reviewerId": { "type": "string", "required": true },
+    "reason": { "type": "string", "enum": ["ALREADY_REVIEWED_IN_DIRECTION"], "required": true }
+  }
+}

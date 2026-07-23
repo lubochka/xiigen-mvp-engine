@@ -1,0 +1,42 @@
+{
+  "taskTypeId": "T182",
+  "flowId": "FLOW-13",
+  "name": "TrainingDatasetBuilder",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "pii-masking-before-dataset-export",
+    "tier": "PLATFORM_ONLY",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "data_warehouse_training_dataset_retention_days",
+    "neutralConcepts": [
+      "F423 IPIIMaskingService PLATFORM-ONLY — PII masking executes BEFORE dataset export",
+      "Dataset is tenant-scoped — no cross-tenant data leakage permitted",
+      "featureCount must be validated (>= 1) before emitting TrainingDatasetReady",
+      "rowCount must be validated (>= 1) before emitting TrainingDatasetReady",
+      "storeDocument(datasetRecord) BEFORE enqueue(TrainingDatasetReady) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F423", "interface": "IPIIMaskingService", "fabric": "PLATFORM_ONLY" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T182-1", "rule": "Dataset is tenant-scoped — no cross-tenant data leakage. Every query must include tenantId predicate.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T182-2", "rule": "F423 IPIIMaskingService PLATFORM-ONLY — PII masking executes BEFORE dataset export. Unmasked PII must never reach the exported dataset.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T182-3", "rule": "featureCount must be validated >= 1 before emitting TrainingDatasetReady. Zero-feature datasets must return failure.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T182-4", "rule": "rowCount must be validated >= 1 before emitting TrainingDatasetReady. Empty datasets must return failure.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T182-5", "rule": "storeDocument(datasetRecord) BEFORE enqueue(TrainingDatasetReady). DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "tenant_scope_isolation",
+    "pii_masking_before_export",
+    "feature_count_validation",
+    "store_before_enqueue"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "training", "dataset", "pii", "platform-only", "ANALYTICS_ENGINE"],
+  "keywords": "training dataset builder PII masking tenant-scoped feature count row count validation analytics warehouse machine learning"
+}

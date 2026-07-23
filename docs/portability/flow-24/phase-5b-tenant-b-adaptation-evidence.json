@@ -1,0 +1,172 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "phase5bTenantBAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T11:36:39.0683440Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "tenantName":  "Northwind"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "FREEDOM key value change plus tenant package metadata",
+                       "packageName":  "@xiigen-fork/northwind-trust-review",
+                       "packageVersion":  "1.0.2",
+                       "moduleName":  "northwind-trust-review",
+                       "displayName":  "Northwind Trust Review",
+                       "sourceModuleName":  "acme-safety-console",
+                       "visiblePlainLanguage":  "Northwind trust-review defaults: pending consent by default, 12-hour review SLA, conservative safety threshold, expanded harassment and scam labels, longer grading timeout, async gamification dispatch, profile-only timezone messaging, safe domain-pack skip, fabric-only calendar sync, and advanced progress enabled while Acme provenance, consent fail-closed behavior, safety token enforcement, ordering, server-side grading, append-only ledger, provider boundaries, and tenant isolation remain unchanged.",
+                       "adaptedFiles":  [
+                                            "ADAPTATION-CHANGELOG.md",
+                                            "BUNDLE-MANIFEST.json",
+                                            "__tests__/ai-safety-moderation-acme-adaptation.spec.ts",
+                                            "__tests__/ai-safety-moderation-northwind-adaptation.spec.ts",
+                                            "freedom-config.defaults.json",
+                                            "package.json",
+                                            "settings/module.settings.json",
+                                            "tenant.config.json"
+                                        ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/northwind--northwind-trust-review",
+                             "url":  "https://github.com/lubochka/northwind--northwind-trust-review",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "sourceRepoFullName":  "lubochka/acme-corp--acme-safety-console",
+                             "adaptedCommit":  "119d011cfab7a5e854f87312bf992f77bf6c1218",
+                             "adaptedCommitMessage":  "Adapt AI safety moderation for Northwind trust review",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-safety-console-phase5a-20260510-142132",
+                             "cleanCloneStatus":  "clean against adapted/main",
+                             "adaptationHistoryEntries":  2,
+                             "bundleManifestItemCount":  112
+                         },
+    "tenantCloneVerification":  [
+                                    {
+                                        "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx tsc --noEmit --pretty false",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx jest --colors=false --forceExit",
+                                        "result":  "passed",
+                                        "suites":  3,
+                                        "tests":  6
+                                    },
+                                    {
+                                        "command":  "npm pack --dry-run --json",
+                                        "result":  "passed",
+                                        "entryCount":  113,
+                                        "shasum":  "88ef2bc5ea639a7e812e8be4e22dc97bf0819274"
+                                    }
+                                ],
+    "githubActions":  {
+                          "workflowName":  [
+                                               "XIIGen Flow CI — ai-safety-moderation",
+                                               "XIIGen Flow CI — ai-safety-moderation",
+                                               "XIIGen Flow CI — ai-safety-moderation"
+                                           ],
+                          "runId":  [
+                                        25627601726,
+                                        25627444202,
+                                        25627379365
+                                    ],
+                          "url":  [
+                                      "https://github.com/lubochka/northwind--northwind-trust-review/actions/runs/25627601726",
+                                      "https://github.com/lubochka/northwind--northwind-trust-review/actions/runs/25627444202",
+                                      "https://github.com/lubochka/northwind--northwind-trust-review/actions/runs/25627379365"
+                                  ],
+                          "status":  [
+                                         "completed",
+                                         "completed",
+                                         "completed"
+                                     ],
+                          "conclusion":  [
+                                             "success",
+                                             "success",
+                                             "failure"
+                                         ],
+                          "headSha":  [
+                                          "119d011cfab7a5e854f87312bf992f77bf6c1218",
+                                          "495ed516fe2e5a8ff87187c78e868da610a1d948",
+                                          "6f6449d4e0e2b3cda1026bc6831d42f7448744a2"
+                                      ],
+                          "createdAt":  [
+                                            "2026-05-10T11:31:47Z",
+                                            "2026-05-10T11:23:50Z",
+                                            "2026-05-10T11:20:34Z"
+                                        ],
+                          "updatedAt":  [
+                                            "2026-05-10T11:32:37Z",
+                                            "2026-05-10T11:24:26Z",
+                                            "2026-05-10T11:21:12Z"
+                                        ]
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "package":  "@xiigen-fork/northwind-trust-review",
+                          "version":  "1.0.2",
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-trust-review/-/northwind-trust-review-1.0.2.tgz",
+                          "shasum":  "88ef2bc5ea639a7e812e8be4e22dc97bf0819274",
+                          "gitHead":  "119d011cfab7a5e854f87312bf992f77bf6c1218",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/ai-safety-moderation-northwind-v1.0.2-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "playwrightEvidence":  {
+                               "spec":  "client/e2e/ai-safety-moderation-tenant-b-adapted.spec.ts",
+                               "passed":  15,
+                               "failed":  0,
+                               "pngDirectory":  "docs/e2e-snapshots/ai-safety-moderation/tenant-b-v1.0.2",
+                               "pngCount":  15,
+                               "emptyPngCount":  0,
+                               "totalBytes":  621488
+                           },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/ai-safety-moderation-northwind-v1.0.2-registry-listing.png",
+                                                   "sizeBytes":  18388
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-24/northwind--northwind-trust-review-tenant-b-v1.0.2-actions-success.png",
+                                                   "sizeBytes":  79347
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-24/northwind--northwind-trust-review-tenant-b-v1.0.2-github-listing.png",
+                                                   "sizeBytes":  130723
+                                               }
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypescript":  "passed",
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "highRiskSecretPatternHits":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "phaseGate":  {
+                      "tenantBAdaptedFlow":  true,
+                      "tenantBCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "playwrightCascadeScreenshotsPresent":  true,
+                      "readyForTenantCInstall":  true
+                  },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "verdict":  "PASS"
+}

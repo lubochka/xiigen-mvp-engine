@@ -1,0 +1,20 @@
+{
+  "patternId": "inline-pure-calculation",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-09",
+  "domainId": "transactional-event-participation",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": ["T112", "inline-pure", "pure-function", "no-side-effects", "fee-calculation"],
+  "keywords": "inline pure calculation fee breakdown no storeDocument no enqueue caller-owned computation",
+  "appliesTo": ["T112"],
+  "qualityScore": 0.85,
+  "curriculumTier": 2,
+  "ironRules": [
+    "T112 is INLINE_PURE — returns FeeBreakdown only, no storeDocument, no enqueue",
+    "T112 is called inline by T110 RevenueTracker — never via queue",
+    "T112 must not write to any index — any storeDocument call is BUILD_FAILURE per CF-09-5",
+    "T111 reads fee data from stored RevenueRecord written by T110 — never calls T112 again"
+  ],
+  "codeSnippet": "// T112 FeeCalculatorHandler — CORRECT inline-pure pattern\n@Injectable()\nexport class FeeCalculatorHandler {\n  async calculate(input: FeeInput): Promise<DataProcessResult<FeeBreakdown>> {\n    const baseFee = input.grossAmount * 0.029; // from FREEDOM config\n    const platformFee = input.grossAmount * 0.02; // from FREEDOM config\n    const totalFee = baseFee + platformFee;\n    // Returns FeeBreakdown ONLY — no storeDocument, no enqueue\n    return DataProcessResult.success({\n      baseFee,\n      platformFee,\n      totalFee,\n      netAmount: input.grossAmount - totalFee,\n    });\n  }\n}\n// WRONG: await this.db.storeDocument('fee-records', { feeBreakdown, purchaseId }) — orphaned record on T110 failure"
+}

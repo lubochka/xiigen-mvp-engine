@@ -1,0 +1,52 @@
+{
+    "flowId":  "FLOW-32",
+    "flowSlug":  "sharable-flows-marketplace",
+    "phase":  "preExistingDefectCheck",
+    "generatedAt":  "2026-05-11T05:37:33.9056634Z",
+    "protocolGate":  "Pre-existing Jest suite plus static portability/auth scan must pass with zero failure lines before live auth begins.",
+    "roleMapSource":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-07.md",
+    "initialFindings":  {
+                            "implementationStateDrift":  "FLOW-32-IMPL-STATE says NOT_STARTED while 20 generated services exist on disk; accepted as protocol-run drift and tracked in the flow state file.",
+                            "staticScanBeforeFix":  {
+                                                        "fileCount":  20,
+                                                        "throwNew":  0,
+                                                        "exportedServices":  20,
+                                                        "servicesMissingMicroserviceBase":  20,
+                                                        "clsImports":  3,
+                                                        "directSdkImports":  0,
+                                                        "anyTypes":  0,
+                                                        "failureLines":  23
+                                                    }
+                        },
+    "fixesApplied":  [
+                         "Added MicroserviceBase/ServiceDescriptor inheritance to the 20 FLOW-32 generated services.",
+                         "Renamed injected database and queue fabric members away from base-class member names and updated call sites.",
+                         "Replaced remaining direct ClsService tenant lookups in marketplace installer, RAG blueprint importer, and usage meter with TenantContextResolver.",
+                         "Formatted only the modified FLOW-32 service files with the repo Prettier configuration."
+                     ],
+    "verification":  {
+                         "typescript":  {
+                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                            "exitCode":  0
+                                        },
+                         "jest":  {
+                                      "command":  "Push-Location server; npx jest --testPathPatterns=sharable-flows-marketplace --runInBand --colors=false; Pop-Location",
+                                      "exitCode":  0,
+                                      "testSuites":  "4 passed, 4 total",
+                                      "tests":  "134 passed, 134 total"
+                                  },
+                         "staticScanAfterFix":  {
+                                                    "root":  "server/src/engine/flows/sharable-flows-marketplace",
+                                                    "fileCount":  20,
+                                                    "throwNew":  0,
+                                                    "exportedServices":  20,
+                                                    "servicesMissingMicroserviceBase":  0,
+                                                    "clsImports":  0,
+                                                    "directSdkImports":  0,
+                                                    "anyTypes":  0,
+                                                    "failureLines":  0
+                                                }
+                     },
+    "result":  "PASS",
+    "nextPhase":  "phase0DockerVaultAuth"
+}

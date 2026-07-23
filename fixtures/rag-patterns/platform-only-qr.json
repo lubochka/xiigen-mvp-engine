@@ -1,0 +1,20 @@
+{
+  "patternId": "platform-only-qr",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-09",
+  "domainId": "transactional-event-participation",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": ["T102", "T103", "platform-only", "security", "qr-token", "trust-boundary"],
+  "keywords": "platform only QR token generation validation security F275 trust boundary not injectable",
+  "appliesTo": ["T102", "T103"],
+  "qualityScore": 0.94,
+  "curriculumTier": 1,
+  "ironRules": [
+    "F275 IQRService is PLATFORM-ONLY — no tenant factory swap permitted for T102 or T103",
+    "Tenant-provided QR implementation enables token forgery — platform control is non-negotiable",
+    "Contrast: F281 (payout) is INJECTABLE for business reasons; F275 is PLATFORM-ONLY for security",
+    "Any INJECTABLE declaration of F275 is a BUILD_FAILURE per CF-09-6"
+  ],
+  "codeSnippet": "// T102 QRCodeGeneratorHandler — CORRECT platform-only declaration\n// Factory dependency MUST declare PLATFORM-ONLY (no tenant override)\n// factoryDependencies: [{ factoryId: 'F275', interfaceName: 'IQRService', platformOnly: true }]\n\nasync generateQRCode(ticketId: string): Promise<DataProcessResult<QRResult>> {\n  // F275 is injected as platform service — tenant cannot override\n  const qrResult = await this.qrService.generate({ ticketId, tenantId: this.tenantContext.get() });\n  // DNA-8: store QR record BEFORE event\n  await this.db.storeDocument('ticket-qr-codes', { ticketId, qrToken: qrResult.data?.token, knowledgeScope: 'PRIVATE' }, ticketId);\n  await this.queue.enqueue('ticket.qr.generated', { ticketId });\n  return DataProcessResult.success({ ticketId, qrToken: qrResult.data?.token });\n}\n// WRONG: IExternalServiceFactory.createAsync('qr-service') — allows tenant QR implementation"
+}

@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T193",
+  "name": "schema-registry-dag-schema-compatibility-checker",
+  "description": "T193 SchemaCompatibilityChecker — VALIDATION archetype (inline). Validates field-level compatibility against published schemas. Returns compatibility score.",
+  "archetype": "VALIDATION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: field-level compatibility against published schemas, compatibility score output, inline call contract from T189"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve VALIDATION arch pattern + field-compatibility + compatibility-score + schema-diff patterns for T193",
+      "params": {
+        "archetype": "VALIDATION",
+        "taskTypeRef": "T193",
+        "topK": 5,
+        "patternIds": [
+          "field-compatibility-001",
+          "compatibility-score-001",
+          "schema-diff-001",
+          "published-schema-lookup-001",
+          "inline-validator-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T193 into: load published schema by schemaId → diff fields → classify field changes → compute compatibility score → return score with field-level diff report"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-compatibility-checker.service.ts — checkCompatibility(newSchema, existingSchemaId) reads PINNED published schema from DATABASE, performs field-level diff, computes score 0.0–1.0. NEVER reads 'latest' — always pinned version. Returns CompatibilityResult with score and field diff. Called inline at T189 step 5."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: reads_pinned_version_not_latest, field_level_diff_performed, compatibility_score_0_to_1, returns_field_diff_report, inline_call_compliant"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T193 iron rules: pinned version read, field-level diff, score range compliance, no latest-version reference"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=pinned-version-read+field-level-diff+score-0-to-1, rejected=latest-version-read OR no-field-diff OR binary-compatible-flag-only. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "inline call from T189",
+  "primaryFabric": "DATABASE"
+}

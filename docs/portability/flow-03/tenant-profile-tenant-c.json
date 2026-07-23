@@ -1,0 +1,107 @@
+{
+  "tenantId": "tessera-collective",
+  "tenantLabel": "Tessera Collective",
+  "flowId": "FLOW-03",
+  "flowSlug": "event-management",
+  "phase": "Phase 5c-5 - adapted and published Tenant C version",
+  "moduleName": "event-management-tessera-residency-circles",
+  "moduleVersion": "1.0.0",
+  "repoName": "tessera-collective--event-management-tessera-residency-circles",
+  "repoUrl": "https://github.com/lubochka/tessera-collective--event-management-tessera-residency-circles",
+  "installedFrom": {
+    "tenantId": "northwind",
+    "repoName": "northwind--event-management-northwind-sponsor-forums",
+    "repoFullName": "lubochka/northwind--event-management-northwind-sponsor-forums",
+    "moduleName": "event-management-northwind-sponsor-forums",
+    "moduleVersion": "1.0.2"
+  },
+  "adaptationHistory": [
+    {
+      "version": "1.0.1",
+      "adaptedBy": "acme-corp",
+      "changeType": "Type A (FREEDOM key value change)",
+      "previousModuleName": "event-management",
+      "newModuleName": "event-management-acme-curated-events",
+      "summary": "Curated small-group events: 10 attendee cap, three active events per organiser, in-app promotion only."
+    },
+    {
+      "version": "1.0.2",
+      "adaptedBy": "northwind",
+      "changeType": "Type A (FREEDOM key value change)",
+      "freedomKeyChanged": "flow03_waitlist_max_size",
+      "previousModuleName": "event-management-acme-curated-events",
+      "newModuleName": "event-management-northwind-sponsor-forums",
+      "summary": "Curated sponsor forum requests with a 12-partner review waitlist while preserving Acme's attendee and promotion limits."
+    },
+    {
+      "version": "1.0.0",
+      "adaptedBy": "tessera-collective",
+      "changeType": "Type A (FREEDOM key value change)",
+      "freedomKeyChanged": "flow03_analytics_counter_ttl_days",
+      "previousValue": null,
+      "newValue": 45,
+      "previousModuleName": "event-management-northwind-sponsor-forums",
+      "newModuleName": "event-management-tessera-residency-circles",
+      "summary": "Residency circle analytics retain event signals for a 45-day review window while preserving Acme's curated limits and Northwind's sponsor waitlist."
+    }
+  ],
+  "connections": {
+    "github": {
+      "orgName": "lubochka",
+      "vaultKeyPath": "xiigen/tenants/tessera-collective/github_token",
+      "repoVisibility": "private",
+      "defaultBranch": "main",
+      "connectionVerified": true,
+      "lastVerifiedAt": "2026-05-01T03:38:16.373Z"
+    },
+    "docker": {
+      "registryUrl": "ghcr.io",
+      "vaultKeyPath": "xiigen/tenants/tessera-collective/docker_registry_token",
+      "connectionVerified": true,
+      "lastVerifiedAt": "2026-05-01T03:38:16.373Z"
+    },
+    "ci": {
+      "provider": "github-actions",
+      "workflowTemplate": "flow-ci-v1",
+      "firstCiRunAt": "2026-05-01T02:53:01Z",
+      "lastCiRunAt": "2026-05-01T03:34:50Z",
+      "lastCiResult": "success",
+      "workflowRunUrl": "https://github.com/lubochka/tessera-collective--event-management-tessera-residency-circles/actions/runs/25200897272"
+    }
+  },
+  "phase5cEvidence": {
+    "workflowConclusion": "success",
+    "workflowRunUrl": "https://github.com/lubochka/tessera-collective--event-management-northwind-sponsor-forums/actions/runs/25200057235",
+    "tenantRepoCommitHash": "a7b804c3bece9140a3a876e1adabf92b16264288",
+    "initialCommitSha": "060e1d52ebedf15b6d23b500f2a354ae0b8b0151",
+    "githubListingPng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-northwind-sponsor-forums-github-listing.png",
+    "repoHomepagePng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-northwind-sponsor-forums-repo-homepage.png",
+    "visualMatrixDirectory": "docs/e2e-snapshots/event-management/tenant-c-installed-from-b/",
+    "visualMatrixPngCount": 27
+  },
+  "phase5c5Evidence": {
+    "workflowConclusion": "success",
+    "workflowRunUrl": "https://github.com/lubochka/tessera-collective--event-management-tessera-residency-circles/actions/runs/25200897272",
+    "tenantRepoCommitHash": "9876c179000bc772d2ac4748c0a9bb303516a447",
+    "registryPackageName": "@xiigen-fork/event-management-tessera-residency-circles",
+    "registryVersion": "1.0.0",
+    "registryLatestVerified": "1.0.0",
+    "githubListingPng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-tessera-residency-circles-github-listing.png",
+    "repoHomepagePng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-tessera-residency-circles-repo-homepage.png",
+    "visualMatrixDirectory": "docs/e2e-snapshots/event-management/tenant-c-v1.0.0/",
+    "visualMatrixPngCount": 27
+  },
+  "authVerification": {
+    "status": "partial under authentication deferred deployment",
+    "harness": "JwtTokenProvider with per-tenant signing keys and CLS tenant context",
+    "noTokenVerify": 401,
+    "tenantCOwnTokenVerify": 200,
+    "acmeTokenAgainstTenantC": 401,
+    "northwindTokenAgainstTenantC": 401,
+    "roles": [
+      "tenant-admin"
+    ],
+    "crossTenantJwtIsolationPassed": true,
+    "writeRoleCheck": "deferred because no deployed Tenant C write-route/user-role provisioning path exists in this auth deployment"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase-5b-tenant-b-adapts",
+  "status": "passed",
+  "checkedAt": "2026-05-10T16:45:08.7773435+03:00",
+  "tenant": "northwind",
+  "sourceTenant": "acme-corp",
+  "source": {
+    "installedRepo": "lubochka/northwind--acme-policy-gate-console",
+    "renamedAdaptedRepo": "lubochka/northwind--risk-sentinel-console",
+    "sourceRepoFullName": "lubochka/acme-corp--acme-policy-gate-console",
+    "sourcePackage": "@xiigen-fork/acme-policy-gate-console",
+    "sourceVersion": "1.0.1",
+    "sourceGitHead": "34ba775e9fdc8b872e4642b4b672d5220c422477"
+  },
+  "adaptation": {
+    "packageName": "@xiigen-fork/northwind-risk-sentinel-console",
+    "moduleName": "northwind-risk-sentinel-console",
+    "displayName": "Northwind Risk Sentinel Console",
+    "version": "1.0.2",
+    "head": "a4178a5d85ba50883433d2c5b3e7cefd98b43652",
+    "commitMessage": "Adapt FLOW-25 for Northwind risk sentinel console",
+    "changedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/bfa-cross-flow-governance-northwind-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "freedomOverrides": {
+      "flow25_allowed_change_types": "SCHEMA_CHANGE,FLOW_MODIFICATION,DEPENDENCY_UPDATE",
+      "flow25_duplicate_window_hours": 24,
+      "flow25_static_critical_override_enabled": true,
+      "flow25_ai_evidence_required_for_high": true,
+      "flow25_advisory_timeout_ms": 30000,
+      "flow25_max_blast_radius_depth": 5,
+      "flow25_impact_report_channels": "web,cli",
+      "flow25_precedent_minimum_count": 6,
+      "flow25_force_proceed_rationale_min_chars": 100,
+      "flow25_arbitration_timeout_minutes": 45
+    }
+  },
+  "githubActions": {
+    "repo": "lubochka/northwind--risk-sentinel-console",
+    "runId": 25630103913,
+    "workflow": "XIIGen Flow CI - bfa-cross-flow-governance",
+    "headSha": "a4178a5d85ba50883433d2c5b3e7cefd98b43652",
+    "conclusion": "success",
+    "createdAt": "2026-05-10T13:34:58Z",
+    "updatedAt": "2026-05-10T13:35:36Z"
+  },
+  "localValidation": {
+    "clonePath": "C:/Projects/xiigen-fork-clones/northwind--acme-policy-gate-console-phase5a-20260510-162230",
+    "head": "a4178a5d85ba50883433d2c5b3e7cefd98b43652",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+        "exitCode": 0
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit --json --outputFile=<outside clone>",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "exitCode": 0,
+        "result": "123 files, shasum e6c75f91d9a63078634311f93dabd9d008d61633"
+      }
+    ]
+  },
+  "registry": {
+    "registry": "http://localhost:4873",
+    "package": "@xiigen-fork/northwind-risk-sentinel-console",
+    "version": "1.0.2",
+    "distTagLatest": "1.0.2",
+    "gitHead": "a4178a5d85ba50883433d2c5b3e7cefd98b43652",
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-risk-sentinel-console/-/northwind-risk-sentinel-console-1.0.2.tgz",
+    "shasum": "e6c75f91d9a63078634311f93dabd9d008d61633",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/bfa-cross-flow-governance-northwind-v1.0.2-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/bfa-cross-flow-governance-northwind-v1.0.2-registry-listing.png"
+  },
+  "repoEvidence": {
+    "listingScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/northwind--risk-sentinel-console-tenant-b-v1.0.2-github-listing.png",
+    "actionsScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/northwind--risk-sentinel-console-tenant-b-v1.0.2-actions-success.png",
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "highRiskSecretPatternHits": 0
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokensCommitted": false,
+    "envFilesCommitted": false,
+    "highRiskSecretPatternHits": 0
+  },
+  "phaseGate": {
+    "tenantBAdapted": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "localRegistryReturnsTenantBAdaptedVersion": true,
+    "repoScreenshotsCaptured": true,
+    "phaseCloseScansPassed": true
+  }
+}

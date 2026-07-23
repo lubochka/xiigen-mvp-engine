@@ -1,0 +1,44 @@
+{
+    "flowId":  "FLOW-45",
+    "flowSlug":  "history-bootstrap",
+    "phase":  "phase-1-server-client-test-evidence",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:46:33.5909757Z",
+    "commands":  [
+                     {
+                         "testSuites":  3,
+                         "exitCode":  0,
+                         "command":  "Push-Location server; npx jest --runInBand --colors=false test/system-initiation-bootstrap-v2/phase-45-a.spec.ts test/system-initiation-bootstrap-v2/phase-45-bcd.spec.ts src/bootstrap/bootstrap-from-documents.service.spec.ts; Pop-Location",
+                         "testsFailed":  0,
+                         "testsPassed":  47
+                     },
+                     {
+                         "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+                         "exitCode":  0
+                     },
+                     {
+                         "warning":  "Pre-existing Jest config warning: unknown option setupFilesAfterSetup",
+                         "exitCode":  0,
+                         "testSuites":  1,
+                         "testsPassed":  24,
+                         "command":  "Push-Location client; npx jest --runInBand --colors=false __tests__/components/history-bootstrap.test.tsx; Pop-Location",
+                         "testsFailed":  0
+                     },
+                     {
+                         "command":  "Push-Location client; npx tsc --noEmit; Pop-Location",
+                         "exitCode":  0
+                     }
+                 ],
+    "implementationFiles":  [
+                                "client/src/App.tsx",
+                                "client/e2e/history-bootstrap.spec.ts",
+                                "server/test/system-initiation-bootstrap-v2/phase-45-a.spec.ts",
+                                "contracts/topologies/history-bootstrap.topology.json",
+                                "docs/portability/flow-45/seed-dependency-manifest.json"
+                            ],
+    "protocolNotes":  [
+                          "FLOW-45 is a provisioning and temporal-prerequisite bootstrap flow; the server implementation lives under server/src/bootstrap rather than server/src/engine/flows/history-bootstrap.",
+                          "The seed dependency manifest declares bootstrapPrerequisite=true, knowledgeScope=GLOBAL, FLOW_SCOPED connection type, PSH indexes, and T601-T604 services."
+                      ],
+    "verdict":  "PASS"
+}

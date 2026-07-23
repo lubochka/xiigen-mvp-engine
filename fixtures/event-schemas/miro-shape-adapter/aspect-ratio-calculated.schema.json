@@ -1,0 +1,1 @@
+{"type":"object","properties":{"shapeId":{"type":"string"},"boardId":{"type":"string"},"width":{"type":"number"},"height":{"type":"number"},"aspectRatio":{"type":"number"},"heuristicCategory":{"type":"string","enum":["LINE","COLUMN","VERTICAL_BAR","GENERIC_SHAPE"]},"calculatedAt":{"type":"string"}},"required":["shapeId","boardId","aspectRatio","heuristicCategory"]}

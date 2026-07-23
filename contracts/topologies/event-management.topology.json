@@ -1,0 +1,95 @@
+{
+  "flowId": "FLOW-03",
+  "name": "Event Creation and Promotion",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T59",
+      "taskTypeId": "T59",
+      "name": "EventCreationOrchestrator",
+      "archetype": "orchestration",
+      "entry": "POST /events (create draft)"
+    },
+    {
+      "id": "T60",
+      "taskTypeId": "T60",
+      "name": "EventRegistrationManager",
+      "archetype": "processing",
+      "entry": "EventPublished event (atomic capacity ops, null capacity = unlimited)"
+    },
+    {
+      "id": "T61",
+      "taskTypeId": "T61",
+      "name": "EventPromotionEngine",
+      "archetype": "processing",
+      "entry": "EventPromotionRequested event (content safety check required)"
+    },
+    {
+      "id": "T62",
+      "taskTypeId": "T62",
+      "name": "EventAnalyticsTracker",
+      "archetype": "observability",
+      "entry": "TTL-windowed counter (views, registrations, conversions)"
+    }
+  ],
+  "edges": [
+    { "from": "EventCreationRequested", "to": "T59", "event": "xiigen.event-management.creation-requested.v1" },
+    { "from": "T59", "to": "T60", "event": "xiigen.event-management.event-published.v1" },
+    { "from": "T59", "to": "T61", "event": "xiigen.event-management.promotion-requested.v1", "condition": "promotion enabled" },
+    { "from": "T60", "to": "T62", "event": "xiigen.event-management.registration-recorded.v1" },
+    { "from": "T61", "to": "T62", "event": "xiigen.event-management.promotion-published.v1" },
+    { "from": "T62", "to": "EventLifecycleComplete", "event": "xiigen.event-management.analytics-finalized.v1", "condition": "terminal" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": true,
+    "draftSteps": ["event-details", "event-pricing", "event-media"],
+    "draftFields": ["title", "description", "date", "location", "capacity", "price", "currency", "coverImageUrl"],
+    "autoSaveTriggers": ["field-blur", "step-advance", "30s-interval"],
+    "draftTtlDays": "__FREEDOM_CONFIG_draft_ttl_days__",
+    "draftTtlDefault": 7,
+    "offlineQueue": {
+      "queueable": ["EventRegistrationRequested"],
+      "notQueueable": [],
+      "notQueueableReason": {}
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T61",
+        "runsWhileUserViews": "OrganizerDashboard",
+        "signalType": "realtime-push",
+        "signalText": null
+      },
+      {
+        "serverTask": "T62",
+        "runsWhileUserViews": "EventAnalyticsDashboard",
+        "signalType": "new-content-available-banner",
+        "signalText": "Analytics updated — pull to refresh",
+        "silentMutationPermitted": false
+      }
+    ]
+  },
+  "draftSpec": {
+    "steps": [
+      {
+        "stepId": "event-details",
+        "fields": ["title", "description", "date", "location"],
+        "serverSideEffect": false
+      },
+      {
+        "stepId": "event-pricing",
+        "fields": ["price", "currency", "capacity"],
+        "serverSideEffect": false
+      },
+      {
+        "stepId": "event-media",
+        "fields": ["coverImageUrl"],
+        "serverSideEffect": false
+      }
+    ],
+    "abandonedSessionHandling": {
+      "onTTLExpiry": "discard-draft",
+      "onServerSideEffectPresent": "show-recovery-prompt",
+      "recoveryPromptText": "You have an unfinished event. Continue or discard?"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "patternId": "atomic-tenant-bootstrap-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-15",
+  "domainId": "saas-multi-tenancy",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": [
+    "saas",
+    "tenant-provisioning",
+    "setnx",
+    "idempotency",
+    "atomic-bootstrap",
+    "bulk-seed",
+    "dna-8"
+  ],
+  "keywords": "SETNX provision lock idempotent tenant bootstrap bulkSeed synchronous TenantProvisioned TenantProvisioningFailed storeDocument before enqueue ALS tenant isolation",
+  "teachingPoint": "T605 TenantProvisioningOrchestrator MUST acquire a SETNX provision lock at ORDER 1 before any write. Concurrent provisioning for the same tenantId is prevented by the lock. bulkSeed MUST be synchronous — async scatter leaves tenants half-initialized on crash. storeDocument(tenantRecord) MUST precede enqueue(TenantProvisioned) per DNA-8. TenantProvisioningFailed MUST be emitted on all error paths.",
+  "ironRules": [
+    "SETNX provision lock acquired at ORDER 1 — any concurrent call on same tenantId is rejected with TenantProvisioningFailed",
+    "bulkSeed is synchronous (sequential await chain) — Promise.all/allSettled scatter is prohibited",
+    "storeDocument(tenantRecord) MUST complete before enqueue(TenantProvisioned) — DNA-8 outbox pattern",
+    "TenantProvisioningFailed MUST be emitted on every error path before returning DataProcessResult.failure",
+    "tenantId resolved from AsyncLocalStorage only — never from request payload"
+  ],
+  "codeSnippet": "// T605 TenantProvisioningOrchestrator — atomic tenant bootstrap\nasync provision(): Promise<DataProcessResult<void>> {\n  const tenantId = this.tenantContext.getTenantId(); // ALS only\n\n  // ORDER 1: SETNX idempotency guard\n  const locked = await this.provisionLock.acquire(tenantId); // F1521\n  if (!locked) {\n    await this.queue.enqueue('TenantProvisioningFailed', { tenantId, failureCode: 'PROVISION_LOCK_HELD' });\n    return DataProcessResult.failure('PROVISION_LOCK_HELD', 'Concurrent provision in progress');\n  }\n\n  try {\n    // ORDER 2: synchronous bulkSeed — sequential, never Promise.all scatter\n    const defaults = await this.freedom.getConfig('tenant_default_quota_api_calls'); // F1522\n    await this.seedService.seedDefaults(tenantId, defaults); // F1520 — sync, awaited\n\n    // ORDER 3: storeDocument BEFORE enqueue (DNA-8)\n    await this.registry.storeDocument('xiigen-tenants', { tenantId, status: 'ACTIVE' }); // F1519\n\n    // ORDER 4: enqueue AFTER store\n    await this.queue.enqueue('TenantProvisioned', { tenantId, freedomSeedCount: 3, status: 'ACTIVE' });\n    return DataProcessResult.success();\n  } catch (err) {\n    await this.queue.enqueue('TenantProvisioningFailed', { tenantId, failureCode: 'PROVISION_ERROR' });\n    return DataProcessResult.failure('PROVISION_ERROR', err.message);\n  } finally {\n    await this.provisionLock.release(tenantId); // always release\n  }\n}",
+  "appliesTo": ["FLOW-16", "FLOW-17", "FLOW-18", "FLOW-19"],
+  "curriculumTier": 2,
+  "qualityScore": 0.97,
+  "sourceDocument": "server/src/engine-contracts/saas-multi-tenancy-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

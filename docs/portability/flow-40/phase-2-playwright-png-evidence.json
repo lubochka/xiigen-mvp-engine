@@ -1,0 +1,66 @@
+{
+  "flowId": "FLOW-40",
+  "flowSlug": "client-push",
+  "phase": "phase-2-playwright-png",
+  "status": "completed",
+  "generatedAt": "2026-05-11T23:04:11.455Z",
+  "commands": [
+    {
+      "command": "client npx playwright test e2e/client-push.spec.ts e2e/client-push-crud.spec.ts e2e/client-push-mock-states.spec.ts --workers=1 --reporter=list",
+      "exitCode": 0,
+      "testsPassed": 54
+    },
+    {
+      "command": "client npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts --grep 'C6-R40' --workers=1 --reporter=list",
+      "exitCode": 0,
+      "testsPassed": 3
+    },
+    {
+      "command": "client npx playwright test e2e/run-65-regen.spec.ts --grep 'FLOW-40' --workers=1 --reporter=list",
+      "exitCode": 0,
+      "testsPassed": 3
+    },
+    {
+      "command": "client npx playwright test e2e/visual-audit-all-flows.spec.ts --grep 'client-push' --workers=1 --reporter=list",
+      "exitCode": 0,
+      "testsPassed": 3
+    }
+  ],
+  "pngCounts": {
+    "direct": {
+      "directory": "docs/e2e-snapshots/client-push",
+      "count": 13,
+      "minBytes": 31431,
+      "maxBytes": 222313
+    },
+    "c6RoleCoverage": {
+      "directory": "docs/e2e-snapshots/c6-role-coverage",
+      "count": 1,
+      "minBytes": 118863,
+      "maxBytes": 118863
+    },
+    "run65": {
+      "directory": "docs/e2e-snapshots/run-65-regen",
+      "count": 1,
+      "minBytes": 222313,
+      "maxBytes": 222313
+    },
+    "visualAudit": {
+      "directory": "docs/e2e-snapshots/visual-audit/*/client-push",
+      "count": 9,
+      "minBytes": 46432,
+      "maxBytes": 251896
+    }
+  },
+  "roleMatrixMinimum": {
+    "roles": [
+      "tenant-user",
+      "tenant-admin",
+      "platform-admin",
+      "platform-support"
+    ],
+    "minimumScreenshots": 4,
+    "observedScreenshots": 24
+  },
+  "verdict": "PASS"
+}

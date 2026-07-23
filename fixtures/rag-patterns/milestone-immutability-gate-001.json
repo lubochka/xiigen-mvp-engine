@@ -1,0 +1,32 @@
+{
+  "patternId": "milestone-immutability-gate-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-17",
+  "domainId": "freelancer-marketplace",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "tags": [
+    "contract-immutability",
+    "compile-time-constant",
+    "milestone-sum-validation",
+    "occ",
+    "transaction",
+    "immutable-fields"
+  ],
+  "keywords": "CONTRACT_IMMUTABLE_FIELDS compile-time constant clientId contractTotal gigId freelancerId milestone sum validation OCC FreelancerContractActivated ContractFieldImmutable MilestoneSumMismatch",
+  "teachingPoint": "T614 MilestoneContractManager uses CONTRACT_IMMUTABLE_FIELDS as a compile-time TypeScript const — never a database lookup or runtime config. ORDER 1 rejects any update attempt touching these fields (ContractFieldImmutable). ORDER 2 validates milestones.reduce(sum) === contractTotal before write. ORDER 3 applies OCC write. This guarantees contract integrity at code level, not policy level.",
+  "ironRules": [
+    "CONTRACT_IMMUTABLE_FIELDS = ['clientId','contractTotal','gigId','freelancerId'] as const — compile-time TypeScript constant, NEVER database lookup",
+    "ORDER 1: immutable field check — any fieldsToUpdate overlapping CONTRACT_IMMUTABLE_FIELDS returns ContractFieldImmutable immediately, no further processing",
+    "ORDER 2: sum validation — milestones must reduce to exactly contractTotal; any mismatch emits MilestoneSumMismatch",
+    "ORDER 3: OCC write — storeDocument to CONTRACTS_INDEX; version conflict returns ContractUpdateConflict",
+    "storeDocument(CONTRACT_AUDIT_INDEX) MUST complete before enqueue(FreelancerContractActivated) — DNA-8 outbox pattern"
+  ],
+  "codeSnippet": "// T614 MilestoneContractManager — immutability gate + sum validation\nconst CONTRACT_IMMUTABLE_FIELDS = ['clientId', 'contractTotal', 'gigId', 'freelancerId'] as const;\n\nasync updateContract(contractId: string, updates: Record<string, unknown>): Promise<DataProcessResult<Record<string, unknown>>> {\n  // ORDER 1: compile-time immutability check\n  const fieldsToUpdate = Object.keys(updates);\n  const immutableAttempt = fieldsToUpdate.filter(f =>\n    (CONTRACT_IMMUTABLE_FIELDS as readonly string[]).includes(f)\n  );\n  if (immutableAttempt.length > 0) {\n    await this.queue.enqueue('ContractFieldImmutable', { contractId, field: immutableAttempt[0] });\n    return DataProcessResult.failure('FIELD_IMMUTABLE', `Field ${immutableAttempt[0]} cannot be modified`);\n  }\n\n  // ORDER 2: milestone sum validation\n  const contract = (await this.db.searchDocuments('contracts', { contractId })).data[0];\n  const milestones = (updates['milestones'] ?? contract['milestones']) as Array<Record<string, unknown>>;\n  const sum = milestones.reduce((acc, m) => acc + Number(m['amount']), 0);\n  if (sum !== Number(contract['contractTotal'])) {\n    await this.queue.enqueue('MilestoneSumMismatch', { contractId, expected: contract['contractTotal'], actual: sum });\n    return DataProcessResult.failure('MILESTONE_SUM_MISMATCH', ...);\n  }\n\n  // ORDER 3: OCC write\n  const writeResult = await this.db.storeDocument('contracts', { contractId, ...updates, version: contract['version'] });\n  if (writeResult.data?.['conflict']) {\n    await this.queue.enqueue('ContractUpdateConflict', { contractId });\n    return DataProcessResult.failure('OCC_CONFLICT', 'Contract was modified concurrently');\n  }\n\n  // DNA-8: audit BEFORE enqueue\n  await this.db.storeDocument('contract-audit', { contractId, action: 'CONTRACT_UPDATED' });\n  await this.queue.enqueue('FreelancerContractActivated', { contractId });\n  return DataProcessResult.success({ contractId });\n}",
+  "appliesTo": ["FLOW-16", "FLOW-19", "FLOW-22"],
+  "curriculumTier": 2,
+  "qualityScore": 0.95,
+  "sourceDocument": "server/src/engine-contracts/freelancer-marketplace-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

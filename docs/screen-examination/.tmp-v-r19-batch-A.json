@@ -1,0 +1,99 @@
+{
+  "batch_id": "V-R19-A",
+  "captured_after": "Wave 7+ (9b9ef807) all fixes applied",
+  "flows": [
+    {
+      "slug": "adaptive-rag-deep-research",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "PASS",
+      "notes": "Strong: Adaptive RAG / Deep Research title humanized; humanized RES-2026-0419-001 research id (operator domain ok); Step 3 narrative state; PLATFORM ONLY pill; phase chips (Ingest, Retrieval, Gates, Knowledge, Feedback, Policy) present; support gets read-only banner with explicit 'Kill and Rebudget are platform-admin only'. No FLOW-NN, no camelCase, no admin-debug leaks on non-admin roles. Axis B role-branching PASS for both admin and support. Axis E human-friendly PASS."
+    },
+    {
+      "slug": "admin-i18n",
+      "pngs_read": [
+        "primary-platform-admin.png"
+      ],
+      "verdict": "PASS",
+      "notes": "Excellent governance UI: Platform Translation Governance heading; per-language enable/disable controls; coverage strength chips (100% strong, 94% strong, 42% low, 18% low); base translation dictionary with 3 entries showing FR/HE/ES/DE renderings + 'Missing' chips for partial coverage; humanized; mostly EN locale render. translation keys (common.save_changes, booking.confirm_reminder, error.generic_retry) shown in monospace as keys with descriptive label below — appropriate admin-domain. Axis A admin shell correct, Axis B admin role correct, Axis E PASS."
+    },
+    {
+      "slug": "ads-platform",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "PASS",
+      "notes": "Outstanding role-branching across 5 roles: anonymous=Apply-to-advertise CTA + Sign-in; tenant-user=Ads console restricted lock card; tenant-admin='Your workspace ad spend' showing only tenant-scope (Spend, Active Placements, Impressions, Your Placements list) with explicit scope warning 'Cross-tenant bid auctions, fraud detection, and spend ledger are managed by platform administrators' — this is excellent scope-isolation messaging; platform-admin/support=full cross-tenant campaign list with budgets, CTR, bids. 'Most recent first', 'bid editable inline' microcopy excellent. Status pills (Running/Paused/Budget used/Ended) good. RAW ADS-PLATFORM INDEX (ADMIN DEBUG) collapsed disclosure on platform-admin only — properly gated. No FLOW-NN, no camelCase keys, no admin-debug index on non-admin roles, no info disclosure."
+    },
+    {
+      "slug": "ai-safety-moderation",
+      "pngs_read": [
+        "populated-anonymous.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "PASS",
+      "notes": "Strong role-branching: anonymous=Report Harmful Content kiosk form (no account required, emergency note); populated-anonymous=Approved confirmation card with explicit 'Additional technical details are only visible to administrators' redaction message; tenant-admin=tenant-scoped Trust & Safety queue with banner 'review flagged content in your tenant'; tenant-user=gentle 'console not available, follow appeal email link'; platform-admin=full cross-tenant moderator queue with safety check breakdown (Toxicity/Hate/Violence/Sexual/Self-harm/PII/Spam/Copyright pass/flag/block chips), AI analysis with confidence %; support=read-only inspector with content/author search + escalate link. CNT-XXXX/usr-XXXX IDs present in admin queue but appropriate as moderator-facing technical refs. MOD-2026-0420-4820 case id in operator domain. No FLOW-NN, no info disclosure, no camelCase, no engineering leaks on user-facing surfaces."
+    },
+    {
+      "slug": "ai-self-modification",
+      "pngs_read": [
+        "primary-platform-admin.png"
+      ],
+      "verdict": "PASS",
+      "notes": "AI Self-Modification Console with 2 pending proposals showing target/AI reasoning/predicted impact + Approve/Reject + Trigger audit; Performance Before vs After tiles (Quality 0.78→0.85, Latency 312ms→298ms); 'AI Self-Modification — Raw Index' section explicitly labeled '(admin debug)' and 'Platform-only' badge with reads /api/dynamic/xiigen-ai-self-modification — admin debug raw-index correctly gated to platform-admin and explicitly labeled. Operator-domain naming (Drafted, Target, AI reasoning, Predicted impact) appropriate. No FLOW-NN, no camelCase keys, no engineering leaks. Axis A admin shell correct."
+    },
+    {
+      "slug": "bfa-cross-flow-governance",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "PASS",
+      "notes": "Strong: Cross-Flow Policy Console with humanized rule names (Payment dispute blocks gig completion, Subscription gate before ads spend, Fraud flag halts review posting, Cross-tenant data isolation). Humanized cross-flow names (Marketplace payments → Freelancer marketplace, etc.). Conflict scan table by category. Active/Paused/Draft status chips. Support gets explicit 'Rule Inspector (read-only)' card with banner 'Edit controls below are disabled for support access. Layout is preserved so you can describe the exact remediation to a platform-admin when escalating' + Escalate link — exemplary. CF-XXX rule IDs and DISPUTE/SUSPENDED enums in italic rule descriptions are intentional state references to other flows' enums (operator domain, not user labels). populated-platform-admin shows compact mobile/tablet rendering but content intact. Step 4 'Policy published' card on populated-platform-admin uses bfa-architect-01 actor id (operator scope). No FLOW-NN in user copy, no camelCase, no info disclosure to support."
+    },
+    {
+      "slug": "blog-cms-modules",
+      "pngs_read": [
+        "populated-anonymous.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "CONCERN",
+      "notes": "Mixed: anonymous + public-marketplace-visitor + tenant-user = clean published blog post 'Launch Week Preview — What's Shipping' with humanized reading time, author, Save/Share or Subscribe CTA — excellent kiosk render. Populated-anonymous = Approved confirmation card with admin-detail-redaction note. Platform-admin=Blog Module Platform Console with tenant-scoped install/uninstall actions, ACTIVE/NOT INSTALLED chips (acceptable status-tag styling). CONCERN: tenant-admin renders the blog module behind a 'Raw index browser (admin debug) — reads /api/dynamic/xiigen-blog-cms-modules' raw-index table showing ui-1776451823108 / ui-1776452276151 raw IDs and 'created via UI form' as the entire UI for tenant-admin. While labeled 'admin debug', tenant-admin's primary blog module page should be a content-management workflow (post list / new post / authors), not a raw-index browser fallback. The UI has Module Settings link and 'New record' button at top, but the bulk of the page is raw infra debug. ui-NNNNNNN identifiers not humanized. Recommend: tenant-admin should land on Posts list (humanized post titles, status, author, scheduled-at) with the raw-index collapsed under '(admin debug)' disclosure, mirroring ads-platform pattern."
+    },
+    {
+      "slug": "bundle-activation",
+      "pngs_read": [
+        "active-platform-admin.png",
+        "failed-platform-admin.png",
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "PASS",
+      "notes": "Strong: Bundle Activation Console showing Cross-tenant bundle provisioning with humanized labels (Core Platform v2, Marketplace Pack, Compliance Gate, Experimental X) plus version pills (v2.1.3, v1.4.0, v3.0.1, v0.9.2) and status chips (Active/Degraded/Failed). Active/Failed/Populated state PNGs each show Step N narrative ('Bundle active — all required flows activated and healthy', 'Validation failed — bundle has no required flows configured') with Bundle/Active version/Required flow count/Activated at field-pair display. Support PNG shows 'Bundle Activation (read-only)' with banner 'Force-activate / revoke controls are disabled for support access. Escalate to a platform-admin for any bundle change' + visibly disabled buttons + Escalate link — exemplary. BDL-* technical IDs and tenant slugs (TNT-acme-corp, TNT-bluebird, TNT-castle, platform) are appropriate operator-admin domain. 'Empty required flows' shown as Error code (operator domain). No FLOW-NN, no camelCase keys, no engineering leaks on user-facing surfaces."
+    }
+  ],
+  "batch_summary": {
+    "pass": 7,
+    "concern": 1,
+    "block": 0
+  },
+  "blockers_if_any": []
+}

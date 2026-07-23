@@ -1,0 +1,12 @@
+{
+  "eventType": "saas.tenant.configuration.updated",
+  "flowId": "FLOW-15",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "configKey": { "type": "string", "required": true },
+    "updatedAt": { "type": "string", "format": "date-time", "required": true },
+    "updatedBy": { "type": "string", "required": true },
+    "occVersion": { "type": "integer", "minimum": 1, "required": true }
+  }
+}

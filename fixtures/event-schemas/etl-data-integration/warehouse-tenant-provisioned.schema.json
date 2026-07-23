@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.warehouse.tenant.provisioned",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "warehouseId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "zonesProvisioned": { "type": "array", "items": { "type": "string" }, "required": true },
+    "rlsPoliciesRegistered": { "type": "boolean", "required": true },
+    "provisionedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

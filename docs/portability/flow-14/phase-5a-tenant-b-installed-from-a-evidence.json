@@ -1,0 +1,173 @@
+﻿{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "phase5aTenantBInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T12:05:34.3048207+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "tenantName":  "Northwind"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "acme-corp",
+                         "repo":  "lubochka/acme-corp--etl-data-integration",
+                         "package":  "@xiigen-fork/acme-enterprise-etl-data-integration",
+                         "version":  "1.0.1"
+                     },
+    "marketplaceFork":  {
+                            "method":  "POST /api/marketplace/packages/etl-data-integration/fork",
+                            "createdByMarketplaceApi":  true,
+                            "manualRepoCreationUsed":  false,
+                            "sourceRepoFullName":  "lubochka/acme-corp--etl-data-integration",
+                            "repoFullName":  "lubochka/northwind--acme-enterprise-etl-data-integration",
+                            "repoUrl":  "https://github.com/lubochka/northwind--acme-enterprise-etl-data-integration",
+                            "initialCommitSha":  "f9ffdadc4f047a6c79bd679f95e63c122d2efcb4",
+                            "initialVersion":  "1.0.1",
+                            "forkId":  "fork-etl-data-integration-northwind"
+                        },
+    "tenantRepository":  {
+                             "repo":  "lubochka/northwind--acme-enterprise-etl-data-integration",
+                             "url":  "https://github.com/lubochka/northwind--acme-enterprise-etl-data-integration",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "f9ffdadc4f047a6c79bd679f95e63c122d2efcb4",
+                             "initialActionsRun":  {
+                                                       "runId":  25425832665,
+                                                       "jobId":  74578846969,
+                                                       "url":  "https://github.com/lubochka/northwind--acme-enterprise-etl-data-integration/actions/runs/25425832665",
+                                                       "status":  "completed",
+                                                       "conclusion":  "success",
+                                                       "headSha":  "f9ffdadc4f047a6c79bd679f95e63c122d2efcb4",
+                                                       "createdAt":  "2026-05-06T08:56:25Z",
+                                                       "updatedAt":  "2026-05-06T08:57:15Z"
+                                                   },
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-etl-data-integration-phase5a-20260506-115656",
+                             "cleanCloneStatus":  "clean",
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             }
+                                                         ],
+                             "installProof":  {
+                                                  "tenantConfigTenantId":  "northwind",
+                                                  "installedFromRepoFullName":  "lubochka/acme-corp--etl-data-integration",
+                                                  "adaptationHistoryEntries":  1,
+                                                  "firstAdaptationTenantId":  "acme-corp",
+                                                  "settingsTenantId":  "northwind",
+                                                  "settingsAdaptationTenantId":  "northwind",
+                                                  "manifestContainsStandalonePackage":  true,
+                                                  "manifestContainsAdaptationSurface":  true
+                                              }
+                         },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "packageName":  "@xiigen-fork/acme-enterprise-etl-data-integration",
+                          "version":  "1.0.1",
+                          "distTags":  {
+                                           "latest":  "1.0.1"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/acme-enterprise-etl-data-integration/-/acme-enterprise-etl-data-integration-1.0.1.tgz",
+                          "shasum":  "a326ff0a89410bfbe9a874bf3d88909d2a207075",
+                          "gitHead":  "de347571f2aae5ed7b78f6b56642c8b0fcf79fea",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/etl-data-integration-acme-v1.0.1-registry-api-evidence-phase5a.json",
+                          "screenshot":  "docs/e2e-snapshots/marketplace/etl-data-integration-acme-v1.0.1-registry-listing-phase5a.png",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/etl-data-integration/tenant-b-installed-from-a",
+                                                      "count":  12,
+                                                      "zeroByteFiles":  0,
+                                                      "roles":  [
+                                                                    "tenant-admin",
+                                                                    "tenant-user",
+                                                                    "platform-admin",
+                                                                    "platform-support"
+                                                                ],
+                                                      "cells":  [
+                                                                    "C2-en-populated",
+                                                                    "C4-he-rtl-populated",
+                                                                    "C6-en-mobile"
+                                                                ]
+                                                  },
+                           "repoHomepageScreenshot":  {
+                                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-14/northwind--acme-enterprise-etl-data-integration-tenant-b-installed-from-a-github-listing.png",
+                                                          "bytes":  128479
+                                                      },
+                           "actionsSuccessScreenshot":  {
+                                                            "path":  "docs/e2e-snapshots/repo-evidence/flow-14/northwind--acme-enterprise-etl-data-integration-tenant-b-installed-from-a-actions-success.png",
+                                                            "bytes":  75948
+                                                        },
+                           "registryScreenshot":  {
+                                                      "path":  "docs/e2e-snapshots/marketplace/etl-data-integration-acme-v1.0.1-registry-listing-phase5a.png",
+                                                      "bytes":  48298
+                                                  }
+                       },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "client/src/pages/etl-data-integration/EtlDataIntegrationPage.tsx",
+                                                            "client/e2e/etl-data-integration-tenant-b-installed.spec.ts"
+                                                        ],
+                                              "purpose":  "Render and verify FLOW-14 Tenant B installed-from-A cascade-point visual evidence under docs/e2e-snapshots/etl-data-integration/tenant-b-installed-from-a."
+                                          },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantBInstalledPlaywright":  {
+                                                                      "command":  "Push-Location client; $env:VITE_PORT=5174; npx playwright test e2e/etl-data-integration-tenant-b-installed.spec.ts --project=chromium-desktop; Pop-Location",
+                                                                      "result":  "passed",
+                                                                      "tests":  12
+                                                                  },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=etl-data-integration --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  15,
+                                                      "tests":  220
+                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "clsImports":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0,
+                                                     "secretPatternHits":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBForkedTenantAAdaptedSource":  true,
+                      "tenantBInstalledPackagePreservedTenantAValues":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localRegistryStillReturnsTenantAPackage":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

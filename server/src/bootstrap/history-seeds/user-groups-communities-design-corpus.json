@@ -1,0 +1,338 @@
+[
+  {
+    "patternId": "FLOW-06-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-06",
+    "teachingPoint": "Access control must be provisioned (MembershipActivated stored) before content retrieval starts. Branch B (T104 HistoricalContentSeeder) triggers on MembershipActivated, not on the initial join request. Triggering T104 on the join request means content is seeded for a user whose membership may be denied (private group pending approval), creating a data leakage window.",
+    "positiveExample": "T104 @EventPattern('MembershipActivated') — only fires after T101 stores ACTIVE membership.",
+    "negativeExample": "T104 @EventPattern('GroupJoinRequested') — fires immediately, seeds content before access is confirmed.",
+    "discriminatingConstraint": "Branch B entry event is MembershipActivated, never GroupJoinRequested. The event name is the gate.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.96,
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md (DR-06-A)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "community"
+    ],
+    "keywords": "Access control provisioned MembershipActivated content retrieval starts Branch T104 HistoricalContentSeeder triggers initial"
+  },
+  {
+    "patternId": "FLOW-06-DR-02",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-06",
+    "teachingPoint": "Membership tier must be read from the subscription record (xiigen-subscriptions), never from the join request payload. T100 queries xiigen-subscriptions by userId to resolve tier. Client-submitted tier in the join request is ignored. A client submitting tier='PREMIUM' on a FREE subscription would silently escalate their access tier.",
+    "positiveExample": "T100: db.searchDocuments('xiigen-subscriptions', {userId}) → resolves tier from stored subscription.",
+    "negativeExample": "T100: return { tier: input.membershipTier } — client controls their own access tier.",
+    "discriminatingConstraint": "membershipTier field does not exist in T100's input shape. Tier comes only from xiigen-subscriptions.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.96,
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md (DR-06-B)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design"
+    ],
+    "keywords": "Membership tier read subscription xiigen-subscriptions join request payload T100 queries userId resolve"
+  },
+  {
+    "patternId": "FLOW-06-DR-03",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-06",
+    "teachingPoint": "Private group joins create a PENDING membership record, not an ACTIVE one. T102 reads group.type from the group record: PUBLIC → status='ACTIVE', PRIVATE → status='PENDING'. Writing ACTIVE for a private group bypasses the approval workflow — the member gains immediate access without admin review.",
+    "positiveExample": "T102: group.type === 'PRIVATE' ? { status: 'PENDING' } : { status: 'ACTIVE' }. MACHINE constant.",
+    "negativeExample": "T102: { status: 'ACTIVE' } always — private group members gain immediate access, no approval flow.",
+    "discriminatingConstraint": "status is derived from group.type — never from any input field. The derivation is MACHINE logic.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md (DR-06-C)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "machine-constant",
+      "community"
+    ],
+    "keywords": "Private group joins create PENDING membership ACTIVE T102 reads type PUBLIC status"
+  },
+  {
+    "patternId": "FLOW-06-DR-04",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-06",
+    "teachingPoint": "Concurrent duplicate join prevention uses SETNX on (userId, groupId). T99 attempts to create a new membership record only if none exists. If a record already exists (from a concurrent request), the existing record is returned as a success — no error, no duplicate. This is idempotent: the second request returns the same outcome as the first.",
+    "positiveExample": "T99: setnxDocument('xiigen-memberships', {userId, groupId}) → existing: return DataProcessResult.success(existing).",
+    "negativeExample": "T99: searchDocuments → count > 0 → return failure('ALREADY_MEMBER') — second request returns error, not idempotent.",
+    "discriminatingConstraint": "SETNX semantics: existing record = success (idempotent), not failure. Returning failure on duplicate breaks client retry logic.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md (DR-06-D)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "community"
+    ],
+    "keywords": "Concurrent duplicate join prevention uses SETNX userId groupId attempts create membership none"
+  },
+  {
+    "patternId": "FLOW-06-DR-05",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-06",
+    "teachingPoint": "Tier change operations (T116/T117) use conditional update on the existing membership record, not SETNX. SETNX creates a new record only if none exists — it would silently no-op on an existing membership, leaving the tier unchanged. Tier changes require modifying an existing record's tier field via updateDocument with a condition.",
+    "positiveExample": "T116: db.updateDocument('xiigen-memberships', {userId, groupId}, {tier: newTier}) — update existing.",
+    "negativeExample": "T116: db.setnxDocument('xiigen-memberships', {userId, groupId, tier: newTier}) — no-op if record exists, tier never changes.",
+    "discriminatingConstraint": "SETNX vs conditional update is determined by operation type: new-record idempotency vs existing-record mutation.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md (DR-06-E)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "community"
+    ],
+    "keywords": "Tier change operations T116 T117 conditional update existing membership SETNX none exists"
+  },
+  {
+    "patternId": "FLOW-06-DR-06",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-06",
+    "teachingPoint": "Historical content seeding must always pass the resolved membershipTier to the content query. T105 retrieves historical content from xiigen-group-content filtered by tier <= memberTier. Without the tier filter, a FREE tier member would see PREMIUM-only content during their initial feed population — a silent access violation.",
+    "positiveExample": "T105: searchDocuments('xiigen-group-content', {groupId, tier: {lte: memberTier}}) — tier filter always applied.",
+    "negativeExample": "T105: searchDocuments('xiigen-group-content', {groupId}) — all content regardless of tier. Free members see premium content.",
+    "discriminatingConstraint": "membershipTier is a required parameter to the content query. Absence = access control bypass.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md (DR-06-F)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "community"
+    ],
+    "keywords": "Historical content seeding pass resolved membershipTier query T105 retrieves xiigen-group-content filtered tier"
+  },
+  {
+    "patternId": "FLOW-06-DR-07",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-06",
+    "teachingPoint": "The approval gate chain (SUBFLOW-06P) requires strict ordering: T112 sends approval notification → T114 stores AccessGranted record → T115 stores ACTIVE membership (DNA-8). Reversing T114 and T115 (storing ACTIVE membership before AccessGranted) violates the audit trail: the access grant event is missing at the time the membership is ACTIVE.",
+    "positiveExample": "T112 notify → T114 storeDocument(AccessGranted) → T115 storeDocument(status=ACTIVE) → emit MembershipActivated.",
+    "negativeExample": "T112 → T115 storeDocument(ACTIVE) → T114 storeDocument(AccessGranted) — audit record created after access granted.",
+    "discriminatingConstraint": "AccessGranted record is the audit evidence. It must exist BEFORE ACTIVE status. DNA-8 applies within subflows too.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.94,
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md (DR-06-G)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "dna-8",
+      "event-chaining"
+    ],
+    "keywords": "approval gate chain SUBFLOW-06P strict ordering T112 sends notification T114 AccessGranted T115"
+  },
+  {
+    "patternId": "FLOW-06-RAG-01",
+    "patternType": "ARCH_PATTERN",
+    "category": "ACCESS_CONTROL_BEFORE_CONTENT",
+    "sourceFlow": "FLOW-06",
+    "archetype": "GUARD",
+    "tags": [
+      "access-control-before-content",
+      "event-ordering",
+      "community"
+    ],
+    "keywords": "Content retrieval branches trigger access-confirmation events MembershipActivated join-request GroupJoinRequested Triggering seeding join",
+    "teachingPoint": "Content retrieval branches must trigger on access-confirmation events (MembershipActivated), not on join-request events (GroupJoinRequested). Triggering content seeding on the join request creates a data leakage window for private groups: content is available before access is confirmed. CF-06-1 enforces this ordering.",
+    "ironRules": [
+      "T104 @EventPattern('MembershipActivated') — never @EventPattern('GroupJoinRequested')",
+      "Content seeding starts ONLY after access is confirmed — not on join request",
+      "CF-06-1: any content branch triggering on GroupJoinRequested is a BUILD_FAILURE"
+    ],
+    "codeSnippet": "@EventPattern('MembershipActivated') // CORRECT: access confirmed\n// Not: @EventPattern('GroupJoinRequested') // access not yet confirmed — private group leakage risk",
+    "curriculumTier": 1,
+    "qualityScore": 0.96,
+    "observedIn": "FLOW-06 (T104 HistoricalContentSeeder, T105 TierGatedContentRetriever)",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z"
+  },
+  {
+    "patternId": "FLOW-06-RAG-02",
+    "patternType": "ARCH_PATTERN",
+    "category": "SERVER_SIDE_TIER_ASSIGNMENT",
+    "sourceFlow": "FLOW-06",
+    "archetype": "VALIDATION",
+    "tags": [
+      "server-side-tier-assignment"
+    ],
+    "keywords": "Membership tier resolution server-side T100 queries xiigen-subscriptions userId active subscription derives join",
+    "teachingPoint": "Membership tier resolution is server-side only. T100 queries xiigen-subscriptions for the userId's active subscription and derives tier from that record. The join request payload has no tier field. This mirrors the FLOW-05 SERVER-SIDE-CALCULATION pattern: in both cases, client-submitted privilege claims are structurally excluded.",
+    "ironRules": [
+      "membershipTier field does not exist in T100 input shape — client cannot submit tier",
+      "T100 reads membershipTier from xiigen-subscriptions only — never from request input",
+      "Client-submitted tier = silent privilege escalation — CF-06-2"
+    ],
+    "codeSnippet": "const subscription = await db.searchDocuments('xiigen-subscriptions', { userId });\nconst tier = subscription.tier; // resolved server-side only\n// Never: const tier = input.membershipTier; // client-submitted tier escalation",
+    "curriculumTier": 1,
+    "qualityScore": 0.96,
+    "observedIn": "FLOW-06 (T100 SubscriptionTierResolver)",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z"
+  },
+  {
+    "patternId": "FLOW-06-RAG-03",
+    "patternType": "ARCH_PATTERN",
+    "category": "GROUP_JOIN_IDEMPOTENCY",
+    "sourceFlow": "FLOW-06",
+    "archetype": "ORCHESTRATION",
+    "tags": [
+      "group-join-idempotency",
+      "idempotency",
+      "community"
+    ],
+    "keywords": "Group membership idempotency uses SETNX semantics userId groupId composite duplicate join attempt",
+    "teachingPoint": "Group membership idempotency uses SETNX semantics: (userId, groupId) is the composite key. A duplicate join attempt returns the existing membership record as DataProcessResult.success — not an error. This matches FLOW-04's RSVP idempotency pattern. The difference: FLOW-06 SETNX applies to new-record creation only; tier changes use conditional update (DR-06-E).",
+    "ironRules": [
+      "SETNX on (userId, groupId) — existing record returns DataProcessResult.success (idempotent)",
+      "Duplicate join attempt = success, not ALREADY_MEMBER error",
+      "SETNX applies to NEW record creation only — tier changes use updateDocument (DR-06-E)"
+    ],
+    "codeSnippet": "const result = await db.setnxDocument('xiigen-memberships', { userId, groupId, tenantId });\nif (result.existed) return DataProcessResult.success(result.existing); // idempotent\n// Never: if (result.existed) return DataProcessResult.failure('ALREADY_MEMBER');",
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "observedIn": "FLOW-06 (T99 MembershipOrchestrator)",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z"
+  },
+  {
+    "patternId": "FLOW-06-RAG-04",
+    "patternType": "ARCH_PATTERN",
+    "category": "TIER_GATED_CONTENT_QUERY",
+    "sourceFlow": "FLOW-06",
+    "archetype": "VALIDATION",
+    "tags": [
+      "tier-gated-content-query"
+    ],
+    "keywords": "content query tiered-access system include membership tier filter parameter optional omission access",
+    "teachingPoint": "Any content query in a tiered-access system must include the membership tier as a filter parameter. The tier filter is not optional: omission is an access control bypass. This applies to historical seeding (T105) and ongoing feed composition (T106). CF-06-1 fires on any content query missing a tier predicate.",
+    "ironRules": [
+      "Every content query includes tier filter: searchDocuments('xiigen-group-content', { groupId, tier: { lte: memberTier } })",
+      "Tier filter is mandatory — omission is a silent access control bypass",
+      "CF-06-1: any content query missing tier predicate is a BUILD_FAILURE"
+    ],
+    "codeSnippet": "const content = await db.searchDocuments('xiigen-group-content', {\n  groupId,\n  tier: { lte: memberTier } // MANDATORY: access control filter\n});\n// Never: db.searchDocuments('xiigen-group-content', { groupId }) // tier omitted = bypass",
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "observedIn": "FLOW-06 (T105 TierGatedContentRetriever, T106 FeedComposer)",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-12"
+    ],
+    "sourceDocument": "FLOW-06-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-06",
+    "domainId": "user-groups-communities",
+    "seededAt": "2026-04-13T00:00:00Z"
+  }
+]

@@ -1,0 +1,221 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "phase4AiAdaptation",
+  "status": "completed",
+  "generatedAt": "2026-05-07T12:34:18.6205959+03:00",
+  "branch": "Skills_Creation_Claude",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "tenantName": "Acme Corp"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change plus tenant package metadata",
+    "packageName": "@xiigen-fork/acme-community-intake-workflows",
+    "packageVersion": "1.0.1",
+    "moduleName": "acme-community-intake-workflows",
+    "displayName": "Acme Community Intake Workflows",
+    "sourceModuleName": "dynamic-forms-workflows",
+    "sourcePackageVersion": "1.0.0-fork",
+    "visiblePlainLanguage": "Acme community intake policy: larger intake forms, strict published-schema responsiveness, tuned workflow routing, weekly analytics, shorter analytics retention, and expanded PII exclusions while schema OCC, published-schema-only validation, store-before-emit, SETNX workflow locks, append-only analytics, and tenant isolation remain unchanged.",
+    "freedomChanges": [
+      {
+        "key": "flow21_schema_publish_timeout_ms",
+        "from": 1000,
+        "to": 800
+      },
+      {
+        "key": "flow21_schema_validation_rule_required",
+        "from": true,
+        "to": true
+      },
+      {
+        "key": "flow21_submission_validation_timeout_ms",
+        "from": 1500,
+        "to": 2500
+      },
+      {
+        "key": "flow21_submission_max_field_count",
+        "from": 100,
+        "to": 150
+      },
+      {
+        "key": "flow21_rule_lock_ttl_ms",
+        "from": 10000,
+        "to": 15000
+      },
+      {
+        "key": "flow21_rule_condition_timeout_ms",
+        "from": 500,
+        "to": 750
+      },
+      {
+        "key": "flow21_analytics_pii_fields",
+        "from": "email,phone,ssn,password,creditCard",
+        "to": "email,phone,ssn,password,creditCard,dateOfBirth,address"
+      },
+      {
+        "key": "flow21_analytics_aggregation_window",
+        "from": "day",
+        "to": "week"
+      },
+      {
+        "key": "flow21_analytics_storage_retention_days",
+        "from": 365,
+        "to": 180
+      }
+    ],
+    "invariantsPreserved": [
+      "Schema publishing still uses optimistic concurrency.",
+      "Published schema fields remain immutable.",
+      "Submissions still validate against the published schema only.",
+      "Submission records are still stored before events are emitted.",
+      "Automation rule execution remains SETNX locked per submission and rule.",
+      "Analytics records remain append-only.",
+      "Certified PII fields remain excluded from analytics.",
+      "TenantContextResolver remains the tenant-context dependency in FLOW-21 services."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/dynamic-forms-workflows-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/acme-corp--acme-community-intake-workflows",
+    "url": "https://github.com/lubochka/acme-corp--acme-community-intake-workflows",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "originalForkRepo": "lubochka/acme-corp--dynamic-forms-workflows",
+    "originalForkCommit": "79e1ae06674c424f926b7c7e3306d481ae54cce5",
+    "adaptedCommit": "adbecaf208aea4b0b32834c7112d10a8ae1954af",
+    "adaptedCommitMessage": "Adapt dynamic forms workflows for Acme",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--dynamic-forms-workflows-phase40-20260507-121833",
+    "cleanCloneStatus": "clean against adapted/main",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/dynamic-forms-workflows-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 114,
+        "shasum": "41d639ed58a658ce441a9a19c4ababa7b4ddacef"
+      }
+    ],
+    "adaptationHistoryEntries": 1,
+    "bundleManifestItemCount": 113,
+    "pushRepair": "Clone was unshallowed from the original tenant-A fork before pushing the adapted commit, avoiding shallow-history unpack rejection."
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI — dynamic-forms-workflows",
+    "runId": 25487672719,
+    "jobId": 74787362864,
+    "url": "https://github.com/lubochka/acme-corp--acme-community-intake-workflows/actions/runs/25487672719",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "adbecaf208aea4b0b32834c7112d10a8ae1954af",
+    "createdAt": "2026-05-07T09:29:50Z",
+    "updatedAt": "2026-05-07T09:30:37Z",
+    "successfulJobs": [
+      "Standalone flow test — dynamic-forms-workflows"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "ping": "passed",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/acme-community-intake-workflows",
+    "publishedVersion": "1.0.1",
+    "viewCommand": "npm view @xiigen-fork/acme-community-intake-workflows version --registry http://localhost:4873",
+    "npmViewVersion": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-community-intake-workflows/-/acme-community-intake-workflows-1.0.1.tgz",
+    "shasum": "41d639ed58a658ce441a9a19c4ababa7b4ddacef",
+    "gitHead": "adbecaf208aea4b0b32834c7112d10a8ae1954af",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/dynamic-forms-workflows-acme-v1.0.1-registry-api-evidence.json",
+    "verified": true
+  },
+  "visualEvidence": {
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/marketplace/dynamic-forms-workflows-acme-v1.0.1-registry-listing.png",
+        "sizeBytes": 49889
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-21/acme-corp--acme-community-intake-workflows-tenant-a-v1.0.1-github-listing.png",
+        "sizeBytes": 137327
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-21/acme-corp--acme-community-intake-workflows-tenant-a-v1.0.1-actions-success.png",
+        "sizeBytes": 79091
+      }
+    ],
+    "repoVisibilityRestored": true
+  },
+  "phaseCloseVerification": {
+    "tenantValidation": {
+      "typescript": "passed",
+      "jest": "passed: 2 suites, 4 tests",
+      "packDryRun": "passed"
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "tenantContextResolverReferences": 8,
+      "passed": true
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tenantSecretsStoredInVault": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantAAdaptedFlow": true,
+    "tenantACommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBInstall": true
+  },
+  "verdict": "PASS"
+}

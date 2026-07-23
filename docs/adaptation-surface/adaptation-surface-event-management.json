@@ -1,0 +1,74 @@
+{
+  "flowSlug": "event-management",
+  "flowId": "FLOW-03",
+  "adapterTenant": {
+    "tenantId": "acme-corp",
+    "tenantLabel": "Acme Corp",
+    "adaptedModuleName": "event-management-acme-curated-events",
+    "version": "1.0.1"
+  },
+  "adaptationType": "Type A (FREEDOM key value change)",
+  "freedomKeys": [
+    {
+      "name": "flow03_max_events_per_organizer",
+      "currentValue": 100,
+      "adaptedValue": 3,
+      "semantics": "Maximum active events an organiser can create before the rate-limit path is used.",
+      "irCitation": "CF-03-rateLimit",
+      "profile": 2,
+      "adaptationTypes": ["Type A", "Type D"],
+      "observableIn": [
+        "EventCreationOrchestrator returns RATE_LIMIT_EXCEEDED on the fourth Acme event",
+        "Tenant A visual screenshots show three active events per organiser"
+      ]
+    },
+    {
+      "name": "flow03_max_attendees",
+      "currentValue": 500,
+      "adaptedValue": 10,
+      "semantics": "Maximum attendee cap used when registration compares event capacity with tenant policy.",
+      "irCitation": "CF-03-capacity",
+      "profile": 2,
+      "adaptationTypes": ["Type A"],
+      "observableIn": [
+        "EventRegistrationManager routes the eleventh attendee to the waitlist",
+        "Tenant A visual screenshots show a 10-attendee event cap"
+      ]
+    },
+    {
+      "name": "flow03_promotion_channels",
+      "currentValue": ["in-app", "push"],
+      "adaptedValue": ["in-app"],
+      "semantics": "Promotion channels emitted by the event promotion service.",
+      "irCitation": "CF-03-channels",
+      "profile": 2,
+      "adaptationTypes": ["Type A"],
+      "observableIn": [
+        "EventPromotionEngine stores and emits only in-app promotion",
+        "Tenant A visual screenshots show in-app promotion only"
+      ]
+    },
+    {
+      "name": "flow03_campaign_engagement_threshold",
+      "currentValue": 1000,
+      "adaptedValue": 5,
+      "semantics": "Engagement count threshold for marking a promotion campaign complete.",
+      "irCitation": "CF-03-analytics",
+      "profile": 2,
+      "adaptationTypes": ["Type A"],
+      "observableIn": [
+        "EventAnalyticsTracker emits PromotionCampaignCompleted when the adapted threshold is reached"
+      ]
+    }
+  ],
+  "adaptationCandidates": ["Type A", "Type B", "Type C", "Type D"],
+  "chosenAdaptation": {
+    "type": "Type A (FREEDOM key value change)",
+    "reason": "This is the smallest safe proof because Flow 03 already reads these values through the flow-scoped configuration surface. The change produces tenant-visible behavior without changing service structure.",
+    "testEvidence": [
+      "server/test/event-management/phase-03-adaptation-freedom-config.spec.ts",
+      "client/e2e/event-management-visual.spec.ts with XIIGEN_EVENT_MANAGEMENT_SNAPSHOT_VARIANT=tenant-a-v1.0.1",
+      "client/e2e/event-management-phase4-marketplace.spec.ts"
+    ]
+  }
+}

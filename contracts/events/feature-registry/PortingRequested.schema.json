@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xiigen.io/events/feature-registry/PortingRequested",
+  "title": "PortingRequested",
+  "description": "Initiates porting pipeline for one FT to a target platform. Entry point for FeaturePortingOrchestrator (T573).",
+  "type": "object",
+  "required": ["specversion", "type", "source", "id", "data"],
+  "properties": {
+    "specversion": { "type": "string", "const": "1.0" },
+    "type": { "type": "string", "const": "io.xiigen.flow36.porting.requested" },
+    "source": { "type": "string" },
+    "id": { "type": "string", "description": "correlationId — idempotency key" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["ftId", "targetPlatform", "correlationId"],
+      "properties": {
+        "ftId": { "type": "string", "pattern": "^FT-[0-9]{3,6}$" },
+        "targetPlatform": { "type": "string" },
+        "correlationId": { "type": "string" },
+        "requestedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

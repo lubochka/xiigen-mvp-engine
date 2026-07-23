@@ -1,0 +1,17 @@
+{
+  "eventType": "freelancer.review.submitted",
+  "flowId": "FLOW-17",
+  "version": "1.0.0",
+  "properties": {
+    "reviewId": { "type": "string", "required": true },
+    "engagementId": { "type": "string", "required": true },
+    "direction": { "type": "string", "enum": ["CLIENT_TO_FREELANCER", "FREELANCER_TO_CLIENT"], "required": true },
+    "rating": { "type": "integer", "minimum": 1, "maximum": 5, "required": true },
+    "reviewerId": { "type": "string", "required": true },
+    "targetId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "submittedAt": { "type": "string", "format": "date-time", "required": true }
+  },
+  "excludedFromAudit": ["comment"],
+  "note": "comment field intentionally absent — PII protection per CF-17-4"
+}

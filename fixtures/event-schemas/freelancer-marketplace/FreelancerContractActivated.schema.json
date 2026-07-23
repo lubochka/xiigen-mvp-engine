@@ -1,0 +1,12 @@
+{
+  "eventType": "freelancer.contract.activated",
+  "flowId": "FLOW-17",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "contractId": { "type": "string", "required": true },
+    "milestoneCount": { "type": "integer", "minimum": 1, "required": true },
+    "contractTotal": { "type": "number", "minimum": 0, "required": true },
+    "activatedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

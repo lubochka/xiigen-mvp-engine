@@ -1,0 +1,87 @@
+{
+  "taskTypeId": "T613",
+  "flowId": "FLOW-17",
+  "name": "GigAcceptanceLockGateway",
+  "archetype": "VALIDATION",
+  "domainId": "freelancer-marketplace",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T613-1",
+      "rule": "BOLA check (gigPosting.clientTenantId === ALS.tenantId) at ORDER 1 — before any lock or write. Cross-tenant gig hijacking rejected immediately.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T613-2",
+      "rule": "SETNX(gig-accept-lock:{gigId}) at ORDER 2 — exclusive acceptance lock. Duplicate acceptance rejected idempotently.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T613-3",
+      "rule": "OCC bid status check (bid.status === OPEN) at ORDER 3 — after lock acquired. Withdrawn bids rejected with GigAcceptanceFailed.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T613-4",
+      "rule": "storeDocument(audit) at ORDER 4 BEFORE enqueue(GigAccepted). DNA-8.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T613-5",
+      "rule": "GigAcceptanceFailed emitted on BOLA violation, duplicate lock, or stale bid — before DataProcessResult.failure return.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1537",
+      "token": "IGigPostingService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1538",
+      "token": "IBidStatusService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1539",
+      "token": "IGigAcceptAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "BOLA_OWNERSHIP_CHECK",
+    "SETNX_GIG_ACCEPT_LOCK",
+    "OCC_BID_STATUS_GUARD"
+  ],
+  "freedomComponents": [
+    "gig_accept_lock_ttl_ms"
+  ],
+  "stackCoupling": {
+    "queue": ["GigAccepted", "GigAcceptanceFailed"],
+    "database": ["xiigen-gig-postings", "xiigen-gig-accept-locks", "xiigen-bids", "xiigen-gig-audit"]
+  },
+  "handlers": [
+    "validate_bola_ownership",
+    "acquire_setnx_accept_lock",
+    "validate_occ_bid_status",
+    "write_acceptance_audit",
+    "emit_gig_accepted"
+  ],
+  "namedChecks": [
+    "bola_before_setnx",
+    "setnx_before_occ",
+    "occ_before_store",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "freelancer",
+    "gig-acceptance",
+    "BOLA",
+    "SETNX",
+    "OCC",
+    "idempotency",
+    "validation"
+  ],
+  "keywords": "gig acceptance lock gateway BOLA SETNX OCC bid status GigAccepted GigAcceptanceFailed three-guard idempotency T613 freelancer marketplace"
+}

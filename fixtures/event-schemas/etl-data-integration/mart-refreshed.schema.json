@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.mart.refreshed",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "kpiIds": { "type": "array", "items": { "type": "string" }, "required": true },
+    "piiGateApplied": { "type": "boolean", "required": true },
+    "rlsApplied": { "type": "boolean", "required": true },
+    "refreshedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

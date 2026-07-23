@@ -1,0 +1,24 @@
+{
+    "flowId":  "FLOW-42",
+    "flowSlug":  "miro-shape-adapter",
+    "phase":  "phase-close-scan",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T00:42:32.6056227Z",
+    "checks":  {
+                   "dockerVaultAuthFailures":  0,
+                   "packageTestsPassed":  50,
+                   "legacyServerTestsPassed":  26,
+                   "noFigmaRuntimeHits":  0,
+                   "noWebflowRuntimeHits":  0,
+                   "sdkBoundaryRuntimeImports":  0,
+                   "writebackPropertyAssignments":  4,
+                   "writebackSyncCalls":  1,
+                   "step1InPackage":  true,
+                   "packageJsonPrivateFalse":  true,
+                   "registryReadback":  "1.0.1",
+                   "invalidXiigenPngDirs":  0,
+                   "secretPatternHits":  0
+               },
+    "failureLines":  0,
+    "verdict":  "PASS"
+}

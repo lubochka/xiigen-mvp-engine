@@ -1,0 +1,13 @@
+{
+  "eventType": "invoice.paid",
+  "flowId": "FLOW-12",
+  "version": "1.0.0",
+  "properties": {
+    "invoiceId": { "type": "string", "required": true },
+    "subscriptionId": { "type": "string", "required": true },
+    "amountCents": { "type": "integer", "minimum": 1, "required": true },
+    "attemptNumber": { "type": "integer", "minimum": 1, "required": true },
+    "paidAt": { "type": "string", "format": "date-time", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

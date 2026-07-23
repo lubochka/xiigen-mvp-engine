@@ -1,0 +1,22 @@
+{
+  "patternId": "arch--processing-wait-state",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "generic",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "archetype": "PROCESSING",
+  "tags": [
+    "processing",
+    "wait-state",
+    "ttl",
+    "scheduler",
+    "async"
+  ],
+  "keywords": "processing wait state TTL scheduler delayed callback expiry async",
+  "codeSnippet": "// PROCESSING archetype: schedule expiry via ISchedulerService\nconst ttlMs = await this.freedom.getNumber(tenantId, 'verificationTtlMs');\nawait this.scheduler.scheduleDelayed(\n  'expiry-check', ttlMs,\n  { tokenId, tenantId },  // no PII in payload\n  `expiry:${tokenId}`  // idempotency key for the scheduled job\n);\n// Surface SLA to client\nreturn { status: 'PENDING', expiresAt, remainingMs: ttlMs };",
+  "ironRules": [
+    "ISchedulerService not direct SDK",
+    "TTL from FREEDOM config",
+    "no PII in scheduled payload"
+  ]
+}

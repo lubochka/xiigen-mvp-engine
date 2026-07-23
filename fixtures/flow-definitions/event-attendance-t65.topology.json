@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-04",
+  "taskTypeId": "T65",
+  "name": "flow-04-check-in-processor",
+  "description": "T65 CheckInProcessor — PROCESSING archetype. Idempotent CAS: RSVP.status CONFIRMED → CHECKED_IN. Duplicate check-in returns success.",
+  "archetype": "PROCESSING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: cas-confirmed-to-checked-in, idempotent duplicate returns success"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve PROCESSING arch pattern for T65: CAS status transition, idempotent check-in",
+      "params": {
+        "archetype": "PROCESSING",
+        "taskTypeRef": "T65",
+        "topK": 5,
+        "patternIds": [
+          "arch--cas-status-transition",
+          "arch--idempotent-check-in",
+          "arch--no-unconditional-update"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T65 into: load RSVP → CAS update (CONFIRMED→CHECKED_IN, return success if already CHECKED_IN) → emit CheckedIn"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate check-in-processor.service.ts — idempotent CAS: RSVP.status CONFIRMED → CHECKED_IN. Duplicate check-in returns success."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: cas_confirmed_to_checked_in, idempotent_duplicate_success, no_unconditional_update"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T65 iron rules: CAS transition, idempotency on duplicate, status guard"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=cas-confirmed-to-checked-in, rejected=unconditional-update. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "CheckInRequested command (QR scan)",
+  "primaryFabric": "DATABASE"
+}

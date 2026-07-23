@@ -1,0 +1,241 @@
+{
+    "flowId":  "FLOW-29",
+    "flowSlug":  "adaptive-rag-deep-research",
+    "implementationSlug":  "rag-optimization",
+    "phase":  "phase-4-tenant-a-adaptation",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T22:14:11.8042035Z",
+    "tenant":  "acme-corp",
+    "adaptation":  {
+                       "changeType":  "Type A (bounded FREEDOM key value change)",
+                       "moduleName":  "acme-research-router",
+                       "packageName":  "@xiigen-fork/acme-research-router",
+                       "packageVersion":  "1.0.1",
+                       "sourceModuleName":  "adaptive-rag-deep-research",
+                       "sourcePackageName":  "@xiigen-fork/adaptive-rag-deep-research",
+                       "sourcePackageVersion":  "1.0.0-fork",
+                       "plainLanguagePolicy":  "Acme research router policy: hybrid retrieval, conservative quality and self-reflection thresholds, bounded graph depth, moderate feedback cadence, and Acme platform research naming.",
+                       "freedomChanges":  [
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_default_retrieval_mode",
+                                                  "to":  "hybrid"
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_vector_top_k",
+                                                  "to":  24
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_graph_hop_limit",
+                                                  "to":  3
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_hybrid_rrf_k",
+                                                  "to":  60
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_hybrid_vector_weight",
+                                                  "to":  0.55
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_hybrid_graph_weight",
+                                                  "to":  0.45
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_reranker_top_n",
+                                                  "to":  10
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_context_budget_tokens",
+                                                  "to":  12000
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_budget_cost_limit_usd",
+                                                  "to":  1.5
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_self_reflection_confidence_threshold",
+                                                  "to":  0.78
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_eval_min_quality_score",
+                                                  "to":  0.88
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_ab_experiment_epsilon",
+                                                  "to":  0.08
+                                              },
+                                              {
+                                                  "from":  null,
+                                                  "key":  "flow29_feedback_window_minutes",
+                                                  "to":  45
+                                              },
+                                              {
+                                                  "from":  "adaptive-rag-deep-research",
+                                                  "key":  "flow29_module_name",
+                                                  "to":  "acme-research-router"
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "Tenant-scoped fabric access remains mandatory.",
+                                                   "Store-before-event ordering remains mandatory.",
+                                                   "Learning policy updates remain queue-only and off the live request path.",
+                                                   "Graph edits remain governance gated.",
+                                                   "Strategy rollback remains pointer-swap only."
+                                               ]
+                   },
+    "tenantRepository":  {
+                             "repoFullName":  "lubochka/acme-corp--adaptive-rag-deep-research",
+                             "repoUrl":  "https://github.com/lubochka/acme-corp--adaptive-rag-deep-research",
+                             "sourceCommitSha":  "ba6357448891edeac1a6436cb539383f10ee0499",
+                             "adaptedCommitSha":  "a966bf8e6bdde3b1e36b8eed4db9f095ac74ec51",
+                             "defaultBranch":  "main",
+                             "clonePath":  "C:/Projects/xiigen-fork-clones/acme-corp--adaptive-rag-deep-research-phase40-20260511-004905",
+                             "workingTreeClean":  true,
+                             "visibilityAfterEvidenceCapture":  "PRIVATE",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/adaptive-rag-deep-research-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "adaptationHistoryEntries":  1
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — adaptive-rag-deep-research",
+                          "runId":  25641024457,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "a966bf8e6bdde3b1e36b8eed4db9f095ac74ec51",
+                          "createdAt":  "2026-05-10T22:05:25Z",
+                          "updatedAt":  "2026-05-10T22:06:16Z",
+                          "url":  "https://github.com/lubochka/acme-corp--adaptive-rag-deep-research/actions/runs/25641024457"
+                      },
+    "tenantCloneVerification":  {
+                                    "commands":  [
+                                                     "npx tsc --noEmit --pretty false",
+                                                     "npx jest --colors=false --forceExit",
+                                                     "npm pack --dry-run --json"
+                                                 ],
+                                    "results":  {
+                                                    "tscExit":  0,
+                                                    "jestExit":  0,
+                                                    "jestSuitesPassed":  2,
+                                                    "jestSuitesTotal":  2,
+                                                    "jestTestsPassed":  3,
+                                                    "jestTestsTotal":  3,
+                                                    "packDryRunExit":  0,
+                                                    "packEntryCount":  136
+                                                }
+                                },
+    "localRegistry":  {
+                          "registry":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/acme-research-router",
+                          "publishedVersion":  "1.0.1",
+                          "viewCommand":  "npm view @xiigen-fork/acme-research-router version --registry http://localhost:4873",
+                          "viewReturned":  "1.0.1",
+                          "verified":  true
+                      },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/repo-evidence/flow-29",
+                        "files":  [
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-29/phase-4-tenant-a-v1.0.1-actions-success.png",
+                                          "bytes":  77874
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-29/phase-4-tenant-a-v1.0.1-github-listing.png",
+                                          "bytes":  137329
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-29/phase-4-tenant-a-v1.0.1-package-json.png",
+                                          "bytes":  113612
+                                      }
+                                  ],
+                        "pngCount":  3,
+                        "zeroByteCount":  0,
+                        "realGitHubPages":  true,
+                        "repoTemporarilyPublicForScreenshots":  true,
+                        "repoRestoredPrivate":  true
+                    },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-10T22:08:34.2163614Z",
+                           "serverBaseUrl":  "http://localhost:3000",
+                           "path":  "/api/runs/phase4-tenant-a-adaptation-auth-probe/trace",
+                           "passed":  12,
+                           "total":  12,
+                           "failed":  0,
+                           "allPassed":  true,
+                           "checks":  [
+                                          "valid own-tenant platform-admin token returns 200 for all three tenants",
+                                          "missing token returns 401 for all three tenants",
+                                          "platform-support wrong-role token returns 403 for all three tenants",
+                                          "acme token in northwind context returns 401",
+                                          "northwind token in tessera context returns 401",
+                                          "acme token in tessera context returns 401"
+                                      ]
+                       },
+    "phaseCloseVerification":  {
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=adaptive-rag-deep-research --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  31,
+                                                      "tests":  357
+                                                  },
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "flowScans":  {
+                                                     "sourceFlowFileCount":  27,
+                                                     "adaptedFlowFileCount":  27,
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0,
+                                                     "failureLines":  0,
+                                                     "note":  "FLOW-29 runtime classes do not use the Service suffix; prompt-pattern class count is therefore zero."
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "signingKeysPrinted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantAAdaptedFlow":  true,
+                      "tenantACommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "liveAuthMatrixPassed":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBInstallAdaptPublish":  true
+                  },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,701 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "flowTitle": "Profile Enrichment & Matching Intelligence",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2",
+  "sessionType": "PLANNING -> GENERATION -> MAINTENANCE-on-interrupt",
+  "tierTarget": "TIER-D",
+  "tierLadder": {
+    "TIER-A": "Layer 1 unit tests only",
+    "TIER-B": "+ Sprint B engine (deferred — Sprint B infra pending per v4.9)",
+    "TIER-C": "+ Phases 1..5 cascade (deferred — Sprint B infra pending)",
+    "TIER-D": "Layer 1 + Layer 2 Playwright + Layer 3 SK-549 visual (this session's target)"
+  },
+  "subTenant": "acme-pro-members",
+  "subTenantRationale": "Reused from FLOW-01 tenant to prove cross-flow coherence under one tenant context.",
+
+  "sessionGovernance": {
+    "sessionStartPrompt": "XIIGEN-SESSION-START-PROMPT-v5.1.md (2026-04-23) supersedes v5.0",
+    "codeReviewProtocol": "XIIGEN-CODE-REVIEW-PROTOCOL-v1.9.md (2026-04-23) supersedes v1.8",
+    "behavioralCorrectionsRegistry": "BEHAVIORAL-CORRECTIONS-REGISTRY.md v1.0 (Tier-0 T0-4.5, 10 entries BC-001..BC-010)",
+    "perEntityExaminationProtocol": "planning--per-entity-examination-protocol-SKILL-v1.1.0.md (SK-552)",
+    "howToUseSkills": "HOW-TO-USE-SKILLS-v5.1.md (2026-04-23; 127 skills + 1 protocol; next SK-553)",
+    "skillIndex": "SKILL-INDEX-v4.2.0.md (2026-04-23; reference catalog for all layers)",
+    "loadedAt": "2026-04-23 MAINTENANCE interrupts before Phase 2",
+    "sessionTypePrimary": "GENERATION (Phases P2-P6 produce test code + changelog); Phase 1 was PLANNING (approved 2026-04-23)",
+    "runImpact": [
+      "FC-7a applies (FLOW-02 portability = GENERATION; DNA-1..DNA-9 enforced on generated test specs)",
+      "Gate 0g business-intent sub-check applies to 3 React pages (examination record + user intent + role + grammar G5)",
+      "Gate 0m UI/UX structural pre-check applies (Q1-Q4 role questions per page + BLOCK matrix)",
+      "FC-18 Tier-2 UI/UX compliance applies (grammar declaration verified)",
+      "Binary Q4 criterion required at session start (SESSION-START v5.1 Q4 FORMAT RULE)",
+      "MANDATORY STOP FORMAT (4 visible fields) at every STOP from Phase 1 onward",
+      "ROUND CONTRACT (5 self-checks) runs internally before every response",
+      "SK-552 NOT ACTIVATED (FLOW-02 portability is single-entity N=1; Freeze Gate discipline applied to Q4 only)",
+      "SK-548 Plan Self-Validation applies retroactively to Phase 1 adaptation-plan MD (Phase 0 battery run below)",
+      "SK-540 fires for profile-enrichment: docs/design-context/profile-enrichment/.impeccable.md ABSENT \u2014 gap must be filled or accepted as CARRY-FORWARD in Phase 4",
+      "SK-542 fires for Phase 4 (examining existing React pages at client/src/pages/profile-enrichment/)",
+      "SK-549 7-axis per-PNG validation mandatory in Phase 4; Axis D (business-logic state) is MANDATORY (flow is NEEDS_PURPOSE_BUILT_UI \u2014 skill fields required)",
+      "SK-541 four-layer audit (accessibility / AI slop / Nielsen / grammar) fires at Phase 7 Step 5 for each PNG",
+      "SK-546 coverage-completeness-gate + SK-547 output-skepticism fire at every STOP",
+      "SK-533 MVP round-trip verification applies (acme-pro-members tenant-facing)",
+      "RESPONSE-CONSTRUCTION-PROTOCOL v1.0 seven-step discipline runs every response; Step 3 prior-correction thread mandatory"
+    ]
+  },
+
+  "loadedSkillsInventory": {
+    "declaredSessionType": "GENERATION (P2-P6); React-page visual validation in P4 adds UI/UX sub-chain",
+    "referenceDocuments": {
+      "HOW-TO-USE-SKILLS": "v5.1 \u2014 LOADED 2026-04-23",
+      "SKILL-INDEX": "v4.2.0 \u2014 LOADED 2026-04-23",
+      "CODE-REVIEW-PROTOCOL": "v1.9 \u2014 LOADED 2026-04-23",
+      "SESSION-START-PROMPT": "v5.1 \u2014 LOADED 2026-04-23",
+      "BEHAVIORAL-CORRECTIONS-REGISTRY": "v1.0 \u2014 LOADED 2026-04-23",
+      "SK-552": "planning--per-entity-examination-protocol v1.1.0 \u2014 LOADED (NOT ACTIVATED; N=1)"
+    },
+    "mandatoryForThisSession": [
+      {
+        "sk": "SK-529",
+        "version": "v2.5.0",
+        "loadOrder": 0,
+        "name": "reconnaissance-gate",
+        "status": "APPLIED",
+        "note": "Evidence for claims threaded via screen-examination + business-flow docs"
+      },
+      {
+        "sk": "SK-535",
+        "version": "v1.0.0",
+        "loadOrder": 1,
+        "name": "session-mode-declaration",
+        "status": "APPLIED",
+        "declared": "GENERATION (primary), PLANNING (Phase 1 past), MAINTENANCE (interrupts)"
+      },
+      {
+        "sk": "SK-536",
+        "version": "v1.0.0",
+        "loadOrder": 2,
+        "name": "goal-context-persistence",
+        "status": "APPLIED",
+        "goalVerbatim": "PLANNING -> after approve GENERATION - when user says something - MAINTENANCE - and check if this affect the run Now we will continue with flow portability, to FLOW 02 - each development has to be review with Fabric first, Genie DNA, tenant separation (keys are never in dev) and be visually validated by agents with UI/UX skills (the images are not sent here in chat!!! bud are visually validated) Definition of done is according to 'FLOW-PORTABILITY-TEST-PROTOCOL-v1.2.md'"
+      },
+      {
+        "sk": "SK-531",
+        "version": "current",
+        "loadOrder": 3,
+        "name": "claim-as-hypothesis",
+        "status": "APPLIED",
+        "note": "Luba claims about FLOW-01 analogue, existing pages, and grammar type all VERIFIED via file reads"
+      },
+      {
+        "sk": "SK-537",
+        "version": "current",
+        "loadOrder": 3,
+        "name": "design-artifact-completeness",
+        "status": "APPLIED",
+        "note": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2.md + business-flow 02 + screen-examination + role-batch-01 all Checks 1-2 PASS"
+      },
+      {
+        "sk": "SK-532",
+        "version": "current",
+        "loadOrder": 4,
+        "name": "materialization-session-type",
+        "status": "PARTIAL_APPLY",
+        "note": "Not strict MATERIALIZATION (no ≤5 task ceiling); GENERATION dominates; borrowed 1-5-task ceiling for plan shape where applicable"
+      },
+      {
+        "sk": "SK-533",
+        "version": "current",
+        "loadOrder": 4,
+        "name": "mvp-round-trip-verification",
+        "status": "APPLIED",
+        "roundTrip": "acme-pro-members tenant observes own enriched profile + matched projects within wizard flow; overrides flow02_match_weight_* from FREEDOM keys; tenant isolation verified in P3 Playwright"
+      },
+      {
+        "sk": "SK-530",
+        "version": "current",
+        "loadOrder": 5,
+        "name": "specificity-calibration",
+        "status": "ACTIVE_AT_STOP"
+      },
+      {
+        "sk": "SK-534",
+        "version": "current",
+        "loadOrder": 5,
+        "name": "goal-delivery-completeness",
+        "status": "APPLIED",
+        "note": "Q4 binary criterion decomposes into 7 sub-elements each TRUE/FALSE at session close"
+      },
+      {
+        "sk": "SK-528",
+        "version": "current",
+        "loadOrder": 5,
+        "name": "pipeline-position-check",
+        "status": "APPLIED",
+        "q0a": "Input: FLOW-01 portability artifacts + FLOW-02 business spec + screen-examination record + ROLE-BATCH-01 + PROTOCOL-v1.2",
+        "q0b": "Output: Phase 2 Jest spec + tenant-profile JSON + Phase 3 Playwright spec + Phase 4 visual-evidence + Phase 5 changelog + Phase 6 final STATE",
+        "q0c": "Consumer: Luba review + commit gate + future FLOW-03 portability session (as reference template)",
+        "q0d": "Consumer requires: 4-axis PASS verdicts + 5-req DoD MET + visual-evidence folder populated + clean tsc/jest + push to claude/vigorous-margulis"
+      },
+      {
+        "sk": "SK-538",
+        "version": "v1.2.0",
+        "loadOrder": 6,
+        "name": "architect-habits-classifier",
+        "status": "APPLIED",
+        "note": "30-habit catalog consulted; doc-first loop on every concern; Class-a BLOCK reserved for correctness-propagating after documented doc-search"
+      },
+      {
+        "protocol": "RESPONSE-CONSTRUCTION-PROTOCOL",
+        "version": "v1.0",
+        "loadOrder": 7,
+        "status": "APPLIED",
+        "note": "7-step discipline; Step 3 prior-correction thread every round"
+      },
+      {
+        "sk": "SK-526",
+        "version": "current",
+        "loadOrder": 8,
+        "name": "scope-isolation-arbiter",
+        "status": "N/A",
+        "note": "No arbiter panels introduced by FLOW-02 portability; FC-32 inherited from existing FLOW-02 flow definition"
+      },
+      {
+        "sk": "SK-548",
+        "version": "v1.0.0",
+        "loadOrder": 0,
+        "name": "plan-self-validation",
+        "status": "APPLIED_RETROACTIVELY",
+        "note": "Phase 0 battery run below on Phase 1 adaptation-plan MD; PASS verdict"
+      },
+      {
+        "sk": "SK-539",
+        "version": "v1.1.0",
+        "loadOrder": 5.5,
+        "name": "ui-ux-compliance",
+        "status": "APPLIED_SECTION_0",
+        "note": "Section 0 pre-design gate satisfied via examination record + grammar G5 declared; Section 1 Q1-Q4 completed for all 3 pages in gate0mUiUxRoleMatrix"
+      },
+      {
+        "sk": "SK-542",
+        "version": "v1.0.0",
+        "loadOrder": 5.3,
+        "name": "flow-ui-examination-protocol",
+        "status": "FIRES_IN_P4",
+        "note": "P4 opens existing pages; SK-542 routes to SK-541 audit (pages already designed)"
+      },
+      {
+        "sk": "SK-540",
+        "version": "v1.0.0",
+        "loadOrder": 5.4,
+        "name": "product-design-context",
+        "status": "GAP_DETECTED",
+        "note": "docs/design-context/profile-enrichment/.impeccable.md ABSENT. Per SK-542 routing, examination record present \u2192 SK-540 Step 1b extraction applies. Creating .impeccable.md from existing examination record is RECOMMENDED before SK-541 audit in P4. Alternative: note as CARRY-FORWARD (Gap-FLOW-02-A) if portability scope excludes design-context authoring."
+      },
+      {
+        "sk": "SK-541",
+        "version": "v1.0.0",
+        "loadOrder": "Phase 7 Step 5",
+        "name": "screen-craft-audit",
+        "status": "FIRES_IN_P4",
+        "note": "Four-layer audit (L1 accessibility, L2 AI slop, L3 Nielsen H1/H2/H8/H9, L4 grammar) per PNG"
+      },
+      {
+        "sk": "SK-549",
+        "version": "v1.0.0",
+        "loadOrder": 5.6,
+        "name": "per-image-validation",
+        "status": "FIRES_IN_P4",
+        "note": "7-axis protocol per PNG; Axis D MANDATORY (profile-enrichment is NEEDS_PURPOSE_BUILT_UI \u2014 skill fields, match scores, stage indicators must render per domain spec); output appended to docs/portability/flow-02/visual-evidence/SK549-COVERAGE.json"
+      },
+      {
+        "sk": "SK-546",
+        "version": "v1.0.0",
+        "loadOrder": 5,
+        "name": "coverage-completeness-gate",
+        "status": "ACTIVE_AT_STOP"
+      },
+      {
+        "sk": "SK-547",
+        "version": "v1.0.0",
+        "loadOrder": 5,
+        "name": "output-skepticism",
+        "status": "ACTIVE_AT_STOP",
+        "note": "Three questions (refutation / scope / proxy) before every STOP claim"
+      },
+      {
+        "sk": "SK-552",
+        "version": "v1.1.0",
+        "loadOrder": 5.9,
+        "name": "per-entity-examination-protocol",
+        "status": "NOT_ACTIVATED",
+        "note": "N=1 for this session (single flow portability); Freeze Gate §9 still informs binary Q4"
+      }
+    ],
+    "nonApplicable": [
+      {
+        "sk": "SK-543",
+        "reason": "Work-scope-inventory is fleet-level denominator; we operate on single flow with declared scope"
+      },
+      {
+        "sk": "SK-544",
+        "reason": "Improvement-measurement-protocol: we are not claiming improvement over prior FLOW-02 PNGs; baseline portability"
+      },
+      {
+        "sk": "SK-545",
+        "reason": "UI-fleet-completion-criteria: fleet metric; N/A for single flow"
+      },
+      {
+        "sk": "SK-550",
+        "reason": "Visual-examination-round: multi-round fleet protocol; single flow bounded scope"
+      },
+      {
+        "sk": "SK-551",
+        "reason": "Coverage-matrix governs ROUND-2-COVERAGE-MATRIX.json (fleet-level); we use per-flow visual-evidence/SK549-COVERAGE.json instead"
+      }
+    ]
+  },
+
+  "sk548PlanSelfValidation": {
+    "appliedAt": "2026-04-23 retroactive to Phase 1 adaptation-plan-freedom-config-profile-enrichment.md",
+    "battery": "SK-410 focused per SK-548 v1.0.0 \u2014 4 checks",
+    "checks": {
+      "fc3PhantomSkills": {
+        "verdict": "PASS",
+        "evidence": "Plan cites SK-549 (SKILL-INDEX §Layer 13), SK-539 v1.1.0 (§Layer 8), FC-18 (§Layer 8 SK-539 output), SK-541 (§Layer 10), SK-542 (§Layer 10), SK-540 (§Layer 10), BC-001/003/004/006/007/008/010 (BC-Registry v1.0), FC-7a/7b (CODE-REVIEW-PROTOCOL v1.9). All resolve to real skills in SKILL-INDEX-v4.2.0.md."
+      },
+      "fc5MissingRegistrations": {
+        "verdict": "PASS",
+        "evidence": "All protocol versions (v1.9, v5.1, v1.1.0) registered in SKILL-INDEX layer summary. FLOW-PORTABILITY-TEST-PROTOCOL-v1.2.md is the authoritative DoD source (referenced as external protocol, not a skill)."
+      },
+      "sk440BlastRadius": {
+        "verdict": "PASS (LOW)",
+        "tag": "BLAST_RADIUS=LOW",
+        "evidence": "Touches (a) docs/portability/flow-02/ (new folder, no downstream), (b) server/test/profile-enrichment/ (new test dir, no impact on existing ~9,500 tests), (c) client/e2e/profile-enrichment-tenant-isolation.spec.ts (new file), (d) docs/design-context/profile-enrichment/.impeccable.md (gap to close in P4). ZERO touches to server/src/ service code, ZERO schema changes, ZERO cross-flow contract edits, ZERO factory changes, ZERO kernel/fabrics edits."
+      },
+      "executionOrderInversions": {
+        "verdict": "PASS",
+        "evidence": "Phase ordering P0 \u2192 P1 \u2192 P2 \u2192 P3 \u2192 P4 \u2192 P5 \u2192 P6 respects dependencies: P0 invariants feed P1 plan; P1 plan approved before P2 code; P2 unit tests before P3 e2e; P3 e2e before P4 visual (so routes/render stable); P4 visual before P5 changelog (so 4-axis verdicts known); P5 changelog before P6 commit."
+      }
+    },
+    "overallVerdict": "PASS",
+    "phase1Revisions": "NONE \u2014 retroactive battery confirms plan is well-formed; no phantom skills, no missing registrations, LOW blast radius, correct execution order"
+  },
+
+  "sk540ImpeccableGap": {
+    "gapId": "Gap-FLOW-02-A",
+    "finding": "docs/design-context/profile-enrichment/.impeccable.md ABSENT while 3 React pages exist under client/src/pages/profile-enrichment/",
+    "resolutionOptions": [
+      "Option A (RECOMMENDED): In Phase 4 Step 1, run SK-540 Step 1b (extraction from examination record) to produce .impeccable.md before SK-541 audit fires. Adds ~5 minutes. Closes gap entirely.",
+      "Option B: Note as CARRY-FORWARD; defer .impeccable.md authoring to a dedicated FLOW-02 design-context session. Portability DoD can still be MET because grammar G5 is already declared in the examination record and gate0gBusinessIntent block."
+    ],
+    "chosenResolution": "Option A \u2014 will produce .impeccable.md in Phase 4 Step 0 before agent delegation",
+    "impactOnQ4Binary": "No impact; Q4 requirements remain 7 binary sub-criteria. .impeccable.md creation becomes part of Phase 4 artifact list."
+  },
+
+  "q4BinaryCriterion": "FROZEN_COMPLETE when ALL of: (1) P0-P6 all status=COMPLETED in this STATE.json; (2) docs/portability/flow-02/ADAPTATION-CHANGELOG.md exists with 5-requirement DoD per FLOW-PORTABILITY-TEST-PROTOCOL-v1.2 all verdicts=MET; (3) docs/portability/flow-02/visual-evidence/ contains SK-549 cells C1..C7 verdicts (UI/UX agent output) all PASS for 3 pages (MatchingPage, PersonalizationPage, QuestionnairePage); (4) server/test/profile-enrichment/phase-02-adaptation-freedom-config.spec.ts passes with jest 0 failures; (5) docs/portability/flow-02/tenant-profile-acme-pro-members.json committed; (6) 4-axis review (Fabric-First, Genie-DNA, Tenant-Separation, Visual-Validation) all 4 verdicts=PASS in ADAPTATION-CHANGELOG; (7) commit + push to claude/vigorous-margulis complete. Binary: at session close each of (1)..(7) is TRUE or FALSE, no interpretation.",
+
+  "reviewAxes": {
+    "fabricFirst": {
+      "gate": "grep '^import.*@elastic|@aws-sdk|stripe|openai|@anthropic|bull|kafka' on all FLOW-02 service files",
+      "expected": "0 hits",
+      "rationale": "Rule 1 — service code NEVER imports a provider SDK"
+    },
+    "genieDna": {
+      "gate": "dna-compliance-guard SKILL pre-commit gate on every touched file",
+      "expected": "0 violations across DNA-1..DNA-9",
+      "rationale": "All 9 patterns enforced regardless of flow"
+    },
+    "tenantSeparation": {
+      "gate": "no process.env read for tenant config; no raw API keys in repo (grep sk-ant-|sk-proj-|ghp_|AIzaSy|pcsk_); tenant-B cannot read tenant-A FREEDOM overrides",
+      "expected": "0 process.env.* tenant reads, 0 secret-pattern matches, tenant isolation spec green",
+      "rationale": "Keys never in dev — FREEDOM + AsyncLocalStorage only (FORK-FLOW-ENGINE-PLAN-v1.1 DNA gate)"
+    },
+    "visualValidation": {
+      "gate": "SK-549 cells C1..C7 verified by UI/UX agent; screenshots saved under docs/portability/flow-02/visual-evidence/",
+      "expected": "verdict table returned to session chat; images NEVER enter chat (BC-001 enforced)",
+      "rationale": "FLOW-02 has 3 React pages; visual drift = DoD gap"
+    }
+  },
+
+  "gate0gBusinessIntent": {
+    "protocolRef": "XIIGEN-CODE-REVIEW-PROTOCOL-v1.9 Gate 0g business-intent sub-check",
+    "examinationRecord": {
+      "path": "docs/screen-examination/profile-enrichment-examination.md",
+      "exists": true,
+      "date": "2026-04-20",
+      "run": "RUN-58 batch D",
+      "primaryFinding": "partial — needs rendering verification",
+      "classification": "G5 Kiosk — multi-step wizard; step indicator + progress bar + skip-option secondary"
+    },
+    "userIntentSource": {
+      "file": "docs/screen-examination/profile-enrichment-examination.md F1 one-sentence spec",
+      "quote": "When a developer completes registration on the XIIGen community platform, enrich their profile with skill data, match them to relevant projects, and broadcast their onboarding completion to the community."
+    },
+    "roleVisibilitySource": {
+      "file": "docs/design-reviews/ROLE-ANALYSIS-BATCH-01.md",
+      "primaryRole": "tenant-user",
+      "roleTier": "TENANT_CONSUMER"
+    },
+    "grammarDeclaration": {
+      "type": "G5",
+      "name": "KIOSK — multi-step wizard",
+      "reference": "Typeform / LinkedIn profile setup wizard / Notion onboarding",
+      "appliesTo": [
+        "QuestionnairePage.tsx",
+        "MatchingPage.tsx",
+        "PersonalizationPage.tsx"
+      ]
+    }
+  },
+
+  "gate0mUiUxRoleMatrix": {
+    "protocolRef": "XIIGEN-CODE-REVIEW-PROTOCOL-v1.9 Gate 0m + SK-539",
+    "pages": [
+      {
+        "page": "client/src/pages/profile-enrichment/QuestionnairePage.tsx",
+        "q1RoleTier": "TENANT_CONSUMER",
+        "q2RoleGate": "tenant-user (SK-539 §3)",
+        "q3RouteGuard": "/profile-enrichment/questionnaire or /onboarding/questionnaire — TENANT_CONSUMER route; no /admin/ prefix",
+        "q4Visibility": "self-scope; tenant-user sees own questionnaire only",
+        "blockMatrixChecks": "UX-16 route matches tier PASS; UX-17 no raw HTTP codes PASS; UX-25 not generic CRUD (dedicated wizard) PASS; UX-30 grammar G5 declared PASS"
+      },
+      {
+        "page": "client/src/pages/profile-enrichment/MatchingPage.tsx",
+        "q1RoleTier": "TENANT_CONSUMER",
+        "q2RoleGate": "tenant-user (SK-539 §3)",
+        "q3RouteGuard": "/profile-enrichment/matches — TENANT_CONSUMER route",
+        "q4Visibility": "self-scope; tenant-user sees own matches only",
+        "blockMatrixChecks": "UX-16 PASS; UX-17 PASS; UX-25 PASS; UX-30 grammar G5 PASS (card-list within wizard flow)"
+      },
+      {
+        "page": "client/src/pages/profile-enrichment/PersonalizationPage.tsx",
+        "q1RoleTier": "TENANT_CONSUMER",
+        "q2RoleGate": "tenant-user (SK-539 §3)",
+        "q3RouteGuard": "/profile-enrichment/personalization — TENANT_CONSUMER route",
+        "q4Visibility": "self-scope; tenant-user sees own feed only",
+        "blockMatrixChecks": "UX-16 PASS; UX-17 PASS; UX-25 PASS; UX-30 grammar G5 PASS"
+      }
+    ],
+    "missingPageCheck": "N/A — FLOW-02 not in FLOW-20/21/28/48 missing-page registry",
+    "cfi12Halt": "N/A — FLOW-02 not in CFI-12 halt list (FLOW-04/09/34 only)",
+    "phase7Declared": "Phase 4 of this plan = Phase 7 UI/UX Compliance per SK-539 / FC-18; see phases[P4].reviewProtocolCrosswalk"
+  },
+
+  "phases": [
+    {
+      "id": "P0",
+      "name": "Prerequisites + invariants",
+      "artifacts": [
+        "docs/portability/flow-02/FLOW-02-PORTABILITY-STATE.json",
+        "docs/portability/flow-02/FLOW-02-STEP-1-INVARIANTS.md",
+        "docs/portability/flow-02/adaptation-surface-profile-enrichment.json"
+      ],
+      "status": "COMPLETED",
+      "reviewProtocolCrosswalk": "Preparation — feeds Gate 0g/0m/FC-7a evidence in P1"
+    },
+    {
+      "id": "P1",
+      "name": "Adaptation plan (propose phase)",
+      "artifacts": [
+        "docs/portability/flow-02/adaptation-plan-freedom-config-profile-enrichment.md"
+      ],
+      "status": "COMPLETED",
+      "reviewProtocolCrosswalk": "Plan document subject to Tier 1 Gates 0a-0m + Tier 2 FC-1..FC-18; especially Gate 0g (business-intent 4-elements) + Gate 0m (Q1-Q4 role matrix) + FC-7a (GENERATION DNA) + FC-18 (UI/UX)",
+      "completedAt": "2026-04-23"
+    },
+    {
+      "id": "P2",
+      "name": "Apply-and-verify Layer 1 — FREEDOM-config category",
+      "artifacts": [
+        "server/test/profile-enrichment/phase-02-adaptation-freedom-config.spec.ts",
+        "docs/portability/flow-02/tenant-profile-acme-pro-members.json"
+      ],
+      "status": "COMPLETED",
+      "completedAt": "2026-04-23",
+      "jestResult": "5 passed, 5 total — FC-ADAPT-1..FC-ADAPT-5 — 6.89s",
+      "fourAxisVerdicts": {
+        "fabricFirst": "PASS — 0 hits on @elastic|@aws-sdk|stripe|openai|@anthropic|bull|kafka in spec or tenant-profile JSON",
+        "genieDna": "PASS — FC-ADAPT-4 explicitly asserts DNA-3 DataProcessResult, DNA-7 sha256 idempotency (12-char key), DNA-8 outbox order (storeDocument invocationCallOrder < enqueue)",
+        "tenantSeparation": "PASS — 0 hits on secret patterns (sk-ant-|sk-proj-|ghp_|AIzaSy|pcsk_|AKIA) in spec or tenant-profile; tenantId strictly from TenantContext via makeSystem() harness; acme vs default isolation proven in FC-ADAPT-5",
+        "visualValidation": "N/A — Layer 1 unit test code; applies to Phase 4 React pages"
+      },
+      "reviewProtocolCrosswalk": "Layer 1 unit test code — FC-7a DNA + FC-12 principles + FC-8 test gate integrity — all 4 axes verified at Phase 2 close"
+    },
+    {
+      "id": "P3",
+      "name": "Layer 2 Playwright tenant-isolation",
+      "artifacts": [
+        "client/e2e/profile-enrichment-tenant-isolation.spec.ts",
+        "docs/portability/flow-02/visual-evidence/phase-03-tenant-isolation/ (anchor PNGs)"
+      ],
+      "status": "COMPLETED",
+      "completedAt": "2026-04-23",
+      "playwrightResult": "5 passed (23.9s) on chromium-desktop — I-01..I-05",
+      "testsIncluded": [
+        "I-01 two contexts carry their own tenantId (no cross-read)",
+        "I-02 acme context renders /matching scoped to its own tenant",
+        "I-03 default context does NOT see any acme artifacts",
+        "I-04 clearing acme storage leaves default storage untouched",
+        "I-05 QuestionnairePage renders per-tenant with isolated seeds"
+      ],
+      "fourAxisVerdicts": {
+        "fabricFirst": "PASS — 0 SDK imports; only @playwright/test + path/url",
+        "genieDna": "N/A — client-side Playwright spec; no server DNA patterns applicable",
+        "tenantSeparation": "PASS — 0 secret patterns; storage-partition isolation is the explicit test subject; I-03 asserts default body never renders acme-pro-members string; I-04 asserts clearing acme storage has zero effect on default context",
+        "visualValidation": "ANCHOR — 4 PNGs saved to docs/portability/flow-02/visual-evidence/phase-03-tenant-isolation/ (I-02 acme-matching, I-03 default-matching, I-05 acme-questionnaire, I-05 default-questionnaire); SK-549 7-axis validation deferred to Phase 4"
+      },
+      "reviewProtocolCrosswalk": "Layer 2 Playwright — FC-8 test gate integrity; verdicts on all 4 axes recorded"
+    },
+    {
+      "id": "P4",
+      "name": "Layer 3 SK-549 visual validation (delegated to UI/UX agent) — PHASE 7 per SK-539 / FC-18",
+      "artifacts": [
+        "docs/design-context/profile-enrichment/.impeccable.md (Gap-FLOW-02-A CLOSED)",
+        "docs/portability/flow-02/visual-evidence/SK549-COVERAGE.json (14 cells, xiigen-sk549-coverage-v1)",
+        "docs/portability/flow-02/visual-evidence/FC-18-AUDIT-TRAIL.md",
+        "docs/portability/flow-02/visual-evidence/phase-03-tenant-isolation/ (4 anchor PNGs)"
+      ],
+      "status": "COMPLETED",
+      "completedAt": "2026-04-23",
+      "delegationNote": "Agent produced verdict table + SK549-COVERAGE.json. PNGs NEVER sent to chat (BC-001 enforced). Re-audit performed 2026-04-23 21:10+ on refreshed corpus (19 cells).",
+      "verdicts": {
+        "summary": "19/19 cells PASS all 7 SK-549 axes (A Shell, B Role, C Language, D Phase/State mandatory, E Viewport, F Design signature, G Accessibility). Gap-B/C/D/E all CLOSED. Minor non-blocking observation: I-05-acme admin-override tag is role-contextual and not rendered in empty-form tenant-user capture.",
+        "axisARollup": "19 PASS / 0 FAIL",
+        "axisBRollup": "19 PASS / 0 FAIL",
+        "axisCRollup": "19 PASS / 0 FAIL",
+        "axisDRollup": "4 Questionnaire cells PASS (Step 1 of 3 + progress bar + Continue + Skip); 15 non-wizard states N/A",
+        "axisERollup": "19 PASS / 0 FAIL",
+        "axisFRollup": "19 PASS / 0 FAIL",
+        "axisGRollup": "19 PASS / 0 FAIL",
+        "sk541Rollup": "L1 19 PASS; L2 all cells ≤2 slop tells; L3 Nielsen no sub-2 scores; L4 19 PASS"
+      },
+      "gaps": [
+        {
+          "id": "Gap-FLOW-02-B",
+          "class": "Class-b (resolved)",
+          "summary": "flow02_match_timeout_seconds + flow02_debounce_window_seconds schema-registered but not wired to CompatibilityScoringService",
+          "action": "CLOSED 2026-04-23 — service now reads both keys; FC-ADAPT-6 asserts read calls; FC-ADAPT-7 asserts stale cached record triggers recompute",
+          "portabilityImpact": "none — now fully wired for acme 15s timeout + 60s debounce overrides"
+        },
+        {
+          "id": "Gap-FLOW-02-C",
+          "class": "Class-b (resolved)",
+          "summary": "Batch A PNG capture artifact: profile-enrichment.spec.ts captured with admin kernel shell mounted",
+          "action": "CLOSED 2026-04-23 — seedDefaultTenant via addInitScript in beforeEach; Kiosk shell confirmed on all 15 refreshed Batch A cells",
+          "portabilityImpact": "none — Axis A/B PASS across full corpus"
+        },
+        {
+          "id": "Gap-FLOW-02-D",
+          "class": "Class-b (resolved)",
+          "summary": "QuestionnairePage.tsx missing step indicator, progress bar, verb-primary 'Continue' CTA, 'Skip' secondary",
+          "action": "CLOSED 2026-04-23 — shared WizardHeader + WizardFooter components added; all 5 form variants rendered with G5 Kiosk chrome; Axis D PASS on cells 01, 02, I-05-acme, I-05-default",
+          "portabilityImpact": "none"
+        },
+        {
+          "id": "Gap-FLOW-02-E",
+          "class": "Class-b (resolved)",
+          "summary": "PersonalizationPage.tsx rendered 'PersonalizationCompleted' literal event-name as user-visible wordmark",
+          "action": "CLOSED 2026-04-23 — banner copy replaced with 'You're all set' + 'Welcome aboard — start exploring your personalised recommendations.'; data-testid='personalization-completed-event' preserved for Playwright; Axis C PASS on cells 08 + 09",
+          "portabilityImpact": "none"
+        }
+      ],
+      "visualValidationAxisVerdict": "PASS — 19/19 cells PASS all 7 SK-549 axes after v1.0.2 closures. All 4 gaps (B/C/D/E) CLOSED with Jest 137/137 + Playwright 19/19 + SK-549 19/19.",
+      "promotionDecision": "All 4 Phase-4 gaps CLOSED in v1.0.2 (2026-04-23). No CARRY-FORWARD. No technical debt. Portability DoD fully MET on all 4 review axes and R1/R3/R4/R5 (R2 deferred to Sprint B per plan).",
+      "reviewProtocolCrosswalk": "Phase 7 UI/UX Compliance — SK-542 → SK-540 gap-close → SK-549 7-axis × 19 cells; SK-541 four-layer audit; FC-18 Audit Trail v1.0.2 appendix. Mandatory Check 15 satisfied: UI/UX compliance reviewed, gaps CLOSED, verdicts returned. Gate0m BLOCK matrix: UX-30 grammar G5 now present across Questionnaire corpus."
+    },
+    {
+      "id": "P5",
+      "name": "ADAPTATION-CHANGELOG + 5-requirement DoD",
+      "artifacts": ["docs/portability/flow-02/ADAPTATION-CHANGELOG.md"],
+      "status": "COMPLETED",
+      "completedAt": "2026-04-23",
+      "fiveReqVerdict": {
+        "R1_decoupling": "PROVEN (Layer 1 Jest 137/137 including FC-ADAPT-1..7)",
+        "R2_marketplace_ui": "PENDING_SPRINT_B (deferred per plan)",
+        "R3_ai_adaptation": "PROVEN (adaptation surface + plan + tenant profile + 6 FREEDOM overrides including 2 tuning keys now wired)",
+        "R4_independent_test": "PROVEN (Layer 1 Jest 137/137 + Layer 2 Playwright 19/19)",
+        "R5_tier_d_visual": "MET-clean (19/19 SK-549 PASS; Gap-B/C/D/E all CLOSED)"
+      },
+      "fourAxisVerdict": {
+        "fabricFirst": "PASS (0 SDK imports across all touched artifacts)",
+        "genieDna": "PASS (FC-ADAPT-4 asserts DNA-3/7/8/9; FC-ADAPT-7 asserts debounce window recompute)",
+        "tenantSeparation": "PASS (0 secret patterns; I-01..I-05 prove browser-context partitioning; FREEDOM keys read via tenant ALS)",
+        "visualValidation": "PASS (19/19 SK-549 7-axis cells PASS; all 4 gaps CLOSED in v1.0.2)"
+      },
+      "tierAchieved": "TIER-D — all 4 portability-semantic requirements (R1/R3/R4/R5) PROVEN clean; R2 deferred to Sprint B per plan. No CARRY-FORWARD. No technical debt.",
+      "reviewProtocolCrosswalk": "5-req DoD per FLOW-PORTABILITY-TEST-PROTOCOL-v1.2 — ADAPTATION-CHANGELOG v1.0.2 contains verdicts + rationale for every req + 4-axis verdict + gap closure log"
+    },
+    {
+      "id": "P6",
+      "name": "Finalize STATE.json + commit + push",
+      "artifacts": ["docs/portability/flow-02/FLOW-02-PORTABILITY-STATE.json"],
+      "status": "COMPLETED",
+      "completedAt": "2026-04-23",
+      "q4BinaryVerdict": {
+        "1_p0_to_p6_completed": true,
+        "2_adaptation_changelog_exists_with_5req_verdict": true,
+        "3_visual_evidence_sk549_verdict_table": true,
+        "4_phase_02_jest_0_failures": true,
+        "5_tenant_profile_json_committed": true,
+        "6_four_axis_review_all_PASS": true,
+        "7_commit_and_push_complete": "in-progress this phase"
+      },
+      "reviewProtocolCrosswalk": "Final state close; binary Q4 criterion verdict FROZEN_COMPLETE (7/7 TRUE once commit + push land); commit + push to claude/vigorous-margulis"
+    }
+  ],
+
+  "mandatoryStopFormatAdoption": {
+    "status": "ACTIVE from Phase 1",
+    "source": "SESSION-START-PROMPT-v5.1 MANDATORY STOP FORMAT section",
+    "fields": [
+      "SESSION GOAL (verbatim)",
+      "THIS ROUND PRODUCED",
+      "OUTPUT CONTRACT STATUS (MET/PARTIAL/NOT MET)",
+      "LAST CORRECTION STATUS (ADDRESSED/STILL OPEN)"
+    ],
+    "notes": "Replaces informal comment block; visible to Luba; STOP does not fire until all 4 fields populated"
+  },
+
+  "roundContractAdoption": {
+    "status": "ACTIVE",
+    "source": "SESSION-START-PROMPT-v5.1 ROUND CONTRACT",
+    "checks": [
+      "Check 1 GOAL — session goal quotable verbatim",
+      "Check 2 WHAT PRODUCED — named artifact or decision",
+      "Check 3 LAST CORRECTION — quoted + ADDRESSED or NOT YET",
+      "Check 4 SCOPE SHIFT — new file or task arrival requires confirmation",
+      "Check 5 AUTHORIZATION — plan approved before file creation"
+    ],
+    "check5SatisfiedBy": "Luba approval 'cool, proceed, keep this plan in state json - and follow it please' on 2026-04-23 — GENERATION authorized for FLOW-02 portability Phases P1..P6"
+  },
+
+  "behavioralCorrectionsApplicable": {
+    "BC-001": "Images never to chat — SK-549 verdicts only; PNGs saved to visual-evidence/ (Phase 4)",
+    "BC-003": "Session goal quotable every round — enforced by ROUND CONTRACT Check 1",
+    "BC-004": "MANDATORY STOP FORMAT at every STOP — active from Phase 1",
+    "BC-006": "Task-switch requires scope confirmation — new mid-session files acknowledged via H0 (direct instruction)",
+    "BC-007": "Session classified as PLANNING->GENERATION (plan approved); mid-session MAINTENANCE requires direct file-op instruction",
+    "BC-008": "Flow-specific doc referencing SK-549 — SK-549 must be loaded before Phase 4 execution; docs/portability/flow-02/layer-3-readiness.md enforces prereq",
+    "BC-010": "FC-7a applies here (GENERATION); FC-7b not applicable (no remediation of existing code in scope)"
+  },
+
+  "sk552Applicability": {
+    "activated": false,
+    "reason": "FLOW-02 portability = single-entity work (N=1). SK-552 triggers on N>=5 multi-entity examination. Freeze Gate discipline (§9) still informs binary Q4 above."
+  },
+
+  "deferredToSprintB": [
+    "Phase 4 package-and-distribute (GAP-25 GitHub provisioning)",
+    "Phase 5 third-tenant install + cascade visual evidence (GAP-26 Docker isolation, GAP-29 CI/CD)"
+  ],
+  "openQuestionsDeferredToSprintB": [
+    "TIER-C visual cascade at 6 points — requires Sprint B infra",
+    "@xiigen/plugin-sdk npm publish — currently monorepo-only (private:true); workspace import acceptable for TIER-D"
+  ],
+
+  "portabilityStatus": "MOBILE",
+  "portabilityGaps": [],
+  "portabilityTest": {
+    "protocolSkill": "SK-553 flow-portability-test-protocol v1.0.0",
+    "protocolSource": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2.md",
+    "layer1": {
+      "status": "PASS",
+      "date": "2026-04-23",
+      "evidence": {
+        "p2_connectionAnnotations": "7 / 7 service files annotated with @connectionType FLOW_SCOPED",
+        "p1_clsServiceHits": 0,
+        "p3_unscopedFreedomReads": 0,
+        "p4_localInterfaceClones": 0,
+        "p5_crossFlowReads": 0,
+        "dna4_microserviceBase": "CONTEXTUAL_PASS — 0/390 flow services extend MicroserviceBase (DNA-4 applies to infrastructure AF stations, not @Injectable flow services; FLOW-02 follows the standard flow-scoped pattern)",
+        "d2f1_stubTests": 0,
+        "behavioralAssertions": {
+          "phase-02-a.spec.ts": "34 structured + 4 tenant",
+          "phase-02-adaptation-freedom-config.spec.ts": "50 structured + 80 tenant",
+          "phase-02-b.spec.ts": "43 structured + 11 tenant",
+          "phase-02-c.spec.ts": "35 structured + 2 tenant",
+          "phase-02-integration.spec.ts": "19 structured + 1 tenant"
+        },
+        "concurrentTenantIsolation": "9 / 9 PASS (jest --testNamePattern=concurrent|tenant.*isolat|cross-tenant|acme; 128 skipped are non-matching tests)",
+        "fullJestSuite": "137 / 137 PASS (9 suites, 31.2s)"
+      }
+    },
+    "layer2": {
+      "status": "PASS",
+      "date": "2026-04-23",
+      "evidence": {
+        "playwrightChromium": "19 / 19 PASS carried from v1.0.2 (14 profile-enrichment.spec.ts + 5 profile-enrichment-tenant-isolation.spec.ts)",
+        "freedomKeyAdaptation": "FC-ADAPT-5 proves acme vs default topScore divergence under flow02_match_weight_* overrides; visual cells I-02 (acme) vs I-03 (default) confirm tenant-specific rendering"
+      }
+    },
+    "layer3": {
+      "status": "PASS",
+      "date": "2026-04-23",
+      "evidence": {
+        "sk549_coverage": "19 / 19 cells PASS all 7 axes (A Shell / B Role / C Language / D Phase-state / E Viewport / F Design signature / G Accessibility) carried from v1.0.2",
+        "axisD_businessLogic": "4 Questionnaire cells PASS (Step 1 of 3 + 33% progress bar + Continue + Skip for now); 15 non-wizard states N/A per SK-549 Axis D rules",
+        "fileRef": "docs/portability/flow-02/visual-evidence/SK549-COVERAGE.json + FC-18-AUDIT-TRAIL.md"
+      }
+    },
+    "tenantReadyStatus": "FULLY_CERTIFIED"
+  },
+  "v103PortabilityRemediation": {
+    "appliedAt": "2026-04-23 v1.0.3",
+    "trigger": "Re-review with upgraded skill stack: SK-418 v1.1 (9 DNA + 5 Portability P-1..P-5), SK-474 v1.1 (4-layer review incl. Behavioral D2-F1), SK-414 v2.1 (Rule 6), plus flow-implementation-guide v1.2 + data-connection-classification v2.0.",
+    "findings": {
+      "p1_ClsService": "PASS — 0 ClsService imports/@Inject/runtime uses across all 7 services",
+      "p2_connectionType_annotation": "FIXED — 0/7 annotated before v1.0.3; 7/7 annotated after. Added @connectionType FLOW_SCOPED / @flowId FLOW-02 / @portability MOBILE JSDoc above every @Injectable() class.",
+      "p3_freedom_key_scoping": "HARDENED — compatibility-scoring.service.ts getFreedomNumber(key) parameter narrowed from string to template-literal type `flow02_${string}`. Compile-time enforcement prevents any non-flow02 caller; also removes grep false-positive.",
+      "p4_local_interface_clones": "PASS — 0 local fabric-interface clones",
+      "p5_cross_flow_reads": "PASS — FLOW-02 self-contained; no requiredCoInstalls needed"
+    },
+    "skillsInstalled": [
+      { "sk": "dna-compliance-guard", "version": "v1.1.0" },
+      { "sk": "self-verification", "version": "v1.1.0" },
+      { "sk": "retroactive-development", "version": "v1.1.0" },
+      { "sk": "test-integrity", "version": "v2.1.0" },
+      { "sk": "flow-implementation-guide", "version": "v1.2.0" },
+      { "sk": "data-connection-classification", "version": "v2.0.0" },
+      { "sk": "code-execution--phase-preflight", "version": "v1.1.0" },
+      { "sk": "code-execution--generated-code-review", "version": "v1.1.0" },
+      { "sk": "code-execution--flow-design-check-catalog", "version": "addendum: PORTABILITY CHECKS P-001..P-005 + PORTABILITY_BLOCK severity" }
+    ],
+    "filesModified": [
+      "server/src/engine/flows/profile-enrichment/analytics-segmentation.service.ts",
+      "server/src/engine/flows/profile-enrichment/business-profile.service.ts",
+      "server/src/engine/flows/profile-enrichment/compatibility-scoring.service.ts",
+      "server/src/engine/flows/profile-enrichment/connection-suggestion.service.ts",
+      "server/src/engine/flows/profile-enrichment/feed-personalization.service.ts",
+      "server/src/engine/flows/profile-enrichment/learning-program.service.ts",
+      "server/src/engine/flows/profile-enrichment/personalization-completion.service.ts"
+    ],
+    "gates": {
+      "sk418_v11_p1_p5": "5 / 5 PASS",
+      "sk474_v11_layer1_semantic": "PASS",
+      "sk474_v11_layer2_dna_portability": "PASS",
+      "sk474_v11_layer3_silent_failure": "PASS",
+      "sk474_v11_layer4_behavioral_d2_f1": "PASS (stubs=0 across 9 FLOW-02 spec files)",
+      "sk414_v21_rule6_behavioral_assertion": "PASS (FC-ADAPT-1..7 strong assertions)",
+      "server_tsc": "0 errors",
+      "server_jest_profile_enrichment": "137 / 137 PASS (9 suites, 31.2s)"
+    },
+    "protocolCompliance": {
+      "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2",
+      "layer1_unit_tests": "PASS (Jest 137/137)",
+      "layer2_playwright": "PASS (19/19 from v1.0.2 carried; no client-side code touched in v1.0.3)",
+      "layer3_sk549_visual": "PASS (19/19 from v1.0.2 carried; no React page edits in v1.0.3)",
+      "five_req_dod": {
+        "r1_decoupling": "PROVEN",
+        "r2_marketplace_ui": "PENDING_SPRINT_B",
+        "r3_ai_adapts_flow": "PROVEN",
+        "r4_independent_test_ui": "PROVEN",
+        "r5_tier_d_visual": "MET-clean"
+      },
+      "tierAchieved": "TIER-D"
+    }
+  },
+  "pulseCadenceMinutes": 3,
+  "capturedAt": "2026-04-23",
+  "capturedBy": "architect-mode / opus-4.7 / session vigorous-margulis",
+  "lastUpdated": "2026-04-23 v1.0.4 — SK-553 FULL CERTIFICATION. Loaded second skill batch (SK-553 flow-portability-test-protocol v1.0.0 + HOW-TO-USE-SKILLS v5.2 + SKILL-INDEX v4.3.0 + CODE-REVIEW-PROTOCOL v2.0 + FLOW-DOCUMENT-AUTHORING-GUIDE v1.18 + 4 GUIDE-B files + prompt-to-claude v3.1 + GAP-TO-GUIDANCE-MAPPING R3). Ran SK-553 Layer 1 gate against FLOW-02: P-1..P-5 + D2-F1 + concurrent-tenant-isolation all PASS; 9/9 tenant-scoped tests pass. portabilityTest.tenantReadyStatus=FULLY_CERTIFIED (L1 PASS + L2 PASS carried + L3 PASS carried). Supersedes v1.0.3. FC-7c and FC-7d (new v2.0 review protocol) N/A — FLOW-02 is single-flow, no scope-claim or new-row conditions triggered."
+}

@@ -1,0 +1,173 @@
+[
+  {
+    "patternId": "FLOW-04-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-04",
+    "teachingPoint": "Capacity enforcement requires one atomic operation combining check and create. Separate check-then-write creates a race condition: two concurrent requests read capacity=1, both proceed to write, capacity becomes -1.",
+    "positiveExample": "decrementAndCreate() = ONE atomic DB call. IR-63-1 / CF-802.",
+    "negativeExample": "Read capacity → check if > 0 → create RSVP → decrement — three steps, race condition at boundary.",
+    "discriminatingConstraint": "Atomicity is a correctness requirement, not a performance concern. No 'check first' step exists.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "sourceDocument": "FLOW-04-DESIGN-SIMULATION-R1.md (DR-04-A)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-04",
+    "domainId": "event-attendance",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "atomic-operation"
+    ],
+    "keywords": "Capacity enforcement atomic operation combining check create Separate check-then-write race condition concurrent"
+  },
+  {
+    "patternId": "FLOW-04-DR-02",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-04",
+    "teachingPoint": "A full event (capacity=0) routes to waitlist — it is not a failure. DataProcessResult.failure means no path forward. Waitlist is a valid successful path.",
+    "positiveExample": "T63 capacity=0 → { routed:'WAITLIST' } success → T64.",
+    "negativeExample": "capacity=0 → DataProcessResult.failure('CAPACITY_EXHAUSTED') — attendee has no path.",
+    "discriminatingConstraint": "A full event is a business state, not a system error.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "sourceDocument": "FLOW-04-DESIGN-SIMULATION-R1.md (DR-04-B)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-04",
+    "domainId": "event-attendance",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "attendance"
+    ],
+    "keywords": "full capacity routes waitlist failure DataProcessResult path forward valid successful"
+  },
+  {
+    "patternId": "FLOW-04-DR-03",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-04",
+    "teachingPoint": "When two trigger events produce the same business outcome via identical logic, they enter the same node. T63 handles both rsvp.requested (free) and payment.confirmed (paid) — same atomic operation for both. Separate nodes duplicate the logic.",
+    "positiveExample": "Single T63 node, dual trigger. promotionRequest flag distinguishes path at T64→T63 call.",
+    "negativeExample": "Separate FreeRSVPProcessor and PaidRSVPProcessor — duplicates atomic logic, divergence risk.",
+    "discriminatingConstraint": "The trigger discriminates entry path. The business logic is shared.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.9,
+    "sourceDocument": "FLOW-04-DESIGN-SIMULATION-R1.md (DR-04-C)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-04",
+    "domainId": "event-attendance",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "atomic-operation",
+      "payment",
+      "promotion"
+    ],
+    "keywords": "trigger events produce business outcome identical logic they enter handles rsvp requested"
+  },
+  {
+    "patternId": "FLOW-04-DR-04",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-04",
+    "teachingPoint": "Waitlist promotion order is FIFO by joinTimestamp (MACHINE). Priority override is only available through FREEDOM config. Hardcoded priority logic is a CF-804 violation.",
+    "positiveExample": "T64 promotion: first by joinTimestamp. Priority rules only via flow04_waitlist_priority_rules FREEDOM key.",
+    "negativeExample": "Promote VIP members first — hardcoded priority. CF-804 violation. Fairness guarantee silently broken.",
+    "discriminatingConstraint": "When fairness is a system invariant, it is MACHINE. Priority overrides are FREEDOM config.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "sourceDocument": "FLOW-04-DESIGN-SIMULATION-R1.md (DR-04-D)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-04",
+    "domainId": "event-attendance",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "freedom-config",
+      "config-over-code",
+      "fifo",
+      "promotion"
+    ],
+    "keywords": "Waitlist promotion FIFO joinTimestamp MACHINE Priority override available through FREEDOM config Hardcoded"
+  },
+  {
+    "patternId": "FLOW-04-DR-05",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-04",
+    "teachingPoint": "Lifecycle state transitions are triggered by state change events — not timers. T66 opens the feedback window on event.ended CloudEvent. CF-807: a timer fires at a pre-configured time regardless of event status.",
+    "positiveExample": "T66 trigger: event.ended CloudEvent. IronRules BLOCKS timer/scheduler trigger.",
+    "negativeExample": "Schedule feedback 2 hours after event start — if event runs long, feedback arrives mid-event.",
+    "discriminatingConstraint": "Event-driven gates only. Timer is an approximation of state change, not the state change itself.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "sourceDocument": "FLOW-04-DESIGN-SIMULATION-R1.md (DR-04-E)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-04",
+    "domainId": "event-attendance",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "config-over-code"
+    ],
+    "keywords": "Lifecycle state transitions triggered change events timers opens feedback window ended CloudEvent"
+  },
+  {
+    "patternId": "FLOW-04-DR-06",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-04",
+    "teachingPoint": "Attendees who did not check in still complete the lifecycle with checkedIn:false. Their absence is recorded, not an error. FLOW-09 settles paid RSVPs regardless of check-in status.",
+    "positiveExample": "T66 processes all CONFIRMED RSVP holders. No-shows → AttendanceFlowCompleted{ checkedIn:false }.",
+    "negativeExample": "T66 only processes checked-in attendees — no-shows' paid RSVPs never settled. No error.",
+    "discriminatingConstraint": "Absence is recorded, not an error. The lifecycle must close so transactional systems can process.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "sourceDocument": "FLOW-04-DESIGN-SIMULATION-R2.md (DR-04-F)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-04",
+    "domainId": "event-attendance",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "attendance"
+    ],
+    "keywords": "Attendees check still complete lifecycle checkedIn false absence recorded error FLOW-09 settles"
+  }
+]

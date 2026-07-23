@@ -1,0 +1,21 @@
+{
+  "eventType": "saas.tenant.terminated",
+  "flowId": "FLOW-15",
+  "version": "1.0.0",
+  "additionalProperties": false,
+  "required": ["tombstoneRef", "terminatedAt", "dataPurgeRequestedRef"],
+  "properties": {
+    "tombstoneRef": {
+      "type": "string",
+      "description": "One-way SHA-256 hash of tenantId — NEVER raw tenantId. Prevents reverse lookup of purged tenant identity from event logs.",
+      "required": true
+    },
+    "terminatedAt": { "type": "string", "format": "date-time", "required": true },
+    "terminatedBy": { "type": "string", "required": true },
+    "dataPurgeRequestedRef": {
+      "type": "string",
+      "description": "Correlation ID linking this termination event to the DataPurgeRequested event in the compliance audit chain.",
+      "required": true
+    }
+  }
+}

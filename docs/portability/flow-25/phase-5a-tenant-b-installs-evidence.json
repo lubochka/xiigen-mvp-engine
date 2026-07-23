@@ -1,0 +1,100 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase-5a-tenant-b-installs",
+  "status": "passed",
+  "checkedAt": "2026-05-10T16:28:27.7419843+03:00",
+  "tenant": "northwind",
+  "sourceTenant": "acme-corp",
+  "marketplaceFork": {
+    "endpoint": "POST /api/marketplace/packages/bfa-cross-flow-governance/fork",
+    "request": {
+      "flowId": "FLOW-25",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.1",
+      "repoNameOverride": "northwind--acme-policy-gate-console",
+      "sourceRepoFullName": "lubochka/acme-corp--acme-policy-gate-console"
+    },
+    "response": {
+      "forkId": "fork-bfa-cross-flow-governance-northwind",
+      "repoUrl": "https://github.com/lubochka/northwind--acme-policy-gate-console",
+      "repoFullName": "lubochka/northwind--acme-policy-gate-console",
+      "status": "FORKED",
+      "initialCommitSha": "81b94a8fafa0e4256d4d65ba38b90ced347fea5e"
+    }
+  },
+  "registryReadback": {
+    "registry": "http://localhost:4873",
+    "package": "@xiigen-fork/acme-policy-gate-console",
+    "version": "1.0.1",
+    "distTagLatest": "1.0.1",
+    "gitHead": "34ba775e9fdc8b872e4642b4b672d5220c422477",
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-policy-gate-console/-/acme-policy-gate-console-1.0.1.tgz",
+    "shasum": "44c6e6e1ded4b073128699aaccf48e2d4b9bbc64",
+    "matchesTenantAAdaptedVersion": true
+  },
+  "githubActions": {
+    "repo": "lubochka/northwind--acme-policy-gate-console",
+    "runId": 25629823653,
+    "workflow": "XIIGen Flow CI - bfa-cross-flow-governance",
+    "headSha": "81b94a8fafa0e4256d4d65ba38b90ced347fea5e",
+    "conclusion": "success",
+    "createdAt": "2026-05-10T13:21:30Z",
+    "updatedAt": "2026-05-10T13:22:17Z"
+  },
+  "localValidation": {
+    "clonePath": "C:/Projects/xiigen-fork-clones/northwind--acme-policy-gate-console-phase5a-20260510-162230",
+    "head": "81b94a8fafa0e4256d4d65ba38b90ced347fea5e",
+    "packageName": "@xiigen-fork/acme-policy-gate-console",
+    "packageVersion": "1.0.1",
+    "manifestTenant": "acme-corp",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+        "exitCode": 0
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit --json --outputFile=<outside clone>",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "exitCode": 0,
+        "result": "123 files, shasum fa4c39680d2e92d5c402e096186ff735ada5a66d"
+      }
+    ]
+  },
+  "repoEvidence": {
+    "listingScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/northwind--acme-policy-gate-console-tenant-b-phase5a-github-listing.png",
+    "actionsScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/northwind--acme-policy-gate-console-tenant-b-phase5a-actions-success.png",
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "highRiskSecretPatternHits": 0
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokensCommitted": false,
+    "envFilesCommitted": false,
+    "highRiskSecretPatternHits": 0
+  },
+  "phaseGate": {
+    "tenantBForkedFromTenantARepo": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "localRegistryReturnsTenantAAdaptedVersion": true,
+    "repoScreenshotsCaptured": true,
+    "phaseCloseScansPassed": true
+  }
+}

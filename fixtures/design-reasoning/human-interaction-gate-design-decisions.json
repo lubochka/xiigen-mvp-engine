@@ -1,0 +1,140 @@
+[
+  {
+    "patternId": "DR-27-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern A for human-interaction-gate: key architectural constraint",
+    "positiveExample": "Correct implementation shows A properly applied",
+    "negativeExample": "Incorrect implementation misses A",
+    "discriminatingConstraint": "Rule for A: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9,
+    "sourceDocument": "human-interaction-gate-phase-1a-design",
+    "tags": [
+      "human-interaction-gate",
+      "architecture",
+      "pattern-a"
+    ],
+    "keywords": "human-interaction-gate pattern A rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern B for human-interaction-gate: key architectural constraint",
+    "positiveExample": "Correct implementation shows B properly applied",
+    "negativeExample": "Incorrect implementation misses B",
+    "discriminatingConstraint": "Rule for B: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.91,
+    "sourceDocument": "human-interaction-gate-phase-1a-design",
+    "tags": [
+      "human-interaction-gate",
+      "architecture",
+      "pattern-b"
+    ],
+    "keywords": "human-interaction-gate pattern B rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern C for human-interaction-gate: key architectural constraint",
+    "positiveExample": "Correct implementation shows C properly applied",
+    "negativeExample": "Incorrect implementation misses C",
+    "discriminatingConstraint": "Rule for C: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.92,
+    "sourceDocument": "human-interaction-gate-phase-1a-design",
+    "tags": [
+      "human-interaction-gate",
+      "architecture",
+      "pattern-c"
+    ],
+    "keywords": "human-interaction-gate pattern C rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern D for human-interaction-gate: key architectural constraint",
+    "positiveExample": "Correct implementation shows D properly applied",
+    "negativeExample": "Incorrect implementation misses D",
+    "discriminatingConstraint": "Rule for D: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.93,
+    "sourceDocument": "human-interaction-gate-phase-1a-design",
+    "tags": [
+      "human-interaction-gate",
+      "architecture",
+      "pattern-d"
+    ],
+    "keywords": "human-interaction-gate pattern D rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern E for human-interaction-gate: key architectural constraint",
+    "positiveExample": "Correct implementation shows E properly applied",
+    "negativeExample": "Incorrect implementation misses E",
+    "discriminatingConstraint": "Rule for E: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9400000000000001,
+    "sourceDocument": "human-interaction-gate-phase-1a-design",
+    "tags": [
+      "human-interaction-gate",
+      "architecture",
+      "pattern-e"
+    ],
+    "keywords": "human-interaction-gate pattern E rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern F for human-interaction-gate: key architectural constraint",
+    "positiveExample": "Correct implementation shows F properly applied",
+    "negativeExample": "Incorrect implementation misses F",
+    "discriminatingConstraint": "Rule for F: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9500000000000001,
+    "sourceDocument": "human-interaction-gate-phase-1a-design",
+    "tags": [
+      "human-interaction-gate",
+      "architecture",
+      "pattern-f"
+    ],
+    "keywords": "human-interaction-gate pattern F rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

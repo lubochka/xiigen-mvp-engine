@@ -1,0 +1,18 @@
+{
+  "patternId": "ML-OUTPUT-VALIDATION-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-05",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "PROCESSING",
+  "tags": ["ml-validation", "three-guards", "count-ceiling", "LearningPlanSkipped"],
+  "keywords": "ML output validation guards count ceiling required modules recency learning plan skipped",
+  "ironRules": [
+    "Count ceiling: apply at most min(3, FREEDOM config) changes — MACHINE ceiling of 3",
+    "Protected invariants: drop any suggestion that removes a required curriculum module",
+    "Recency guard: < 2 lessons since last adaptation → LearningPlanSkipped (not failure)",
+    "ML inference timeout → partialResults:true in successModes (not failureModes)",
+    "LearningPlanSkipped is a valid success — the plan is correct, not an error"
+  ],
+  "codeSnippet": "// CORRECT: three guards before applying ML suggestions\nconst lastAdapted = await this.adaptationHistory.getLastForUser(userId);\nif (lessonsSinceLastAdaptation(lastAdapted) < 2) {\n  return DataProcessResult.success({ skipped: true, reason: 'TOO_RECENT' });\n}\nconst suggestions = await this.ml.suggest(adaptationSignals);\nconst maxChanges = Math.min(3, await this.freedom.get(tenantId, 'flow05_max_adaptation_changes') ?? 3);\nconst safe = suggestions.filter(s => !requiredModules.includes(s.targetModule)).slice(0, maxChanges);\n// WRONG: apply all ML suggestions without any guard\n// const suggestions = await this.ml.suggest(adaptationSignals);\n// await this.curriculum.applyAll(suggestions); // may exceed 3 changes, remove required modules"
+}

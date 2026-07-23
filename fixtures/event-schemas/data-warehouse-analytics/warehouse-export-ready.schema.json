@@ -1,0 +1,12 @@
+{
+  "eventType": "warehouse.export.ready",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "exportId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "downloadUrl": { "type": "string", "format": "uri", "required": true },
+    "expiresAt": { "type": "string", "format": "date-time", "description": "Required — non-expiring download URLs are a security violation", "required": true },
+    "exportedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "name": "@xiigen/friend-request-social-feed",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-07 friend-request-social-feed - friend requests, connection graph writes, feed generation, scoring, delivery, notifications, and aggregate social analytics (T73-T82).",
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "services": [
+      "FriendRequestProcessorService",
+      "FriendRequestResponderService",
+      "ConnectionGraphWriterService",
+      "FeedItemGeneratorService",
+      "FeedScorerService",
+      "FeedDeliveryOrchestratorService",
+      "SocialNotificationDispatcherService",
+      "MutualConnectionCounterService",
+      "PrivacyGatekeeperService",
+      "SocialGraphAnalyticsService"
+    ],
+    "taskTypeIds": [
+      "T73",
+      "T74",
+      "T75",
+      "T76",
+      "T77",
+      "T78",
+      "T79",
+      "T80",
+      "T81",
+      "T82"
+    ],
+    "freedomKeys": [
+      "flow07_delivery_score_threshold",
+      "flow07_feed_items_per_connection",
+      "flow07_feed_scoring_weights",
+      "flow07_max_feed_inserts_per_connection",
+      "flow07_notification_channels"
+    ],
+    "emitsEventsConsumedBy": [
+      "FriendRequestSent",
+      "FriendRequestAccepted",
+      "FriendRequestRejected",
+      "SocialConnectionEstablished",
+      "FeedItemGenerated",
+      "FeedScored",
+      "FeedDelivered",
+      "SocialNotificationSent",
+      "MutualCountUpdated",
+      "SocialGraphAnalyticsEmitted"
+    ],
+    "readsFromOtherFlows": [
+      "FLOW-02 match score is accepted as optional caller input; FLOW-07 does not import FLOW-02 service code."
+    ],
+    "coBundledSdks": [
+      "@xiigen/friend-request-privacy-sdk"
+    ],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_CANDIDATE_IN_GENERATION"
+  },
+  "xiigen": {
+    "requiredCoInstalls": [],
+    "pluginSdk": "@xiigen/plugin-sdk@^1.0.0",
+    "coBundledSdks": [
+      "@xiigen/friend-request-privacy-sdk"
+    ]
+  },
+  "requiredCoInstalls": [],
+  "coInstallNotes": "FLOW-07 stands alone for its ten services. PrivacyGatekeeperService is co-bundled through @xiigen/friend-request-privacy-sdk; downstream consumers receive events through queue fabric and are not required for FLOW-07 to boot.",
+  "dependencies": {
+    "@xiigen/friend-request-privacy-sdk": "^1.0.0",
+    "@xiigen/plugin-sdk": "^1.0.0"
+  },
+  "peerDependencies": {
+    "xiigen-server": "^1.0.0"
+  },
+  "dna": {
+    "compliance": [
+      "DNA-1",
+      "DNA-2",
+      "DNA-3",
+      "DNA-4",
+      "DNA-5",
+      "DNA-6",
+      "DNA-7",
+      "DNA-8",
+      "DNA-9"
+    ],
+    "portabilityInvariants": [
+      "P-1",
+      "P-2",
+      "P-3",
+      "P-4",
+      "P-5"
+    ]
+  },
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v2.0"
+}

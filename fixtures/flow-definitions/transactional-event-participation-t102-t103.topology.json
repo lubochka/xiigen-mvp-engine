@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-09",
+  "taskTypeId": "T102-T103",
+  "name": "flow-09-ticket-issuance",
+  "description": "T102 TicketIssuer + T103 TicketRedemptionValidator — PROCESSING archetype. Deterministic QR token = hash(tenantId+eventId+userId+purchaseId). Backward cross-wave: TicketIssued → FLOW-04 T63.",
+  "archetype": "PROCESSING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: deterministic-hash-token, no-random-uuid, cross-wave TicketIssued→FLOW-04"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve PROCESSING arch pattern for T102-T103: deterministic hash token, cross-wave event emit",
+      "params": {
+        "archetype": "PROCESSING",
+        "taskTypeRef": "T102-T103",
+        "topK": 5,
+        "patternIds": [
+          "arch--deterministic-hash-token",
+          "arch--cross-wave-event",
+          "arch--no-random-uuid-token"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T102-T103 into: T102 compute QR = hash(tenantId+eventId+userId+purchaseId) → storeDocument → emit TicketIssued (→ FLOW-04 T63)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate ticket-issuer.service.ts — deterministic QR token = hash(tenantId+eventId+userId+purchaseId). Backward cross-wave: TicketIssued → FLOW-04 T63."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: deterministic_hash_token, cross_wave_ticket_issued_flow04, no_random_uuid"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T102-T103 iron rules: deterministic token, cross-wave emit, redemption validation"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=deterministic-hash-token, rejected=random-uuid-token. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "PaymentConfirmed event (@EventPattern)",
+  "primaryFabric": "DATABASE"
+}

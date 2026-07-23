@@ -1,0 +1,234 @@
+{
+  "flowId": "FLOW-16",
+  "flowSlug": "marketplace-payments",
+  "flowTitle": "Marketplace Payments",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-06",
+  "capturedBy": "Codex / FLOW-16 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-16/FLOW-16-STEP-1-INVARIANTS.md",
+    "server/src/engine-contracts/marketplace-payments-contracts.ts",
+    "server/src/engine-contracts/marketplace-payments-bfa-rules.ts",
+    "server/src/engine/flows/marketplace-payments",
+    "docs/flow-coverage/marketplace-payments/P1-business-logic-inventory.md",
+    "docs/flow-coverage/marketplace-payments/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T609-T612",
+    "planningTaskTypeRange": "T241-T268",
+    "taskTypeIds": [
+      "T609",
+      "T610",
+      "T611",
+      "T612"
+    ],
+    "freedomKeyCount": 3,
+    "securityClassification": "payment-sensitive",
+    "coreGuarantees": [
+      "BOLA checkout identity check happens before lock or inventory reads.",
+      "Payment capture and payout paths are idempotency-gated before side effects.",
+      "Payment and escrow audit records are written before completion events are enqueued.",
+      "Payment card and payout bank details never persist as raw values.",
+      "Escrow compensation order remains machine-fixed as REFUND_PAYMENT then RESTORE_INVENTORY."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-16 is payment-sensitive and handles checkout, escrow, non-repudiation audit, and payout vault references."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T609",
+      "className": "MarketplaceCheckoutGatewayService",
+      "file": "server/src/engine/flows/marketplace-payments/marketplace-checkout-gateway.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "checkout_lock_ttl_ms"
+      ],
+      "machineLockedRules": [
+        "BOLA check order",
+        "OCC inventory reservation",
+        "audit-before-CheckoutReserved"
+      ]
+    },
+    {
+      "taskTypeId": "T610",
+      "className": "MarketplacePaymentSplitterService",
+      "file": "server/src/engine/flows/marketplace-payments/marketplace-payment-splitter.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "platformFeeBps"
+      ],
+      "machineLockedRules": [
+        "idempotency key composition",
+        "PII scrub before write",
+        "append-only non-repudiation audit",
+        "escrow-hold-before-MarketplaceOrderConfirmed"
+      ]
+    },
+    {
+      "taskTypeId": "T611",
+      "className": "MarketplaceEscrowControllerService",
+      "file": "server/src/engine/flows/marketplace-payments/marketplace-escrow-controller.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "escrow_auto_release_days"
+      ],
+      "machineLockedRules": [
+        "LIFO compensation order",
+        "dispute uses updateDocument only",
+        "audit-before-state-event"
+      ]
+    },
+    {
+      "taskTypeId": "T612",
+      "className": "SellerPayoutWriterService",
+      "file": "server/src/engine/flows/marketplace-payments/seller-payout-writer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [],
+      "machineLockedRules": [
+        "payout lock before payout write",
+        "payoutVaultRef only",
+        "audit-before-PayoutCompleted"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-16 operating policies. These values may vary by tenant without changing payment security, tenant isolation, or audit ordering.",
+      "total": 3,
+      "keys": [
+        {
+          "key": "checkout_lock_ttl_ms",
+          "type": "number",
+          "default": 300000,
+          "unit": "milliseconds",
+          "semantic": "How long a checkout cart lock should remain active while payment and inventory reservation complete.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T609.MarketplaceCheckoutGatewayService"
+          ],
+          "boundedRange": {
+            "min": 30000,
+            "max": 1800000,
+            "rationale": "Tenants may tune checkout lock duration for payment provider latency, but the lock must remain finite and idempotency-gated."
+          }
+        },
+        {
+          "key": "platformFeeBps",
+          "type": "number",
+          "default": 250,
+          "unit": "basis-points",
+          "semantic": "Platform fee applied to marketplace payment splits.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T610.MarketplacePaymentSplitterService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 3000,
+            "rationale": "Fee policy can vary by marketplace contract while the split formula, rounding, and audit guarantees remain fixed."
+          }
+        },
+        {
+          "key": "escrow_auto_release_days",
+          "type": "number",
+          "default": 14,
+          "unit": "days",
+          "semantic": "Number of days before an eligible escrow hold is scheduled for automatic release.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T611.MarketplaceEscrowControllerService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 90,
+            "rationale": "Escrow release timing may reflect tenant policy, but dispute state, compensation order, and audit-before-event behavior remain machine-locked."
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to payment operating policy values and customer-facing module naming.",
+      "total": 3,
+      "edgeCases": [
+        {
+          "id": "high-latency-payment-provider",
+          "name": "High-latency payment provider",
+          "semantic": "Tenant A increases the checkout lock TTL for slower payment authorization paths.",
+          "extensionPoint": "checkout_lock_ttl_ms",
+          "currentImplementation": "T609 still performs BOLA first, then lock acquisition, OCC reservation, audit write, and event enqueue."
+        },
+        {
+          "id": "contracted-platform-fee",
+          "name": "Contracted platform fee",
+          "semantic": "Tenant A changes platform fee basis points for a negotiated marketplace contract.",
+          "extensionPoint": "platformFeeBps",
+          "currentImplementation": "T610 still computes seller amount with Math.round, scrubs PII, writes escrow, and appends non-repudiation audit."
+        },
+        {
+          "id": "longer-dispute-window",
+          "name": "Longer dispute window",
+          "semantic": "Tenant A extends the escrow auto-release window for high-value transactions.",
+          "extensionPoint": "escrow_auto_release_days",
+          "currentImplementation": "T611 still keeps dispute updates non-destructive and compensation order machine-fixed."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T609 through T612 remain fixed.",
+      "BOLA checkout identity verification must happen before cart lock or inventory reads.",
+      "Cart lock and payout lock must happen before downstream side effects.",
+      "Inventory reservation must use OCC semantics.",
+      "Platform fee formula and rounding remain fixed even when the basis-point value changes.",
+      "Payment card and payout bank details are never written raw.",
+      "Non-repudiation audit remains append-only.",
+      "Escrow dispute path never deletes escrow records.",
+      "Compensation order remains REFUND_PAYMENT then RESTORE_INVENTORY.",
+      "All payment, escrow, and payout events preserve store-before-enqueue ordering."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAEnterpriseMarketplace": {
+      "description": "Tenant A tunes payment operations for enterprise marketplace checkout.",
+      "change": {
+        "checkout_lock_ttl_ms": 600000,
+        "platformFeeBps": 300,
+        "escrow_auto_release_days": 30
+      },
+      "impact": "Checkout has a longer lock window, platform fee reflects contract terms, and escrow releases later while payment security and tenant isolation remain unchanged.",
+      "testable": "Fork CI and auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T609-T612",
+      "Factory IDs F1528-F1536",
+      "Provider SDK boundary",
+      "Vault credential paths",
+      "Raw payment card or payout bank data",
+      "BOLA order",
+      "OCC inventory reservation",
+      "SETNX idempotency gates",
+      "LIFO compensation order",
+      "Append-only non-repudiation audit",
+      "Store-before-enqueue ordering",
+      "Tenant context resolution"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-16 configuration values or display/module metadata.",
+    "All four services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

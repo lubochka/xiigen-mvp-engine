@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.social-feed.feed-delivered.v1",
+  "taskTypeId": "T78",
+  "flowId": "FLOW-07",
+  "description": "Emitted by T78 FeedDeliveryOrchestrator after T81 PrivacyGatekeeper independently approves delivery and item is delivered.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.social-feed.feed-delivered.v1",
+    "source": "xiigen/flows/friend-request-social-feed/t78",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "feedItemId": { "type": "string", "description": "Opaque feed item identifier" },
+    "recipientId": { "type": "string", "description": "Opaque recipient user identifier — no PII" },
+    "score": { "type": "number", "description": "Personalization score (0–1). score=0 is valid." },
+    "tenantId": { "type": "string", "description": "Tenant scope — from AsyncLocalStorage" },
+    "correlationId": { "type": "string", "description": "Idempotency key" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "recipientId is opaque. score is a numeric value with no PII.",
+  "privacyNote": "T81 PrivacyGatekeeper must be invoked INDEPENDENTLY at delivery (phase 2 of two-phase privacy).",
+  "requiredByFlows": ["FLOW-07"]
+}

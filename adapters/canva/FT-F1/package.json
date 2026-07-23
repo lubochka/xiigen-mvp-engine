@@ -1,0 +1,24 @@
+{
+  "name": "@xiigen/canva-site-generator",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FT-F1 — Canva adapter for the XIIGen Site Generator. Reads Canva design elements and generates site code via the shared engine.",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@canva/design": "^2.0.0",
+    "@canva/app-ui-kit": "^4.0.0",
+    "@canva/app-storage": "^1.0.0",
+    "@xiigen/plugin-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-loader": "^9.0.0",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "keywords": ["xiigen", "canva", "site-generator", "adapter", "MODE-B"]
+}

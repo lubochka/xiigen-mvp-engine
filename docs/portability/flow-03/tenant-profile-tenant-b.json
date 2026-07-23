@@ -1,0 +1,57 @@
+﻿{
+    "tenantId":  "northwind",
+    "tenantLabel":  "Northwind",
+    "flowId":  "FLOW-03",
+    "flowSlug":  "event-management",
+    "phase":  "Phase 5b - adapted and published Tenant B version",
+    "moduleName":  "event-management-northwind-sponsor-forums",
+    "moduleVersion":  "1.0.2",
+    "repoName":  "northwind--event-management-northwind-sponsor-forums",
+    "repoUrl":  "https://github.com/lubochka/northwind--event-management-northwind-sponsor-forums",
+    "installedFrom":  {
+                          "tenantId":  "acme-corp",
+                          "repoName":  "acme-corp--event-management-acme-curated-events",
+                          "repoFullName":  "lubochka/acme-corp--event-management-acme-curated-events",
+                          "moduleName":  "event-management-acme-curated-events",
+                          "moduleVersion":  "1.0.1"
+                      },
+    "adaptationHistory":  [
+                              {
+                                  "version":  "1.0.1",
+                                  "adaptedBy":  "acme-corp",
+                                  "changeType":  "Type A (FREEDOM key value change)",
+                                  "previousModuleName":  "event-management",
+                                  "newModuleName":  "event-management-acme-curated-events",
+                                  "summary":  "Curated small-group events: 10 attendee cap, three active events per organiser, in-app promotion only."
+                              },
+                              {
+                                  "version":  "1.0.2",
+                                  "adaptedBy":  "northwind",
+                                  "changeType":  "Type A (FREEDOM key value change)",
+                                  "freedomKeyChanged":  "flow03_waitlist_max_size",
+                                  "previousModuleName":  "event-management-acme-curated-events",
+                                  "newModuleName":  "event-management-northwind-sponsor-forums",
+                                  "summary":  "Curated sponsor forum requests with a 12-partner review waitlist while preserving Acme attendee and promotion limits."
+                              }
+                          ],
+    "phase5bEvidence":  {
+                            "workflowConclusion":  "success",
+                            "workflowRunUrl":  "https://github.com/lubochka/northwind--event-management-northwind-sponsor-forums/actions/runs/25199201449",
+                            "tenantRepoCommitHash":  "34aad069bef4f6acf88dac213ffd9f37246f291c",
+                            "registryPackageName":  "@xiigen-fork/event-management-northwind-sponsor-forums",
+                            "registryVersion":  "1.0.2",
+                            "registryLatestVerified":  "1.0.2",
+                            "githubListingPng":  "docs/e2e-snapshots/repo-evidence/northwind--event-management-northwind-sponsor-forums-github-listing.png",
+                            "repoHomepagePng":  "docs/e2e-snapshots/repo-evidence/northwind--event-management-northwind-sponsor-forums-repo-homepage.png",
+                            "visualMatrixDirectory":  "docs/e2e-snapshots/event-management/tenant-b-v1.0.2/",
+                            "visualMatrixPngCount":  27,
+                            "marketplaceListingPng":  "docs/e2e-snapshots/marketplace/event-management-v1.0.2-listing.png"
+                        },
+    "authRegression":  {
+                           "status":  "partial under authentication deferred deployment",
+                           "noTokenVerify":  401,
+                           "northwindTenantAdminVerify":  200,
+                           "acmeContextUsingNorthwindToken":  401,
+                           "writeRoleCheck":  "deferred because no deployed Tenant B write-route/user-role provisioning path exists"
+                       }
+}

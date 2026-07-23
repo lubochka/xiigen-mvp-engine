@@ -1,0 +1,17 @@
+{
+  "index": "xiigen-agent-actions",
+  "mappings": {
+    "properties": {
+      "actionId":        { "type": "keyword" },
+      "sessionId":       { "type": "keyword" },
+      "actionType":      { "type": "keyword" },
+      "adminTenantId":   { "type": "keyword" },
+      "targetTenantId":  { "type": "keyword" },
+      "tenantId":        { "type": "keyword" },
+      "status":          { "type": "keyword" },
+      "timestamp":       { "type": "date" },
+      "connectionType":  { "type": "keyword" },
+      "knowledgeScope":  { "type": "keyword" }
+    }
+  }
+}

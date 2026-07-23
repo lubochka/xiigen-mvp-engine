@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-06",
+  "taskTypeId": "T99-T100",
+  "name": "flow-06-validation-tier-assignment",
+  "description": "T99 JoinRequestValidator (3 reads + distinct error codes) → T100 MembershipTierAssigner (server-side tier from xiigen-subscriptions).",
+  "archetype": "ROUTING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: T99 distinct error codes (not VALIDATION_FAILURE), T100 requestedTier absent from input"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve server-side-tier-assignment and distinct-error-codes patterns for FLOW-06",
+      "params": {
+        "archetype": "ROUTING",
+        "taskTypeRef": "T99-T100",
+        "topK": 4,
+        "patternIds": [
+          "SERVER-SIDE-TIER-ASSIGNMENT-001",
+          "ACCESS-CONTROL-BEFORE-CONTENT-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break into: T99 (3 reads + distinct codes) + T100 (subscription lookup → assignedTier + accessLevels[])"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate join-request-validator.service.ts (T99) and membership-tier-assigner.service.ts (T100). T99 returns GROUP_NOT_FOUND/USER_BANNED/ALREADY_MEMBER/INVALID_INVITE_TOKEN. T100 reads xiigen-subscriptions."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check: tenant_id_on_writes (both)"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score against iron rules: distinct error codes, server-side tier"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=distinct-codes+server-side-tier, rejected=VALIDATION_FAILURE+client-requestedTier. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "MemberJoinRequested event",
+  "primaryFabric": "DATABASE"
+}

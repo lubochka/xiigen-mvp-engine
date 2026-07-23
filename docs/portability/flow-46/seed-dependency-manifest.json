@@ -1,0 +1,91 @@
+{
+  "flowId": "FLOW-46",
+  "flowSlug": "platform-agent",
+  "displayName": "Platform Agent",
+  "schemaVersion": "flow-mobility-auth-seed-manifest-v1",
+  "bootstrapPrerequisite": false,
+  "connectionType": "FLOW_SCOPED",
+  "identityModel": "MASTER_TENANT_ID",
+  "knowledgeScopes": ["PRIVATE", "GLOBAL"],
+  "topologyFile": "contracts/topologies/platform-agent.topology.json",
+  "seedFiles": [
+    {
+      "path": "fixtures/design-reasoning/platform-agent-design-decisions.json",
+      "purpose": "FLOW-46 design-reasoning fixture",
+      "recordCount": 15
+    },
+    {
+      "path": "server/src/bootstrap/history-seeds/platform-agent-design-corpus.json",
+      "purpose": "Bootstrap corpus consumed by seedFlowCorpus('platform-agent') / seedAllDesignCorpora",
+      "designReasoningCount": 12,
+      "architecturePatternCount": 3
+    },
+    {
+      "path": "fixtures/arbiters/platform-agent-arbiters.bulk.ndjson",
+      "purpose": "Arbiter panel seed records",
+      "recordCount": 4
+    },
+    {
+      "path": "rag-benchmark/seed_platform_agent_patterns.py",
+      "purpose": "RAG benchmark seeding script"
+    }
+  ],
+  "indices": [
+    "xiigen-agent-actions",
+    "xiigen-agent-contributions",
+    "xiigen-platform-agent",
+    "xiigen-rag-patterns",
+    "xiigen-planning-decisions",
+    "xiigen-prompts",
+    "xiigen-training-data",
+    "xiigen-tenant-topologies",
+    "xiigen-flow-templates"
+  ],
+  "eventSchemas": [
+    "fixtures/event-schemas/platform-agent/agent-action-proposed.schema.json",
+    "fixtures/event-schemas/platform-agent/agent-contribution-recorded.schema.json",
+    "fixtures/event-schemas/platform-agent/agent-session-completed.schema.json",
+    "fixtures/event-schemas/platform-agent/consent-requested.schema.json",
+    "fixtures/event-schemas/platform-agent/consent-resolved.schema.json"
+  ],
+  "taskTypeIds": ["T650", "T651", "T652", "T653", "T654", "T655", "T656"],
+  "bfaRules": ["CF-839", "CF-840", "CF-841"],
+  "p11BfaRules": [
+    "CF-1082",
+    "CF-1083",
+    "CF-1084",
+    "CF-1085",
+    "CF-1086",
+    "CF-1087",
+    "CF-1088",
+    "CF-1089",
+    "CF-1090",
+    "CF-1091",
+    "CF-1092",
+    "CF-1093",
+    "CF-1094",
+    "CF-1095"
+  ],
+  "freedomConfigKeys": [
+    {
+      "key": "superJudge.model",
+      "requiredFields": ["modelId"],
+      "coveredBy": "server/src/engine/flows/platform-agent/super-judge-arbiter.service.spec.ts"
+    }
+  ],
+  "tenantContextDecoupling": {
+    "specialistService": "TenantScopeGateway",
+    "expectedSpecialistCount": 1,
+    "reason": "FLOW-46 is the platform agent and intentionally owns audited cross-tenant scope switching through a single gateway."
+  },
+  "roles": {
+    "full": ["platform-admin", "platform-support"],
+    "partial": ["tenant-admin"],
+    "protectedAuthProofRole": "tenant-admin",
+    "wrongRoleProofRole": "platform-support"
+  },
+  "secretHandling": {
+    "tenantCredentialsInVaultOnly": true,
+    "tokensOrSigningKeysInManifest": false
+  }
+}

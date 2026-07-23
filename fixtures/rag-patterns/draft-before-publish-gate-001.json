@@ -1,0 +1,33 @@
+{
+  "patternId": "draft-before-publish-gate-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-18",
+  "domainId": "visual-flow-engine",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "VISUAL_CREATION",
+  "tags": [
+    "bola",
+    "flow-immutable",
+    "draft",
+    "published",
+    "one-way-state-machine",
+    "canvas",
+    "tenant-ownership"
+  ],
+  "keywords": "BOLA ownership check flow canvas FLOW_IMMUTABLE DRAFT PUBLISHED one-way state machine tenantId AsyncLocalStorage FlowCanvasUpdated FlowImmutableRejected two-guard gate",
+  "teachingPoint": "T617 FlowCanvasWriter enforces a 2-guard write gate in strict ORDER: ORDER 1 = BOLA (flow.tenantId === tenantId from ALS), ORDER 2 = FLOW_IMMUTABLE guard (PUBLISHED flows are immutable — rejects with FlowImmutableRejected). Only DRAFT flows may be mutated. FlowCanvasUpdated is emitted on success after DNA-8 audit storeDocument.",
+  "ironRules": [
+    "ORDER 1 BOLA check: flow.tenantId must equal tenantId from AsyncLocalStorage — never from request payload",
+    "ORDER 2 FLOW_IMMUTABLE: FLOW_IMMUTABLE_STATES = ['PUBLISHED'] as const — any flow in PUBLISHED state is immutable, returns FlowImmutableRejected",
+    "FLOW_IMMUTABLE_STATES must be declared as compile-time constant (as const) — not a runtime set or string comparison",
+    "storeDocument(CANVAS_AUDIT_INDEX) MUST complete before enqueue(FlowCanvasUpdated) — DNA-8 outbox pattern",
+    "FlowImmutableRejected emitted on BOLA_VIOLATION or IMMUTABLE_STATE — all failure paths covered"
+  ],
+  "codeSnippet": "// T617 FlowCanvasWriter — 2-guard write gate\nconst FLOW_IMMUTABLE_STATES = ['PUBLISHED'] as const;\n\nasync updateCanvas(flowId: string, nodes: Record<string, unknown>[], edges: Record<string, unknown>[]): Promise<DataProcessResult<Record<string, unknown>>> {\n  const tenantId = this.tenantContext.getTenantId(); // ALS only — never from payload\n\n  // ORDER 1: BOLA — verify requesting tenant owns the flow\n  const flowResult = await this.db.searchDocuments('flows', { flowId });\n  if (!flowResult.data?.length) return DataProcessResult.failure('FLOW_NOT_FOUND', ...);\n  const flow = flowResult.data[0];\n  if (flow['tenantId'] !== tenantId) {\n    await this.queue.enqueue('FlowImmutableRejected', { flowId, tenantId, reason: 'BOLA_VIOLATION' });\n    return DataProcessResult.failure('BOLA_VIOLATION', 'Tenant does not own this flow');\n  }\n\n  // ORDER 2: FLOW_IMMUTABLE guard — PUBLISHED is one-way\n  const flowStatus = flow['status'] as string;\n  if (FLOW_IMMUTABLE_STATES.includes(flowStatus as 'PUBLISHED')) {\n    await this.queue.enqueue('FlowImmutableRejected', { flowId, tenantId, reason: 'IMMUTABLE_STATE', currentStatus: flowStatus });\n    return DataProcessResult.failure('FLOW_IMMUTABLE', `Flow is ${flowStatus} and cannot be modified`);\n  }\n\n  // DNA-8: audit BEFORE enqueue\n  await this.db.storeDocument('canvas-audit', { flowId, tenantId, action: 'CANVAS_UPDATED', nodeCount: nodes.length, edgeCount: edges.length });\n  await this.queue.enqueue('FlowCanvasUpdated', { flowId, tenantId, nodeCount: nodes.length, edgeCount: edges.length });\n  return DataProcessResult.success({ flowId, tenantId });\n}",
+  "appliesTo": ["FLOW-19", "FLOW-20", "FLOW-21", "FLOW-22"],
+  "curriculumTier": 2,
+  "qualityScore": 0.97,
+  "sourceDocument": "server/src/engine/flows/visual-flow-engine/flow-canvas-writer.service.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

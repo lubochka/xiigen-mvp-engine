@@ -1,0 +1,56 @@
+{
+  "phase": 3,
+  "title": "Agent Output Format + Planning Orchestrator",
+  "status": "complete",
+  "planRevAtCompletion": "3.3",
+  "completedAt": "2026-03-18",
+  "deliverables": [
+    ".claude/skills/agent-output-format/skill.yaml",
+    ".claude/skills/agent-output-format/SKILL.md",
+    ".claude/skills/agent-output-format/AGENTS.md",
+    ".claude/skills/agent-output-format/references/foundational-principles.md",
+    ".claude/skills/how-to-prepare-a-plan-skill/skill.yaml",
+    ".claude/skills/how-to-prepare-a-plan-skill/SKILL.md",
+    ".claude/skills/how-to-prepare-a-plan-skill/AGENTS.md"
+  ],
+  "skillsCreated": [
+    { "sk": "SK-411", "name": "agent-output-format", "loadOrder": 9, "type": "PORT v1.0→v2.0" },
+    { "sk": "SK-412", "name": "how-to-prepare-a-plan-skill", "loadOrder": 10, "type": "NEW" }
+  ],
+  "skillsCreatedToDate": 11,
+  "writeTimeFixes": [
+    "agent-output-format/SKILL.md: integration list fully rewritten — 6 items, correct numbering (1→agent-output-format, 2→xiigen-core-principles, 3→infrastructure-discovery, 4→planning-skill(8 gates), 5→plan-review-skill(12 FCs), 6→SESSION-N)",
+    "agent-output-format/references/foundational-principles.md: 'planning-skill (7 gates)' → '8 gates'; 'Gate 7.5' → 'Gate 7'; integration diagram updated to 8 gates",
+    "how-to-prepare-a-plan-skill/SKILL.md: 'planning-skill (7 gates)' → '8 gates'; 'FC-1-11' → 'FC-1-12'; 'gates 0–6' → 'gates 0–7'; stale artifact numbers replaced with READ_FROM_LIVE_DOCS note",
+    "how-to-prepare-a-plan-skill/AGENTS.md: '(7 gates)' → '(8 gates)' in sub-skill 4 line"
+  ],
+  "sourceVerified": "planning-skills-v3-final (1) — bugs 1+2+3 already pre-applied in source; 5 remaining fixes applied at write time per FC-6/FC-10 plan spec",
+  "testCounts": {
+    "server": {
+      "tests": 2342,
+      "suites": 98,
+      "buildErrors": 0
+    },
+    "client": {
+      "tests": 220,
+      "suites": 7
+    }
+  },
+  "preExistingFailures": {
+    "server": [],
+    "client": [],
+    "protocol": "Zero-regression gate = Δ new failures vs preExistingFailures[] = 0",
+    "capturedAt": "Phase 1 session start — see STATE-P1.json"
+  },
+  "zeroRegressionGate": {
+    "serverDelta": 0,
+    "clientDelta": 0,
+    "result": "PASS"
+  },
+  "nextPhase": 4,
+  "nextPhaseSkills": [
+    "three-level-verification (NEW)",
+    "test-integrity (ADAPT)",
+    "bug-to-tests (NEW)"
+  ]
+}

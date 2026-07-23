@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-10",
+  "taskTypeId": "T172",
+  "name": "reviews-reputation-review-response-orchestrator",
+  "description": "T172 ReviewResponseOrchestrator — ORCHESTRATION archetype. Ownership check before SETNX. revision_allowed:true only for content_policy. NEW_KEY_VARIANT revision strategy. Does NOT emit reputation.updated.",
+  "archetype": "ORCHESTRATION",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: ownership-check-before-setnx, revision-allowed-content-policy-only, no-reputation-update-from-response"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ORCHESTRATION arch pattern for T172: conditional-revision-gate-001",
+      "params": {
+        "archetype": "ORCHESTRATION",
+        "taskTypeRef": "T172",
+        "topK": 5,
+        "patternIds": [
+          "conditional-revision-gate-001",
+          "arch--orchestration-multi-step"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T172 into: ownership(1) → SETNX(2) → content-moderation(3) → audit(4) → storeDocument+notify(5). revision_allowed conditional on rejection reason."
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate review-response-orchestrator.service.ts — ownership check first, SETNX dedup, conditional revision_allowed (content_policy only), NEW_KEY_VARIANT for revision slot."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: revision_allowed_content_policy_only, ownership_check_before_setnx, response_store_before_enqueue, no_reputation_update_from_response"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T172 iron rules: ownership order, conditional revision_allowed, no reputation.updated emission"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=conditional-revision-by-reason (content_policy only), rejected=always-revision-allowed-true. curriculumTier=3."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "ReviewResponseSubmitted command",
+  "primaryFabric": "DATABASE"
+}

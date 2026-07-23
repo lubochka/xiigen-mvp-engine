@@ -1,0 +1,92 @@
+[
+  {
+    "patternId": "DR-27-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-27-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-27-01",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-27-02",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-27-03",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-27-04",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-27",
+    "domainId": "human-interaction-gate",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "flowId": "FLOW-12",
+  "name": "Subscription and Recurring Billing",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T209",
+      "taskTypeId": "T209",
+      "name": "SubscriptionPlanOrchestrator",
+      "archetype": "billing",
+      "entry": "POST /subscriptions/plans (OCC + integer-cents guard + SETNX idempotency)"
+    },
+    {
+      "id": "T210",
+      "taskTypeId": "T210",
+      "name": "SubscriptionLifecycleManager",
+      "archetype": "orchestration",
+      "entry": "PlanCreated event (payment validation, plan status check, SETNX, write, emit)"
+    },
+    {
+      "id": "T211",
+      "taskTypeId": "T211",
+      "name": "RecurringBillingEngine",
+      "archetype": "billing",
+      "entry": "Scheduled: status \u2192 lock \u2192 invoice \u2192 charge (per SLA window)"
+    },
+    {
+      "id": "T212",
+      "taskTypeId": "T212",
+      "name": "SubscriptionAnalyticsAggregator",
+      "archetype": "data_pipeline",
+      "entry": "Additive-subtractive MRR (no double counting on churn/upgrade)"
+    }
+  ],
+  "edges": [
+    { "from": "SubscriptionRequested", "to": "T209", "event": "xiigen.subscription-billing.plan-requested.v1" },
+    { "from": "T209", "to": "T210", "event": "xiigen.subscription-billing.plan-created.v1" },
+    { "from": "T210", "to": "T211", "event": "xiigen.subscription-billing.activated.v1", "condition": "activation succeeded" },
+    { "from": "T210", "to": "SubscriptionRejected", "event": "xiigen.subscription-billing.activation-rejected.v1", "condition": "payment/plan check failed — terminal" },
+    { "from": "T211", "to": "T212", "event": "xiigen.subscription-billing.invoice-charged.v1", "condition": "successful charge" },
+    { "from": "T211", "to": "SubscriptionChurned", "event": "xiigen.subscription-billing.charge-failed.v1", "condition": "charge failed past retry budget — terminal" },
+    { "from": "T212", "to": "MrrRecorded", "event": "xiigen.subscription-billing.mrr-recorded.v1", "condition": "terminal (per cycle)" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": true,
+    "draftSteps": ["plan-selection", "payment-method"],
+    "draftFields": ["selectedPlanId", "paymentMethodToken"],
+    "offlineQueue": {
+      "queueable": [],
+      "notQueueable": ["SubscribeRequested", "SubscriptionCancelRequested"],
+      "notQueueableReason": {
+        "SubscribeRequested": "Payment validation + initial charge — live connection required",
+        "SubscriptionCancelRequested": "Cancellation effective date calculation requires live state"
+      }
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T-recurring-billing-engine",
+        "runsWhileUserViews": "SubscriptionDashboard",
+        "signalType": "realtime-push",
+        "signalText": null
+      }
+    ]
+  }
+}

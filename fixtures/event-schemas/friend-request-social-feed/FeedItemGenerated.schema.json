@@ -1,0 +1,11 @@
+{
+  "eventType": "FeedItemGenerated",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "feed-item-generator",
+  "consumers": ["T77"],
+  "piiFields": [],
+  "allowedPayloadFields": ["feedItemId", "userId", "contentOwnerId", "contentId", "contentType", "tenantId", "generatedAt"],
+  "forbiddenFields": ["privacyCheckPassedAtGeneration", "userProfile", "privacySettings"],
+  "notes": "Emitted by T76 after inline T81 privacy check passes at generation time. privacyCheckPassedAtGeneration is FORBIDDEN — T78 must not use this field to skip T81. T77 FeedScorer listens on this event."
+}

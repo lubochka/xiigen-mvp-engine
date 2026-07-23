@@ -1,0 +1,590 @@
+{
+  "flowId": "FLOW-29",
+  "flowSlug": "adaptive-rag-deep-research",
+  "implementationSlug": "rag-optimization",
+  "flowTitle": "Adaptive RAG / Deep Research",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-29 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/29-adaptive-rag-deep-research.md",
+    "server/src/engine-contracts/rag-optimization-contracts.ts",
+    "server/src/engine-contracts/adaptive-rag-deep-research-bfa-rules.ts",
+    "server/src/engine/flows/rag-optimization",
+    "server/src/bootstrap/history-seeds/adaptive-rag-deep-research-design-corpus.json",
+    "rag-benchmark/seed_adaptive_rag_deep_research_patterns.py",
+    "docs/flow-coverage/adaptive-rag-deep-research/P1-business-logic-inventory.md",
+    "docs/flow-coverage/adaptive-rag-deep-research/P5-ui-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T441-T467",
+    "taskTypeIds": [
+      "T441",
+      "T442",
+      "T443",
+      "T444",
+      "T445",
+      "T446",
+      "T447",
+      "T448",
+      "T449",
+      "T450",
+      "T451",
+      "T452",
+      "T453",
+      "T454",
+      "T455",
+      "T456",
+      "T457",
+      "T458",
+      "T459",
+      "T460",
+      "T461",
+      "T462",
+      "T463",
+      "T464",
+      "T465",
+      "T466",
+      "T467"
+    ],
+    "factoryIdRange": "F1176-F1247",
+    "freedomKeyCount": 14,
+    "securityClassification": "platform-admin adaptive retrieval, deep research routing, evaluation, graph governance, and learning controls",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-29 keeps adaptive-rag-deep-research as the portability, UI, and package slug while the current runtime services live under server/src/engine/flows/rag-optimization. Fork assembly copies that implementation directory into the canonical package slug path.",
+    "coreGuarantees": [
+      "Retrieval mode routing remains tenant scoped and persists routing decisions before emitting downstream events.",
+      "Vector, graph, and hybrid retrieval keep fabric-first access to database, RAG, queue, and AI providers.",
+      "Fusion, reranking, self-reflection, budget, context, and quality thresholds remain FREEDOM-driven rather than hardcoded.",
+      "Live query paths do not synchronously update learning policies.",
+      "Feedback ingestion and aggregation preserve six-tuple run context and trigger policy updates asynchronously.",
+      "Trace spans are emitted through queue fabric, with no direct observability SDK imports.",
+      "Domain profile builds, community summaries, and graph index rebuilds are asynchronous and versioned.",
+      "Graph edits and strategy promotion/rollback remain governance gated.",
+      "Improvement suggestions are human-gated and never auto-applied.",
+      "Control-plane node rendering reads all values from FREEDOM config or database fabric and handles empty config gracefully."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-29 can steer retrieval, evaluation, and graph governance behavior for downstream generated work, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T441",
+      "className": "AdaptiveRagRouterService",
+      "file": "server/src/engine/flows/rag-optimization/adaptive-rag-router.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_default_retrieval_mode",
+        "flow29_bandit_policy_profile"
+      ],
+      "machineLockedRules": [
+        "routing decisions are stored before routed-query events",
+        "tenant scope is mandatory",
+        "live request path does not update learning policy"
+      ]
+    },
+    {
+      "taskTypeId": "T442",
+      "className": "VectorRetrievalStepService",
+      "file": "server/src/engine/flows/rag-optimization/vector-retrieval-step.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_vector_top_k"
+      ],
+      "machineLockedRules": [
+        "vector search uses RAG fabric",
+        "retrieval results are stored before emitting completion",
+        "top_k comes from FREEDOM config"
+      ]
+    },
+    {
+      "taskTypeId": "T443",
+      "className": "GraphRagCommunityQueryService",
+      "file": "server/src/engine/flows/rag-optimization/graph-rag-community-query.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_graph_query_depth"
+      ],
+      "machineLockedRules": [
+        "graph community reads use database fabric",
+        "query expansion depth is bounded",
+        "tenant scope is mandatory"
+      ]
+    },
+    {
+      "taskTypeId": "T444",
+      "className": "HybridRetrievalFusionService",
+      "file": "server/src/engine/flows/rag-optimization/hybrid-retrieval-fusion.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_hybrid_rrf_k",
+        "flow29_hybrid_vector_weight",
+        "flow29_hybrid_graph_weight"
+      ],
+      "machineLockedRules": [
+        "fusion weights remain FREEDOM values",
+        "source provenance is preserved",
+        "fused results are stored before downstream work"
+      ]
+    },
+    {
+      "taskTypeId": "T445",
+      "className": "BanditModelSelectorService",
+      "file": "server/src/engine/flows/rag-optimization/bandit-model-selector.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_bandit_algorithm",
+        "flow29_bandit_exploration_rate"
+      ],
+      "machineLockedRules": [
+        "bandit policy is read only on the live selection path",
+        "model provider remains selected through FREEDOM hints",
+        "selection context remains tenant scoped"
+      ]
+    },
+    {
+      "taskTypeId": "T446",
+      "className": "BudgetEnforcementGateService",
+      "file": "server/src/engine/flows/rag-optimization/budget-enforcement-gate.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_budget_token_limit",
+        "flow29_budget_cost_limit_usd"
+      ],
+      "machineLockedRules": [
+        "budget excess hard-stops the request",
+        "budget limits are FREEDOM config values",
+        "ledger reads stay tenant scoped"
+      ]
+    },
+    {
+      "taskTypeId": "T447",
+      "className": "RoutingPolicyUpdaterService",
+      "file": "server/src/engine/flows/rag-optimization/routing-policy-updater.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_policy_update_learning_rate"
+      ],
+      "machineLockedRules": [
+        "policy update is queue-triggered only",
+        "live retrieval never calls this service synchronously",
+        "updated arm weights are persisted through database fabric"
+      ]
+    },
+    {
+      "taskTypeId": "T448",
+      "className": "TraceSpanCaptureService",
+      "file": "server/src/engine/flows/rag-optimization/trace-span-capture.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_trace_sampling_rate"
+      ],
+      "machineLockedRules": [
+        "observability spans are emitted via queue fabric only",
+        "no direct OpenTelemetry, Jaeger, or Zipkin SDK import",
+        "trace payloads keep run context only"
+      ]
+    },
+    {
+      "taskTypeId": "T449",
+      "className": "UserFeedbackIngestService",
+      "file": "server/src/engine/flows/rag-optimization/user-feedback-ingest.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_feedback_window_minutes"
+      ],
+      "machineLockedRules": [
+        "feedback is linked to the six-tuple run context",
+        "feedback store is insert-only",
+        "feedback ingested events are emitted after store"
+      ]
+    },
+    {
+      "taskTypeId": "T450-T455",
+      "className": "Prompt And Quality Governance Pipeline",
+      "file": "server/src/engine/flows/rag-optimization",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_eval_dataset_ref",
+        "flow29_eval_min_quality_score",
+        "flow29_prompt_promotion_threshold"
+      ],
+      "machineLockedRules": [
+        "prompt versions are inserted rather than overwritten",
+        "quality and promotion gates are threshold driven by FREEDOM config",
+        "BFA governance gates are queue/fabric mediated"
+      ]
+    },
+    {
+      "taskTypeId": "T456-T459",
+      "className": "Experiment Context Rerank Reflection Pipeline",
+      "file": "server/src/engine/flows/rag-optimization",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_ab_experiment_epsilon",
+        "flow29_context_budget_tokens",
+        "flow29_reranker_top_n",
+        "flow29_self_reflection_confidence_threshold"
+      ],
+      "machineLockedRules": [
+        "experiment assignment is stored through database fabric",
+        "context and reranker thresholds are FREEDOM values",
+        "self-reflection is a guard decision, not an auto-apply mutation"
+      ]
+    },
+    {
+      "taskTypeId": "T460-T461",
+      "className": "Feedback Aggregation And Suggestion Pipeline",
+      "file": "server/src/engine/flows/rag-optimization",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_feedback_window_minutes",
+        "flow29_suggestion_min_confidence"
+      ],
+      "machineLockedRules": [
+        "window close emits queue event to T447",
+        "suggestions are human-gated",
+        "suggestions are never auto-applied"
+      ]
+    },
+    {
+      "taskTypeId": "T462-T467",
+      "className": "Graph Governance Build Rollback And Control Plane Pipeline",
+      "file": "server/src/engine/flows/rag-optimization",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow29_graph_hop_limit",
+        "flow29_index_rebuild_batch_size",
+        "flow29_module_name"
+      ],
+      "machineLockedRules": [
+        "graph edits are versioned and approval gated",
+        "multi-hop traversal keeps a visited-set guard",
+        "community summaries and index rebuilds run asynchronously",
+        "rollback swaps active pointers and does not delete versions",
+        "control-plane rendering handles empty FREEDOM config gracefully"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-29 operating values. These values may tune retrieval posture, graph depth, fusion weighting, learning cadence, budget thresholds, evaluation posture, experiment behavior, control-plane display, and module naming without changing tenant isolation, fabric boundaries, governance gates, queue-only learning, or store-before-event ordering.",
+      "total": 14,
+      "keys": [
+        {
+          "key": "flow29_default_retrieval_mode",
+          "type": "enum",
+          "default": "hybrid",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T441.AdaptiveRagRouterService"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "vector",
+              "graph",
+              "hybrid"
+            ]
+          }
+        },
+        {
+          "key": "flow29_vector_top_k",
+          "type": "number",
+          "default": 20,
+          "unit": "documents",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T442.VectorRetrievalStepService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 100
+          }
+        },
+        {
+          "key": "flow29_graph_hop_limit",
+          "type": "number",
+          "default": 3,
+          "unit": "hops",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T443.GraphRagCommunityQueryService",
+            "T463.MultiHopGraphTraversalService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 8
+          }
+        },
+        {
+          "key": "flow29_hybrid_rrf_k",
+          "type": "number",
+          "default": 60,
+          "unit": "rank-constant",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T444.HybridRetrievalFusionService"
+          ],
+          "boundedRange": {
+            "min": 10,
+            "max": 120
+          }
+        },
+        {
+          "key": "flow29_hybrid_vector_weight",
+          "type": "number",
+          "default": 0.5,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T444.HybridRetrievalFusionService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow29_hybrid_graph_weight",
+          "type": "number",
+          "default": 0.5,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T444.HybridRetrievalFusionService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow29_reranker_top_n",
+          "type": "number",
+          "default": 12,
+          "unit": "documents",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T458.RerankerStepService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 50
+          }
+        },
+        {
+          "key": "flow29_context_budget_tokens",
+          "type": "number",
+          "default": 8000,
+          "unit": "tokens",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T457.ContextEfficiencyCheckService"
+          ],
+          "boundedRange": {
+            "min": 1000,
+            "max": 128000
+          }
+        },
+        {
+          "key": "flow29_budget_cost_limit_usd",
+          "type": "number",
+          "default": 1,
+          "unit": "usd",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T446.BudgetEnforcementGateService"
+          ],
+          "boundedRange": {
+            "min": 0.01,
+            "max": 100
+          }
+        },
+        {
+          "key": "flow29_self_reflection_confidence_threshold",
+          "type": "number",
+          "default": 0.72,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T459.SelfReflectionGuardService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow29_eval_min_quality_score",
+          "type": "number",
+          "default": 0.85,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T454.EvalQualityGateService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow29_ab_experiment_epsilon",
+          "type": "number",
+          "default": 0.1,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T456.AbTestAllocatorService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 0.5
+          }
+        },
+        {
+          "key": "flow29_feedback_window_minutes",
+          "type": "number",
+          "default": 60,
+          "unit": "minutes",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T449.UserFeedbackIngestService",
+            "T460.FeedbackAggregationWindowService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 10080
+          }
+        },
+        {
+          "key": "flow29_module_name",
+          "type": "string",
+          "default": "adaptive-rag-deep-research",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "tenant.config.json",
+            "settings/module.settings.json",
+            "T467.ControlPlaneNodeRendererService"
+          ],
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to retrieval posture, depth and budget thresholds, evaluation strictness, learning cadence, control-plane labeling, and customer-facing module naming.",
+      "edgeCases": [
+        {
+          "id": "acme-research-router",
+          "name": "Acme research router",
+          "semantic": "Tenant A tunes the module for platform-admin research routing with hybrid retrieval, conservative quality thresholds, and moderate graph depth.",
+          "extensionPoint": "retrieval mode, graph hop limit, quality threshold, module naming",
+          "currentImplementation": "Queue-only learning, tenant isolation, and governance gates remain fixed."
+        },
+        {
+          "id": "northwind-knowledge-ops",
+          "name": "Northwind knowledge ops",
+          "semantic": "Tenant B tunes the installed package for operations knowledge search with tighter cost budgets and shorter feedback windows.",
+          "extensionPoint": "budget, feedback window, reranker top_n",
+          "currentImplementation": "Budget hard-stop, fabric boundaries, and insert-only feedback storage remain fixed."
+        },
+        {
+          "id": "tessera-research-lab",
+          "name": "Tessera research lab",
+          "semantic": "Tenant C tunes the cascade package for deeper graph traversal and stricter self-reflection confidence.",
+          "extensionPoint": "graph hop limit, context budget, self-reflection threshold",
+          "currentImplementation": "Graph edits remain approval gated and rollback remains pointer-swap only."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T441 through T467 remain fixed.",
+      "Factory IDs F1176 through F1247 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Routing, retrieval, feedback, graph, and evaluation reads remain tenant scoped.",
+      "Retrieval decisions and feedback records are stored before downstream events.",
+      "Learning policy updates are asynchronous and never part of the live request path.",
+      "Trace spans are emitted through queue fabric only.",
+      "Budget and quality gate violations remain business failures, not uncaught exceptions.",
+      "Improvement suggestions remain human-gated and never auto-applied.",
+      "Graph edits remain versioned and governance gated.",
+      "Multi-hop traversal keeps a visited-set guard.",
+      "Index rebuilds run asynchronously and live queries use the previous active index until swap.",
+      "Strategy rollback swaps active pointers and does not delete versions.",
+      "Control-plane rendering handles empty FREEDOM config as an empty state."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAResearchRouter": {
+      "description": "Tenant A tunes Adaptive RAG / Deep Research for platform research routing.",
+      "change": {
+        "flow29_default_retrieval_mode": "hybrid",
+        "flow29_vector_top_k": 24,
+        "flow29_graph_hop_limit": 3,
+        "flow29_hybrid_rrf_k": 60,
+        "flow29_hybrid_vector_weight": 0.55,
+        "flow29_hybrid_graph_weight": 0.45,
+        "flow29_reranker_top_n": 10,
+        "flow29_context_budget_tokens": 12000,
+        "flow29_budget_cost_limit_usd": 1.5,
+        "flow29_self_reflection_confidence_threshold": 0.78,
+        "flow29_eval_min_quality_score": 0.88,
+        "flow29_ab_experiment_epsilon": 0.08,
+        "flow29_feedback_window_minutes": 45,
+        "flow29_module_name": "acme-research-router"
+      },
+      "impact": "Tenant A gets a stricter hybrid research router while tenant isolation, store-before-event ordering, queue-only learning, graph governance, and rollback semantics stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T441-T467",
+      "Factory IDs F1176-F1247",
+      "provider SDK boundaries",
+      "Vault credential paths",
+      "tenant-scoped fabric access",
+      "routing decision persistence before event emission",
+      "store-before-event ordering",
+      "queue-only learning updates",
+      "trace span queue emission",
+      "budget hard-stop behavior",
+      "quality gate business failure behavior",
+      "human-gated improvement suggestions",
+      "versioned graph edits",
+      "visited-set graph traversal",
+      "asynchronous index rebuild",
+      "pointer-swap rollback",
+      "empty-state rendering for missing FREEDOM config"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-29 configuration values or display/module metadata.",
+    "FLOW-29 services remain MicroserviceBase subclasses after fork assembly.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

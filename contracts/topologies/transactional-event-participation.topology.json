@@ -1,0 +1,102 @@
+{
+  "flowId": "FLOW-09",
+  "name": "Transactional Event Participation",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T99",
+      "taskTypeId": "T99",
+      "name": "EventParticipationOrchestrator",
+      "archetype": "orchestration",
+      "entry": "POST /events/:id/participate (calls T113 EligibilityCompositeChecker inline)"
+    },
+    {
+      "id": "T100",
+      "taskTypeId": "T100",
+      "name": "TicketInventoryManager",
+      "archetype": "data_pipeline",
+      "entry": "ParticipationRequested event (atomic capacity decrement)"
+    },
+    {
+      "id": "T101",
+      "taskTypeId": "T101",
+      "name": "PaymentEligibilityGate",
+      "archetype": "validation",
+      "entry": "InventoryReserved event"
+    },
+    {
+      "id": "T102",
+      "taskTypeId": "T102",
+      "name": "TicketIssuer",
+      "archetype": "data_pipeline",
+      "entry": "PaymentCleared event"
+    },
+    {
+      "id": "T104",
+      "taskTypeId": "T104",
+      "name": "RefundOrchestrator",
+      "archetype": "orchestration",
+      "entry": "RefundRequested event (compensating txn)"
+    },
+    {
+      "id": "T107",
+      "taskTypeId": "T107",
+      "name": "AttendanceTokenService",
+      "archetype": "processing",
+      "entry": "TicketIssued event (QR token, 60s TTL)"
+    },
+    {
+      "id": "T108",
+      "taskTypeId": "T108",
+      "name": "TokenRedemptionProcessor",
+      "archetype": "processing",
+      "entry": "TokenRedemptionRequested event (at check-in)"
+    },
+    {
+      "id": "T115",
+      "taskTypeId": "T115",
+      "name": "ParticipationAnalytics",
+      "archetype": "observability",
+      "entry": "Aggregate participation metrics (TTL-windowed)"
+    }
+  ],
+  "edges": [
+    { "from": "ParticipationRequested", "to": "T99", "event": "xiigen.transactional-event.participation-requested.v1" },
+    { "from": "T99", "to": "T100", "event": "xiigen.transactional-event.eligibility-passed.v1", "condition": "inline T113 passed" },
+    { "from": "T99", "to": "ParticipationRejected", "event": "xiigen.transactional-event.eligibility-failed.v1", "condition": "eligibility failed — terminal" },
+    { "from": "T100", "to": "T101", "event": "xiigen.transactional-event.inventory-reserved.v1" },
+    { "from": "T100", "to": "SoldOut", "event": "xiigen.transactional-event.inventory-exhausted.v1", "condition": "capacity=0 — terminal" },
+    { "from": "T101", "to": "T102", "event": "xiigen.transactional-event.payment-cleared.v1" },
+    { "from": "T101", "to": "T104", "event": "xiigen.transactional-event.payment-failed.v1", "condition": "payment declined → compensating refund" },
+    { "from": "T102", "to": "T107", "event": "xiigen.transactional-event.ticket-issued.v1" },
+    { "from": "T107", "to": "T108", "event": "xiigen.transactional-event.token-issued.v1" },
+    { "from": "T108", "to": "T115", "event": "xiigen.transactional-event.token-redeemed.v1" },
+    { "from": "T104", "to": "T115", "event": "xiigen.transactional-event.refund-processed.v1" },
+    { "from": "T115", "to": "ParticipationFlowComplete", "event": "xiigen.transactional-event.analytics-recorded.v1", "condition": "terminal" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": [],
+      "notQueueable": ["TicketPurchaseRequested"],
+      "notQueueableReason": {
+        "TicketPurchaseRequested": "Payment + capacity — requires live connection, TTL-bounded reservation"
+      }
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T110",
+        "runsWhileUserViews": "OrganizerRevenueDashboard",
+        "signalType": "realtime-push",
+        "signalText": null
+      },
+      {
+        "serverTask": "T107",
+        "runsWhileUserViews": "Any screen (user may be away)",
+        "signalType": "push-notification",
+        "signalText": "You're off the waitlist! Your ticket is confirmed."
+      }
+    ]
+  }
+}

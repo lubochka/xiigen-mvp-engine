@@ -1,0 +1,11 @@
+{
+  "eventType": "BusinessProfileCreated",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T50-A1 (business-profile.service.ts)",
+  "consumers": ["T50-A3", "T51-B1"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "profileId"],
+  "forbiddenFields": ["questionnaire", "email", "goals", "challenges", "skillGaps", "revenue"],
+  "notes": "Emitted by A1 after dual-record-write completes (DNA-8). Payload is a reference only — no profile data. A3 listens on this event (NEVER QuestionnaireCompleted). B1 uses profileId to look up xiigen-matching-profiles (GLOBAL)."
+}

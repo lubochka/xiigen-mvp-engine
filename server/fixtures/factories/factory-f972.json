@@ -1,0 +1,15 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F972",
+  "factoryId": "F972",
+  "flowId": "FLOW-23",
+  "interface": "ICodeQualityGate",
+  "injectionToken": "CODE_QUALITY_GATE",
+  "fabric": "DATABASE",
+  "platformOnly": false,
+  "taskTypes": ["T363"],
+  "bfaRules": ["CF-446"],
+  "threshold": 0.8,
+  "thresholdType": "fractional",
+  "note": "AF-9 quality gate. Score is FRACTIONAL [0.0, 1.0]. NEVER integer 80."
+}

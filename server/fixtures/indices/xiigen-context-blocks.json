@@ -1,0 +1,23 @@
+{
+  "index": "xiigen-context-blocks",
+  "description": "Context blocks synthesized by context-query.handler. Each block records a gap description, the ES query used to retrieve context, synthesized content injected into a failing arbiter, and the verdict before/after enrichment.",
+  "mappings": {
+    "properties": {
+      "blockId":              { "type": "keyword" },
+      "runId":                { "type": "keyword" },
+      "tenantId":             { "type": "keyword" },
+      "targetArbiterId":      { "type": "keyword" },
+      "iterationNumber":      { "type": "integer" },
+      "gapDescription":       { "type": "text", "fields": { "keyword": { "type": "keyword", "ignore_above": 1024 } } },
+      "queryFormulated":      { "type": "text" },
+      "sourceEntryIds":       { "type": "keyword" },
+      "synthesizedContext":   { "type": "text" },
+      "injectedBefore":       { "type": "text" },
+      "confidence":           { "type": "float" },
+      "verdictBefore":        { "type": "keyword" },
+      "verdictAfter":         { "type": "keyword" },
+      "budgetCallsAtWrite":   { "type": "integer" },
+      "createdAt":            { "type": "date" }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+# ═══════════════════════════════════════════════════════
+# XIIGen Client — E2E Test Container
+# ═══════════════════════════════════════════════════════
+# Stage 1: Build React app with Vite
+# Stage 2: Serve static files via nginx with API proxy
+
+FROM node:20-alpine AS builder
+
+LABEL description="XIIGen Client — E2E test builder"
+
+WORKDIR /app
+
+# Copy package files first (cache layer)
+COPY client/package.json client/package-lock.json ./
+
+RUN npm ci
+
+# Install Playwright browser + OS-level deps (libglib, libnss, etc.)
+RUN npx playwright install chromium --with-deps
+
+# Copy source and build config
+COPY client/tsconfig.json ./
+COPY client/vite.config.ts ./
+COPY client/tailwind.config.js ./
+COPY client/postcss.config.js ./
+COPY client/index.html ./
+COPY client/src/ ./src/
+
+# Build Vite
+RUN npm run build
+
+# ── Stage 2: nginx serving ────────────────────────────
+
+FROM nginx:alpine AS production
+
+LABEL description="XIIGen Client — E2E test server"
+
+# Copy built assets
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# E2E-specific nginx config (proxies /engine + /health + /tenants → server-e2e)
+COPY client/nginx.e2e.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+HEALTHCHECK --interval=5s --timeout=3s --retries=5 \
+  CMD wget -q --spider http://localhost:80 || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]

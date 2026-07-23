@@ -1,0 +1,12 @@
+{
+  "eventType": "subscription.activation.failed",
+  "flowId": "FLOW-12",
+  "version": "1.0.0",
+  "properties": {
+    "subscriberId": { "type": "string", "required": true },
+    "planId": { "type": "string", "required": true },
+    "errorCode": { "type": "string", "enum": ["PAYMENT_INVALID", "PLAN_NOT_ACTIVE", "ALREADY_SUBSCRIBED"], "required": true },
+    "errorMessage": { "type": "string", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

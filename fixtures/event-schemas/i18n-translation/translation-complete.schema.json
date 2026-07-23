@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.translation-complete.v1",
+  "description": "Emitted by T666 TranslationResolverService when a successful translation — full, marketplace-delta, or tenant-cache hit — has been produced for (moduleId, locale). Triggers T668 TenantTranslationWriter to persist the CAS blob + tenant lookup ref under the ALS tenant (CF-810).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tenantId",
+    "eventId",
+    "emittedAt",
+    "moduleId",
+    "locale",
+    "contentHash",
+    "sourceHash",
+    "connectionType",
+    "translationPath"
+  ],
+  "properties": {
+    "tenantId":  { "type": "string", "description": "Tenant that owns the resulting translation (ALS)." },
+    "eventId":   { "type": "string" },
+    "emittedAt": { "type": "string", "format": "date-time" },
+    "moduleId":  { "type": "string", "description": "Module slug / i18next namespace." },
+    "locale":    { "type": "string", "description": "BCP-47 locale of the completed translation." },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 (64 lowercase hex) of the translated JSON blob. Retrieval key for IPackageContentStoreService."
+    },
+    "sourceHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 (64 lowercase hex) of the English source keys at translation time. Stored now; consumed by Phase 2 invalidation."
+    },
+    "connectionType": {
+      "type": "string",
+      "enum": ["TENANT_PRIVATE", "FLOW_SCOPED"],
+      "description": "TENANT_PRIVATE for tenant translations; FLOW_SCOPED for marketplace base under MASTER_TENANT_ID (CF-811)."
+    },
+    "translationPath": {
+      "type": "string",
+      "enum": ["full", "marketplace-delta-empty", "marketplace-delta-nonempty", "tenant-cache-hit"],
+      "description": "Which branch of the Decision 2 pipeline produced this result (observability + test taxonomy)."
+    }
+  }
+}

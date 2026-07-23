@@ -1,0 +1,11 @@
+{
+  "eventType": "FeedDelivered",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "feed-delivery-orchestrator",
+  "consumers": ["T82"],
+  "piiFields": [],
+  "allowedPayloadFields": ["feedItemId", "userId", "tenantId", "deliveryStatus", "deliveredAt"],
+  "forbiddenFields": ["score", "privacyCheckResult", "suppressionReason", "userProfile"],
+  "notes": "Emitted by T78 after independent T81 privacy check and delivery threshold evaluation. deliveryStatus: 'delivered' | 'suppressed'. suppressionReason is forbidden — no leak of why content was suppressed. T82 aggregates delivery counts."
+}

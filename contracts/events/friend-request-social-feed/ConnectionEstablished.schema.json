@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.social-feed.connection-established.v1",
+  "taskTypeId": "T75",
+  "flowId": "FLOW-07",
+  "description": "Emitted by T75 ConnectionGraphWriter after both adjacency edges are atomically written.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.social-feed.connection-established.v1",
+    "source": "xiigen/flows/friend-request-social-feed/t75",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "connectionId": { "type": "string", "description": "Direction-independent hash(sorted([userIdA, userIdB]) + tenantId)" },
+    "requestId": { "type": "string", "description": "Originating friend request identifier" },
+    "tenantId": { "type": "string", "description": "Tenant scope — from AsyncLocalStorage" },
+    "correlationId": { "type": "string", "description": "Idempotency key" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "connectionId is a hash. No user names or profile data in payload.",
+  "requiredByFlows": ["FLOW-07"]
+}

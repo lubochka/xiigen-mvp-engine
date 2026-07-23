@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.policy-denied.v1",
+  "description": "Terminal event emitted when T669 TranslationPolicyGate denies the requested locale. T666 returns { fallback: true, locale: 'en' } to the HTTP client (CF-812: endpoint never returns 4xx/5xx). No translation is produced and no ref is written.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenantId", "eventId", "emittedAt", "moduleId", "locale", "fallbackUsed"],
+  "properties": {
+    "tenantId":  { "type": "string", "description": "Tenant whose policy denied the request (ALS)." },
+    "eventId":   { "type": "string" },
+    "emittedAt": { "type": "string", "format": "date-time" },
+    "moduleId":  { "type": "string", "description": "Module slug that was requested." },
+    "locale":    { "type": "string", "description": "BCP-47 locale that was denied." },
+    "fallbackUsed": {
+      "type": "boolean",
+      "const": true,
+      "description": "Always true on this event — marker that the English fallback path (CF-812) was taken."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Policy denial reason surfaced to observability, e.g. 'locale_not_enabled'."
+    }
+  }
+}

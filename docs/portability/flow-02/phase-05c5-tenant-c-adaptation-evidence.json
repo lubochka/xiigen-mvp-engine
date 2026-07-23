@@ -1,0 +1,45 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "phase": "Phase 5c-5 - Tenant C adapts",
+  "status": "complete",
+  "completedAt": "2026-04-29T12:18:00+03:00",
+  "tenantId": "tessera-collective",
+  "originModuleName": "northwind-partner-matching",
+  "adaptedModuleName": "tessera-community-matching",
+  "repoBefore": "lubochka/tessera-collective--northwind-partner-matching",
+  "repoFullName": "lubochka/tessera-collective--tessera-community-matching",
+  "repoUrl": "https://github.com/lubochka/tessera-collective--tessera-community-matching",
+  "adaptedCommitSha": "ffa191e467f106ee9270c8ec28128d492e8882f5",
+  "ciEvidence": {
+    "workflowRunId": 25099656229,
+    "workflowRunUrl": "https://github.com/lubochka/tessera-collective--tessera-community-matching/actions/runs/25099656229",
+    "workflowConclusion": "success",
+    "workflowStatus": "completed",
+    "headSha": "ffa191e467f106ee9270c8ec28128d492e8882f5"
+  },
+  "localForkVerification": {
+    "clonePath": "C:/tmp/xiigen-phase5c/tessera-collective--profile-enrichment",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "result": "package install completed, TypeScript passed, Jest passed: 1 suite, 2 tests, 0 failures"
+  },
+  "adaptationHistoryEntries": 3,
+  "visualEvidence": {
+    "directory": "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-v1.0.3",
+    "pngCount": 15,
+    "marketplaceListing": "docs/portability/flow-02/visual-evidence/marketplace/profile-enrichment-v1.0.3-listing.png"
+  },
+  "evidenceFiles": [
+    "docs/portability/flow-02/phase-05c5-tenant-c-adaptation-evidence.json",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-adapted-repo/tessera-collective--tessera-community-matching-repo-homepage.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-adapted-repo/tessera-collective--tessera-community-matching-github-listing.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-adapted-repo/tessera-collective--tessera-community-matching-github-actions-success.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-v1.0.3",
+    "docs/portability/flow-02/visual-evidence/marketplace/profile-enrichment-v1.0.3-listing.png"
+  ],
+  "notes": "Tessera Collective now has its own final module after inheriting the Acme and Northwind cascade. The repo is renamed, GitHub Actions passed, tenant.config.json has three adaptation history entries, and Playwright captured all final role screenshots plus the marketplace listing."
+}

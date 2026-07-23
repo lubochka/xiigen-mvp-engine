@@ -1,0 +1,11 @@
+{
+  "eventType": "JoinRequestSubmitted",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "join-request-validator",
+  "consumers": ["T100"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "validatedAt"],
+  "forbiddenFields": ["requestedTier"],
+  "notes": "Emitted by T99 after validation passes. Triggers T100 for tier assignment. requestedTier remains forbidden."
+}

@@ -1,0 +1,12 @@
+{
+  "eventType": "warehouse.content.retention.extended",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "contentId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "holdReason": { "type": "string", "required": true },
+    "extendedUntil": { "type": "string", "format": "date-time", "required": true },
+    "extendedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

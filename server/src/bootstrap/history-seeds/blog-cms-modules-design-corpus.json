@@ -1,0 +1,92 @@
+[
+  {
+    "patternId": "DR-28-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-28-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-28-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-28-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-28-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-28-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-28-01",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-28-02",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-28-03",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-28-04",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-28",
+    "domainId": "blog-cms-modules",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

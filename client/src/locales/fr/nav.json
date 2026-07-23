@@ -1,0 +1,23 @@
+{
+  "section_engine": "Moteur",
+  "section_admin": "Administration",
+  "section_learning": "Apprentissage et Qualité",
+  "nav_dashboard": "Tableau de bord",
+  "nav_designer": "Concepteur",
+  "nav_flow_library": "Bibliothèque de flux",
+  "nav_run_flow": "Exécuter un flux",
+  "nav_marketplace": "Place de marché",
+  "nav_monitor": "Surveillance",
+  "nav_registry": "Registre",
+  "nav_ledger": "Grand livre",
+  "nav_events": "Événements",
+  "nav_rsvp": "RSVP",
+  "nav_attendance": "Présence",
+  "nav_tenants": "Locataires",
+  "nav_chat": "Super Agent",
+  "nav_generation_lab": "Laboratoire de génération",
+  "nav_model_leaderboard": "Classement des modèles",
+  "nav_prompt_lab": "Laboratoire d'invites",
+  "nav_quality": "Tableau de qualité",
+  "brand_subtitle": "Client moteur"
+}

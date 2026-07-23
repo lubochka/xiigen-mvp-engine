@@ -1,0 +1,78 @@
+{
+  "file": "SESSION_STATE_MERGE.md",
+  "totalLines": 2587,
+  "purpose": "Tracks session state snapshots across flow implementations from FLOW-25 through FLOW-35. Contains historical session states, artifact counts, flow registries, DNA compliance checks, and recovery instructions.",
+  "sections": [
+    {
+      "id": "S1",
+      "name": "Header + Implementation Update",
+      "lines": "1-29",
+      "description": "File header identifies as Post FLOW-34 consolidated. Has implementation update header already added.",
+      "checkMethod": "Verify header update notes are accurate against actual codebase",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "S2",
+      "name": "Consolidated System State (Post FLOW-34)",
+      "lines": "30-178",
+      "description": "Artifact counts, next available numbers, flow registry through FLOW-34, FLOW-33 and 33 details, fabric interfaces, DNA patterns. This was the design-phase endpoint.",
+      "checkMethod": "Compare artifact counts against actual. Verify flow registry includes correct T-ranges. Check fabric interfaces match actual 6+SECRETS. DNA patterns should show 9, not 6.",
+      "status": "NEEDS_REVIEW",
+      "subChecks": [
+        "Artifact counts table at line 32 — still shows design numbers",
+        "Next Available Numbers at line 48 — still shows F1484/T565/CF-789/SK-403",
+        "Flow Registry at line 63 — stops at FLOW-34, needs FLOW-35..45",
+        "Fabric interfaces at line 142 — shows 6, needs SECRETS fabric",
+        "DNA patterns at line 153 — shows 6, needs DNA-7/8/9"
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "FLOW-34 Details",
+      "lines": "179-321",
+      "description": "FLOW-34 artifact summary, factory map, families, complements, core mission, research sources, DNA compliance. This is design-phase content for Skill Multi-Target Translation.",
+      "checkMethod": "Verify against actual FLOW-34 implementation if it exists in codebase. FLOW-34 is marketplace-plugin-adapter.",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "S4",
+      "name": "Historical Session States (FLOW-25 through FLOW-31)",
+      "lines": "327-2197",
+      "description": "Historical snapshots from each flow session. Contains per-flow artifact summaries, renumbering tables, backward compatibility checks, save points. These are HISTORICAL records and should NOT be modified in body — only add notes if design-phase data conflicts with actual.",
+      "checkMethod": "Verify these are genuinely historical. Add note at top of section indicating these are design-phase snapshots. No body modifications needed.",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "S5",
+      "name": "FLOW-32 Session State",
+      "lines": "2198-2307",
+      "description": "FLOW-32 artifact contribution (20 services, T516-T535), DNA compliance, consolidated state post-34.",
+      "checkMethod": "Verify T-range matches actual contracts. Verify service count matches actual directory.",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "S6",
+      "name": "Phase 8 Translation Corrections",
+      "lines": "2308-2405",
+      "description": "SK numbering corrections, Python base fabric library (SK-379..394), React Native UI skills (SK-395..401), AF station wiring.",
+      "checkMethod": "This was Python-specific. Add note that NestJS implementation uses different SK numbering (SK-416+).",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "S7",
+      "name": "FLOW-35 Session State",
+      "lines": "2407-2587",
+      "description": "FLOW-35 details (Secrets Fabric + ConfigBuilder + Grok). System state post-35, factory map, fabric interfaces (7 post-35), SDK audit, DNA compliance.",
+      "checkMethod": "Verify SECRETS fabric is correctly documented. Check if actual code has 6 or 7 fabrics. This was the last design-phase flow.",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "S8",
+      "name": "MISSING: FLOW-36..45 Session States",
+      "lines": "N/A",
+      "description": "Document stops at FLOW-35. Flows 36-45 were implemented in NestJS and have no session state entries here.",
+      "checkMethod": "Add session state summary for FLOW-36..45 with actual implementation data.",
+      "status": "MISSING"
+    }
+  ]
+}

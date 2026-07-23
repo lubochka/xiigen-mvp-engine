@@ -1,0 +1,1 @@
+{"type":"object","properties":{"elementId":{"type":"string"},"canvasId":{"type":"string"},"tenantId":{"type":"string"},"ownershipValidated":{"type":"boolean"},"verifiedAt":{"type":"string"},"source":{"type":"string","enum":["ASYNC_LOCAL_STORAGE","CACHE","DATABASE"]}},"required":["elementId","canvasId","tenantId","ownershipValidated"]}

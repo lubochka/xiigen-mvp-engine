@@ -1,0 +1,265 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "phase": "phase5aTenantBInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-05T18:54:30+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "role": "Tenant B",
+    "installedFromTenant": "acme-corp",
+    "installedFromRepoFullName": "lubochka/acme-corp--transactional-event-participation",
+    "packageName": "@xiigen-fork/acme-fast-release-ticketing",
+    "packageVersion": "1.0.1",
+    "localRegistry": "http://localhost:4873"
+  },
+  "runtimeCredentialRecovery": {
+    "firstForkAttempt": {
+      "statusCode": 202,
+      "code": "GITHUB_CREDENTIALS_MISSING",
+      "sideEffects": "none; fork engine stopped in CONNECTION_PREFLIGHT before repository creation"
+    },
+    "recovery": [
+      "Seeded fork-manager runtime Vault paths for acme-corp, northwind, and tessera-collective: github_token, github_org_name, docker_registry_url, and docker_registry_token.",
+      "Seeded tenant FREEDOM runtime config for acme-corp, northwind, and tessera-collective: vault_address and vault_token.",
+      "Credential values were not written to evidence, docs, env files, or committed files."
+    ]
+  },
+  "marketplaceForkApi": {
+    "method": "POST",
+    "path": "/api/marketplace/packages/acme-fast-release-ticketing/fork",
+    "serverBaseUrl": "http://localhost:33001",
+    "targetTenant": "northwind",
+    "auth": "Tenant-scoped northwind tenant-admin JWT minted from Vault signing key; token value not stored in evidence.",
+    "request": {
+      "flowId": "FLOW-09",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.1",
+      "repoNameOverride": "northwind--acme-fast-release-ticketing",
+      "sourceRepoFullName": "lubochka/acme-corp--transactional-event-participation"
+    },
+    "result": {
+      "forkId": "fork-acme-fast-release-ticketing-northwind",
+      "repoFullName": "lubochka/northwind--acme-fast-release-ticketing",
+      "repoUrl": "https://github.com/lubochka/northwind--acme-fast-release-ticketing",
+      "status": "FORKED",
+      "initialCommitSha": "13d2308bcdafd162c9049131514415e5dd7e4869"
+    }
+  },
+  "localRegistryVerification": {
+    "command": "npm view @xiigen-fork/acme-fast-release-ticketing version --registry http://localhost:4873",
+    "expectedVersion": "1.0.1",
+    "actualVersion": "1.0.1"
+  },
+  "repository": {
+    "fullName": "lubochka/northwind--acme-fast-release-ticketing",
+    "htmlUrl": "https://github.com/lubochka/northwind--acme-fast-release-ticketing",
+    "defaultBranch": "main",
+    "createdAt": "2026-05-05T15:43:09Z",
+    "pushedAt": "2026-05-05T15:48:11Z",
+    "privateAfterEvidenceCapture": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "localClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-fast-release-ticketing",
+    "localRemote": "https://github.com/lubochka/northwind--acme-fast-release-ticketing.git"
+  },
+  "initialCi": {
+    "runId": 25386646364,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "13d2308bcdafd162c9049131514415e5dd7e4869",
+    "url": "https://github.com/lubochka/northwind--acme-fast-release-ticketing/actions/runs/25386646364",
+    "rootCause": "Inherited Tenant A adaptation test asserted tenantId acme-corp after cascade fork correctly rewrote tenant.config.json for northwind."
+  },
+  "repairCommit": {
+    "sha": "6463e65cd918bd67ab5c708113a1d95c89d8d592",
+    "message": "Make Acme ticketing test cascade-safe",
+    "changedFile": "__tests__/transactional-event-participation-acme-adaptation.spec.ts",
+    "fix": "Assert Northwind install identity and repository metadata while preserving the Acme adaptation history record.",
+    "tenantConfigAssertions": {
+      "tenantId": "northwind",
+      "flowId": "FLOW-09",
+      "flowSlug": "acme-fast-release-ticketing",
+      "moduleName": "acme-fast-release-ticketing",
+      "moduleVersion": "1.0.1",
+      "repoName": "northwind--acme-fast-release-ticketing",
+      "repoFullName": "lubochka/northwind--acme-fast-release-ticketing",
+      "installedFromRepoFullName": "lubochka/acme-corp--transactional-event-participation",
+      "adaptationHistoryEntries": 1
+    }
+  },
+  "githubActions": {
+    "runId": 25386803466,
+    "jobId": 74450103742,
+    "workflowName": "XIIGen Flow CI - transactional-event-participation",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "6463e65cd918bd67ab5c708113a1d95c89d8d592",
+    "url": "https://github.com/lubochka/northwind--acme-fast-release-ticketing/actions/runs/25386803466",
+    "createdAt": "2026-05-05T15:48:11Z",
+    "updatedAt": "2026-05-05T15:49:01Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-fast-release-ticketing",
+    "headSha": "6463e65cd918bd67ab5c708113a1d95c89d8d592",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "exitCode": 0,
+        "notes": "Completed with dependency deprecation warnings only."
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      }
+    ],
+    "workingTreeCleanAfterRepair": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-05T18:53:20.9839223+03:00",
+    "passed": 8,
+    "total": 8,
+    "allPassed": true,
+    "checks": [
+      {
+        "name": "valid acme token in acme tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "valid northwind token in northwind tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "valid tessera token in tessera tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "missing token denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token in northwind tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "northwind token in tessera tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token in tessera tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "wrong referral-user role denied on fork endpoint",
+        "method": "POST",
+        "path": "/api/marketplace/packages/acme-fast-release-ticketing/fork",
+        "expectedStatus": 403,
+        "actualStatus": 403
+      }
+    ]
+  },
+  "visualEvidence": {
+    "tenantInstalledMatrix": {
+      "path": "docs/e2e-snapshots/transactional-event-participation/tenant-b-installed-from-a",
+      "expected": 12,
+      "actual": 12,
+      "zeroByte": 0,
+      "minBytes": 40113,
+      "maxBytes": 75010,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "event-organiser",
+        "platform-admin"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "repoScreenshots": {
+      "repoListing": {
+        "path": "docs/e2e-snapshots/repo-evidence/northwind--acme-fast-release-ticketing-github-listing.png",
+        "bytes": 129772,
+        "captureMode": "GitHub web UI while temporarily public"
+      },
+      "actionsSuccess": {
+        "path": "docs/e2e-snapshots/repo-evidence/northwind--acme-fast-release-ticketing-actions-success.png",
+        "bytes": 74103,
+        "captureMode": "GitHub web UI while temporarily public"
+      },
+      "repoVisibilityRestoredToPrivate": true
+    }
+  },
+  "mainRepoVerification": {
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "result": "passed"
+    },
+    "clientPlaywright": {
+      "command": "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/transactional-event-participation-tenant-b-installed.spec.ts --project=chromium-desktop --workers=1",
+      "result": "passed",
+      "tests": 12
+    },
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=transactional-event-participation --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 8,
+      "tests": 133
+    },
+    "phaseCloseScans": {
+      "flowFileCount": 20,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "flowScopedAnnotations": 42,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 0,
+      "directSdkImports": 0
+    }
+  },
+  "secretHandling": {
+    "committedEnvFiles": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "verdict": "PASS"
+}

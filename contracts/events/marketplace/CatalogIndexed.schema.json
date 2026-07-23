@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.marketplace.catalog-indexed.v1",
+  "taskTypeId": "T84",
+  "flowId": "FLOW-08",
+  "description": "Emitted by T84 CatalogIndexer after a listing is indexed via F227 ISearchIndexService.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.marketplace.catalog-indexed.v1",
+    "source": "xiigen/flows/marketplace-listings-catalog/t84",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "listingId": { "type": "string", "description": "Opaque listing identifier" },
+    "indexVersion": { "type": "string", "description": "Version key for idempotent indexing" },
+    "tenantId": { "type": "string", "description": "Tenant scope — from AsyncLocalStorage" },
+    "correlationId": { "type": "string", "description": "Idempotency key" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "No PII in catalog index event. listingId is opaque.",
+  "requiredByFlows": ["FLOW-08"]
+}

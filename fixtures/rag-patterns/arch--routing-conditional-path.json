@@ -1,0 +1,21 @@
+{
+  "patternId": "arch--routing-conditional-path",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "generic",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "archetype": "ROUTING",
+  "tags": [
+    "routing",
+    "conditional",
+    "path-selection",
+    "idempotency"
+  ],
+  "keywords": "routing conditional path selection idempotency setIfAbsent duplicate prevention",
+  "codeSnippet": "// ROUTING archetype: check idempotency FIRST, then route\nconst locked = await this.memory.setIfAbsent(idempotencyKey, '1', ttl);\nif (!locked.data) return DataProcessResult.success(existing);  // dedup\n// Route based on input\nconst pathway = input.ssoProvider ? 'sso' : 'email';\n// ALWAYS: storeDocument BEFORE enqueue\nawait this.db.storeDocument(tenantId, 'records', record, recordId);\nawait this.queue.enqueueAsync(tenantId, createCloudEvent({ type, data }));",
+  "ironRules": [
+    "setIfAbsent for idempotency",
+    "storeDocument before enqueue",
+    "route based on input not config"
+  ]
+}

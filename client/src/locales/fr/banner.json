@@ -1,0 +1,6 @@
+{
+  "no_keys_configured": "Aucune clé de fournisseur IA configurée. Les flux utiliseront uniquement l'IA simulée.",
+  "missing_keys": "Clés de fournisseur manquantes : {{list}}. Les données d'entraînement utiliseront un calibrage de secours jusqu'à ce que les vraies clés soient configurées.",
+  "configure_keys": "Configurer les clés",
+  "dismiss": "Fermer la bannière"
+}

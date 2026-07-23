@@ -1,0 +1,36 @@
+{
+  "taskTypeId": "T176",
+  "flowId": "FLOW-13",
+  "name": "CohortAnalysisEngine",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "tenant-scoped-cohort-cross-flow-tenantid",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "warehouse_cohort_analysis_config",
+    "neutralConcepts": [
+      "Cohort definitions are tenant-scoped — no cross-tenant cohort membership",
+      "All cross-flow data joins MUST include tenantId predicate (CF-FLOW13-AN-1)",
+      "Emit CohortAnalysisGenerated (warehouse.cohort.analysis) on completion"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T176-1", "rule": "Cohort definitions are tenant-scoped — no cross-tenant cohort membership permitted.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T176-2", "rule": "All cross-flow data joins MUST include tenantId predicate. CF-FLOW13-AN-1.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T176-3", "rule": "Emit CohortAnalysisGenerated (warehouse.cohort.analysis) on completion.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "tenant_scoped_cohort_definitions",
+    "cross_flow_join_requires_tenantid",
+    "emit_cohort_analysis_on_completion"
+  ],
+  "bfaRules": ["CF-FLOW13-AN-1"],
+  "tags": ["analytics", "cohort", "cross-flow", "tenant-scoped", "ANALYTICS_ENGINE"],
+  "keywords": "cohort analysis engine tenant scoped cross-flow join tenantId predicate CohortAnalysisGenerated CF-FLOW13-AN-1"
+}

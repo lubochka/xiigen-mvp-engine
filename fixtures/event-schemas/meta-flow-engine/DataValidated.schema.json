@@ -1,0 +1,17 @@
+{
+  "eventType": "DataValidated",
+  "flowId": "FLOW-26",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "source": "meta_flow_engine",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": [
+    "userId",
+    "tenantId",
+    "recordId",
+    "status",
+    "timestamp"
+  ],
+  "forbiddenFields": [],
+  "notes": "Event DataValidated for meta-flow-engine"
+}

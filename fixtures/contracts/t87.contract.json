@@ -1,0 +1,52 @@
+{
+  "taskTypeId": "T87",
+  "flowId": "FLOW-05",
+  "name": "AchievementGate",
+  "archetype": "ROUTING",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "history-check-before-emit",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow05_achievement_index",
+    "neutralConcepts": [
+      "reads xiigen-achievement-records before any emit",
+      "idempotent by (userId, achievementId) — second qualifying submission does not re-emit",
+      "storeDocument BEFORE AchievementUnlocked emit",
+      "DNA-8: storeDocument before enqueue"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F190",
+      "interface": "IAchievementService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T87-1",
+      "rule": "T87 reads xiigen-achievement-records BEFORE any emit. If (userId, achievementId) record already exists: return success without emitting AchievementUnlocked.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T87-2",
+      "rule": "Idempotent by (userId, achievementId) — a second qualifying submission must not produce a second AchievementUnlocked event.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T87-3",
+      "rule": "DNA-8: storeDocument BEFORE AchievementUnlocked enqueue. Order: store-achievement-record → enqueue.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "setnx_before_operation",
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["achievement-gate", "idempotency", "history-check", "ROUTING"],
+  "keywords": "achievement gate idempotency history check userId achievementId double unlock prevention"
+}

@@ -1,0 +1,56 @@
+﻿{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "product-decision-and-pre-existing-defect-check",
+    "generatedAt":  "2026-05-06T09:36:18.5172677+03:00",
+    "protocolSourcesLoaded":  [
+                                  "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FLOW-MOBILITY-AND-AUTH-MASTER-GUIDE.md",
+                                  "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED.md",
+                                  "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/TENANT-CICD-CONNECTION-GUIDANCE-v1.0.md",
+                                  "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FORK-FLOW-ENGINE-PLAN-v1.2.md",
+                                  "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/XIIGEN-AUTH-ROLES-GROUPS-PLAN-v3.0.md",
+                                  "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/PER-FLOW-FIX-MAP-v2.9.md"
+                              ],
+    "fixMapRow":  "FLOW-14 | ETL \u0026 Data Integration | CD🔑🔗🖥 | D · F · T · C(double HID⚠+UD⚠) | configuration key scoping FIRST; AI Protocol Phase 1 same day; governance risk re-verify; tenant context service decoupling; governance rule generation HID/UD warnings; product decision before co-install dependency declaration; behavioral assertion; cascade requirement.",
+    "productDecisionGate":  {
+                                "status":  "PENDING_BEFORE_CO_INSTALL_DEPENDENCY_DECLARATION",
+                                "decision":  null,
+                                "note":  "The FLOW-14 product decision gate does not block the pre-existing defect check or tenant context decoupling, but must close before co-install dependency declaration and cascade certification.",
+                                "operatorOverride":  "Luba instructed the session to continue flows 13-46 with commit/push and no pre-commit checks on 2026-05-06."
+                            },
+    "baselineVerification":  {
+                                 "serverTypeScript":  {
+                                                          "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                          "exitCode":  0
+                                                      },
+                                 "serverJest":  {
+                                                    "command":  "Push-Location server; npx jest --testPathPatterns=etl-data-integration --runInBand --colors=false; Pop-Location",
+                                                    "exitCode":  0,
+                                                    "passedSuites":  15,
+                                                    "passedTests":  220
+                                                },
+                                 "staticScans":  {
+                                                     "flowFileCount":  13,
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "nestjsClsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0
+                                                 },
+                                 "remediations":  [
+                                                      "Updated twelve FLOW-14 ETL services to extend MicroserviceBase with FLOW-14/T213-T224 descriptors.",
+                                                      "Replaced direct ClsService/TENANT_CONTEXT_KEY dependency with TenantContextResolver.",
+                                                      "Renamed injected database and queue fields to dbFabric/queueFabric to avoid overriding MicroserviceBase component accessors.",
+                                                      "Updated FLOW-14 unit and design-contract tests to use getCurrentTenantId() resolver mocks."
+                                                  ],
+                                 "stateFile":  "docs/sessions/FLOW-14/FLOW-14-MOBILITY-AUTH-STATE.json"
+                             },
+    "summary":  {
+                    "status":  "PASS",
+                    "readyForConfigurationKeyScoping":  true,
+                    "readyForPhase0DockerVaultAuthAfterConfigurationScoping":  true,
+                    "secretsPrintedOrCommitted":  false,
+                    "technicalDebtIntroduced":  false
+                }
+}

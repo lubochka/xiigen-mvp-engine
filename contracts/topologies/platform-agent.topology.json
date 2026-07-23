@@ -1,0 +1,56 @@
+{
+  "flowId": "FLOW-46",
+  "flowName": "Platform Agent",
+  "version": "1.0",
+  "status": "DESIGN_COMPLETE",
+  "portability": {
+    "seedDependencyManifest": "docs/portability/flow-46/seed-dependency-manifest.json",
+    "identityModel": "MASTER_TENANT_ID",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScopes": ["PRIVATE", "GLOBAL"],
+    "tenantScopeGateway": "T651"
+  },
+  "nodes": [
+    { "id": "T650", "taskTypeId": "T650", "name": "AgentRunOrchestrator",    "archetype": "orchestration", "entry": "POST /api/agent/run" },
+    { "id": "T651", "taskTypeId": "T651", "name": "TenantScopeGateway",      "archetype": "governance",    "entry": "Inline — called by T650 / T654" },
+    { "id": "T652", "taskTypeId": "T652", "name": "PlatformContextEnricher", "archetype": "data_pipeline", "entry": "Inline — between AF-4 and AF-5" },
+    { "id": "T653", "taskTypeId": "T653", "name": "SuperJudgeArbiter",       "archetype": "validation",    "entry": "Inline — after AF-9 (CF-840 zero-cost path)" },
+    { "id": "T654", "taskTypeId": "T654", "name": "AgentActionPublisher",    "archetype": "transaction",   "entry": "AF-9 accepted output → branch by actionType" },
+    { "id": "T655", "taskTypeId": "T655", "name": "PatternContributor",      "archetype": "data_pipeline", "entry": "Super judge verdict + solution quality ok → Path A/B" },
+    { "id": "T656", "taskTypeId": "T656", "name": "AgentChatClient",         "archetype": "routing",       "entry": "/chat page — user input box" }
+  ],
+  "edges": [
+    { "from": "AgentRunRequested", "to": "T650", "event": "xiigen.platform-agent.run-requested.v1" },
+    { "from": "T650", "to": "T651", "event": "xiigen.platform-agent.scope-switch-requested.v1", "condition": "cross-tenant read needed" },
+    { "from": "T650", "to": "T652", "event": "xiigen.platform-agent.enrich-context.v1", "condition": "between AF-4 and AF-5" },
+    { "from": "T650", "to": "T653", "event": "xiigen.platform-agent.super-judge-invoked.v1", "condition": "after AF-9" },
+    { "from": "T650", "to": "T654", "event": "xiigen.platform-agent.action-dispatched.v1", "condition": "AF-9 + super judge accepted" },
+    { "from": "T650", "to": "T655", "event": "xiigen.platform-agent.contribute-requested.v1", "condition": "solution quality meets contribution threshold" },
+    { "from": "T654", "to": "AgentActionRecorded", "event": "xiigen.platform-agent.action-proposed.v1" },
+    { "from": "T655", "to": "ContributionWritten", "event": "xiigen.platform-agent.contribution-recorded.v1", "condition": "Path A OR Path B Share" },
+    { "from": "T655", "to": "ConsentRequested", "event": "xiigen.platform-agent.consent-requested.v1", "condition": "Path B awaiting consent" },
+    { "from": "T650", "to": "AgentSessionCompleted", "event": "xiigen.platform-agent.session-completed.v1", "condition": "terminal — all branches" },
+    { "from": "T656", "to": "T650", "event": "xiigen.platform-agent.chat-submit.v1", "condition": "user sent userIntent" },
+    { "from": "confirmationEvent", "to": "promoteDraft", "condition": "tenant approved PROPOSE_EDIT / CREATE_FLOW" },
+    { "from": "rollbackEvent", "to": "deleteDraft", "condition": "tenant dismissed action" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": [],
+      "notQueueable": ["AgentRunRequested"],
+      "notQueueableReason": {
+        "AgentRunRequested": "Agent requires live connection; runs are short-lived and synchronous for orchestration purposes"
+      }
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T655",
+        "runsWhileUserViews": "Chat panel",
+        "signalType": "new-content-available-banner",
+        "signalText": "Agent finished contributing patterns"
+      }
+    ]
+  }
+}

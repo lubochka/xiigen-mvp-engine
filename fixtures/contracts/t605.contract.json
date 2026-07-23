@@ -1,0 +1,95 @@
+{
+  "taskTypeId": "T605",
+  "flowId": "FLOW-15",
+  "name": "TenantProvisioningOrchestrator",
+  "archetype": "ORCHESTRATION",
+  "domainId": "saas-multi-tenancy",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T605-1",
+      "rule": "SETNX at ORDER 1 before any write. Concurrent provisioning requests for the same tenantId MUST be rejected via lock — not allowed to produce duplicate tenant records.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T605-2",
+      "rule": "bulkSeed MUST be synchronous. async scatter (Promise.all/allSettled on seed operations) is prohibited — partial completion on crash leaves tenant in half-initialized state.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T605-3",
+      "rule": "tenantId MUST be resolved from AsyncLocalStorage only — NEVER from request payload. Accepting tenantId as a parameter enables tenant impersonation.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T605-4",
+      "rule": "TenantProvisioningFailed MUST be emitted on any error at any step before returning DataProcessResult.failure. Downstream consumers depend on this event for compensating actions.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T605-5",
+      "rule": "DNA-8: storeDocument(tenantRecord) MUST occur before enqueue(TenantProvisioned). Record must exist before downstream processors receive the event.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1519",
+      "token": "ITenantRegistryService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1520",
+      "token": "ITenantSeedService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1521",
+      "token": "IProvisionLockService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1522",
+      "token": "IFreedomConfigService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "SETNX_IDEMPOTENCY",
+    "ATOMIC_PROVISION_SEQUENCE",
+    "PROVISIONING_STATUS_MARKER"
+  ],
+  "freedomComponents": [
+    "tenant_default_quota_api_calls",
+    "tenant_default_quota_storage_gb",
+    "tenant_default_quota_seats"
+  ],
+  "stackCoupling": {
+    "queue": ["TenantProvisioned", "TenantProvisioningFailed"],
+    "database": ["xiigen-tenants", "xiigen-freedom-config"]
+  },
+  "handlers": [
+    "acquire_provision_lock",
+    "validate_tenant_request",
+    "bulk_seed_freedom_defaults",
+    "store_tenant_record",
+    "emit_tenant_provisioned",
+    "release_provision_lock"
+  ],
+  "namedChecks": [
+    "setnx_order1_lock",
+    "bulk_seed_synchronous",
+    "tenant_id_from_als_only",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "saas",
+    "tenant-provisioning",
+    "setnx",
+    "idempotency",
+    "orchestration",
+    "atomic-bootstrap",
+    "bulk-seed"
+  ],
+  "keywords": "tenant provisioning orchestrator SETNX idempotency bulkSeed synchronous TenantProvisioned TenantProvisioningFailed AsyncLocalStorage ALS atomic bootstrap"
+}

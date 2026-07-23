@@ -1,0 +1,112 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "phase4Point0TenantAOriginalFork",
+    "generatedAt":  "2026-05-10T11:07:25.6978098Z",
+    "protocolVersion":  "3.0",
+    "tenant":  "acme-corp",
+    "forkApi":  {
+                    "endpoint":  "POST /api/marketplace/packages/ai-safety-moderation/fork",
+                    "requestTenant":  "acme-corp",
+                    "tokenSource":  "short-lived Vault-backed HS256 JWT generated in memory",
+                    "tokenPrinted":  false,
+                    "response":  {
+                                     "forkId":  "fork-ai-safety-moderation-acme-corp",
+                                     "repoUrl":  "https://github.com/lubochka/acme-corp--ai-safety-moderation",
+                                     "repoFullName":  "lubochka/acme-corp--ai-safety-moderation",
+                                     "status":  "FORKED",
+                                     "initialCommitSha":  "6404e2c8d632dace0ba8bb5469aba6e242a92a29"
+                                 }
+                },
+    "vaultPreflight":  {
+                           "forkManagerCredentialPayloadShape":  "secret/data/{tenant}/{key} with payload field matching key name",
+                           "tenantsSeeded":  [
+                                                 "acme-corp",
+                                                 "northwind",
+                                                 "tessera-collective"
+                                             ],
+                           "credentialReadback":  "non-empty acme-corp github_token field",
+                           "secretValuesInEvidence":  false
+                       },
+    "github":  {
+                   "repo":  "lubochka/acme-corp--ai-safety-moderation",
+                   "repoUrl":  "https://github.com/lubochka/acme-corp--ai-safety-moderation",
+                   "visibilityAfterScreenshots":  "PRIVATE",
+                   "isPrivateAfterScreenshots":  true,
+                   "initialCommitSha":  "6404e2c8d632dace0ba8bb5469aba6e242a92a29",
+                   "actionsRun":  {
+                                      "databaseId":  25626975353,
+                                      "status":  "completed",
+                                      "conclusion":  "success",
+                                      "headSha":  "6404e2c8d632dace0ba8bb5469aba6e242a92a29",
+                                      "workflowName":  "XIIGen Flow CI — ai-safety-moderation",
+                                      "url":  "https://github.com/lubochka/acme-corp--ai-safety-moderation/actions/runs/25626975353",
+                                      "createdAt":  "2026-05-10T11:00:01Z",
+                                      "updatedAt":  "2026-05-10T11:00:40Z"
+                                  }
+               },
+    "cloneValidation":  {
+                            "clonePath":  "C:/Projects/xiigen-fork-clones/acme-corp--ai-safety-moderation-phase40-20260510-140103",
+                            "head":  "6404e2c8d632dace0ba8bb5469aba6e242a92a29",
+                            "commands":  [
+                                             "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                             "npx tsc --noEmit --pretty false",
+                                             "npx jest --colors=false --forceExit",
+                                             "npm pack --dry-run --json"
+                                         ],
+                            "install":  "passed",
+                            "typescript":  "passed",
+                            "jest":  {
+                                         "status":  "passed",
+                                         "suites":  1,
+                                         "tests":  1
+                                     },
+                            "npmPack":  {
+                                            "status":  "passed",
+                                            "fileCount":  110,
+                                            "shasum":  "ce41d52579b97be6b1843b06d071cf5b1dc32de7"
+                                        },
+                            "tenantConfig":  {
+                                                 "tenantId":  "acme-corp",
+                                                 "flowId":  "FLOW-24",
+                                                 "flowSlug":  "ai-safety-moderation",
+                                                 "moduleName":  "ai-safety-moderation",
+                                                 "moduleVersion":  "1.0.0-fork"
+                                             },
+                            "bundleManifest":  {
+                                                   "file":  "BUNDLE-MANIFEST.json",
+                                                   "requiredBundleChecks":  {
+                                                                                "completeModuleBundle":  true,
+                                                                                "adaptationSurface":  true,
+                                                                                "freedomDefaults":  true,
+                                                                                "tenantConfig":  true,
+                                                                                "ragSeeds":  true,
+                                                                                "standalonePackage":  true
+                                                                            },
+                                                   "manifestEntryCount":  109
+                                               }
+                        },
+    "screenshots":  [
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-24/phase-4.0-tenant-a-actions-run.png",
+                            "bytes":  76890
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-24/phase-4.0-tenant-a-bundle-manifest.png",
+                            "bytes":  168972
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-24/phase-4.0-tenant-a-repo.png",
+                            "bytes":  122635
+                        }
+                    ],
+    "closeScans":  {
+                       "throwNew":  0,
+                       "servicesMissingMicroserviceBase":  0,
+                       "clsImports":  0,
+                       "directTenantContextImports":  0,
+                       "directSdkImports":  0,
+                       "highRiskSecretPatternHits":  0
+                   },
+    "verdict":  "PASS"
+}

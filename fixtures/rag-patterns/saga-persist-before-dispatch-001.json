@@ -1,0 +1,24 @@
+{
+  "patternId": "SAGA-PERSIST-BEFORE-DISPATCH-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-19",
+  "domainId": "durable-sagas-compliance",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "teachingPoint": "Saga state must be persisted via storeDocumentWithOCC BEFORE any step command is dispatched. If the orchestrator crashes after dispatch but before persist, restart replays the step — duplicate execution. versionPin:-1 ensures insert-if-not-exists for new sagas. SETNX step lock prevents duplicate dispatch on restart.",
+  "ironRules": [
+    "storeDocumentWithOCC(sagaState, versionPin:-1) BEFORE any step command dispatch",
+    "SETNX step lock before each step dispatch — prevents duplicate on restart",
+    "OCC on ALL state transitions — no plain storeDocument",
+    "SagaFailed emitted with failedStep and reason on any step failure"
+  ],
+  "codeSnippet": "await this.db.storeDocument(SAGA_INDEX, {...sagaState, status:'IN_PROGRESS'}, sagaId); const lockKey = `saga-step:${sagaId}:${stepId}`; const locked = await this.db.searchDocuments(LOCK_INDEX, {lockKey}); if (locked.data?.length) return; await this.db.storeDocument(LOCK_INDEX, {lockKey}, lockKey); await this.queue.enqueue(stepCommand, stepPayload);",
+  "appliesTo": ["FLOW-20", "FLOW-21", "FLOW-22", "FLOW-23"],
+  "curriculumTier": 1,
+  "qualityScore": 0.92,
+  "sourceDocument": "server/src/engine-contracts/durable-sagas-compliance-contracts.ts",
+  "tags": ["saga", "persist-before-dispatch", "OCC", "SETNX-step-lock"],
+  "keywords": ["storeDocumentWithOCC", "versionPin", "SETNX", "sagaState"],
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,12 @@
+{
+  "eventType": "form-builder-templates.template.publication-conflict",
+  "flowId": "FLOW-23",
+  "version": "1.0.0",
+  "properties": {
+    "templateId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "expectedVersionNumber": { "type": "number", "required": true },
+    "currentVersionNumber": { "type": "number", "required": true },
+    "conflictAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

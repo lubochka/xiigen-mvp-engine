@@ -1,0 +1,1 @@
+{"type":"object","properties":{"shapeId":{"type":"string"},"boardId":{"type":"string"},"originalType":{"type":"string"},"inferredType":{"type":"string"},"confidenceScore":{"type":"number","minimum":0,"maximum":1},"heuristicRules":{"type":"array","items":{"type":"string"}},"inferredAt":{"type":"string"}},"required":["shapeId","boardId","inferredType","confidenceScore"]}

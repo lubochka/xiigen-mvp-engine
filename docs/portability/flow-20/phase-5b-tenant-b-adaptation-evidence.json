@@ -1,0 +1,199 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "phase5bTenantBAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-07T09:41:47.4404716+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "repo": "lubochka/acme-corp--acme-strict-privacy-ads-platform",
+    "package": "@xiigen-fork/acme-strict-privacy-ads-platform",
+    "version": "1.0.1"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--northwind-retail-ads-optimization",
+    "url": "https://github.com/lubochka/northwind--northwind-retail-ads-optimization",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "adaptedCommit": "a2b99d2362f7cb48e822802c5c760ff82d0149f8",
+    "adaptedCommitMessage": "Adapt ads platform for Northwind",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-strict-privacy-ads-platform-phase5a-20260507-085005",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/ads-platform-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "githubActionsRun": {
+      "runId": 25479858987,
+      "jobId": 74761360923,
+      "url": "https://github.com/lubochka/northwind--northwind-retail-ads-optimization/actions/runs/25479858987",
+      "jobUrl": "https://github.com/lubochka/northwind--northwind-retail-ads-optimization/actions/runs/25479858987/job/74761360923",
+      "status": "completed",
+      "conclusion": "success",
+      "workflowName": "XIIGen Flow CI - ads-platform",
+      "headSha": "a2b99d2362f7cb48e822802c5c760ff82d0149f8",
+      "createdAt": "2026-05-07T06:30:15Z",
+      "updatedAt": "2026-05-07T06:31:08Z",
+      "successfulSteps": [
+        "Set up job",
+        "Run actions/checkout@v4.2.2",
+        "Run actions/setup-node@v4.4.0",
+        "Install",
+        "TypeScript check",
+        "Test",
+        "Provenance",
+        "Post Run actions/setup-node@v4.4.0",
+        "Post Run actions/checkout@v4.2.2",
+        "Complete job"
+      ]
+    },
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 115,
+        "shasum": "20fd78fd5ce5b1f984b0961c103dbe03ede5c088"
+      }
+    ],
+    "adaptationProof": {
+      "tenantConfigTenantId": "northwind",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-strict-privacy-ads-platform",
+      "adaptationHistoryEntries": 2,
+      "lastAdaptationTenantId": "northwind",
+      "packageName": "@xiigen-fork/northwind-retail-ads-optimization",
+      "packageVersion": "1.0.2",
+      "moduleName": "northwind-retail-ads-optimization",
+      "displayName": "Northwind Retail Ads Optimization",
+      "requiredCoInstalls": [],
+      "requiredCoInstallPackages": [],
+      "freedomDefaults": {
+        "flow20_consent_check_timeout_ms": 450,
+        "flow20_auction_bid_lock_ttl_ms": 22000,
+        "flow20_auction_response_timeout_ms": 120,
+        "flow20_fraud_score_threshold": 0.76,
+        "flow20_fraud_audit_retention_days": 545,
+        "flow20_political_score_threshold": 0.6,
+        "flow20_political_divergence_threshold": 0.16,
+        "flow20_political_human_review_sla_hours": 18
+      }
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/northwind-retail-ads-optimization",
+    "version": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-retail-ads-optimization/-/northwind-retail-ads-optimization-1.0.2.tgz",
+    "shasum": "20fd78fd5ce5b1f984b0961c103dbe03ede5c088",
+    "integrity": "sha512-XS1duRqiErDYw2u5L9xfJP76/VDb6b8j5rU4qZaUrQpRjHS0bdKAyBW9mGQR9RVN4Ww2Wqz8KQDe5XqpdG7RGA==",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/ads-platform-northwind-v1.0.2-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/ads-platform-northwind-v1.0.2-registry-listing.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/ads-platform/tenant-b-v1.0.2",
+      "count": 15,
+      "zeroByteFiles": 0,
+      "playwrightExecutions": 45,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "business-partner",
+        "platform-admin"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-20/northwind--northwind-retail-ads-optimization-tenant-b-v1.0.2-github-listing.png",
+        "bytes": 131652
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-20/northwind--northwind-retail-ads-optimization-tenant-b-v1.0.2-actions-success.png",
+        "bytes": 75803
+      },
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/ads-platform-northwind-v1.0.2-registry-listing.png",
+        "bytes": 49376
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/ads-platform-tenant-b-adapted.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-20 Tenant B adapted package cascade-point visual evidence under docs/e2e-snapshots/ads-platform/tenant-b-v1.0.2."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBAdaptedPlaywright": {
+      "command": "client: VITE_PORT=52025 npx playwright test e2e/ads-platform-tenant-b-adapted.spec.ts --reporter=line",
+      "result": "passed",
+      "tests": 45,
+      "distinctPngCount": 15,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBAdaptedTenantAAdaptedSource": true,
+    "tenantBPublishedAdaptedPackage": true,
+    "localRegistryReturnsTenantBAdaptedVersion": true,
+    "coInstallDependenciesDeclared": true,
+    "realGitHubActionsGreen": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstall": true
+  },
+  "verdict": "PASS"
+}

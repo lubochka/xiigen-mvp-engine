@@ -1,0 +1,40 @@
+{
+  "taskTypeId": "T631",
+  "name": "AutomationDispatcher",
+  "flowId": "FLOW-21",
+  "domainId": "dynamic-forms-workflows",
+  "archetype": "orchestration",
+  "purpose": "Automation rule dispatch with SETNX locks and conditional branching",
+  "entry": "SubmissionProcessed event",
+  "ironRules": [
+    "IR-1: Version guard at ORDER 1",
+    "IR-2: Rule condition evaluation at ORDER 2",
+    "IR-3: SETNX rule execution lock at ORDER 3",
+    "IR-4: Queue rule actions conditionally",
+    "IR-5: Store execution before releasing lock (DNA-8)"
+  ],
+  "machineComponents": [
+    "Version guard for rule staleness",
+    "Condition evaluation logic",
+    "SETNX rule execution locks",
+    "Multi-path action dispatch",
+    "Execution record storage"
+  ],
+  "freedomComponents": [
+    "rule_exec_lock_ttl_seconds",
+    "rule_condition_timeout_ms",
+    "rule_max_action_count"
+  ],
+  "factories": [
+    {
+      "factoryId": "F1507",
+      "interface": "IDatabaseService",
+      "provider": "elasticsearch"
+    },
+    {
+      "factoryId": "F1508",
+      "interface": "IQueueService",
+      "provider": "rabbitmq"
+    }
+  ]
+}

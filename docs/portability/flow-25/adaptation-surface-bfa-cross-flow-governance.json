@@ -1,0 +1,333 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "flowTitle": "Cross-Flow Policy Review",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-10",
+  "capturedBy": "Codex / FLOW-25 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-25-bfa-cross-flow-governance-functional-spec.md",
+    "server/src/engine-contracts/bfa-conflict-arbitration-contracts.ts",
+    "server/src/engine-contracts/bfa-conflict-arbitration-seed-prompts.ts",
+    "server/src/engine-contracts/bfa-cross-flow-governance-bfa-rules.ts",
+    "server/src/engine/flows/bfa-conflict-arbitration",
+    "docs/flow-coverage/bfa-cross-flow-governance/P1-business-logic-inventory.md",
+    "docs/flow-coverage/bfa-cross-flow-governance/P5-ui-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T375-T388",
+    "taskTypeIds": [
+      "T375",
+      "T376",
+      "T377",
+      "T378",
+      "T379",
+      "T380",
+      "T381",
+      "T382",
+      "T383",
+      "T384",
+      "T385",
+      "T386",
+      "T387",
+      "T388"
+    ],
+    "factoryIdRange": "F1028-F1062",
+    "freedomKeyCount": 10,
+    "securityClassification": "platform-governed cross-flow policy review, blast-radius analysis, tenant isolation, human resolution, audit, and analytics controls",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-25 keeps bfa-cross-flow-governance as the portability/UI/package slug while current runtime services live under server/src/engine/flows/bfa-conflict-arbitration. Fork assembly copies that implementation directory into the canonical package slug path.",
+    "coreGuarantees": [
+      "Change intake remains content-addressed and idempotent.",
+      "Dependency queries include tenant scope and return empty results as NONE severity instead of throwing.",
+      "Static CRITICAL conflicts override advisory AI severity.",
+      "AI HIGH and CRITICAL results without evidence links downgrade to LOW.",
+      "Blast-radius traversal remains cycle-safe and depth-bounded.",
+      "Arbitration state transitions reject invalid terminal transitions.",
+      "Human FORCE_PROCEED decisions require explicit override permission and long rationale.",
+      "Resolution application and audit entries store records before downstream events.",
+      "Cross-tenant overlap reports aggregate counts without leaking tenant names.",
+      "Analytics emission remains fire-and-forget and never blocks primary flow outcome."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-25 governs cross-flow platform release gates and override decisions, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T375",
+      "className": "ChangeIntakeParserService",
+      "file": "server/src/engine/flows/bfa-conflict-arbitration/change-intake-parser.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow25_allowed_change_types",
+        "flow25_duplicate_window_hours"
+      ],
+      "machineLockedRules": [
+        "change_type stays enumerated",
+        "diff content hash stays deterministic",
+        "storeDocument remains before enqueue"
+      ]
+    },
+    {
+      "taskTypeId": "T376-T379",
+      "className": "Conflict Detection Pipeline",
+      "file": "server/src/engine/flows/bfa-conflict-arbitration",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow25_static_critical_override_enabled",
+        "flow25_ai_evidence_required_for_high",
+        "flow25_advisory_timeout_ms"
+      ],
+      "machineLockedRules": [
+        "tenant scope is mandatory",
+        "static CRITICAL override stays enabled",
+        "AI severity remains advisory"
+      ]
+    },
+    {
+      "taskTypeId": "T380-T382",
+      "className": "Blast Radius And Impact Reporting",
+      "file": "server/src/engine/flows/bfa-conflict-arbitration",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow25_max_blast_radius_depth",
+        "flow25_impact_report_channels",
+        "flow25_precedent_minimum_count"
+      ],
+      "machineLockedRules": [
+        "cycle detection cannot be disabled",
+        "CRITICAL impact requires non-empty blast radius",
+        "FORCE_PROCEED availability stays permission-gated"
+      ]
+    },
+    {
+      "taskTypeId": "T383-T388",
+      "className": "Resolution Audit Isolation Analytics",
+      "file": "server/src/engine/flows/bfa-conflict-arbitration",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow25_force_proceed_rationale_min_chars",
+        "flow25_arbitration_timeout_minutes"
+      ],
+      "machineLockedRules": [
+        "role comes from auth context only",
+        "audit trail remains append-only",
+        "cross-tenant overlap never exposes raw tenant names"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-25 cross-flow governance operating values. Tenants may tune change labels, duplicate windows, evidence threshold posture, depth limits, report channel display, precedent hints, rationale length, timeout display, and module naming without changing tenant isolation, override permissions, outbox order, or critical conflict handling.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow25_allowed_change_types",
+          "type": "string-list",
+          "default": "SCHEMA_CHANGE,API_BREAK,FLOW_MODIFICATION,DEPENDENCY_UPDATE",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "minimumRequiredValues": [
+              "SCHEMA_CHANGE",
+              "API_BREAK",
+              "FLOW_MODIFICATION",
+              "DEPENDENCY_UPDATE"
+            ]
+          }
+        },
+        {
+          "key": "flow25_duplicate_window_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 168
+          }
+        },
+        {
+          "key": "flow25_static_critical_override_enabled",
+          "type": "boolean",
+          "default": true,
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "allowedValues": [
+              true
+            ]
+          }
+        },
+        {
+          "key": "flow25_ai_evidence_required_for_high",
+          "type": "boolean",
+          "default": true,
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "allowedValues": [
+              true
+            ]
+          }
+        },
+        {
+          "key": "flow25_advisory_timeout_ms",
+          "type": "number",
+          "default": 30000,
+          "unit": "milliseconds",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 1000,
+            "max": 120000
+          }
+        },
+        {
+          "key": "flow25_max_blast_radius_depth",
+          "type": "number",
+          "default": 5,
+          "unit": "hops",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 10
+          }
+        },
+        {
+          "key": "flow25_impact_report_channels",
+          "type": "string-list",
+          "default": "web,cli,chat",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "minimumRequiredValues": [
+              "web"
+            ]
+          }
+        },
+        {
+          "key": "flow25_precedent_minimum_count",
+          "type": "number",
+          "default": 3,
+          "unit": "precedents",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 10
+          }
+        },
+        {
+          "key": "flow25_force_proceed_rationale_min_chars",
+          "type": "number",
+          "default": 50,
+          "unit": "characters",
+          "stakeholder": "platform-admin",
+          "boundedRange": {
+            "min": 50,
+            "max": 500
+          }
+        },
+        {
+          "key": "flow25_arbitration_timeout_minutes",
+          "type": "number",
+          "default": 60,
+          "unit": "minutes",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 5,
+            "max": 1440
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to governance-console naming, severity/reporting defaults, precedent hints, and timeout/rationale thresholds.",
+      "edgeCases": [
+        {
+          "id": "acme-policy-gate-console",
+          "name": "Acme policy gate console",
+          "semantic": "Tenant A tunes the governance console for stricter blast-radius gates and shorter arbitration timeouts.",
+          "extensionPoint": "depth, timeout, rationale threshold, module naming",
+          "currentImplementation": "Critical override, tenant isolation, and store-before-event ordering remain fixed."
+        },
+        {
+          "id": "northwind-governance-review",
+          "name": "Northwind governance review",
+          "semantic": "Tenant B tunes the policy review package for operations governance with broader report channels and conservative AI advisory timeout.",
+          "extensionPoint": "report channels, advisory timeout, precedent hints",
+          "currentImplementation": "AI severity remains advisory and evidence-downgrade rules remain fixed."
+        },
+        {
+          "id": "tessera-policy-review-studio",
+          "name": "Tessera policy review studio",
+          "semantic": "Tenant C tunes policy review for collection workflow releases with deeper graph traversal and stricter force-proceed rationale.",
+          "extensionPoint": "depth, precedent minimum, rationale length",
+          "currentImplementation": "Override permission source and cross-tenant overlap redaction remain fixed."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T375 through T388 remain fixed.",
+      "Factory IDs F1028 through F1062 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Tenant scope is mandatory for every dependency and resolution query.",
+      "Static CRITICAL conflict override remains enabled.",
+      "AI HIGH and CRITICAL severities require evidence links or are downgraded.",
+      "Blast-radius traversal keeps cycle detection enabled.",
+      "FORCE_PROCEED remains permission-gated and rationale-gated.",
+      "Audit and resolution records are stored before downstream events.",
+      "Cross-tenant overlap reports never expose raw tenant names.",
+      "Analytics failures do not block primary decisions."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAPolicyGateConsole": {
+      "description": "Tenant A tunes Cross-Flow Policy Review for strict release governance.",
+      "change": {
+        "flow25_allowed_change_types": "SCHEMA_CHANGE,API_BREAK,FLOW_MODIFICATION,DEPENDENCY_UPDATE",
+        "flow25_duplicate_window_hours": 12,
+        "flow25_static_critical_override_enabled": true,
+        "flow25_ai_evidence_required_for_high": true,
+        "flow25_advisory_timeout_ms": 20000,
+        "flow25_max_blast_radius_depth": 6,
+        "flow25_impact_report_channels": "web,cli,chat",
+        "flow25_precedent_minimum_count": 4,
+        "flow25_force_proceed_rationale_min_chars": 80,
+        "flow25_arbitration_timeout_minutes": 30
+      },
+      "impact": "Tenant A gets stricter release-gate defaults while critical conflict handling, evidence downgrade, tenant isolation, override permission, and audit ordering stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T375-T388",
+      "Factory IDs F1028-F1062",
+      "implementation provider boundaries",
+      "Vault credential paths",
+      "tenant-scoped queries",
+      "static CRITICAL override",
+      "AI evidence downgrade",
+      "cycle-safe blast radius traversal",
+      "FORCE_PROCEED permission source",
+      "append-only audit trail",
+      "store-before-event ordering",
+      "cross-tenant overlap redaction"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-25 configuration values or display/module metadata.",
+    "FLOW-25 services remain MicroserviceBase subclasses after fork assembly.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

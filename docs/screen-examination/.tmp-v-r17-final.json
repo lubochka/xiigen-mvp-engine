@@ -1,0 +1,128 @@
+{
+  "batch_id": "V-R17-FINAL",
+  "captured_after": "RUN-190 V-R15 Wave 6 (0a85dfaf) + RUN-191 matrix (e765a409)",
+  "flows_examined": 10,
+  "flows": [
+    {
+      "slug": "sharable-flows-marketplace",
+      "pngs_read": ["populated-anonymous.png", "primary-anonymous.png", "primary-platform-admin.png", "primary-public-marketplace-visitor.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "category": "wave_6",
+      "wave_6_fix_held": true,
+      "v_r14_block_held": null,
+      "verdict": "CONCERN",
+      "notes": "populated-anonymous 'Package is live - publicly discoverable in the marketplace' copy HELD + 'Listed' title-case status chip HELD. Platform-admin package cards still render all-caps 'LISTED' chips (not called out in Wave 6 but inconsistent with populated-anonymous); tolerable inconsistency but worth a micro-polish. Anon/tenant-user/tenant-admin/marketplace-visitor all card-layout (not CRUD)."
+    },
+    {
+      "slug": "subscription-billing",
+      "pngs_read": ["populated-tenant-admin.png", "primary-business-partner.png", "primary-platform-admin.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "category": "wave_6",
+      "wave_6_fix_held": true,
+      "v_r14_block_held": null,
+      "verdict": "CONCERN",
+      "notes": "primary-tenant-admin + primary-tenant-user: Invoice #001/#002/#003 + Paid/Failed/Voided title-case + Monthly + 'May 15, 2026' HELD. populated-tenant-admin now shows Step 1 lifecycle card (Plan/Price/Billing period/Next billing date/Payment method all humanized, no invoice chips in that capture). BUT primary-business-partner Partner Invoicing table STILL renders PAID/DUE all-caps chips + raw INV-B-001/PO-2026-0012 IDs (partner role not part of Wave 6 scope but is a consistency gap)."
+    },
+    {
+      "slug": "user-groups-communities",
+      "pngs_read": ["primary-anonymous.png", "primary-platform-support.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "category": "wave_6",
+      "wave_6_fix_held": false,
+      "v_r14_block_held": null,
+      "verdict": "BLOCK",
+      "notes": "primary-tenant-admin table HELD (Type='Invite-only', tier='Free'/'Premium'/'Standard' title-case). BUT primary-anonymous + primary-tenant-user 'Discover Groups' card list STILL renders tier chips as 'FREE'/'STANDARD'/'PREMIUM' all-caps. Wave 6 fix only applied to admin table, not to public/tenant-user discovery cards. REGRESSION on user-facing views."
+    },
+    {
+      "slug": "event-management",
+      "pngs_read": ["primary-anonymous.png", "primary-platform-admin.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "category": "wave_6",
+      "wave_6_fix_held": true,
+      "v_r14_block_held": null,
+      "verdict": "PASS",
+      "notes": "primary-tenant-admin Event Moderation table: Status chips 'Pending review' title-case HELD; Organiser column shows 'Acme Events Co'/'Bay Area Meetup Group' humanized (no raw org-001/org-002) HELD. Anon 'Upcoming Events' + tenant-user attendee view + platform-admin cross-tenant ops all semantic."
+    },
+    {
+      "slug": "event-attendance",
+      "pngs_read": ["primary-anonymous.png", "primary-event-organiser.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "category": "wave_6",
+      "wave_6_fix_held": false,
+      "v_r14_block_held": null,
+      "verdict": "BLOCK",
+      "notes": "primary-event-organiser + primary-tenant-admin RSVP table: 'Guest #001'..'#005' + 'Confirmed'/'Waitlisted' title-case + 'Checked in' HELD. BUT primary-tenant-user 'Your attendance' card STILL shows 'CONFIRMED' all-caps chip alongside 'Checked in' title-case - inconsistent + partial regression. tenant-admin refund table also shows raw 'att-002'/'att-005'/'ref-001'/'ref-002' IDs."
+    },
+    {
+      "slug": "bundle-activation",
+      "pngs_read": ["active-platform-admin.png", "failed-platform-admin.png", "populated-platform-admin.png", "primary-platform-admin.png", "primary-platform-support.png"],
+      "category": "wave_6",
+      "wave_6_fix_held": true,
+      "v_r14_block_held": null,
+      "verdict": "PASS",
+      "notes": "active-platform-admin: fields 'Bundle' 'Active version' 'Required flow count' 'Activated at' all humanized HELD. failed-platform-admin: 'Bundle' 'Error code' 'Validated at' humanized HELD. populated-platform-admin: cross-tenant bundle list with title-case 'Active'/'Degraded'/'Failed' chips + humanized bundle names ('Core Platform v2', 'Marketplace Pack', etc.). support read-only view correctly gated."
+    },
+    {
+      "slug": "ads-platform",
+      "pngs_read": ["populated-platform-admin.png", "primary-anonymous.png", "primary-platform-admin.png", "primary-platform-support.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "category": "regression_check",
+      "wave_6_fix_held": null,
+      "v_r14_block_held": true,
+      "verdict": "PASS",
+      "notes": "Full role-gating HELD: anonymous -> 'Advertise on XIIGen' marketing CTA; tenant-user -> 'Ads console is restricted' kiosk; tenant-admin -> 'Your workspace ad spend'; platform-admin -> full cross-tenant Ads platform dashboard with campaigns + metrics + inline bid editing; platform-support similar to platform-admin."
+    },
+    {
+      "slug": "cms-publishing",
+      "pngs_read": ["populated-anonymous.png", "primary-anonymous.png", "primary-platform-admin.png", "primary-public-marketplace-visitor.png", "primary-tenant-admin.png", "primary-tenant-user.png", "reader-anonymous.png"],
+      "category": "regression_check",
+      "wave_6_fix_held": null,
+      "v_r14_block_held": true,
+      "verdict": "PASS",
+      "notes": "primary-tenant-admin: 'Editorial workflow' dashboard with Drafts/In review/Approved/Scheduled/Published columns + editorial queue (NOT raw debug). Anonymous article reader view, public-marketplace-visitor subscribe flow, platform-admin CMS Oversight panel all render humanized copy. reader-anonymous 404 is an acceptable edge case. raw index collapsed behind admin-debug disclosure."
+    },
+    {
+      "slug": "marketplace",
+      "pngs_read": ["primary-anonymous.png", "primary-business-partner.png", "primary-public-marketplace-visitor.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "category": "regression_check",
+      "wave_6_fix_held": null,
+      "v_r14_block_held": true,
+      "verdict": "PASS",
+      "notes": "Card grid layout across all roles (NOT CRUD table with NODES). Role-branched Install CTAs HELD: anon 'Sign in to install', business-partner 'Request install from admin', public-marketplace-visitor 'Sign in to install', tenant-user 'Request install from admin', tenant-admin 'Install' direct button. Humanized package names + tags."
+    },
+    {
+      "slug": "user-registration",
+      "pngs_read": ["default-anonymous.png", "pending-anonymous.png", "primary-anonymous.png", "primary-platform-support.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "category": "regression_check",
+      "wave_6_fix_held": null,
+      "v_r14_block_held": true,
+      "verdict": "PASS",
+      "notes": "Authenticated roles (platform-support, tenant-admin, tenant-user) all render 'You're already signed in' kiosk with role-appropriate CTA ('Go to admin console' for admin/support, 'Go to dashboard' for tenant-user). Anonymous views render 'Create your account' signup form + pending-anonymous 'Check your inbox' verification kiosk. All V-R14 BLOCKs HELD."
+    }
+  ],
+  "summary": {
+    "pass": 6,
+    "concern": 2,
+    "block": 2,
+    "wave_6_fixes_held": 4,
+    "wave_6_fixes_regressed": 2,
+    "v_r14_blocks_held": 4,
+    "v_r14_blocks_regressed": 0
+  },
+  "persistent_blockers_if_any": [
+    {
+      "slug": "user-groups-communities",
+      "issue": "Tier chips 'FREE'/'STANDARD'/'PREMIUM' still render all-caps on primary-anonymous + primary-tenant-user 'Discover Groups' card list. Wave 6 fix was only applied to the admin table view, not to the public/tenant-user discovery cards.",
+      "png": "docs/e2e-snapshots/visual-audit/chromium-desktop/user-groups-communities/primary-anonymous.png"
+    },
+    {
+      "slug": "event-attendance",
+      "issue": "primary-tenant-user 'Your attendance' card still shows 'CONFIRMED' all-caps chip alongside title-case 'Checked in'. Tenant-admin role has humanized chips but tenant-user user-facing attendee card was missed.",
+      "png": "docs/e2e-snapshots/visual-audit/chromium-desktop/event-attendance/primary-tenant-user.png"
+    },
+    {
+      "slug": "sharable-flows-marketplace",
+      "issue": "Platform-admin package cards render 'LISTED' all-caps status chips (inconsistent with title-case 'Listed' on populated-anonymous hero). Cosmetic inconsistency; not in Wave 6 scope but visible.",
+      "png": "docs/e2e-snapshots/visual-audit/chromium-desktop/sharable-flows-marketplace/primary-platform-admin.png"
+    },
+    {
+      "slug": "subscription-billing",
+      "issue": "primary-business-partner Partner Invoicing table still uses all-caps 'PAID'/'DUE' chips + raw 'INV-B-001'/'PO-2026-0012' IDs. Partner role not part of Wave 6 scope but inconsistent with tenant-user/tenant-admin invoice styling.",
+      "png": "docs/e2e-snapshots/visual-audit/chromium-desktop/subscription-billing/primary-business-partner.png"
+    }
+  ]
+}

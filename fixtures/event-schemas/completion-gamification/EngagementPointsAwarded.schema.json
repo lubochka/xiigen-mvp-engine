@@ -1,0 +1,11 @@
+{
+  "eventType": "EngagementPointsAwarded",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "engagement-points",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "engagementPoints", "awardedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T95 for social engagement points (separate from learning points in T84). Branch C terminal event."
+}

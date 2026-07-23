@@ -1,0 +1,130 @@
+{
+  "$schema": "xiigen-tenant-freedom-profile-v1",
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "tenantId": "northwind-guild",
+  "profileVersion": "1.0.2",
+  "adaptationCategory": "freedom-config",
+  "basedOnDefaultsVersion": "FLOW-01 v1.0.1 (acme-pro-members fork)",
+  "lineage": [
+    {
+      "version": "1.0.0",
+      "publisher": "xiigen-platform",
+      "introduces": "FLOW-01 baseline FREEDOM-config defaults"
+    },
+    {
+      "version": "1.0.1",
+      "publisher": "acme-pro-members",
+      "introduces": "4 server-side overrides (inviter_name, community_name, ttl_seconds, rate_limit 60\u219215)"
+    },
+    {
+      "version": "1.0.2",
+      "publisher": "northwind-guild",
+      "introduces": "1 further server-side override on top of acme: rate_limit 15\u21925 (tightened anti-abuse window)"
+    }
+  ],
+  "publishedAt": "2026-04-25",
+  "publishedBy": "architect-mode / FLOW-PORTABILITY-TEST-PROTOCOL-v2.0",
+  "overrides": {
+    "flow01_resend_rate_limit_minutes": {
+      "value": 5,
+      "rationale": "Northwind operates a tightly moderated guild and chose to further tighten the resend window from acme's 15 minutes down to 5 minutes; legitimate users almost never need to resend more than once per session and the tighter cap reduces noise from spam-driven retries. This is a server-side rate-limit only \u2014 invocation lives at EmailVerificationService.getResendLimitMinutes.",
+      "stakeholder": "platform-trust",
+      "tightenedFrom": {
+        "publisher": "acme-pro-members",
+        "version": "1.0.1",
+        "value": 15
+      }
+    },
+    "flow01_invitation_inviter_name": {
+      "value": "The Acme Pro Team",
+      "rationale": "Inherited unchanged from acme-pro-members v1.0.1 fork. Northwind guild communicates under acme's branded invitation copy because it operates as a shared-onboarding consortium under the acme parent program; the invitation surface is intentionally identical.",
+      "stakeholder": "product-growth",
+      "inheritedFrom": {
+        "publisher": "acme-pro-members",
+        "version": "1.0.1"
+      }
+    },
+    "flow01_invitation_community_name": {
+      "value": "Acme Pro Members",
+      "rationale": "Inherited unchanged from acme-pro-members v1.0.1 fork. See `flow01_invitation_inviter_name` rationale.",
+      "stakeholder": "product-growth",
+      "inheritedFrom": {
+        "publisher": "acme-pro-members",
+        "version": "1.0.1"
+      }
+    },
+    "flow01_email_verification_ttl_seconds": {
+      "value": 3600,
+      "rationale": "Inherited unchanged from acme-pro-members v1.0.1 fork. Northwind's stricter resend cadence (5 minutes) pairs with acme's stricter token TTL (1h) for a coherent anti-abuse profile.",
+      "stakeholder": "security-engineering",
+      "inheritedFrom": {
+        "publisher": "acme-pro-members",
+        "version": "1.0.1"
+      }
+    }
+  },
+  "deploymentInstructions": {
+    "seedIndex": "xiigen-freedom-config",
+    "seedMethod": "IFreedomConfigService.set() per key, within tenant's AsyncLocalStorage context",
+    "sampleSeedScript": "for (const [key, cfg] of Object.entries(overrides)) { await cls.runWith({ tenantId }, () => freedomConfig.set(key, cfg.value)); }",
+    "idempotent": true,
+    "requiresRestart": false
+  },
+  "verificationContract": {
+    "testFile": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts",
+    "testsRunForThisProfile": [
+      "FC-ADAPT-1",
+      "FC-ADAPT-2",
+      "FC-ADAPT-3",
+      "FC-ADAPT-4",
+      "FC-ADAPT-5"
+    ],
+    "allPassed": true,
+    "lastRun": "2026-04-25",
+    "note": "Same Layer-1 contract as acme \u2014 proves each override key returns the active value (in northwind context: rate_limit=5; inherited keys=acme values) and the default for non-cascade tenants."
+  },
+  "machineInvariantsPreserved": [
+    "Event names: AccountCreated, VerificationEmailRequested, VerificationCompleted, OnboardingCompleted",
+    "Task-type IDs: T47, T48, T49",
+    "User record schema including onboarding_materials:[]",
+    "Material type literals: workspace_setup, flow_tutorial, community_invitation",
+    "Idempotency key format and outbox ordering (storeDocument before enqueue)",
+    "Token hashing algorithm (sha256)",
+    "Uniform VALIDATION_FAILURE shape (no field leakage)"
+  ],
+  "v15DriftContract": {
+    "expectedDrift": "0 px on every PNG (byte-identical to platform-source baseline AND to tenant-a-acme-v1.0.1 capture)",
+    "rationale": "All 4 active overrides are server-side-only; northwind's rate_limit tightening (15\u21925) lives exclusively in EmailVerificationService.getResendLimitMinutes and never appears on any of the 6 client kiosk pages",
+    "contractFile": "docs/portability/flow-01/V-15-DRIFT-PASS-CONTRACT.md",
+    "behaviouralSeparationProof": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts (Layer 1)",
+    "observedDrift": "0 px (V-15 instance B drift comparison: 252/252 byte-identical pairs vs row 5 tenant-b-northwind-installed-v1.0.1; PASS per contract component 1)"
+  },
+  "connections": {
+    "$comment": "Per-tenant CI/CD connection config (Phase C12, DEV-115, 2026-04-26) \u2014 schema per TENANT-CICD-CONNECTION-GUIDANCE-v1.0 \u00a7TENANT PROFILE SCHEMA. connectionVerified=false is the initial state; ForkFlowHandlerService's Step-0 preflight sets it to true and writes lastVerifiedAt when the checkConnection() call returns reachable=true + hasRepoScope=true. If a fork session reads connectionVerified=false it MUST run the preflight before proceeding (Rule F-1).",
+    "github": {
+      "orgName": "lubochka",
+      "vaultKeyPath": "xiigen/tenants/northwind-guild/github_token",
+      "repoVisibility": "private",
+      "defaultBranch": "main",
+      "connectionVerified": true,
+      "lastVerifiedAt": "2026-04-26T12:26:23.385892+00:00"
+    },
+    "docker": {
+      "registryUrl": "ghcr.io",
+      "vaultKeyPath": "xiigen/tenants/northwind-guild/docker_registry_token",
+      "imagePullPolicy": "IfNotPresent",
+      "connectionVerified": false,
+      "lastVerifiedAt": null
+    },
+    "ci": {
+      "provider": "github-actions",
+      "workflowTemplate": "flow-ci-v1",
+      "reportWebhook": null,
+      "firstCiRunAt": "2026-04-26T12:23:39.218503+00:00",
+      "lastCiRunAt": "2026-04-26T12:23:39.218503+00:00",
+      "lastCiResult": "success",
+      "lastCiRunUrl": "https://github.com/lubochka/northwind-guild--user-registration/actions/runs/24956523808"
+    }
+  }
+}

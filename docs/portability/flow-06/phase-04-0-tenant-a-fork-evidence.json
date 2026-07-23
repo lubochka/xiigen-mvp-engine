@@ -1,0 +1,38 @@
+{
+  "evidenceKind": "phase-04-0-tenant-a-fork-original",
+  "flowId": "FLOW-06",
+  "flowSlug": "user-groups-communities",
+  "tenant": "acme-corp",
+  "checkedAt": "2026-05-03T12:01:40.1820918Z",
+  "marketplaceFork": {
+    "endpoint": "POST /api/marketplace/packages/user-groups-communities/fork",
+    "forkId": "fork-user-groups-communities-acme-corp",
+    "repoUrl": "https://github.com/lubochka/acme-corp--user-groups-communities",
+    "repoFullName": "lubochka/acme-corp--user-groups-communities",
+    "status": "FORKED",
+    "initialCommitSha": "b255a2006a1d1cf697a73b4b564d4e9dfc68d039"
+  },
+  "githubActions": {
+    "runId": 25278484547,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "b255a2006a1d1cf697a73b4b564d4e9dfc68d039",
+    "htmlUrl": "https://github.com/lubochka/acme-corp--user-groups-communities/actions/runs/25278484547"
+  },
+  "localCloneChecks": {
+    "clonePath": "<WORKSPACE>\\AppData\\Local\\Temp\\xiigen-flow06-acme-clone-e9356140e6854312888205fc16e91e90\\repo",
+    "packageName": "@xiigen-fork/user-groups-communities",
+    "version": "1.0.0-fork",
+    "cleanInstall": "passed",
+    "tscNoEmit": "passed",
+    "jest": "passed",
+    "commandNotes": [
+      "cmd /c npm.cmd run tsc -- --pretty false exited 0",
+      "cmd /c npm.cmd test -- --colors=false --forceExit exited 0"
+    ]
+  },
+  "repoEvidenceFiles": [
+    "docs/e2e-snapshots/repo-evidence/acme-corp--user-groups-communities-github-api-evidence.json"
+  ],
+  "secretsHandling": "No GitHub token, Vault token, JWT token, or signing key was printed or written to evidence."
+}

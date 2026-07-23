@@ -1,0 +1,24 @@
+{
+  "patternId": "ADDITIVE-SUBTRACTIVE-MRR-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-12",
+  "domainId": "subscription-billing",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": ["additive-subtractive", "mrr-aggregation", "dual-handler", "normalizeMrr", "subscription-cancelled"],
+  "keywords": "additive subtractive MRR aggregation SubscriptionCancelled dual handler normalizeMrr ANNUAL CUSTOM formula subscription analytics metrics",
+  "ironRules": [
+    "Subscribe to BOTH SubscriptionActivated (add path) AND SubscriptionCancelled (subtract path)",
+    "Additive-only aggregation permanently inflates MRR when subscriptions cancel",
+    "normalizeMrr() formula is MACHINE — ANNUAL=Math.floor(priceCents/12), CUSTOM=Math.floor(priceCents/intervalDays*30)",
+    "normalizeMrr() is NOT configurable — making it a FREEDOM key violates the machine/freedom boundary",
+    "Named check: dual_event_handler, normalize_mrr_machine"
+  ],
+  "codeSnippet": "// T212 SubscriptionAnalyticsAggregator — additive-subtractive MRR\n\n// ✅ CORRECT: two event handlers\n@EventPattern('SubscriptionActivated')\nasync onActivated(event: Record<string, unknown>) {\n  const mrr = this.normalizeMrr(event);\n  await this.updateMrr(tenantId, +mrr); // add\n}\n\n@EventPattern('SubscriptionCancelled')\nasync onCancelled(event: Record<string, unknown>) {\n  const mrr = this.normalizeMrr(event);\n  await this.updateMrr(tenantId, -mrr); // subtract\n}\n\nprivate normalizeMrr(event: Record<string, unknown>): number {\n  const priceCents = event['priceCents'] as number;\n  const interval = event['billingInterval'] as string;\n  // MACHINE formula — NOT configurable\n  if (interval === 'ANNUAL') return Math.floor(priceCents / 12);\n  if (interval === 'CUSTOM') {\n    const intervalDays = event['intervalDays'] as number;\n    return Math.floor(priceCents / intervalDays * 30);\n  }\n  return priceCents; // MONTHLY: no normalization needed\n}\n\n// ❌ WRONG: additive-only — MRR permanently inflates on cancellation\n// ❌ WRONG: normalizeMrr reads from FREEDOM config — formula is MACHINE, not configurable",
+  "appliesTo": ["FLOW-13", "FLOW-17"],
+  "curriculumTier": 2,
+  "qualityScore": 0.91,
+  "sourceDocument": "FLOW-12-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

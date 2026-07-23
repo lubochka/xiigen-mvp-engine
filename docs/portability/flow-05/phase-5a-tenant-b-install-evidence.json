@@ -1,0 +1,164 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "phase": "5a-tenant-b-install",
+  "completedAt": "2026-05-03T11:09:21.4344641+03:00",
+  "tenant": "northwind",
+  "sourceTenant": "acme-corp",
+  "githubOrg": "lubochka",
+  "localRegistry": {
+    "url": "http://localhost:4874",
+    "sourcePackage": "@xiigen/acme-learning-rewards",
+    "sourceVersion": "1.0.1",
+    "latestTagVerified": "1.0.1"
+  },
+  "forkApi": {
+    "method": "POST",
+    "path": "/api/marketplace/packages/completion-gamification/fork",
+    "httpStatus": 202,
+    "status": "FORKED",
+    "sourceRepoFullName": "lubochka/acme-corp--acme-learning-rewards",
+    "targetRepoFullName": "lubochka/northwind--acme-learning-rewards",
+    "repoNameOverride": "northwind--acme-learning-rewards",
+    "initialCommitShaPresent": true,
+    "usedDockerServer": "http://localhost:33001",
+    "usedVaultSecrets": true,
+    "manualRepoCreationUsed": false,
+    "manualFileCopyUsed": false
+  },
+  "githubRepo": {
+    "nameWithOwner": "lubochka/northwind--acme-learning-rewards",
+    "url": "https://github.com/lubochka/northwind--acme-learning-rewards",
+    "visibility": "private",
+    "defaultBranch": "main",
+    "pushedAt": "2026-05-03T08:05:00Z"
+  },
+  "githubActions": {
+    "initialRun": {
+      "runId": 25273798686,
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "dfa51e500f13d22ceaf129a5f21896f950e13c38",
+      "runUrl": "https://github.com/lubochka/northwind--acme-learning-rewards/actions/runs/25273798686",
+      "rootCause": "The inherited Tenant A adaptation test asserted the exact Acme repo name, while the fork engine correctly rewrote Tenant B tenant.config.json to northwind--acme-learning-rewards."
+    },
+    "repairCommit": {
+      "sha": "5d3bc8129d7d85dfafbea0a67d538f8b215ea89f",
+      "message": "Make adaptation test cascade-safe",
+      "changedFile": "__tests__/completion-gamification-adaptation.spec.ts",
+      "fix": "Assert that repoName ends with --acme-learning-rewards so downstream tenant forks remain valid."
+    },
+    "fixedRun": {
+      "runId": 25273839861,
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "5d3bc8129d7d85dfafbea0a67d538f8b215ea89f",
+      "createdAt": "2026-05-03T08:05:02Z",
+      "updatedAt": "2026-05-03T08:05:24Z",
+      "runUrl": "https://github.com/lubochka/northwind--acme-learning-rewards/actions/runs/25273839861"
+    }
+  },
+  "standaloneCloneVerification": {
+    "clonePath": "<WORKSPACE>/AppData/Local/Temp/xiigen-flow05-tenant-b-clone",
+    "packageName": "@xiigen/acme-learning-rewards",
+    "packageVersion": "1.0.1",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npm run build",
+      "npx jest --colors=false --forceExit"
+    ],
+    "installPassed": true,
+    "buildPassed": true,
+    "jestPassed": true,
+    "jestSuitesPassed": 2,
+    "jestTestsPassed": 2,
+    "workingTreeClean": true,
+    "tenantConfig": {
+      "tenantId": "northwind",
+      "moduleName": "acme-learning-rewards",
+      "moduleVersion": "1.0.1",
+      "repoName": "northwind--acme-learning-rewards",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-learning-rewards",
+      "adaptationHistoryEntries": 1
+    }
+  },
+  "authRegression": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "own-tenant-northwind",
+        "expected": 200,
+        "actual": 200
+      },
+      {
+        "name": "missing-token-northwind",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-A-token-in-tenant-B",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-B-token-in-tenant-C",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-C-token-in-tenant-B",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "wrong-role-service-account-on-role-route",
+        "expected": 403,
+        "actual": 403
+      }
+    ]
+  },
+  "visualEvidence": {
+    "suite": "client/e2e/completion-gamification-visual.spec.ts",
+    "cascadePoint": "tenant-b-installed-from-a",
+    "roles": [
+      "tenant-user",
+      "referral-user",
+      "freelancer",
+      "event-organiser",
+      "tenant-admin"
+    ],
+    "cells": [
+      "C2 en populated desktop",
+      "C4 he RTL populated desktop",
+      "C6 en populated mobile"
+    ],
+    "testsPassed": 15,
+    "pngCount": 15,
+    "directory": "docs/e2e-snapshots/completion-gamification/tenant-b-installed-from-a",
+    "adaptedValueAssertion": "points-earned contains +25 for installed Tenant B learner surfaces"
+  },
+  "repoEvidence": {
+    "captureMode": "github-api-endpoint-png",
+    "privateRepoWebUiAttempt": {
+      "attempted": false,
+      "reason": "Phase 4.0 established that private repo web UI capture returns 404 with PAT-backed browser auth, so Phase 5a uses authenticated GitHub API endpoint screenshots.",
+      "tokenPrinted": false
+    },
+    "screenshots": [
+      "docs/e2e-snapshots/repo-evidence/northwind--acme-learning-rewards-github-listing.png",
+      "docs/e2e-snapshots/repo-evidence/northwind--acme-learning-rewards-repo-homepage.png",
+      "docs/e2e-snapshots/repo-evidence/northwind--acme-learning-rewards-actions-success.png"
+    ]
+  },
+  "reviewScans": {
+    "throwNewInFlowServices": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImportsInFlowServices": 0,
+    "tenantConsumerInternalCopyHits": 0
+  },
+  "notes": [
+    "Tenant B installed the adapted Tenant A package through the fork engine using the real GitHub source repo, not a manually created repo.",
+    "The first CI failure identified an inherited cascade-safety assertion in the tenant package test. The test was repaired in the Tenant B repo and the fixed GitHub Actions run passed.",
+    "Live auth checks used tenant-scoped Vault JWT signing keys and did not print any secret values."
+  ]
+}

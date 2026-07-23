@@ -1,0 +1,26 @@
+{
+  "flowId": "FLOW-29",
+  "flowName": "adaptive-rag-deep-research",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T388",
+        "name": "Service1",
+        "order": 1
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T389",
+        "name": "Service2",
+        "order": 2
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T390",
+        "name": "Service3",
+        "order": 3
+      }
+    ]
+  }
+}

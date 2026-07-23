@@ -1,0 +1,1 @@
+{"type":"object","properties":{"documentName":{"type":"string"},"documentPath":{"type":"string"},"rulesExtracted":{"type":"integer"},"patternsGenerated":{"type":"integer"},"dpoTriplesCreated":{"type":"integer"},"ingestedAt":{"type":"string"},"parsingDeterministic":{"type":"boolean"}},"required":["documentName","documentPath","rulesExtracted","ingestedAt"]}

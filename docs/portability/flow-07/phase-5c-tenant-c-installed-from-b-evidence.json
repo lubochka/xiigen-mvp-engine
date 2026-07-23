@@ -1,0 +1,152 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phase5cTenantCInstalls",
+  "tenant": "tessera-collective",
+  "generatedAt": "2026-05-03T22:20:37.1592470+03:00",
+  "sourcePackage": {
+    "tenant": "northwind",
+    "packageName": "@xiigen-fork/northwind-fresh-trust-feed",
+    "version": "1.0.2",
+    "repoFullName": "lubochka/northwind--fresh-trust-feed",
+    "registry": "http://localhost:4873",
+    "registryVerifiedVersion": "1.0.2"
+  },
+  "runtimeCredentialReadiness": {
+    "vaultTenantSecretsSeeded": true,
+    "runtimeVaultConfigRestoredAfterDockerRebuild": true,
+    "tenantsUpdated": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ],
+    "printedVaultToken": false
+  },
+  "forkApi": {
+    "endpoint": "POST http://localhost:33001/api/marketplace/packages/fresh-trust-feed/fork",
+    "tenantHeader": "tessera-collective",
+    "request": {
+      "flowId": "FLOW-07",
+      "initialVersion": "1.0.2",
+      "repoNameOverride": "tessera-collective--fresh-trust-feed",
+      "sourceRepoFullName": "lubochka/northwind--fresh-trust-feed"
+    },
+    "response": {
+      "statusCode": 202,
+      "forkId": "fork-fresh-trust-feed-tessera-collective",
+      "repoFullName": "lubochka/tessera-collective--fresh-trust-feed",
+      "status": "FORKED",
+      "initialCommitSha": "e02cbc59412ac3b6b4b80369fc9d7c959ab7f47a"
+    }
+  },
+  "github": {
+    "repoFullName": "lubochka/tessera-collective--fresh-trust-feed",
+    "commitSha": "e02cbc59412ac3b6b4b80369fc9d7c959ab7f47a",
+    "actionsRun": {
+      "databaseId": 25288225910,
+      "workflowName": "XIIGen Flow CI - friend-request-social-feed",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "e02cbc59412ac3b6b4b80369fc9d7c959ab7f47a",
+      "url": "https://github.com/lubochka/tessera-collective--fresh-trust-feed/actions/runs/25288225910"
+    }
+  },
+  "localForkVerification": {
+    "path": "<WORKSPACE>\\AppData\\Local\\Temp\\flow07-tessera-installed-verification",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "1 suite passed, 1 test passed"
+      }
+    ],
+    "tenantConfig": {
+      "tenantId": "tessera-collective",
+      "moduleName": "fresh-trust-feed",
+      "moduleVersion": "1.0.2",
+      "repoName": "tessera-collective--fresh-trust-feed",
+      "repoFullName": "lubochka/tessera-collective--fresh-trust-feed",
+      "installedFromRepoFullName": "lubochka/northwind--fresh-trust-feed",
+      "adaptationHistoryEntries": 2
+    }
+  },
+  "liveAuth": {
+    "server": "http://localhost:33001",
+    "secretsProvider": "vault",
+    "passed": 6,
+    "total": 6,
+    "checks": [
+      {
+        "name": "tessera tenant-user /api/auth/me",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "tessera tenant-admin /api/runs/flow07-auth-probe/trace",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "missing token /api/runs/flow07-auth-probe/trace",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "wrong-role token /api/runs/flow07-auth-probe/trace",
+        "expectedStatus": 403,
+        "actualStatus": 403
+      },
+      {
+        "name": "northwind token rejected in tessera context",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token rejected in tessera context",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      }
+    ]
+  },
+  "visualEvidence": {
+    "playwrightCommand": "client npx playwright test e2e/friend-request-social-feed-tenant-c-installed.spec.ts --project=chromium-desktop --workers=1",
+    "playwrightResult": "21 passed",
+    "snapshotDirectory": "docs/e2e-snapshots/friend-request-social-feed/tenant-c-installed-from-b",
+    "snapshotPngCount": 21,
+    "smallPngCount": 0,
+    "minimumPngBytes": 30511
+  },
+  "repoEvidence": {
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/tessera-collective--fresh-trust-feed-github-listing.png",
+        "bytes": 135905
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/tessera-collective--fresh-trust-feed-repo-homepage.png",
+        "bytes": 82552
+      }
+    ],
+    "assertions": [
+      "GitHub API listing full_name is lubochka/tessera-collective--fresh-trust-feed",
+      "tenant.config.json has tenantId tessera-collective",
+      "tenant.config.json has moduleName fresh-trust-feed",
+      "tenant.config.json has repoFullName lubochka/tessera-collective--fresh-trust-feed",
+      "tenant.config.json has installedFromRepoFullName lubochka/northwind--fresh-trust-feed",
+      "tenant.config.json adaptationHistory contains Tenant A and Tenant B entries"
+    ]
+  },
+  "secretHandling": {
+    "printedTenantTokens": false,
+    "printedVaultSecrets": false,
+    "storedSecretsInDocs": false,
+    "usedClaudeSessionTokenAsEvidence": false
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-07",
+  "taskTypeId": "T79-T82",
+  "name": "flow-07-social-analytics",
+  "description": "T79 SocialNotificationDispatcher + T80 MutualConnectionCounter + T81 PrivacyGatekeeper + T82 SocialGraphAnalytics — SCHEDULED archetype. T80 full graph recompute per SocialConnectionEstablished. No stored delta increments.",
+  "archetype": "SCHEDULED",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: full-recompute-no-delta, T81 inline-only, T82 scheduled-not-event-driven"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve SCHEDULED arch pattern for T79-T82: full graph recompute, no delta increment, scheduled analytics",
+      "params": {
+        "archetype": "SCHEDULED",
+        "taskTypeRef": "T79-T82",
+        "topK": 5,
+        "patternIds": [
+          "arch--full-recompute-no-delta",
+          "arch--scheduled-analytics",
+          "privacy-gatekeeper-inline-invocation"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T79-T82 into: T79 dispatch notifications → T80 full mutual-connection recompute per event → T82 scheduled aggregation (cron)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate social-graph-analytics.service.ts — T80 full graph recompute per SocialConnectionEstablished. No stored delta increments."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: full_recompute_no_delta, t82_scheduled_cron, t81_constructor_injected_inline_only"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T79-T82 iron rules: full recompute, no stored deltas, scheduled cron"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=full-recompute-no-delta, rejected=read-increment-write. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "SocialConnectionEstablished event / @Cron schedule",
+  "primaryFabric": "DATABASE"
+}

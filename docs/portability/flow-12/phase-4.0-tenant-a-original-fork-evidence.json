@@ -1,0 +1,125 @@
+﻿{
+    "flowId":  "FLOW-12",
+    "flowSlug":  "subscription-billing",
+    "phase":  "phase4Point0TenantAOriginalFork",
+    "tenantId":  "acme-corp",
+    "recordedAt":  "2026-05-06T03:39:07.9644106+03:00",
+    "marketplaceFork":  {
+                            "endpoint":  "POST /api/marketplace/packages/subscription-billing/fork",
+                            "repoFullName":  "lubochka/acme-corp--subscription-billing",
+                            "repoUrl":  "https://github.com/lubochka/acme-corp--subscription-billing",
+                            "status":  "FORKED",
+                            "forkId":  "fork-subscription-billing-acme-corp",
+                            "initialCommitSha":  "8aded57bea72b72486aca9a0c024768d697f7eb6",
+                            "responseVerifiedFromApi":  true
+                        },
+    "repo":  {
+                 "nameWithOwner":  "lubochka/acme-corp--subscription-billing",
+                 "url":  "https://github.com/lubochka/acme-corp--subscription-billing",
+                 "defaultBranch":  "main",
+                 "visibilityAfterEvidenceCapture":  "PRIVATE",
+                 "isPrivateAfterEvidenceCapture":  true,
+                 "pushedAt":  "2026-05-06T00:31:44Z",
+                 "updatedAt":  "2026-05-06T00:36:26Z"
+             },
+    "githubActions":  {
+                          "runId":  25409970317,
+                          "name":  "XIIGen Flow CI — subscription-billing",
+                          "url":  "https://github.com/lubochka/acme-corp--subscription-billing/actions/runs/25409970317",
+                          "event":  "push",
+                          "headSha":  "8aded57bea72b72486aca9a0c024768d697f7eb6",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "createdAt":  "2026-05-06T00:31:48Z",
+                          "updatedAt":  "2026-05-06T00:32:42Z",
+                          "jobs":  [
+                                       {
+                                           "name":  "Standalone flow test — subscription-billing",
+                                           "status":  "completed",
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/acme-corp--subscription-billing/actions/runs/25409970317/job/74529294819"
+                                       }
+                                   ]
+                      },
+    "cloneVerification":  {
+                              "clonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--subscription-billing-phase40",
+                              "headSha":  "8aded57bea72b72486aca9a0c024768d697f7eb6",
+                              "npmInstall":  "passed",
+                              "tsc":  "passed",
+                              "jest":  "passed: 1 suite / 1 test",
+                              "manifestComplete":  true,
+                              "tenantConfig":  {
+                                                   "tenantId":  "acme-corp",
+                                                   "flowId":  "FLOW-12",
+                                                   "flowSlug":  "subscription-billing",
+                                                   "moduleVersion":  "1.0.0-fork",
+                                                   "adaptationHistoryCount":  0
+                                               },
+                              "requiredBundleChecks":  {
+                                                           "completeModuleBundle":  true,
+                                                           "adaptationSurface":  true,
+                                                           "functionalSpec":  true,
+                                                           "invariants":  true,
+                                                           "freedomDefaults":  true,
+                                                           "tenantConfig":  true,
+                                                           "ragSeeds":  true,
+                                                           "standalonePackage":  true
+                                                       },
+                              "freedomDefaultCount":  0,
+                              "bundleManifestFileCount":  1
+                          },
+    "localVerification":  {
+                              "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+                              "flow12Jest":  "passed: 7 suites / 78 tests",
+                              "assemblerJest":  "passed: 1 suite / 9 tests",
+                              "gitDiffCheck":  "passed",
+                              "localForkClone":  "passed: npm install --no-audit --no-fund; npx tsc --noEmit; npx jest --colors=false --forceExit"
+                          },
+    "screenshots":  [
+                        {
+                            "kind":  "repo",
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-12/phase-4.0-tenant-a-repo.png",
+                            "exists":  true,
+                            "bytes":  120480
+                        },
+                        {
+                            "kind":  "actions-run",
+                            "path":  "docs/e2e-snapshots/repo-evidence/flow-12/phase-4.0-tenant-a-actions-run.png",
+                            "exists":  true,
+                            "bytes":  69700
+                        }
+                    ],
+    "phaseCloseScans":  {
+                            "flowSourceThrowScan":  0,
+                            "flowServicesMissingMicroserviceBaseScan":  0,
+                            "clsImportScan":  0,
+                            "directTenantContextImportScan":  0,
+                            "secretMaterialWrittenToEvidence":  false,
+                            "note":  "TenantContextLookup identifier references are portable local interfaces and are not direct nestjs-cls imports."
+                        },
+    "secretHandling":  {
+                           "githubTokenPrinted":  false,
+                           "tenantJwtPrinted":  false,
+                           "vaultSigningKeyPrinted":  false,
+                           "repoMadePublicOnlyForScreenshotCapture":  true,
+                           "repoRestoredPrivateAfterEvidenceCapture":  true
+                       },
+    "commands":  [
+                     "POST /api/marketplace/packages/subscription-billing/fork returned FORKED for lubochka/acme-corp--subscription-billing",
+                     "gh run view 25409970317 confirmed GitHub Actions conclusion success",
+                     "gh repo clone lubochka/acme-corp--subscription-billing C:\\Projects\\xiigen-fork-clones\\acme-corp--subscription-billing-phase40",
+                     "npm install --no-audit --no-fund in cloned fork",
+                     "npx tsc --noEmit in cloned fork",
+                     "npx jest --colors=false --forceExit in cloned fork",
+                     "temporary public visibility for browser screenshots, then restored PRIVATE",
+                     "server npx tsc --noEmit -p tsconfig.json --pretty false",
+                     "server npx jest --testPathPatterns=subscription-billing --runInBand --colors=false",
+                     "server npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false",
+                     "git diff --check"
+                 ],
+    "notes":  [
+                  "The fork repo was made public only for real browser screenshot capture and restored to PRIVATE afterward.",
+                  "The GitHub Actions job used the generated standalone fork package and completed successfully.",
+                  "No GitHub token, Vault token, signing key, or JWT material is written to this evidence file."
+              ]
+}

@@ -1,0 +1,22 @@
+{
+  "patternId": "SCHEMA-VERSION-PIN-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-11",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "VALIDATION",
+  "tags": ["schema-version-pin", "validation", "schema-evolution", "versioning"],
+  "keywords": "schema version pin validation drift generated document schemaVersion field pinned historical correct",
+  "ironRules": [
+    "Every generated document stores the schemaVersion it was validated against at creation time",
+    "Validate document against its pinned schemaVersion field — never against getCurrentVersion()",
+    "A BREAKING schema change must not invalidate documents that were correct at their creation time"
+  ],
+  "codeSnippet": "// CORRECT: validate against pinned version\nconst schemaVersion = document.schemaVersion; // pinned at generation\nconst schema = await schemaRegistry.getSchema(schemaType, schemaVersion);\nconst result = validator.validate(document, schema);\n// WRONG: getCurrentSchema() breaks on BREAKING change",
+  "appliesTo": ["FLOW-12", "FLOW-13", "FLOW-14", "FLOW-19"],
+  "curriculumTier": 1,
+  "qualityScore": 0.93,
+  "sourceDocument": "FLOW-11-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

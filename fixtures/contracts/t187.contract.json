@@ -1,0 +1,36 @@
+{
+  "taskTypeId": "T187",
+  "flowId": "FLOW-13",
+  "name": "QuotaManager",
+  "archetype": "QUERY_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "inline-service-no-factory-injection",
+    "tier": "INLINE",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "data_warehouse_quota_limits",
+    "neutralConcepts": [
+      "T187 is an INLINE SERVICE — no factory ID. F426 does NOT exist.",
+      "T187 instantiated directly in T173 QueryExecutionEngine constructor",
+      "quota check runs BEFORE warehouse read (T173 gate layer 1)",
+      "recordUsage() called AFTER successful query execution only"
+    ]
+  },
+  "factories": [],
+  "ironRules": [
+    { "id": "IR-T187-1", "rule": "T187 is an INLINE SERVICE — no factory ID. F426 does NOT exist. Never @Inject() T187. Injecting T187 as a factory is a BUILD_FAILURE.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T187-2", "rule": "T187 QuotaManager must be instantiated directly in T173 QueryExecutionEngine constructor — not via DI, not via factory.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T187-3", "rule": "quota check must run BEFORE warehouse read (T173 gate layer 1). Quota check after warehouse read defeats the purpose of quota enforcement.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T187-4", "rule": "recordUsage() called AFTER successful query execution only. Do not record usage for failed or quota-denied queries.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "inline_service_not_injected",
+    "f426_does_not_exist",
+    "quota_before_warehouse_read",
+    "record_usage_after_success"
+  ],
+  "bfaRules": [],
+  "tags": ["query", "quota", "inline", "gate", "QUERY_ENGINE"],
+  "keywords": "quota manager inline service no factory injection F426 does not exist T173 constructor gate layer 1 record usage warehouse analytics"
+}

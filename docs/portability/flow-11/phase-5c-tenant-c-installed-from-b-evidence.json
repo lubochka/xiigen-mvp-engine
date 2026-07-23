@@ -1,0 +1,212 @@
+{
+  "flowId": "FLOW-11",
+  "flowSlug": "schema-registry-dag",
+  "phase": "phase5cTenantCInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-06T02:13:31.3712331+03:00",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "role": "Tenant C",
+    "installedFromTenant": "northwind",
+    "installedFromRepoFullName": "lubochka/northwind--northwind-schema-lineage-dag",
+    "packageName": "@xiigen-fork/northwind-schema-lineage-dag",
+    "packageVersion": "1.0.2",
+    "localRegistry": "http://localhost:4873"
+  },
+  "marketplaceForkApi": {
+    "method": "POST",
+    "path": "/api/marketplace/packages/northwind-schema-lineage-dag/fork",
+    "serverBaseUrl": "http://localhost:33001",
+    "targetTenant": "tessera-collective",
+    "auth": "Tenant-scoped tessera-collective tenant-admin JWT minted from Vault signing key; token value not stored in evidence.",
+    "request": {
+      "flowId": "FLOW-11",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.2",
+      "repoNameOverride": "tessera-collective--northwind-schema-lineage-dag",
+      "sourceRepoFullName": "lubochka/northwind--northwind-schema-lineage-dag"
+    },
+    "result": {
+      "forkId": "fork-northwind-schema-lineage-dag-tessera-collective",
+      "repoFullName": "lubochka/tessera-collective--northwind-schema-lineage-dag",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-schema-lineage-dag",
+      "status": "FORKED",
+      "initialCommitSha": "cc862ed3223d03fc9a832dc30531e047553215e5"
+    }
+  },
+  "localRegistryVerification": {
+    "command": "npm view @xiigen-fork/northwind-schema-lineage-dag version --registry http://localhost:4873",
+    "expectedVersion": "1.0.2",
+    "actualVersion": "1.0.2"
+  },
+  "repository": {
+    "fullName": "lubochka/tessera-collective--northwind-schema-lineage-dag",
+    "htmlUrl": "https://github.com/lubochka/tessera-collective--northwind-schema-lineage-dag",
+    "defaultBranch": "main",
+    "privateAfterEvidenceCapture": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "localClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-schema-lineage-dag",
+    "localRemote": "https://github.com/lubochka/tessera-collective--northwind-schema-lineage-dag.git"
+  },
+  "initialCi": {
+    "runId": 25407110216,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "cc862ed3223d03fc9a832dc30531e047553215e5",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-schema-lineage-dag/actions/runs/25407110216",
+    "rootCause": "Inherited Northwind adaptation test asserted tenantId northwind after cascade fork correctly rewrote tenant.config.json for tessera-collective."
+  },
+  "repairCommit": {
+    "sha": "7185f6c159e492a66ab76c577a13de9c6a2ca3fa",
+    "message": "Make Northwind schema install test Tessera-safe",
+    "changedFiles": [
+      "__tests__/schema-registry-dag-acme-adaptation.spec.ts",
+      "settings/module.settings.json"
+    ],
+    "fix": "Assert Tessera install identity and repository metadata while preserving Acme and Northwind adaptation history records and Northwind FREEDOM values.",
+    "tenantConfigAssertions": {
+      "tenantId": "tessera-collective",
+      "flowId": "FLOW-11",
+      "flowSlug": "northwind-schema-lineage-dag",
+      "moduleName": "northwind-schema-lineage-dag",
+      "moduleVersion": "1.0.2",
+      "packageName": "@xiigen-fork/northwind-schema-lineage-dag",
+      "repoName": "tessera-collective--northwind-schema-lineage-dag",
+      "repoFullName": "lubochka/tessera-collective--northwind-schema-lineage-dag",
+      "installedFromRepoFullName": "lubochka/northwind--northwind-schema-lineage-dag",
+      "adaptationHistoryEntries": 2,
+      "adaptationHistoryTenants": [
+        "acme-corp",
+        "northwind"
+      ]
+    }
+  },
+  "githubActions": {
+    "runId": 25407228319,
+    "jobId": 74520869477,
+    "workflowName": "XIIGen Flow CI - schema-registry-dag",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "7185f6c159e492a66ab76c577a13de9c6a2ca3fa",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-schema-lineage-dag/actions/runs/25407228319",
+    "createdAt": "2026-05-05T23:08:03Z",
+    "updatedAt": "2026-05-05T23:08:59Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-schema-lineage-dag",
+    "initialHeadSha": "cc862ed3223d03fc9a832dc30531e047553215e5",
+    "headSha": "7185f6c159e492a66ab76c577a13de9c6a2ca3fa",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "exitCode": 0,
+        "notes": "Completed with dependency warnings only."
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 5 tests passed"
+      }
+    ],
+    "workingTreeCleanAfterRepair": true
+  },
+  "visualEvidence": {
+    "tenantInstalledMatrix": {
+      "path": "docs/e2e-snapshots/schema-registry-dag/tenant-c-installed-from-b",
+      "expected": 3,
+      "actual": 3,
+      "zeroByte": 0,
+      "minBytes": 28785,
+      "maxBytes": 47972,
+      "roles": [
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "cells": [
+        "schema-registry",
+        "schema-submission",
+        "dag-visualization"
+      ]
+    },
+    "repoScreenshots": {
+      "repoListing": {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-11/tessera-collective--northwind-schema-lineage-dag-github-listing.png",
+        "bytes": 139410,
+        "captureMode": "GitHub web UI while temporarily public"
+      },
+      "actionsSuccess": {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-11/tessera-collective--northwind-schema-lineage-dag-actions-success.png",
+        "bytes": 79487,
+        "captureMode": "GitHub web UI while temporarily public"
+      },
+      "repoVisibilityRestoredToPrivate": true
+    },
+    "cascadeScreenshots": [
+      {
+        "path": "docs/e2e-snapshots/schema-registry-dag/tenant-c-installed-from-b/01-tessera-schema-registry.png",
+        "bytes": 47972
+      },
+      {
+        "path": "docs/e2e-snapshots/schema-registry-dag/tenant-c-installed-from-b/02-tessera-schema-submission.png",
+        "bytes": 28785
+      },
+      {
+        "path": "docs/e2e-snapshots/schema-registry-dag/tenant-c-installed-from-b/03-tessera-dag-visualization.png",
+        "bytes": 44112
+      }
+    ]
+  },
+  "mainRepoVerification": {
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "result": "passed"
+    },
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 12,
+      "tests": 105
+    },
+    "phaseCloseScans": {
+      "flowFileCount": 20,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "unscopedFreedomReads": 0,
+      "directSdkImports": 0,
+      "productionAnyTypes": 0
+    }
+  },
+  "secretHandling": {
+    "committedEnvFiles": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCInstalledTenantBPackage": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryReturnsTenantBVersion": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCAdaptation": true
+  },
+  "verdict": "PASS"
+}

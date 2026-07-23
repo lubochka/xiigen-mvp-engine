@@ -1,0 +1,11 @@
+{
+  "eventType": "ConnectionSuggestionsReady",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T51-B2 (connection-suggestion.service.ts)",
+  "consumers": ["T52-C"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "feedId", "suggestionCount", "partialResults", "readyAt"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges", "matchedBusinessIds"],
+  "notes": "Entry event for T52. Triggers NODE C personalization assembly. partialResults forwarded — NODE C must handle partial upstream gracefully with independent fallbacks for each absent signal."
+}

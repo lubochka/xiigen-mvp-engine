@@ -1,0 +1,11 @@
+{
+  "eventType": "SocialShareApproved",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "social-share-gate",
+  "consumers": ["T91"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "approvedAnswers", "approvedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T90 when privacy=public. T91 triggers ONLY on this event — never on QuestionnaireAnswered. This is the sole entry to Branch C social processing."
+}

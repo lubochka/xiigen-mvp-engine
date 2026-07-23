@@ -1,0 +1,6 @@
+{
+  "no_keys_configured": "No AI provider keys configured. Flows will use mock AI only.",
+  "missing_keys": "Missing provider keys: {{list}}. Training data will use fallback calibration until real keys are configured.",
+  "configure_keys": "Configure keys",
+  "dismiss": "Dismiss banner"
+}

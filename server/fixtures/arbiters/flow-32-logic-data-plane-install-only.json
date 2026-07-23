@@ -1,0 +1,30 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-32-logic_data_plane_install_only",
+  "checkId": "logic_data_plane_install_only",
+  "flowId": "FLOW-32",
+  "bfaRule": "CF-718",
+  "severity": "score-zero",
+  "description": "T522 marketplace install must transfer logic artifacts only. Data copy operations violate DD-323 and risk tenant data leakage.",
+  "taskTypeIds": ["T522"],
+  "scanFor": {
+    "banned": [
+      "copyDocuments",
+      "migrateData",
+      "copyEmbeddings",
+      "transferDocuments",
+      "bulkCopyIndex",
+      "indexMigration",
+      "copyIndex",
+      "replicateData",
+      "cloneIndex",
+      "syncDocuments"
+    ],
+    "anyPresent": "FAIL",
+    "caseSensitive": false
+  },
+  "onFailure": "score-0",
+  "ddRef": "DD-323",
+  "failureMessage": "DD-323 violation: data copy operation detected in T522 install. Logic transfer only (DAG, prompts, config, factory bindings).",
+  "active": true
+}

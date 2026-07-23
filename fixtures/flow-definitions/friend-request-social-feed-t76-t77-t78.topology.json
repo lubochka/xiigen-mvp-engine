@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-07",
+  "taskTypeId": "T76-T77-T78",
+  "name": "flow-07-feed-pipeline",
+  "description": "T76 FeedItemGenerator + T77 FeedScorer + T78 FeedDeliveryOrchestrator — DATA_PIPELINE archetype. T77 score=0 passthrough: score node never drops items. T78 calls T81 independently of T76 result.",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: score-passthrough-no-drop, T78 independent-of-T76, T81 inline in T78"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch pattern for T76-T77-T78: score passthrough, independent delivery gate",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T76-T77-T78",
+        "topK": 5,
+        "patternIds": [
+          "arch--score-passthrough-no-drop",
+          "arch--independent-delivery-gate",
+          "privacy-gatekeeper-inline-invocation"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T76-T77-T78 into: T76 generate feed items → T77 score all (never drop, score=0 is valid) → T78 call T81 independently → deliver"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate feed-item-generator.service.ts — T77 score=0 passthrough: score node never drops items. T78 calls T81 independently of T76 result."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: score_passthrough_no_drop, t78_independent_of_t76_result, t81_inline_in_t78"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T76-T77-T78 iron rules: passthrough scoring, independent gate, inline privacy"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=score-passthrough-independent-gate, rejected=filter-at-score-node. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "ConnectionEstablished event → FeedRefreshRequested",
+  "primaryFabric": "QUEUE"
+}

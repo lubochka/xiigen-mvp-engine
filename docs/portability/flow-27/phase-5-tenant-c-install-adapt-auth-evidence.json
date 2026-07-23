@@ -1,0 +1,244 @@
+{
+  "flowId": "FLOW-27",
+  "flowSlug": "human-interaction-gate",
+  "phase": "phase-5-tenant-c-install-adapt-auth",
+  "status": "completed",
+  "generatedAt": "2026-05-10T17:15:53.737Z",
+  "tenant": "tessera-collective",
+  "sourceTenant": "northwind",
+  "sourceRepoFullName": "lubochka/northwind--acme-approval-ops",
+  "fork": {
+    "forkId": "fork-northwind-review-router-tessera-collective",
+    "repoFullName": "lubochka/tessera-collective--northwind-review-router",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-review-router",
+    "initialCommitSha": "1a7def4939307cd9050a8e51055717a7a77d17c3",
+    "method": "POST",
+    "url": "http://localhost:3000/api/marketplace/packages/northwind-review-router/fork",
+    "repoNameOverride": "tessera-collective--northwind-review-router",
+    "usedMarketplaceApi": true,
+    "manualRepoCreation": false,
+    "syntheticRepo": false
+  },
+  "initialForkCi": {
+    "runId": 25634640679,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "1a7def4939307cd9050a8e51055717a7a77d17c3",
+    "failureCause": "Inherited Northwind adaptation test hard-coded tenantId northwind after the fork engine correctly rewrote tenant.config.json to tessera-collective.",
+    "repair": "Updated inherited Acme and Northwind tests to validate preserved cascade history instead of hard-coding the current tenant, then added the Tessera adaptation test."
+  },
+  "adaptation": {
+    "changeType": "Type A (bounded FREEDOM key value change)",
+    "moduleName": "tessera-human-gate-studio",
+    "packageName": "@xiigen-fork/tessera-human-gate-studio",
+    "packageVersion": "1.0.3",
+    "sourcePackageName": "@xiigen-fork/northwind-review-router",
+    "sourcePackageVersion": "1.0.2",
+    "plainLanguagePolicy": "Tessera human gate studio policy: longer approval lifetime, 12-hour timeout escalation, four-reviewer parallel threshold, four-level delegation, 180-day studio scheduling horizon, six-hour SLA display, and Tessera-specific human gate topics and queue naming.",
+    "freedomChanges": [
+      {
+        "key": "flow27_approval_request_ttl_hours",
+        "from": 96,
+        "to": 120
+      },
+      {
+        "key": "flow27_timeout_threshold_hours",
+        "from": 16,
+        "to": 12
+      },
+      {
+        "key": "flow27_parallel_threshold",
+        "from": 5,
+        "to": 4
+      },
+      {
+        "key": "flow27_max_delegation_depth",
+        "from": 3,
+        "to": 4
+      },
+      {
+        "key": "flow27_max_schedule_horizon_days",
+        "from": 120,
+        "to": 180
+      },
+      {
+        "key": "flow27_sla_threshold_hours",
+        "from": 12,
+        "to": 6
+      },
+      {
+        "key": "flow27_reviewer_notification_topic",
+        "from": "northwind.review.requested",
+        "to": "tessera.human.gate.requested"
+      },
+      {
+        "key": "flow27_escalation_group",
+        "from": "northwind-ops-escalation",
+        "to": "tessera-review-studio"
+      },
+      {
+        "key": "flow27_review_queue_label",
+        "from": "Northwind operations review",
+        "to": "Tessera human gate studio"
+      },
+      {
+        "key": "flow27_module_name",
+        "from": "northwind-review-router",
+        "to": "tessera-human-gate-studio"
+      }
+    ],
+    "adaptationHistoryEntries": 3,
+    "adaptationHistory": [
+      {
+        "adaptedBy": "acme-corp",
+        "version": "1.0.1",
+        "moduleName": "acme-approval-ops"
+      },
+      {
+        "adaptedBy": "northwind",
+        "version": "1.0.2",
+        "moduleName": "northwind-review-router"
+      },
+      {
+        "adaptedBy": "tessera-collective",
+        "version": "1.0.3",
+        "moduleName": "tessera-human-gate-studio"
+      }
+    ]
+  },
+  "tenantRepository": {
+    "repoFullName": "lubochka/tessera-collective--northwind-review-router",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-review-router",
+    "adaptedCommitSha": "31d0cc874430b943a83083e35e0a281e2f62bb7a",
+    "defaultBranch": "main",
+    "clonePath": "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-review-router-phase5-20260510-200557",
+    "workingTreeClean": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/human-interaction-gate-acme-adaptation.spec.ts",
+      "__tests__/human-interaction-gate-northwind-adaptation.spec.ts",
+      "__tests__/human-interaction-gate-tessera-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - human-interaction-gate",
+    "runId": 25634727151,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "31d0cc874430b943a83083e35e0a281e2f62bb7a",
+    "createdAt": "2026-05-10T17:10:00Z",
+    "updatedAt": "2026-05-10T17:10:40Z",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-review-router/actions/runs/25634727151"
+  },
+  "tenantCloneVerification": {
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "installExit": 0,
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 4,
+      "jestSuitesTotal": 4,
+      "jestTestsPassed": 8,
+      "jestTestsTotal": 8,
+      "packDryRunExit": 0,
+      "packEntryCount": 121
+    }
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/tessera-human-gate-studio",
+    "publishedVersion": "1.0.3",
+    "viewCommand": "npm view @xiigen-fork/tessera-human-gate-studio version --registry http://localhost:4873",
+    "viewReturned": "1.0.3",
+    "tarball": "http://localhost:4873/@xiigen-fork/tessera-human-gate-studio/-/tessera-human-gate-studio-1.0.3.tgz",
+    "verified": true
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-27",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-c-v1.0.3-github-listing.png",
+        "bytes": 135495
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-c-v1.0.3-actions-success.png",
+        "bytes": 78775
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-c-v1.0.3-package-json.png",
+        "bytes": 115538
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-10T17:11:47.2173995Z",
+    "serverBaseUrl": "http://localhost:3000",
+    "path": "/api/runs/phase5-tenant-c-adaptation-auth-probe/trace",
+    "passed": 12,
+    "total": 12,
+    "failed": 0,
+    "allPassed": true
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "result": "passed",
+      "exitCode": 0
+    },
+    "serverJest": {
+      "result": "passed",
+      "suites": 14,
+      "tests": 207
+    },
+    "clientTypeScript": {
+      "result": "passed",
+      "exitCode": 0
+    },
+    "flowScans": {
+      "sourceFlowFileCount": 10,
+      "adaptedFlowFileCount": 10,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "failureLines": 0
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeysPrinted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCInstalledFromTenantB": true,
+    "tenantCAdaptedFlow": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForAuthDecoration": true
+  },
+  "verdict": "PASS"
+}

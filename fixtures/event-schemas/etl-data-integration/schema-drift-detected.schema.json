@@ -1,0 +1,14 @@
+{
+  "eventType": "etl.schema.drift.detected",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "connectorId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "driftScore": { "type": "number", "minimum": 0, "maximum": 1, "required": true },
+    "threshold": { "type": "number", "required": true },
+    "addedFields": { "type": "array", "items": { "type": "string" }, "required": true },
+    "removedFields": { "type": "array", "items": { "type": "string" }, "required": true },
+    "typeChanges": { "type": "array", "items": { "type": "string" }, "required": true }
+  }
+}

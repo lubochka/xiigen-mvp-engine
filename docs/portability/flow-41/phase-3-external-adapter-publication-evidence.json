@@ -1,0 +1,18 @@
+{
+    "flowId":  "FLOW-41",
+    "flowSlug":  "canva-text-adapter",
+    "phase":  "phase-3-external-adapter-publication",
+    "status":  "completed-for-sprint-a",
+    "generatedAt":  "2026-05-12T00:16:43.1519452Z",
+    "protocolException":  "FLOW-41 is classified by PER-FLOW-FIX-MAP-v2.9 as external repository adapter with no monorepo service files. Sprint A proves ADAPTATION registration, plugin SDK/package publication, STEP-1 in package, independent tests, Docker/Vault auth, and UI role evidence. Full three-tenant cascade remains Sprint B after package signing first pass/platform cascade infrastructure.",
+    "localRegistry":  {
+                          "readback":  "1.0.1",
+                          "url":  "http://localhost:4873",
+                          "version":  "1.0.1",
+                          "package":  "@xiigen/canva-text-elements-adapter"
+                      },
+    "tenantRepos":  [
+
+                    ],
+    "verdict":  "PASS"
+}

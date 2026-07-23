@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T205",
+  "name": "schema-registry-dag-schema-validation-service",
+  "description": "T205 SchemaValidationService — VALIDATION archetype. Validates documents against their PINNED schemaVersion (from document.schemaVersion field). NEVER validates against current/latest schema version.",
+  "archetype": "VALIDATION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: reads document.schemaVersion field, validates against pinned version only, NEVER uses current schema, returns ValidationResult"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve VALIDATION arch pattern + pinned-version-validation + schema-version-pin + document-validation patterns for T205",
+      "params": {
+        "archetype": "VALIDATION",
+        "taskTypeRef": "T205",
+        "topK": 5,
+        "patternIds": [
+          "pinned-version-validation-001",
+          "schema-version-pin-001",
+          "document-validation-001",
+          "version-field-read-001",
+          "validation-result-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T205 into: receive document → read document.schemaVersion field → fail if schemaVersion absent → load pinned schema by schemaId+version → validate document fields against pinned schema → return ValidationResult"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-validation-service.service.ts — validates incoming documents by reading document.schemaVersion field (required), loads the PINNED schema at that exact version from DATABASE, validates document fields. MISSING_SCHEMA_VERSION error if field absent. NEVER resolves to latest or current schema version. Returns ValidationResult with field-level errors."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: reads_document_schema_version_field, rejects_missing_schema_version, loads_pinned_schema_version, never_loads_latest, field_level_validation_errors"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T205 iron rules: pinned version from document field, no latest resolution, field-level errors, missing version rejection"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=reads-document-schemaVersion+loads-pinned+field-level-errors, rejected=resolves-to-latest-schema OR validates-without-version-field OR no-missing-version-error. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "HTTP POST or queue consumer",
+  "primaryFabric": "DATABASE"
+}

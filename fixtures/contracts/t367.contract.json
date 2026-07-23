@@ -1,0 +1,27 @@
+{
+  "taskTypeId": "T367",
+  "flowId": "FLOW-24",
+  "name": "ConsentAndEnrollmentGate",
+  "archetype": "ORCHESTRATION",
+  "domainId": "ai-safety-moderation",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "consent-gate-blocks-all-downstream",
+    "tier": "GATING",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": null,
+    "neutralConcepts": [
+      "CONSENT_GATE entry written for ALL outcomes: GRANTED, DENIED, PENDING, WITHDRAWN",
+      "T368–T374 blocked unless CONSENT_GATE outcome is GRANTED",
+      "Missing CONSENT_GATE entry = fail-closed (treated as DENIED)",
+      "output: { gateId, outcome, timestamp }"
+    ]
+  },
+  "ironRules": [
+    { "id": "IR-367-1", "rule": "CF-461: Must write CONSENT_GATE entry for ALL outcomes", "severity": "BUILD_FAILURE" },
+    { "id": "IR-367-2", "rule": "storeDocument BEFORE emit. Fail-closed: missing entry = DENIED", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": ["consent_blocks_all_downstream"],
+  "bfaRules": ["CF-24-1"],
+  "tags": ["consent-gate", "orchestration", "FLOW-24"]
+}

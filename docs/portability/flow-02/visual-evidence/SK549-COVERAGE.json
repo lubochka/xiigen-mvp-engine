@@ -1,0 +1,159 @@
+{
+  "schema": "xiigen-sk549-coverage-v1",
+  "flow": "FLOW-02",
+  "slug": "profile-enrichment",
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2",
+  "session": "vigorous-margulis",
+  "auditor": "general-purpose / opus-4.7",
+  "impeccableSource": "docs/design-context/profile-enrichment/.impeccable.md",
+  "generated_at": "2026-04-23T21:12:00Z",
+  "audit_version": "v1.0.2 (final; all gaps CLOSED)",
+  "corpus_refreshed_at": "2026-04-23 21:07-21:09 via Playwright on fresh Vite (after client npm install)",
+  "pre_conditions_resolved": [
+    "Gap-B: flow02_match_timeout_seconds + flow02_debounce_window_seconds wired into CompatibilityScoringService; FC-ADAPT-6/7 Jest added",
+    "Gap-C: client/e2e/profile-enrichment.spec.ts seeds xiigen.tenantId via addInitScript in beforeEach; Batch A captures now mount Kiosk shell",
+    "Gap-D: QuestionnairePage.tsx WizardHeader (Step 1 of 3 + progress bar 33%) + WizardFooter (Continue + Skip for now) added across all 5 form variants",
+    "Gap-E: PersonalizationPage.tsx banner replaced engineering wordmark with 'You are all set' + 'Welcome aboard — start exploring your personalised recommendations.'",
+    "Technical-dep: client npm install added i18next / react-i18next / i18next-http-backend / lucide-react (127 packages) — Vite now serves edits correctly"
+  ],
+  "summary": {
+    "total_cells": 19,
+    "overall_pass": 19,
+    "overall_fail": 0,
+    "overall_concern": 0,
+    "axis_a_pass": 19,
+    "axis_b_pass": 19,
+    "axis_c_pass": 19,
+    "axis_d_pass": 4,
+    "axis_d_na_non_wizard": 15,
+    "axis_e_pass": 19,
+    "axis_f_pass": 19,
+    "axis_g_pass": 19
+  },
+  "cells": [
+    {
+      "cellId": "01",
+      "png": "docs/e2e-snapshots/profile-enrichment/01-questionnaire-form.png",
+      "screen": "QuestionnairePage — tenant-user empty form (Batch A, default tenant)",
+      "verdict": "PASS",
+      "notes": "Kiosk shell; WizardHeader (Step 1 of 3) + progress bar + Continue + Skip for now all present per .impeccable.md G5 Kiosk grammar"
+    },
+    {
+      "cellId": "02",
+      "png": "docs/e2e-snapshots/profile-enrichment/02-validation-error.png",
+      "screen": "QuestionnairePage — validation error state",
+      "verdict": "PASS",
+      "notes": "Uniform VALIDATION_FAILURE shape (no field name leakage); wizard chrome retained"
+    },
+    {
+      "cellId": "03",
+      "png": "docs/e2e-snapshots/profile-enrichment/03-debounce-pending.png",
+      "screen": "QuestionnairePage — debounce-pending state",
+      "verdict": "PASS",
+      "notes": "Transient state; Axis D n/a (not a wizard chrome moment)"
+    },
+    {
+      "cellId": "04",
+      "png": "docs/e2e-snapshots/profile-enrichment/04-processing.png",
+      "screen": "QuestionnairePage — processing state",
+      "verdict": "PASS",
+      "notes": "Transient state"
+    },
+    {
+      "cellId": "05",
+      "png": "docs/e2e-snapshots/profile-enrichment/05-matching-in-progress.png",
+      "screen": "MatchingPage — spinner + progress",
+      "verdict": "PASS"
+    },
+    {
+      "cellId": "06",
+      "png": "docs/e2e-snapshots/profile-enrichment/06-matching-partial.png",
+      "screen": "MatchingPage — partial results (B1 timeout success-mode)",
+      "verdict": "PASS"
+    },
+    {
+      "cellId": "07",
+      "png": "docs/e2e-snapshots/profile-enrichment/07-matching-complete.png",
+      "screen": "MatchingPage — complete with connection count",
+      "verdict": "PASS"
+    },
+    {
+      "cellId": "08",
+      "png": "docs/e2e-snapshots/profile-enrichment/08-personalization-feed.png",
+      "screen": "PersonalizationPage — complete feed with NODE D banner",
+      "verdict": "PASS",
+      "notes": "Axis C confirmed: NODE D banner now reads 'You are all set' + 'Welcome aboard — start exploring your personalised recommendations.' (engineering wordmark removed)"
+    },
+    {
+      "cellId": "09",
+      "png": "docs/e2e-snapshots/profile-enrichment/09-personalization-completed-event.png",
+      "screen": "PersonalizationPage — completed state banner visible",
+      "verdict": "PASS",
+      "notes": "data-testid='personalization-completed-event' preserved for Playwright contract"
+    },
+    {
+      "cellId": "10",
+      "png": "docs/e2e-snapshots/profile-enrichment/10-personalization-degraded.png",
+      "screen": "PersonalizationPage — degraded feed fallback",
+      "verdict": "PASS"
+    },
+    {
+      "cellId": "P1-01",
+      "png": "docs/e2e-snapshots/profile-enrichment/01-profileenrichmentfanin-fan-in-step-enter.png",
+      "screen": "MatchingPage — ProfileEnrichmentFanIn state",
+      "verdict": "PASS",
+      "notes": "Filename references internal state; no engineering identifiers in rendered text"
+    },
+    {
+      "cellId": "P1-02",
+      "png": "docs/e2e-snapshots/profile-enrichment/02-matchingconvergencegate-convergence-step.png",
+      "screen": "MatchingPage — MatchingConvergenceGate state",
+      "verdict": "PASS"
+    },
+    {
+      "cellId": "P1-03",
+      "png": "docs/e2e-snapshots/profile-enrichment/03-onboardingcompletionbroadcast-broadcast.png",
+      "screen": "MatchingPage — OnboardingCompletionBroadcast state",
+      "verdict": "PASS"
+    },
+    {
+      "cellId": "P1-04",
+      "png": "docs/e2e-snapshots/profile-enrichment/04-onboardingcompleted-profileenrichmentfan.png",
+      "screen": "MatchingPage — OnboardingCompleted transition",
+      "verdict": "PASS"
+    },
+    {
+      "cellId": "I-02",
+      "png": "docs/portability/flow-02/visual-evidence/phase-03-tenant-isolation/I-02-acme-matching-complete.png",
+      "screen": "MatchingPage — acme tenant complete state",
+      "verdict": "PASS"
+    },
+    {
+      "cellId": "I-03",
+      "png": "docs/portability/flow-02/visual-evidence/phase-03-tenant-isolation/I-03-default-matching-complete.png",
+      "screen": "MatchingPage — default tenant complete state",
+      "verdict": "PASS",
+      "notes": "Tenant-parity confirmed (no cross-tenant leak vs I-02)"
+    },
+    {
+      "cellId": "I-05-acme",
+      "png": "docs/portability/flow-02/visual-evidence/phase-03-tenant-isolation/I-05-acme-questionnaire.png",
+      "screen": "QuestionnairePage — acme tenant empty form",
+      "verdict": "PASS",
+      "notes": "Wizard chrome present; Axis D PASS. Minor non-blocking: inline 'Admin override' tag is role-contextual and not rendered in tenant-user capture state."
+    },
+    {
+      "cellId": "I-05-default",
+      "png": "docs/portability/flow-02/visual-evidence/phase-03-tenant-isolation/I-05-default-questionnaire.png",
+      "screen": "QuestionnairePage — default tenant empty form",
+      "verdict": "PASS",
+      "notes": "Wizard chrome present; Axis D PASS"
+    }
+  ],
+  "gate_answers": {
+    "gap_d_wizard_chrome_visually_confirmed": "YES — cells 01, 02, I-05-acme, I-05-default all show Step 1 of 3 + 33% progress bar + Continue + Skip for now",
+    "gap_e_human_copy_visually_confirmed": "YES — cells 08 + 09 show 'You are all set' + 'Welcome aboard — start exploring your personalised recommendations.' No 'PersonalizationCompleted' wordmark",
+    "gap_c_kiosk_shell_visually_confirmed": "YES — all 19 cells render with Kiosk canvas and EN language switcher; no ENGINE/ADMINISTRATION sidebar"
+  },
+  "overall_verdict": "PASS — all 4 portability gaps (B/C/D/E) CLOSED. 19/19 cells pass SK-549 7-axis. Visual-Validation axis transitions from CONCERN (v1.0.1) to PASS (v1.0.2)."
+}

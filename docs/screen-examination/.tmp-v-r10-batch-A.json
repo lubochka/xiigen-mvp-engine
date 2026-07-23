@@ -1,0 +1,21 @@
+{
+  "batch_id": "V-R10-A",
+  "captured_after": "RUN-173 (cdcf739d)",
+  "flows": [
+    {"slug":"adaptive-rag-deep-research","prior":"PASS","new":"PASS","fixes":{"p4_2":true,"p4_5":true,"p4_6":true},"delta":0},
+    {"slug":"ads-platform","prior":"CONCERN","new":"CONCERN","fixes":{"p0_3":true,"p4_5":true,"p4_6":false},"delta":+6,"issue":"RAW ADS-PLATFORM INDEX (ADMIN DEBUG) accordion visible on ALL roles (anon/tenant-user/admin/support/business-partner) on primary route. Anonymous + unauthenticated visitors see admin debug surface — highest priority P4-6 leak"},
+    {"slug":"ai-safety-moderation","prior":"PASS","new":"CONCERN","fixes":{"p0_3":true,"p4_5":true,"p4_6":false},"delta":+3,"issue":"REGRESSION: RAW MODERATION INDEX (ADMIN DEBUG) visible on platform-admin primary across 3 viewports. Was un-flagged in R172"},
+    {"slug":"bfa-cross-flow-governance","prior":"PASS","new":"CONCERN","fixes":{"p4_5":true,"p4_6":false},"delta":+3,"issue":"REGRESSION: RAW GOVERNANCE INDEX (ADMIN DEBUG) visible on platform-admin primary across 3 viewports. FLOW-41..45 in conflict-scan table = legitimate data, not badges"},
+    {"slug":"blog-cms-modules","prior":"CONCERN","new":"PASS","fixes":{"p0_3":true,"p4_5":true,"p4_6":true},"delta":-3,"notes":"populated-anonymous now shows redaction copy 'Additional technical details only visible to administrators'"},
+    {"slug":"bundle-activation","prior":"CONCERN","new":"CONCERN","fixes":{"p4_2":"partial","p4_5":false,"p4_6":true},"delta":+3,"issue":"populated route fixed; active/failed MOCK_STATES routes still show FLOW-00 + amber banner. Capture-harness gap: hideChrome=1 not applied to MOCK_STATES variants"},
+    {"slug":"client-push","prior":"PASS","new":"PASS","fixes":{"p4_5":true,"p4_6":true},"delta":0}
+  ],
+  "batch_systemic_observations": [
+    "P0-3 BusinessStateCard redaction VERIFIED on ads-platform, ai-safety-moderation, blog-cms-modules populated-anonymous captures",
+    "P4-2 FLOW-NN: adaptive-rag clean; bundle-activation populated clean BUT active/failed MOCK_STATES still leak FLOW-00",
+    "P4-5 banner: hideChrome=1 path works for primary/populated; FAILS for MOCK_STATES routes (capture-harness gap)",
+    "P4-6 raw-index: works for AdminCrudPanel-shared flows; FAILS for flow-specific debug accordions on ads-platform, ai-safety, bfa-cross-flow",
+    "WORST: ads-platform primary-anonymous across all viewports leaks 'RAW ADS-PLATFORM INDEX (ADMIN DEBUG)' to unauthenticated visitors",
+    "Net: 3 improved (blog-cms PASS, ads partial, bundle partial), 2 regressed (ai-safety+bfa from PASS to CONCERN — newly-visible accordion was un-flagged in R172)"
+  ]
+}

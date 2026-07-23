@@ -1,0 +1,224 @@
+﻿{
+    "flowId":  "FLOW-33",
+    "flowSlug":  "system-initiation-bootstrap",
+    "implementationSlug":  "system-initiation-bootstrap",
+    "phase":  "phase-i-certification-declaration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T10:39:08.1266058Z",
+    "certification":  {
+                          "earnedTier":  "Tier 2+ (Tier 3 not declared)",
+                          "tier3BlockedBy":  "package-signing first pass remains pending",
+                          "decision":  "FLOW-33 system-initiation-bootstrap completes the mobility/auth protocol evidence through three tenant repos, adapted packages, green final GitHub Actions, Verdaccio readbacks, real GitHub screenshots, Docker/Vault auth checks, and zero final scan failures. Certification is capped at Tier 2+ until package-signing first pass is implemented.",
+                          "basis":  [
+                                        "Pre-existing FLOW-33 defects were checked and closed before cascade work.",
+                                        "Docker/Vault auth was verified with tenant-scoped credentials and no secrets in evidence.",
+                                        "Tenant A forked the original platform source through the marketplace API.",
+                                        "Tenant B forked Tenant A through the marketplace API.",
+                                        "Tenant C forked Tenant B through the marketplace API.",
+                                        "All three tenant repos have adapted commits with successful GitHub Actions runs.",
+                                        "All three adapted packages were published to and read back from http://localhost:4873.",
+                                        "Real GitHub evidence screenshots exist for all cascade points.",
+                                        "Phase H auth decoration passed missing-token, cross-tenant replay, valid-token, and wrong-role checks.",
+                                        "Final phase-close scan returned zero failure counters.",
+                                        "Tier 3 is withheld because package signing first pass is still pending."
+                                    ]
+                      },
+    "tenantRepos":  [
+                        {
+                            "tenant":  "acme-corp",
+                            "repo":  "lubochka/acme-corp--system-initiation-bootstrap",
+                            "package":  "@xiigen-fork/acme-bootstrap-control-room@1.0.1",
+                            "source":  "original platform source",
+                            "initialCommit":  "c57bfb4e442a6a89f4b326eeb6dd9e138bd562de",
+                            "initialActionsRunId":  25663870333,
+                            "initialActionsConclusion":  "success",
+                            "finalCommit":  "eee2c7a221398d993dc8cc4176bc3493f3a27661",
+                            "finalActionsRunId":  25664101150,
+                            "finalActionsConclusion":  "success",
+                            "private":  true
+                        },
+                        {
+                            "tenant":  "northwind",
+                            "repo":  "lubochka/northwind--system-initiation-bootstrap",
+                            "package":  "@xiigen-fork/northwind-self-build-workbench@1.0.2",
+                            "source":  "lubochka/acme-corp--system-initiation-bootstrap",
+                            "initialCommit":  "7b63220ecf8bcbba9eb76eddc43d6c1320942b31",
+                            "initialActionsRunId":  25664324997,
+                            "initialActionsConclusion":  "failure-before-adaptation",
+                            "finalCommit":  "89776c917a2e2dc2b15f6eb200036d7da359b09c",
+                            "finalActionsRunId":  25664477657,
+                            "finalActionsConclusion":  "success",
+                            "private":  true
+                        },
+                        {
+                            "tenant":  "tessera-collective",
+                            "repo":  "lubochka/tessera-collective--system-initiation-bootstrap",
+                            "package":  "@xiigen-fork/tessera-initiation-studio@1.0.3",
+                            "source":  "lubochka/northwind--system-initiation-bootstrap",
+                            "initialCommit":  "190dfa92292b2588619ac96b484f45c8969dcb5a",
+                            "initialActionsRunId":  25664672867,
+                            "initialActionsConclusion":  "failure-before-adaptation",
+                            "finalCommit":  "41b6bcef6064f059c476145013641dc40766393c",
+                            "finalActionsRunId":  25664839482,
+                            "finalActionsConclusion":  "success",
+                            "private":  true
+                        }
+                    ],
+    "registryVerification":  [
+                                 {
+                                     "package":  "@xiigen-fork/acme-bootstrap-control-room",
+                                     "expectedVersion":  "1.0.1",
+                                     "actualVersion":  "1.0.1",
+                                     "registry":  "http://localhost:4873",
+                                     "verified":  true
+                                 },
+                                 {
+                                     "package":  "@xiigen-fork/northwind-self-build-workbench",
+                                     "expectedVersion":  "1.0.2",
+                                     "actualVersion":  "1.0.2",
+                                     "registry":  "http://localhost:4873",
+                                     "verified":  true
+                                 },
+                                 {
+                                     "package":  "@xiigen-fork/tessera-initiation-studio",
+                                     "expectedVersion":  "1.0.3",
+                                     "actualVersion":  "1.0.3",
+                                     "registry":  "http://localhost:4873",
+                                     "verified":  true
+                                 }
+                             ],
+    "visualEvidence":  {
+                           "repoScreenshotDirectory":  "docs/e2e-snapshots/repo-evidence/flow-33",
+                           "repoScreenshots":  [
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\acme-corp\\acme-actions-success.png",
+                                                       "bytes":  78693
+                                                   },
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\acme-corp\\acme-package-json.png",
+                                                       "bytes":  119894
+                                                   },
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\acme-corp\\acme-repo-home.png",
+                                                       "bytes":  138270
+                                                   },
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\northwind\\northwind-actions-success.png",
+                                                       "bytes":  79020
+                                                   },
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\northwind\\northwind-package-json.png",
+                                                       "bytes":  119473
+                                                   },
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\northwind\\northwind-repo-home.png",
+                                                       "bytes":  138043
+                                                   },
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\tessera-collective\\tessera-actions-success.png",
+                                                       "bytes":  78649
+                                                   },
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\tessera-collective\\tessera-package-json.png",
+                                                       "bytes":  119719
+                                                   },
+                                                   {
+                                                       "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\tessera-collective\\tessera-repo-home.png",
+                                                       "bytes":  136501
+                                                   }
+                                               ],
+                           "repoScreenshotCount":  9,
+                           "zeroByteScreenshots":  0,
+                           "minimumScreenshotBytes":  78649
+                       },
+    "authVerdict":  {
+                        "phase0Evidence":  "docs/portability/flow-33/phase-0-docker-vault-auth-evidence.json",
+                        "phaseHEvidence":  "docs/portability/flow-33/phase-h-auth-decoration-evidence.json",
+                        "phaseHLiveChecks":  {
+                                                 "passed":  8,
+                                                 "failed":  0
+                                             },
+                        "missingTokenDenied":  true,
+                        "crossTenantJwtIsolationPassed":  true,
+                        "roleProtectedRoutesReturn403ForWrongRole":  true,
+                        "tenantCredentialsVaultBacked":  true,
+                        "tokenValuesCommittedOrWrittenToEvidence":  false
+                    },
+    "closeScan":  {
+                      "serverTypeScript":  "exit 0",
+                      "flow33Jest":  "8 suites passed, 139 tests passed",
+                      "throwNew":  0,
+                      "servicesMissingMicroserviceBase":  0,
+                      "clsImports":  0,
+                      "directTenantContextImports":  0,
+                      "directSdkImports":  0,
+                      "anyTypes":  0,
+                      "authFailures":  0,
+                      "screenshotCount":  9,
+                      "registryVersions":  [
+                                               {
+                                                   "package":  "@xiigen-fork/acme-bootstrap-control-room",
+                                                   "expected":  "1.0.1",
+                                                   "observed":  "1.0.1"
+                                               },
+                                               {
+                                                   "package":  "@xiigen-fork/northwind-self-build-workbench",
+                                                   "expected":  "1.0.2",
+                                                   "observed":  "1.0.2"
+                                               },
+                                               {
+                                                   "package":  "@xiigen-fork/tessera-initiation-studio",
+                                                   "expected":  "1.0.3",
+                                                   "observed":  "1.0.3"
+                                               }
+                                           ]
+                  },
+    "completedPhases":  [
+                            "preExistingDefectCheck",
+                            "taskRangeCollisionFix",
+                            "directoryNameCorrection",
+                            "sharedInterfaceExtraction",
+                            "phase0DockerVaultAuth",
+                            "phase1UnitIntegration",
+                            "phase2E2EPlaywright",
+                            "phase3ForkCascade",
+                            "phaseHAuthDecoration",
+                            "phaseICertificationDeclaration"
+                        ],
+    "sourceEvidenceFiles":  [
+                                "docs/portability/flow-33/product-decision-and-pre-existing-defect-evidence.json",
+                                "docs/portability/flow-33/phase-0-docker-vault-auth-evidence.json",
+                                "docs/portability/flow-33/phase-1-unit-integration-evidence.json",
+                                "docs/portability/flow-33/phase-2-playwright-png-evidence.json",
+                                "docs/portability/flow-33/phase-3-fork-cascade-evidence.json",
+                                "docs/portability/flow-33/phase-h-auth-decoration-evidence.json",
+                                "docs/portability/flow-33/phase-close-scan-evidence.json"
+                            ],
+    "completionGate":  {
+                           "allPriorPhasesCompleted":  true,
+                           "openBlockers":  0,
+                           "realMarketplaceApiForks":  true,
+                           "realGitHubRepos":  true,
+                           "greenFinalGitHubActions":  true,
+                           "localRegistryCascadeVerified":  true,
+                           "dockerVaultAuthVerified":  true,
+                           "crossTenantJwtIsolationPassed":  true,
+                           "roleProtectedRoutesReturn403ForWrongRole":  true,
+                           "missingTokensReturn401":  true,
+                           "repoScreenshotsAtAllCascadePoints":  true,
+                           "finalScanFailures":  0,
+                           "secretsCommittedOrWrittenToEvidence":  false,
+                           "packageSigningFirstPass":  false,
+                           "certificationDeclared":  true
+                       },
+    "certificationGaps":  [
+                              {
+                                  "gap":  "Package-signing first pass is not implemented for adapted marketplace packages.",
+                                  "effect":  "Tier 3 is not declared."
+                              }
+                          ],
+    "openIssues":  [
+
+                   ],
+    "verdict":  "PASS"
+}

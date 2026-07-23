@@ -1,0 +1,11 @@
+{
+  "eventType": "FeedScored",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "feed-scorer",
+  "consumers": ["T78"],
+  "piiFields": [],
+  "allowedPayloadFields": ["feedItemId", "userId", "contentOwnerId", "contentId", "score", "tenantId", "scoredAt"],
+  "forbiddenFields": ["scoringWeights", "weightBreakdown", "userEngagementHistory"],
+  "notes": "Emitted by T77 for EVERY feed item regardless of score. score=0 is valid and must be present — score=0 items pass to T78. scoringWeights are FREEDOM config and must not appear in event payload. T78 FeedDeliveryOrchestrator listens."
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.event-attendance.rsvp-created.v1",
+  "taskTypeId": "T63",
+  "flowId": "FLOW-04",
+  "description": "Emitted by T63 RSVPOrchestrator after decrementAndCreate() atomic operation succeeds. Triggers T64 WaitlistManager if capacity reached.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.event-attendance.rsvp-created.v1",
+    "source": "xiigen/flows/event-attendance/t63",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "rsvpId": {
+      "type": "string",
+      "description": "Opaque RSVP identifier"
+    },
+    "attendeeId": {
+      "type": "string",
+      "description": "Opaque attendee identifier — no PII"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Opaque event identifier"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant identifier from AsyncLocalStorage"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["CONFIRMED", "WAITLISTED"],
+      "description": "CONFIRMED if capacity available; WAITLISTED if at capacity"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "No attendee name, email, or personal data. All identifiers are opaque references.",
+  "arbiterRef": "arb-flow04-atomic-rsvp: decrementAndCreate() atomic — no separate check then write.",
+  "requiredByFlows": ["FLOW-04", "FLOW-09"],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

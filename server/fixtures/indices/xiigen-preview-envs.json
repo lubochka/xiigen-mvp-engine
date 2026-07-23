@@ -1,0 +1,12 @@
+{
+  "index": "xiigen-preview-envs",
+  "mappings": {
+    "properties": {
+      "tenantId":   { "type": "keyword" },
+      "flowId":     { "type": "keyword" },
+      "status":     { "type": "keyword" },
+      "createdAt":  { "type": "date" },
+      "updatedAt":  { "type": "date" }
+    }
+  }
+}

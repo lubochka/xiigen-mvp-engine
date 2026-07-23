@@ -1,0 +1,18 @@
+{
+  "eventId": "analytics-recorded",
+  "eventName": "AnalyticsRecorded",
+  "flowId": "FLOW-21",
+  "taskTypeId": "T632",
+  "description": "Emitted when analytics are recorded for a submission",
+  "properties": {
+    "analyticsId": { "type": "string", "description": "Unique analytics record ID" },
+    "submissionId": { "type": "string" },
+    "formId": { "type": "string" },
+    "fieldCount": { "type": "integer" },
+    "hasErrors": { "type": "boolean" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "tenantId": { "type": "string" }
+  },
+  "required": ["analyticsId", "submissionId", "formId"],
+  "version": "1.0"
+}

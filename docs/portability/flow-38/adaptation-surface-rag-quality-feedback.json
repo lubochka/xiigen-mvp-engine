@@ -1,0 +1,307 @@
+{
+  "flowId": "FLOW-38",
+  "flowSlug": "rag-quality-feedback",
+  "implementationSlug": "rag-quality-feedback",
+  "flowTitle": "RAG Quality Feedback",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-38 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "server/src/engine/flows/rag-quality-feedback",
+    "server/src/engine-contracts/rag-quality-contracts.ts",
+    "server/src/engine-contracts/rag-quality-feedback-bfa-rules.ts",
+    "fixtures/flow-definitions/rag-quality-feedback-T406.topology.json",
+    "server/src/bootstrap/history-seeds/rag-quality-feedback-design-corpus.json",
+    "docs/flow-coverage/rag-quality-feedback/P1-business-logic-inventory.md",
+    "docs/flow-coverage/rag-quality-feedback/P5-ui-specs.md",
+    "docs/flow-coverage/rag-quality-feedback/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T594-T596",
+    "taskTypeIds": ["T594", "T595", "T596"],
+    "topologyTaskTypeIds": ["T406", "T407", "T408"],
+    "factoryIdRange": "not declared in current FLOW-38 contracts",
+    "freedomKeyCount": 10,
+    "securityClassification": "tenant-scoped RAG feedback, retrieval outcome scoring, DPO promotion, distilled-rule extraction, and platform feedback dashboards",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-38 uses rag-quality-feedback as the canonical portability, UI, package, and runtime implementation slug.",
+    "coreGuarantees": [
+      "DPO triples are promoted to RAG only when validation and score thresholds are satisfied.",
+      "Cycle outcomes remain tenant scoped and each update carries the source cycleId.",
+      "Quality updates use idempotency keys before any score write.",
+      "Distilled rule extraction runs only for SUCCESS_WITHIN_BUDGET cycles.",
+      "RAG pattern, cycle outcome, and distilled rule writes remain behind database and queue fabrics.",
+      "Feedback widgets can be embedded across flows without exposing platform credentials.",
+      "Tenant scope remains automatic through AsyncLocalStorage.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory.",
+      "Vault credential paths remain outside forked packages and tenant docs."
+    ]
+  },
+  "services": [
+    {
+      "taskTypeId": "T594",
+      "className": "CycleOutcomeClassifier",
+      "file": "server/src/engine/flows/rag-quality-feedback/cycle-outcome-classifier.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow38_module_name",
+        "flow38_feedback_window_days",
+        "flow38_report_mode"
+      ],
+      "machineLockedRules": [
+        "no DPO triple means no classification and no downstream update",
+        "cycleId is stored with every outcome record",
+        "outcome record is stored before RagQualityUpdateRequested is enqueued"
+      ]
+    },
+    {
+      "taskTypeId": "T595",
+      "className": "RagQualityUpdater",
+      "file": "server/src/engine/flows/rag-quality-feedback/rag-quality-updater.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow38_min_quality_score_for_dashboard",
+        "flow38_retention_days",
+        "flow38_show_pattern_type_breakdown"
+      ],
+      "machineLockedRules": [
+        "idempotency check for cycleId plus patternId happens before any score write",
+        "quality score clamp remains 0.0 through 1.0",
+        "batch record is stored before PatternQualityUpdated is enqueued"
+      ]
+    },
+    {
+      "taskTypeId": "T596",
+      "className": "DistilledRuleExtractor",
+      "file": "server/src/engine/flows/rag-quality-feedback/distilled-rule-extractor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "GLOBAL",
+      "adaptableFreedomKeys": [
+        "flow38_min_rule_confidence",
+        "flow38_max_rules_per_cycle",
+        "flow38_rule_review_window_days"
+      ],
+      "machineLockedRules": [
+        "extraction is blocked for non-success outcomes",
+        "each distilled rule carries the source cycleId",
+        "rule documents are stored before DistilledRuleSeeded is enqueued"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-38 values may tune module naming, reporting mode, feedback-window and retention policy, dashboard thresholds, pattern breakdown visibility, anonymous feedback policy, and rule-review windows without changing tenant isolation, fabric boundaries, classifier order, idempotency, outbox, or CloudEvents behavior.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow38_module_name",
+          "type": "string",
+          "default": "rag-quality-feedback",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["tenant.config.json", "settings/module.settings.json"],
+          "boundedRange": { "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+        },
+        {
+          "key": "flow38_feedback_window_days",
+          "type": "number",
+          "default": 14,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["RagQualityScreen", "tenant.config.json"],
+          "boundedRange": { "min": 1, "max": 90 }
+        },
+        {
+          "key": "flow38_report_mode",
+          "type": "string",
+          "default": "operations",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["RagQualityScreen", "PlatformOpsPage"],
+          "boundedRange": { "allowedValues": ["operations", "research", "audit"] }
+        },
+        {
+          "key": "flow38_min_quality_score_for_dashboard",
+          "type": "number",
+          "default": 0.7,
+          "unit": "score",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["RagQualityScreen"],
+          "boundedRange": { "min": 0.0, "max": 1.0 }
+        },
+        {
+          "key": "flow38_retention_days",
+          "type": "number",
+          "default": 180,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["tenant.config.json", "package metadata"],
+          "boundedRange": { "min": 30, "max": 730 }
+        },
+        {
+          "key": "flow38_show_pattern_type_breakdown",
+          "type": "boolean",
+          "default": true,
+          "stakeholder": "platform-admin",
+          "consumedBy": ["RagQualityScreen"],
+          "boundedRange": { "allowedValues": [true, false] }
+        },
+        {
+          "key": "flow38_allow_anonymous_feedback",
+          "type": "boolean",
+          "default": false,
+          "stakeholder": "platform-admin",
+          "consumedBy": ["FeedbackWidget"],
+          "boundedRange": { "allowedValues": [true, false] }
+        },
+        {
+          "key": "flow38_min_rule_confidence",
+          "type": "number",
+          "default": 0.8,
+          "unit": "score",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["DistilledRuleExtractor review policy"],
+          "boundedRange": { "min": 0.5, "max": 0.98 }
+        },
+        {
+          "key": "flow38_max_rules_per_cycle",
+          "type": "number",
+          "default": 3,
+          "unit": "rules",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["DistilledRuleExtractor review policy"],
+          "boundedRange": { "min": 1, "max": 3 }
+        },
+        {
+          "key": "flow38_rule_review_window_days",
+          "type": "number",
+          "default": 21,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["tenant.config.json"],
+          "boundedRange": { "min": 1, "max": 90 }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to feedback-console naming, reporting mode, dashboard thresholding, retention and review windows, anonymous feedback policy, and display-level pattern/rule settings.",
+      "edgeCases": [
+        {
+          "id": "acme-rag-quality-lab",
+          "name": "Acme RAG quality lab",
+          "semantic": "Tenant A tunes FLOW-38 for strict internal feedback triage with short retention and audit-light reporting.",
+          "extensionPoint": "module naming, feedback window, dashboard threshold, retention, anonymous feedback policy",
+          "currentImplementation": "Classifier thresholds, idempotency, tenant isolation, and outbox ordering remain fixed."
+        },
+        {
+          "id": "northwind-retrieval-feedback-hub",
+          "name": "Northwind retrieval feedback hub",
+          "semantic": "Tenant B tunes FLOW-38 for broader operations review with longer feedback history and pattern breakdowns enabled.",
+          "extensionPoint": "report mode, feedback window, retention, pattern breakdown display",
+          "currentImplementation": "Score writes remain idempotent and every update still records cycleId."
+        },
+        {
+          "id": "tessera-rag-learning-loop",
+          "name": "Tessera RAG learning loop",
+          "semantic": "Tenant C tunes FLOW-38 for research/audit review with anonymous feedback enabled and longer rule-review windows.",
+          "extensionPoint": "anonymous feedback policy, rule confidence, rule review window, reporting mode",
+          "currentImplementation": "Distilled rule extraction still requires SUCCESS_WITHIN_BUDGET and store-before-event ordering."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T594 through T596 remain fixed for the runtime implementation bundle.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "CycleOutcomeClassifier does not classify when no DPO triple exists.",
+      "RagQualityUpdater checks idempotency before score writes.",
+      "DistilledRuleExtractor refuses non-success cycle outcomes.",
+      "Every quality update and distilled rule carries cycleId traceability.",
+      "Tenant scope is resolved through AsyncLocalStorage.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory.",
+      "Marketplace forks must use tenant credentials from Vault.",
+      "GitHub Actions and local registry readback are required cascade evidence."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantARagQualityLab": {
+      "description": "Tenant A tunes FLOW-38 for strict internal quality triage.",
+      "change": {
+        "flow38_module_name": "acme-rag-quality-lab",
+        "flow38_feedback_window_days": 7,
+        "flow38_report_mode": "operations",
+        "flow38_min_quality_score_for_dashboard": 0.82,
+        "flow38_retention_days": 90,
+        "flow38_show_pattern_type_breakdown": true,
+        "flow38_allow_anonymous_feedback": false,
+        "flow38_min_rule_confidence": 0.86,
+        "flow38_max_rules_per_cycle": 2,
+        "flow38_rule_review_window_days": 14
+      },
+      "impact": "Acme gets a stricter RAG quality lab while classifier order, idempotency, and tenant isolation remain unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and package metadata record these values."
+    },
+    "tenantBRetrievalFeedbackHub": {
+      "description": "Tenant B tunes FLOW-38 for broad operations feedback review.",
+      "change": {
+        "flow38_module_name": "northwind-retrieval-feedback-hub",
+        "flow38_feedback_window_days": 30,
+        "flow38_report_mode": "operations",
+        "flow38_min_quality_score_for_dashboard": 0.68,
+        "flow38_retention_days": 365,
+        "flow38_show_pattern_type_breakdown": true,
+        "flow38_allow_anonymous_feedback": false,
+        "flow38_min_rule_confidence": 0.78,
+        "flow38_max_rules_per_cycle": 3,
+        "flow38_rule_review_window_days": 30
+      },
+      "impact": "Northwind gets a larger feedback hub while score updates remain idempotent.",
+      "testable": "Tenant B fork from Tenant A publishes a distinct package version and keeps CI green."
+    },
+    "tenantCRagLearningLoop": {
+      "description": "Tenant C tunes FLOW-38 for research and audit review.",
+      "change": {
+        "flow38_module_name": "tessera-rag-learning-loop",
+        "flow38_feedback_window_days": 45,
+        "flow38_report_mode": "audit",
+        "flow38_min_quality_score_for_dashboard": 0.75,
+        "flow38_retention_days": 540,
+        "flow38_show_pattern_type_breakdown": true,
+        "flow38_allow_anonymous_feedback": true,
+        "flow38_min_rule_confidence": 0.82,
+        "flow38_max_rules_per_cycle": 3,
+        "flow38_rule_review_window_days": 60
+      },
+      "impact": "Tessera gets longer feedback/rule review windows and anonymous feedback while extraction and outbox invariants remain locked.",
+      "testable": "Tenant C fork from Tenant B adapts locally, passes package CI, and preserves auth boundaries."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T594-T596",
+      "DPO triple presence requirement",
+      "quality update idempotency key format",
+      "cycleId traceability requirement",
+      "quality score clamp range",
+      "distilled rule extraction success-only guard",
+      "tenant-scoped fabric access",
+      "Vault credential paths",
+      "store-before-event ordering",
+      "CloudEvents envelope requirements",
+      "FLOW-38 canonical package slug",
+      "marketplace API as the only valid fork origin"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-38 configuration values or display/module metadata.",
+    "FLOW-38 package assembly copies the rag-quality-feedback implementation under the canonical package slug path.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps.",
+    "GitHub repo evidence screenshots and local registry publish/readback must exist at each cascade point."
+  ]
+}

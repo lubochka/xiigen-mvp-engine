@@ -1,0 +1,21 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-23-cloudevents_mandatory",
+  "checkId": "cloudevents_mandatory",
+  "flowId": "FLOW-23",
+  "bfaRule": "CF-448",
+  "severity": "score-zero",
+  "description": "All async events must use F969 ICloudEventsEnvelopeService",
+  "taskTypeIds": "all-20",
+  "forbiddenPatterns": [
+    "queue.enqueue(",
+    "eventEmitter.emit(",
+    "new EventEmitter(",
+    "this.eventBus.publish(",
+    "EventEmitter2"
+  ],
+  "requiredPattern": "cloudEvents.emit(createCloudEvent(",
+  "requiredInjection": "CLOUD_EVENTS_ENVELOPE",
+  "violationCode": "CF-448_DIRECT_EMIT",
+  "active": true
+}

@@ -1,0 +1,53 @@
+{
+  "flowId": "FLOW-39",
+  "flowSlug": "oss-curriculum",
+  "phase": "product-decision-and-pre-existing-defect-check",
+  "status": "completed",
+  "generatedAt": "2026-05-12T00:46:00.8017563+03:00",
+  "roleMap": {
+    "full": [
+      "anonymous",
+      "tenant-user",
+      "platform-admin"
+    ],
+    "partial": [
+      "public-marketplace-visitor",
+      "tenant-admin",
+      "platform-support"
+    ],
+    "authExecutionRole": "tenant-user on POST /api/flow/execute",
+    "wrongRoleControl": "tenant-user on POST /api/marketplace/packages/oss-curriculum/fork",
+    "source": "docs/design-reviews/ROLE-ANALYSIS-BATCH-08.md"
+  },
+  "preExistingDefectCheck": {
+    "serverJest": "npx jest --testPathPatterns=oss-curriculum --runInBand --colors=false => 4 suites / 78 tests passed",
+    "serverTsc": "npx tsc --noEmit -p server/tsconfig.json => exit 0",
+    "clientTsc": "npx tsc --noEmit in client => exit 0",
+    "staticScan": {
+      "connectionAnnotations": 4,
+      "serviceFiles": 4,
+      "missingMicroserviceBase": 0,
+      "throwNew": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "typedAny": 0
+    }
+  },
+  "productDecision": {
+    "implementationSlug": "oss-curriculum",
+    "certificationRepoNames": [
+      "acme-corp--oss-curriculum-f39",
+      "northwind--oss-curriculum-f39",
+      "tessera-collective--oss-curriculum-f39"
+    ],
+    "certificationPackages": [
+      "@xiigen-fork/acme-oss-curriculum-lab@1.0.1",
+      "@xiigen-fork/northwind-shadow-learning-hub@1.0.2",
+      "@xiigen-fork/tessera-oss-teaching-loop@1.0.3"
+    ],
+    "adaptationSurface": "docs/portability/flow-39/adaptation-surface-oss-curriculum.json",
+    "note": "FLOW-39 is a public-facing OSS curriculum and onboarding flow. Tenant fork certification uses the canonical oss-curriculum implementation slug and tenant-specific package metadata only; no tenant credential material is committed."
+  },
+  "verdict": "PASS"
+}

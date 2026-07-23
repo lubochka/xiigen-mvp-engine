@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * UI/UX Pro Max compliance additions — applied fleet-wide from FLEET-VALIDATION-v1.md §5.
+ *
+ * #1 Touch target minimum (P2 CRITICAL) — 44×44 per Apple HIG + Material Design.
+ *    All <button> + <a role="button"> inherit this unless they explicitly opt out
+ *    with the `tap-small` utility (reserved for text links inside table rows).
+ *
+ * #2 Reduced-motion respect (P1 CRITICAL) — respect user OS preference.
+ *
+ * #3 Focus-visible universal fallback (P1 CRITICAL) — never remove focus ring.
+ */
+
+@layer base {
+  /* #1 — Touch target minimum */
+  button,
+  [role='button'] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* #2 — Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* #3 — Focus ring fallback (belt-and-suspenders over Tailwind focus:ring-*) */
+  *:focus-visible {
+    outline: 2px solid rgb(59 130 246 / 0.6);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Opt-out utility for text links inside dense rows (e.g., table delete link).
+     Apply ONLY when the visual design requires a sub-44px target AND the action
+     has an equivalent full-size alternative elsewhere on the page. */
+  .tap-small {
+    min-height: auto;
+    min-width: auto;
+  }
+}

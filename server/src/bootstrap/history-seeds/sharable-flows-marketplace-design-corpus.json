@@ -1,0 +1,122 @@
+[
+  {
+    "patternId": "DR-32-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-32",
+    "curriculumTier": 2,
+    "qualityScore": 0.9,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern A for sharable-flows-marketplace",
+    "problem": "Problem description for pattern A",
+    "solution": "Solution for pattern A",
+    "tradeoff": "Trade-off analysis for pattern A",
+    "relatedPatterns": [
+      "PATTERN-0"
+    ],
+    "decisionType": "ARCHITECTURAL",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-32-phase-0-a"
+  },
+  {
+    "patternId": "DR-32-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-32",
+    "curriculumTier": 3,
+    "qualityScore": 0.915,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern B for sharable-flows-marketplace",
+    "problem": "Problem description for pattern B",
+    "solution": "Solution for pattern B",
+    "tradeoff": "Trade-off analysis for pattern B",
+    "relatedPatterns": [
+      "PATTERN-1"
+    ],
+    "decisionType": "SECURITY",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-32-phase-0-b"
+  },
+  {
+    "patternId": "DR-32-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-32",
+    "curriculumTier": 2,
+    "qualityScore": 0.93,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern C for sharable-flows-marketplace",
+    "problem": "Problem description for pattern C",
+    "solution": "Solution for pattern C",
+    "tradeoff": "Trade-off analysis for pattern C",
+    "relatedPatterns": [
+      "PATTERN-2"
+    ],
+    "decisionType": "COMPLIANCE",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-32-phase-0-c"
+  },
+  {
+    "patternId": "DR-32-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-32",
+    "curriculumTier": 3,
+    "qualityScore": 0.9450000000000001,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern D for sharable-flows-marketplace",
+    "problem": "Problem description for pattern D",
+    "solution": "Solution for pattern D",
+    "tradeoff": "Trade-off analysis for pattern D",
+    "relatedPatterns": [
+      "PATTERN-3"
+    ],
+    "decisionType": "OPERATIONAL",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-32-phase-0-d"
+  },
+  {
+    "patternId": "DR-32-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-32",
+    "curriculumTier": 2,
+    "qualityScore": 0.96,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern E for sharable-flows-marketplace",
+    "problem": "Problem description for pattern E",
+    "solution": "Solution for pattern E",
+    "tradeoff": "Trade-off analysis for pattern E",
+    "relatedPatterns": [
+      "PATTERN-4"
+    ],
+    "decisionType": "SCALABILITY",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-32-phase-0-e"
+  },
+  {
+    "patternId": "DR-32-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-32",
+    "curriculumTier": 3,
+    "qualityScore": 0.975,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern F for sharable-flows-marketplace",
+    "problem": "Problem description for pattern F",
+    "solution": "Solution for pattern F",
+    "tradeoff": "Trade-off analysis for pattern F",
+    "relatedPatterns": [
+      "PATTERN-5"
+    ],
+    "decisionType": "RESILIENCE",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-32-phase-0-f"
+  }
+]

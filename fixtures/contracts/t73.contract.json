@@ -1,0 +1,74 @@
+{
+  "taskTypeId": "T73",
+  "flowId": "FLOW-07",
+  "name": "FriendRequestProcessor",
+  "archetype": "ROUTING",
+  "domainId": "social-connections",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "executionModel": "async",
+  "knowledgeScope": "PRIVATE",
+  "stackCoupling": {
+    "mechanism": "inline-privacy-gate-before-event",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "neutralConcepts": [
+      "T81 inline privacy check before storeDocument or FriendRequestSent",
+      "connectionId = hash(sorted([userIdA, userIdB]) + tenantId) — direction-independent",
+      "Mutual pending auto-forward: if B already sent to A, auto-accept both",
+      "SETNX idempotency on requestId — duplicate requests return existing",
+      "DNA-8: storeDocument BEFORE FriendRequestSent enqueue",
+      "knowledgeScope PRIVATE — connection requests scoped to tenant"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F-T73-1",
+      "interface": "IFriendRequestStore",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F-T73-2",
+      "interface": "IPrivacyGatekeeper",
+      "fabric": "CORE"
+    },
+    {
+      "factoryId": "F-T73-3",
+      "interface": "IConnectionQueue",
+      "fabric": "QUEUE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T73-1",
+      "rule": "T81 PrivacyGatekeeper.check() called inline before storeDocument or FriendRequestSent emit — queue-driven privacy check = BUILD_FAILURE",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T73-2",
+      "rule": "connectionId = hash(sorted([userIdA, userIdB]) + ':' + tenantId) — direction-independent. hash(A+B) === hash(B+A)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T73-3",
+      "rule": "Mutual pending auto-forward: if reverse request exists (B→A pending), treat as mutual acceptance and route to T74 accept path",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T73-4",
+      "rule": "SETNX idempotency on requestId — duplicate FriendRequestReceived events return existing request record (no second write)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T73-5",
+      "rule": "DNA-8: storeDocument('xiigen-friend-requests', ...) BEFORE queue.enqueue('FriendRequestSent', ...)",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "privacy_gate_before_emit",
+    "store_before_enqueue",
+    "connection_id_direction_independent"
+  ],
+  "tags": ["T73", "T81", "friend-request", "inline-privacy", "SETNX", "social-graph"],
+  "keywords": "friend request processor T73 privacy gate inline SETNX idempotency connection ID direction independent"
+}

@@ -1,0 +1,13 @@
+{
+  "eventType": "warehouse.schema.registered",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "schemaId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "schemaName": { "type": "string", "required": true },
+    "changeType": { "type": "string", "enum": ["ADDITIVE", "BREAKING"], "required": true },
+    "version": { "type": "string", "required": true },
+    "registeredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

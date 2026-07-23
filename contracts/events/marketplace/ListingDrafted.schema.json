@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.marketplace.listing-drafted.v1",
+  "taskTypeId": "T83",
+  "flowId": "FLOW-08",
+  "description": "Emitted by T83 ListingPublisher when moderation rejects a listing (DRAFT state). No deletion — seller corrects and resubmits.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.marketplace.listing-drafted.v1",
+    "source": "xiigen/flows/marketplace-listings-catalog/t83",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "listingId": { "type": "string", "description": "Opaque listing identifier" },
+    "sellerId": { "type": "string", "description": "Opaque seller identifier — no PII" },
+    "status": { "type": "string", "enum": ["DRAFT"], "description": "Moderation rejection produces DRAFT state" },
+    "moderationReason": { "type": "string", "description": "Category of moderation rejection (not full text)" },
+    "tenantId": { "type": "string", "description": "Tenant scope — from AsyncLocalStorage" },
+    "correlationId": { "type": "string", "description": "Idempotency key" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "sellerId is opaque. moderationReason is a category code, not free text.",
+  "requiredByFlows": ["FLOW-08"]
+}

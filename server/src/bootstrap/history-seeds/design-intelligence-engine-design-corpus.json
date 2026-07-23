@@ -1,0 +1,92 @@
+[
+  {
+    "patternId": "DR-31-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-31-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-31-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-31-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-31-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-31-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-31-01",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-31-02",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-31-03",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-31-04",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-31",
+    "domainId": "design-intelligence-engine",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

@@ -1,0 +1,206 @@
+﻿{
+    "flowId":  "FLOW-11",
+    "flowSlug":  "schema-registry-dag",
+    "phase":  "phase5bTenantBAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T02:01:04.0703233+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "role":  "Tenant B",
+                   "adaptedFromTenant":  "acme-corp",
+                   "sourceRepoFullName":  "lubochka/acme-corp--schema-registry-dag",
+                   "sourcePackageName":  "@xiigen-fork/acme-schema-governance-dag",
+                   "sourcePackageVersion":  "1.0.1",
+                   "adaptedPackageName":  "@xiigen-fork/northwind-schema-lineage-dag",
+                   "adaptedPackageVersion":  "1.0.2",
+                   "localRegistry":  "http://localhost:4873"
+               },
+    "adaptation":  {
+                       "changeType":  "Type A (FREEDOM key value change)",
+                       "moduleName":  "northwind-schema-lineage-dag",
+                       "repoName":  "northwind--northwind-schema-lineage-dag",
+                       "repoFullName":  "lubochka/northwind--northwind-schema-lineage-dag",
+                       "plainLanguagePolicy":  "Northwind schema lineage policy: 24-hour approval window, defer-by-default human review, 7-day deprecation review, and near-real-time visualization refresh while preserving Acme history.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow11_schema_registry_approval_window_ms",
+                                                  "from":  172800000,
+                                                  "to":  86400000
+                                              },
+                                              {
+                                                  "key":  "flow11_schema_registry_default_approval_decision",
+                                                  "from":  "ESCALATE",
+                                                  "to":  "DEFER"
+                                              },
+                                              {
+                                                  "key":  "flow11_schema_registry_deprecation_ttl_ms",
+                                                  "from":  1209600000,
+                                                  "to":  604800000
+                                              },
+                                              {
+                                                  "key":  "flow11_schema_registry_visualization_cache_ttl_ms",
+                                                  "from":  120000,
+                                                  "to":  60000
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "Acme schema governance history remains visible in adaptationHistory",
+                                                   "schema registration remains tenant-scoped",
+                                                   "schema approval decisions remain separated from schema validation",
+                                                   "schema dependency graphs remain cycle-checked before publication",
+                                                   "role access remains unchanged"
+                                               ],
+                       "adaptationHistory":  {
+                                                 "entries":  2,
+                                                 "history0":  "Acme v1.0.1 adaptation preserved",
+                                                 "history1":  "Northwind v1.0.2 adaptation added"
+                                             }
+                   },
+    "tenantRepository":  {
+                             "initialRepoFullName":  "lubochka/northwind--acme-schema-governance-dag",
+                             "renamedRepoFullName":  "lubochka/northwind--northwind-schema-lineage-dag",
+                             "repoUrl":  "https://github.com/lubochka/northwind--northwind-schema-lineage-dag",
+                             "defaultBranch":  "main",
+                             "clonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-schema-governance-dag",
+                             "localRemote":  "https://github.com/lubochka/northwind--northwind-schema-lineage-dag.git",
+                             "adaptedCommitSha":  "017208281480fb9adfe0520ca64d233f3e5c7a51",
+                             "commitMessage":  "Adapt Northwind schema lineage policy",
+                             "workingTreeCleanAfterPublish":  true,
+                             "privateAfterEvidenceCapture":  true,
+                             "visibilityAfterEvidenceCapture":  "PRIVATE",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "__tests__/schema-registry-dag-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ]
+                         },
+    "tenantCloneVerification":  {
+                                    "clonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-schema-governance-dag",
+                                    "headSha":  "017208281480fb9adfe0520ca64d233f3e5c7a51",
+                                    "commands":  [
+                                                     {
+                                                         "command":  "npx tsc --noEmit --pretty false",
+                                                         "exitCode":  0,
+                                                         "result":  "passed"
+                                                     },
+                                                     {
+                                                         "command":  "npx jest --colors=false --forceExit",
+                                                         "exitCode":  0,
+                                                         "result":  "2 suites passed, 5 tests passed"
+                                                     }
+                                                 ]
+                                },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI - schema-registry-dag",
+                          "runId":  25406790875,
+                          "jobId":  74519477972,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "017208281480fb9adfe0520ca64d233f3e5c7a51",
+                          "url":  "https://github.com/lubochka/northwind--northwind-schema-lineage-dag/actions/runs/25406790875",
+                          "createdAt":  "2026-05-05T22:55:27Z",
+                          "updatedAt":  "2026-05-05T22:56:14Z",
+                          "successfulSteps":  [
+                                                  "Install",
+                                                  "TypeScript check",
+                                                  "Test",
+                                                  "Provenance"
+                                              ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "evidencePath":  "docs/e2e-snapshots/marketplace/schema-registry-dag-v1.0.2-registry-api-evidence.json",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/northwind-schema-lineage-dag",
+                          "publishedVersion":  "1.0.2",
+                          "viewCommand":  "npm view @xiigen-fork/northwind-schema-lineage-dag version --registry http://localhost:4873",
+                          "viewReturned":  "1.0.2",
+                          "latest":  "1.0.2",
+                          "gitHead":  "017208281480fb9adfe0520ca64d233f3e5c7a51",
+                          "shasum":  "7ef8cdfd93c9e037f9e58061cf142e80ed5537a0",
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-schema-lineage-dag/-/northwind-schema-lineage-dag-1.0.2.tgz",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "marketplaceListingScreenshot":  {
+                                                                "path":  "docs/e2e-snapshots/marketplace/schema-registry-dag-v1.0.2-registry-listing.png",
+                                                                "bytes":  52203
+                                                            },
+                           "roleMatrixDirectory":  "docs/e2e-snapshots/schema-registry-dag/tenant-b-v1.0.2",
+                           "roleMatrixCount":  3,
+                           "roleMatrixZeroByte":  0,
+                           "roleMatrixMinBytes":  28785,
+                           "roleMatrixMaxBytes":  47972,
+                           "roleMatrixFiles":  [
+                                                   {
+                                                       "name":  "01-northwind-v102-schema-registry.png",
+                                                       "bytes":  47972
+                                                   },
+                                                   {
+                                                       "name":  "02-northwind-v102-schema-submission.png",
+                                                       "bytes":  28785
+                                                   },
+                                                   {
+                                                       "name":  "03-northwind-v102-dag-visualization.png",
+                                                       "bytes":  44112
+                                                   }
+                                               ],
+                           "repoScreenshot":  {
+                                                  "path":  "docs/e2e-snapshots/repo-evidence/flow-11/northwind--northwind-schema-lineage-dag-github-listing.png",
+                                                  "bytes":  134995
+                                              },
+                           "actionsScreenshot":  {
+                                                     "path":  "docs/e2e-snapshots/repo-evidence/flow-11/northwind--northwind-schema-lineage-dag-actions-success.png",
+                                                     "bytes":  78473
+                                                 },
+                           "repoVisibilityRestoredAfterCapture":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  12,
+                                                      "tests":  105
+                                                  },
+                                   "flowScans":  {
+                                                     "flowFileCount":  20,
+                                                     "throwNew":  0,
+                                                     "clsImports":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "unscopedFreedomReads":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBAdaptedTenantAPackage":  true,
+                      "tenantBCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantCInstall":  true
+                  },
+    "verdict":  "PASS"
+}

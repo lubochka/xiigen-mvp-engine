@@ -1,0 +1,44 @@
+{
+    "flowId":  "FLOW-30",
+    "flowSlug":  "tenant-lifecycle-manager",
+    "implementationSlug":  "tenant-lifecycle",
+    "phase":  "phase-1-unit-integration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T23:16:45.2671269Z",
+    "typescript":  {
+                       "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                       "status":  "passed",
+                       "exitCode":  0
+                   },
+    "jest":  {
+                 "command":  "Push-Location server; npx jest --testPathPatterns=tenant-lifecycle-manager --runInBand --colors=false; Pop-Location",
+                 "status":  "passed",
+                 "testPathPattern":  "tenant-lifecycle-manager",
+                 "testSuitesPassed":  6,
+                 "testSuitesTotal":  6,
+                 "testsPassed":  149,
+                 "testsTotal":  149
+             },
+    "staticScans":  {
+                        "sourceFlowFileCount":  10,
+                        "throwNew":  0,
+                        "exportedServicesByPromptPattern":  0,
+                        "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                        "clsImports":  0,
+                        "directSdkImports":  0,
+                        "anyTypes":  0,
+                        "failureLines":  0,
+                        "note":  "FLOW-30 runtime classes do not use the Service suffix; prompt-pattern class count is therefore zero."
+                    },
+    "productDecisionCarryForward":  {
+                                        "productDecisionClarifiedForTenantRun":  true,
+                                        "platformCanonicalDecisionStillTracked":  true,
+                                        "blocksPhase1":  false
+                                    },
+    "phaseGate":  {
+                      "serverTypeScriptPassed":  true,
+                      "jestPassed":  true,
+                      "scansHaveZeroFailureLines":  true,
+                      "readyForPlaywright":  true
+                  }
+}

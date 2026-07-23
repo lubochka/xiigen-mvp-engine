@@ -1,0 +1,13 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F971",
+  "factoryId": "F971",
+  "flowId": "FLOW-23",
+  "interface": "ICodeExportService",
+  "injectionToken": "CODE_EXPORT_SERVICE",
+  "fabric": "DATABASE",
+  "platformOnly": false,
+  "taskTypes": ["T363"],
+  "bfaRules": ["CF-446"],
+  "note": "Code export from snapshot. Export from snapshot ID only — never from raw canvasId."
+}

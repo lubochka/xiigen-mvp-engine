@@ -1,0 +1,354 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "flowTitle": "Ads Platform",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-07",
+  "capturedBy": "Codex / FLOW-20 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/20-ads-platform.md",
+    "docs/business-flows/functional-specs/FLOW-20-ads-platform-functional-spec.md",
+    "server/src/engine-contracts/ads-platform-contracts.ts",
+    "server/src/engine-contracts/ads-platform-bfa-rules.ts",
+    "server/src/engine/flows/ads-platform",
+    "docs/flow-coverage/ads-platform/P1-business-logic-inventory.md",
+    "docs/flow-coverage/ads-platform/P5-ui-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T625-T628",
+    "planningTaskTypeRange": "T287-T306",
+    "taskTypeIds": [
+      "T625",
+      "T626",
+      "T627",
+      "T628"
+    ],
+    "freedomKeyCount": 8,
+    "securityClassification": "tenant-scoped advertising consent, auction, fraud, and policy-review controls",
+    "directRuntimePeerDependencies": [],
+    "coreGuarantees": [
+      "Consent check runs first and blocks ad delivery when consent is missing, revoked, or expired.",
+      "Auction bids use SETNX for duplicate prevention before budget deduction.",
+      "Advertiser budget is decremented atomically and restored with INCRBY on rejection.",
+      "Auction audit records are append-only evidence, not mutable auction state.",
+      "Fraud detection runs before billing and restores budget on fraud rejection.",
+      "Payment evidence uses tokenized payment method references only; raw card number and CVV are never stored.",
+      "Political content review uses two independent model scores and conservative Math.min convergence.",
+      "Divergent political scores escalate to a human reviewer; ambiguous cases are not auto-blocked.",
+      "Every state event preserves store-before-enqueue ordering.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-20 controls advertising consent, spend, fraud, and political content decisions, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T625",
+      "className": "ConsentGateEnforcerService",
+      "file": "server/src/engine/flows/ads-platform/consent-gate-enforcer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow20_consent_check_timeout_ms"
+      ],
+      "machineLockedRules": [
+        "consent check ORDER 1 before auction processing",
+        "missing, revoked, or expired consent emits ConsentGateFailed",
+        "tenantId resolved through TenantContextResolver only"
+      ]
+    },
+    {
+      "taskTypeId": "T626",
+      "className": "AuctionBidProcessorService",
+      "file": "server/src/engine/flows/ads-platform/auction-bid-processor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow20_auction_bid_lock_ttl_ms",
+        "flow20_auction_response_timeout_ms"
+      ],
+      "machineLockedRules": [
+        "SETNX bid lock before bid processing",
+        "DECRBY budget deduction before accepted bid event",
+        "INCRBY budget restoration on rejection",
+        "append-only auction audit before enqueue"
+      ]
+    },
+    {
+      "taskTypeId": "T627",
+      "className": "FraudPreBillingValidatorService",
+      "file": "server/src/engine/flows/ads-platform/fraud-pre-billing-validator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow20_fraud_score_threshold",
+        "flow20_fraud_audit_retention_days"
+      ],
+      "machineLockedRules": [
+        "fraud score evaluated before billing",
+        "fraud rejection restores advertiser budget",
+        "PCI zero-PAN audit payload",
+        "fraud audit stores the score used for the decision"
+      ]
+    },
+    {
+      "taskTypeId": "T628",
+      "className": "PoliticalContentReviewerService",
+      "file": "server/src/engine/flows/ads-platform/political-content-reviewer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow20_political_score_threshold",
+        "flow20_political_divergence_threshold",
+        "flow20_political_human_review_sla_hours"
+      ],
+      "machineLockedRules": [
+        "two independent political-content model scores",
+        "Math.min conservative convergence",
+        "human review on divergent scores",
+        "no auto-block on ambiguous political cases"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-20 operating policy values. These values may vary by tenant without changing consent-first delivery, Redis bid atomicity, fraud-before-billing, PCI zero-PAN, dual-model political review, human escalation, event ordering, or tenant isolation.",
+      "total": 8,
+      "keys": [
+        {
+          "key": "flow20_consent_check_timeout_ms",
+          "type": "number",
+          "default": 500,
+          "unit": "milliseconds",
+          "semantic": "Maximum time to wait for consent lookup before treating the ad delivery request as not authorized.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T625.ConsentGateEnforcerService"
+          ],
+          "boundedRange": {
+            "min": 50,
+            "max": 5000,
+            "rationale": "Tenants may tune latency tolerance while consent remains the first mandatory gate."
+          }
+        },
+        {
+          "key": "flow20_auction_bid_lock_ttl_ms",
+          "type": "number",
+          "default": 10000,
+          "unit": "milliseconds",
+          "semantic": "Time-to-live for one auction bid duplicate-prevention lock.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T626.AuctionBidProcessorService"
+          ],
+          "boundedRange": {
+            "min": 100,
+            "max": 60000,
+            "rationale": "Tenants may tune auction dedupe tolerance while SETNX remains mandatory."
+          }
+        },
+        {
+          "key": "flow20_auction_response_timeout_ms",
+          "type": "number",
+          "default": 100,
+          "unit": "milliseconds",
+          "semantic": "Maximum response window for synchronous auction bid processing.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T626.AuctionBidProcessorService"
+          ],
+          "boundedRange": {
+            "min": 25,
+            "max": 2000,
+            "rationale": "Tenants may tune bid responsiveness while budget atomicity and audit ordering stay fixed."
+          }
+        },
+        {
+          "key": "flow20_fraud_score_threshold",
+          "type": "number",
+          "default": 0.82,
+          "unit": "score",
+          "semantic": "Fraud score at or above which a bid is rejected before billing.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T627.FraudPreBillingValidatorService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1,
+            "rationale": "Operators may tune fraud sensitivity while fraud still runs before billing and budget is restored on rejection."
+          }
+        },
+        {
+          "key": "flow20_fraud_audit_retention_days",
+          "type": "number",
+          "default": 365,
+          "unit": "days",
+          "semantic": "Retention window for fraud audit records.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T627.FraudPreBillingValidatorService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 2555,
+            "rationale": "Operators may tune investigation history while PCI zero-PAN and score auditability stay fixed."
+          }
+        },
+        {
+          "key": "flow20_political_score_threshold",
+          "type": "number",
+          "default": 0.65,
+          "unit": "score",
+          "semantic": "Conservative Math.min score above which content is treated as political when model agreement is strong.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T628.PoliticalContentReviewerService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1,
+            "rationale": "Operators may tune political-content sensitivity while dual-model scoring and human escalation stay fixed."
+          }
+        },
+        {
+          "key": "flow20_political_divergence_threshold",
+          "type": "number",
+          "default": 0.2,
+          "unit": "score-delta",
+          "semantic": "Maximum allowed difference between political model scores before mandatory human review.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T628.PoliticalContentReviewerService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1,
+            "rationale": "Operators may tune ambiguity tolerance while divergent model outputs always route to human review."
+          }
+        },
+        {
+          "key": "flow20_political_human_review_sla_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "semantic": "Expected completion window for human review of ambiguous political content.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T628.PoliticalContentReviewerService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 168,
+            "rationale": "Operators may tune review operations while ambiguous political content remains human-reviewed."
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to advertising policy thresholds, auction latency posture, fraud sensitivity, political-review operations, and customer-facing module naming.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "strict-privacy-consent",
+          "name": "Strict privacy consent",
+          "semantic": "Tenant A uses a short consent lookup window and blocks delivery quickly when consent is unavailable.",
+          "extensionPoint": "flow20_consent_check_timeout_ms",
+          "currentImplementation": "T625 still checks consent first and emits ConsentGateFailed for missing, revoked, or expired consent."
+        },
+        {
+          "id": "high-volume-auction",
+          "name": "High-volume auction tuning",
+          "semantic": "Tenant A adjusts bid lock and response timing for high-volume sponsored slots.",
+          "extensionPoint": "flow20_auction_bid_lock_ttl_ms + flow20_auction_response_timeout_ms",
+          "currentImplementation": "T626 still uses SETNX, atomic budget deduction, budget restoration, and append-only audit evidence."
+        },
+        {
+          "id": "fraud-sensitive-billing",
+          "name": "Fraud-sensitive billing",
+          "semantic": "Tenant A lowers fraud tolerance and keeps fraud audit evidence longer.",
+          "extensionPoint": "flow20_fraud_score_threshold + flow20_fraud_audit_retention_days",
+          "currentImplementation": "T627 still evaluates fraud before billing, restores budget on rejection, and preserves PCI zero-PAN payloads."
+        },
+        {
+          "id": "political-review-operations",
+          "name": "Political review operations",
+          "semantic": "Tenant A tunes political detection thresholds and human review SLA.",
+          "extensionPoint": "flow20_political_score_threshold + flow20_political_divergence_threshold + flow20_political_human_review_sla_hours",
+          "currentImplementation": "T628 still uses two models, Math.min convergence, and mandatory human review for divergent scores."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T625 through T628 remain fixed.",
+      "Factory IDs F1561 through F1568 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Consent check remains ORDER 1 before auction processing.",
+      "Missing, revoked, or expired consent always blocks ad delivery.",
+      "Auction duplicate prevention remains SETNX-based.",
+      "Auction budget deduction remains atomic.",
+      "Rejected bids restore budget before rejection is emitted.",
+      "Auction and fraud audit records remain append-only.",
+      "Fraud detection remains before billing.",
+      "Fraud rejection restores advertiser budget.",
+      "Payment evidence remains tokenized; raw card number and CVV are not stored.",
+      "Political content detection uses at least two independent model scores.",
+      "Political convergence uses Math.min conservative consensus.",
+      "Divergent political scores require human review.",
+      "Ambiguous political cases are not auto-blocked.",
+      "All state events preserve store-before-enqueue ordering.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAStrictPrivacyAds": {
+      "description": "Tenant A tunes Ads Platform for strict privacy posture and conservative campaign review.",
+      "change": {
+        "flow20_consent_check_timeout_ms": 300,
+        "flow20_auction_bid_lock_ttl_ms": 15000,
+        "flow20_auction_response_timeout_ms": 150,
+        "flow20_fraud_score_threshold": 0.7,
+        "flow20_fraud_audit_retention_days": 730,
+        "flow20_political_score_threshold": 0.55,
+        "flow20_political_divergence_threshold": 0.12,
+        "flow20_political_human_review_sla_hours": 12
+      },
+      "impact": "Tenant A gets stricter consent, fraud, and political review posture while consent-first gating, Redis bid atomicity, budget restoration, PCI safety, human review, and tenant isolation stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T625-T628",
+      "Factory IDs F1561-F1568",
+      "Provider SDK boundary",
+      "Vault credential paths",
+      "Consent-first gate ordering",
+      "Consent failure reasons",
+      "SETNX bid lock",
+      "DECRBY and INCRBY budget operations",
+      "Append-only auction audit",
+      "Fraud-before-billing order",
+      "PCI zero-PAN payload policy",
+      "Dual-model political review",
+      "Math.min conservative convergence",
+      "Human review on divergence",
+      "Store-before-enqueue ordering",
+      "Tenant context resolution"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-20 configuration values or display/module metadata.",
+    "All four services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "eventType": "QuestionnaireAnswered",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "questionnaire-service",
+  "consumers": ["T50"],
+  "piiFields": ["answers"],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "answers", "submittedAt"],
+  "forbiddenFields": [],
+  "notes": "Trigger event for FLOW-02. Contains raw questionnaire answers — only enters T50-A1 (PRIVATE). SUBFLOW-02D debounce key = tenantId+userId; duplicate submissions within 300s are discarded with D3 audit record."
+}

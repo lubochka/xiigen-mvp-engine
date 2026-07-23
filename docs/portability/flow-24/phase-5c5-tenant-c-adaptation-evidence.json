@@ -1,0 +1,165 @@
+{
+  "flowId": "FLOW-24",
+  "flowSlug": "ai-safety-moderation",
+  "phase": "phase5c5TenantCAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-10T12:06:18.208Z",
+  "branch": "Skills_Creation_Claude",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "tenantName": "Tessera Collective"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change plus tenant package metadata",
+    "packageName": "@xiigen-fork/tessera-moderation-studio",
+    "packageVersion": "1.0.3",
+    "moduleName": "tessera-moderation-studio",
+    "displayName": "Tessera Moderation Studio",
+    "sourceModuleName": "northwind-trust-review",
+    "visiblePlainLanguage": "Tessera moderation-studio defaults: pending consent by default, 24-hour review SLA, strict collection-submission safety threshold, collection-fraud rejection label, standard grading timeout, async gamification dispatch, profile-only timezone messaging, safe domain-pack skip, fabric-only calendar sync, and optional advanced progress disabled while Acme and Northwind provenance, consent fail-closed behavior, safety token enforcement, ordering, server-side grading, append-only ledger, provider boundaries, and tenant isolation remain unchanged.",
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/ai-safety-moderation-northwind-adaptation.spec.ts",
+      "__tests__/ai-safety-moderation-tessera-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/tessera-collective--tessera-moderation-studio",
+    "url": "https://github.com/lubochka/tessera-collective--tessera-moderation-studio",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "sourceRepoFullName": "lubochka/northwind--northwind-trust-review",
+    "adaptedCommit": "04a949bc0fe4546bd5b06dc8603fdac521f61297",
+    "adaptedCommitMessage": "Adapt AI safety moderation for Tessera moderation studio",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-trust-review-phase5c-20260510-144023",
+    "cleanCloneStatus": "clean against adapted/main",
+    "adaptationHistoryEntries": 3,
+    "bundleManifestItemCount": 113
+  },
+  "tenantCloneVerification": [
+    {
+      "command": "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "result": "passed"
+    },
+    {
+      "command": "npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    {
+      "command": "npx jest --colors=false --forceExit",
+      "result": "passed",
+      "suites": 4,
+      "tests": 8
+    },
+    {
+      "command": "npm pack --dry-run --json",
+      "result": "passed",
+      "entryCount": 114,
+      "shasum": "96d1e0f745e1f285b3c06fe5154cbd4478164a0e"
+    }
+  ],
+  "githubActions": {
+    "workflowName": [
+      "XIIGen Flow CI - ai-safety-moderation",
+      "XIIGen Flow CI - ai-safety-moderation",
+      "XIIGen Flow CI - ai-safety-moderation"
+    ],
+    "runId": [
+      25628133796,
+      25627813285,
+      25627751395
+    ],
+    "url": [
+      "https://github.com/lubochka/tessera-collective--tessera-moderation-studio/actions/runs/25628133796",
+      "https://github.com/lubochka/tessera-collective--tessera-moderation-studio/actions/runs/25627813285",
+      "https://github.com/lubochka/tessera-collective--tessera-moderation-studio/actions/runs/25627751395"
+    ],
+    "status": [
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "conclusion": [
+      "success",
+      "success",
+      "failure"
+    ],
+    "headSha": [
+      "04a949bc0fe4546bd5b06dc8603fdac521f61297",
+      "e31892e0c151e7007b0d8ef03c08bae08fdf6b9e",
+      "7c01fad14008d9fe686f1b845b25177afa7a7576"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "package": "@xiigen-fork/tessera-moderation-studio",
+    "version": "1.0.3",
+    "tarball": "http://localhost:4873/@xiigen-fork/tessera-moderation-studio/-/tessera-moderation-studio-1.0.3.tgz",
+    "shasum": "96d1e0f745e1f285b3c06fe5154cbd4478164a0e",
+    "gitHead": "04a949bc0fe4546bd5b06dc8603fdac521f61297",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/ai-safety-moderation-tessera-v1.0.3-registry-api-evidence.json",
+    "verified": true
+  },
+  "playwrightEvidence": {
+    "spec": "client/e2e/ai-safety-moderation-tenant-c-adapted.spec.ts",
+    "command": "VITE_PORT=52424 npx playwright test ai-safety-moderation-tenant-c-adapted.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+    "passed": 15,
+    "failed": 0,
+    "pngDirectory": "docs/e2e-snapshots/ai-safety-moderation/tenant-c-v1.0.3",
+    "pngCount": 15,
+    "emptyPngCount": 0,
+    "totalBytes": 621488
+  },
+  "visualEvidence": {
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/marketplace/ai-safety-moderation-tessera-v1.0.3-registry-listing.png",
+        "sizeBytes": 18388
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-24/tessera-collective--tessera-moderation-studio-tenant-c-v1.0.3-actions-success.png",
+        "sizeBytes": 79302
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-24/tessera-collective--tessera-moderation-studio-tenant-c-v1.0.3-github-listing.png",
+        "sizeBytes": 132612
+      }
+    ],
+    "repoVisibilityRestored": true
+  },
+  "phaseCloseVerification": {
+    "clientTypescript": "passed",
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "highRiskSecretPatternHits": 0,
+      "passed": true
+    }
+  },
+  "phaseGate": {
+    "tenantCAdaptedFlow": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "playwrightCascadeScreenshotsPresent": true,
+    "repoEvidenceScreenshotsPresent": true,
+    "fullForkCascadeComplete": true,
+    "readyForAuthDecorationCheck": true
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "verdict": "PASS"
+}

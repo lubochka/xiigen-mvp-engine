@@ -1,0 +1,15 @@
+{
+  "promptId": "t48-genesis-v1.1.0",
+  "taskTypeId": "T48",
+  "flowId": "FLOW-01",
+  "promptType": "genesis",
+  "version": "1.1.0",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "content": "Generate a NestJS EmailVerificationWaitService (T48) that holds the registration flow open for 24h while a verification token is active. PROCESSING archetype \u2014 async wait state. Inject IUserRepository (F174) via DATABASE FABRIC. Inject IEmailVerificationQueue (F175) via QUEUE FABRIC. Inject IVerificationTokenStore (F177) via DATABASE FABRIC for token TTL management. CRITICAL: ResendVerificationRequested MUST be idempotent and rate-limited \u2014 check last_resend_at against flow01_resend_rate_limit_minutes from FREEDOM config (CF-3). ChangeEmailRequested MUST revoke existing token before issuing new one \u2014 storeDocument token revocation BEFORE creating replacement (CF-5). Expired tokens MUST be rejected \u2014 never silently accepted (CF-6). Track 24h SLA and surface via FlowStateSnapshot.remainingMs (CF-7). Use BuildSearchFilter for all token queries \u2014 empty/null fields auto-skipped (DNA-2). storeDocument() BEFORE enqueue() on all token state transitions (DNA-8). No PII in emitted events \u2014 tokenId reference only, never token value (CF-8). Schedule expiry via ISchedulerService.scheduleDelayed() \u2014 no direct Bull imports. Emit EmailVerified CloudEvent to trigger T49. Extend MicroserviceBase. Return DataProcessResult<{ status: PENDING | VERIFIED | EXPIRED, expiresAt, remainingMs }>.\n\nDO NOT: import Bull or any scheduler SDK directly, store the raw token value in events, accept expired tokens silently, hardcode the 24h TTL.\n\nDO: use ISchedulerService.scheduleDelayed(), read TTL from FREEDOM config, call storeDocument() before enqueue(), use setIfAbsent() for resend rate limiting.",
+  "tags": [
+    "flow-01",
+    "t48",
+    "genesis",
+    "xiigen-community"
+  ]
+}

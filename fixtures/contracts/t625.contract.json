@@ -1,0 +1,23 @@
+{
+  "taskTypeId": "T625",
+  "name": "ConsentGateEnforcer",
+  "flowId": "FLOW-20",
+  "archetype": "guard",
+  "purpose": "Unconditional consent gate at ORDER 1 — blocks all downstream ad processing on missing or revoked consent (GDPR/CCPA)",
+  "entry": "AdDeliveryRequested event",
+  "ironRules": [
+    "IR-1: Consent check at ORDER 1 unconditionally before any auction processing. Zero business exception paths.",
+    "IR-2: consentRecord absent OR adsConsent=false OR expiresAt < now() → emit ConsentGateFailed immediately.",
+    "IR-3: ConsentGateFailed includes userId, reason (MISSING|REVOKED|EXPIRED), timestamp.",
+    "IR-4: tenantId from ALS only — never from event payload."
+  ],
+  "machineComponents": [
+    "Consent check ORDER 1 unconditionally",
+    "Search consent-records for userId",
+    "Verify adsConsent=true and not expired",
+    "tenantId from ALS (DNA-5)"
+  ],
+  "freedomComponents": [
+    "consent_check_timeout_ms — max time to wait for consent service response"
+  ]
+}

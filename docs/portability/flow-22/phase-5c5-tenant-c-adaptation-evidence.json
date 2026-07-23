@@ -1,0 +1,248 @@
+{
+    "flowId":  "FLOW-22",
+    "flowSlug":  "cms-publishing",
+    "phase":  "phase5c5TenantCAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T08:27:58.9462699Z",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "northwind",
+                         "repo":  "lubochka/northwind--northwind-editorial-ops-cms",
+                         "package":  "@xiigen-fork/northwind-editorial-ops-cms",
+                         "version":  "1.0.2"
+                     },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "packageName":  "@xiigen-fork/tessera-editorial-atelier-cms",
+                       "packageVersion":  "1.0.3",
+                       "moduleName":  "tessera-editorial-atelier-cms",
+                       "displayName":  "Tessera Editorial Atelier CMS",
+                       "sourceModuleName":  "northwind-editorial-ops-cms",
+                       "visiblePlainLanguage":  "Tessera editorial atelier policy: collector audience by default, curator and rights review gates, longer exhibit scheduling window, monthly analytics, and two-year analytics retention while publication immutability, approval gates, scheduling idempotency, audit store-before-event, append-only analytics, and tenant isolation remain unchanged.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow22_publish_conflict_retry_limit",
+                                                  "from":  3,
+                                                  "to":  2
+                                              },
+                                              {
+                                                  "key":  "flow22_default_audience_mode",
+                                                  "from":  "member",
+                                                  "to":  "collector"
+                                              },
+                                              {
+                                                  "key":  "flow22_approval_required_stages",
+                                                  "from":  "EDITOR_REVIEW,LEGAL_REVIEW,COMPLIANCE_REVIEW,FINAL_APPROVAL",
+                                                  "to":  "CURATOR_REVIEW,RIGHTS_REVIEW,FINAL_APPROVAL"
+                                              },
+                                              {
+                                                  "key":  "flow22_approval_sla_hours",
+                                                  "from":  12,
+                                                  "to":  18
+                                              },
+                                              {
+                                                  "key":  "content_publish_schedule_window_ms",
+                                                  "from":  604800000,
+                                                  "to":  1209600000
+                                              },
+                                              {
+                                                  "key":  "flow22_schedule_timezone_policy",
+                                                  "from":  "tenant-local",
+                                                  "to":  "tenant-local"
+                                              },
+                                              {
+                                                  "key":  "flow22_analytics_retention_days",
+                                                  "from":  365,
+                                                  "to":  730
+                                              },
+                                              {
+                                                  "key":  "flow22_analytics_rollup_window",
+                                                  "from":  "day",
+                                                  "to":  "month"
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "Content tenant ownership remains mandatory before publication.",
+                                                   "Published content versions remain immutable.",
+                                                   "OCC remains mandatory for publish state transitions.",
+                                                   "Approval stage validation remains mandatory.",
+                                                   "Scheduled publishing keeps content and timestamp specific idempotency locks.",
+                                                   "Audit records remain stored before downstream events.",
+                                                   "Analytics records remain append-only.",
+                                                   "Tenant context resolution remains automatic through TenantContextResolver."
+                                               ],
+                       "adaptedFiles":  [
+                                            "ADAPTATION-CHANGELOG.md",
+                                            "BUNDLE-MANIFEST.json",
+                                            "__tests__/cms-publishing-northwind-adaptation.spec.ts",
+                                            "__tests__/cms-publishing-tessera-adaptation.spec.ts",
+                                            "freedom-config.defaults.json",
+                                            "package.json",
+                                            "settings/module.settings.json",
+                                            "tenant.config.json"
+                                        ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--tessera-editorial-atelier-cms",
+                             "url":  "https://github.com/lubochka/tessera-collective--tessera-editorial-atelier-cms",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "renamedFromInstalledRepo":  "lubochka/tessera-collective--northwind-editorial-ops-cms",
+                             "sourceRepoFullName":  "lubochka/northwind--northwind-editorial-ops-cms",
+                             "adaptedCommit":  "43fe27e2e80ae140d52f6b408043028bcbe9e970",
+                             "adaptedCommitMessage":  "Adapt CMS publishing for Tessera editorial atelier",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-editorial-ops-cms-phase5c-20260510-110905",
+                             "cleanCloneStatus":  "clean",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/cms-publishing-northwind-adaptation.spec.ts",
+                                                              "__tests__/cms-publishing-tessera-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --package-lock-only --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  121,
+                                                                 "shasum":  "88840df842f6201550c9b95450013b29030b4087"
+                                                             }
+                                                         ],
+                             "adaptationHistoryEntries":  3,
+                             "bundleManifestItemCount":  120
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI - cms-publishing",
+                          "runId":  25623865666,
+                          "jobId":  75215299758,
+                          "url":  "https://github.com/lubochka/tessera-collective--tessera-editorial-atelier-cms/actions/runs/25623865666",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "43fe27e2e80ae140d52f6b408043028bcbe9e970",
+                          "createdAt":  "2026-05-10T08:18:45Z",
+                          "updatedAt":  "2026-05-10T08:19:25Z",
+                          "successfulJobs":  [
+                                                 "Standalone flow test - cms-publishing"
+                                             ]
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "packageName":  "@xiigen-fork/tessera-editorial-atelier-cms",
+                          "version":  "1.0.3",
+                          "distTags":  {
+                                           "latest":  "1.0.3"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/tessera-editorial-atelier-cms/-/tessera-editorial-atelier-cms-1.0.3.tgz",
+                          "shasum":  "88840df842f6201550c9b95450013b29030b4087",
+                          "gitHead":  "43fe27e2e80ae140d52f6b408043028bcbe9e970",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/cms-publishing-tessera-v1.0.3-registry-api-evidence.json",
+                          "screenshot":  "docs/e2e-snapshots/marketplace/cms-publishing-tessera-v1.0.3-registry-listing.png",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/cms-publishing/tenant-c-v1.0.3",
+                                                      "count":  27,
+                                                      "zeroByteFiles":  0,
+                                                      "totalBytes":  758156,
+                                                      "playwrightExecutions":  27,
+                                                      "roles":  [
+                                                                    "anonymous",
+                                                                    "public-marketplace-visitor",
+                                                                    "tenant-user",
+                                                                    "freelancer",
+                                                                    "business-partner",
+                                                                    "event-organiser",
+                                                                    "tenant-admin",
+                                                                    "platform-admin",
+                                                                    "platform-support"
+                                                                ],
+                                                      "cells":  [
+                                                                    "C2-en-populated",
+                                                                    "C4-he-rtl-populated",
+                                                                    "C6-en-mobile"
+                                                                ]
+                                                  },
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/cms-publishing-tessera-v1.0.3-registry-listing.png",
+                                                   "bytes":  47588
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-22/tessera-collective--tessera-editorial-atelier-cms-tenant-c-v1.0.3-github-listing.png",
+                                                   "bytes":  136143
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-22/tessera-collective--tessera-editorial-atelier-cms-tenant-c-v1.0.3-actions-success.png",
+                                                   "bytes":  79259
+                                               }
+                                           ]
+                       },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "client/e2e/cms-publishing-tenant-c-adapted.spec.ts"
+                                                        ],
+                                              "purpose":  "Render and verify FLOW-22 Tenant C adapted cascade-point visual evidence under docs/e2e-snapshots/cms-publishing/tenant-c-v1.0.3."
+                                          },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "client: npx tsc --noEmit --pretty false",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantCAdaptedPlaywright":  {
+                                                                    "command":  "client: VITE_PORT=52031 npx playwright test e2e/cms-publishing-tenant-c-adapted.spec.ts --project=chromium-desktop --reporter=dot --workers=4",
+                                                                    "result":  "passed",
+                                                                    "tests":  27,
+                                                                    "distinctPngCount":  27,
+                                                                    "zeroByteFiles":  0
+                                                                },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "secretPatternHits":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true,
+                           "registryTokenPrinted":  false
+                       },
+    "phaseGate":  {
+                      "tenantCAdaptedFlow":  true,
+                      "tenantCCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "fullThreeTenantCascadeComplete":  true,
+                      "readyForAuthDecorationCheck":  true
+                  },
+    "verdict":  "PASS"
+}

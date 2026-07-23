@@ -1,0 +1,15 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F970",
+  "factoryId": "F970",
+  "flowId": "FLOW-23",
+  "interface": "IIETFIdempotencyKeyService",
+  "injectionToken": "IETF_IDEMPOTENCY_KEY_SERVICE",
+  "fabric": "DATABASE",
+  "platformOnly": true,
+  "platformOnlyReason": "Idempotency key service is an engine primitive — not tenant-configurable",
+  "taskTypes": ["T361", "T362", "T363", "T366"],
+  "bfaRules": ["CF-449"],
+  "keyFormat": "FLOW-23:<taskTypeId>:<uuid>",
+  "defaultTtlSeconds": 86400
+}

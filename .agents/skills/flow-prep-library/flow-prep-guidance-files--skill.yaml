@@ -1,0 +1,75 @@
+name: flow-prep-guidance-files
+version: "1.0.0"
+priority: MANDATORY
+load_order: 10
+updated: "2026-04-20"
+author: luba
+entry: FLOW-PREP-LIBRARY-README.md
+
+description: >
+  50 guidance files (GUIDE-B01..B50) that each produce exactly one List B
+  output file type. Apply one guidance file per output file needed. Every
+  guidance file follows the same structure: final goal statement, list of
+  List A sources with their role (PRIMARY/REFERENCE/STRUCTURE/FIXTURE),
+  step-by-step authoring instructions, and a quality verification section.
+  Phase 7 files (B45-B50) are role-enriched and require B50 first.
+
+triggers:
+  - "generate GUIDE-B"
+  - "produce CURRENT-STATE.json"
+  - "produce IMPL-STATE.json"
+  - "produce DESIGN-SIMULATION"
+  - "produce IMPLEMENTATION-PLAN"
+  - "produce UI-REFLECTION-STATE"
+  - "produce ROLE-SCREEN-MATRIX"
+  - "List B file"
+  - "docs/sessions/FLOW-XX"
+
+generation_order:
+  mandatory_first: "GUIDE-B50 before GUIDE-B46/B47/B48"
+  phase_7_order: "B50 → B46 → B47 → B48 → B45 → B49"
+  phase_0: [B01, B02, B03, B04, B05]
+  phase_1: [B06, B07, B08, B09, B10, B11]
+  phase_2: [B12, B13, B14, B15, B16]
+  phase_3: [B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28]
+  phase_4: [B29, B30, B31, B32, B33, B34, B35]
+  phase_5: [B36, B37, B38, B39, B40]
+  phase_6: [B41, B42, B43, B44]
+  phase_7: [B50, B46, B47, B48, B45, B49]
+
+key_guidance_files:
+  role_screen_matrix:
+    file: GUIDE-B50-ROLE-SCREEN-MATRIX.md
+    note: "MUST run before B46/B47/B48"
+  implementation_plan:
+    file: GUIDE-B17-IMPLEMENTATION-PLAN.md
+    note: "Contains Q8, Rule 35, Phase 7 FC-18 + SK-541 (v1.16 changes)"
+  client_screens:
+    file: GUIDE-B46-DESIGN-SIM-CLIENT-SCREENS.md
+    note: "Contains Step 0 examination record check (G1-G7 grammar)"
+  ui_state_map:
+    file: GUIDE-B47-UI-STATE-MAP.md
+    note: "Contains Step 0 MARKET-REFERENCE-CATALOG per-state rendering"
+  ux_audit:
+    file: GUIDE-B48-UX-AUDIT.md
+    note: "Contains SK-541 four-layer audit Step 0"
+  rag:
+    file: GUIDE-B07-RAG-MD.md
+    note: "Contains C27 RAG ACL labels for all roles"
+
+failure_patterns_prevented:
+  FP-1: "GUIDE-B46 domain-screen classification gate"
+  FP-2: "GUIDE-B47 ≥3-state requirement"
+  FP-3: "GUIDE-B17 Phase 7 mandatory"
+  FP-4: "GUIDE-B45 INTERNAL_ONLY guard"
+  FP-5: "GUIDE-B50 mandatory before B46/B47"
+
+validation:
+  score: "50/50 SELF-SUFFICIENT"
+  test_flow: "FLOW-48 Cluster 1 (all 10 personas)"
+  list_a_coverage: "897/897 files"
+
+source_split:
+  flow_01_34: "docs/business-flows/NN-{slug}.md (F4 business spec)"
+  flow_35_47: "CURRENT-STATE.json + DESIGN-SIMULATION-R1.md + ZIP-08/09 fixtures"
+  flow_48: "docs/design-reviews/ROLE-ANALYSIS-BATCH-10.md (no F4 in ZIP-16)"

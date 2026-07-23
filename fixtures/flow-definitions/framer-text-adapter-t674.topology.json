@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-44",
+  "flowName": "framer-text-adapter",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T674",
+        "name": "FramerTextElementFetcher",
+        "order": 1,
+        "description": "Fetch text component from Framer workspace, validate workspace ownership"
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T675",
+        "name": "TextVariantResolver",
+        "order": 2,
+        "description": "Resolve text variant from FREEDOM config, map to canonical font size"
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T676",
+        "name": "OverrideResolver",
+        "order": 3,
+        "description": "Apply component overrides (delta-style changes) to base component"
+      },
+      {
+        "nodeId": "n4",
+        "taskTypeId": "T677",
+        "name": "StyleResolutionEngine",
+        "order": 4,
+        "description": "Combine base style + overrides into final resolved style"
+      },
+      {
+        "nodeId": "n5",
+        "taskTypeId": "T678",
+        "name": "AnimationMetadataExcluder",
+        "order": 5,
+        "description": "Detect and exclude animation metadata, record in audit index"
+      },
+      {
+        "nodeId": "n6",
+        "taskTypeId": "T679",
+        "name": "WorkspaceScopedAggregator",
+        "order": 6,
+        "description": "Aggregate all element data with workspaceId context"
+      },
+      {
+        "nodeId": "n7",
+        "taskTypeId": "T680",
+        "name": "ExportValidationGate",
+        "order": 7,
+        "description": "Validate all transformations complete, emit TextElementFetched"
+      },
+      {
+        "nodeId": "n8",
+        "taskTypeId": "T681",
+        "name": "OutboxPublisher",
+        "order": 8,
+        "description": "Emit CloudEvents to queue fabric after all storage (DNA-8 outbox)"
+      }
+    ]
+  }
+}

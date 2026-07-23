@@ -1,0 +1,57 @@
+{
+  "name": "@xiigen/framer-text-elements-adapter",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-44 Framer Plugin API adapter for text element portability. Maps Framer text nodes into the shared XIIGen text model and writes text/style updates through a Framer facade.",
+  "private": false,
+  "main": "dist/bundle.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "__tests__",
+    "docs",
+    "dist",
+    "tsconfig.json",
+    "webpack.config.js"
+  ],
+  "publishConfig": {
+    "registry": "http://localhost:4873",
+    "access": "public"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "framer-plugin": "*"
+  },
+  "peerDependenciesMeta": {
+    "framer-plugin": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-loader": "^9.0.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.spec.ts"
+    ]
+  },
+  "keywords": [
+    "xiigen",
+    "framer",
+    "text-elements",
+    "adapter",
+    "ADAPTATION"
+  ]
+}

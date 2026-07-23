@@ -1,0 +1,202 @@
+{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "phase5cTenantCInstalls",
+    "status":  "completed",
+    "capturedAt":  "2026-05-06T12:35:14.5434834+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "northwind",
+                         "repo":  "lubochka/northwind--northwind-exchange-etl-data-integration",
+                         "package":  "@xiigen-fork/northwind-exchange-etl-data-integration",
+                         "version":  "1.0.2"
+                     },
+    "marketplaceFork":  {
+                            "method":  "POST /api/marketplace/packages/etl-data-integration/fork",
+                            "createdByMarketplaceApi":  true,
+                            "manualRepoCreationUsed":  false,
+                            "sourceRepoFullName":  "lubochka/northwind--northwind-exchange-etl-data-integration",
+                            "repoFullName":  "lubochka/tessera-collective--northwind-exchange-etl-data-integration",
+                            "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-exchange-etl-data-integration",
+                            "initialCommitSha":  "2f5f97e9ec70788173c33a5e206100c42fab54da",
+                            "initialVersion":  "1.0.2",
+                            "forkId":  "fork-etl-data-integration-tessera-collective"
+                        },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--northwind-exchange-etl-data-integration",
+                             "url":  "https://github.com/lubochka/tessera-collective--northwind-exchange-etl-data-integration",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "2f5f97e9ec70788173c33a5e206100c42fab54da",
+                             "initialActionsRun":  {
+                                                       "runId":  25427116679,
+                                                       "url":  "https://github.com/lubochka/tessera-collective--northwind-exchange-etl-data-integration/actions/runs/25427116679",
+                                                       "status":  "completed",
+                                                       "conclusion":  "failure",
+                                                       "failingStep":  "Test"
+                                                   },
+                             "repairCommit":  "67fb1de3d69aa6d4a750bb994482b557ec3349e8",
+                             "repairCommitMessage":  "Repair Tessera install proof for Northwind ETL",
+                             "repairActionsRun":  {
+                                                      "runId":  25427368668,
+                                                      "jobId":  74584282261,
+                                                      "url":  "https://github.com/lubochka/tessera-collective--northwind-exchange-etl-data-integration/actions/runs/25427368668",
+                                                      "status":  "completed",
+                                                      "conclusion":  "success",
+                                                      "headSha":  "67fb1de3d69aa6d4a750bb994482b557ec3349e8"
+                                                  },
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-exchange-etl-data-integration-phase5c-20260506-122520",
+                             "filesChangedInTenantRepo":  [
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/etl-data-integration-northwind-adaptation.spec.ts"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  3,
+                                                                 "tests":  8
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  124,
+                                                                 "dryRunShasum":  "a99f49997b0f2482f510673b3e37ffcc94f51a57"
+                                                             }
+                                                         ],
+                             "installProof":  {
+                                                  "tenantConfigTenantId":  "tessera-collective",
+                                                  "installedFromRepoFullName":  "lubochka/northwind--northwind-exchange-etl-data-integration",
+                                                  "adaptationHistoryEntries":  2,
+                                                  "firstAdaptationTenantId":  "acme-corp",
+                                                  "secondAdaptationTenantId":  "northwind",
+                                                  "settingsTenantId":  "tessera-collective",
+                                                  "settingsAdaptationTenantId":  "tessera-collective",
+                                                  "bundleManifestInstalledForTenant":  "tessera-collective"
+                                              }
+                         },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "packageName":  "@xiigen-fork/northwind-exchange-etl-data-integration",
+                          "version":  "1.0.2",
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-exchange-etl-data-integration/-/northwind-exchange-etl-data-integration-1.0.2.tgz",
+                          "shasum":  "c598809aacaed5316ff5c327ee66cdacef011bce",
+                          "gitHead":  "f8bb9bffd0308bb4b846c6ed67a79caf35fee3a5",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/etl-data-integration-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+                          "screenshot":  "docs/e2e-snapshots/marketplace/etl-data-integration-northwind-v1.0.2-registry-listing-phase5c.png",
+                          "verified":  true
+                      },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "server/src/engine/flows/module-lifecycle/fork-flow.handler.ts",
+                                                            "server/src/engine/flows/module-lifecycle/__tests__/fork-flow.handler.spec.ts",
+                                                            "client/src/pages/etl-data-integration/EtlDataIntegrationPage.tsx",
+                                                            "client/e2e/etl-data-integration-tenant-c-installed.spec.ts"
+                                                        ],
+                                              "purpose":  "Harden cascade test metadata rewrite and render FLOW-14 Tenant C installed-from-B visual evidence under docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b."
+                                          },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b",
+                                                      "count":  12,
+                                                      "zeroByteFiles":  0,
+                                                      "roles":  [
+                                                                    "tenant-admin",
+                                                                    "tenant-user",
+                                                                    "platform-admin",
+                                                                    "platform-support"
+                                                                ],
+                                                      "cells":  [
+                                                                    "C2-en-populated",
+                                                                    "C4-he-rtl-populated",
+                                                                    "C6-en-mobile"
+                                                                ],
+                                                      "files":  [
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/platform-admin-C2-en-populated.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/platform-admin-C4-he-rtl-populated.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/platform-admin-C6-en-mobile.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/platform-support-C2-en-populated.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/platform-support-C4-he-rtl-populated.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/platform-support-C6-en-mobile.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/tenant-admin-C2-en-populated.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/tenant-admin-C4-he-rtl-populated.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/tenant-admin-C6-en-mobile.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/tenant-user-C2-en-populated.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/tenant-user-C4-he-rtl-populated.png",
+                                                                    "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b/tenant-user-C6-en-mobile.png"
+                                                                ]
+                                                  },
+                           "screenshots":  [
+                                               "docs/e2e-snapshots/etl-data-integration/tenant-c-installed-from-b",
+                                               "docs/e2e-snapshots/repo-evidence/flow-14/tessera-collective--northwind-exchange-etl-data-integration-tenant-c-installed-from-b-github-listing.png",
+                                               "docs/e2e-snapshots/repo-evidence/flow-14/tessera-collective--northwind-exchange-etl-data-integration-tenant-c-installed-from-b-actions-success.png",
+                                               "docs/e2e-snapshots/marketplace/etl-data-integration-northwind-v1.0.2-registry-listing-phase5c.png"
+                                           ]
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantCInstalledPlaywright":  {
+                                                                      "command":  "Push-Location client; $env:VITE_PORT=5174; npx playwright test e2e/etl-data-integration-tenant-c-installed.spec.ts --project=chromium-desktop; Pop-Location",
+                                                                      "result":  "passed",
+                                                                      "tests":  12
+                                                                  },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "moduleLifecycleRegression":  {
+                                                                     "command":  "Push-Location server; npx jest --testPathPatterns=module-lifecycle --runInBand --colors=false; Pop-Location",
+                                                                     "result":  "passed",
+                                                                     "suites":  14,
+                                                                     "tests":  91
+                                                                 },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=etl-data-integration --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  15,
+                                                      "tests":  220
+                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0,
+                                                     "secretPatternHits":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCForkedTenantBAdaptedSource":  true,
+                      "tenantCInstalledPackagePreservedTenantBValues":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localRegistryReturnsTenantBPackage":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantCAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

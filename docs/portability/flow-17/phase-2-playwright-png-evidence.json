@@ -1,0 +1,69 @@
+{
+  "flowId": "FLOW-17",
+  "flowSlug": "freelancer-marketplace",
+  "phase": "phase2E2ETests",
+  "generatedAt": "2026-05-06T21:28:09.9421585+03:00",
+  "verdict": "passed",
+  "commands": [
+    {
+      "cwd": "client",
+      "command": "npx tsc --noEmit",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "cwd": "client",
+      "command": "npx playwright test e2e/freelancer-marketplace.spec.ts e2e/freelancer-marketplace-role-matrix.spec.ts --reporter=line",
+      "exitCode": 0,
+      "result": "passed",
+      "tests": {
+        "passed": 45,
+        "total": 45
+      }
+    }
+  ],
+  "pngEvidence": {
+    "root": "docs/e2e-snapshots/freelancer-marketplace",
+    "p1StatePngCount": 6,
+    "roleMatrixPngCount": 27,
+    "totalPngCount": 33,
+    "roleMatrix": {
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "tenant-admin",
+        "referral-user",
+        "freelancer",
+        "business-partner",
+        "platform-admin",
+        "platform-support"
+      ],
+      "viewports": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "expectedCount": 27,
+      "actualCount": 27
+    }
+  },
+  "filesChanged": [
+    "client/e2e/freelancer-marketplace.spec.ts",
+    "client/e2e/freelancer-marketplace-role-matrix.spec.ts",
+    "client/src/App.tsx",
+    "client/src/pages/freelancer-marketplace/GigPostingPage.tsx",
+    "docs/e2e-snapshots/freelancer-marketplace/**"
+  ],
+  "fixesMade": [
+    "Added the FLOW-17 role matrix Playwright suite for the 8 full role cells plus the referral banner variant.",
+    "Made the app-shell hideChrome mode suppress the topbar, sidebar, and sidebar margin so screenshots are chrome-free for admin and consumer roles.",
+    "Made the gig posting form and tenant-admin moderation view mobile-safe so the role matrix has no horizontal overflow.",
+    "Replaced generated P1 spec networkidle waits with the page sentinel to avoid Vite/i18n idle timing flake."
+  ],
+  "notes": [
+    "The event-organiser role is excluded because ROLE-ANALYSIS-BATCH-04 marks it as no distinct FLOW-17 surface.",
+    "No pre-commit gate was run before commit per Luba's direct instruction in this conversation."
+  ],
+  "nextPhase": "phase3VisualExamination"
+}

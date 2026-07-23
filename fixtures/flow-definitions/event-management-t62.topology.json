@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-03",
+  "taskTypeId": "T62",
+  "name": "flow-03-campaign-analytics-tracker",
+  "description": "T62 CampaignAnalyticsTracker — OBSERVABILITY archetype. Time-decoupled: triggers independently from EventCreated. Never in EventPromotionCompleted gate.",
+  "archetype": "OBSERVABILITY",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: independent-trigger-from-EventCreated, not gated on EventPromotionCompleted"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve OBSERVABILITY arch pattern for T62: time-decoupled analytics trigger, independent event subscription",
+      "params": {
+        "archetype": "OBSERVABILITY",
+        "taskTypeRef": "T62",
+        "topK": 5,
+        "patternIds": [
+          "arch--time-decoupled-analytics",
+          "arch--independent-event-subscription",
+          "arch--observability-not-gated"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T62 into: subscribe to EventCreated independently → aggregate analytics data → store campaign metrics"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate campaign-analytics-tracker.service.ts — time-decoupled: triggers independently from EventCreated. Never in EventPromotionCompleted gate."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: independent_trigger_from_event_created, not_gated_on_promotion_completed"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T62 iron rules: time-decoupled trigger, no gate dependency on EventPromotionCompleted"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=independent-trigger-from-EventCreated, rejected=gated-on-EventPromotionCompleted. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "EventCreated event (@EventPattern)",
+  "primaryFabric": "DATABASE"
+}

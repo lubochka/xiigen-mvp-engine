@@ -1,0 +1,39 @@
+{
+  "taskTypeId": "T180",
+  "flowId": "FLOW-13",
+  "name": "CrossFlowCorrelationEngine",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "read-only-cross-flow-tenantid-predicate-minimum-two-sources",
+    "tier": "PLATFORM_ENFORCED",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "warehouse_cross_flow_correlation_config",
+    "neutralConcepts": [
+      "Cross-flow joins MUST include tenantId in every predicate — no cross-tenant correlation (CF-FLOW13-AN-1)",
+      "sourceFlows must list all flows contributing data, minimum 2 sources",
+      "All cross-flow reads are read-only — never mutate source flow data",
+      "Emit CrossFlowCorrelationReported (warehouse.crossflow.correlation) on completion"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T180-1", "rule": "Cross-flow joins MUST include tenantId in every predicate — no cross-tenant data correlation. CF-FLOW13-AN-1.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T180-2", "rule": "sourceFlows must list ALL contributing flows with minimum 2 — single-flow correlation is rejected.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T180-3", "rule": "All cross-flow reads are read-only — mutation of source flow data is a BUILD_FAILURE.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T180-4", "rule": "Emit CrossFlowCorrelationReported (warehouse.crossflow.correlation) on completion.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "cross_flow_join_tenantid_in_every_predicate",
+    "source_flows_minimum_two",
+    "cross_flow_reads_are_read_only",
+    "emit_crossflow_correlation_on_completion"
+  ],
+  "bfaRules": ["CF-FLOW13-AN-1"],
+  "tags": ["analytics", "cross-flow", "correlation", "tenant-isolation", "read-only", "ANALYTICS_ENGINE"],
+  "keywords": "cross flow correlation engine tenantId predicate every join minimum 2 source flows read-only CrossFlowCorrelationReported CF-FLOW13-AN-1"
+}

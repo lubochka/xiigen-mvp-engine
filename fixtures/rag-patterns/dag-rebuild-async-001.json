@@ -1,0 +1,22 @@
+{
+  "patternId": "DAG-REBUILD-ASYNC-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-11",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": ["async-decoupling", "dag-rebuild", "time-decoupled", "topology"],
+  "keywords": "dag rebuild async decoupled topology schema publish event driven time decoupled queue",
+  "ironRules": [
+    "DAG rebuild triggered by queue event (SchemaPublished) — never called inline before HTTP response",
+    "DagRebuildCompleted is time-decoupled — does not block or gate SchemaPublished",
+    "DAG rebuild service uses @EventPattern('SchemaPublished') — not a synchronous inline service"
+  ],
+  "codeSnippet": "@EventPattern('SchemaPublished')\nasync onSchemaPublished(event: SchemaPublished): Promise<void> {\n  const deps = await this.loadAllDependencies(event.tenantId);\n  const topology = this.buildTopology(deps);\n  await this.db.storeDocument('xiigen-flow-definitions', topology);\n  await this.queue.enqueue('DagRebuildCompleted', { schemaType: event.schemaType });\n}",
+  "appliesTo": ["FLOW-12", "FLOW-13", "FLOW-19"],
+  "curriculumTier": 2,
+  "qualityScore": 0.91,
+  "sourceDocument": "FLOW-11-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

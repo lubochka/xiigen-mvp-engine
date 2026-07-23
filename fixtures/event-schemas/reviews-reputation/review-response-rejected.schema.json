@@ -1,0 +1,12 @@
+{
+  "eventType": "reviewResponse.rejected",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "reviewId": { "type": "string", "required": true },
+    "responderId": { "type": "string", "required": true },
+    "reason": { "type": "string", "enum": ["not_owner", "already_responded", "content_policy"], "required": true },
+    "revision_allowed": { "type": "boolean", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

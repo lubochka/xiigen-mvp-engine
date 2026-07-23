@@ -1,0 +1,142 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phase5bTenantBAdapts",
+  "tenant": "northwind",
+  "generatedAt": "2026-05-03T22:01:39.4109785+03:00",
+  "sourcePackage": {
+    "tenant": "acme-corp",
+    "packageName": "@xiigen-fork/acme-quiet-community-feed",
+    "version": "1.0.1",
+    "repoFullName": "lubochka/acme-corp--quiet-community-feed"
+  },
+  "adaptedPackage": {
+    "packageName": "@xiigen-fork/northwind-fresh-trust-feed",
+    "version": "1.0.2",
+    "moduleName": "fresh-trust-feed",
+    "registry": "http://localhost:4873",
+    "registryVerifiedVersion": "1.0.2"
+  },
+  "adaptation": {
+    "name": "fresh-trust-feed",
+    "preservedTenantAValues": {
+      "flow07_delivery_score_threshold": 0.35,
+      "flow07_max_feed_inserts_per_connection": 12
+    },
+    "tenantBChanges": {
+      "flow07_feed_scoring_weights": {
+        "from": {
+          "recencyWeight": 0.5,
+          "relationshipStrengthWeight": 0.3,
+          "activityTypeWeight": 0.2
+        },
+        "to": {
+          "recencyWeight": 0.65,
+          "relationshipStrengthWeight": 0.25,
+          "activityTypeWeight": 0.1
+        }
+      }
+    },
+    "adaptationHistoryEntries": 2
+  },
+  "github": {
+    "repoRename": {
+      "from": "lubochka/northwind--quiet-community-feed",
+      "to": "lubochka/northwind--fresh-trust-feed"
+    },
+    "commitSha": "e9cc03cab82e00b967b9783d29d00c521d0c2127",
+    "commitMessage": "Tenant B adaptation: fresh trust feed",
+    "actionsRun": {
+      "databaseId": 25287706320,
+      "workflowName": "XIIGen Flow CI - friend-request-social-feed",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "e9cc03cab82e00b967b9783d29d00c521d0c2127",
+      "url": "https://github.com/lubochka/northwind--fresh-trust-feed/actions/runs/25287706320"
+    }
+  },
+  "localForkVerification": {
+    "path": "<WORKSPACE>\\AppData\\Local\\Temp\\flow07-northwind-installed-verification",
+    "commands": [
+      {
+        "command": "npx tsc --noEmit",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed"
+      }
+    ]
+  },
+  "liveAuth": {
+    "server": "http://localhost:33001",
+    "secretsProvider": "vault",
+    "tenantRegistryStatus": 200,
+    "passed": 5,
+    "total": 5,
+    "checks": [
+      {
+        "name": "northwind tenant-user /api/auth/me",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "northwind tenant-admin /api/runs/flow07-auth-probe/trace",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "missing token /api/runs/flow07-auth-probe/trace",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "wrong-role token /api/runs/flow07-auth-probe/trace",
+        "expectedStatus": 403,
+        "actualStatus": 403
+      },
+      {
+        "name": "acme token rejected in northwind context",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      }
+    ]
+  },
+  "visualEvidence": {
+    "playwrightCommand": "client npx playwright test e2e/friend-request-social-feed-tenant-b-adapted.spec.ts --project=chromium-desktop --workers=1",
+    "playwrightResult": "22 passed",
+    "snapshotDirectory": "docs/e2e-snapshots/friend-request-social-feed/tenant-b-v1.0.2",
+    "snapshotPngCount": 21,
+    "smallPngCount": 0,
+    "minimumPngBytes": 29289,
+    "marketplaceListingScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/friend-request-social-feed-v1.0.2-listing.png",
+      "bytes": 147501
+    }
+  },
+  "repoEvidence": {
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/northwind--fresh-trust-feed-github-listing.png",
+        "bytes": 129483
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/northwind--fresh-trust-feed-repo-homepage.png",
+        "bytes": 81947
+      }
+    ],
+    "assertions": [
+      "GitHub API listing full_name is lubochka/northwind--fresh-trust-feed",
+      "tenant.config.json has tenantId northwind",
+      "tenant.config.json has moduleName fresh-trust-feed",
+      "tenant.config.json has repoFullName lubochka/northwind--fresh-trust-feed",
+      "tenant.config.json adaptationHistory contains both Tenant A and Tenant B entries"
+    ]
+  },
+  "secretHandling": {
+    "printedTenantTokens": false,
+    "printedVaultSecrets": false,
+    "storedSecretsInDocs": false,
+    "usedClaudeSessionTokenAsEvidence": false
+  }
+}

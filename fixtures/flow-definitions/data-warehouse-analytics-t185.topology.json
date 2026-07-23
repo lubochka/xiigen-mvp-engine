@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T185",
+  "name": "data-warehouse-analytics-data-lineage-tracker",
+  "description": "T185 DataLineageTracker — SCHEMA_REGISTRY archetype. Lineage records are immutable — never update, only append. All records include tenantId. Cross-flow lineage entries identify source flow explicitly.",
+  "archetype": "SCHEMA_REGISTRY",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: immutable append-only lineage records, tenantId in all records, cross-flow entries include explicit sourceFlow identifier"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve SCHEMA_REGISTRY arch pattern + immutable-lineage + append-only + source-flow-explicit + tenant-lineage patterns for T185",
+      "params": {
+        "archetype": "SCHEMA_REGISTRY",
+        "taskTypeRef": "T185",
+        "topK": 5,
+        "patternIds": [
+          "immutable-lineage-001",
+          "append-only-001",
+          "source-flow-explicit-001",
+          "tenant-lineage-001",
+          "data-operation-event-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T185 into: consume data operation event → build LineageRecord with tenantId + sourceFlow + operation + timestamp → storeDocument(lineageRecord) — NEVER updateDocument or deleteDocument on lineage"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate data-lineage-tracker.service.ts — @EventPattern on data operations, builds immutable LineageRecord: tenantId (from ALS), sourceFlow (explicit flow ID string), operation type, dataEntityRef, timestamp. Uses storeDocument() ONLY. NEVER updateDocument or deleteDocument for lineage records. Cross-flow entries MUST include sourceFlow field identifying originating flow."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: append_only_store_document, never_update_lineage, never_delete_lineage, tenant_id_in_record, source_flow_explicit_in_cross_flow"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T185 iron rules: immutable append, no update/delete, tenantId present, sourceFlow explicit, event-driven"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=append-only+tenant-id+source-flow-explicit, rejected=updateDocument-on-lineage OR missing-tenant-id OR missing-source-flow-in-cross-flow. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "@EventPattern on data operations",
+  "primaryFabric": "DATABASE"
+}

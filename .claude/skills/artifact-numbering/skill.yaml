@@ -1,0 +1,21 @@
+name: artifact-numbering
+sk_number: SK-420
+version: "1.0.0"
+load_order: 19
+priority: RECOMMENDED
+status: APPROVED
+description: |
+  Artifact numbering integrity for the XIIGen engine. Sequential assignment protocol
+  for factory IDs (F-XXXX), task types (T-XXX), skill numbers (SK-XXX), BFA rules,
+  and family IDs. Prevents number collisions across sessions.
+triggers:
+  - "artifact number"
+  - "next factory"
+  - "next task type"
+  - "F1339"
+  - "T516"
+  - "SK-330"
+  - "number collision"
+  - "assign number"
+  - "reserve number"
+phase_created: 9

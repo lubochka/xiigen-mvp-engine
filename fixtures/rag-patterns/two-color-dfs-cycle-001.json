@@ -1,0 +1,22 @@
+{
+  "patternId": "TWO-COLOR-DFS-CYCLE-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-11",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "VALIDATION",
+  "tags": ["dag", "cycle-detection", "dfs", "graph", "algorithm"],
+  "keywords": "dag cycle detection dfs white gray black back edge two color three state graph transitive closure",
+  "ironRules": [
+    "DFS uses three states: WHITE (unvisited), GRAY (on current path), BLACK (complete) — not a single visited Set",
+    "Encountering a GRAY node during DFS = back edge = cycle detected; return cyclePath immediately",
+    "cyclePath must be populated when cycle detected — empty cyclePath with CYCLE_DETECTED verdict is invalid"
+  ],
+  "codeSnippet": "const color: Record<string, 'W'|'G'|'B'> = {};\nconst path: string[] = [];\nfunction dfs(node: string): boolean {\n  if (color[node] === 'G') return true;\n  if (color[node] === 'B') return false;\n  color[node] = 'G'; path.push(node);\n  for (const dep of graph[node] ?? []) { if (dfs(dep)) return true; }\n  color[node] = 'B'; path.pop(); return false;\n}",
+  "appliesTo": ["FLOW-13", "FLOW-19", "FLOW-26", "FLOW-29"],
+  "curriculumTier": 1,
+  "qualityScore": 0.95,
+  "sourceDocument": "FLOW-11-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

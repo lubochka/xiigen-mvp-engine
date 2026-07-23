@@ -1,0 +1,129 @@
+{
+  "flowId": "FLOW-31",
+  "flowSlug": "design-intelligence-engine",
+  "implementationSlug": "design-system-governance",
+  "phase": "phase-i-certification-declaration",
+  "status": "completed",
+  "generatedAt": "2026-05-11T05:25:42.0000000Z",
+  "earnedTier": "Tier 2+ (Tier 3 not declared)",
+  "tier3BlockedBy": "package-signing first pass remains pending",
+  "tenantRepos": [
+    {
+      "tenant": "acme-corp",
+      "repo": "lubochka/acme-corp--design-intelligence-engine",
+      "package": "@xiigen-fork/acme-design-quality-office@1.0.1",
+      "finalActionsRunId": 25650408339,
+      "finalActionsConclusion": "success",
+      "finalCommit": "c2625d5f9c91765ea3808432301d5b4b752d5a16",
+      "defaultBranch": "main",
+      "private": true
+    },
+    {
+      "tenant": "northwind",
+      "repo": "lubochka/northwind--design-intelligence-engine",
+      "package": "@xiigen-fork/northwind-interface-control@1.0.2",
+      "finalActionsRunId": 25651367651,
+      "finalActionsConclusion": "success",
+      "finalCommit": "43c47096144aa420e4afecee416f19b990b17688",
+      "defaultBranch": "main",
+      "private": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "repo": "lubochka/tessera-collective--design-intelligence-engine",
+      "package": "@xiigen-fork/tessera-design-assurance-ledger@1.0.3",
+      "finalActionsRunId": 25651759247,
+      "finalActionsConclusion": "success",
+      "finalCommit": "9e9d25bcf21b83d349cba62cac62f306622950e4",
+      "defaultBranch": "main",
+      "private": true
+    }
+  ],
+  "registryVerification": [
+    {
+      "package": "@xiigen-fork/acme-design-quality-office",
+      "expectedVersion": "1.0.1",
+      "actualVersion": "1.0.1",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "package": "@xiigen-fork/northwind-interface-control",
+      "expectedVersion": "1.0.2",
+      "actualVersion": "1.0.2",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "package": "@xiigen-fork/tessera-design-assurance-ledger",
+      "expectedVersion": "1.0.3",
+      "actualVersion": "1.0.3",
+      "registry": "http://localhost:4873",
+      "verified": true
+    }
+  ],
+  "visualEvidence": {
+    "repoScreenshotCount": 12,
+    "zeroByteScreenshots": 0,
+    "minimumScreenshotBytes": 76822,
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-31"
+  },
+  "authVerdict": {
+    "phase0LiveChecks": {
+      "passed": 18,
+      "failed": 0
+    },
+    "phaseHLiveChecks": {
+      "passed": 8,
+      "failed": 0
+    },
+    "finalCascadeLiveChecks": {
+      "tenantA": {
+        "passed": 12,
+        "failed": 0
+      },
+      "tenantB": {
+        "passed": 12,
+        "failed": 0
+      },
+      "tenantC": {
+        "passed": 12,
+        "failed": 0
+      }
+    }
+  },
+  "phaseGate": {
+    "threeTenantReposPresent": true,
+    "tenantReposPrivate": true,
+    "allFinalGitHubActionsGreen": true,
+    "allRegistryVersionsVerified": true,
+    "realGitHubScreenshotsPresent": true,
+    "zeroByteScreenshots": 0,
+    "allProtocolEvidenceFilesPresent": true,
+    "authDecorationCompleted": true,
+    "certificationDeclared": true
+  },
+  "openIssues": [
+    {
+      "id": "FLOW-31-SLUG-MISMATCH",
+      "status": "accepted-for-this-protocol-run",
+      "note": "Protocol slug design-intelligence-engine maps to implementation directory design-system-governance."
+    },
+    {
+      "id": "FLOW-31-CROSS-FLOW-ATTRIBUTION",
+      "status": "accepted-for-this-protocol-run",
+      "note": "FLOW-31 and FLOW-37 both reference design-system-governance substrate in historical state files."
+    },
+    {
+      "id": "FLOW-31-STATE-DRIFT",
+      "status": "accepted-for-this-protocol-run",
+      "note": "IMPL-STATE says NOT_STARTED while 27 implementation files and 274 passing tests exist."
+    },
+    {
+      "id": "FLOW-31-TASK-RANGE-DRIFT",
+      "status": "accepted-for-this-protocol-run",
+      "note": "IMPL-STATE task_range T480-T506 is stale relative to passing contract tests T489-T515."
+    }
+  ],
+  "verdict": "FLOW-31 earns Tier 2+ certification. Tier 3 is withheld until package-signing first pass is complete."
+}

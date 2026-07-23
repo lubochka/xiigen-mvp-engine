@@ -1,0 +1,36 @@
+name: xiigen-core-principles-skill
+version: "1.0.0"
+sk_number: SK-409
+priority: SUPREME
+load_order: 7
+description: >
+  8 non-negotiable architectural principles extracted from Flows 25–33 and
+  multi-tenant-support.md. Every plan must explicitly answer all 8 gate
+  questions before proceeding to code. Invoked by planning-skill Gate 7.
+  SESSION-0 Step 12 checks FC-12 compliance.
+author: luba
+updated: "2026-03-18"
+origin: "Extracted from Flows 25–33 and multi-tenant-support.md (March 2026)"
+triggers:
+  - "foundational principles"
+  - "8 principles"
+  - "P1 through P8"
+  - "multi-tenant principle"
+  - "safe config"
+  - "prompt improvement"
+  - "RAG storage"
+  - "self-developing engine"
+  - "BFA arbitration principle"
+  - "local testing principle"
+  - "open source model"
+  - "Gate 7"
+entry: SKILL.md
+gates:
+  P1: "tenant_id on every new artifact? No leak paths?"
+  P2: "All configs via fabric? Per-tenant secrets?"
+  P3: "Prompts versioned? Judge+improve cycle?"
+  P4: "Knowledge stored in RAG? Local RAG for testing?"
+  P5: "Engine gets better, not just output?"
+  P6: "Decisions arbitrated? Cross-flow conflicts checked?"
+  P7: "Unit + sim + Docker for every component?"
+  P8: "Cost tracked? Training data captured? Model routing?"

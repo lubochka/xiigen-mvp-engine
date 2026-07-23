@@ -1,0 +1,191 @@
+{
+  "flowId": "FLOW-16",
+  "flowSlug": "marketplace-payments",
+  "phase": "phase4AiAdaptation",
+  "status": "completed",
+  "generatedAt": "2026-05-06T15:27:54.164Z",
+  "branch": "Skills_Creation_Claude",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "tenantName": "Acme Corp"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change",
+    "packageName": "@xiigen-fork/acme-enterprise-marketplace-payments",
+    "packageVersion": "1.0.1",
+    "moduleName": "acme-enterprise-marketplace-payments",
+    "displayName": "Acme Enterprise Marketplace Payments",
+    "sourceModuleName": "marketplace-payments",
+    "sourcePackageVersion": "1.0.0-fork",
+    "visiblePlainLanguage": "Acme enterprise payment policy: ten-minute checkout locks, 3 percent platform fee, and 30-day escrow auto-release while checkout, escrow, payout, and audit guardrails remain unchanged.",
+    "freedomChanges": [
+      {
+        "key": "checkout_lock_ttl_ms",
+        "from": 300000,
+        "to": 600000
+      },
+      {
+        "key": "platformFeeBps",
+        "from": 250,
+        "to": 300
+      },
+      {
+        "key": "escrow_auto_release_days",
+        "from": 14,
+        "to": 30
+      }
+    ],
+    "invariantsPreserved": [
+      "BOLA checkout identity verification still runs before cart lock or inventory reads.",
+      "Cart lock, payment capture, and payout paths remain idempotency-gated before side effects.",
+      "Payment card and payout bank details remain scrubbed and are never persisted raw.",
+      "Payment, escrow, and payout audit writes still happen before completion events are enqueued.",
+      "Escrow dispute handling remains non-destructive and compensation order remains REFUND_PAYMENT then RESTORE_INVENTORY."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/marketplace-payments-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/acme-corp--acme-enterprise-marketplace-payments",
+    "url": "https://github.com/lubochka/acme-corp--acme-enterprise-marketplace-payments",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "originalForkRepo": "lubochka/acme-corp--marketplace-payments",
+    "originalForkCommit": "1e2e2794abc446fd65e43336ef42f82ae82b1c58",
+    "adaptedCommit": "8f457b39d2de6e2607a4764ce1bd12471c97d76e",
+    "adaptedCommitMessage": "Adapt marketplace payments for Acme",
+    "cleanClonePath": "C:/Projects/xiigen-fork-clones/acme-corp--marketplace-payments-phase40-20260506-180553",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/marketplace-payments-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 1,
+        "tests": 3
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 114,
+        "shasum": "0eead079c296ac61052fb6a135f315c874335ad1"
+      }
+    ],
+    "adaptationHistoryEntries": 1,
+    "bundleManifestItemCount": 113
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI ? marketplace-payments",
+    "runId": 25444429362,
+    "jobId": 74644446600,
+    "url": "https://github.com/lubochka/acme-corp--acme-enterprise-marketplace-payments/actions/runs/25444429362",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "8f457b39d2de6e2607a4764ce1bd12471c97d76e",
+    "createdAt": "2026-05-06T15:20:52Z",
+    "updatedAt": "2026-05-06T15:21:47Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "nonBlockingAnnotation": "GitHub reported Node.js 20 actions deprecation for checkout/setup-node; tracked as inherited debt-011, not a FLOW-16 phase blocker."
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "ping": "passed",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/acme-enterprise-marketplace-payments",
+    "publishedVersion": "1.0.1",
+    "viewCommand": "npm view @xiigen-fork/acme-enterprise-marketplace-payments version --registry http://localhost:4873",
+    "npmViewVersion": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-enterprise-marketplace-payments/-/acme-enterprise-marketplace-payments-1.0.1.tgz",
+    "shasum": "0eead079c296ac61052fb6a135f315c874335ad1",
+    "gitHead": "8f457b39d2de6e2607a4764ce1bd12471c97d76e",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/marketplace-payments-acme-v1.0.1-registry-api-evidence.json",
+    "verified": true
+  },
+  "visualEvidence": {
+    "screenshots": [
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/marketplace-payments-acme-v1.0.1-registry-listing.png",
+        "sizeBytes": 46480
+      },
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-16/acme-corp--acme-enterprise-marketplace-payments-tenant-a-v1.0.1-github-listing.png",
+        "sizeBytes": 92978
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-16/acme-corp--acme-enterprise-marketplace-payments-tenant-a-v1.0.1-actions-success.png",
+        "sizeBytes": 65345
+      }
+    ],
+    "repoVisibilityRestored": true
+  },
+  "phaseCloseVerification": {
+    "tenantValidation": {
+      "typescript": "passed",
+      "jest": "passed: 1 suite, 3 tests",
+      "packDryRun": "passed"
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "passed": true
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tenantSecretsStoredInVault": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantAAdaptedFlow": true,
+    "tenantACommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBInstall": true
+  },
+  "verdict": "PASS"
+}

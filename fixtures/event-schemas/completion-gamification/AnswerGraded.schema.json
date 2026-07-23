@@ -1,0 +1,11 @@
+{
+  "eventType": "AnswerGraded",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "answer-grader",
+  "consumers": ["T95"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "answerId", "isCorrect", "gradedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T94 per answer. Part of Branch C social flow. isCorrect used for engagement points calculation in T95."
+}

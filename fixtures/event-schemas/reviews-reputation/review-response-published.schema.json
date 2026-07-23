@@ -1,0 +1,12 @@
+{
+  "eventType": "reviewResponse.published",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "reviewId": { "type": "string", "required": true },
+    "responseId": { "type": "string", "required": true },
+    "responderId": { "type": "string", "required": true },
+    "status": { "type": "string", "enum": ["PUBLISHED"], "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

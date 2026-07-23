@@ -1,0 +1,15 @@
+{
+  "index": "xiigen-training-data-pending",
+  "mappings": {
+    "properties": {
+      "tripleId":      { "type": "keyword" },
+      "taskTypeId":    { "type": "keyword" },
+      "flowId":        { "type": "keyword" },
+      "tenantId":      { "type": "keyword" },
+      "pendingReason": { "type": "keyword" },
+      "score":         { "type": "float" },
+      "createdAt":     { "type": "date" }
+    },
+    "dynamic": true
+  }
+}

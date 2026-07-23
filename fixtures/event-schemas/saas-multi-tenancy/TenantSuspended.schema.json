@@ -1,0 +1,17 @@
+{
+  "eventType": "saas.tenant.suspended",
+  "flowId": "FLOW-15",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "suspendedAt": { "type": "string", "format": "date-time", "required": true },
+    "suspendedBy": { "type": "string", "required": true },
+    "suspensionReason": { "type": "string", "required": true },
+    "cascadeToSubscriptions": {
+      "type": "boolean",
+      "const": true,
+      "required": true,
+      "description": "MUST always be true — suspension MUST cascade to active subscriptions. Any TenantSuspended event without cascadeToSubscriptions:true is a BUILD_FAILURE."
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "flowId": "FLOW-45",
+  "flowSlug": "history-bootstrap",
+  "bootstrapPrerequisite": true,
+  "manifestVersion": "1.0",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL",
+  "requiredBeforeFlows": "ALL",
+  "seedFiles": [
+    "server/src/bootstrap/history-seeds/arch-philosophy.json",
+    "server/src/bootstrap/history-seeds/history-bootstrap-design-corpus.json"
+  ],
+  "pshIndexes": [
+    "xiigen-architecture-philosophy",
+    "xiigen-philosophy-summaries",
+    "xiigen-bootstrap-completions",
+    "xiigen-bootstrap-orchestrator-idempotency",
+    "xiigen-philosophy-summarizer-idempotency"
+  ],
+  "services": [
+    "BootstrapFromDocumentsService",
+    "ArchPhilosophyRetriever",
+    "PhilosophyPatternSummarizer",
+    "HistoryBootstrapOrchestrator"
+  ],
+  "taskTypeIds": ["T601", "T602", "T603", "T604"],
+  "bfaRules": ["CF-803", "CF-804"],
+  "portabilityNotes": [
+    "FLOW-45 is a provisioning and temporal-prerequisite flow, not tenant-facing content.",
+    "Architecture philosophy records are GLOBAL platform knowledge and must not be tenant-private.",
+    "FLOW-29 Tier-3 PSH acceptance depends on these indexes being seeded first."
+  ]
+}

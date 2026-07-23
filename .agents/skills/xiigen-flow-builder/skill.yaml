@@ -1,0 +1,26 @@
+name: xiigen-flow-builder
+version: "2.1.0"
+load_order: null
+priority: RECOMMENDED
+status: APPROVED
+description: |
+  Skill for extending XIIGen with new flows (FLOW-32+). Use when the user wants to
+  add a new flow, define new task types, register new factory interfaces, create flow
+  DAG templates, run BFA cross-flow validation, or plan a new engine extension.
+triggers:
+  - "new flow"
+  - "FLOW-32"
+  - "add flow"
+  - "extend engine"
+  - "new task type"
+  - "T516"
+  - "F1339"
+  - "factory interface"
+  - "flow template"
+  - "flow DAG"
+  - "cross-flow"
+  - "BFA validation"
+  - "backward compatibility"
+  - "new family"
+  - "engine extension"
+phase_created: "pre-migration"

@@ -1,0 +1,13 @@
+{
+  "eventType": "form-builder-templates.form.instantiated",
+  "flowId": "FLOW-23",
+  "version": "1.0.0",
+  "properties": {
+    "instanceId": { "type": "string", "required": true },
+    "templateId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "userId": { "type": "string", "required": true },
+    "publishedVersionId": { "type": "string", "required": true },
+    "instantiatedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

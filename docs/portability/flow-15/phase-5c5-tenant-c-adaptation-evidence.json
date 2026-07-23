@@ -1,0 +1,236 @@
+﻿{
+    "flowId":  "FLOW-15",
+    "flowSlug":  "saas-multi-tenancy",
+    "phase":  "phase5c5TenantCAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T16:09:10.8409264+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "northwind",
+                         "package":  "@xiigen-fork/northwind-controlled-saas-multi-tenancy",
+                         "version":  "1.0.2",
+                         "repo":  "lubochka/northwind--northwind-controlled-saas-multi-tenancy"
+                     },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "FREEDOM key value change",
+                       "packageName":  "@xiigen-fork/tessera-community-saas-multi-tenancy",
+                       "packageVersion":  "1.0.3",
+                       "moduleName":  "tessera-community-saas-multi-tenancy",
+                       "displayName":  "Tessera Community SaaS Multi-Tenancy",
+                       "sourceModuleName":  "northwind-controlled-saas-multi-tenancy",
+                       "sourcePackageVersion":  "1.0.2",
+                       "visiblePlainLanguage":  "Tessera community tenancy policy: shorter community data retention, right-sized API/storage/seat quotas, and preserved payment-gated reactivation while keeping Acme and Northwind history.",
+                       "adaptationHistoryEntries":  3,
+                       "acmeHistoryPreserved":  true,
+                       "northwindHistoryPreserved":  true,
+                       "tesseraHistoryAdded":  true,
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow15_tenant_data_retention_days",
+                                                  "from":  365,
+                                                  "to":  180
+                                              },
+                                              {
+                                                  "key":  "flow15_tenant_default_quota_api_calls",
+                                                  "from":  100000,
+                                                  "to":  75000
+                                              },
+                                              {
+                                                  "key":  "flow15_tenant_default_quota_storage_gb",
+                                                  "from":  1024,
+                                                  "to":  768
+                                              },
+                                              {
+                                                  "key":  "flow15_tenant_default_quota_seats",
+                                                  "from":  250,
+                                                  "to":  150
+                                              }
+                                          ],
+                       "inheritedValuesPreserved":  [
+                                                        {
+                                                            "key":  "flow15_tenant_reactivation_payment_check",
+                                                            "value":  true,
+                                                            "source":  "northwind"
+                                                        }
+                                                    ],
+                       "invariantsPreserved":  [
+                                                   "Acme and Northwind remain present as the first two adaptation history entries.",
+                                                   "masterTenantId remains machine-controlled and is not exposed as a tenant override.",
+                                                   "Tenant identity continues to be resolved from tenant context or internal hash, never request body input.",
+                                                   "FLOW-12 and FLOW-13 remain peer dependencies rather than bundled source."
+                                               ],
+                       "adaptedFiles":  [
+                                            "ADAPTATION-CHANGELOG.md",
+                                            "__tests__/saas-multi-tenancy-package.spec.ts",
+                                            "freedom-config.defaults.json",
+                                            "package.json",
+                                            "tenant.config.json"
+                                        ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--tessera-community-saas-multi-tenancy",
+                             "url":  "https://github.com/lubochka/tessera-collective--tessera-community-saas-multi-tenancy",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "previousRepoName":  "lubochka/tessera-collective--northwind-controlled-saas-multi-tenancy",
+                             "adaptedCommit":  "0996a6fb7ab1708961fd831dfc9672e1d5b68fa3",
+                             "adaptedCommitMessage":  "Adapt Tessera community SaaS tenancy",
+                             "cleanClonePath":  "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-controlled-saas-multi-tenancy-phase5c-20260506-153000",
+                             "cleanCloneStatus":  "clean",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "__tests__/saas-multi-tenancy-package.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --package-lock-only --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  1,
+                                                                 "tests":  3
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  114,
+                                                                 "shasum":  "2bdcf07a0776e93d95844734499b5a719446b0b9"
+                                                             }
+                                                         ]
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — saas-multi-tenancy",
+                          "runId":  25436808403,
+                          "jobId":  74616871698,
+                          "url":  "https://github.com/lubochka/tessera-collective--tessera-community-saas-multi-tenancy/actions/runs/25436808403",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "0996a6fb7ab1708961fd831dfc9672e1d5b68fa3",
+                          "createdAt":  "2026-05-06T13:00:39Z",
+                          "updatedAt":  "2026-05-06T13:02:11Z",
+                          "successfulSteps":  [
+                                                  "Install",
+                                                  "TypeScript check",
+                                                  "Test",
+                                                  "Provenance"
+                                              ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/tessera-community-saas-multi-tenancy",
+                          "publishedVersion":  "1.0.3",
+                          "viewCommand":  "npm view @xiigen-fork/tessera-community-saas-multi-tenancy@1.0.3 version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+                          "npmViewVersion":  "1.0.3",
+                          "distTags":  {
+                                           "latest":  "1.0.3"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/tessera-community-saas-multi-tenancy/-/tessera-community-saas-multi-tenancy-1.0.3.tgz",
+                          "shasum":  "2bdcf07a0776e93d95844734499b5a719446b0b9",
+                          "gitHead":  "0996a6fb7ab1708961fd831dfc9672e1d5b68fa3",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/saas-multi-tenancy-tessera-v1.0.3-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/saas-multi-tenancy/tenant-c-v1.0.3",
+                                                      "count":  18,
+                                                      "zeroByteFiles":  0,
+                                                      "projects":  [
+                                                                       "chromium-desktop",
+                                                                       "chromium-mobile",
+                                                                       "chromium-tablet"
+                                                                   ]
+                                                  },
+                           "repoHomepageScreenshot":  {
+                                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-15/tessera-collective--tessera-community-saas-multi-tenancy-tenant-c-v1.0.3-github-listing.png",
+                                                          "bytes":  130442,
+                                                          "width":  0,
+                                                          "height":  133
+                                                      },
+                           "actionsSuccessScreenshot":  {
+                                                            "path":  "docs/e2e-snapshots/repo-evidence/flow-15/tessera-collective--tessera-community-saas-multi-tenancy-tenant-c-v1.0.3-actions-success.png",
+                                                            "bytes":  74598,
+                                                            "width":  0,
+                                                            "height":  104
+                                                        },
+                           "registryScreenshot":  {
+                                                      "path":  "docs/e2e-snapshots/marketplace/saas-multi-tenancy-tessera-v1.0.3-registry-listing.png",
+                                                      "bytes":  46093,
+                                                      "width":  0,
+                                                      "height":  208
+                                                  }
+                       },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "client/e2e/saas-multi-tenancy-tenant-c-adapted.spec.ts"
+                                                        ],
+                                              "purpose":  "Render and verify FLOW-15 Tenant C v1.0.3 cascade-point visual evidence under docs/e2e-snapshots/saas-multi-tenancy/tenant-c-v1.0.3."
+                                          },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "client: npx tsc --noEmit --pretty false",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantCAdaptedPlaywright":  {
+                                                                    "command":  "client: VITE_PORT=5174 npx playwright test e2e/saas-multi-tenancy-tenant-c-adapted.spec.ts --reporter=list",
+                                                                    "result":  "passed",
+                                                                    "tests":  18
+                                                                },
+                                   "serverTypeScript":  {
+                                                            "command":  "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "server: npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false",
+                                                      "result":  "passed",
+                                                      "suites":  8,
+                                                      "tests":  111
+                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "anyTypes":  0,
+                                                     "secretPatternHits":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true,
+                           "registryTokenPrinted":  false
+                       },
+    "phaseGate":  {
+                      "tenantCAdaptedTenantBPackage":  true,
+                      "tenantCCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsTenantCVersion":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "registryScreenshotPresent":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForAuthDecorationCheck":  true
+                  },
+    "verdict":  "PASS"
+}

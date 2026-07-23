@@ -1,0 +1,25 @@
+{
+  "taskTypeId": "T202",
+  "flowId": "FLOW-11",
+  "name": "SchemaApprovalWorkflow",
+  "archetype": "ORCHESTRATION",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "database": ["xiigen-schema-audit", "xiigen-idempotency-keys"],
+    "queue": ["SchemaApprovalRequired", "SchemaApprovalGranted", "SchemaApprovalRejected", "SchemaApprovalDeferred", "SchemaApprovalDuplicate"],
+    "aiEngine": []
+  },
+  "factories": [
+    { "token": "DATABASE_SERVICE", "fabricType": "DATABASE" },
+    { "token": "QUEUE_SERVICE", "fabricType": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T202-1", "rule": "THREE paths: APPROVE / REJECT / DEFER. Binary APPROVE/REJECT is a score-0 violation. DEFER is distinct from REJECT.", "severity": "BLOCKING" },
+    { "id": "IR-T202-2", "rule": "Approval window TTL sourced from FREEDOM config 'schema_registry_approval_window_ms' — never hardcoded.", "severity": "BLOCKING" },
+    { "id": "IR-T202-3", "rule": "storeDocument(pendingApproval) BEFORE enqueue. DNA-8.", "severity": "BLOCKING" }
+  ],
+  "namedChecks": ["schema_evolution_additive_auto_approved_breaking_needs_approval"],
+  "machineComponents": ["THREE_PATH_APPROVAL", "APPROVAL_TOKEN_SETNX"],
+  "freedomComponents": ["schema_registry_approval_window_ms"]
+}

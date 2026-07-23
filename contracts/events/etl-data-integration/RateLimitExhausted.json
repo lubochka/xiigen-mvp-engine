@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RateLimitExhausted",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "RateLimitExhausted" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["connectorId","operation","retryAfterMs","windowMs"],
+      "properties": {
+        "connectorId": { "type": "string" },
+        "operation": { "type": "string" },
+        "retryAfterMs": { "type": "integer", "description": "Milliseconds to wait before retrying" },
+        "windowMs": { "type": "integer", "description": "Rate limit window duration in milliseconds" }
+      }
+    }
+  }
+}

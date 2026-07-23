@@ -1,0 +1,234 @@
+﻿{
+    "flowId":  "FLOW-08",
+    "flowSlug":  "marketplace",
+    "phase":  "phase5c5TenantCAdapts",
+    "generatedAt":  "2026-05-05T15:34:33.7821468+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "sourceTenantId":  "northwind",
+                   "sourcePackage":  "@xiigen-fork/northwind-partner-marketplace@1.0.2",
+                   "adaptedPackage":  "@xiigen-fork/tessera-community-marketplace@1.0.3"
+               },
+    "tenantCAdaptation":  {
+                              "displayName":  "Tessera Community Marketplace",
+                              "moduleName":  "tessera-community-marketplace",
+                              "packageName":  "@xiigen-fork/tessera-community-marketplace",
+                              "version":  "1.0.3",
+                              "packageId":  "pkg-marketplace-tessera-community-marketplace",
+                              "visiblePlainLanguage":  "Tessera community marketplace: preserves Acme and Northwind cascade history, raises community launch price cap to 9000, and adds cooperative curation signals.",
+                              "freedomOverride":  "flow08_marketplace_max_price_cap.tessera-collective=9000",
+                              "tenantRepoCommit":  "ec31a6fcc25828c4581557b4183e2cf263cea990",
+                              "tenantRepoCommitMessage":  "Tenant C adaptation: Tessera community marketplace",
+                              "localForkVerification":  {
+                                                            "clonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-partner-marketplace",
+                                                            "typeScript":  "npx tsc --noEmit passed",
+                                                            "jest":  "npx jest --colors=false --forceExit passed with 4 suites and 13 tests"
+                                                        }
+                          },
+    "tenantRepository":  {
+                             "renamedFrom":  "lubochka/tessera-collective--northwind-partner-marketplace",
+                             "nameWithOwner":  "lubochka/tessera-collective--tessera-community-marketplace",
+                             "url":  "https://github.com/lubochka/tessera-collective--tessera-community-marketplace",
+                             "defaultBranch":  "main",
+                             "visibility":  "PRIVATE",
+                             "isPrivate":  true,
+                             "createdAt":  "2026-05-05T12:00:24Z",
+                             "pushedAt":  "2026-05-05T12:27:29Z"
+                         },
+    "githubActions":  {
+                          "runId":  25376307256,
+                          "jobId":  74412212045,
+                          "workflowName":  "XIIGen Flow CI - marketplace",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "ec31a6fcc25828c4581557b4183e2cf263cea990",
+                          "url":  "https://github.com/lubochka/tessera-collective--tessera-community-marketplace/actions/runs/25376307256",
+                          "jobUrl":  "https://github.com/lubochka/tessera-collective--tessera-community-marketplace/actions/runs/25376307256/job/74412212045",
+                          "createdAt":  "2026-05-05T12:27:32Z",
+                          "updatedAt":  "2026-05-05T12:28:24Z",
+                          "successfulSteps":  [
+                                                  "Set up job",
+                                                  "Run actions/checkout@v4.2.2",
+                                                  "Run actions/setup-node@v4.4.0",
+                                                  "Install",
+                                                  "TypeScript check",
+                                                  "Test",
+                                                  "Provenance",
+                                                  "Post Run actions/setup-node@v4.4.0",
+                                                  "Post Run actions/checkout@v4.2.2",
+                                                  "Complete job"
+                                              ],
+                          "inheritedWarnings":  [
+                                                    "Node.js 20 action deprecation annotation remains tracked as AGENTS debt-011."
+                                                ]
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "evidencePath":  "docs/e2e-snapshots/marketplace/marketplace-v1.0.3-registry-api-evidence.json",
+                          "packageName":  "@xiigen-fork/tessera-community-marketplace",
+                          "selectedVersion":  "1.0.3",
+                          "latest":  "1.0.3",
+                          "gitHead":  "ec31a6fcc25828c4581557b4183e2cf263cea990",
+                          "shasum":  "ec143fff8b514b586d244aea3d8d4c1eab33c81b",
+                          "tarball":  "http://localhost:4873/@xiigen-fork/tessera-community-marketplace/-/tessera-community-marketplace-1.0.3.tgz"
+                      },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-05T15:32:38.5254482+03:00",
+                           "passed":  8,
+                           "failed":  0,
+                           "checks":  [
+                                          {
+                                              "name":  "acme own marketplace browse",
+                                              "tenantHeader":  "acme-corp",
+                                              "method":  "GET",
+                                              "path":  "/api/marketplace/packages",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200
+                                          },
+                                          {
+                                              "name":  "northwind own marketplace browse",
+                                              "tenantHeader":  "northwind",
+                                              "method":  "GET",
+                                              "path":  "/api/marketplace/packages",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200
+                                          },
+                                          {
+                                              "name":  "tessera own marketplace browse",
+                                              "tenantHeader":  "tessera-collective",
+                                              "method":  "GET",
+                                              "path":  "/api/marketplace/packages",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200
+                                          },
+                                          {
+                                              "name":  "missing token denied",
+                                              "tenantHeader":  "tessera-collective",
+                                              "method":  "GET",
+                                              "path":  "/api/marketplace/packages",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401
+                                          },
+                                          {
+                                              "name":  "acme token in tessera context denied",
+                                              "tenantHeader":  "tessera-collective",
+                                              "method":  "GET",
+                                              "path":  "/api/marketplace/packages",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401
+                                          },
+                                          {
+                                              "name":  "northwind token in tessera context denied",
+                                              "tenantHeader":  "tessera-collective",
+                                              "method":  "GET",
+                                              "path":  "/api/marketplace/packages",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401
+                                          },
+                                          {
+                                              "name":  "tessera token in northwind context denied",
+                                              "tenantHeader":  "northwind",
+                                              "method":  "GET",
+                                              "path":  "/api/marketplace/packages",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401
+                                          },
+                                          {
+                                              "name":  "wrong role cannot fork Tenant C adapted package",
+                                              "tenantHeader":  "tessera-collective",
+                                              "method":  "POST",
+                                              "path":  "/api/marketplace/packages/tessera-community-marketplace/fork",
+                                              "expectedStatus":  403,
+                                              "actualStatus":  403
+                                          }
+                                      ]
+                       },
+    "visualEvidence":  {
+                           "marketplaceListingScreenshot":  "C:\\Projects\\xiigen mvp\\docs\\e2e-snapshots\\marketplace\\marketplace-v1.0.3-listing.png",
+                           "marketplaceListingBytes":  14265,
+                           "roleMatrixDirectory":  "docs/e2e-snapshots/marketplace/tenant-c-v1.0.3",
+                           "roleMatrixCount":  9,
+                           "roleMatrixMinBytes":  224639,
+                           "roleMatrixMaxBytes":  251423,
+                           "roleMatrixFiles":  [
+                                                   {
+                                                       "name":  "platform-admin-C2-en-populated.png",
+                                                       "bytes":  231769
+                                                   },
+                                                   {
+                                                       "name":  "platform-admin-C4-he-rtl-populated.png",
+                                                       "bytes":  233197
+                                                   },
+                                                   {
+                                                       "name":  "platform-admin-C6-en-mobile.png",
+                                                       "bytes":  251423
+                                                   },
+                                                   {
+                                                       "name":  "platform-support-C2-en-populated.png",
+                                                       "bytes":  231769
+                                                   },
+                                                   {
+                                                       "name":  "platform-support-C4-he-rtl-populated.png",
+                                                       "bytes":  233197
+                                                   },
+                                                   {
+                                                       "name":  "platform-support-C6-en-mobile.png",
+                                                       "bytes":  251423
+                                                   },
+                                                   {
+                                                       "name":  "tenant-admin-C2-en-populated.png",
+                                                       "bytes":  224639
+                                                   },
+                                                   {
+                                                       "name":  "tenant-admin-C4-he-rtl-populated.png",
+                                                       "bytes":  226038
+                                                   },
+                                                   {
+                                                       "name":  "tenant-admin-C6-en-mobile.png",
+                                                       "bytes":  251423
+                                                   }
+                                               ],
+                           "repoScreenshot":  "C:\\Projects\\xiigen mvp\\docs\\e2e-snapshots\\repo-evidence\\tessera-collective--tessera-community-marketplace-repo-homepage.png",
+                           "repoScreenshotBytes":  140414,
+                           "actionsScreenshot":  "C:\\Projects\\xiigen mvp\\docs\\e2e-snapshots\\repo-evidence\\tessera-collective--tessera-community-marketplace-actions-success.png",
+                           "actionsScreenshotBytes":  77400,
+                           "repoVisibilityRestoredAfterCapture":  true
+                       },
+    "commands":  {
+                     "clientTypeScript":  "Push-Location client; npx tsc --noEmit; Pop-Location: passed",
+                     "playwright":  "client npx playwright test e2e/marketplace-phase5c5-tenant-c-adaptation.spec.ts --project=chromium-desktop --workers=1: 10 passed, 10 total",
+                     "serverTypeScript":  "server npx tsc --noEmit -p tsconfig.json: passed",
+                     "serverJest":  "server npx jest --testPathPatterns=marketplace --runInBand: 60 suites passed, 1146 tests passed",
+                     "scans":  {
+                                   "throwNew":  0,
+                                   "clsImports":  0,
+                                   "servicesMissingMicroserviceBase":  0,
+                                   "unscopedFreedomReads":  0,
+                                   "localConfigClones":  0,
+                                   "directSdkImports":  0,
+                                   "controllerUseGuards":  true,
+                                   "controllerRouteCount":  4,
+                                   "controllerRolesOrPublicDeclarations":  4,
+                                   "controllerPublicRoutes":  0
+                               }
+                 },
+    "filesWritten":  [
+                         "client/src/pages/MarketplacePage.tsx",
+                         "client/e2e/marketplace-phase5c5-tenant-c-adaptation.spec.ts",
+                         "docs/e2e-snapshots/marketplace/marketplace-v1.0.3-listing.png",
+                         "docs/e2e-snapshots/marketplace/tenant-c-v1.0.3/*.png",
+                         "docs/e2e-snapshots/marketplace/marketplace-v1.0.3-registry-api-evidence.json",
+                         "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-community-marketplace-repo-homepage.png",
+                         "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-community-marketplace-actions-success.png",
+                         "docs/portability/flow-08/phase-5c5-tenant-c-adaptation-evidence.json",
+                         "docs/sessions/FLOW-08/FLOW-08-MOBILITY-AUTH-STATE.json"
+                     ],
+    "secretHandling":  {
+                           "tokenPrinted":  false,
+                           "tokenCommitted":  false,
+                           "tenantCredentialsRemainVaultBacked":  true,
+                           "note":  "No GitHub token, JWT signing key, or Vault secret value is stored in this evidence file."
+                       },
+    "phaseCloseResult":  "ready-for-phase-h-auth-decoration-check-after-precommit-commit-push"
+}

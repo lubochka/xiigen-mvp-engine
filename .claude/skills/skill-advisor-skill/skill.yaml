@@ -1,0 +1,36 @@
+name: skill-advisor-skill
+sk_number: SK-405
+priority: ADVISOR
+load_order: 4
+description: >
+  Governs skill block injection into AF-1 Genesis via AF-4 (selector) → AF-9 (cross-validation judge)
+  → AF-11 (effectiveness memory). Max 3 blocks per call. Primary: Claude. Judge: GPT-4o/Gemini.
+triggers:
+  - skill block injection
+  - AF-4 context selection
+  - SK-PLAN
+  - SK-TEST
+  - SK-DNA
+  - SK-BFA
+  - SK-DOCS
+  - skill selection
+  - cross-validation
+  - skill effectiveness
+  - getSkillEffectiveness
+  - selectSkillsForContext
+injectable_blocks:
+  - SK-PLAN
+  - SK-TEST
+  - SK-DNA
+  - SK-BFA
+  - SK-DOCS
+max_blocks_per_call: 3
+pipeline:
+  advisor: AF-4 (selector)
+  judge: AF-9 (cross-validation, different model)
+  memory: AF-11 (effectiveness tracking)
+anti_patterns:
+  - injecting all 5 blocks every call
+  - same model for advisor and judge
+  - skipping cross-validation for low scores
+  - changing activation thresholds without approval

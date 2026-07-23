@@ -1,0 +1,255 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phase4Point0TenantAOriginalFork",
+    "generatedAt":  "2026-05-04T23:32:25.7720658+03:00",
+    "tenant":  "acme-corp",
+    "marketplaceFork":  {
+                            "endpoint":  "POST /api/marketplace/packages/bundle-activation/fork",
+                            "status":  "FORKED",
+                            "forkId":  "fork-bundle-activation-acme-corp",
+                            "repoUrl":  "https://github.com/lubochka/acme-corp--bundle-activation",
+                            "repoFullName":  "lubochka/acme-corp--bundle-activation",
+                            "initialCommitSha":  "4b2386298d0d54e39dd7fcde235ca39957b7acf6",
+                            "usedVaultSecrets":  true,
+                            "secretsPrinted":  false,
+                            "preflightNote":  "The first fork attempt failed before side effects with GITHUB_CREDENTIALS_MISSING; after seeding the fork manager runtime Vault access path and per-tenant vault_token FREEDOM config without printing credentials, the retry succeeded."
+                        },
+    "prerequisitesCreated":  [
+                                 "docs/business-flows/00-bundle-activation.md",
+                                 "docs/sessions/FLOW-00/FLOW-00-STEP-1-INVARIANTS.md",
+                                 "docs/portability/flow-00/adaptation-surface-bundle-activation.json",
+                                 "server/src/bootstrap/history-seeds/bundle-activation-design-corpus.json"
+                             ],
+    "vaultAndAuth":  {
+                         "dockerDesktopReady":  true,
+                         "vaultContainer":  "xiigen-vault",
+                         "vaultSealed":  false,
+                         "canonicalTenantPathsVerified":  [
+                                                              "secret/xiigen/tenants/acme-corp/github_token",
+                                                              "secret/xiigen/tenants/acme-corp/github_org_name",
+                                                              "secret/xiigen/tenants/acme-corp/auth/jwt_signing_key"
+                                                          ],
+                         "runtimeForkManagerPathsSeeded":  [
+                                                               "secret/acme-corp/github_token",
+                                                               "secret/acme-corp/github_org_name",
+                                                               "secret/acme-corp/docker_registry_url",
+                                                               "secret/acme-corp/docker_registry_token"
+                                                           ],
+                         "tenantFreedomRuntimeConfig":  [
+                                                            "vault_token",
+                                                            "vault_address"
+                                                        ],
+                         "githubCliUser":  "lubochka",
+                         "tokenValuesPrinted":  false
+                     },
+    "githubRepository":  {
+                             "created_at":  "2026-05-04T20:24:41Z",
+                             "default_branch":  "main",
+                             "full_name":  "lubochka/acme-corp--bundle-activation",
+                             "html_url":  "https://github.com/lubochka/acme-corp--bundle-activation",
+                             "id":  1229216852,
+                             "owner":  "lubochka",
+                             "private":  true,
+                             "pushed_at":  "2026-05-04T20:26:17Z",
+                             "visibility":  "private"
+                         },
+    "githubActions":  {
+                          "workflow":  {
+                                           "html_url":  "https://github.com/lubochka/acme-corp--bundle-activation/blob/main/.github/workflows/flow-ci.yml",
+                                           "id":  270974349,
+                                           "name":  "XIIGen Flow CI — bundle-activation",
+                                           "path":  ".github/workflows/flow-ci.yml",
+                                           "state":  "active"
+                                       },
+                          "run":  {
+                                      "conclusion":  "success",
+                                      "createdAt":  "2026-05-04T20:26:23Z",
+                                      "databaseId":  25341705263,
+                                      "event":  "push",
+                                      "headSha":  "4b2386298d0d54e39dd7fcde235ca39957b7acf6",
+                                      "jobs":  [
+                                                   {
+                                                       "completedAt":  "2026-05-04T20:27:11Z",
+                                                       "conclusion":  "success",
+                                                       "databaseId":  74300337883,
+                                                       "name":  "Standalone flow test — bundle-activation",
+                                                       "startedAt":  "2026-05-04T20:26:28Z",
+                                                       "status":  "completed",
+                                                       "steps":  [
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:26:31Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Set up job",
+                                                                         "number":  1,
+                                                                         "startedAt":  "2026-05-04T20:26:29Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:26:32Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Run actions/checkout@v4.2.2",
+                                                                         "number":  2,
+                                                                         "startedAt":  "2026-05-04T20:26:31Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:26:35Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Run actions/setup-node@v4.4.0",
+                                                                         "number":  3,
+                                                                         "startedAt":  "2026-05-04T20:26:32Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:27:04Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Install",
+                                                                         "number":  4,
+                                                                         "startedAt":  "2026-05-04T20:26:35Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:27:07Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "TypeScript check",
+                                                                         "number":  5,
+                                                                         "startedAt":  "2026-05-04T20:27:04Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:27:10Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Test",
+                                                                         "number":  6,
+                                                                         "startedAt":  "2026-05-04T20:27:07Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:27:10Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Provenance",
+                                                                         "number":  7,
+                                                                         "startedAt":  "2026-05-04T20:27:10Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:27:10Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Post Run actions/setup-node@v4.4.0",
+                                                                         "number":  13,
+                                                                         "startedAt":  "2026-05-04T20:27:10Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:27:11Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Post Run actions/checkout@v4.2.2",
+                                                                         "number":  14,
+                                                                         "startedAt":  "2026-05-04T20:27:10Z",
+                                                                         "status":  "completed"
+                                                                     },
+                                                                     {
+                                                                         "completedAt":  "2026-05-04T20:27:11Z",
+                                                                         "conclusion":  "success",
+                                                                         "name":  "Complete job",
+                                                                         "number":  15,
+                                                                         "startedAt":  "2026-05-04T20:27:11Z",
+                                                                         "status":  "completed"
+                                                                     }
+                                                                 ],
+                                                       "url":  "https://github.com/lubochka/acme-corp--bundle-activation/actions/runs/25341705263/job/74300337883"
+                                                   }
+                                               ],
+                                      "status":  "completed",
+                                      "updatedAt":  "2026-05-04T20:27:12Z",
+                                      "url":  "https://github.com/lubochka/acme-corp--bundle-activation/actions/runs/25341705263",
+                                      "workflowName":  "XIIGen Flow CI — bundle-activation"
+                                  },
+                          "green":  true
+                      },
+    "screenshotEvidence":  {
+                               "path":  "docs/e2e-snapshots/repo-evidence/acme-corp--bundle-activation-github-listing.png",
+                               "bytes":  124041,
+                               "captureUrl":  "https://github.com/lubochka/acme-corp--bundle-activation",
+                               "visibilityDuringCapture":  "public",
+                               "visibilityAfterCapture":  "private",
+                               "verifiedVisual":  true
+                           },
+    "forkCloneVerification":  {
+                                  "clonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--bundle-activation",
+                                  "headSha":  "4b2386298d0d54e39dd7fcde235ca39957b7acf6",
+                                  "commands":  [
+                                                   {
+                                                       "command":  "npm install --no-audit --no-fund",
+                                                       "result":  "passed",
+                                                       "notes":  "422 packages added; npm deprecation warnings only."
+                                                   },
+                                                   {
+                                                       "result":  "passed",
+                                                       "command":  "npx tsc --noEmit"
+                                                   },
+                                                   {
+                                                       "command":  "npx jest --forceExit",
+                                                       "result":  "passed",
+                                                       "notes":  "1 suite passed, 1 test passed."
+                                                   }
+                                               ],
+                                  "workingTreeClean":  true
+                              },
+    "bundleManifest":  {
+                           "requiredBundleChecks":  {
+                                                        "completeModuleBundle":  true,
+                                                        "adaptationSurface":  true,
+                                                        "freedomDefaults":  true,
+                                                        "tenantConfig":  true,
+                                                        "ragSeeds":  true,
+                                                        "standalonePackage":  true
+                                                    },
+                           "fileCount":  110,
+                           "requiredFilesPresent":  [
+                                                        "package.json",
+                                                        "tsconfig.json",
+                                                        "jest.config.js",
+                                                        ".github/workflows/flow-ci.yml",
+                                                        "freedom-config.defaults.json",
+                                                        "tenant.config.json",
+                                                        "settings/module.settings.json",
+                                                        "docs/adaptation-surface.json",
+                                                        "docs/STEP-1-INVARIANTS.md",
+                                                        "docs/FUNCTIONAL-SPEC.md",
+                                                        "rag-seeds/bundle-activation-design-corpus.json",
+                                                        "BUNDLE-MANIFEST.json"
+                                                    ]
+                       },
+    "phaseGate":  {
+                      "tenantAForkedOriginalPlatformSource":  true,
+                      "realGitHubRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "realGitHubScreenshot":  true,
+                      "localForkCloneTestsPassed":  true,
+                      "readyForStateTransition":  true
+                  },
+    "verificationAfterEvidenceWrite":  {
+                                           "serverTypeScript":  {
+                                                                    "result":  "passed",
+                                                                    "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location"
+                                                                },
+                                           "serverJest":  {
+                                                              "tests":  73,
+                                                              "command":  "Push-Location server; npx jest --testPathPatterns=bundle-activation --runInBand; Pop-Location",
+                                                              "result":  "passed",
+                                                              "suites":  7
+                                                          },
+                                           "flowScans":  {
+                                                             "controllers":  0,
+                                                             "clsImports":  0,
+                                                             "servicesMissingMicroserviceBase":  0,
+                                                             "throwNew":  0
+                                                         },
+                                           "evidenceJsonAndSecretScan":  {
+                                                                             "jsonValid":  true,
+                                                                             "secretPatternHits":  0
+                                                                         }
+                                       }
+}

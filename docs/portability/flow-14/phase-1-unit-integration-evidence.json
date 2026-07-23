@@ -1,0 +1,45 @@
+﻿{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "phase1UnitTests",
+    "generatedAt":  "2026-05-06T10:13:22.4832238+03:00",
+    "startedAt":  "2026-05-06T10:13:11.5342851+03:00",
+    "status":  "completed",
+    "commands":  [
+                     "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                     "Push-Location server; npx jest --testPathPatterns=etl-data-integration --runInBand --colors=false; Pop-Location",
+                     "FLOW-14 phase-close static scan for throw new, MicroserviceBase, nestjs-cls, direct TenantContext imports, direct SDK imports, any types"
+                 ],
+    "verification":  {
+                         "serverTypeScript":  {
+                                                  "exitCode":  0,
+                                                  "command":  "npx tsc --noEmit -p tsconfig.json --pretty false",
+                                                  "passed":  true
+                                              },
+                         "jest":  {
+                                      "numPassedTests":  220,
+                                      "numPassedTestSuites":  15,
+                                      "exitCode":  0,
+                                      "numTotalTests":  220,
+                                      "numFailedTests":  0,
+                                      "command":  "npx jest --testPathPatterns=etl-data-integration --runInBand --colors=false",
+                                      "numTotalTestSuites":  15,
+                                      "passed":  true
+                                  },
+                         "staticCloseScan":  {
+                                                 "filesScanned":  13,
+                                                 "throwNew":  0,
+                                                 "servicesMissingMicroserviceBase":  0,
+                                                 "clsImports":  0,
+                                                 "directTenantContextImports":  0,
+                                                 "directSdkImports":  0,
+                                                 "anyTypes":  0,
+                                                 "passed":  true
+                                             }
+                     },
+    "phaseGate":  {
+                      "phase1Complete":  true,
+                      "zeroFailureLines":  true,
+                      "unitIntegration":  true
+                  }
+}

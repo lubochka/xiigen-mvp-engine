@@ -1,0 +1,17 @@
+{
+  "eventType": "RulesApplied",
+  "flowId": "FLOW-31",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "source": "design_intelligence_engine",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": [
+    "userId",
+    "tenantId",
+    "recordId",
+    "status",
+    "timestamp"
+  ],
+  "forbiddenFields": [],
+  "notes": "Event RulesApplied for design-intelligence-engine"
+}

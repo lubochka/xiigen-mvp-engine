@@ -1,0 +1,16 @@
+{
+  "patternId": "zero-score-passthrough",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-07",
+  "domainId": "social-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": ["T77", "score-zero", "passthrough", "feed-scoring"],
+  "keywords": "score zero passthrough feed scoring T77 FeedScorer no filter threshold valid",
+  "codeSnippet": "const score = await this.scorer.compute(item, weights);\n// score can be 0.0 — item passes through regardless\nreturn DataProcessResult.success({ item, score });  // T78 decides delivery threshold\n// WRONG: filter by score in T77 — weak connections produce empty feeds silently\n// if (score <= 0) return DataProcessResult.success({ skipped: true }); // WRONG",
+  "ironRules": [
+    "score=0 is lowest relevance, not a drop condition — item passes through to T78",
+    "T77 has no threshold filter — threshold belongs in T78 from FREEDOM config",
+    "Any code path in T77 that drops, defers, or skips items by score value = BUILD_FAILURE"
+  ]
+}

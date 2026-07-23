@@ -1,0 +1,174 @@
+[
+  {
+    "patternId": "DR-35-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-35",
+    "curriculumTier": 2,
+    "qualityScore": 0.9,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern A for meta-arbitration-engine",
+    "problem": "Problem description for pattern A",
+    "solution": "Solution for pattern A using architectural best practices",
+    "tradeoff": "Trade-off analysis for pattern A",
+    "relatedPatterns": [
+      "PATTERN-0"
+    ],
+    "decisionType": "ARCHITECTURAL",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-35-phase-0-a"
+  },
+  {
+    "patternId": "DR-35-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-35",
+    "curriculumTier": 3,
+    "qualityScore": 0.91,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern B for meta-arbitration-engine",
+    "problem": "Problem description for pattern B",
+    "solution": "Solution for pattern B using architectural best practices",
+    "tradeoff": "Trade-off analysis for pattern B",
+    "relatedPatterns": [
+      "PATTERN-1"
+    ],
+    "decisionType": "SECURITY",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-35-phase-0-b"
+  },
+  {
+    "patternId": "DR-35-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-35",
+    "curriculumTier": 2,
+    "qualityScore": 0.92,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern C for meta-arbitration-engine",
+    "problem": "Problem description for pattern C",
+    "solution": "Solution for pattern C using architectural best practices",
+    "tradeoff": "Trade-off analysis for pattern C",
+    "relatedPatterns": [
+      "PATTERN-2"
+    ],
+    "decisionType": "COMPLIANCE",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-35-phase-0-c"
+  },
+  {
+    "patternId": "DR-35-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-35",
+    "curriculumTier": 3,
+    "qualityScore": 0.93,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern D for meta-arbitration-engine",
+    "problem": "Problem description for pattern D",
+    "solution": "Solution for pattern D using architectural best practices",
+    "tradeoff": "Trade-off analysis for pattern D",
+    "relatedPatterns": [
+      "PATTERN-3"
+    ],
+    "decisionType": "OPERATIONAL",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-35-phase-0-d"
+  },
+  {
+    "patternId": "DR-35-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-35",
+    "curriculumTier": 2,
+    "qualityScore": 0.9400000000000001,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern E for meta-arbitration-engine",
+    "problem": "Problem description for pattern E",
+    "solution": "Solution for pattern E using architectural best practices",
+    "tradeoff": "Trade-off analysis for pattern E",
+    "relatedPatterns": [
+      "PATTERN-4"
+    ],
+    "decisionType": "ARCHITECTURAL",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-35-phase-0-e"
+  },
+  {
+    "patternId": "DR-35-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-35",
+    "curriculumTier": 3,
+    "qualityScore": 0.9500000000000001,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "topic": "Design reasoning pattern F for meta-arbitration-engine",
+    "problem": "Problem description for pattern F",
+    "solution": "Solution for pattern F using architectural best practices",
+    "tradeoff": "Trade-off analysis for pattern F",
+    "relatedPatterns": [
+      "PATTERN-5"
+    ],
+    "decisionType": "SECURITY",
+    "modelToken": "claude-3.5-sonnet",
+    "conversationId": "flow-35-phase-0-f"
+  },
+  {
+    "patternId": "RAG-35-A",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-35",
+    "curriculumTier": 3,
+    "qualityScore": 0.92,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "patternName": "PATTERN-META-ARBITRATION-ENGINE-A-001",
+    "description": "Architecture pattern 1 for meta-arbitration-engine",
+    "archetype": "GRAPH_ALGORITHM_PATTERN"
+  },
+  {
+    "patternId": "RAG-35-B",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-35",
+    "curriculumTier": 2,
+    "qualityScore": 0.93,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "patternName": "PATTERN-META-ARBITRATION-ENGINE-B-001",
+    "description": "Architecture pattern 2 for meta-arbitration-engine",
+    "archetype": "TRANSACTIONAL_PATTERN"
+  },
+  {
+    "patternId": "RAG-35-C",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-35",
+    "curriculumTier": 3,
+    "qualityScore": 0.9400000000000001,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "patternName": "PATTERN-META-ARBITRATION-ENGINE-C-001",
+    "description": "Architecture pattern 3 for meta-arbitration-engine",
+    "archetype": "IMMUTABLE_LOG_PATTERN"
+  },
+  {
+    "patternId": "RAG-35-D",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-35",
+    "curriculumTier": 2,
+    "qualityScore": 0.9500000000000001,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "appliesTo": [],
+    "patternName": "PATTERN-META-ARBITRATION-ENGINE-D-001",
+    "description": "Architecture pattern 4 for meta-arbitration-engine",
+    "archetype": "IDEMPOTENCY_PATTERN"
+  }
+]

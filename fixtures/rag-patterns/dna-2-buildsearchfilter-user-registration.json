@@ -1,0 +1,18 @@
+{
+  "patternId": "dna-2-buildsearchfilter-user-registration",
+  "patternType": "DNA_PATTERN_EXAMPLE",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "dnaId": "DNA-2",
+  "dnaName": "BuildQueryFilters",
+  "tags": [
+    "dna-2",
+    "buildSearchFilter",
+    "query-filter",
+    "empty-skip"
+  ],
+  "keywords": "buildSearchFilter query filter empty skip null auto DNA-2",
+  "codeSnippet": "// DNA-2: buildSearchFilter skips null/undefined/empty fields automatically\nconst filter = buildSearchFilter({\n  tenantId,\n  email: options.email,     // skipped if null\n  tokenId: options.tokenId, // skipped if null\n});\nreturn this.db.searchDocuments(tenantId, 'users', filter);",
+  "antiPattern": "where email = ? AND tokenId = ?  // WRONG: manual WHERE clause building"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.marketplace-cache-miss.v1",
+  "description": "Emitted by T666 TranslationResolverService at pipeline Step 4 when the module is installed from marketplace but no master-cache entry exists. Queues T667 MarketplaceTranslationCacheJob asynchronously under MASTER_TENANT_ID CLS (CF-811). Idempotency key ensures SETNX dedup per CF-816.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenantId", "eventId", "emittedAt", "moduleId", "locale", "packageId", "idempotencyKey"],
+  "properties": {
+    "tenantId":  { "type": "string", "description": "Tenant observing the miss (ALS). Queue job will switch CLS to MASTER_TENANT_ID internally." },
+    "eventId":   { "type": "string" },
+    "emittedAt": { "type": "string", "format": "date-time" },
+    "moduleId":  { "type": "string", "description": "Marketplace module slug, e.g. 'event-management'." },
+    "locale":    { "type": "string", "description": "BCP-47 locale requested. Target of the async master-cache translation." },
+    "packageId": { "type": "string", "description": "Marketplace package identifier from TenantModuleRegistry." },
+    "idempotencyKey": {
+      "type": "string",
+      "description": "SETNX key per CF-816 — e.g. `marketplace-translation::${packageId}::${moduleId}::${locale}` — deduplicates concurrent misses across tenants."
+    }
+  }
+}

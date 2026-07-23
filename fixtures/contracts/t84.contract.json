@@ -1,0 +1,56 @@
+{
+  "taskTypeId": "T84",
+  "flowId": "FLOW-05",
+  "name": "PointsCalculator",
+  "archetype": "PROCESSING",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "server-side-calculation-from-raw-inputs",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow05_base_completion_points",
+    "neutralConcepts": [
+      "earnedPoints field NEVER in input shape — client-submitted points ignored",
+      "Output is pointBreakdown{} object — never a single total",
+      "All bonus thresholds from FREEDOM config — no hardcoded number literals",
+      "streakBonus NOT included — computed by StreakManager separately"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F188",
+      "interface": "IPointsCalculationService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T84-1",
+      "rule": "earnedPoints field must NOT appear in T84 input shape. Client-submitted point values are untrusted and have no legitimate downstream use.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T84-2",
+      "rule": "Output must be pointBreakdown{} object (base, correctAnswers, subtotal) — never a single numeric total. Audit requires breakdown.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T84-3",
+      "rule": "All bonus thresholds (base points, per-correct points, time bonus) must come from FREEDOM config keys — no hardcoded number literals.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T84-4",
+      "rule": "streakBonus is NOT computed by T84 — StreakManager (T96) handles streak. T84 output contains only answering points.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "config_over_hardcode",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["points-calculator", "server-side", "anti-farming", "PROCESSING"],
+  "keywords": "points calculator server side anti-farming trust boundary earned points forbidden field breakdown"
+}

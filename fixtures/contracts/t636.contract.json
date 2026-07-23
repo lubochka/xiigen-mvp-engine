@@ -1,0 +1,18 @@
+{
+  "taskTypeId": "T636",
+  "taskName": "ContentAnalyticsAggregator",
+  "archetype": "DATA_PIPELINE",
+  "flowId": "FLOW-22",
+  "description": "Appends immutable content metrics with PII hashing and GDPR compliance",
+  "triggerEvent": "ContentViewed, ContentEngaged, ContentShared",
+  "emittedEvents": ["AnalyticsRecorded", "UserDataScrubbed"],
+  "ironRules": [
+    "IR-1: Append-only metric records — no update/delete",
+    "IR-2: User deletion flips piiScrubbed flag",
+    "IR-3: Aggregation queries filter piiScrubbed: false",
+    "IR-4: userId hashed (SHA256), never stored raw",
+    "IR-5: tenantId from ALS only (DNA-5)"
+  ],
+  "patternReferences": ["APPEND-ONLY-ANALYTICS-MERGE-001"],
+  "qualityScore": 0.87
+}

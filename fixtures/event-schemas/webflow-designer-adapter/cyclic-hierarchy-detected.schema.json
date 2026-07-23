@@ -1,0 +1,1 @@
+{"type":"object","properties":{"projectId":{"type":"string"},"frameId":{"type":"string"},"cycleComponentIds":{"type":"array","items":{"type":"string"}},"cycleStartId":{"type":"string"},"cycleEndId":{"type":"string"},"detectionOrder":{"type":"integer"},"detectedAt":{"type":"string"}},"required":["projectId","frameId","cycleComponentIds","detectedAt"]}

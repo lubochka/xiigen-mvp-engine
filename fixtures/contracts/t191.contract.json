@@ -1,0 +1,20 @@
+{
+  "taskTypeId": "T191",
+  "flowId": "FLOW-11",
+  "name": "DagCycleDetector",
+  "archetype": "VALIDATION",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "executionModel": "inline",
+  "inlineCallers": ["T189"],
+  "stackCoupling": { "database": [], "queue": [], "aiEngine": [] },
+  "factories": [],
+  "ironRules": [
+    { "id": "IR-T191-1", "rule": "DFS uses three-state marking: WHITE (unvisited), GRAY (in current path), BLACK (complete). Encountering a GRAY node = cycle. Single visited Set PROHIBITED.", "severity": "BLOCKING" },
+    { "id": "IR-T191-2", "rule": "cyclePath populated and returned when CYCLE_DETECTED. Empty cyclePath with CYCLE_DETECTED is invalid.", "severity": "BLOCKING" },
+    { "id": "IR-T191-3", "rule": "No side effects — no storage writes, no queue calls. Returns verdict to caller only.", "severity": "BLOCKING" }
+  ],
+  "namedChecks": [],
+  "machineComponents": ["TWO_COLOR_DFS", "CYCLE_PATH_RETURN"],
+  "freedomComponents": []
+}

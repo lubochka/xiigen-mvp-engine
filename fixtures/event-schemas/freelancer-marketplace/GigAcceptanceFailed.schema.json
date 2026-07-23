@@ -1,0 +1,11 @@
+{
+  "eventType": "freelancer.gig.acceptance.failed",
+  "flowId": "FLOW-17",
+  "version": "1.0.0",
+  "properties": {
+    "gigId": { "type": "string", "required": true },
+    "bidId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "reason": { "type": "string", "enum": ["BOLA_VIOLATION", "ALREADY_ACCEPTED", "BID_NOT_FOUND", "BID_NOT_OPEN", "GIG_NOT_FOUND"], "required": true }
+  }
+}

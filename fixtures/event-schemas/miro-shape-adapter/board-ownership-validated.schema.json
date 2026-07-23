@@ -1,0 +1,1 @@
+{"type":"object","properties":{"boardId":{"type":"string"},"workspace":{"type":"string"},"ownershipValidated":{"type":"boolean"},"validatedAt":{"type":"string"},"validationMethod":{"type":"string","enum":["API_KEY_MATCH","FABRIC_LAYER","CACHE"]},"shapeProcessingAllowed":{"type":"boolean"}},"required":["boardId","workspace","ownershipValidated","validatedAt"]}

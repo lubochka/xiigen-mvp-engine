@@ -1,0 +1,193 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "phase": "phase5aTenantBInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-06T15:03:20.2135114+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "repo": "lubochka/acme-corp--acme-enterprise-saas-multi-tenancy",
+    "package": "@xiigen-fork/acme-enterprise-saas-multi-tenancy",
+    "version": "1.0.1"
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/saas-multi-tenancy/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "sourceRepoFullName": "lubochka/acme-corp--acme-enterprise-saas-multi-tenancy",
+    "repoFullName": "lubochka/northwind--acme-enterprise-saas-multi-tenancy",
+    "repoUrl": "https://github.com/lubochka/northwind--acme-enterprise-saas-multi-tenancy",
+    "initialCommitSha": "f932b656fd43c4037fae23cec417980c39cf2b91",
+    "initialVersion": "1.0.1",
+    "forkId": "fork-saas-multi-tenancy-northwind"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--acme-enterprise-saas-multi-tenancy",
+    "url": "https://github.com/lubochka/northwind--acme-enterprise-saas-multi-tenancy",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialInstallCommit": "f932b656fd43c4037fae23cec417980c39cf2b91",
+    "initialActionsRun": {
+      "runId": 25433587700,
+      "jobId": 74605698644,
+      "url": "https://github.com/lubochka/northwind--acme-enterprise-saas-multi-tenancy/actions/runs/25433587700",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "f932b656fd43c4037fae23cec417980c39cf2b91",
+      "failureReason": "Inherited Acme adaptation test asserted the Acme repo name after the fork engine correctly rewrote tenant.config.json to Northwind."
+    },
+    "repairCommit": "5131573617f3f89fa6a5f4be71007dded35f0252",
+    "repairCommitMessage": "Repair Northwind install proof for Acme SaaS tenancy",
+    "repairActionsRun": {
+      "runId": 25433775391,
+      "jobId": 74606329271,
+      "url": "https://github.com/lubochka/northwind--acme-enterprise-saas-multi-tenancy/actions/runs/25433775391",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "5131573617f3f89fa6a5f4be71007dded35f0252",
+      "createdAt": "2026-05-06T11:56:47Z",
+      "updatedAt": "2026-05-06T11:57:28Z"
+    },
+    "cleanClonePath": "C:/Projects/xiigen-fork-clones/northwind--acme-enterprise-saas-multi-tenancy-phase5a-20260506-145350",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "__tests__/saas-multi-tenancy-package.spec.ts"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 1,
+        "tests": 3
+      }
+    ],
+    "installProof": {
+      "tenantConfigTenantId": "northwind",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-enterprise-saas-multi-tenancy",
+      "adaptationHistoryEntries": 1,
+      "firstAdaptationTenantId": "acme-corp",
+      "settingsTenantId": "northwind",
+      "settingsAdaptationTenantId": "northwind",
+      "manifestContainsStandalonePackage": true,
+      "manifestContainsAdaptationSurface": true
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/acme-enterprise-saas-multi-tenancy",
+    "version": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-enterprise-saas-multi-tenancy/-/acme-enterprise-saas-multi-tenancy-1.0.1.tgz",
+    "shasum": "311b7a93504a7b68f1e7e879094cd0a4e42a17d1",
+    "gitHead": "a5472fb4da0c3457f1ed8d07e0e4c4cc5b81a2d6",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/saas-multi-tenancy-acme-v1.0.1-registry-api-evidence-phase5a.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/saas-multi-tenancy-acme-v1.0.1-registry-listing-phase5a.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/saas-multi-tenancy/tenant-b-installed-from-a",
+      "count": 18,
+      "zeroByteFiles": 0,
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "states": [
+        "tenant provisioning",
+        "machine-locked config",
+        "quota materialization",
+        "lifecycle",
+        "tenant identity isolation",
+        "governance seeded"
+      ]
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-15/northwind--acme-enterprise-saas-multi-tenancy-tenant-b-installed-from-a-github-listing.png",
+      "bytes": 125825,
+      "width": 1280,
+      "height": 1157
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-15/northwind--acme-enterprise-saas-multi-tenancy-tenant-b-installed-from-a-actions-success.png",
+      "bytes": 73544,
+      "width": 1280,
+      "height": 872
+    },
+    "registryScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/saas-multi-tenancy-acme-v1.0.1-registry-listing-phase5a.png",
+      "bytes": 45746,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/saas-multi-tenancy-tenant-b-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-15 Tenant B installed-from-A cascade-point visual evidence under docs/e2e-snapshots/saas-multi-tenancy/tenant-b-installed-from-a."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBInstalledPlaywright": {
+      "command": "client: VITE_PORT=5174 npx playwright test e2e/saas-multi-tenancy-tenant-b-installed.spec.ts --reporter=list",
+      "result": "passed",
+      "tests": 18
+    },
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "server: npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 111
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBForkedTenantAAdaptedSource": true,
+    "tenantBInstalledPackagePreservedTenantAValues": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryStillReturnsTenantAPackage": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBAdaptation": true
+  },
+  "verdict": "PASS"
+}

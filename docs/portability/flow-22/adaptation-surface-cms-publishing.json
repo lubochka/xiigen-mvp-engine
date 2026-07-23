@@ -1,0 +1,358 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "flowTitle": "CMS Publishing",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-10",
+  "capturedBy": "Codex / FLOW-22 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-22-cms-publishing-functional-spec.md",
+    "server/src/engine-contracts/cms-publishing-contracts.ts",
+    "server/src/engine-contracts/cms-publishing-bfa-rules.ts",
+    "server/src/engine/flows/cms-publishing",
+    "docs/flow-coverage/cms-publishing/P1-business-logic-inventory.md",
+    "docs/flow-coverage/cms-publishing/P5-ui-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T633-T636",
+    "taskTypeIds": [
+      "T633",
+      "T634",
+      "T635",
+      "T636"
+    ],
+    "factoryIdRange": "F1577-F1583",
+    "freedomKeyCount": 8,
+    "securityClassification": "tenant-scoped CMS authoring, approval, scheduling, public publishing, and analytics controls",
+    "directRuntimePeerDependencies": [],
+    "coreGuarantees": [
+      "Content publishing keeps tenant ownership checks before publication.",
+      "Published content versions remain immutable.",
+      "Optimistic concurrency protects draft-to-published state transitions.",
+      "Approval stages remain sequential and role-gated.",
+      "Scheduled publishing uses a per-content idempotency lock.",
+      "Schedule cancellation records audit evidence before downstream events.",
+      "Analytics records remain append-only.",
+      "Certified author PII fields remain excluded from analytics metadata.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-22 can publish public tenant content and route role-gated editorial decisions, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T633",
+      "className": "ContentVersionPublisherService",
+      "file": "server/src/engine/flows/cms-publishing/content-version-publisher.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow22_publish_conflict_retry_limit",
+        "flow22_default_audience_mode"
+      ],
+      "machineLockedRules": [
+        "content tenant must match request tenant before publication",
+        "published content is immutable",
+        "OCC conflict returns PUBLISH_CONFLICT",
+        "audit record is stored before ContentPublished is emitted"
+      ]
+    },
+    {
+      "taskTypeId": "T634",
+      "className": "ContentApprovalWorkflowService",
+      "file": "server/src/engine/flows/cms-publishing/content-approval-workflow.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow22_approval_required_stages",
+        "flow22_approval_sla_hours"
+      ],
+      "machineLockedRules": [
+        "approval stage must be a recognized stage",
+        "stage decision is tenant scoped",
+        "approval audit is stored before ContentApproved or ContentRejected is emitted"
+      ]
+    },
+    {
+      "taskTypeId": "T635",
+      "className": "ContentScheduleDispatcherService",
+      "file": "server/src/engine/flows/cms-publishing/content-schedule-dispatcher.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "content_publish_schedule_window_ms",
+        "flow22_schedule_timezone_policy"
+      ],
+      "machineLockedRules": [
+        "publishAt must be a future timestamp",
+        "schedule lock key is content and timestamp specific",
+        "duplicate lock returns the existing scheduled result",
+        "schedule audit is stored before ContentScheduled is emitted"
+      ]
+    },
+    {
+      "taskTypeId": "T636",
+      "className": "ContentAnalyticsAggregatorService",
+      "file": "server/src/engine/flows/cms-publishing/content-analytics-aggregator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow22_analytics_retention_days",
+        "flow22_analytics_rollup_window"
+      ],
+      "machineLockedRules": [
+        "metric type must be one of VIEW, ENGAGEMENT, or SHARE",
+        "authorEmail, authorIpAddress, and editorNotes are excluded from analytics metadata",
+        "analytics records are append-only",
+        "analytics record is stored before AnalyticsRecorded is emitted"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-22 CMS operating values. These values may vary by tenant without changing content ownership checks, published-version immutability, OCC, sequential approvals, schedule idempotency, audit-before-event ordering, append-only analytics, certified PII exclusions, or tenant isolation.",
+      "total": 8,
+      "keys": [
+        {
+          "key": "flow22_publish_conflict_retry_limit",
+          "type": "number",
+          "default": 2,
+          "unit": "attempts",
+          "semantic": "Maximum UI-side retry guidance for a draft publish conflict.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T633.ContentVersionPublisherService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 5,
+            "rationale": "Tenants may tune author workflow messaging while the OCC conflict rule remains fixed."
+          }
+        },
+        {
+          "key": "flow22_default_audience_mode",
+          "type": "enum",
+          "default": "public",
+          "semantic": "Default audience mode suggested when a new CMS item is prepared for publishing.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T633.ContentVersionPublisherService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "public",
+              "authenticated",
+              "role-gated"
+            ],
+            "rationale": "Tenants may tune editorial defaults while runtime access enforcement remains role checked."
+          }
+        },
+        {
+          "key": "flow22_approval_required_stages",
+          "type": "string-list",
+          "default": "EDITOR_REVIEW,LEGAL_REVIEW,FINAL_APPROVAL",
+          "semantic": "Named approval stages expected in the tenant editorial workflow.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T634.ContentApprovalWorkflowService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "minimumRequiredValues": [
+              "EDITOR_REVIEW",
+              "FINAL_APPROVAL"
+            ],
+            "rationale": "Tenants may add or keep compliance review stages while sequential approval remains fixed."
+          }
+        },
+        {
+          "key": "flow22_approval_sla_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "semantic": "Target editorial review time used in tenant dashboards and alerts.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T634.ContentApprovalWorkflowService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 168,
+            "rationale": "Tenants may tune review expectations without bypassing approval gates."
+          }
+        },
+        {
+          "key": "content_publish_schedule_window_ms",
+          "type": "number",
+          "default": 86400000,
+          "unit": "milliseconds",
+          "semantic": "Time-to-live for a scheduled publish lock.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T635.ContentScheduleDispatcherService"
+          ],
+          "boundedRange": {
+            "min": 60000,
+            "max": 604800000,
+            "rationale": "Tenants may tune scheduling windows while exactly-once schedule locks remain fixed."
+          }
+        },
+        {
+          "key": "flow22_schedule_timezone_policy",
+          "type": "enum",
+          "default": "tenant-local",
+          "semantic": "Timezone interpretation policy for editorial schedule displays.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T635.ContentScheduleDispatcherService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "tenant-local",
+              "utc"
+            ],
+            "rationale": "Tenants may choose display policy while stored publish timestamps stay ISO based."
+          }
+        },
+        {
+          "key": "flow22_analytics_retention_days",
+          "type": "number",
+          "default": 365,
+          "unit": "days",
+          "semantic": "Retention window for tenant CMS analytics records.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T636.ContentAnalyticsAggregatorService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 2555,
+            "rationale": "Tenants may tune reporting history while append-only storage and PII exclusions remain fixed."
+          }
+        },
+        {
+          "key": "flow22_analytics_rollup_window",
+          "type": "enum",
+          "default": "day",
+          "semantic": "Default reporting granularity for content engagement metrics.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T636.ContentAnalyticsAggregatorService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "day",
+              "week",
+              "month"
+            ],
+            "rationale": "Tenants may tune reporting views while tenant scoped analytics remain fixed."
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to editorial defaults, approval SLA posture, schedule-window policy, analytics retention, and customer-facing module naming.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "public-help-center",
+          "name": "Public help center publishing",
+          "semantic": "Tenant A defaults CMS items to public help-center content with shorter publish-conflict retry guidance.",
+          "extensionPoint": "flow22_default_audience_mode + flow22_publish_conflict_retry_limit",
+          "currentImplementation": "T633 still checks tenant ownership, OCC, and published-version immutability."
+        },
+        {
+          "id": "compliance-review",
+          "name": "Compliance review path",
+          "semantic": "Tenant A keeps legal review and uses a shorter editorial SLA for operational content.",
+          "extensionPoint": "flow22_approval_required_stages + flow22_approval_sla_hours",
+          "currentImplementation": "T634 still validates known stages and writes audit records before events."
+        },
+        {
+          "id": "local-schedule-policy",
+          "name": "Tenant-local schedule policy",
+          "semantic": "Tenant A keeps tenant-local schedule displays and extends the schedule lock window for campaign pages.",
+          "extensionPoint": "content_publish_schedule_window_ms + flow22_schedule_timezone_policy",
+          "currentImplementation": "T635 still requires future timestamps and keeps idempotency locks."
+        },
+        {
+          "id": "lean-content-analytics",
+          "name": "Lean content analytics",
+          "semantic": "Tenant A shortens retention and keeps weekly rollups for help-center analytics.",
+          "extensionPoint": "flow22_analytics_retention_days + flow22_analytics_rollup_window",
+          "currentImplementation": "T636 still excludes certified PII fields and writes append-only records."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T633 through T636 remain fixed.",
+      "Factory IDs F1577 through F1583 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Tenant ownership check remains mandatory before publishing.",
+      "Published content remains immutable.",
+      "OCC remains mandatory for publish state transitions.",
+      "Approval stages remain recognized and sequential.",
+      "Schedule locks remain content and timestamp specific.",
+      "Schedule timestamps must be future timestamps.",
+      "Audit records remain stored before downstream events.",
+      "Analytics records remain append-only.",
+      "authorEmail, authorIpAddress, and editorNotes remain excluded from analytics metadata.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAHelpCenterPublishing": {
+      "description": "Tenant A tunes CMS Publishing for public help-center content and faster editorial operations.",
+      "change": {
+        "flow22_publish_conflict_retry_limit": 1,
+        "flow22_default_audience_mode": "public",
+        "flow22_approval_required_stages": "EDITOR_REVIEW,LEGAL_REVIEW,FINAL_APPROVAL",
+        "flow22_approval_sla_hours": 8,
+        "content_publish_schedule_window_ms": 172800000,
+        "flow22_schedule_timezone_policy": "tenant-local",
+        "flow22_analytics_retention_days": 180,
+        "flow22_analytics_rollup_window": "week"
+      },
+      "impact": "Tenant A gets help-center publishing defaults, faster review expectations, longer campaign scheduling locks, and leaner analytics retention while ownership checks, immutable publish state, OCC, audit ordering, append-only analytics, PII exclusions, and tenant isolation stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T633-T636",
+      "Factory IDs F1577-F1583",
+      "Provider SDK boundary",
+      "Vault credential paths",
+      "tenant ownership check",
+      "published-version immutability",
+      "OCC state transition",
+      "business-level failure results",
+      "audit-before-event ordering",
+      "schedule idempotency lock",
+      "append-only analytics",
+      "PII exclusion baseline",
+      "tenant-scoped analytics",
+      "TenantContextResolver usage"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-22 configuration values or display/module metadata.",
+    "All four services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

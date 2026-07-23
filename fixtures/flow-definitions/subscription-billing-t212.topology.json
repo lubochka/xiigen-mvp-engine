@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-12",
+  "taskTypeId": "T212",
+  "name": "subscription-billing-subscription-analytics-aggregator",
+  "description": "T212 SubscriptionAnalyticsAggregator — DATA_PIPELINE archetype. Additive-subtractive MRR aggregation: BOTH SubscriptionActivated (add) AND SubscriptionCancelled (subtract) handlers required. normalizeMrr() is MACHINE formula. SubscriptionMetricsUpdated has NO subscriberId field.",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: BOTH event handlers required (Activated+Cancelled), additive-subtractive MRR, normalizeMrr() formula MACHINE code, SubscriptionMetricsUpdated lacks subscriberId"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch pattern + additive-subtractive-aggregate + dual-event-handler + mrr-normalization + metrics-no-pii patterns for T212",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T212",
+        "topK": 5,
+        "patternIds": [
+          "additive-subtractive-aggregate-001",
+          "dual-event-handler-001",
+          "mrr-normalization-001",
+          "metrics-no-pii-001",
+          "analytics-aggregator-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T212 into: handler1 SubscriptionActivated → add plan.monthlyPrice to MRR aggregate | handler2 SubscriptionCancelled → subtract plan.monthlyPrice from MRR aggregate → normalizeMrr() → storeDocument(metricsRecord) → emit SubscriptionMetricsUpdated (NO subscriberId)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate subscription-analytics-aggregator.service.ts — TWO @EventPattern handlers: (1) SubscriptionActivated adds plan.monthlyPrice to MRR, (2) SubscriptionCancelled subtracts plan.monthlyPrice from MRR. normalizeMrr() is MACHINE formula — never move to FREEDOM config. SubscriptionMetricsUpdated event MUST NOT include subscriberId (aggregate metric, not PII). Both handlers required — missing either is a bug."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: both_event_handlers_present, activated_adds_mrr, cancelled_subtracts_mrr, normalize_mrr_machine_code, metrics_updated_no_subscriber_id"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T212 iron rules: both handlers, additive-subtractive logic, normalizeMrr MACHINE formula, no subscriberId in metrics event"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=dual-handler+additive-subtractive-mrr+normalize-machine+no-subscriberId-in-metrics, rejected=missing-cancelled-handler OR mrr-add-only OR subscriberId-in-metrics-event OR normalizeMrr-in-freedom-config. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Triggered by SubscriptionActivated OR SubscriptionCancelled CloudEvents",
+  "primaryFabric": "DATABASE"
+}

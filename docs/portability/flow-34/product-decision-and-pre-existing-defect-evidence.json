@@ -1,0 +1,53 @@
+{
+  "flowId": "FLOW-34",
+  "flowSlug": "marketplace-plugin-adapter",
+  "phase": "product-decision-and-pre-existing-defect-check",
+  "status": "completed_with_open_scope_gap",
+  "generatedAt": "2026-05-12T03:35:00Z",
+  "branch": "Skills_Creation_Claude",
+  "productDecision": {
+    "decision": "Treat FLOW-34 as an adapter-package aggregate until a canonical server engine flow directory is created.",
+    "basis": [
+      "docs/sessions/FLOW-34/FLOW-34-CURRENT-STATE.json records server/src/engine/flows/marketplace-plugin-adapter as missing.",
+      "PER-FLOW-FIX-MAP-v2.9 marks FLOW-34 as code absent and calls for adapter implementation work.",
+      "The repo contains a broad server/test/marketplace-plugin-adapter adapter-package suite and marketplace plugin BFA rules."
+    ],
+    "fullProtocolImpact": "Three-tenant fork cascade and full mobility certification cannot be declared for the canonical flow source until server/src/engine/flows/marketplace-plugin-adapter exists."
+  },
+  "preExistingDefectCheck": {
+    "initialFailure": {
+      "command": "Push-Location server; npx jest --runInBand --colors=false test/marketplace-plugin-adapter src/engine-contracts/__tests__/marketplace-plugin-adapter-bfa-rules.spec.ts; Pop-Location",
+      "result": "23 suites passed, 1 suite failed, 577 tests passed",
+      "failingSuite": "server/test/marketplace-plugin-adapter/fr1-framer-component-library.spec.ts",
+      "rootCause": "adapters/framer/FT-FR1 did not export the FLOW-34 component-library mapping contract required by the test suite."
+    },
+    "fixApplied": [
+      "Added Framer component/shared UI types to adapters/framer/FT-FR1/src/types.ts.",
+      "Added mapFramerToUIElement, mapFramerToUIStyle, mapUIStyleToFramer, readComponentTree, and writeComponentNames to adapters/framer/FT-FR1/src/framer-adapter.ts."
+    ],
+    "postFixVerification": [
+      {
+        "command": "Push-Location server; npx jest --runInBand --colors=false test/marketplace-plugin-adapter/fr1-framer-component-library.spec.ts; Pop-Location",
+        "result": "1 suite passed, 26 tests passed"
+      },
+      {
+        "command": "Push-Location server; npx jest --runInBand --colors=false test/marketplace-plugin-adapter src/engine-contracts/__tests__/marketplace-plugin-adapter-bfa-rules.spec.ts; Pop-Location",
+        "result": "24 suites passed, 603 tests passed"
+      },
+      {
+        "command": "npm run typecheck",
+        "cwd": "adapters/framer/FT-FR1",
+        "result": "exit 0"
+      }
+    ]
+  },
+  "sourceScan": {
+    "source": "server/src/engine/flows/marketplace-plugin-adapter",
+    "missing": true,
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "interpretation": "No canonical source directory exists to scan; adapter-package tests are the available executable surface."
+  },
+  "verdict": "PARTIAL_PASS_WITH_FULL_PROTOCOL_BLOCKER"
+}

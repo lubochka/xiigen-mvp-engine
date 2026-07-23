@@ -1,0 +1,271 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phaseHAuthDecorationCheck",
+  "generatedAt": "2026-05-10T17:08:09.7282377+03:00",
+  "status": "completed",
+  "server": {
+    "url": "http://localhost:3000",
+    "health": "passed",
+    "healthPayloadStatus": "OK",
+    "route": "/api/runs/phase0-auth-probe/trace"
+  },
+  "vault": {
+    "container": "xiigen-vault",
+    "sealed": false,
+    "tenantSigningMaterialReadFromVault": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    }
+  },
+  "authDecoration": {
+    "authAfterFullCascade": true,
+    "routeProtected": true,
+    "probeRolesClaimShape": "array",
+    "rolesCovered": [
+      "platform-admin",
+      "tenant-admin",
+      "platform-support"
+    ],
+    "tenantContextsCovered": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ],
+    "cascadePackagesCovered": [
+      "@xiigen-fork/acme-policy-gate-console@1.0.1",
+      "@xiigen-fork/northwind-risk-sentinel-console@1.0.2",
+      "@xiigen-fork/tessera-cascade-ledger-console@1.0.3"
+    ]
+  },
+  "liveAuthMatrix": [
+    {
+      "name": "valid acme-corp platform-admin token in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid acme-corp tenant-admin token in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "missing token denied in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "wrong platform-support role denied in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-support"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "pass": true
+    },
+    {
+      "name": "valid northwind platform-admin token in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid northwind tenant-admin token in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "missing token denied in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "wrong platform-support role denied in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "platform-support"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "pass": true
+    },
+    {
+      "name": "valid tessera-collective platform-admin token in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid tessera-collective tenant-admin token in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "missing token denied in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "wrong platform-support role denied in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "platform-support"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "pass": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "passed": 15,
+    "total": 15,
+    "allPassed": true
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+    "serverJest": "passed: npx jest --testPathPatterns=bfa-cross-flow-governance --runInBand --colors=false (32 suites / 353 tests)",
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokenMaterialPrinted": false,
+    "signingMaterialWrittenToEvidence": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "shortLivedTenantJwtTtlSeconds": 900
+  },
+  "commands": [
+    "GET http://localhost:3000/health/live",
+    "docker exec xiigen-vault vault status -format=json",
+    "Read tenant signing material from Vault without printing values.",
+    "Generated short-lived HS256 JWT probes in memory only, with roles claim forced to an array.",
+    "Invoke-WebRequest status-code auth matrix against http://localhost:3000/api/runs/phase0-auth-probe/trace",
+    "server npx tsc --noEmit -p tsconfig.json --pretty false",
+    "server npx jest --testPathPatterns=bfa-cross-flow-governance --runInBand --colors=false",
+    "FLOW-25 phase-close scan: throwNew=0, clsImports=0, servicesMissingMicroserviceBase=0, directTenantContextImports=0, directSdkImports=0, anyTypes=0, secretPatternHits=0"
+  ],
+  "verdict": "PASS"
+}

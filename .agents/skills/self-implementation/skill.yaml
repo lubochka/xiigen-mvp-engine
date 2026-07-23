@@ -1,0 +1,20 @@
+name: self-implementation-skill
+version: "1.0.0"
+load_order: null
+priority: HIGH
+status: APPROVED
+description: |
+  Governs sessions where XIIGen generates its own infrastructure code through
+  the AF pipeline. Defines the boundary: Claude Code builds scaffold (contracts,
+  prompts, bootstrap), XIIGen generates code (services, tests, configs).
+  4-phase pattern: Inject → Generate → Judge → Improve.
+triggers:
+  - "self-implementation"
+  - "engine generates its own"
+  - "self-building"
+  - "use xiigen to implement"
+  - "AF pipeline generates"
+  - "bootstrap engine contracts"
+  - "EngineContract template"
+  - "prompt seeding"
+phase_created: "FLOW-0-TIER1-S1"

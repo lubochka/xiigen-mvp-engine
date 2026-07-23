@@ -1,0 +1,53 @@
+{
+  "tenantId": "acme-corp",
+  "tenantLabel": "Acme Corp",
+  "flowId": "FLOW-03",
+  "flowSlug": "event-management",
+  "moduleName": "event-management-acme-curated-events",
+  "moduleVersion": "1.0.1",
+  "adaptationType": "Type A (FREEDOM key value change)",
+  "freedomOverrides": [
+    {
+      "configKey": "flow03_max_events_per_organizer",
+      "taskType": "xiigen-engine",
+      "configValue": 3,
+      "defaultValue": 100,
+      "reason": "Acme Corp runs curated event programs and limits each organiser to three active events."
+    },
+    {
+      "configKey": "flow03_max_attendees",
+      "taskType": "xiigen-engine",
+      "configValue": 10,
+      "defaultValue": 500,
+      "reason": "Acme Corp events are capped as small-group sessions."
+    },
+    {
+      "configKey": "flow03_promotion_channels",
+      "taskType": "xiigen-engine",
+      "configValue": ["in-app"],
+      "defaultValue": ["in-app", "push"],
+      "reason": "Acme Corp keeps organiser promotion inside the product feed."
+    },
+    {
+      "configKey": "flow03_campaign_engagement_threshold",
+      "taskType": "xiigen-engine",
+      "configValue": 5,
+      "defaultValue": 1000,
+      "reason": "The low threshold makes the adapted campaign-completion path provable in tests."
+    }
+  ],
+  "visualEvidence": {
+    "roleMatrixDirectory": "docs/e2e-snapshots/event-management/tenant-a-v1.0.1/",
+    "marketplaceListingPng": "docs/e2e-snapshots/marketplace/event-management-v1.0.1-listing.png"
+  },
+  "adaptationHistory": [
+    {
+      "version": "1.0.1",
+      "adaptedBy": "acme-corp",
+      "changeType": "Type A (FREEDOM key value change)",
+      "previousModuleName": "event-management",
+      "newModuleName": "event-management-acme-curated-events",
+      "summary": "Curated small-group events: 10 attendee cap, three active events per organiser, in-app promotion only."
+    }
+  ]
+}

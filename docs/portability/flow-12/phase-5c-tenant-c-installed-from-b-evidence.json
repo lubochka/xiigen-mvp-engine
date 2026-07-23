@@ -1,0 +1,212 @@
+﻿{
+    "flowId":  "FLOW-12",
+    "flowSlug":  "subscription-billing",
+    "phase":  "phase5cTenantCInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T04:40:21.2109524+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "role":  "Tenant C",
+                   "installedFromTenant":  "northwind",
+                   "installedFromRepoFullName":  "lubochka/northwind--northwind-revenue-recovery-billing",
+                   "packageName":  "@xiigen-fork/northwind-revenue-recovery-billing",
+                   "packageVersion":  "1.0.2",
+                   "localRegistry":  "http://localhost:4873"
+               },
+    "marketplaceForkApi":  {
+                               "method":  "POST",
+                               "path":  "/api/marketplace/packages/northwind-revenue-recovery-billing/fork",
+                               "serverBaseUrl":  "http://localhost:3000",
+                               "targetTenant":  "tessera-collective",
+                               "auth":  "Tenant-scoped tessera-collective tenant-admin JWT minted from Vault signing key; token value not stored in evidence.",
+                               "request":  {
+                                               "flowId":  "FLOW-12",
+                                               "targetGitHubUsername":  "lubochka",
+                                               "initialVersion":  "1.0.2",
+                                               "repoNameOverride":  "tessera-collective--northwind-revenue-recovery-billing",
+                                               "sourceRepoFullName":  "lubochka/northwind--northwind-revenue-recovery-billing"
+                                           },
+                               "result":  {
+                                              "forkId":  "fork-northwind-revenue-recovery-billing-tessera-collective",
+                                              "repoFullName":  "lubochka/tessera-collective--northwind-revenue-recovery-billing",
+                                              "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-revenue-recovery-billing",
+                                              "status":  "FORKED",
+                                              "initialCommitSha":  "8737d3631fd3bce3534ab05c4c56fda8e282f8a0"
+                                          }
+                           },
+    "localRegistryVerification":  {
+                                      "command":  "npm view @xiigen-fork/northwind-revenue-recovery-billing version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+                                      "expectedVersion":  "1.0.2",
+                                      "actualVersion":  "1.0.2",
+                                      "apiEvidence":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.2-registry-api-evidence.json"
+                                  },
+    "repository":  {
+                       "fullName":  "lubochka/tessera-collective--northwind-revenue-recovery-billing",
+                       "htmlUrl":  "https://github.com/lubochka/tessera-collective--northwind-revenue-recovery-billing",
+                       "defaultBranch":  "main",
+                       "privateAfterEvidenceCapture":  true,
+                       "visibilityAfterEvidenceCapture":  "PRIVATE",
+                       "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-revenue-recovery-billing",
+                       "tenantConfig":  {
+                                            "tenantId":  "tessera-collective",
+                                            "flowId":  "FLOW-12",
+                                            "flowSlug":  "northwind-revenue-recovery-billing",
+                                            "moduleName":  "northwind-revenue-recovery-billing",
+                                            "moduleVersion":  "1.0.2",
+                                            "repoName":  "tessera-collective--northwind-revenue-recovery-billing",
+                                            "repoFullName":  "lubochka/tessera-collective--northwind-revenue-recovery-billing",
+                                            "installedFromRepoFullName":  "lubochka/northwind--northwind-revenue-recovery-billing",
+                                            "adaptationHistoryEntries":  2,
+                                            "acmeAdaptationPreserved":  true,
+                                            "northwindAdaptationPreserved":  true
+                                        },
+                       "moduleSettings":  {
+                                              "installedTenantId":  "tessera-collective",
+                                              "repoName":  "tessera-collective--northwind-revenue-recovery-billing",
+                                              "installedFromRepoFullName":  "lubochka/northwind--northwind-revenue-recovery-billing"
+                                          }
+                   },
+    "initialCi":  {
+                      "runId":  25411681547,
+                      "status":  "completed",
+                      "conclusion":  "failure",
+                      "headSha":  "8737d3631fd3bce3534ab05c4c56fda8e282f8a0",
+                      "url":  "https://github.com/lubochka/tessera-collective--northwind-revenue-recovery-billing/actions/runs/25411681547",
+                      "rootCause":  "Inherited Tenant B adaptation test asserted northwind after tenant.config.json was correctly rewritten to tessera-collective."
+                  },
+    "repairCommit":  {
+                         "sha":  "4a0d24b211253f531ba64e52d4576a9e4b85b10f",
+                         "message":  "Make Tessera billing install test cascade-safe",
+                         "changedFiles":  [
+                                              "__tests__/subscription-billing-acme-adaptation.spec.ts",
+                                              "settings/module.settings.json"
+                                          ],
+                         "fix":  "Assert Tessera install identity and repository metadata while preserving Acme and Northwind adaptation history records and Northwind FREEDOM values."
+                     },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — subscription-billing",
+                          "runId":  25411756320,
+                          "url":  "https://github.com/lubochka/tessera-collective--northwind-revenue-recovery-billing/actions/runs/25411756320",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "4a0d24b211253f531ba64e52d4576a9e4b85b10f",
+                          "createdAt":  "2026-05-06T01:34:48Z",
+                          "updatedAt":  "2026-05-06T01:35:33Z",
+                          "jobs":  [
+                                       {
+                                           "name":  "Standalone flow test — subscription-billing",
+                                           "status":  "completed",
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/tessera-collective--northwind-revenue-recovery-billing/actions/runs/25411756320/job/74534845218"
+                                       }
+                                   ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation in prior runs; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localCloneVerification":  {
+                                   "clonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-revenue-recovery-billing",
+                                   "headSha":  "4a0d24b211253f531ba64e52d4576a9e4b85b10f",
+                                   "commands":  [
+                                                    {
+                                                        "command":  "npm install --no-audit --no-fund",
+                                                        "exitCode":  0,
+                                                        "notes":  "Completed with dependency deprecation warnings only."
+                                                    },
+                                                    {
+                                                        "command":  "npx tsc --noEmit --pretty false",
+                                                        "exitCode":  0
+                                                    },
+                                                    {
+                                                        "command":  "npx jest --colors=false --forceExit",
+                                                        "exitCode":  0,
+                                                        "result":  "2 suites passed, 3 tests passed"
+                                                    }
+                                                ],
+                                   "workingTreeCleanAfterRepair":  true
+                               },
+    "visualEvidence":  {
+                           "tenantCInstalledMatrix":  {
+                                                          "path":  "docs/e2e-snapshots/subscription-billing/tenant-c-installed-from-b",
+                                                          "expected":  30,
+                                                          "actual":  30,
+                                                          "zeroByte":  0,
+                                                          "minBytes":  27451,
+                                                          "maxBytes":  55632,
+                                                          "roles":  [
+                                                                        "anonymous",
+                                                                        "public-marketplace-visitor",
+                                                                        "tenant-user",
+                                                                        "tenant-admin",
+                                                                        "referral-user",
+                                                                        "freelancer",
+                                                                        "business-partner",
+                                                                        "event-organiser",
+                                                                        "platform-admin",
+                                                                        "platform-support"
+                                                                    ],
+                                                          "cells":  [
+                                                                        "C2-en-populated",
+                                                                        "C4-he-rtl-populated",
+                                                                        "C6-en-mobile"
+                                                                    ]
+                                                      },
+                           "repoScreenshots":  {
+                                                   "repoListing":  {
+                                                                       "path":  "docs/e2e-snapshots/repo-evidence/flow-12/tessera-collective--northwind-revenue-recovery-billing-github-listing.png",
+                                                                       "bytes":  136590,
+                                                                       "captureMode":  "GitHub web UI while temporarily public"
+                                                                   },
+                                                   "actionsSuccess":  {
+                                                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-12/tessera-collective--northwind-revenue-recovery-billing-actions-success.png",
+                                                                          "bytes":  74743,
+                                                                          "captureMode":  "GitHub web UI while temporarily public"
+                                                                      },
+                                                   "repoVisibilityRestoredToPrivate":  true
+                                               }
+                       },
+    "mainRepoVerification":  {
+                                 "clientTypeScript":  {
+                                                          "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                          "result":  "passed"
+                                                      },
+                                 "clientPlaywright":  {
+                                                          "command":  "VITE_PORT=5195 VITE_API_URL=http://localhost:3000 npx playwright test e2e/subscription-billing-tenant-c-installed.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                          "result":  "passed",
+                                                          "tests":  30
+                                                      },
+                                 "serverTypeScript":  {
+                                                          "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                          "result":  "passed"
+                                                      },
+                                 "serverJest":  {
+                                                    "command":  "Push-Location server; npx jest --testPathPatterns=subscription-billing --runInBand --colors=false; Pop-Location",
+                                                    "result":  "passed",
+                                                    "suites":  7,
+                                                    "tests":  78
+                                                },
+                                 "phaseCloseScans":  {
+                                                         "throwNew":  0,
+                                                         "clsImports":  0,
+                                                         "servicesMissingMicroserviceBase":  0,
+                                                         "directSdkImports":  0
+                                                     }
+                             },
+    "secretHandling":  {
+                           "committedEnvFiles":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCInstalledTenantBPackage":  true,
+                      "tenantCCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localRegistryReturnsTenantBVersion":  true,
+                      "acmeAndNorthwindHistoryPreserved":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantCAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

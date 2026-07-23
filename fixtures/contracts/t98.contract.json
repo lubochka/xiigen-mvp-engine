@@ -1,0 +1,56 @@
+{
+  "taskTypeId": "T98",
+  "flowId": "FLOW-05",
+  "name": "LearningFlowCompleted",
+  "archetype": "ORCHESTRATION",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "branch-a-only-completion-gate",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IQueueService",
+    "freedomConfigKey": "flow05_completion_event_name",
+    "neutralConcepts": [
+      "'LearningFlowCompleted' is a MACHINE literal string constant",
+      "completion gates on Branch A only: T85 committed + T96 done + T87 done",
+      "Branch B (LearningPlanAdapted) NOT in gate condition",
+      "Branch C (QuestionnairePostDistributed) NOT in gate condition"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F195",
+      "interface": "ICompletionGateService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T98-1",
+      "rule": "'LearningFlowCompleted' must be declared as a MACHINE string literal constant — never dynamic, never configurable.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T98-2",
+      "rule": "Completion gate condition = Branch A complete: T85 (ledger committed) + T96 (streak done) + T87 (achievement checked). Branch A is the gate.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T98-3",
+      "rule": "Branch B (LearningPlanAdapted) is NOT in the LearningFlowCompleted gate. Branch B emits independently.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T98-4",
+      "rule": "Branch C (QuestionnairePostDistributed) is NOT in the LearningFlowCompleted gate. Branch C emits independently.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["completion-gate", "orchestration", "branch-a", "ORCHESTRATION"],
+  "keywords": "learning flow completed completion gate branch A T85 T96 T87 time decoupled branches"
+}

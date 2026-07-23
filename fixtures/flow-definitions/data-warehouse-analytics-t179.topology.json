@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T179",
+  "name": "data-warehouse-analytics-report-scheduler",
+  "description": "T179 ReportScheduler — ANALYTICS_ENGINE archetype. scheduleAt must be in future at scheduling time. Report config from FREEDOM config. DNA-8: storeDocument before enqueue for scheduled jobs.",
+  "archetype": "ANALYTICS_ENGINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: scheduleAt must be in future, report config from FREEDOM config, DNA-8 storeDocument before enqueue for delayed jobs"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ANALYTICS_ENGINE arch pattern + future-schedule-guard + freedom-report-config + store-before-enqueue patterns for T179",
+      "params": {
+        "archetype": "ANALYTICS_ENGINE",
+        "taskTypeRef": "T179",
+        "topK": 5,
+        "patternIds": [
+          "future-schedule-guard-001",
+          "freedom-report-config-001",
+          "store-before-enqueue-001",
+          "report-scheduler-001",
+          "analytics-engine-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T179 into: receive schedule request → validate scheduleAt > now() → load report template from FREEDOM config → storeDocument(scheduledReport, status=PENDING) → enqueue delayed job at scheduleAt → return scheduledReportId"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate report-scheduler.service.ts — HTTP POST via DynamicController, validates scheduleAt is strictly in future (SCHEDULE_IN_PAST error if not). Report template and output format from FREEDOM config. DNA-8: storeDocument(scheduledReport) BEFORE enqueue. Enqueue delayed job targeting scheduleAt timestamp. Returns scheduledReportId."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: schedule_at_future_validated, schedule_in_past_rejected, freedom_report_config_loaded, store_before_enqueue, scheduled_report_id_returned"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T179 iron rules: future scheduleAt guard, FREEDOM report config, DNA-8 store-before-enqueue, correct ID return"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=future-guard+freedom-config+store-before-enqueue, rejected=past-schedule-accepted OR hardcoded-report-template OR enqueue-before-store. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "HTTP POST via DynamicController",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T201",
+  "name": "schema-registry-dag-schema-history-tracker",
+  "description": "T201 SchemaHistoryTracker — DATA_PIPELINE archetype. Records schema publication history. Appends version record to history index. Immutable records — never update.",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: immutable append-only records, triggered by SchemaPublished, never updates existing history records, tenant-scoped"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch pattern + immutable-append + history-tracking + event-sourcing patterns for T201",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T201",
+        "topK": 5,
+        "patternIds": [
+          "immutable-append-001",
+          "history-tracking-001",
+          "event-sourcing-001",
+          "schema-published-consumer-001",
+          "append-only-index-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T201 into: consume SchemaPublished → build history record with tenantId+schemaId+version+publishedAt → storeDocument with unique history record ID → NEVER updateDocument or deleteDocument for history"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-history-tracker.service.ts — @EventPattern('SchemaPublished'), builds SchemaHistoryRecord with immutable fields (tenantId, schemaId, version, publishedAt, publishedBy). Uses storeDocument() ONLY — NEVER updateDocument or deleteDocument on history records. Record ID includes version to ensure uniqueness. Tenant-scoped from ALS."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: append_only_no_update, record_id_includes_version, tenant_scoped_from_als, never_delete_history, event_pattern_schema_published"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T201 iron rules: immutable append, unique versioned record ID, tenant isolation, no update/delete operations"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=append-only-storeDocument+unique-version-id+tenant-scoped, rejected=updateDocument-on-history OR deleteDocument-on-history OR non-unique-record-id. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "@EventPattern('SchemaPublished')",
+  "primaryFabric": "DATABASE"
+}

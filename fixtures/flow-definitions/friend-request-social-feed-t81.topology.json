@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-07",
+  "taskTypeId": "T81",
+  "name": "flow-07-privacy-gatekeeper",
+  "description": "T81 PrivacyGatekeeper — GUARD archetype, INLINE_ONLY execution. @Injectable() service with no queue decorators. Called synchronously by T73/T76/T78 before any write or emit.",
+  "archetype": "GUARD",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: inline_only_no_event_pattern — T81 must NOT have @EventPattern or @MessagePattern"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve GUARD arch patterns for T81: inline-only privacy gate, no queue decorator pattern",
+      "params": {
+        "archetype": "GUARD",
+        "taskTypeRef": "T81",
+        "topK": 3,
+        "patternIds": [
+          "privacy-gatekeeper-inline-invocation",
+          "plan-flow07-friend-request-social-feed"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "T81: @Injectable() class only. Constructor injects IDatabaseService. check(userId, contentOwnerId): live DB read for privacy settings, return DataProcessResult<{ allowed: boolean }>. NO @EventPattern, NO @MessagePattern."
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate privacy-gatekeeper.service.ts: @Injectable() only, check() reads privacy settings live from DATABASE FABRIC, returns DataProcessResult<{ allowed: boolean }>. No queue decorators anywhere."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: inline_only_no_event_pattern"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T81 iron rules: no @EventPattern, no @MessagePattern, live DB read"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=@Injectable() with synchronous check() method, rejected=@EventPattern('privacy.check.requested') queue handler. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "INLINE_ONLY — no queue entry. Injected by T73/T76/T78.",
+  "primaryFabric": "DATABASE"
+}

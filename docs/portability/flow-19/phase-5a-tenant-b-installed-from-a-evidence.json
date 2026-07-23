@@ -1,0 +1,193 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "phase": "phase5aTenantBInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-07T05:35:35.6680853+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "repo": "lubochka/acme-corp--acme-enterprise-durable-sagas-compliance",
+    "package": "@xiigen-fork/acme-enterprise-durable-sagas-compliance",
+    "version": "1.0.1"
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/durable-sagas-compliance/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "sourceRepoFullName": "lubochka/acme-corp--acme-enterprise-durable-sagas-compliance",
+    "repoFullName": "lubochka/northwind--acme-enterprise-durable-sagas-compliance",
+    "repoUrl": "https://github.com/lubochka/northwind--acme-enterprise-durable-sagas-compliance",
+    "initialCommitSha": "033c99ae3e148de9498c2370c5c309cd4810df20",
+    "initialVersion": "1.0.1",
+    "forkId": "fork-durable-sagas-compliance-northwind"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--acme-enterprise-durable-sagas-compliance",
+    "url": "https://github.com/lubochka/northwind--acme-enterprise-durable-sagas-compliance",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialInstallCommit": "033c99ae3e148de9498c2370c5c309cd4810df20",
+    "initialActionsRun": {
+      "runId": 25472450304,
+      "jobId": 74738911125,
+      "url": "https://github.com/lubochka/northwind--acme-enterprise-durable-sagas-compliance/actions/runs/25472450304",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "033c99ae3e148de9498c2370c5c309cd4810df20",
+      "failureReason": "Inherited Acme adaptation test asserted the Acme repo name after the fork engine correctly rewrote tenant.config.json to Northwind."
+    },
+    "repairCommit": "918bb31bb8075d5e5919c1a129a3e2d7670f3b1a",
+    "repairCommitMessage": "Repair Northwind install proof for Acme durable sagas compliance",
+    "repairActionsRun": {
+      "runId": 25472572816,
+      "jobId": 74739262571,
+      "url": "https://github.com/lubochka/northwind--acme-enterprise-durable-sagas-compliance/actions/runs/25472572816",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "918bb31bb8075d5e5919c1a129a3e2d7670f3b1a",
+      "createdAt": "2026-05-07T02:26:18Z",
+      "updatedAt": "2026-05-07T02:26:52Z",
+      "successfulSteps": [
+        "Set up job",
+        "Run actions/checkout@v4.2.2",
+        "Run actions/setup-node@v4.4.0",
+        "Install",
+        "TypeScript check",
+        "Test",
+        "Provenance",
+        "Post Run actions/setup-node@v4.4.0",
+        "Post Run actions/checkout@v4.2.2",
+        "Complete job"
+      ]
+    },
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-durable-sagas-compliance-phase5a-20260507-052254",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "__tests__/durable-sagas-compliance-acme-adaptation.spec.ts"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      }
+    ],
+    "installProof": {
+      "tenantConfigTenantId": "northwind",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-enterprise-durable-sagas-compliance",
+      "adaptationHistoryEntries": 1,
+      "firstAdaptationTenantId": "acme-corp",
+      "firstAdaptationPublisher": "acme-corp",
+      "manifestContainsStandalonePackage": true,
+      "manifestContainsAdaptationSurface": true,
+      "manifestItemCount": 114
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/acme-enterprise-durable-sagas-compliance",
+    "version": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-enterprise-durable-sagas-compliance/-/acme-enterprise-durable-sagas-compliance-1.0.1.tgz",
+    "shasum": "c53824ae49ccc9b6c18c98157cba722a47996775",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/durable-sagas-compliance-acme-v1.0.1-registry-api-evidence-phase5a.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/durable-sagas-compliance-acme-v1.0.1-registry-listing-phase5a.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/durable-sagas-compliance/tenant-b-installed-from-a",
+      "count": 15,
+      "zeroByteFiles": 0,
+      "playwrightExecutions": 45,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin",
+        "platform-support"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-19/northwind--acme-enterprise-durable-sagas-compliance-tenant-b-installed-from-a-github-listing.png",
+        "bytes": 132846
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-19/northwind--acme-enterprise-durable-sagas-compliance-tenant-b-installed-from-a-actions-success.png",
+        "bytes": 78162
+      },
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/durable-sagas-compliance-acme-v1.0.1-registry-listing-phase5a.png",
+        "bytes": 47133
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/durable-sagas-compliance-tenant-b-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-19 Tenant B installed-from-A cascade-point visual evidence under docs/e2e-snapshots/durable-sagas-compliance/tenant-b-installed-from-a."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBInstalledPlaywright": {
+      "command": "client: VITE_PORT=5174 npx playwright test e2e/durable-sagas-compliance-tenant-b-installed.spec.ts --reporter=line",
+      "result": "passed",
+      "tests": 45,
+      "distinctPngCount": 15,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBForkedTenantAAdaptedSource": true,
+    "tenantBInstalledPackagePreservedTenantAValues": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryStillReturnsTenantAPackage": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBAdaptation": true
+  },
+  "verdict": "PASS"
+}

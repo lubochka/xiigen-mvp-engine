@@ -1,0 +1,17 @@
+{
+  "eventType": "RecordStored",
+  "flowId": "FLOW-29",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "source": "adaptive_rag_deep_research",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": [
+    "userId",
+    "tenantId",
+    "recordId",
+    "status",
+    "timestamp"
+  ],
+  "forbiddenFields": [],
+  "notes": "Event RecordStored for adaptive-rag-deep-research"
+}

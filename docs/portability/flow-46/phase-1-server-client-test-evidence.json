@@ -1,0 +1,48 @@
+{
+    "flowId":  "FLOW-46",
+    "flowSlug":  "platform-agent",
+    "phase":  "phase-1-server-client-test-evidence",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T02:31:41.4750188Z",
+    "commands":  [
+                     {
+                         "testSuites":  8,
+                         "exitCode":  0,
+                         "command":  "Push-Location server; npx jest --runInBand --colors=false src/engine/flows/platform-agent src/engine-contracts/__tests__/platform-agent-bfa-rules.spec.ts; Pop-Location",
+                         "testsFailed":  0,
+                         "testsPassed":  75
+                     },
+                     {
+                         "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+                         "exitCode":  0
+                     },
+                     {
+                         "warning":  "Pre-existing Jest config warning: unknown option setupFilesAfterSetup",
+                         "exitCode":  0,
+                         "testSuites":  1,
+                         "testsPassed":  10,
+                         "command":  "Push-Location client; npx jest --runInBand --colors=false __tests__/flows/platform-agent/agent-chat.test.tsx; Pop-Location",
+                         "testsFailed":  0
+                     },
+                     {
+                         "command":  "Push-Location client; npx tsc --noEmit; Pop-Location",
+                         "exitCode":  0
+                     },
+                     {
+                         "exitCode":  0,
+                         "command":  "docker compose -f docker-compose.yml up -d --build server; Invoke-RestMethod http://localhost:33001/health/live",
+                         "health":  "passed"
+                     }
+                 ],
+    "implementationFixes":  [
+                                "Removed throw new Error paths from AgentActionPublisher PROPOSE_EDIT/CREATE_FLOW tenant-scope callbacks; failures now return DataProcessResult.failure and skip queue emission.",
+                                "Centralized FLOW-46 direct CLS access in TenantScopeGateway; AgentRunOrchestrator and AgentActionPublisher now use requireMasterTenant().",
+                                "Updated platform-agent CRUD Playwright spec to use role=platform-admin, expand the raw index intentionally, and align dynamic API requests with MASTER_TENANT_ID.",
+                                "Fixed chat Playwright screenshots to write under docs/e2e-snapshots/platform-agent instead of docs/e2e-snapshots/UNKNOWN."
+                            ],
+    "manifestEvidence":  [
+                             "docs/portability/flow-46/seed-dependency-manifest.json",
+                             "contracts/topologies/platform-agent.topology.json portability.seedDependencyManifest"
+                         ],
+    "verdict":  "PASS"
+}

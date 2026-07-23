@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.event-attendance.feedback-window-opened.v1",
+  "taskTypeId": "T66",
+  "flowId": "FLOW-04",
+  "description": "Emitted by T66 FeedbackWindowController only in response to EventEnded. NO timer, cron, or manual trigger permitted — structural constraint enforced by @EventPattern('EventEnded').",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.event-attendance.feedback-window-opened.v1",
+    "source": "xiigen/flows/event-attendance/t66",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "feedbackWindowId": {
+      "type": "string",
+      "description": "Opaque feedback window identifier"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Opaque event identifier"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant identifier from AsyncLocalStorage"
+    },
+    "windowOpenedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "windowClosesAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "No attendee or organizer PII. All identifiers are opaque.",
+  "arbiterRef": "arb-flow04-feedback-after-event-ended: @EventPattern('EventEnded') is the only trigger.",
+  "requiredByFlows": ["FLOW-04"],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

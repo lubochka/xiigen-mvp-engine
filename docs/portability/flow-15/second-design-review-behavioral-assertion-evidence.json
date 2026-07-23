@@ -1,0 +1,54 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "phase": "secondDesignReviewBehavioralAssertion",
+  "generatedAt": "2026-05-06T10:35:01.0845663Z",
+  "sourceFixMap": [
+    "FLOW-15-FIXMAP-006: second design review finding 1 behavioral assertion."
+  ],
+  "reviewStandard": "At least one domain-level before/after outcome assertion is required; structural success alone is not sufficient.",
+  "behavioralAssertions": [
+    {
+      "test": "T605-7: masterTenantId can come from tier definition config with canonical default fallback",
+      "file": "server/test/e2e/saas-multi-tenancy/phase-a.spec.ts",
+      "lines": [
+        211,
+        219,
+        236,
+        243
+      ],
+      "domainBehavior": "Changing the tier definition masterTenantId changes the provisioned result and the seeded FREEDOM masterTenantId value from the canonical default to xiigen-master-configured-tenant.",
+      "whyItSatisfiesReview": "This is a before/after authority behavior assertion for FLOW-15's identity-critical master tenant decision, not a structural existence check."
+    },
+    {
+      "test": "T608-6: TenantTerminated payload contains tombstoneRef, cancelledAt, dataRetentionDays; no raw PII",
+      "file": "server/test/e2e/saas-multi-tenancy/phase-d.spec.ts",
+      "lines": [
+        177,
+        194
+      ],
+      "domainBehavior": "Lifecycle termination payload carries tenant data retention policy and PII-safe tombstone behavior.",
+      "whyItSatisfiesReview": "This provides additional domain-level lifecycle behavior coverage for termination policy output."
+    }
+  ],
+  "verification": {
+    "flow15Jest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "passedSuites": 8,
+      "passedTests": 111
+    },
+    "assertionScan": {
+      "command": "Select-String over phase-a.spec.ts and phase-d.spec.ts for T605-7, xiigen-master-configured-tenant, and dataRetentionDays",
+      "exitCode": 0,
+      "matches": 8
+    }
+  },
+  "summary": {
+    "status": "PASS",
+    "domainLevelBeforeAfterAssertionPresent": true,
+    "structuralOnlyAssertion": false,
+    "secretsPrintedOrCommitted": false,
+    "technicalDebtIntroduced": false
+  }
+}

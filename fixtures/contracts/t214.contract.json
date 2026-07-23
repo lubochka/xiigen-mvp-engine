@@ -1,0 +1,45 @@
+{
+  "taskTypeId": "T214",
+  "flowId": "FLOW-14",
+  "name": "EtlSyncSagaHandler",
+  "archetype": "ingestion",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "ep4-rate-check-poll-land-raw-commit-cursor",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_sync_page_size",
+    "neutralConcepts": [
+      "EP-4 durable saga cycle: rate_check(1) → poll_page(2) → land_raw(3) → commit_cursor(4)",
+      "CF-193: ICursorCheckpointService.validateMonotonic() enforced before commit",
+      "CF-192: raw zone append-only — storeDocument only, no updateDocument",
+      "IR-5: null/invalid records quarantined before property access",
+      "storeDocument(raw_record) BEFORE enqueue(EtlSyncCompleted) — DNA-8",
+      "EtlSyncFailed emitted on saga abort"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F430", "interface": "IRateLimitGuardService", "fabric": "CORE" },
+    { "factoryId": "F_CURSOR", "interface": "ICursorCheckpointService", "fabric": "CORE" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T214-1", "rule": "EP-4 saga cycle MUST follow rate_check→poll_page→land_raw→commit_cursor order.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T214-2", "rule": "CF-193: ICursorCheckpointService.validateMonotonic() MUST pass before cursor commit.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T214-3", "rule": "CF-192: raw zone is append-only — NEVER updateDocument on raw records.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T214-4", "rule": "Null/invalid records quarantined with RecordQuarantined BEFORE property access.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T214-5", "rule": "storeDocument(raw_record) BEFORE enqueue(EtlSyncCompleted) — DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "ep4_saga_cycle_order",
+    "monotonic_cursor_validation",
+    "raw_zone_append_only",
+    "null_guard_before_property_access",
+    "store_before_enqueue"
+  ],
+  "bfaRules": ["CF-192", "CF-193"],
+  "tags": ["sync", "saga", "ep4", "cursor", "raw-zone", "ingestion"],
+  "keywords": "ETL sync saga handler EP-4 durable saga rate check poll page land raw commit cursor monotonic CF-192 CF-193 EtlSyncCompleted EtlSyncFailed RecordQuarantined"
+}

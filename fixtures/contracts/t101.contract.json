@@ -1,0 +1,51 @@
+{
+  "taskTypeId": "T101",
+  "flowId": "FLOW-06",
+  "name": "AccessControlProvisioner",
+  "archetype": "ROUTING",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "upsert-access-control-before-activation",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow06_access_control_index",
+    "neutralConcepts": [
+      "storeDocument BEFORE MembershipActivated emit",
+      "knowledgeScope PRIVATE — access record is per-user per-group",
+      "upsert (not SETNX) — re-provisioning on tier change is valid",
+      "DNA-8: storeDocument before enqueue"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F198",
+      "interface": "IAccessControlService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T101-1",
+      "rule": "DNA-8: storeDocument BEFORE MembershipActivated enqueue. Order: store-access-record → enqueue.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T101-2",
+      "rule": "knowledgeScope = PRIVATE — access control records are per-user per-group.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T101-3",
+      "rule": "Use upsert (not SETNX) — access control re-provisioning on tier change must succeed.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["access-control", "provisioner", "upsert", "ROUTING"],
+  "keywords": "access control provisioner upsert private storeDocument before MembershipActivated"
+}

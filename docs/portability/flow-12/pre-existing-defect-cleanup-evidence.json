@@ -1,0 +1,95 @@
+{
+  "flowId": "FLOW-12",
+  "flowSlug": "subscription-billing",
+  "phase": "preExistingDefectCheck",
+  "status": "completed",
+  "generatedAt": "2026-05-06T02:48:22.4872944+03:00",
+  "baseline": {
+    "jest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=subscription-billing --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 7,
+      "tests": 78
+    },
+    "sourceScan": {
+      "flowFileCount": 4,
+      "throwNew": 0,
+      "clsImports": 4,
+      "servicesMissingMicroserviceBase": 4,
+      "directTenantContextRefs": 8,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "defectsFound": [
+    {
+      "id": "FLOW-12-PRE-001",
+      "description": "Four subscription-billing services imported ClsService from nestjs-cls and read TenantContext directly.",
+      "files": [
+        "server/src/engine/flows/subscription-billing/subscription-plan-orchestrator.service.ts",
+        "server/src/engine/flows/subscription-billing/subscription-lifecycle-manager.service.ts",
+        "server/src/engine/flows/subscription-billing/recurring-billing-engine.service.ts",
+        "server/src/engine/flows/subscription-billing/subscription-analytics-aggregator.service.ts"
+      ],
+      "resolution": "Replaced direct CLS/TenantContext imports with the portable tenant lookup shape used by certified FLOW-11 services."
+    },
+    {
+      "id": "FLOW-12-PRE-002",
+      "description": "The same four services did not extend MicroserviceBase.",
+      "files": [
+        "server/src/engine/flows/subscription-billing/subscription-plan-orchestrator.service.ts",
+        "server/src/engine/flows/subscription-billing/subscription-lifecycle-manager.service.ts",
+        "server/src/engine/flows/subscription-billing/recurring-billing-engine.service.ts",
+        "server/src/engine/flows/subscription-billing/subscription-analytics-aggregator.service.ts"
+      ],
+      "resolution": "All four services now extend MicroserviceBase with FLOW-12 ServiceDescriptor metadata for T209, T210, T211, and T212."
+    }
+  ],
+  "fixMapProgress": [
+    {
+      "id": "FLOW-12-FIXMAP-001",
+      "status": "completed",
+      "evidence": "FLOW09_PAYMENT_SERVICE remains the payment fabric token reused by FLOW-12; baseline and post-fix tests include the payment service token reuse assertion."
+    },
+    {
+      "id": "FLOW-12-FIXMAP-002",
+      "status": "completed",
+      "evidence": "Server TypeScript and FLOW-12 targeted Jest pass after the token/source pre-step and service decoupling work."
+    },
+    {
+      "id": "FLOW-12-FIXMAP-003",
+      "status": "completed",
+      "evidence": "Tenant context service decoupling completed for four FLOW-12 services; tenant isolation and tenantId propagation tests still pass."
+    }
+  ],
+  "verification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed"
+    },
+    "flowJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=subscription-billing --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 7,
+      "tests": 78
+    },
+    "postFixScan": {
+      "flowFileCount": 4,
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "phaseGate": {
+    "baselineCaptured": true,
+    "rootCauseFixed": true,
+    "serverTypeScriptPassed": true,
+    "targetedJestPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForPhase0AuthPreflight": true
+  },
+  "verdict": "PASS"
+}

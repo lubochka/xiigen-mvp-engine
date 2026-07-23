@@ -1,0 +1,86 @@
+﻿{
+    "flowId":  "FLOW-05",
+    "flowSlug":  "completion-gamification",
+    "generatedAt":  "2026-05-03T09:34:44.6677028+03:00",
+    "serverUrl":  "http://localhost:33001",
+    "secretsProvider":  "vault",
+    "tokenValuesRecorded":  false,
+    "passwordValuesRecorded":  false,
+    "tenants":  [
+                    "acme-corp",
+                    "northwind",
+                    "tessera-collective"
+                ],
+    "seededRoles":  [
+                        "tenant-user",
+                        "tenant-admin",
+                        "service-account"
+                    ],
+    "roleMap":  {
+                    "primary":  "tenant-user",
+                    "admin":  "tenant-admin",
+                    "wrongRoleProbe":  "service-account",
+                    "designOnlySignals":  [
+                                              "referral-user merged into tenant-user",
+                                              "event-organiser merged into tenant-user",
+                                              "freelancer optional portfolio action but not canonical auth role"
+                                          ]
+                },
+    "checkTransport":  "curl.exe status-code probes; Invoke-WebRequest was avoided for authorized GETs because it raised a local NullReferenceException despite curl receiving HTTP 200.",
+    "checks":  [
+                   {
+                       "name":  "own-tenant-acme-corp",
+                       "expected":  200,
+                       "actual":  200
+                   },
+                   {
+                       "name":  "missing-token-acme-corp",
+                       "expected":  401,
+                       "actual":  401
+                   },
+                   {
+                       "name":  "own-tenant-northwind",
+                       "expected":  200,
+                       "actual":  200
+                   },
+                   {
+                       "name":  "missing-token-northwind",
+                       "expected":  401,
+                       "actual":  401
+                   },
+                   {
+                       "name":  "own-tenant-tessera-collective",
+                       "expected":  200,
+                       "actual":  200
+                   },
+                   {
+                       "name":  "missing-token-tessera-collective",
+                       "expected":  401,
+                       "actual":  401
+                   },
+                   {
+                       "name":  "tenant-A-token-in-tenant-B",
+                       "expected":  401,
+                       "actual":  401
+                   },
+                   {
+                       "name":  "tenant-B-token-in-tenant-C",
+                       "expected":  401,
+                       "actual":  401
+                   },
+                   {
+                       "name":  "tenant-A-token-in-tenant-C",
+                       "expected":  401,
+                       "actual":  401
+                   },
+                   {
+                       "name":  "wrong-role-service-account-on-role-route",
+                       "expected":  403,
+                       "actual":  403
+                   }
+               ],
+    "passed":  true,
+    "failures":  {
+
+                 }
+}

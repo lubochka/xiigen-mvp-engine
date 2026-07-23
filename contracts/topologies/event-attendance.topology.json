@@ -1,0 +1,41 @@
+{
+  "flowId": "FLOW-04",
+  "name": "Event Attendance and Management",
+  "status": "NOT_STARTED",
+  "nodes": {
+    "n1": { "handler": "rag-retrieve.handler",   "nodeType": "rag-retrieve" },
+    "n2": { "handler": "multi-generate.handler",  "nodeType": "multi-generate",
+            "config": { "providers": ["AI_ENGINE", "AI_OPENAI_PROVIDER", "AI_GEMINI_PROVIDER"],
+                        "shuffle": true } },
+    "n3": { "handler": "validate.handler",        "nodeType": "validate" },
+    "n4": { "handler": "score.handler",           "nodeType": "score",
+            "config": { "scoreThreshold": 0.85, "maxRetries": 3 } },
+    "n5": { "handler": "feedback.handler",        "nodeType": "feedback" }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": [],
+      "notQueueable": ["RSVPRequested", "CheckInRequested"],
+      "notQueueableReason": {
+        "RSVPRequested": "Capacity decrement — requires live connection to prevent oversell",
+        "CheckInRequested": "QR token has 60s TTL — cannot queue across disconnect"
+      }
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T66",
+        "runsWhileUserViews": "PostEventScreen",
+        "signalType": "realtime-push",
+        "signalText": null
+      }
+    ]
+  }
+}

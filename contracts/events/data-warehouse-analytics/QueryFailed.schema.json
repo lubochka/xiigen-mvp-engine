@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryFailed",
+  "type": "object",
+  "required": ["specversion", "type", "source", "id", "time", "data"],
+  "properties": {
+    "specversion": { "type": "string", "enum": ["1.0"] },
+    "type": { "type": "string", "enum": ["query.failed"] },
+    "source": { "type": "string" },
+    "id": { "type": "string" },
+    "time": { "type": "string", "format": "date-time" },
+    "data": {
+      "type": "object",
+      "required": ["queryId", "tenantId", "reason"],
+      "properties": {
+        "queryId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "reason": {
+          "type": "string",
+          "enum": ["quota_exceeded", "rls_denied", "masking_error"]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

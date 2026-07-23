@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryQuotaUpdated",
+  "type": "object",
+  "required": ["specversion", "type", "source", "id", "time", "data"],
+  "properties": {
+    "specversion": { "type": "string", "enum": ["1.0"] },
+    "type": { "type": "string", "enum": ["warehouse.quota.updated"] },
+    "source": { "type": "string" },
+    "id": { "type": "string" },
+    "time": { "type": "string", "format": "date-time" },
+    "data": {
+      "type": "object",
+      "required": ["tenantId", "quotaType", "newLimit", "resetAt"],
+      "properties": {
+        "tenantId": { "type": "string" },
+        "quotaType": { "type": "string", "enum": ["daily", "monthly"] },
+        "newLimit": { "type": "integer", "minimum": 0 },
+        "resetAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

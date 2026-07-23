@@ -1,0 +1,126 @@
+{
+  "flowId": "FLOW-26",
+  "flowSlug": "meta-flow-engine",
+  "implementationSlug": "flow-extension-engine",
+  "phase": "phase-4.0-tenant-a-original-fork",
+  "status": "completed",
+  "capturedAt": "2026-05-10T15:00:00.220Z",
+  "tenant": "acme-corp",
+  "repo": {
+    "forkId": "fork-meta-flow-engine-acme-corp",
+    "repoFullName": "lubochka/acme-corp--meta-flow-engine",
+    "repoUrl": "https://github.com/lubochka/acme-corp--meta-flow-engine",
+    "defaultBranch": "main",
+    "initialCommitSha": "eb81f5b3d0b6ab0779c083bbaa633c2e5069e001",
+    "visibilityAfterScreenshots": "PRIVATE"
+  },
+  "forkApi": {
+    "method": "POST",
+    "url": "http://localhost:3000/api/marketplace/packages/meta-flow-engine/fork",
+    "tenantHeader": "acme-corp",
+    "role": "tenant-admin",
+    "responseStatus": "FORKED",
+    "usedRealMarketplaceApi": true,
+    "syntheticRepo": false,
+    "manualRepoCreation": false
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - meta-flow-engine",
+    "runId": 25631804456,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "eb81f5b3d0b6ab0779c083bbaa633c2e5069e001",
+    "createdAt": "2026-05-10T14:53:59Z",
+    "updatedAt": "2026-05-10T14:54:32Z",
+    "url": "https://github.com/lubochka/acme-corp--meta-flow-engine/actions/runs/25631804456"
+  },
+  "localValidation": {
+    "cloneDir": "C:/Projects/xiigen-fork-clones/acme-corp--meta-flow-engine-phase40-20260510-175523",
+    "cloneHeadSha": "eb81f5b3d0b6ab0779c083bbaa633c2e5069e001",
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "installExit": 0,
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 1,
+      "jestSuitesTotal": 1,
+      "jestTestsPassed": 1,
+      "jestTestsTotal": 1,
+      "packDryRunExit": 0,
+      "packEntryCount": 131
+    }
+  },
+  "bundleManifest": {
+    "path": "BUNDLE-MANIFEST.json",
+    "requiredBundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    },
+    "canonicalManifestServicePaths": 24,
+    "wrongImplementationManifestPaths": 0,
+    "canonicalPathRequired": "server/src/engine/flows/meta-flow-engine/*.ts",
+    "wrongImplementationPathRejected": "server/src/engine/flows/flow-extension-engine"
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-26",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-26/phase-4.0-tenant-a-repo.png",
+        "bytes": 125162
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-26/phase-4.0-tenant-a-actions-run.png",
+        "bytes": 74970
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-26/phase-4.0-tenant-a-bundle-manifest.png",
+        "bytes": 412959
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "scanRoot": "C:/Projects/xiigen-fork-clones/acme-corp--meta-flow-engine-phase40-20260510-175523/server/src/engine/flows/meta-flow-engine",
+    "flowFileCount": 24,
+    "throwNew": 0,
+    "exportedServices": 1,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0,
+    "failureLines": 0
+  },
+  "credentialHandling": {
+    "tenantCredentialsSeededInVault": true,
+    "secretsPrinted": false,
+    "tenantCredentialPathsUsedByForkHandler": [
+      "secret/acme-corp/github_token",
+      "secret/acme-corp/github_org_name",
+      "secret/acme-corp/docker_registry_url",
+      "secret/acme-corp/docker_registry_token"
+    ]
+  },
+  "protocolGate": {
+    "realMarketplaceApiCall": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "fullBundle": true,
+    "localCloneValidation": true,
+    "realGitHubScreenshots": true,
+    "closeScansZeroFailureLines": true,
+    "phaseComplete": true
+  }
+}

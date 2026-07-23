@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-06",
+  "taskTypeId": "T101-T102-T103",
+  "name": "flow-06-branch-a-activation-record-gate",
+  "description": "Branch A: T101 AccessControlProvisioner → T102 MembershipRecorder → T103 GroupMembershipCompleted gate. T102 reads group.type from DB for PENDING vs ACTIVE routing.",
+  "archetype": "ROUTING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: T101 storeDocument before MembershipActivated, T102 SETNX + group.type from DB + PRIVATE→PENDING, T103 MACHINE literal + Branch A gate"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve group-join-idempotency and access-control-before-content patterns",
+      "params": {
+        "archetype": "ROUTING",
+        "taskTypeRef": "T101-T102-T103",
+        "topK": 4,
+        "patternIds": [
+          "GROUP-JOIN-IDEMPOTENCY-001",
+          "ACCESS-CONTROL-BEFORE-CONTENT-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break into: T101 (upsert access + MembershipActivated) + T102 (SETNX + group.type → PENDING|ACTIVE) + T103 (Branch A gate → GroupMembershipCompleted)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate access-control-provisioner.service.ts (T101), membership-recorder.service.ts (T102), membership-completed-gate.service.ts (T103)."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check: setnx_before_operation (T102), store_before_enqueue (T101+T102), tenant_id_on_writes"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score against iron rules: DNA-8, group.type from DB, MACHINE literal gate"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=group-type-from-db+setnx-idempotent+branch-a-gate, rejected=emit-activated-all+no-setnx. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "JoinRequestValidated event (T99 output)",
+  "primaryFabric": "DATABASE"
+}

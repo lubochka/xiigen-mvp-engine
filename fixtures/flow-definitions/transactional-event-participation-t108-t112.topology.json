@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-09",
+  "taskTypeId": "T108-T112",
+  "name": "flow-09-group-revenue-fees",
+  "description": "T108 GroupTicketCoordinator + T109 AttendeeManifestBuilder + T110 RevenueTracker + T111 PayoutOrchestrator + T112 FeeCalculator — TRANSACTION archetype. All group tickets in ONE db.transaction(). Partial issuance = full rollback. T112 is INLINE_PURE: no writes.",
+  "archetype": "TRANSACTION",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: all-in-one-transaction, partial-issuance-full-rollback, T112-no-writes"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve TRANSACTION arch pattern for T108-T112: single transaction for group, T112 inline pure fee calculation",
+      "params": {
+        "archetype": "TRANSACTION",
+        "taskTypeRef": "T108-T112",
+        "topK": 5,
+        "patternIds": [
+          "arch--all-in-one-transaction",
+          "arch--partial-issuance-full-rollback",
+          "arch--inline-pure-no-writes"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T108-T112 into: T112 inline fee calc (pure, no writes) → T108 db.transaction([all tickets]) → T109 manifest → T110 revenue → T111 payout"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate group-ticket-coordinator.service.ts — all group tickets in ONE db.transaction(). Partial issuance = full rollback. T112 is INLINE_PURE: no writes."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: all_in_one_transaction, partial_issuance_full_rollback, t112_no_writes_inline_pure"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T108-T112 iron rules: single transaction, rollback on partial, T112 pure"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=all-in-one-transaction, rejected=loop-outside-transaction. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "GroupTicketPurchaseRequested command",
+  "primaryFabric": "DATABASE"
+}

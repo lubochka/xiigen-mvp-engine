@@ -1,0 +1,194 @@
+﻿{
+    "flowId":  "FLOW-17",
+    "flowSlug":  "freelancer-marketplace",
+    "phase":  "phase5aTenantBInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T22:55:48.3054871+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "tenantName":  "Northwind"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "acme-corp",
+                         "repo":  "lubochka/acme-corp--acme-enterprise-freelancer-marketplace",
+                         "package":  "@xiigen-fork/acme-enterprise-freelancer-marketplace",
+                         "version":  "1.0.1"
+                     },
+    "marketplaceFork":  {
+                            "method":  "POST /api/marketplace/packages/freelancer-marketplace/fork",
+                            "createdByMarketplaceApi":  true,
+                            "manualRepoCreationUsed":  false,
+                            "sourceRepoFullName":  "lubochka/acme-corp--acme-enterprise-freelancer-marketplace",
+                            "repoFullName":  "lubochka/northwind--acme-enterprise-freelancer-marketplace",
+                            "repoUrl":  "https://github.com/lubochka/northwind--acme-enterprise-freelancer-marketplace",
+                            "initialCommitSha":  "bfec3d220aa1890f9b12426e61d99a57c0c22252",
+                            "initialVersion":  "1.0.1",
+                            "forkId":  "fork-freelancer-marketplace-northwind"
+                        },
+    "tenantRepository":  {
+                             "repo":  "lubochka/northwind--acme-enterprise-freelancer-marketplace",
+                             "url":  "https://github.com/lubochka/northwind--acme-enterprise-freelancer-marketplace",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "bfec3d220aa1890f9b12426e61d99a57c0c22252",
+                             "initialActionsRun":  {
+                                                       "runId":  25457088771,
+                                                       "jobId":  74689335075,
+                                                       "url":  "https://github.com/lubochka/northwind--acme-enterprise-freelancer-marketplace/actions/runs/25457088771",
+                                                       "status":  "completed",
+                                                       "conclusion":  "failure",
+                                                       "headSha":  "bfec3d220aa1890f9b12426e61d99a57c0c22252",
+                                                       "failureReason":  "Inherited Acme adaptation test asserted the Acme repo name after the fork engine correctly rewrote tenant.config.json to Northwind."
+                                                   },
+                             "repairCommit":  "cddac11916625c02d312b8e85e28c9165b072ecd",
+                             "repairCommitMessage":  "Repair Northwind install proof for Acme freelancer marketplace",
+                             "repairActionsRun":  {
+                                                      "runId":  25457323521,
+                                                      "jobId":  74690154175,
+                                                      "url":  "https://github.com/lubochka/northwind--acme-enterprise-freelancer-marketplace/actions/runs/25457323521",
+                                                      "status":  "completed",
+                                                      "conclusion":  "success",
+                                                      "headSha":  "cddac11916625c02d312b8e85e28c9165b072ecd",
+                                                      "createdAt":  "2026-05-06T19:46:30Z",
+                                                      "updatedAt":  "2026-05-06T19:47:20Z",
+                                                      "successfulSteps":  [
+                                                                              "Set up job",
+                                                                              "Run actions/checkout@v4.2.2",
+                                                                              "Run actions/setup-node@v4.4.0",
+                                                                              "Install",
+                                                                              "TypeScript check",
+                                                                              "Test",
+                                                                              "Provenance",
+                                                                              "Post Run actions/setup-node@v4.4.0",
+                                                                              "Post Run actions/checkout@v4.2.2",
+                                                                              "Complete job"
+                                                                          ]
+                                                  },
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-freelancer-marketplace-phase5a-20260506-224337",
+                             "cleanCloneStatus":  "clean",
+                             "filesChangedInTenantRepo":  [
+                                                              "__tests__/freelancer-marketplace-acme-adaptation.spec.ts"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             }
+                                                         ],
+                             "installProof":  {
+                                                  "tenantConfigTenantId":  "northwind",
+                                                  "installedFromRepoFullName":  "lubochka/acme-corp--acme-enterprise-freelancer-marketplace",
+                                                  "adaptationHistoryEntries":  1,
+                                                  "firstAdaptationTenantId":  "acme-corp",
+                                                  "firstAdaptationPublisher":  "acme-corp",
+                                                  "manifestContainsStandalonePackage":  true,
+                                                  "manifestContainsAdaptationSurface":  true,
+                                                  "manifestItemCount":  114
+                                              }
+                         },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "packageName":  "@xiigen-fork/acme-enterprise-freelancer-marketplace",
+                          "version":  "1.0.1",
+                          "distTags":  {
+                                           "latest":  "1.0.1"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/acme-enterprise-freelancer-marketplace/-/acme-enterprise-freelancer-marketplace-1.0.1.tgz",
+                          "shasum":  "1471f5547e5f976fb1f51c38f977d8d37ed20814",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/freelancer-marketplace-acme-v1.0.1-registry-api-evidence-phase5a.json",
+                          "screenshot":  "docs/e2e-snapshots/marketplace/freelancer-marketplace-acme-v1.0.1-registry-listing-phase5a.png",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/freelancer-marketplace/tenant-b-installed-from-a",
+                                                      "count":  27,
+                                                      "zeroByteFiles":  0,
+                                                      "projects":  [
+                                                                       "chromium-desktop",
+                                                                       "chromium-mobile",
+                                                                       "chromium-tablet"
+                                                                   ],
+                                                      "states":  [
+                                                                     "anonymous",
+                                                                     "business-partner",
+                                                                     "freelancer",
+                                                                     "platform-admin",
+                                                                     "platform-support",
+                                                                     "public-marketplace-visitor",
+                                                                     "referral-user",
+                                                                     "tenant-admin",
+                                                                     "tenant-user"
+                                                                 ]
+                                                  },
+                           "screenshots":  [
+                                               {
+                                                   "kind":  "repo-homepage",
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-17/northwind--acme-enterprise-freelancer-marketplace-tenant-b-installed-from-a-github-listing.png",
+                                                   "bytes":  134947
+                                               },
+                                               {
+                                                   "kind":  "actions-success",
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-17/northwind--acme-enterprise-freelancer-marketplace-tenant-b-installed-from-a-actions-success.png",
+                                                   "bytes":  80509
+                                               },
+                                               {
+                                                   "kind":  "registry-listing",
+                                                   "path":  "docs/e2e-snapshots/marketplace/freelancer-marketplace-acme-v1.0.1-registry-listing-phase5a.png",
+                                                   "bytes":  53149
+                                               }
+                                           ]
+                       },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "client/e2e/freelancer-marketplace-tenant-b-installed.spec.ts"
+                                                        ],
+                                              "purpose":  "Render and verify FLOW-17 Tenant B installed-from-A cascade-point visual evidence under docs/e2e-snapshots/freelancer-marketplace/tenant-b-installed-from-a."
+                                          },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "client: npx tsc --noEmit --pretty false",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantBInstalledPlaywright":  {
+                                                                      "command":  "client: VITE_PORT=5174 npx playwright test e2e/freelancer-marketplace-tenant-b-installed.spec.ts --reporter=line",
+                                                                      "result":  "passed",
+                                                                      "tests":  27
+                                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "secretPatternHits":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBForkedTenantAAdaptedSource":  true,
+                      "tenantBInstalledPackagePreservedTenantAValues":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localRegistryStillReturnsTenantAPackage":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

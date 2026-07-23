@@ -1,0 +1,118 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase-5c5-tenant-c-adapts",
+  "status": "passed",
+  "checkedAt": "2026-05-10T17:03:03.8026131+03:00",
+  "tenant": "tessera-collective",
+  "sourceTenant": "northwind",
+  "source": {
+    "installedRepo": "lubochka/tessera-collective--northwind-risk-sentinel-console",
+    "renamedAdaptedRepo": "lubochka/tessera-collective--cascade-ledger-console",
+    "sourceRepoFullName": "lubochka/northwind--risk-sentinel-console",
+    "sourcePackage": "@xiigen-fork/northwind-risk-sentinel-console",
+    "sourceVersion": "1.0.2",
+    "sourceGitHead": "a4178a5d85ba50883433d2c5b3e7cefd98b43652"
+  },
+  "adaptation": {
+    "packageName": "@xiigen-fork/tessera-cascade-ledger-console",
+    "moduleName": "tessera-cascade-ledger-console",
+    "displayName": "Tessera Cascade Ledger Console",
+    "version": "1.0.3",
+    "head": "8db36b5679cff88f19d122accfe5a83011a7b6c6",
+    "commitMessage": "Adapt FLOW-25 for Tessera cascade ledger console",
+    "changedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/bfa-cross-flow-governance-tessera-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "freedomOverrides": {
+      "flow25_allowed_change_types": "SCHEMA_CHANGE,FLOW_MODIFICATION,DEPENDENCY_UPDATE",
+      "flow25_duplicate_window_hours": 36,
+      "flow25_static_critical_override_enabled": true,
+      "flow25_ai_evidence_required_for_high": true,
+      "flow25_advisory_timeout_ms": 45000,
+      "flow25_max_blast_radius_depth": 7,
+      "flow25_impact_report_channels": "web,cli,audit-log",
+      "flow25_precedent_minimum_count": 8,
+      "flow25_force_proceed_rationale_min_chars": 120,
+      "flow25_arbitration_timeout_minutes": 60
+    }
+  },
+  "githubActions": {
+    "repo": "lubochka/tessera-collective--cascade-ledger-console",
+    "runId": 25630649355,
+    "workflow": "XIIGen Flow CI - bfa-cross-flow-governance",
+    "headSha": "8db36b5679cff88f19d122accfe5a83011a7b6c6",
+    "conclusion": "success",
+    "createdAt": "2026-05-10T14:00:35Z",
+    "updatedAt": "2026-05-10T14:01:20Z"
+  },
+  "localValidation": {
+    "clonePath": "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-risk-sentinel-console-phase5c-20260510-165100",
+    "head": "8db36b5679cff88f19d122accfe5a83011a7b6c6",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+        "exitCode": 0
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit --json --outputFile=<outside clone>",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "exitCode": 0,
+        "result": "123 files, shasum 0d65cb4355cf409e20f63b03cf1ca4538438efc0"
+      }
+    ]
+  },
+  "registry": {
+    "registry": "http://localhost:4873",
+    "package": "@xiigen-fork/tessera-cascade-ledger-console",
+    "version": "1.0.3",
+    "distTagLatest": "1.0.3",
+    "gitHead": "8db36b5679cff88f19d122accfe5a83011a7b6c6",
+    "tarball": "http://localhost:4873/@xiigen-fork/tessera-cascade-ledger-console/-/tessera-cascade-ledger-console-1.0.3.tgz",
+    "shasum": "0d65cb4355cf409e20f63b03cf1ca4538438efc0",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/bfa-cross-flow-governance-tessera-v1.0.3-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/bfa-cross-flow-governance-tessera-v1.0.3-registry-listing.png"
+  },
+  "repoEvidence": {
+    "listingScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/tessera-collective--cascade-ledger-console-tenant-c-v1.0.3-github-listing.png",
+    "actionsScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/tessera-collective--cascade-ledger-console-tenant-c-v1.0.3-actions-success.png",
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "highRiskSecretPatternHits": 0
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokensCommitted": false,
+    "envFilesCommitted": false,
+    "highRiskSecretPatternHits": 0
+  },
+  "phaseGate": {
+    "tenantCAdapted": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "localRegistryReturnsTenantCAdaptedVersion": true,
+    "repoScreenshotsCaptured": true,
+    "phaseCloseScansPassed": true
+  }
+}

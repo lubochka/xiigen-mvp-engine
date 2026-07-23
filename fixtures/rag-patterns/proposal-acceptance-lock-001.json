@@ -1,0 +1,33 @@
+{
+  "patternId": "proposal-acceptance-lock-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-17",
+  "domainId": "freelancer-marketplace",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "VALIDATION",
+  "tags": [
+    "bola",
+    "setnx",
+    "occ",
+    "gig-acceptance",
+    "idempotency",
+    "three-guard-gate",
+    "bid-status"
+  ],
+  "keywords": "BOLA ownership check gig accept lock SETNX OCC bid status OPEN GigAccepted GigAcceptanceFailed tenantId AsyncLocalStorage clientTenantId three guards",
+  "teachingPoint": "T613 GigAcceptanceLockGateway enforces a 3-guard acceptance gate in strict ORDER: ORDER 1 = BOLA (gigPosting.clientTenantId === tenantId from ALS), ORDER 2 = SETNX gig-accept-lock:{gigId} (prevents concurrent double-acceptance), ORDER 3 = OCC bid status must be OPEN. All three must pass before GigAccepted is emitted. GigAcceptanceFailed is emitted on any guard violation.",
+  "ironRules": [
+    "ORDER 1 BOLA check: gigPosting.clientTenantId must equal tenantId from AsyncLocalStorage — never from request payload",
+    "ORDER 2 SETNX: search for gig-accept-lock:{gigId} before creating — duplicate lock returns alreadyAccepted:true with no GigAccepted event",
+    "ORDER 3 OCC: bid.status must equal OPEN — any other status emits GigAcceptanceFailed with BID_NOT_OPEN",
+    "storeDocument(GIG_AUDIT_INDEX) MUST complete before enqueue(GigAccepted) — DNA-8 outbox pattern",
+    "GigAcceptanceFailed emitted on BOLA_VIOLATION, GIG_NOT_FOUND, BID_NOT_FOUND, BID_NOT_OPEN — all failure paths covered"
+  ],
+  "codeSnippet": "// T613 GigAcceptanceLockGateway — 3-guard gate\nconst GIG_ACCEPT_LOCK_PREFIX = 'gig-accept-lock' as const;\n\nasync acceptGig(gigId: string, bidId: string): Promise<DataProcessResult<Record<string, unknown>>> {\n  const tenantId = this.tenantContext.getTenantId(); // ALS only — never from payload\n\n  // ORDER 1: BOLA — verify requesting tenant owns the gig\n  const gigResult = await this.db.searchDocuments('gigs', { gigId });\n  if (!gigResult.data?.length) return DataProcessResult.failure('GIG_NOT_FOUND', ...);\n  const gig = gigResult.data[0];\n  if (gig['clientTenantId'] !== tenantId) {\n    await this.queue.enqueue('GigAcceptanceFailed', { gigId, bidId, tenantId, failureCode: 'BOLA_VIOLATION' });\n    return DataProcessResult.failure('BOLA_VIOLATION', 'Tenant does not own this gig');\n  }\n\n  // ORDER 2: SETNX — prevent concurrent double-acceptance\n  const lockKey = `${GIG_ACCEPT_LOCK_PREFIX}:${gigId}`;\n  const existing = await this.db.searchDocuments('gig-locks', { lockKey });\n  if (existing.data?.length) return DataProcessResult.success({ alreadyAccepted: true });\n  await this.db.storeDocument('gig-locks', { lockKey, gigId, createdAt: new Date().toISOString() });\n\n  // ORDER 3: OCC bid status\n  const bidResult = await this.db.searchDocuments('bids', { bidId });\n  if (!bidResult.data?.length) { /* emit GigAcceptanceFailed BID_NOT_FOUND */ }\n  if (bidResult.data[0]['status'] !== 'OPEN') { /* emit GigAcceptanceFailed BID_NOT_OPEN */ }\n\n  // DNA-8: audit BEFORE enqueue\n  await this.db.storeDocument('gig-audit', { gigId, bidId, tenantId, action: 'GIG_ACCEPTED' });\n  await this.queue.enqueue('GigAccepted', { gigId, bidId, tenantId });\n  return DataProcessResult.success({ gigId, bidId });\n}",
+  "appliesTo": ["FLOW-18", "FLOW-19", "FLOW-20", "FLOW-21"],
+  "curriculumTier": 2,
+  "qualityScore": 0.96,
+  "sourceDocument": "server/src/engine-contracts/freelancer-marketplace-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

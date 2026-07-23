@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-10",
+  "taskTypeId": "T169",
+  "name": "reviews-reputation-review-submission-gateway",
+  "description": "T169 ReviewSubmissionGateway — TRANSACTION archetype. Eligibility check at order=1 before any write. Rating validation at order=2 before SETNX. Inverts FLOW-08 T79 audit-first pattern.",
+  "archetype": "TRANSACTION",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: eligibility-before-setnx, validation-before-setnx, server-derived-review-id, audit-at-order-4"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve TRANSACTION arch pattern for T169: eligibility-before-audit, server-side-calculation",
+      "params": {
+        "archetype": "TRANSACTION",
+        "taskTypeRef": "T169",
+        "topK": 5,
+        "patternIds": [
+          "eligibility-before-audit-001",
+          "arch--server-side-calculation"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T169 into: eligibility(1) → rating-validate(2) → SETNX(3) → audit(4) → storeDocument+emit(5)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate review-submission-gateway.service.ts — eligibility FIRST, then rating validation, then SETNX idempotency. reviewId = SHA-256 hash(tenantId+reviewerId+targetEntityId+targetEntityType) server-derived."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: eligibility_before_setnx, validation_before_setnx, server_derived_review_id, audit_after_eligibility"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T169 iron rules: eligibility order, rating validation order, SETNX position, audit position"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=eligibility-before-audit, rejected=audit-first-then-eligibility (FLOW-08 T79 pattern). curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "ReviewSubmitted command",
+  "primaryFabric": "DATABASE"
+}

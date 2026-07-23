@@ -1,0 +1,56 @@
+{
+  "taskTypeId": "T81",
+  "flowId": "FLOW-07",
+  "name": "PrivacyGatekeeper",
+  "archetype": "GUARD",
+  "domainId": "social-connections",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "executionModel": "INLINE_ONLY",
+  "knowledgeScope": "PRIVATE",
+  "stackCoupling": {
+    "mechanism": "inline-synchronous-no-queue",
+    "tier": "MACHINE",
+    "fabricInterface": "IDatabaseService",
+    "neutralConcepts": [
+      "INLINE_ONLY: @Injectable() only — no @EventPattern, no @MessagePattern",
+      "Called synchronously by T73/T76/T78 via constructor injection",
+      "Live DATABASE read on every call — no local cache",
+      "Returns DataProcessResult<{ allowed: boolean }>",
+      "No queue entry — T81 has no @EventPattern decorator anywhere"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F-T81-1",
+      "interface": "IPrivacySettingsStore",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T81-1",
+      "rule": "INLINE_ONLY: T81 is pure @Injectable() — no @EventPattern, no @MessagePattern, no queue decorator of any kind. Generating @EventPattern on T81 = BUILD_FAILURE",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T81-2",
+      "rule": "T73/T76/T78 inject T81 via constructor and call check() synchronously before any write or emit — queue-driven invocation = BUILD_FAILURE",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T81-3",
+      "rule": "Privacy settings read live from DATABASE FABRIC on every call — no local cache, no in-memory store",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "inline_only_no_event_pattern"
+  ],
+  "machineComponents": [
+    "INLINE_ONLY",
+    "no queue entry",
+    "synchronous only"
+  ],
+  "tags": ["T81", "INLINE_ONLY", "privacy", "guard", "synchronous", "no-EventPattern"],
+  "keywords": "privacy gatekeeper T81 inline only no EventPattern synchronous guard DATABASE live read"
+}

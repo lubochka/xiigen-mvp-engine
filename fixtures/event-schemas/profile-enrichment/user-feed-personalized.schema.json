@@ -1,0 +1,11 @@
+{
+  "eventType": "UserFeedPersonalized",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T52-C (feed-personalization.service.ts)",
+  "consumers": ["T52-D"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "feedId", "degradationLevel", "partialResults", "personalizedAt"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges", "revenue"],
+  "notes": "NODE C → NODE D internal event. degradationLevel = number of absent optional signals (0=full, 1-4=degraded). DNA-8: feed config stored before this event emitted."
+}

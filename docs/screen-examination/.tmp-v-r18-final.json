@@ -1,0 +1,38 @@
+{
+  "batch_id": "V-R18-FINAL",
+  "captured_after": "RUN-192 V-R15 Wave 7 (b7475f1c)",
+  "flows": [
+    {
+      "slug": "user-groups-communities",
+      "v_r17_block_resolved": false,
+      "tier_chips_title_cased_everywhere": false,
+      "notes": "primary-anonymous STILL shows all-caps tier chips FREE/STANDARD/FREE/FREE on the 4 consumer discovery cards (Advanced Algebra Study, Geometry Masters, Indie Game Dev Collective, Language Exchange). V-R17 BLOCK PERSISTS on anonymous view. primary-tenant-user correctly shows Title-Case Free/Premium/Standard/Free/Premium/Free. primary-tenant-admin table shows Title-Case Free/Premium/Standard/Free/Premium/Free and Invite-only. primary-platform-support is an empty shell (no cards). Root cause: anonymous-only code path still renders raw uppercase tier token rather than humanized label."
+    },
+    {
+      "slug": "event-attendance",
+      "v_r17_block_resolved": true,
+      "tenant_user_card_humanized": true,
+      "notes": "primary-tenant-user 'Your attendance' card now shows 'Confirmed' + 'Checked in' Title-Case chips and 'Reference: Guest #001' humanized — V-R17 BLOCK RESOLVED. primary-event-organiser and primary-tenant-admin RSVPs list all show Guest #001..005 + Confirmed/Waitlisted/Checked in. primary-anonymous shows only Sign-in CTA (no chips). NOTE: tenant-admin Refund Requests section still shows raw att-002/att-005/ref-001/ref-002 — but this was NOT the V-R17 BLOCK scope (BLOCK was tenant-user 'Your attendance' card only), so logged as residual concern not a regression."
+    },
+    {
+      "slug": "sharable-flows-marketplace",
+      "v_r17_concern_resolved": true,
+      "platform_admin_chips_title_cased": true,
+      "notes": "primary-platform-admin curator Review Queue now shows 3 package cards (Event Raffle Manager, Stripe Payment Gateway, Analytics Dashboard Pro) each with Title-Case 'Listed' chip — consistent with populated-anonymous. V-R17 CONCERN RESOLVED. primary-tenant-admin shows Browse Flow Templates + My Installed Flows with Install/Fork/Update action buttons; no status chips rendered on this view (no producer 'My Published Flows' section present in current primary-tenant-admin capture, so producer chip humanization cannot be verified here — but the curator-side token that was raised in V-R17 is fixed)."
+    },
+    {
+      "slug": "subscription-billing",
+      "v_r17_concern_resolved": true,
+      "business_partner_invoicing_humanized": true,
+      "notes": "primary-business-partner Partner Invoicing table now shows 'Invoice #B-001', 'Invoice #B-002', 'Invoice #B-003' + 'PO #2026-0012', 'PO #2026-0015', 'PO #2026-0018' (humanized from raw INV-B-001/PO-2026-0012) and status chips 'Paid'/'Paid'/'Due' in Title-Case (humanized from PAID/DUE). V-R17 CONCERN FULLY RESOLVED."
+    }
+  ],
+  "summary": {
+    "v_r17_blocks_resolved": 1,
+    "v_r17_concerns_resolved": 2,
+    "persisting_issues": [
+      "user-groups-communities primary-anonymous: tier chips FREE/STANDARD/FREE/FREE still all-caps on 4 consumer discovery cards — V-R17 BLOCK PERSISTS on anonymous view only (tenant-user + tenant-admin fixed)",
+      "event-attendance primary-tenant-admin: Refund Requests section still shows raw att-002/att-005/ref-001/ref-002 identifiers (out of V-R17 BLOCK scope, but residual humanization gap)"
+    ]
+  }
+}

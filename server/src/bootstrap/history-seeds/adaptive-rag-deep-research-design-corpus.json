@@ -1,0 +1,92 @@
+[
+  {
+    "patternId": "DR-29-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-29-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-29-01",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-29-02",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-29-03",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "RAG-29-04",
+    "patternType": "RAG_PATTERN",
+    "flowId": "FLOW-29",
+    "domainId": "adaptive-rag-deep-research",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

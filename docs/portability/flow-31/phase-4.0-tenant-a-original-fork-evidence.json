@@ -1,0 +1,149 @@
+{
+  "flowId": "FLOW-31",
+  "flowSlug": "design-intelligence-engine",
+  "implementationSlug": "design-system-governance",
+  "phase": "phase-4.0-tenant-a-original-fork",
+  "status": "completed",
+  "capturedAt": "2026-05-11T04:27:41.8760179Z",
+  "tenant": "acme-corp",
+  "repo": {
+    "forkId": "fork-design-intelligence-engine-acme-corp",
+    "repoFullName": "lubochka/acme-corp--design-intelligence-engine",
+    "repoUrl": "https://github.com/lubochka/acme-corp--design-intelligence-engine",
+    "defaultBranch": "main",
+    "initialCommitSha": "e5a4f8a507393108306676f40b8e7b64b09a1f21",
+    "visibilityAfterScreenshots": "PRIVATE"
+  },
+  "forkApi": {
+    "method": "POST",
+    "url": "http://localhost:3000/api/marketplace/packages/design-intelligence-engine/fork",
+    "tenantHeader": "acme-corp",
+    "role": "tenant-admin",
+    "responseStatus": "FORKED",
+    "usedRealMarketplaceApi": true,
+    "syntheticRepo": false,
+    "manualRepoCreation": false,
+    "firstAssemblyProbe": {
+      "statusCode": 202,
+      "code": "MISSING_REQUIRED_BUNDLE_FILE",
+      "fixedBy": "Added docs/portability/flow-31/adaptation-surface-design-intelligence-engine.json."
+    },
+    "runtimePrerequisitesSeeded": [
+      "Verified tenant-admin JWT access to the live marketplace package route.",
+      "Verified ISecretsManager Vault key layout for all three test tenants without printing secret values.",
+      "Copied the newly added FLOW-31 adaptation surface into the already-running server container because the container image predated the host file; the same file is committed in this phase."
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - design-intelligence-engine",
+    "runId": 25650106562,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "e5a4f8a507393108306676f40b8e7b64b09a1f21",
+    "createdAt": "2026-05-11T04:21:13Z",
+    "updatedAt": "2026-05-11T04:21:58Z",
+    "url": "https://github.com/lubochka/acme-corp--design-intelligence-engine/actions/runs/25650106562"
+  },
+  "localValidation": {
+    "cloneDir": "C:/Projects/xiigen-fork-clones/acme-corp--design-intelligence-engine-phase40-20260511-072225",
+    "cloneHeadSha": "e5a4f8a507393108306676f40b8e7b64b09a1f21",
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "installExit": 0,
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 1,
+      "jestSuitesTotal": 1,
+      "jestTestsPassed": 1,
+      "jestTestsTotal": 1,
+      "packDryRunExit": 0,
+      "packEntryCount": 134,
+      "workingTreeCleanAfterPackFileCleanup": true
+    }
+  },
+  "bundleManifest": {
+    "path": "BUNDLE-MANIFEST.json",
+    "requiredBundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    },
+    "manifestEntries": 133,
+    "packageName": "@xiigen-fork/design-intelligence-engine",
+    "packageVersion": "1.0.0-fork",
+    "tenantConfig": {
+      "tenantId": "acme-corp",
+      "flowId": "FLOW-31",
+      "flowSlug": "design-intelligence-engine",
+      "moduleName": "design-intelligence-engine"
+    },
+    "canonicalManifestServicePaths": 27,
+    "implementationCopiedFrom": "server/src/engine/flows/design-system-governance",
+    "canonicalPathRequired": "server/src/engine/flows/design-intelligence-engine/*.ts",
+    "adaptationSurface": "docs/portability/flow-31/adaptation-surface-design-intelligence-engine.json"
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-31",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-4.0-tenant-a-actions-run.png",
+        "bytes": 76822
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-4.0-tenant-a-bundle-manifest.png",
+        "bytes": 424509
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-4.0-tenant-a-repo.png",
+        "bytes": 127594
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "scanRoot": "C:/Projects/xiigen-fork-clones/acme-corp--design-intelligence-engine-phase40-20260511-072225/server/src/engine/flows/design-intelligence-engine",
+    "flowFileCount": 27,
+    "throwNew": 0,
+    "exportedServicesByPromptPattern": 0,
+    "servicesMissingMicroserviceBaseByPromptPattern": 0,
+    "clsImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0,
+    "failureLines": 0,
+    "note": "FLOW-31 runtime class names do not use the Service suffix, matching the pre-existing prompt-pattern scan accepted in phases 0 and 1."
+  },
+  "credentialHandling": {
+    "tenantCredentialsSeededInVault": true,
+    "secretValuesWrittenToEvidence": false,
+    "secretValuesCommitted": false,
+    "tenantCredentialPathsUsedByForkHandler": [
+      "github_token",
+      "github_org_name",
+      "docker_registry_url",
+      "docker_registry_token"
+    ]
+  },
+  "protocolGate": {
+    "realMarketplaceApiCall": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "fullBundle": true,
+    "localCloneValidation": true,
+    "realGitHubScreenshots": true,
+    "closeScansZeroFailureLines": true,
+    "phaseComplete": true
+  },
+  "verdict": "PASS"
+}

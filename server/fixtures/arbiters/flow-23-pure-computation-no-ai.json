@@ -1,0 +1,17 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-23-pure_computation_no_ai",
+  "checkId": "pure_computation_no_ai",
+  "flowId": "FLOW-23",
+  "bfaRules": ["CF-433", "CF-445"],
+  "severity": "score-zero",
+  "description": "T349 and T354 must not inject AI provider or have side effects",
+  "taskTypeIds": ["T349", "T354"],
+  "forbiddenInjections": ["AI_PROVIDER", "IAiProvider", "ILanguageModelService"],
+  "forbiddenMethods": ["ai.generate", "ai.complete", "ai.enhance", "db.storeDocument", "queue.enqueue"],
+  "requiredMethods": {
+    "T349": ["solver.validateConstraints"]
+  },
+  "violationCode": "PURE_COMPUTATION_VIOLATED",
+  "active": true
+}

@@ -1,0 +1,93 @@
+[
+  {
+    "patternId": "ARCH-001",
+    "patternType": "ARCH_PATTERN",
+    "principle": "Fabric-First",
+    "teachingPoint": "Service code never imports a provider SDK directly. All infrastructure access (database, queue, AI, RAG, secrets, flow engine) goes through abstract fabric interfaces resolved at runtime via dependency injection. This makes every provider swappable without changing service code.",
+    "positiveExample": "// @Inject(DATABASE_SERVICE) private db: IDatabaseService\n// await this.db.storeDocument('products', data, id);",
+    "negativeExample": "// WRONG: import { Client } from '@elastic/elasticsearch'\n// const client = new Client({ node: 'http://localhost:9200' })\n// Violation: provider SDK imported in service code — breaks swappability",
+    "violationSeverity": "BUILD_FAILURE",
+    "dnaRule": "DNA-1 (Fabric-First)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "tags": ["fabric-first", "dependency-injection", "swappability", "architecture"]
+  },
+  {
+    "patternId": "ARCH-002",
+    "patternType": "ARCH_PATTERN",
+    "principle": "Config Over Code (FREEDOM Machine)",
+    "teachingPoint": "If a business user might want to change a value — it must live in a FREEDOM configuration document in Elasticsearch, not in compiled TypeScript code. This is the FREEDOM Machine boundary: business-configurable values go to FREEDOM docs; fixed algorithmic logic stays in MACHINE code. MACHINE code cannot be overridden by tenant config.",
+    "positiveExample": "// Read from FREEDOM config:\n// const threshold = await this.freedomConfig.get(XIIGEN_FREEDOM_KEYS.CONVERGENCE_QUALITY_THRESHOLD, 9.5);\n// FREEDOM key allows business users to tune the threshold",
+    "negativeExample": "// WRONG: const THRESHOLD = 9.5; // hardcoded\n// Business users cannot change this without a code deployment\n// Violates Config Over Code principle",
+    "violationSeverity": "BUILD_FAILURE",
+    "dnaRule": "FREEDOM Machine boundary",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "tags": ["config-over-code", "freedom-machine", "freedom-config", "architecture"]
+  },
+  {
+    "patternId": "ARCH-003",
+    "patternType": "ARCH_PATTERN",
+    "principle": "DataProcessResult (DNA-3)",
+    "teachingPoint": "All service methods return DataProcessResult<T>. Never throw for business logic conditions. Use DataProcessResult.failure('CODE', 'message') for expected failures. Use DataProcessResult.success(data) for success. Only let unexpected exceptions propagate as-is — catch and wrap them in a try/catch returning DataProcessResult.failure.",
+    "positiveExample": "// if (!document) {\n//   return DataProcessResult.failure('NOT_FOUND', 'Document not found');\n// }\n// return DataProcessResult.success(document);",
+    "negativeExample": "// WRONG: throw new NotFoundException('Not found');\n// WRONG: throw new Error('validation failed');\n// These cause unhandled exceptions in the caller instead of returning a typed result",
+    "violationSeverity": "BUILD_FAILURE",
+    "dnaRule": "DNA-3",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "tags": ["dna-3", "data-process-result", "error-handling", "architecture"]
+  },
+  {
+    "patternId": "ARCH-004",
+    "patternType": "ARCH_PATTERN",
+    "principle": "Outbox Pattern (DNA-8)",
+    "teachingPoint": "storeDocument() must be called BEFORE enqueue(). The database record must exist before downstream consumers receive the event. If the process crashes after storeDocument() but before enqueue(), the record exists and the event can be re-emitted. If the process crashes after enqueue() but before storeDocument(), the consumer fires on a record that does not exist — data loss.",
+    "positiveExample": "// DNA-8 correct order:\n// await this.db.storeDocument(index, record, id);  // FIRST\n// await this.queue.enqueue('EventType', data);        // SECOND",
+    "negativeExample": "// WRONG: reversed order\n// await this.queue.enqueue('EventType', data);        // fires first\n// await this.db.storeDocument(index, record, id);  // stored after — consumer may run before this",
+    "violationSeverity": "BUILD_FAILURE",
+    "dnaRule": "DNA-8",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "tags": ["dna-8", "outbox-pattern", "store-before-enqueue", "architecture"]
+  },
+  {
+    "patternId": "ARCH-005",
+    "patternType": "ARCH_PATTERN",
+    "principle": "Tenant Isolation (DNA-5)",
+    "teachingPoint": "Tenant scope is automatic via AsyncLocalStorage. Fabric providers read TenantContext internally. Never pass tenantId as a parameter to fabric methods. The caller cannot forget to scope — the fabric enforces it. When a service needs to know the current tenantId for business logic (e.g., storing it in a document), read it from the TenantContext, not from a method parameter.",
+    "positiveExample": "// @Inject(DATABASE_SERVICE) private db: IDatabaseService\n// await this.db.storeDocument('products', { ...data, tenantId });\n// tenantId read from TenantContext by the service for the document — NOT passed to the fabric method",
+    "negativeExample": "// WRONG: await this.db.storeDocument('products', data, id, tenantId);\n// tenantId parameter does not exist on fabric methods\n// Fabric reads tenant context from AsyncLocalStorage automatically",
+    "violationSeverity": "BUILD_FAILURE",
+    "dnaRule": "DNA-5",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "tags": ["dna-5", "tenant-isolation", "multi-tenant", "async-local-storage", "architecture"]
+  },
+  {
+    "patternId": "ARCH-006",
+    "patternType": "ARCH_PATTERN",
+    "principle": "Generic Over Specific",
+    "teachingPoint": "No entity-specific controllers, services, or classes. One DynamicController handles all CRUD for all entity types via /api/dynamic/{indexName}. Business data uses Record<string, unknown> — not TypeScript classes. Schema lives in config documents (FREEDOM), not TypeScript type definitions. This allows the engine to support unlimited entity types without code changes.",
+    "positiveExample": "// DynamicController handles all CRUD: GET /api/dynamic/products\n// const product: Record<string, unknown> = { name: 'Widget', price: 29.99 };\n// await this.db.storeDocument('products', product, id);",
+    "negativeExample": "// WRONG: class ProductsController { ... }\n// WRONG: class Product { name: string; price: number; }\n// WRONG: class ProductsService { getProduct() ... }\n// Entity-specific code cannot serve unlimited entity types",
+    "violationSeverity": "BUILD_FAILURE",
+    "dnaRule": "DNA-6 (DynamicController) + DNA-1 (No Typed Models)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "tags": ["generic-over-specific", "dynamic-controller", "no-typed-models", "architecture"]
+  },
+  {
+    "patternId": "ARCH-007",
+    "patternType": "ARCH_PATTERN",
+    "principle": "CloudEvents + Queue-Only Inter-Service Communication (DNA-9 + DNA-11)",
+    "teachingPoint": "All inter-service events use the CloudEvents envelope format via createCloudEvent(). Never fetch() or make HTTP calls to another service — all communication is async via queue events. This decouples services, enables retry/DLQ, and makes the system auditable. The CloudEvents envelope includes source, type, specversion, id, time, and data fields.",
+    "positiveExample": "// await this.queue.enqueue('order.created', createCloudEvent({ source: 'orders', type: 'com.xiigen.order.created', data: orderData }));",
+    "negativeExample": "// WRONG: const res = await fetch('http://inventory-service/api/reserve', { method: 'POST', body: JSON.stringify(data) });\n// Direct HTTP between services bypasses queue, breaks retry, and creates coupling",
+    "violationSeverity": "BUILD_FAILURE",
+    "dnaRule": "DNA-9 (CloudEvents) + DNA-11 (No Direct HTTP)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "tags": ["dna-9", "cloudevents", "queue-only", "no-direct-http", "architecture"]
+  }
+]

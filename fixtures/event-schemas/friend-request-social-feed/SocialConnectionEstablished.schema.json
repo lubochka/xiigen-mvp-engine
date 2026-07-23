@@ -1,0 +1,11 @@
+{
+  "eventType": "SocialConnectionEstablished",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "connection-graph-writer",
+  "consumers": ["T76", "T80", "T82"],
+  "piiFields": [],
+  "allowedPayloadFields": ["connectionId", "userIdA", "userIdB", "tenantId", "establishedAt"],
+  "forbiddenFields": ["userProfile", "feedItems", "privacySettings", "mutualConnections"],
+  "notes": "Emitted by T75 after bidirectional graph edges written atomically. Gates on T75 graph write completion ONLY — T76/T77/T78 are time-decoupled. T80 triggers full mutual count recompute on this event."
+}

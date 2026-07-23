@@ -1,0 +1,18 @@
+{
+  "eventType": "marketplace.payment.reversal.requested",
+  "flowId": "FLOW-16",
+  "version": "1.0.0",
+  "description": "Triggers T611 MarketplaceEscrowController LIFO compensation saga: [REFUND_PAYMENT, RESTORE_INVENTORY]. Only this event triggers compensation — not DisputeInitiated.",
+  "properties": {
+    "orderId": { "type": "string", "required": true },
+    "escrowId": { "type": "string", "required": true },
+    "buyerTenantId": { "type": "string", "required": true },
+    "sellerTenantId": { "type": "string", "required": true },
+    "reversalReason": {
+      "type": "string",
+      "enum": ["BUYER_REQUESTED", "SELLER_CANCELLED", "FRAUD_DETECTED", "SYSTEM_ROLLBACK"],
+      "required": true
+    },
+    "requestedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

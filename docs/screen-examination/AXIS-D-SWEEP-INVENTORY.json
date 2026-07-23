@@ -1,0 +1,1024 @@
+{
+  "total_flows": 44,
+  "generated_at": "2026-04-21",
+  "generator": "inventory subagent a524b7d90de0a3408",
+  "flows": [
+    {
+      "slug": "adaptive-rag-deep-research",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/adaptive-rag-deep-research",
+      "mock_keys": [
+        "query-received",
+        "plan-queued",
+        "search-running",
+        "sources-gathered",
+        "synthesis-done",
+        "search-failed",
+        "clarification-escalated"
+      ],
+      "populated_key": "search-running",
+      "needs_purpose_built_ui": false,
+      "grammar": "G4",
+      "refs": [
+        "n8n",
+        "Temporal UI",
+        "Airflow DAG",
+        "LangSmith"
+      ]
+    },
+    {
+      "slug": "ads-platform",
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/ads-platform",
+      "mock_keys": [
+        "auction-open",
+        "bid-received",
+        "consent-missing",
+        "fraud-checked",
+        "fraud-detected",
+        "bid-accepted",
+        "political-review",
+        "auction-closed"
+      ],
+      "populated_key": "bid-accepted",
+      "needs_purpose_built_ui": true,
+      "grammar": "G3+G6+G5",
+      "refs": [
+        "Google Ads",
+        "Meta Ads Manager"
+      ]
+    },
+    {
+      "slug": "ai-safety-moderation",
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/ai-safety-moderation",
+      "mock_keys": [
+        "content-received",
+        "moderation-running",
+        "content-approved",
+        "content-flagged",
+        "human-review",
+        "content-rejected",
+        "consent-pending",
+        "consent-granted"
+      ],
+      "populated_key": "content-approved",
+      "needs_purpose_built_ui": true,
+      "grammar": "G5+G2",
+      "refs": [
+        "Discord AutoMod",
+        "Reddit modqueue"
+      ]
+    },
+    {
+      "slug": "bfa-cross-flow-governance",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/bfa-cross-flow-governance",
+      "mock_keys": [
+        "rule-draft",
+        "change-ingested",
+        "blast-radius-computed",
+        "rule-published",
+        "violation-detected",
+        "rule-enforced",
+        "cross-tenant-guard",
+        "rule-suspended"
+      ],
+      "populated_key": "rule-published",
+      "needs_purpose_built_ui": true,
+      "grammar": "G2",
+      "refs": [
+        "GitHub PR review",
+        "Linear",
+        "Gerrit"
+      ]
+    },
+    {
+      "slug": "blog-cms-modules",
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "primary_route": "/blog-cms-modules",
+      "mock_keys": [
+        "page-draft",
+        "ai-suggestions",
+        "moderation-required",
+        "seo-indexed"
+      ],
+      "populated_key": "seo-indexed",
+      "needs_purpose_built_ui": true,
+      "grammar": "G5+G3",
+      "refs": [
+        "Medium",
+        "Substack",
+        "Ghost"
+      ]
+    },
+    {
+      "slug": "bundle-activation",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/bundle-activation",
+      "mock_keys": [
+        "validation-pending",
+        "dry-run-running",
+        "active",
+        "degraded",
+        "restored",
+        "validation-failed",
+        "activation-failed",
+        "bundle-not-found"
+      ],
+      "populated_key": "active",
+      "needs_purpose_built_ui": true,
+      "grammar": "G1",
+      "refs": [
+        "Vercel deploy",
+        "Docker Desktop",
+        "CircleCI"
+      ]
+    },
+    {
+      "slug": "client-push",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/client-push",
+      "mock_keys": [
+        "subscription-active",
+        "event-queued",
+        "payload-dispatched",
+        "delivery-confirmed",
+        "connection-expired",
+        "cross-tenant-blocked",
+        "keepalive-sent",
+        "delivery-failed"
+      ],
+      "populated_key": "delivery-confirmed",
+      "needs_purpose_built_ui": true,
+      "grammar": "G3",
+      "refs": [
+        "New Relic",
+        "OneSignal"
+      ]
+    },
+    {
+      "slug": "cms-publishing",
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "primary_route": "/cms-publishing",
+      "mock_keys": [
+        "review-requested",
+        "legal-review"
+      ],
+      "populated_key": "review-requested",
+      "needs_purpose_built_ui": true,
+      "grammar": "G5+G3",
+      "refs": [
+        "Medium",
+        "Substack",
+        "Ghost",
+        "WordPress"
+      ]
+    },
+    {
+      "slug": "completion-gamification",
+      "roles": [
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "primary_route": "/gamification",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G5+G6+G3",
+      "refs": [
+        "Duolingo",
+        "Khan Academy"
+      ]
+    },
+    {
+      "slug": "data-warehouse-analytics",
+      "roles": [
+        "tenant-admin",
+        "business-partner",
+        "platform-admin"
+      ],
+      "primary_route": "/admin/data-warehouse-analytics",
+      "mock_keys": [
+        "pipeline-queued",
+        "transform-running",
+        "warehouse-degraded",
+        "retention-blocked",
+        "export-ready"
+      ],
+      "populated_key": "export-ready",
+      "needs_purpose_built_ui": true,
+      "grammar": "G6",
+      "refs": [
+        "QuickBooks",
+        "Mixpanel",
+        "Looker"
+      ]
+    },
+    {
+      "slug": "design-intelligence-engine",
+      "roles": [
+        "platform-admin",
+        "platform-support",
+        "tenant-admin"
+      ],
+      "primary_route": "/admin/design-intelligence-engine",
+      "mock_keys": [
+        "proposal-drafted",
+        "confidence-scored",
+        "proposal-approved",
+        "proposal-rejected",
+        "proposal-applied",
+        "proposal-rolled-back"
+      ],
+      "populated_key": "proposal-applied",
+      "needs_purpose_built_ui": true,
+      "grammar": "G6+G4",
+      "refs": [
+        "LangSmith",
+        "W&B",
+        "Figma"
+      ]
+    },
+    {
+      "slug": "design-system-governance",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/design-system-governance",
+      "mock_keys": [
+        "rule-draft",
+        "violation-detected",
+        "conflict-detected",
+        "impact-critical",
+        "rule-deprecated"
+      ],
+      "populated_key": "violation-detected",
+      "needs_purpose_built_ui": true,
+      "grammar": "G2+G3",
+      "refs": [
+        "Flyway",
+        "SonarQube",
+        "Dependabot"
+      ]
+    },
+    {
+      "slug": "durable-sagas-compliance",
+      "roles": [
+        "tenant-admin",
+        "tenant-user",
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/sagas",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": true,
+      "grammar": "G1",
+      "refs": [
+        "Temporal UI",
+        "Cadence",
+        "AWS Step Functions"
+      ]
+    },
+    {
+      "slug": "dynamic-forms-workflows",
+      "roles": [
+        "tenant-admin",
+        "tenant-user",
+        "anonymous"
+      ],
+      "primary_route": "/dynamic-forms-workflows",
+      "mock_keys": [
+        "form-draft",
+        "no-fields",
+        "published",
+        "occ-conflict",
+        "submission-received",
+        "submission-rejected",
+        "automation-triggered",
+        "analytics-updated",
+        "build",
+        "respond"
+      ],
+      "populated_key": "published",
+      "needs_purpose_built_ui": true,
+      "grammar": "G7+G5",
+      "refs": [
+        "Typeform",
+        "Google Forms",
+        "Jotform",
+        "Airtable"
+      ]
+    },
+    {
+      "slug": "etl-data-integration",
+      "roles": [
+        "platform-admin",
+        "tenant-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/etl-data-integration",
+      "mock_keys": [
+        "source-connected",
+        "extraction-running",
+        "rate-limited",
+        "blackout-window",
+        "transform-applied",
+        "peer-inactive"
+      ],
+      "populated_key": "transform-applied",
+      "needs_purpose_built_ui": true,
+      "grammar": "G1",
+      "refs": [
+        "Airbyte",
+        "Fivetran",
+        "Stitch"
+      ]
+    },
+    {
+      "slug": "event-attendance",
+      "roles": [
+        "tenant-user",
+        "event-organiser",
+        "tenant-admin",
+        "anonymous"
+      ],
+      "primary_route": "/attendance",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G3+G5",
+      "refs": [
+        "Eventbrite",
+        "Airbnb",
+        "Luma"
+      ]
+    },
+    {
+      "slug": "event-management",
+      "roles": [
+        "tenant-user",
+        "tenant-admin",
+        "anonymous",
+        "platform-admin"
+      ],
+      "primary_route": "/events/create",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G5",
+      "refs": [
+        "Eventbrite",
+        "Luma",
+        "Meetup"
+      ]
+    },
+    {
+      "slug": "feature-registry",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/feature-registry",
+      "mock_keys": [
+        "feature-registered",
+        "decision-pending",
+        "feature-verified",
+        "feature-active",
+        "feature-blocked",
+        "feature-deprecated",
+        "feature-removed"
+      ],
+      "populated_key": "feature-active",
+      "needs_purpose_built_ui": true,
+      "grammar": "G3",
+      "refs": [
+        "LaunchDarkly",
+        "Split.io",
+        "Unleash"
+      ]
+    },
+    {
+      "slug": "form-builder-templates",
+      "roles": [
+        "tenant-admin",
+        "tenant-user",
+        "anonymous"
+      ],
+      "primary_route": "/form-templates",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G3+G5",
+      "refs": [
+        "Typeform templates",
+        "Webflow",
+        "Notion",
+        "Canva"
+      ]
+    },
+    {
+      "slug": "freelancer-marketplace",
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "freelancer",
+        "tenant-admin",
+        "business-partner",
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/gigs/post",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": true,
+      "grammar": "G3",
+      "refs": [
+        "Upwork",
+        "Fiverr",
+        "Stripe Connect"
+      ]
+    },
+    {
+      "slug": "friend-request-social-feed",
+      "roles": [
+        "tenant-user",
+        "tenant-admin",
+        "anonymous",
+        "platform-admin"
+      ],
+      "primary_route": "/social-feed",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G3",
+      "refs": [
+        "Twitter/X",
+        "LinkedIn",
+        "Facebook"
+      ]
+    },
+    {
+      "slug": "human-interaction-gate",
+      "roles": [
+        "platform-admin",
+        "tenant-admin",
+        "platform-support",
+        "tenant-user"
+      ],
+      "primary_route": "/admin/human-interaction-gate",
+      "mock_keys": [
+        "request-pending",
+        "chain-sequential",
+        "chain-parallel",
+        "decision-approved",
+        "decision-rejected",
+        "timeout-escalated",
+        "task-delegated",
+        "request-queued"
+      ],
+      "populated_key": "decision-approved",
+      "needs_purpose_built_ui": true,
+      "grammar": "G2",
+      "refs": [
+        "Intercom",
+        "Linear",
+        "GitHub PR"
+      ]
+    },
+    {
+      "slug": "i18n-translation",
+      "roles": [
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin",
+        "translator"
+      ],
+      "primary_route": "/admin/i18n",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": true,
+      "grammar": "G7+G3+G5",
+      "refs": [
+        "Crowdin",
+        "Lokalise",
+        "Phrase"
+      ]
+    },
+    {
+      "slug": "marketplace",
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "tenant-admin",
+        "business-partner"
+      ],
+      "primary_route": "/marketplace",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G3",
+      "refs": [
+        "Etsy",
+        "Shopify",
+        "Amazon"
+      ]
+    },
+    {
+      "slug": "marketplace-payments",
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "tenant-admin",
+        "referral-user",
+        "freelancer",
+        "business-partner",
+        "event-organiser",
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/checkout",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": true,
+      "grammar": "G5+G3",
+      "refs": [
+        "Stripe Checkout",
+        "Stripe Connect"
+      ]
+    },
+    {
+      "slug": "marketplace-plugin-adapter",
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "tenant-admin",
+        "freelancer",
+        "business-partner",
+        "platform-admin",
+        "platform-support",
+        "event-organiser"
+      ],
+      "primary_route": "/admin/marketplace-plugin-adapter",
+      "mock_keys": [
+        "adapter-registered",
+        "handshake-pending",
+        "plugin-connected",
+        "payload-translating",
+        "payload-translated",
+        "schema-mismatch",
+        "rate-limited"
+      ],
+      "populated_key": "plugin-connected",
+      "needs_purpose_built_ui": true,
+      "grammar": "G3+G4+G5+G2",
+      "refs": [
+        "Zapier",
+        "VS Code marketplace",
+        "GitHub Marketplace"
+      ]
+    },
+    {
+      "slug": "meta-arbitration-engine",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/meta-arbitration-engine",
+      "mock_keys": [
+        "conflict-detected",
+        "arbiters-running",
+        "verdict-approved",
+        "verdict-needs-revision",
+        "verdict-rejected",
+        "override-applied"
+      ],
+      "populated_key": "verdict-approved",
+      "needs_purpose_built_ui": true,
+      "grammar": "G2",
+      "refs": [
+        "GitHub PR review",
+        "Linear",
+        "Gerrit"
+      ]
+    },
+    {
+      "slug": "meta-flow-engine",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/meta-flow-engine",
+      "mock_keys": [
+        "flow-registered",
+        "generation-queued",
+        "generation-running",
+        "review-gate",
+        "review-needs-revision"
+      ],
+      "populated_key": "generation-running",
+      "needs_purpose_built_ui": true,
+      "grammar": "G4",
+      "refs": [
+        "n8n",
+        "Temporal",
+        "Airflow"
+      ]
+    },
+    {
+      "slug": "module-lifecycle",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/module-lifecycle",
+      "mock_keys": [
+        "module-installing",
+        "module-installed",
+        "module-active",
+        "module-suspended",
+        "module-upgrading",
+        "module-upgraded",
+        "module-uninstall-pending",
+        "module-uninstalled"
+      ],
+      "populated_key": "module-active",
+      "needs_purpose_built_ui": true,
+      "grammar": "G1",
+      "refs": [
+        "npm version",
+        "Docker images",
+        "Homebrew"
+      ]
+    },
+    {
+      "slug": "oss-curriculum",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/oss-curriculum",
+      "mock_keys": [
+        "curriculum-queued",
+        "lesson-generating",
+        "lesson-ready",
+        "plateau-detected",
+        "lesson-deferred",
+        "shadow-pending"
+      ],
+      "populated_key": "lesson-ready",
+      "needs_purpose_built_ui": true,
+      "grammar": "G6",
+      "refs": [
+        "LangSmith",
+        "W&B",
+        "Humanloop"
+      ]
+    },
+    {
+      "slug": "platform-agent",
+      "roles": [
+        "platform-admin",
+        "platform-support",
+        "tenant-admin",
+        "tenant-user"
+      ],
+      "primary_route": "/admin/platform-agent",
+      "mock_keys": [
+        "agent-idle",
+        "task-received",
+        "agent-executing",
+        "action-dispatched",
+        "action-blocked",
+        "agent-complete",
+        "agent-failed"
+      ],
+      "populated_key": "agent-complete",
+      "needs_purpose_built_ui": true,
+      "grammar": "G3+G6+G4",
+      "refs": [
+        "Intercom/Zendesk",
+        "Cursor",
+        "Claude Code"
+      ]
+    },
+    {
+      "slug": "profile-enrichment",
+      "roles": [
+        "tenant-user"
+      ],
+      "primary_route": "/questionnaire",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G5",
+      "refs": [
+        "Typeform",
+        "LinkedIn setup",
+        "Notion"
+      ]
+    },
+    {
+      "slug": "rag-quality-feedback",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/rag-quality-feedback",
+      "mock_keys": [
+        "feedback-received",
+        "quality-scored-success",
+        "quality-scored-wasted",
+        "pattern-extracted",
+        "index-updated",
+        "escalation-required",
+        "dpo-promoted"
+      ],
+      "populated_key": "dpo-promoted",
+      "needs_purpose_built_ui": true,
+      "grammar": "G6",
+      "refs": [
+        "LangSmith",
+        "Humanloop",
+        "PromptLayer"
+      ]
+    },
+    {
+      "slug": "reviews-reputation",
+      "roles": [
+        "tenant-user",
+        "tenant-admin",
+        "anonymous"
+      ],
+      "primary_route": "/reviews/submit",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G3",
+      "refs": [
+        "Yelp",
+        "Google Maps",
+        "Amazon",
+        "Etsy"
+      ]
+    },
+    {
+      "slug": "saas-multi-tenancy",
+      "roles": [
+        "tenant-admin",
+        "tenant-user",
+        "platform-admin"
+      ],
+      "primary_route": "/admin/tenants/lifecycle",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": true,
+      "grammar": "G7",
+      "refs": [
+        "Linear",
+        "Notion",
+        "Vercel",
+        "Stripe"
+      ]
+    },
+    {
+      "slug": "schema-registry-dag",
+      "roles": [
+        "platform-admin",
+        "tenant-admin",
+        "platform-support"
+      ],
+      "primary_route": "/schema-registry",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G1+G4",
+      "refs": [
+        "Confluent",
+        "Apollo",
+        "GraphQL Inspector"
+      ]
+    },
+    {
+      "slug": "sharable-flows-marketplace",
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "primary_route": "/admin/sharable-flows-marketplace",
+      "mock_keys": [
+        "flow-submitted",
+        "review-pending",
+        "fraud-flagged",
+        "approved",
+        "rejected",
+        "listed",
+        "installed",
+        "rolled-back"
+      ],
+      "populated_key": "listed",
+      "needs_purpose_built_ui": true,
+      "grammar": "G3",
+      "refs": [
+        "GitHub Marketplace",
+        "npm",
+        "VS Code extensions"
+      ]
+    },
+    {
+      "slug": "subscription-billing",
+      "roles": [
+        "tenant-user",
+        "tenant-admin",
+        "business-partner",
+        "platform-admin"
+      ],
+      "primary_route": "/billing-dashboard",
+      "mock_keys": [
+        "active",
+        "past-due"
+      ],
+      "populated_key": "active",
+      "needs_purpose_built_ui": false,
+      "grammar": "G3",
+      "refs": [
+        "Stripe billing portal",
+        "Paddle",
+        "Chargebee"
+      ]
+    },
+    {
+      "slug": "system-initiation-bootstrap",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/system-initiation-bootstrap",
+      "mock_keys": [
+        "engine-cold",
+        "bootstrap-running",
+        "seeding-corpus",
+        "indices-ready",
+        "engine-warm",
+        "bootstrap-failed",
+        "engine-degraded"
+      ],
+      "populated_key": "engine-warm",
+      "needs_purpose_built_ui": true,
+      "grammar": "G1",
+      "refs": [
+        "Vercel deploy",
+        "Docker setup",
+        "Stripe onboarding"
+      ]
+    },
+    {
+      "slug": "tenant-lifecycle-manager",
+      "roles": [
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/tenant-lifecycle-manager",
+      "mock_keys": [
+        "tenant-created",
+        "quota-exceeded",
+        "policy-violation"
+      ],
+      "populated_key": "tenant-created",
+      "needs_purpose_built_ui": true,
+      "grammar": "G6+G3+G7",
+      "refs": [
+        "Stripe Connect",
+        "Vercel teams",
+        "Linear admin"
+      ]
+    },
+    {
+      "slug": "transactional-event-participation",
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "event-organiser",
+        "platform-admin"
+      ],
+      "primary_route": "/tickets/purchase",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": true,
+      "grammar": "G5+G3",
+      "refs": [
+        "Eventbrite",
+        "Airbnb",
+        "Ticketmaster",
+        "Stripe Refund"
+      ]
+    },
+    {
+      "slug": "user-groups-communities",
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "platform-support"
+      ],
+      "primary_route": "/groups",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G3",
+      "refs": [
+        "Facebook Groups",
+        "Discord",
+        "Slack directory"
+      ]
+    },
+    {
+      "slug": "user-registration",
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "platform-support"
+      ],
+      "primary_route": "/register",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": false,
+      "grammar": "G5",
+      "refs": [
+        "Airbnb",
+        "Linear",
+        "Notion"
+      ]
+    },
+    {
+      "slug": "visual-flow-engine",
+      "roles": [
+        "tenant-admin",
+        "platform-admin",
+        "platform-support"
+      ],
+      "primary_route": "/admin/visual-flow/canvas",
+      "mock_keys": [],
+      "populated_key": null,
+      "needs_purpose_built_ui": true,
+      "grammar": "G4",
+      "refs": [
+        "n8n",
+        "Zapier",
+        "Make",
+        "Retool"
+      ]
+    }
+  ],
+  "summary": {
+    "flows_needing_purpose_built_ui": 30,
+    "flows_with_multi_role": 35,
+    "flows_with_mock_keys": 28
+  }
+}

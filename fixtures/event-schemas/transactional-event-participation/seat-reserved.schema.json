@@ -1,0 +1,15 @@
+{
+  "eventType": "seat.reserved",
+  "flowId": "FLOW-09",
+  "version": "1.0.0",
+  "producedBy": "T99",
+  "properties": {
+    "purchaseId": { "type": "string", "required": true },
+    "holdId": { "type": "string", "required": true },
+    "eventId": { "type": "string", "required": true },
+    "userId": { "type": "string", "required": true },
+    "ticketTier": { "type": "string", "required": true },
+    "ttlSeconds": { "type": "number", "required": true },
+    "reservedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

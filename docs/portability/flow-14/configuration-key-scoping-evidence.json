@@ -1,0 +1,47 @@
+﻿{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "configuration-key-scoping",
+    "generatedAt":  "2026-05-06T09:42:46.5667103+03:00",
+    "sourceFixMap":  "PER-FLOW-FIX-MAP-v2.9 FLOW-14: configuration key scoping FIRST; Phase 1 reads STEP-1-INVARIANTS.",
+    "filesWritten":  [
+                         "docs/sessions/FLOW-14/FLOW-14-STEP-1-INVARIANTS.md",
+                         "docs/portability/flow-14/adaptation-surface-etl-data-integration.json"
+                     ],
+    "scopeCorrections":  [
+                             "Updated FLOW-14 invariant task range from stale T189-T200 to current T213-T224.",
+                             "Added the complete 25-key FLOW-14 FREEDOM surface to STEP-1-INVARIANTS before Phase 1 consumes it.",
+                             "Declared all tenant-editable keys with the flow14_ prefix and bounded operating ranges.",
+                             "Separated tenant-editable FREEDOM policy from MACHINE-locked security, ordering, fabric, and tenant-isolation rules.",
+                             "Created the FLOW-14 portability adaptation surface used by tenant fork/adaptation phases."
+                         ],
+    "configurationScan":  {
+                              "command":  "Extract [regex]::Matches(server/src/engine-contracts/etl-data-integration-contracts.ts, \u0027flow14_[A-Za-z0-9_]+\u0027); compare with docs/sessions/FLOW-14/FLOW-14-STEP-1-INVARIANTS.md and docs/portability/flow-14/adaptation-surface-etl-data-integration.json",
+                              "contractKeyCount":  25,
+                              "surfaceKeyCount":  25,
+                              "missingFromStep":  [
+
+                                                  ],
+                              "missingFromSurface":  [
+
+                                                     ],
+                              "nonFlow14SurfaceKeys":  [
+
+                                                       ],
+                              "exitCode":  0
+                          },
+    "keyCountByCategory":  {
+                               "connectorLifecycle":  3,
+                               "syncBackfillWebhook":  8,
+                               "normalizationAndSchema":  3,
+                               "dimensionalMartIdentity":  7,
+                               "crossFlowReverseEtlWarehouse":  4
+                           },
+    "nextGate":  {
+                     "currentStatus":  "PASS",
+                     "nextFixMapStep":  "AI Protocol Phase 1 / Phase 0 auth readiness after governance risk re-verification.",
+                     "productDecisionStillPending":  "Co-install dependency declaration remains blocked until the FLOW-14 product decision gate resolves."
+                 },
+    "secretsPrintedOrCommitted":  false,
+    "technicalDebtIntroduced":  false
+}

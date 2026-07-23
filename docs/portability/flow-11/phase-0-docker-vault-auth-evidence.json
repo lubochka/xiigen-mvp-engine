@@ -1,0 +1,236 @@
+﻿{
+    "flowId":  "FLOW-11",
+    "flowSlug":  "schema-registry-dag",
+    "phase":  "phase-0-docker-vault-auth-preflight",
+    "generatedAt":  "2026-05-05T23:56:16.6182767+03:00",
+    "environment":  {
+                        "serverPort":  33001,
+                        "secretsProvider":  "vault",
+                        "vaultAddressInContainer":  "http://vault:8200",
+                        "vaultContainer":  "xiigen-vault",
+                        "vaultSealed":  false,
+                        "githubLogin":  "lubochka",
+                        "githubTokenSource":  "<WORKSPACE>\\Documents\\keys.txt or gh auth fallback",
+                        "tokenMaterialWrittenToEvidence":  false
+                    },
+    "serverHealth":  {
+                         "dockerComposeBuildServer":  "existing xiigen-server reused; container already configured with SECRETS_PROVIDER=vault",
+                         "container":  "xiigen-server",
+                         "dockerHealth":  "healthy",
+                         "liveHealthEndpoint":  "http://localhost:33001/health/live",
+                         "liveHealthStatus":  "passed"
+                     },
+    "tenantCredentialSeeding":  [
+                                    {
+                                        "tenantId":  "acme-corp",
+                                        "githubTokenPresentInVault":  true,
+                                        "githubOrgNamePresentInVault":  true,
+                                        "dockerRegistryUrlPresentInVault":  true,
+                                        "dockerRegistryTokenPresentInVault":  true,
+                                        "jwtSigningKeyPresentInVault":  true,
+                                        "tenantRegistryStatus":  "active"
+                                    },
+                                    {
+                                        "tenantId":  "northwind",
+                                        "githubTokenPresentInVault":  true,
+                                        "githubOrgNamePresentInVault":  true,
+                                        "dockerRegistryUrlPresentInVault":  true,
+                                        "dockerRegistryTokenPresentInVault":  true,
+                                        "jwtSigningKeyPresentInVault":  true,
+                                        "tenantRegistryStatus":  "active"
+                                    },
+                                    {
+                                        "tenantId":  "tessera-collective",
+                                        "githubTokenPresentInVault":  true,
+                                        "githubOrgNamePresentInVault":  true,
+                                        "dockerRegistryUrlPresentInVault":  true,
+                                        "dockerRegistryTokenPresentInVault":  true,
+                                        "jwtSigningKeyPresentInVault":  true,
+                                        "tenantRegistryStatus":  "active"
+                                    }
+                                ],
+    "roleMap":  {
+                    "source":  [
+                                   "docs/design-reviews/ROLE-ANALYSIS-BATCH-03.md FLOW-11 Schema Registry DAG",
+                                   "client/src/pages/schema-registry-dag/DagVisualizationPage.tsx",
+                                   "server/src/api/flow-http.controller.ts"
+                               ],
+                    "architectureGuidePath":  "docs/design-reviews/XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md",
+                    "architectureGuidePresent":  false,
+                    "roles":  [
+                                  "tenant-admin",
+                                  "platform-admin",
+                                  "platform-support"
+                              ],
+                    "nonAnonymousRoles":  [
+                                              "tenant-admin",
+                                              "platform-admin",
+                                              "platform-support"
+                                          ],
+                    "notes":  [
+                                  "ROLE-ANALYSIS-BATCH-03 marks FLOW-11 as engine-internal/admin-heavy with three active role cells.",
+                                  "Runtime auth probe route is POST /api/flow/execute with declared roles tenant-user, tenant-admin, and platform-admin.",
+                                  "Valid FLOW-11 auth probes used tenant-admin because it is both an active FLOW-11 role and accepted by the runtime route.",
+                                  "Wrong-role probe used platform-support: an active read-only FLOW-11 role that is intentionally denied on execution route.",
+                                  "Prompt-named docs/design-reviews/XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md is absent in this repo."
+                              ],
+                    "primaryAuthProbeRoute":  {
+                                                  "method":  "POST",
+                                                  "path":  "/api/flow/execute",
+                                                  "declaredRoles":  [
+                                                                        "tenant-user",
+                                                                        "tenant-admin",
+                                                                        "platform-admin"
+                                                                    ],
+                                                  "validRoleProbe":  "tenant-admin",
+                                                  "wrongRoleProbe":  "platform-support"
+                                              }
+                },
+    "liveAuthMatrix":  [
+                           {
+                               "name":  "valid acme tenant-admin token in acme tenant",
+                               "method":  "POST",
+                               "path":  "/api/flow/execute",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "valid northwind tenant-admin token in northwind tenant",
+                               "method":  "POST",
+                               "path":  "/api/flow/execute",
+                               "contextTenant":  "northwind",
+                               "tokenTenant":  "northwind",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "valid tessera tenant-admin token in tessera tenant",
+                               "method":  "POST",
+                               "path":  "/api/flow/execute",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "tessera-collective",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "missing token denied",
+                               "method":  "POST",
+                               "path":  "/api/flow/execute",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  null,
+                               "roles":  [
+
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "acme token in northwind tenant denied",
+                               "method":  "POST",
+                               "path":  "/api/flow/execute",
+                               "contextTenant":  "northwind",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "northwind token in tessera tenant denied",
+                               "method":  "POST",
+                               "path":  "/api/flow/execute",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "northwind",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "acme token in tessera tenant denied",
+                               "method":  "POST",
+                               "path":  "/api/flow/execute",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "wrong platform-support role denied on flow execute",
+                               "method":  "POST",
+                               "path":  "/api/flow/execute",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "platform-support"
+                                         ],
+                               "expectedStatus":  403,
+                               "actualStatus":  403,
+                               "pass":  true
+                           }
+                       ],
+    "summary":  {
+                    "passed":  8,
+                    "total":  8,
+                    "allPassed":  true
+                },
+    "phaseCloseScan":  {
+                           "flowFileCount":  20,
+                           "throwNew":  0,
+                           "clsImports":  0,
+                           "servicesMissingMicroserviceBase":  0,
+                           "flowScopedAnnotations":  14,
+                           "flowIdAnnotations":  41,
+                           "unscopedFreedomReads":  0,
+                           "localConfigClones":  0,
+                           "directSdkImports":  0,
+                           "anyTypes":  0
+                       },
+    "verification":  {
+                         "serverTypecheck":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location: exit 0.",
+                         "serverJest":  "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location: 12 suites passed, 105 tests passed."
+                     },
+    "commands":  [
+                     "docker info",
+                     "docker compose -f docker-compose.platform.yml up -d vault (existing xiigen-vault container reused after name conflict)",
+                     "docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=\u003credacted\u003e xiigen-vault vault status -format=json",
+                     "docker exec ... vault kv put secret/xiigen/tenants/{tenant}/github_token value=\u003credacted\u003e",
+                     "docker exec ... vault kv put secret/xiigen/tenants/{tenant}/auth/jwt_signing_key value=\u003credacted\u003e algorithm=HS256",
+                     "gh api user --jq \u0027.login\u0027",
+                     "GET http://localhost:33001/health/live",
+                     "GET http://localhost:33001/api/tenants",
+                     "Live HTTP auth matrix against http://localhost:33001/api/flow/execute",
+                     "server npx tsc --noEmit -p tsconfig.json --pretty false",
+                     "server npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false",
+                     "FLOW-11 phase-close scan: throwNew=0, clsImports=0, servicesMissingMicroserviceBase=0, unscopedFreedomReads=0, directSdkImports=0, anyTypes=0"
+                 ],
+    "notes":  [
+                  "Vault Docker health reports unhealthy for the existing dev container, but vault status returned sealed=false and all KV readbacks succeeded.",
+                  "Tokens were minted in memory from tenant-specific Vault signing keys for HTTP verification and were not written to evidence, docs, or env files.",
+                  "Cross-tenant failures are structural JWT failures because the server verifies with the context tenant key before checking the token tenant claim.",
+                  "Phase-close scan initially found tenant-unscoped FREEDOM reads; those were fixed before this evidence was closed."
+              ]
+}

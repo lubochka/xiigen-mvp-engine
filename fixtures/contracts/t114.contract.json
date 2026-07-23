@@ -1,0 +1,52 @@
+{
+  "taskTypeId": "T114",
+  "flowId": "FLOW-06",
+  "name": "ApprovalResultHandler",
+  "archetype": "ROUTING",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "conditional-update-not-setnx",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow06_membership_index",
+    "neutralConcepts": [
+      "conditional update WHERE status=PENDING (not SETNX)",
+      "second APPROVE on ACTIVE record = idempotent success",
+      "APPROVE: status → ACTIVE → emit MembershipActivated",
+      "REJECT: status → REJECTED → emit MembershipRejected",
+      "storeDocument BEFORE emit"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F203",
+      "interface": "IApprovalResultService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T114-1",
+      "rule": "conditional update WHERE status=PENDING — not SETNX. SETNX prevents idempotent re-approval of ACTIVE records.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T114-2",
+      "rule": "Second APPROVE on ACTIVE record: return success (already approved — idempotent). Do not fail or re-emit.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T114-3",
+      "rule": "DNA-8: storeDocument BEFORE MembershipActivated or MembershipRejected emit.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["approval-handler", "conditional-update", "idempotent", "ROUTING"],
+  "keywords": "approval result handler conditional update WHERE status PENDING idempotent APPROVE ACTIVE"
+}

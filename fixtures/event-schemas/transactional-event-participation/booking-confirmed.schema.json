@@ -1,0 +1,10 @@
+{
+  "eventType": "booking.confirmed",
+  "flowId": "FLOW-09",
+  "version": "1.0.0",
+  "properties": {
+    "purchaseId": { "type": "string", "required": true },
+    "eventId": { "type": "string", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

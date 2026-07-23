@@ -1,0 +1,82 @@
+{
+  "taskTypeId": "T606",
+  "flowId": "FLOW-15",
+  "name": "TenantConfigurationManager",
+  "archetype": "VALIDATION",
+  "domainId": "saas-multi-tenancy",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T606-1",
+      "rule": "MACHINE_LOCKED_KEYS MUST be a compile-time constant Set — never read from FREEDOM config or database at runtime. An operator cannot accidentally remove keys from the locked set.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T606-2",
+      "rule": "Locked key check MUST run at ORDER 1 before any storage operation. If key is in MACHINE_LOCKED_KEYS, return DataProcessResult.failure + emit ConfigKeyImmutable — no storeDocument call.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T606-3",
+      "rule": "OCC (optimistic concurrency control) MUST be enabled on all config writes — storeDocument(configRecord, { occ: true }). Concurrent config updates without OCC produce last-write-wins corruption.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T606-4",
+      "rule": "tenantId MUST be resolved from AsyncLocalStorage only — NEVER from request payload. Config writes must be scoped to the authenticated tenant.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T606-5",
+      "rule": "TenantConfigurationUpdated MUST be emitted after successful write. ConfigKeyImmutable MUST be emitted on locked key rejection — never silently ignored.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1523",
+      "token": "ITenantConfigStoreService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1522",
+      "token": "IFreedomConfigService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "MACHINE_LOCKED_KEYS_COMPILE_TIME",
+    "OCC_WRITE_ONLY",
+    "ALS_TENANT_ISOLATION"
+  ],
+  "freedomComponents": [
+    "tenant_config_max_custom_keys"
+  ],
+  "stackCoupling": {
+    "queue": ["TenantConfigurationUpdated", "ConfigKeyImmutable"],
+    "database": ["xiigen-tenant-config", "xiigen-freedom-config"]
+  },
+  "handlers": [
+    "validate_key_not_locked",
+    "validate_config_schema",
+    "check_custom_key_quota",
+    "store_config_with_occ",
+    "emit_configuration_updated"
+  ],
+  "namedChecks": [
+    "machine_locked_keys_compile_time_constant",
+    "locked_key_order1_rejection",
+    "occ_write_enabled",
+    "tenant_id_from_als_only"
+  ],
+  "tags": [
+    "saas",
+    "tenant-config",
+    "machine-locked-keys",
+    "compile-time",
+    "occ",
+    "immutable-keys",
+    "validation"
+  ],
+  "keywords": "tenant configuration manager MACHINE_LOCKED_KEYS compile-time OCC write-only ConfigKeyImmutable TenantConfigurationUpdated locked key rejection ALS tenant isolation"
+}

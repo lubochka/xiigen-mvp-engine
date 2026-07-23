@@ -1,0 +1,57 @@
+{
+  "tenantId": "tessera-collective",
+  "tenantLabel": "Tessera Collective",
+  "flowId": "FLOW-04",
+  "flowSlug": "event-attendance",
+  "sourceModuleName": "event-attendance-northwind-sponsor-check-in",
+  "moduleName": "event-attendance-tessera-circle-check-in",
+  "moduleVersion": "1.0.3",
+  "adaptationType": "Type A (FREEDOM key value change)",
+  "freedomOverrides": [
+    {
+      "configKey": "flow04_rsvp_cancellation_window_hours",
+      "taskType": "xiigen-engine",
+      "configValue": 3,
+      "defaultValue": 24,
+      "reason": "Tessera circle sessions allow late swaps, so attendee cancellation stays open until three hours before start."
+    },
+    {
+      "configKey": "flow04_feedback_window_hours",
+      "taskType": "xiigen-engine",
+      "configValue": 8,
+      "defaultValue": 24,
+      "reason": "Tessera inherits Northwind same-day feedback collection for post-session facilitation notes."
+    }
+  ],
+  "visualEvidence": {
+    "roleMatrixDirectory": "docs/e2e-snapshots/event-attendance/tenant-c-v1.0.3/",
+    "organiserPolicyPng": "docs/e2e-snapshots/event-attendance/tenant-c-v1.0.3/01-tessera-circle-policy.png",
+    "feedbackWindowPng": "docs/e2e-snapshots/event-attendance/tenant-c-v1.0.3/02-tessera-feedback-window.png"
+  },
+  "adaptationHistory": [
+    {
+      "version": "1.0.1",
+      "adaptedBy": "acme-corp",
+      "changeType": "Type A (FREEDOM key value change)",
+      "previousModuleName": "event-attendance",
+      "newModuleName": "event-attendance-acme-onsite-check-in",
+      "summary": "Onsite attendance policy: six-hour attendee cancellation window and twelve-hour feedback collection window."
+    },
+    {
+      "version": "1.0.2",
+      "adaptedBy": "northwind",
+      "changeType": "Type A (FREEDOM key value change)",
+      "previousModuleName": "event-attendance-acme-onsite-check-in",
+      "newModuleName": "event-attendance-northwind-sponsor-check-in",
+      "summary": "Sponsor check-in policy: preserves the six-hour cancellation cutoff and shortens feedback collection to eight hours."
+    },
+    {
+      "version": "1.0.3",
+      "adaptedBy": "tessera-collective",
+      "changeType": "Type A (FREEDOM key value change)",
+      "previousModuleName": "event-attendance-northwind-sponsor-check-in",
+      "newModuleName": "event-attendance-tessera-circle-check-in",
+      "summary": "Circle check-in policy: shortens attendee cancellation to three hours and preserves the eight-hour feedback window."
+    }
+  ]
+}

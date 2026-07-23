@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.marketplace.listing-feed-generated.v1",
+  "taskTypeId": "T85",
+  "flowId": "FLOW-08",
+  "description": "Emitted by T85 ListingFeedGenerator. PAYLOAD IS COUNT-ONLY — no listing content, no seller identifiers, no pricing data. Full listing data is retrieved by consumers via direct DB lookup using feedId.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.marketplace.listing-feed-generated.v1",
+    "source": "xiigen/flows/marketplace/t85",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "feedId": {
+      "type": "string",
+      "description": "Opaque feed batch identifier — consumers use this to fetch listing content from DB"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant identifier from AsyncLocalStorage"
+    },
+    "count": {
+      "type": "integer",
+      "description": "Number of listings in this feed batch"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "CRITICAL: No listing content, seller identifiers, or pricing data permitted in payload (arb-flow08-feed-payload-pii-safety). Consumers must fetch content via DB query using feedId.",
+  "arbiterRef": "arb-flow08-feed-payload-pii-safety: payload contains { tenantId, feedId, count, generatedAt } ONLY.",
+  "requiredByFlows": ["FLOW-08"],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

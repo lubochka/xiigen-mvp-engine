@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.social-feed.friend-request-declined.v1",
+  "taskTypeId": "T74",
+  "flowId": "FLOW-07",
+  "description": "Emitted by T74 FriendRequestResponder when a friend request is declined.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.social-feed.friend-request-declined.v1",
+    "source": "xiigen/flows/friend-request-social-feed/t74",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "requestId": { "type": "string", "description": "Opaque friend request identifier" },
+    "receiverId": { "type": "string", "description": "Opaque receiver user identifier — no PII" },
+    "correlationId": { "type": "string", "description": "Idempotency key" },
+    "tenantId": { "type": "string", "description": "Tenant scope — from AsyncLocalStorage" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "receiverId is opaque. No names, emails, or decline reason text in payload.",
+  "requiredByFlows": ["FLOW-07"]
+}

@@ -1,0 +1,330 @@
+{
+  "flowId": "FLOW-17",
+  "flowSlug": "freelancer-marketplace",
+  "flowTitle": "Freelancer Marketplace",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-06",
+  "capturedBy": "Codex / FLOW-17 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-17/FLOW-17-STEP-1-INVARIANTS.md",
+    "docs/business-flows/functional-specs/FLOW-17-freelancer-marketplace-functional-spec.md",
+    "server/src/engine-contracts/freelancer-marketplace-contracts.ts",
+    "server/src/engine-contracts/freelancer-marketplace-bfa-rules.ts",
+    "server/src/engine/flows/freelancer-marketplace",
+    "docs/flow-coverage/freelancer-marketplace/P1-business-logic-inventory.md",
+    "docs/flow-coverage/freelancer-marketplace/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T613-T616",
+    "planningTaskTypeRange": "T227-T246",
+    "taskTypeIds": [
+      "T613",
+      "T614",
+      "T615",
+      "T616"
+    ],
+    "freedomKeyCount": 7,
+    "securityClassification": "two-sided-marketplace-trust-and-escrow",
+    "directRuntimePeerDependencies": [
+      {
+        "sourceFlow": "FLOW-16",
+        "purpose": "Milestone release and dispute behavior depends on escrow payment setup and release semantics."
+      }
+    ],
+    "coreGuarantees": [
+      "Gig acceptance verifies BOLA before lock or bid status checks.",
+      "Gig acceptance uses SETNX before OCC so only one bid can be accepted per gig.",
+      "Milestone contract immutable fields are compile-time constants, never tenant configuration.",
+      "Milestone release validates submitted delivery before funds movement.",
+      "Dispute handling never deletes milestone records and never moves funds on dispute creation.",
+      "Review records are append-only and review comments are excluded from PLATFORM_ONLY audit."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-17 coordinates escrow, dispute, reputation, and bilateral review trust surfaces."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T613",
+      "className": "GigAcceptanceLockGatewayService",
+      "file": "server/src/engine/flows/freelancer-marketplace/gig-acceptance-lock-gateway.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "gig_acceptance_lock_ttl_ms"
+      ],
+      "machineLockedRules": [
+        "BOLA check order",
+        "SETNX gig acceptance lock",
+        "OCC bid status check",
+        "audit-before-GigAccepted"
+      ]
+    },
+    {
+      "taskTypeId": "T614",
+      "className": "MilestoneContractManagerService",
+      "file": "server/src/engine/flows/freelancer-marketplace/milestone-contract-manager.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "contract_max_milestones",
+        "contract_min_milestone_amount_cents"
+      ],
+      "machineLockedRules": [
+        "CONTRACT_IMMUTABLE_FIELDS constant",
+        "immutable field rejection before storage",
+        "milestone sum validation",
+        "OCC contract write"
+      ]
+    },
+    {
+      "taskTypeId": "T615",
+      "className": "DeliveryGateEscrowControllerService",
+      "file": "server/src/engine/flows/freelancer-marketplace/delivery-gate-escrow-controller.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "milestone_auto_release_days",
+        "escrow_dispute_window_days"
+      ],
+      "machineLockedRules": [
+        "delivery gate before release",
+        "release path never deletes milestones",
+        "dispute path update-only",
+        "LIFO compensation order",
+        "audit-before-state-event"
+      ]
+    },
+    {
+      "taskTypeId": "T616",
+      "className": "FreelancerReviewWriterService",
+      "file": "server/src/engine/flows/freelancer-marketplace/freelancer-review-writer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "review_comment_max_length",
+        "review_submission_window_days"
+      ],
+      "machineLockedRules": [
+        "valid review directions constant",
+        "duplicate direction check",
+        "append-only review write",
+        "comment excluded from PLATFORM_ONLY audit"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-17 marketplace operating policies. These values may vary by tenant without changing tenant isolation, escrow safety, review audit privacy, or event ordering.",
+      "total": 7,
+      "keys": [
+        {
+          "key": "gig_acceptance_lock_ttl_ms",
+          "type": "number",
+          "default": 300000,
+          "unit": "milliseconds",
+          "semantic": "How long a gig acceptance lock remains active while bid acceptance completes.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T613.GigAcceptanceLockGatewayService"
+          ],
+          "boundedRange": {
+            "min": 30000,
+            "max": 1800000,
+            "rationale": "Tenants may tune acceptance lock duration for marketplace pace, but BOLA, SETNX, OCC, and audit ordering stay fixed."
+          }
+        },
+        {
+          "key": "contract_max_milestones",
+          "type": "number",
+          "default": 8,
+          "unit": "milestones",
+          "semantic": "Maximum number of milestones permitted in one freelancer contract.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T614.MilestoneContractManagerService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 50,
+            "rationale": "Tenants may support simpler or more granular contracts while immutable field and sum guards remain fixed."
+          }
+        },
+        {
+          "key": "contract_min_milestone_amount_cents",
+          "type": "number",
+          "default": 2500,
+          "unit": "cents",
+          "semantic": "Minimum milestone amount accepted by tenant marketplace policy.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T614.MilestoneContractManagerService"
+          ],
+          "boundedRange": {
+            "min": 100,
+            "max": 100000,
+            "rationale": "Tenant pricing policy may vary while contract total validation and OCC writes remain MACHINE."
+          }
+        },
+        {
+          "key": "milestone_auto_release_days",
+          "type": "number",
+          "default": 14,
+          "unit": "days",
+          "semantic": "Days after submitted delivery before eligible milestones may auto-release.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T615.DeliveryGateEscrowControllerService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 90,
+            "rationale": "Tenants may tune auto-release timing, but delivery validation before funds movement remains fixed."
+          }
+        },
+        {
+          "key": "escrow_dispute_window_days",
+          "type": "number",
+          "default": 14,
+          "unit": "days",
+          "semantic": "Days a client has to dispute submitted milestone work before auto-release can proceed.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T615.DeliveryGateEscrowControllerService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 120,
+            "rationale": "Tenants may adjust dispute policy without changing update-only dispute behavior or LIFO compensation."
+          }
+        },
+        {
+          "key": "review_comment_max_length",
+          "type": "number",
+          "default": 2000,
+          "unit": "characters",
+          "semantic": "Maximum free-text length for bilateral marketplace reviews.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T616.FreelancerReviewWriterService"
+          ],
+          "boundedRange": {
+            "min": 140,
+            "max": 10000,
+            "rationale": "Tenants may tune review UX while audit records still exclude comment text."
+          }
+        },
+        {
+          "key": "review_submission_window_days",
+          "type": "number",
+          "default": 30,
+          "unit": "days",
+          "semantic": "Days after contract close during which each party may submit one directional review.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T616.FreelancerReviewWriterService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 365,
+            "rationale": "Tenants may tune review timing while direction and duplicate guards remain fixed."
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to marketplace operating policies and customer-facing module naming.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "enterprise-procurement-contracts",
+          "name": "Enterprise procurement contracts",
+          "semantic": "Tenant A allows more milestones and higher minimum milestone amounts for complex B2B work.",
+          "extensionPoint": "contract_max_milestones + contract_min_milestone_amount_cents",
+          "currentImplementation": "T614 still rejects immutable field changes before storage and uses OCC for contract writes."
+        },
+        {
+          "id": "fast-turnaround-marketplace",
+          "name": "Fast turnaround marketplace",
+          "semantic": "Tenant A shortens acceptance lock and auto-release windows for small repeat gigs.",
+          "extensionPoint": "gig_acceptance_lock_ttl_ms + milestone_auto_release_days",
+          "currentImplementation": "T613/T615 still keep BOLA, SETNX, OCC, delivery gate, and audit-before-event ordering."
+        },
+        {
+          "id": "high-trust-dispute-policy",
+          "name": "High trust dispute policy",
+          "semantic": "Tenant A extends the dispute window for higher-value marketplace work.",
+          "extensionPoint": "escrow_dispute_window_days",
+          "currentImplementation": "T615 still uses update-only dispute state and no funds movement on dispute creation."
+        },
+        {
+          "id": "portfolio-rich-reviews",
+          "name": "Portfolio rich reviews",
+          "semantic": "Tenant A allows longer review comments after project close.",
+          "extensionPoint": "review_comment_max_length + review_submission_window_days",
+          "currentImplementation": "T616 still enforces one review per direction and excludes comment text from PLATFORM_ONLY audit."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T613 through T616 remain fixed.",
+      "Gig acceptance BOLA verification must happen before lock acquisition.",
+      "Gig acceptance SETNX lock must happen before OCC bid status check.",
+      "GigAccepted is emitted only after audit storage succeeds.",
+      "CONTRACT_IMMUTABLE_FIELDS remains a compile-time constant.",
+      "Immutable contract field writes are rejected before any storage attempt.",
+      "Milestone sum validation must equal contract total before OCC write.",
+      "Delivery status must be SUBMITTED before any funds movement.",
+      "Dispute path uses update-only status changes and never deletes milestones.",
+      "Escrow compensation order remains REFUND_MILESTONE then RESTORE_GIG_STATUS.",
+      "Review directions remain CLIENT_TO_FREELANCER and FREELANCER_TO_CLIENT.",
+      "Review records remain append-only with duplicate direction rejection.",
+      "Review comment text is never written to PLATFORM_ONLY audit records.",
+      "All state events preserve store-before-enqueue ordering."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAEnterpriseMarketplace": {
+      "description": "Tenant A tunes the marketplace for enterprise service contracts.",
+      "change": {
+        "contract_max_milestones": 20,
+        "contract_min_milestone_amount_cents": 10000,
+        "milestone_auto_release_days": 30,
+        "escrow_dispute_window_days": 30,
+        "review_submission_window_days": 60
+      },
+      "impact": "Contracts can be longer and review/dispute windows are more conservative while acceptance, escrow, and audit safety remain unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T613-T616",
+      "Factory IDs F1537-F1546",
+      "Provider SDK boundary",
+      "Vault credential paths",
+      "BOLA order",
+      "SETNX gig acceptance lock",
+      "OCC bid and contract writes",
+      "CONTRACT_IMMUTABLE_FIELDS",
+      "Delivery gate before funds movement",
+      "LIFO escrow compensation order",
+      "Append-only review records",
+      "PLATFORM_ONLY audit privacy",
+      "Store-before-enqueue ordering",
+      "Tenant context resolution"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-17 configuration values or display/module metadata.",
+    "All four services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

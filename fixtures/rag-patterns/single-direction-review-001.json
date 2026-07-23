@@ -1,0 +1,33 @@
+{
+  "patternId": "single-direction-review-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-17",
+  "domainId": "freelancer-marketplace",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": [
+    "single-direction-review",
+    "duplicate-check",
+    "append-only",
+    "comment-excluded-audit",
+    "pii-protection",
+    "review-direction",
+    "data-pipeline"
+  ],
+  "keywords": "CLIENT_TO_FREELANCER FREELANCER_TO_CLIENT single direction duplicate check append-only audit comment excluded PII FreelancerReviewSubmitted DuplicateReviewRejected VALID_REVIEW_DIRECTIONS no updateDocument",
+  "teachingPoint": "T616 FreelancerReviewWriter enforces one review per direction per engagement. ORDER 1: direction must be in VALID_REVIEW_DIRECTIONS. ORDER 2: duplicate check — searchDocuments for same engagementId + direction combination. ORDER 3: storeDocument review record WITH comment (private). ORDER 4: storeDocument audit record WITHOUT comment (PII protection per CF-17-4). FreelancerReviewSubmitted event payload never includes comment field. updateDocument on review records is prohibited — append-only.",
+  "ironRules": [
+    "VALID_REVIEW_DIRECTIONS = ['CLIENT_TO_FREELANCER','FREELANCER_TO_CLIENT'] as const — direction must be one of these two values",
+    "Duplicate direction check: searchDocuments for existing review with same engagementId + direction — any match returns DuplicateReviewRejected",
+    "Review record stored with comment field (private scope) — updateDocument is prohibited on review records",
+    "Audit record stored WITHOUT comment field — comment is PII, excluded from PLATFORM_ONLY audit scope per CF-17-4",
+    "FreelancerReviewSubmitted event payload MUST NOT include comment field — comment never leaves private storage"
+  ],
+  "codeSnippet": "// T616 FreelancerReviewWriter — single-direction + append-only audit\nconst VALID_REVIEW_DIRECTIONS = ['CLIENT_TO_FREELANCER', 'FREELANCER_TO_CLIENT'] as const;\n\nasync submitReview(engagementId: string, direction: string, rating: number, reviewerId: string, targetId: string, comment: string): Promise<DataProcessResult<Record<string, unknown>>> {\n  const tenantId = this.tenantContext.getTenantId(); // ALS only\n\n  // ORDER 1: direction validation\n  if (!(VALID_REVIEW_DIRECTIONS as readonly string[]).includes(direction)) {\n    return DataProcessResult.failure('INVALID_DIRECTION', `Direction must be CLIENT_TO_FREELANCER or FREELANCER_TO_CLIENT`);\n  }\n\n  // ORDER 2: duplicate direction check\n  const existing = await this.db.searchDocuments('reviews', { engagementId, direction });\n  if (existing.data?.length) {\n    await this.queue.enqueue('DuplicateReviewRejected', { tenantId, engagementId, direction, reviewerId, reason: 'ALREADY_REVIEWED_IN_DIRECTION' });\n    return DataProcessResult.failure('DUPLICATE_DIRECTION', 'Review already submitted in this direction');\n  }\n\n  const reviewId = createHash('sha256').update(`${engagementId}:${direction}:${reviewerId}`).digest('hex').substring(0, 32);\n\n  // ORDER 3: store review WITH comment (private scope)\n  await this.db.storeDocument('reviews', { reviewId, engagementId, direction, rating, reviewerId, targetId, tenantId, comment, submittedAt: new Date().toISOString() });\n\n  // ORDER 4 (DNA-8): audit WITHOUT comment — PII protection, BEFORE enqueue\n  await this.db.storeDocument('review-audit', { reviewId, engagementId, direction, rating, reviewerId, targetId, tenantId, action: 'REVIEW_SUBMITTED' }); // comment intentionally omitted\n\n  // Event: no comment in payload\n  await this.queue.enqueue('FreelancerReviewSubmitted', { reviewId, engagementId, direction, rating, reviewerId, targetId, tenantId, submittedAt: new Date().toISOString() });\n  return DataProcessResult.success({ reviewId, engagementId, direction });\n}",
+  "appliesTo": ["FLOW-10", "FLOW-18", "FLOW-22"],
+  "curriculumTier": 2,
+  "qualityScore": 0.95,
+  "sourceDocument": "server/src/engine-contracts/freelancer-marketplace-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,19 @@
+{
+  "flowId": "FLOW-00",
+  "flowName": "Bundle Activation",
+  "version": "1.0",
+  "nodes": [
+    { "id": "T574", "name": "BundleValidator", "type": "VALIDATION" },
+    { "id": "T575", "name": "BundleActivationOrchestrator", "type": "ORCHESTRATION" },
+    { "id": "T576", "name": "BundleStatusTracker", "type": "GOVERNANCE" }
+  ],
+  "edges": [
+    { "from": "BundleActivationRequested", "to": "T574" },
+    { "from": "T574", "to": "T575", "condition": "valid === true" },
+    { "from": "T574", "to": "BundleValidationCompleted", "label": "validation report emitted" },
+    { "from": "T575", "to": "BundleActivated", "type": "terminal" },
+    { "from": "flow-lifecycle.regenerated", "to": "T576", "type": "subscription" },
+    { "from": "T576", "to": "BundleDegraded", "condition": "versionBelowMinimum" },
+    { "from": "T576", "to": "BundleRestored", "condition": "allVersionsMet" }
+  ]
+}

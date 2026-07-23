@@ -1,0 +1,84 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "phase": "phase-3-visual-examination",
+  "generatedAt": "2026-05-06T07:33:20.0000000+03:00",
+  "visualSample": [
+    {
+      "path": "docs/e2e-snapshots/data-warehouse-analytics/chromium-desktop-default.png",
+      "width": 1440,
+      "height": 926,
+      "bytes": 66158,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/data-warehouse-analytics/chromium-tablet-default.png",
+      "width": 820,
+      "height": 1180,
+      "bytes": 65109,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/data-warehouse-analytics/chromium-mobile-default.png",
+      "width": 1082,
+      "height": 3174,
+      "bytes": 209346,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/data-warehouse-analytics/chromium-desktop-state-4-warehouse-degraded.png",
+      "width": 1440,
+      "height": 900,
+      "bytes": 23956,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/data-warehouse-analytics/chromium-mobile-state-8-export-ready.png",
+      "width": 1082,
+      "height": 2202,
+      "bytes": 74728,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/data-warehouse-analytics/chromium-desktop-crud-after-create.png",
+      "width": 1440,
+      "height": 1448,
+      "bytes": 104045,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/e2e-snapshots/data-warehouse-analytics/chromium-mobile-crud-initial-load.png",
+      "width": 1082,
+      "height": 5221,
+      "bytes": 350155,
+      "result": "PASS"
+    }
+  ],
+  "nonBlankValidation": {
+    "method": "Each project-specific PNG was drawn to an 80 by 80 thumbnail and sampled for color spread; files with fewer than 12 thumbnail colors or <=1000 bytes would fail.",
+    "projectSpecificPng": 54,
+    "nonBlankFailures": 0,
+    "status": "PASS"
+  },
+  "visualFindings": {
+    "blockingOverlap": 0,
+    "blankScreens": 0,
+    "missingViewportEvidence": 0,
+    "notes": [
+      "Tenant-admin analytics dashboard is visible in default desktop/tablet/mobile captures.",
+      "Business-state cards render for warehouse-degraded and export-ready states.",
+      "Raw-index CRUD captures render the platform-only debug panel only after explicit expansion in tests.",
+      "No text clipping or incoherent overlap was observed in sampled screenshots."
+    ]
+  },
+  "commands": [
+    "System.Drawing representative PNG dimension/nonblank audit across 7 screenshots",
+    "System.Drawing thumbnail nonblank audit across all 54 project-specific FLOW-13 PNGs"
+  ],
+  "summary": {
+    "status": "PASS",
+    "visualGateComplete": true,
+    "technicalDebtIntroduced": false,
+    "secretsPrintedOrCommitted": false
+  }
+}

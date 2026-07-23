@@ -1,0 +1,128 @@
+{
+    "flowId":  "FLOW-28",
+    "flowSlug":  "blog-cms-modules",
+    "implementationSlug":  "blog-cms-modules",
+    "phase":  "phase-4.0-tenant-a-original-fork",
+    "status":  "completed",
+    "capturedAt":  "2026-05-10T19:35:46.4920993Z",
+    "tenant":  "acme-corp",
+    "repo":  {
+                 "forkId":  "fork-blog-cms-modules-acme-corp",
+                 "repoFullName":  "lubochka/acme-corp--blog-cms-modules",
+                 "repoUrl":  "https://github.com/lubochka/acme-corp--blog-cms-modules",
+                 "defaultBranch":  "main",
+                 "initialCommitSha":  "fd7483338089c46afaf55e58e47c89215a3ae33d",
+                 "visibilityAfterScreenshots":  "PRIVATE"
+             },
+    "forkApi":  {
+                    "method":  "POST",
+                    "url":  "http://localhost:3000/api/marketplace/packages/blog-cms-modules/fork",
+                    "tenantHeader":  "acme-corp",
+                    "role":  "tenant-admin",
+                    "responseStatus":  "FORKED",
+                    "usedRealMarketplaceApi":  true,
+                    "syntheticRepo":  false,
+                    "manualRepoCreation":  false
+                },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — blog-cms-modules",
+                          "runId":  25637681885,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "fd7483338089c46afaf55e58e47c89215a3ae33d",
+                          "createdAt":  "2026-05-10T19:28:24Z",
+                          "updatedAt":  "2026-05-10T19:29:09Z",
+                          "url":  "https://github.com/lubochka/acme-corp--blog-cms-modules/actions/runs/25637681885"
+                      },
+    "localValidation":  {
+                            "cloneDir":  "C:/Projects/xiigen-fork-clones/acme-corp--blog-cms-modules-phase40-20260510-223014",
+                            "cloneHeadSha":  "fd7483338089c46afaf55e58e47c89215a3ae33d",
+                            "commands":  [
+                                             "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                             "npx tsc --noEmit --pretty false",
+                                             "npx jest --colors=false --forceExit",
+                                             "npm pack --dry-run --json"
+                                         ],
+                            "results":  {
+                                            "installExit":  0,
+                                            "tscExit":  0,
+                                            "jestExit":  0,
+                                            "jestSuitesPassed":  1,
+                                            "jestSuitesTotal":  1,
+                                            "jestTestsPassed":  1,
+                                            "jestTestsTotal":  1,
+                                            "packDryRunExit":  0,
+                                            "packEntryCount":  126,
+                                            "workingTreeCleanAfterPackFileCleanup":  true
+                                        }
+                        },
+    "bundleManifest":  {
+                           "path":  "BUNDLE-MANIFEST.json",
+                           "requiredBundleChecks":  {
+                                                        "completeModuleBundle":  true,
+                                                        "adaptationSurface":  true,
+                                                        "freedomDefaults":  true,
+                                                        "tenantConfig":  true,
+                                                        "ragSeeds":  true,
+                                                        "standalonePackage":  true
+                                                    },
+                           "manifestEntries":  125,
+                           "canonicalManifestServicePaths":  18,
+                           "wrongImplementationManifestPaths":  0,
+                           "canonicalPathRequired":  "server/src/engine/flows/blog-cms-modules/*.ts"
+                       },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/repo-evidence/flow-28",
+                        "files":  [
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-28/phase-4.0-tenant-a-actions-run.png",
+                                          "bytes":  76686
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-28/phase-4.0-tenant-a-bundle-manifest.png",
+                                          "bytes":  396771
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-28/phase-4.0-tenant-a-repo.png",
+                                          "bytes":  124542
+                                      }
+                                  ],
+                        "pngCount":  3,
+                        "zeroByteCount":  0,
+                        "realGitHubPages":  true,
+                        "repoTemporarilyPublicForScreenshots":  true,
+                        "repoRestoredPrivate":  true
+                    },
+    "closeScans":  {
+                       "scanRoot":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--blog-cms-modules-phase40-20260510-223014\\server\\src\\engine\\flows\\blog-cms-modules",
+                       "flowFileCount":  18,
+                       "throwNew":  0,
+                       "exportedServices":  18,
+                       "servicesMissingMicroserviceBase":  0,
+                       "clsImports":  0,
+                       "directSdkImports":  0,
+                       "anyTypes":  0,
+                       "failureLines":  0
+                   },
+    "credentialHandling":  {
+                               "tenantCredentialsSeededInVault":  true,
+                               "secretsPrinted":  false,
+                               "tenantCredentialPathsUsedByForkHandler":  [
+                                                                              "github_token",
+                                                                              "github_org_name",
+                                                                              "docker_registry_url",
+                                                                              "docker_registry_token"
+                                                                          ]
+                           },
+    "protocolGate":  {
+                         "realMarketplaceApiCall":  true,
+                         "realGitHubRepo":  true,
+                         "greenGitHubActions":  true,
+                         "fullBundle":  true,
+                         "localCloneValidation":  true,
+                         "realGitHubScreenshots":  true,
+                         "closeScansZeroFailureLines":  true,
+                         "phaseComplete":  true
+                     },
+    "verdict":  "PASS"
+}

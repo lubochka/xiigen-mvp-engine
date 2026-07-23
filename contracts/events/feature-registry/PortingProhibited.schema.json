@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xiigen.io/events/feature-registry/PortingProhibited",
+  "title": "PortingProhibited",
+  "description": "TERMINAL event emitted when portingCandidate=false. No compensation. Prohibition is permanent until human override (D-36-5).",
+  "type": "object",
+  "required": ["specversion", "type", "source", "id", "data"],
+  "properties": {
+    "specversion": { "type": "string", "const": "1.0" },
+    "type": { "type": "string", "const": "io.xiigen.flow36.porting.prohibited" },
+    "source": { "type": "string" },
+    "id": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["ftId", "correlationId", "reason"],
+      "properties": {
+        "ftId": { "type": "string", "pattern": "^FT-[0-9]{3,6}$" },
+        "correlationId": { "type": "string" },
+        "reason": { "type": "string", "description": "portingCandidateReason from FT record" },
+        "prohibitedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

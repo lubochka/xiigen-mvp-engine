@@ -1,0 +1,79 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "preExistingDefectCheck",
+  "generatedAt": "2026-05-07T11:34:55.0000000+03:00",
+  "status": "completed",
+  "productDecision": {
+    "status": "eligible-after-portability-repair",
+    "decision": "FLOW-21 Dynamic Forms & Workflows can proceed through the mobility/auth protocol after repairing the pre-existing service inheritance and tenant-context coupling defects.",
+    "sources": [
+      "docs/business-flows/21-dynamic-forms-workflows.md",
+      "docs/business-flows/functional-specs/FLOW-21-dynamic-forms-workflows-functional-spec.md",
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-05.md FLOW-21 Dynamic Forms & Workflows section",
+      "server/src/engine/flows/dynamic-forms-workflows"
+    ],
+    "notes": [
+      "Functional spec marks FLOW-21 half-built from a product/UI standpoint: server-side schema, submission, automation, and analytics services exist, while the public form-filler route/page is still a product implementation gap.",
+      "Role analysis identifies 2 full cells and 5 partial cells. Mobility/auth certification can proceed on the service bundle while UI evidence must cover public, tenant-user, tenant-admin, freelancer, business-partner, event-organiser, and platform-admin surfaces."
+    ]
+  },
+  "baseline": {
+    "jest": {
+      "command": "server: npx jest --testPathPatterns=dynamic-forms-workflows --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 84
+    },
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 4,
+      "clsImports": 4,
+      "filesScanned": 4
+    }
+  },
+  "repair": {
+    "filesChanged": [
+      "server/src/engine/flows/dynamic-forms-workflows/automation-dispatcher.service.ts",
+      "server/src/engine/flows/dynamic-forms-workflows/form-schema-publisher.service.ts",
+      "server/src/engine/flows/dynamic-forms-workflows/form-submission-processor.service.ts",
+      "server/src/engine/flows/dynamic-forms-workflows/submission-analytics-collector.service.ts",
+      "server/test/e2e/dynamic-forms-workflows/dynamic-forms-workflows-integration.spec.ts",
+      "server/test/e2e/dynamic-forms-workflows/dynamic-forms-workflows-proper-flow.e2e.spec.ts"
+    ],
+    "changes": [
+      "Extended all four FLOW-21 services from MicroserviceBase with T629-T632 service descriptors.",
+      "Replaced direct ClsService and TENANT_CONTEXT_KEY imports with TenantContextResolver.",
+      "Kept a legacy get(tenant) fallback so existing test harnesses remain compatible while production paths use the resolver.",
+      "Renamed injected database and queue members to dbFabric and queueFabric to avoid MicroserviceBase accessor collisions.",
+      "Updated source-inspection tests so they assert the resolver-based tenant context contract and MicroserviceBase inheritance."
+    ]
+  },
+  "verification": {
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "jest": {
+      "command": "server: npx jest --testPathPatterns=dynamic-forms-workflows --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 84
+    },
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "phaseGate": {
+    "preExistingDefectsIdentified": true,
+    "portabilityDefectsRepaired": true,
+    "serverTypeScriptPassed": true,
+    "flowJestPassed": true,
+    "sourceScansClean": true,
+    "readyForPhase0AuthPreflight": true
+  },
+  "verdict": "PASS"
+}

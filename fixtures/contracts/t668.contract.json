@@ -1,0 +1,45 @@
+{
+  "taskTypeId": "T668",
+  "flowId": "FLOW-48",
+  "name": "TenantTranslationWriter",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "i18n-translation",
+  "seededAt": "2026-04-19T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "sha256-cas-plus-ref-idempotent-write",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IPackageContentStoreService + ITranslationLookup (F1523) + IDatabaseService (CAS fallback)",
+    "freedomConfigKey": "N/A",
+    "neutralConcepts": [
+      "SHA-256 over JSON.stringify(translations) → contentHash",
+      "SHA-256 over JSON.stringify(sourceKeys.sort()) → sourceHash (Phase 2 invalidation hook)",
+      "CAS blob stored by contentHash — idempotent by design",
+      "ref doc docId = `${tenantId}::${moduleId}::${locale}` — OCC prevents duplicates (CF-813)",
+      "tenantId always from ALS (CF-810) — MarketplaceTranslationCacheJob exempt under MASTER CLS",
+      "connectionType: TENANT_PRIVATE for tenant writes, FLOW_SCOPED for master writes"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F1523",
+      "interface": "ITranslationLookup",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "CF-810",
+      "rule": "tenantId on every storeRef reads from ALS context. Only T667 under MASTER CLS is exempt.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "CF-813",
+      "rule": "Concurrent GET requests for same tenant/module/locale produce exactly one CAS blob + one lookup ref. Second writer finds ref already present.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": ["sha256_content_addressable", "occ_composite_doc_id"],
+  "bfaRules": ["CF-810", "CF-813"],
+  "tags": ["data-pipeline", "cas", "sha256", "occ-idempotency", "FLOW-48"],
+  "keywords": "tenant translation writer content addressable storage sha256 lookup ref idempotent OCC FLOW-48"
+}

@@ -1,0 +1,138 @@
+{
+  "topologyId": "flow-prereq-01b-prerequisite-orderer",
+  "flowId": "FLOW-PREREQ-01",
+  "taskTypeId": "T581",
+  "version": "1.0.0",
+  "archetype": "ORCHESTRATION",
+  "purpose": "Given a set of PREREQ_GAP events, build a dependency graph, determine execution order (OVERLAP_DETECTED before MISSING_FABRIC_INTERFACE), classify each as autonomously resolvable or requiring human decision, and dispatch in order.",
+  "trigger": "event spec.audit.gaps_found",
+
+  "nodes": {
+    "n1": {
+      "handler": "rag-retrieve.handler",
+      "description": "Retrieve prerequisite-resolution-protocol pattern and architecture decisions for overlap context",
+      "config": {
+        "index": "xiigen-rag-patterns",
+        "query": "prerequisite resolution ordering overlap dependency",
+        "size": 5
+      },
+      "output": { "patterns": "FLOW_DESIGN + ARCHITECTURE_DECISION patterns" }
+    },
+
+    "n2": {
+      "handler": "decompose.handler",
+      "description": "Build dependency graph from prereqGaps. Rules: OVERLAP_DECISION gaps block MISSING_FABRIC_INTERFACE gaps that reference the same service category. MACHINE_CONSTANT gaps are independent. Topological sort produces execution order.",
+      "config": {
+        "rules": [
+          "OVERLAP_DETECTED must resolve before MISSING_FABRIC_INTERFACE in same category",
+          "MACHINE_CONSTANT for a service that also has MISSING_FABRIC_INTERFACE is DEPENDENT on the interface gap",
+          "MACHINE_CONSTANT with no corresponding MISSING_FABRIC_INTERFACE is independent — can resolve in parallel",
+          "autonomouslyResolvable=false goes to human escalation queue"
+        ]
+      },
+      "output": {
+        "executionOrder": "PrerequisiteGap[] (topologically sorted)",
+        "parallelGroups": "PrerequisiteGap[][] (groups that can run concurrently)",
+        "humanEscalations": "PrerequisiteGap[] (autonomouslyResolvable=false)"
+      }
+    },
+
+    "n3": {
+      "handler": "route.handler",
+      "description": "Branch: if humanEscalations exist → emit to FLOW-PREREQ-03. Then dispatch autonomous gaps to FLOW-PREREQ-02.",
+      "condition": "${n2.humanEscalations.length}",
+      "branches": {
+        ">0": "n4-escalate-then-dispatch",
+        "0": "n5-dispatch-autonomous"
+      }
+    },
+
+    "n4-escalate-then-dispatch": {
+      "handler": "feedback.handler",
+      "description": "Emit overlap decisions to FLOW-PREREQ-03, then dispatch remaining autonomous gaps. The escalated gaps block downstream gaps in the same category.",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "prereq.overlap.escalated",
+          "payload": {
+            "specId": "${input.specId}",
+            "overlaps": "${n2.humanEscalations}"
+          }
+        },
+        {
+          "type": "emit",
+          "event": "prereq.resolution.ordered",
+          "payload": {
+            "specId": "${input.specId}",
+            "executionOrder": "${n2.executionOrder}",
+            "parallelGroups": "${n2.parallelGroups}",
+            "blockedUntilHumanDecision": "${n2.humanEscalations}"
+          }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "OUTCOME",
+          "index": "xiigen-rag-retrieval-outcomes",
+          "data": {
+            "flowId": "FLOW-PREREQ-01",
+            "taskType": "T581",
+            "totalGaps": "${input.prereqGaps.length}",
+            "autonomousCount": "${n2.executionOrder.length}",
+            "humanEscalationCount": "${n2.humanEscalations.length}"
+          }
+        }
+      ]
+    },
+
+    "n5-dispatch-autonomous": {
+      "handler": "feedback.handler",
+      "description": "All gaps are autonomously resolvable. Dispatch to FLOW-PREREQ-02 in dependency order.",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "prereq.resolution.ordered",
+          "payload": {
+            "specId": "${input.specId}",
+            "executionOrder": "${n2.executionOrder}",
+            "parallelGroups": "${n2.parallelGroups}",
+            "blockedUntilHumanDecision": []
+          }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "OUTCOME",
+          "index": "xiigen-rag-retrieval-outcomes",
+          "data": {
+            "flowId": "FLOW-PREREQ-01",
+            "taskType": "T581",
+            "totalGaps": "${input.prereqGaps.length}",
+            "autonomousCount": "${n2.executionOrder.length}",
+            "humanEscalationCount": 0
+          }
+        }
+      ]
+    }
+  },
+
+  "edges": [
+    ["n1", "n2"],
+    ["n2", "n3"],
+    ["n3.>0", "n4-escalate-then-dispatch"],
+    ["n3.0", "n5-dispatch-autonomous"]
+  ],
+
+  "ironRules": [
+    "Per CF-789: ordering must complete before any FLOW-PREREQ-02 execution begins",
+    "Per CF-790: every gap in input must appear in output — none suppressed, none added",
+    "CF-791: OVERLAP_DETECTED gaps MUST resolve before MISSING_FABRIC_INTERFACE gaps in the same service category — topological ordering is mandatory",
+    "autonomouslyResolvable=false gaps MUST route to FLOW-PREREQ-03 human escalation — never auto-resolve architectural decisions",
+    "MACHINE_CONSTANT gaps for a service that also has MISSING_FABRIC_INTERFACE are DEPENDENT — interface must resolve first, then constant registration"
+  ],
+
+  "qualityGates": [
+    "Every gap in input appears exactly once in output (executionOrder + humanEscalations)",
+    "No MISSING_FABRIC_INTERFACE gap precedes an OVERLAP_DETECTED gap in the same category"
+  ]
+}

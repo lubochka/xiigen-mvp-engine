@@ -1,0 +1,16 @@
+{
+  "patternId": "full-recompute-pattern",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-07",
+  "domainId": "social-connections",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": ["T80", "full-recompute", "delta-forbidden", "idempotent"],
+  "keywords": "full recompute mutual count T80 no delta idempotent graph intersection retry safe",
+  "codeSnippet": "const connectionsA = await this.graph.getConnections(userIdA, tenantId);\nconst connectionsB = await this.graph.getConnections(userIdB, tenantId);\nconst mutualCount  = connectionsA.filter(id => connectionsB.includes(id)).length;\n// Same result on every retry — idempotent by design\n// WRONG: delta increment — not idempotent under queue retry\n// const current = await this.db.get('mutual_count', key);\n// await this.db.update('mutual_count', key, { count: current + 1 }); // count+2 on retry",
+  "ironRules": [
+    "Full graph recompute from adjacency lists on every invocation — never delta (++/--)",
+    "Delta counts drift under queue message retries — same event processed twice = count+2",
+    "Output: mutualCount (number only) — no list of shared user IDs"
+  ]
+}

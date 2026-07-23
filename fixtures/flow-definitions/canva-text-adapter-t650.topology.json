@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-41",
+  "flowName": "canva-text-adapter",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T650",
+        "name": "CanvaTextElementFetcher",
+        "order": 1,
+        "description": "Fetch text element from Canva via fabric, validate type, verify tenant ownership"
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T651",
+        "name": "CoordinateNormalizer",
+        "order": 2,
+        "description": "Transform pixel coordinates to percentage-based layout (0-100)"
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T652",
+        "name": "StylePropertyConverter",
+        "order": 3,
+        "description": "Normalize font, color, and spacing properties to canonical schema"
+      },
+      {
+        "nodeId": "n4",
+        "taskTypeId": "T653",
+        "name": "ElementTypeMapper",
+        "order": 4,
+        "description": "Map Canva element types to XIIGen canonical element type via FREEDOM config"
+      },
+      {
+        "nodeId": "n5",
+        "taskTypeId": "T654",
+        "name": "TransformationRecorder",
+        "order": 5,
+        "description": "Store transformation metadata and audit trail to xiigen-element-transform index"
+      },
+      {
+        "nodeId": "n6",
+        "taskTypeId": "T655",
+        "name": "MetadataAggregator",
+        "order": 6,
+        "description": "Combine all normalized properties into complete xiigen-element-metadata record"
+      },
+      {
+        "nodeId": "n7",
+        "taskTypeId": "T656",
+        "name": "ExportReadinessGate",
+        "order": 7,
+        "description": "Validate all transformations complete, emit TextElementExportReady for downstream consumers"
+      },
+      {
+        "nodeId": "n8",
+        "taskTypeId": "T657",
+        "name": "OutboxPublisher",
+        "order": 8,
+        "description": "Emit CloudEvents to queue fabric after all storage operations (DNA-8 outbox pattern)"
+      }
+    ]
+  }
+}

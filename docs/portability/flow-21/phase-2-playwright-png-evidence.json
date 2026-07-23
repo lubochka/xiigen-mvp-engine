@@ -1,0 +1,133 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "phase2E2ETests",
+  "status": "completed",
+  "generatedAt": "2026-05-07T12:03:20.0000000+03:00",
+  "commands": [
+    {
+      "cwd": ".",
+      "command": "docker compose -f docker-compose.yml up -d server with SERVER_PORT=3000, SECRETS_PROVIDER=vault, VAULT_ADDR=http://vault:8200",
+      "status": "passed",
+      "healthCheck": "http://localhost:3000/health/live"
+    },
+    {
+      "cwd": "client",
+      "command": "VITE_PORT=52021 npx playwright test e2e/dynamic-forms-workflows.spec.ts e2e/dynamic-forms-workflows-mock-states.spec.ts --reporter=line",
+      "status": "passed",
+      "tests": {
+        "passed": 45,
+        "total": 45
+      },
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ]
+    },
+    {
+      "cwd": "client",
+      "command": "npx tsc --noEmit --pretty false",
+      "status": "passed",
+      "exitCode": 0
+    }
+  ],
+  "snapshotEvidence": {
+    "directory": "docs/e2e-snapshots/dynamic-forms-workflows",
+    "expectedPngCount": 15,
+    "actualPngCount": 15,
+    "zeroByteCount": 0,
+    "totalBytes": 1223056,
+    "pngFiles": [
+      {
+        "name": "01-every-task-type-in-t307-t340-has-at-leas.png",
+        "bytes": 110391
+      },
+      {
+        "name": "02-every-plan-step-is-scoped-to-a-single-re.png",
+        "bytes": 110391
+      },
+      {
+        "name": "03-no-step-imports-provider-sdks-directly-f.png",
+        "bytes": 110391
+      },
+      {
+        "name": "04-no-step-creates-entity-specific-controll.png",
+        "bytes": 110391
+      },
+      {
+        "name": "05-all-steps-return-dataprocessresult-t.png",
+        "bytes": 110391
+      },
+      {
+        "name": "06-focus-areas-covered-dynamic-form-engine.png",
+        "bytes": 110391
+      },
+      {
+        "name": "default.png",
+        "bytes": 110391
+      },
+      {
+        "name": "state-1-form-draft.png",
+        "bytes": 54884
+      },
+      {
+        "name": "state-2-no-fields.png",
+        "bytes": 54149
+      },
+      {
+        "name": "state-3-published.png",
+        "bytes": 55591
+      },
+      {
+        "name": "state-4-occ-conflict.png",
+        "bytes": 58813
+      },
+      {
+        "name": "state-5-submission-received.png",
+        "bytes": 55357
+      },
+      {
+        "name": "state-6-submission-rejected.png",
+        "bytes": 53996
+      },
+      {
+        "name": "state-7-automation-triggered.png",
+        "bytes": 60334
+      },
+      {
+        "name": "state-8-analytics-updated.png",
+        "bytes": 57195
+      }
+    ]
+  },
+  "roleAndStateCoverage": {
+    "projects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "uiStates": [
+      "default",
+      "form-draft",
+      "no-fields",
+      "published",
+      "occ-conflict",
+      "submission-received",
+      "submission-rejected",
+      "automation-triggered",
+      "analytics-updated"
+    ],
+    "planCoverageScreens": 6,
+    "notes": [
+      "Existing FLOW-21 suite captures the flow page plus eight UX-derived business states across all configured Playwright projects.",
+      "Role-specific visual expansion remains a later portability phase because Phase 2 is the baseline flow Playwright and PNG-count gate."
+    ]
+  },
+  "repoEvidence": {
+    "requiredAtThisPhase": false,
+    "reason": "No tenant fork cascade point has been reached yet. Repo evidence screenshots are required when marketplace fork phases create or update tenant repositories."
+  },
+  "secretValuesInEvidence": false,
+  "verdict": "PASS"
+}

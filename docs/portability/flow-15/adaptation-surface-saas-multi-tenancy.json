@@ -1,0 +1,118 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "flowTitle": "SaaS Multi-Tenancy",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-06",
+  "capturedBy": "Codex / FLOW-15 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-15/FLOW-15-IMPL-STATE.json",
+    "server/src/engine-contracts/saas-multi-tenancy-contracts.ts",
+    "server/src/engine/flows/saas-multi-tenancy",
+    "docs/flow-coverage/saas-multi-tenancy/P1-business-logic-inventory.md",
+    "docs/flow-coverage/saas-multi-tenancy/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T605-T608",
+    "taskTypeIds": [
+      "T605",
+      "T606",
+      "T607",
+      "T608"
+    ],
+    "flowScopedFreedomPrefix": "flow15_",
+    "freedomKeyCount": 8,
+    "directRuntimePeerDependencies": [
+      {
+        "sourceFlow": "FLOW-12",
+        "consumerTaskTypeId": "T608",
+        "purpose": "TenantSuspended emits cascadeToSubscriptions:true for subscription billing suspension."
+      },
+      {
+        "sourceFlow": "FLOW-13",
+        "consumerTaskTypeId": "T608",
+        "purpose": "TenantTerminated emits DataPurgeRequested for tenant data purge delegation."
+      }
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-15 is identity-critical because masterTenantId controls tenant authority."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T605",
+      "className": "TenantProvisioningOrchestratorService",
+      "file": "server/src/engine/flows/saas-multi-tenancy/tenant-provisioning-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow15_master_tenant_id_default",
+        "flow15_tenant_default_quota_api_calls",
+        "flow15_tenant_default_quota_storage_gb",
+        "flow15_tenant_default_quota_seats"
+      ]
+    },
+    {
+      "taskTypeId": "T606",
+      "className": "TenantConfigurationManagerService",
+      "file": "server/src/engine/flows/saas-multi-tenancy/tenant-configuration-manager.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow15_tenant_config_max_custom_keys"
+      ],
+      "machineLockedKeys": [
+        "tenantId",
+        "masterTenantId",
+        "provisionedAt",
+        "subscriptionTier"
+      ]
+    },
+    {
+      "taskTypeId": "T607",
+      "className": "TenantQuotaMaterializerService",
+      "file": "server/src/engine/flows/saas-multi-tenancy/tenant-quota-materializer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow15_quota_materialization_retry_limit"
+      ]
+    },
+    {
+      "taskTypeId": "T608",
+      "className": "TenantLifecycleManagerService",
+      "file": "server/src/engine/flows/saas-multi-tenancy/tenant-lifecycle-manager.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow15_tenant_data_retention_days",
+        "flow15_tenant_reactivation_payment_check"
+      ]
+    }
+  ],
+  "adaptationCandidates": [
+    {
+      "type": "TYPE-A",
+      "name": "enterprise-retention-and-quota-policy",
+      "tenantFit": "enterprise tenant with longer retention and larger default quotas",
+      "changes": [
+        "flow15_tenant_data_retention_days",
+        "flow15_tenant_default_quota_api_calls",
+        "flow15_tenant_default_quota_storage_gb",
+        "flow15_tenant_default_quota_seats"
+      ]
+    },
+    {
+      "type": "TYPE-A",
+      "name": "community-safety-low-quota-policy",
+      "tenantFit": "community tenant with conservative quotas and explicit reactivation payment check",
+      "changes": [
+        "flow15_tenant_reactivation_payment_check",
+        "flow15_tenant_default_quota_api_calls",
+        "flow15_tenant_default_quota_storage_gb"
+      ]
+    }
+  ]
+}

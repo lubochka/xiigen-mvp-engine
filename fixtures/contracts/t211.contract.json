@@ -1,0 +1,49 @@
+{
+  "taskTypeId": "T211",
+  "flowId": "FLOW-12",
+  "name": "RecurringBillingEngine",
+  "archetype": "BILLING",
+  "domainId": "subscription-billing",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "status-check-then-lock-then-invoice-then-charge-scheduled",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "subscription_billing_dunning_schedule",
+    "neutralConcepts": [
+      "executionOrder: StatusCheck=1, LockAcquire=2, InvoiceGen=3, Charge=4, AuditWrite=5, ResultEmit=6",
+      "SCHEDULED archetype — triggered by BillingCycleDue delayed queue job, not @EventPattern",
+      "CANCELLED/PAUSED → InvoiceVoided immediately at ORDER 1 — no lock acquired. CF-12-1.",
+      "Lock=false (concurrent run) → skip entire cycle at ORDER 2 — prevents double-billing",
+      "invoiceId = hash(tenantId+subscriptionId+periodKey) — idempotency key for charge",
+      "dunningSchedule from FREEDOM config key 'subscription_billing_dunning_schedule' — NEVER hardcoded. CF-12-3.",
+      "storeDocument(billingAudit) at ORDER 5 BEFORE any enqueue — DNA-8",
+      "DPO conflict: conflictsWith FLOW-09-T107-seat-before-payment (domain-correct inversion)"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" },
+    { "factoryId": "F09-PAYMENT", "interface": "IPaymentFabricService", "fabric": "DATABASE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T211-1", "rule": "getStatus() at ORDER 1 — CANCELLED/PAUSED → emit InvoiceVoided, return immediately. No lock acquired. CF-12-1.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T211-2", "rule": "Lock acquisition at ORDER 2 — lock=false (concurrent run) → return without charge. CF-12-1.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T211-3", "rule": "Invoice generation at ORDER 3 — only after status=ACTIVE and lock=true.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T211-4", "rule": "Charge at ORDER 4 — after invoiceId established as idempotency key.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T211-5", "rule": "storeDocument(billingAudit) at ORDER 5 BEFORE any enqueue. DNA-8.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T211-6", "rule": "dunningSchedule from FREEDOM config 'subscription_billing_dunning_schedule' — NEVER hardcoded constant. CF-12-3.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T211-7", "rule": "maxAttempts = dunningSchedule.length — never a separate hardcoded constant. CF-12-3.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "financial_op_idempotency",
+    "setnx_before_operation",
+    "store_before_enqueue",
+    "freedom_config_threshold_scan",
+    "status_before_lock",
+    "no_double_billing"
+  ],
+  "bfaRules": ["CF-12-1", "CF-12-3"],
+  "tags": ["billing", "scheduled", "dunning", "lock", "status-check", "BILLING"],
+  "keywords": "recurring billing engine status check lock acquire invoice charge audit dunning schedule FREEDOM config CANCELLED PAUSED DPO conflict FLOW-09 inversion"
+}

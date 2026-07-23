@@ -1,0 +1,29 @@
+{
+  "flowId": "FLOW-39",
+  "flowSlug": "oss-curriculum",
+  "phase": "phase-close-scans",
+  "status": "completed",
+  "generatedAt": "2026-05-12T01:27:00.0000000+03:00",
+  "portabilityScan": {
+    "connectionAnnotations": 4,
+    "serviceFiles": 4,
+    "missingConnectionAnnotation": 0,
+    "missingMicroserviceBase": 0,
+    "throwNew": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "typedAny": 0
+  },
+  "jsonFilesChecked": 13,
+  "jsonFailures": 0,
+  "secretPatternHits": 0,
+  "repoEvidenceScreenshots": {
+    "expected": 9,
+    "actual": 9,
+    "minimumBytes": 73603
+  },
+  "reposRestoredPrivate": true,
+  "failureLines": 0,
+  "verdict": "PASS"
+}

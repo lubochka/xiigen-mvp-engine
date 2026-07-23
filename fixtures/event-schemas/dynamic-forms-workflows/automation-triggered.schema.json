@@ -1,0 +1,18 @@
+{
+  "eventId": "automation-triggered",
+  "eventName": "AutomationTriggered",
+  "flowId": "FLOW-21",
+  "taskTypeId": "T631",
+  "description": "Emitted when a rule automation is triggered",
+  "properties": {
+    "ruleId": { "type": "string", "description": "The ID of the triggered rule" },
+    "submissionId": { "type": "string", "description": "The submission triggering the rule" },
+    "formId": { "type": "string" },
+    "conditionResult": { "type": "boolean", "description": "Condition evaluation result" },
+    "actionsDispatched": { "type": "integer", "description": "Number of actions queued" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "tenantId": { "type": "string" }
+  },
+  "required": ["ruleId", "submissionId", "formId"],
+  "version": "1.0"
+}

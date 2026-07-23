@@ -1,0 +1,100 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "phase": "coInstallDependencyDeclaration",
+  "generatedAt": "2026-05-06T10:31:10.1810516Z",
+  "sourceFixMap": [
+    "FLOW-15-FIXMAP-005: co-install dependency declaration."
+  ],
+  "filesChanged": [
+    "server/src/engine/flows/saas-multi-tenancy/package.json",
+    "server/src/fabrics/implementations/flow-file-assembler.spec.ts",
+    "docs/portability/flow-15/adaptation-surface-saas-multi-tenancy.json"
+  ],
+  "directRuntimePeers": [
+    {
+      "flowId": "FLOW-12",
+      "package": "@xiigen/subscription-billing",
+      "reason": "TenantSuspended emits cascadeToSubscriptions:true for subscription billing suspension."
+    },
+    {
+      "flowId": "FLOW-13",
+      "package": "@xiigen/data-warehouse-analytics",
+      "reason": "TenantTerminated emits DataPurgeRequested for tenant data purge delegation."
+    }
+  ],
+  "declaredCoInstalls": {
+    "packageName": "@xiigen/saas-multi-tenancy",
+    "requiredCoInstalls": [
+      "@xiigen/subscription-billing",
+      "@xiigen/data-warehouse-analytics",
+      "@xiigen/schema-registry-dag",
+      "@xiigen/transactional-event-participation",
+      "@xiigen/event-attendance",
+      "@xiigen/event-management",
+      "@xiigen/reviews-reputation"
+    ],
+    "xiigenRequiredCoInstalls": [
+      "FLOW-12",
+      "FLOW-13",
+      "FLOW-11",
+      "FLOW-09",
+      "FLOW-04",
+      "FLOW-03",
+      "FLOW-10"
+    ],
+    "notesMentionNoBundling": true,
+    "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED-v3.0"
+  },
+  "staticScan": {
+    "command": "Read server/src/engine/flows/saas-multi-tenancy/package.json and verify direct peers FLOW-12/FLOW-13, upstream hops FLOW-11/FLOW-09/FLOW-04/FLOW-03/FLOW-10, package names, protocol, and no-bundling note.",
+    "directRuntimePeersDeclared": true,
+    "upstreamHopsDeclared": [
+      {
+        "flowId": "FLOW-11",
+        "present": true
+      },
+      {
+        "flowId": "FLOW-09",
+        "present": true
+      },
+      {
+        "flowId": "FLOW-04",
+        "present": true
+      },
+      {
+        "flowId": "FLOW-03",
+        "present": true
+      },
+      {
+        "flowId": "FLOW-10",
+        "present": true
+      }
+    ],
+    "exitCode": 0
+  },
+  "verification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0
+    },
+    "flowFileAssemblerJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "passedSuites": 1,
+      "passedTests": 12,
+      "assertion": "Generated FLOW-15 fork package carries requiredCoInstalls and xiigen.requiredCoInstalls."
+    },
+    "adaptationSurfaceJson": {
+      "path": "docs/portability/flow-15/adaptation-surface-saas-multi-tenancy.json",
+      "parseResult": "PASS"
+    }
+  },
+  "summary": {
+    "status": "PASS",
+    "metadataCarriedIntoForkPackage": true,
+    "flow15Tier3StillRequiresPackageSigningFirstPass": true,
+    "secretsPrintedOrCommitted": false,
+    "technicalDebtIntroduced": false
+  }
+}

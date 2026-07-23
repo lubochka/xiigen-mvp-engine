@@ -1,0 +1,110 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "phase": "phase3VisualExamination",
+  "generatedAt": "2026-05-07T04:14:25.8510654+03:00",
+  "status": "completed",
+  "documentsRead": [
+    ".impeccable.md",
+    "docs/flow-coverage/durable-sagas-compliance/P1-business-logic-inventory.md",
+    "docs/flow-coverage/durable-sagas-compliance/P5-ui-specs.md",
+    "docs/screen-examination/PER-IMAGE-VALIDATION-TEMPLATE.md"
+  ],
+  "visualCorrection": {
+    "status": "fixed",
+    "issue": "The P1 screenshot harness opened /admin/compliance/audit without the platform-admin role query, so it captured the current-role fallback instead of the compliance audit state.",
+    "fix": "client/e2e/durable-sagas-compliance.spec.ts now opens /admin/compliance/audit?role=platform-admin, verifies the platform-admin branch, clicks Search, and waits for audit records before capturing screenshots.",
+    "verification": "FLOW-19 Playwright P1 suite reran after the fix and passed 18/18."
+  },
+  "commands": [
+    {
+      "command": "Push-Location client; npx playwright test durable-sagas-compliance.spec.ts --reporter=list; Pop-Location",
+      "status": "passed_after_visual_correction",
+      "summary": {
+        "testsPassed": 18,
+        "testsTotal": 18
+      }
+    },
+    {
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "status": "passed"
+    }
+  ],
+  "inspectedPngs": [
+    {
+      "path": "docs/e2e-snapshots/durable-sagas-compliance/01-every-task-type-in-t287-t306-has-at-leas.png",
+      "role": "platform-admin",
+      "viewport": "chromium-mobile",
+      "state": "populated compliance audit records",
+      "verdict": "PASS",
+      "notes": [
+        "Shows Compliance Audit Records with three audit records and action controls.",
+        "No access-denied fallback remains after the harness correction.",
+        "Domain fields visible: saga id, event type, legal hold, written date, expiry date, status."
+      ]
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-desktop/durable-sagas-compliance/primary-platform-admin.png",
+      "role": "platform-admin",
+      "viewport": "chromium-desktop",
+      "state": "primary saga dashboard",
+      "verdict": "PASS",
+      "notes": [
+        "Platform-admin sees the executable durable saga dashboard.",
+        "State badges are readable and not color-only."
+      ]
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-mobile/durable-sagas-compliance/primary-tenant-user.png",
+      "role": "tenant-user",
+      "viewport": "chromium-mobile",
+      "state": "tenant-user summary",
+      "verdict": "PASS",
+      "notes": [
+        "Tenant-user sees a plain-language summary with no saga internals or write controls.",
+        "Mobile layout is readable without overlap."
+      ]
+    },
+    {
+      "path": "docs/e2e-snapshots/visual-audit/chromium-tablet/durable-sagas-compliance/primary-platform-support.png",
+      "role": "platform-support",
+      "viewport": "chromium-tablet",
+      "state": "read-only support view",
+      "verdict": "PASS",
+      "notes": [
+        "Platform-support sees read-only context and an escalation path.",
+        "Write controls are disabled and visually distinct."
+      ]
+    }
+  ],
+  "pngCounts": {
+    "p1StateCoverage": {
+      "expected": 6,
+      "actual": 6,
+      "totalBytes": 851333
+    },
+    "roleMatrix": {
+      "expected": 12,
+      "actual": 12,
+      "totalBytes": 656031
+    }
+  },
+  "axisVerdicts": {
+    "shell": "PASS",
+    "roleBranching": "PASS",
+    "language": "PASS_EN_ONLY",
+    "businessState": "PASS",
+    "humanFriendliness": "PASS",
+    "uxFiveLayerAudit": "PASS"
+  },
+  "followUps": [
+    "Real GitHub repo screenshots remain required during the fork cascade phases.",
+    "Hebrew RTL and French spot checks are outside this FLOW-19 portability phase and are not required for this auth/cascade certification close-out."
+  ],
+  "secretHandling": {
+    "tokenValuesWrittenToEvidence": false,
+    "signingMaterialWrittenToEvidence": false,
+    "envFilesCommitted": false
+  },
+  "verdict": "PASS"
+}

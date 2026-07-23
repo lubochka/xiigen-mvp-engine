@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.webhook.event.ingested",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "connectorId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "idempotencyKey": { "type": "string", "required": false },
+    "receivedAt": { "type": "string", "format": "date-time", "required": true }
+  },
+  "excludedFields": ["hmacSecret", "credential", "apiKey"]
+}

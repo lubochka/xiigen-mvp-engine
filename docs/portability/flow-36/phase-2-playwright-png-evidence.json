@@ -1,0 +1,205 @@
+{
+    "flowId":  "FLOW-36",
+    "flowSlug":  "feature-registry",
+    "phase":  "phase-2-playwright-png",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T11:29:08.2430079Z",
+    "commands":  [
+                     "Push-Location client; npx tsc --noEmit; Pop-Location",
+                     "Initial mock-state Playwright run exposed stale route/network-idle timeouts: 19 passed, 5 failed",
+                     "Updated FLOW-36 Playwright specs to use role-scoped /admin/feature-registry and FeatureMatrixScreen sentinels",
+                     "Push-Location client; npx playwright test e2e/feature-registry.spec.ts e2e/feature-registry-crud.spec.ts e2e/feature-registry-mock-states.spec.ts --workers=1 --reporter=line; Pop-Location",
+                     "Push-Location client; npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts --grep C6-R36 --workers=1 --reporter=line; Pop-Location",
+                     "Push-Location client; npx playwright test e2e/run-65-regen.spec.ts --grep \"FLOW-36 feature-registry\" --workers=1 --reporter=line; Pop-Location",
+                     "Push-Location client; npx playwright test e2e/visual-audit-all-flows.spec.ts --grep feature-registry --workers=1 --reporter=line; Pop-Location"
+                 ],
+    "verification":  {
+                         "clientTypeScript":  "exit 0",
+                         "flow36PlaywrightSuites":  "69 passed across chromium-desktop, chromium-tablet, and chromium-mobile",
+                         "c6RoleCoverage":  "3 passed across chromium-desktop, chromium-tablet, and chromium-mobile",
+                         "run65Regen":  "3 passed across chromium-desktop, chromium-tablet, and chromium-mobile",
+                         "visualAudit":  "3 passed across chromium-desktop, chromium-tablet, and chromium-mobile",
+                         "sourcePngMinimum":  9,
+                         "observedFeatureRegistryPngs":  44,
+                         "viewportQualifiedPngs":  "feature-registry mock/CRUD PNGs plus C6, run-65, and visual-audit captures present on disk"
+                     },
+    "screenshots":  [
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\crud-api-round-trip-matrix.png",
+                            "bytes":  223428
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\default.png",
+                            "bytes":  223428
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\feature-matrix-operator-view.png",
+                            "bytes":  223428
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\feature-matrix-support-readonly.png",
+                            "bytes":  246307
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-1-feature-registered.png",
+                            "bytes":  92122
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-1-featureextractor-processing.png",
+                            "bytes":  32505
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-10-signalingested-featuresignalaggregator.png",
+                            "bytes":  33204
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-11-portingrequested-featureportingorchestrator.png",
+                            "bytes":  32917
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-12-featureportingorchestrator-portingdecisiongate.png",
+                            "bytes":  33381
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-13-portingdecisiongate-portingprohibited.png",
+                            "bytes":  33191
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-14-portingdecisiongate-portingcostestimator.png",
+                            "bytes":  33230
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-15-portingcostestimator-portingdecisiongate.png",
+                            "bytes":  33175
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-16-portingdecisiongate-portingapproved.png",
+                            "bytes":  33149
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-17-portingdecisiongate-portingdeferred.png",
+                            "bytes":  33106
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-18-portingdecisiongate-portingblocked.png",
+                            "bytes":  33130
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-19-portingapproved-platformadaptergenerator.png",
+                            "bytes":  33488
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-2-decision-pending.png",
+                            "bytes":  95298
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-2-featuresignalaggregator-processing.png",
+                            "bytes":  33154
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-20-platformadaptergenerator-platformsimulator.png",
+                            "bytes":  33212
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-21-platformsimulator-portingcomplete.png",
+                            "bytes":  32886
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-22-platformsimulator-platformadaptergenerator.png",
+                            "bytes":  33718
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-3-feature-verified.png",
+                            "bytes":  94490
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-3-portingcostestimator-processing.png",
+                            "bytes":  32655
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-4-feature-active.png",
+                            "bytes":  92138
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-4-portingdecisiongate-processing.png",
+                            "bytes":  32759
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-5-feature-blocked.png",
+                            "bytes":  89283
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-5-platformadaptergenerator-processing.png",
+                            "bytes":  32966
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-6-feature-deprecated.png",
+                            "bytes":  91636
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-6-platformsimulator-processing.png",
+                            "bytes":  32668
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-7-feature-removed.png",
+                            "bytes":  94181
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-7-featureportingorchestrator-processing.png",
+                            "bytes":  33040
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-8-featureextractionrequested-featureextractor.png",
+                            "bytes":  33138
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\feature-registry\\state-9-featureextractor-featureextractioncompleted.png",
+                            "bytes":  33249
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\c6-role-coverage\\feature-registry-role-platform-admin.png",
+                            "bytes":  229687
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\run-65-regen\\flow-36-feature-registry-platform-admin.png",
+                            "bytes":  223428
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-desktop\\feature-registry\\populated-platform-admin.png",
+                            "bytes":  45428
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-desktop\\feature-registry\\primary-platform-admin.png",
+                            "bytes":  78289
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-desktop\\feature-registry\\primary-platform-support.png",
+                            "bytes":  84140
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-mobile\\feature-registry\\populated-platform-admin.png",
+                            "bytes":  207148
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-mobile\\feature-registry\\primary-platform-admin.png",
+                            "bytes":  229687
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-mobile\\feature-registry\\primary-platform-support.png",
+                            "bytes":  295838
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-tablet\\feature-registry\\populated-platform-admin.png",
+                            "bytes":  45954
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-tablet\\feature-registry\\primary-platform-admin.png",
+                            "bytes":  80912
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-tablet\\feature-registry\\primary-platform-support.png",
+                            "bytes":  86912
+                        }
+                    ],
+    "verdict":  "PASS"
+}

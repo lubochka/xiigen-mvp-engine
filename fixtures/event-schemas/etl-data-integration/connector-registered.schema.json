@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.connector.registered",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "connectorId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "connectorType": { "type": "string", "required": true },
+    "status": { "type": "string", "enum": ["ACTIVE"], "required": true },
+    "registeredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

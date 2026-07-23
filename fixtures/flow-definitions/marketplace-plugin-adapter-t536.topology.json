@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-34",
+  "flowName": "marketplace-plugin-adapter",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T536",
+        "name": "PluginRegistryLoader",
+        "order": 1,
+        "description": "Load marketplace plugin registry via fabric abstraction. Validate plugin signatures."
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T537",
+        "name": "PluginCapabilityValidator",
+        "order": 2,
+        "description": "Validate plugin capabilities against available fabric interfaces. Check feature flags (FT-XXX)."
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T538",
+        "name": "PluginDependencyResolver",
+        "order": 3,
+        "description": "Resolve plugin dependencies and load order. Detect circular dependencies."
+      },
+      {
+        "nodeId": "n4",
+        "taskTypeId": "T539",
+        "name": "PluginSandboxConfigurator",
+        "order": 4,
+        "description": "Configure sandbox permissions for plugin execution. Apply security policies."
+      },
+      {
+        "nodeId": "n5",
+        "taskTypeId": "T540",
+        "name": "PluginMarketplaceIntegrator",
+        "order": 5,
+        "description": "Integrate plugin with marketplace visibility rules (public/private). Link to FREEDOM config."
+      },
+      {
+        "nodeId": "n6",
+        "taskTypeId": "T541",
+        "name": "PluginHealthMonitor",
+        "order": 6,
+        "description": "Monitor plugin health, error rates, and performance. Record metrics to xiigen-plugin-metrics."
+      },
+      {
+        "nodeId": "n7",
+        "taskTypeId": "T542",
+        "name": "PluginReadinessGate",
+        "order": 7,
+        "description": "Validate plugin registration complete and healthy. Emit PluginReadyForDeployment."
+      },
+      {
+        "nodeId": "n8",
+        "taskTypeId": "T543",
+        "name": "OutboxPublisher",
+        "order": 8,
+        "description": "Emit CloudEvents to queue fabric after all storage (DNA-8 outbox pattern)."
+      }
+    ]
+  }
+}

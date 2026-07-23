@@ -1,0 +1,25 @@
+{
+  "patternId": "PAYMENT-SPLIT-IDEMPOTENCY-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-16",
+  "domainId": "marketplace-payments",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "tags": ["payment-split", "idempotency", "setnx-hash", "double-charge", "platform-fee", "escrow"],
+  "keywords": "SETNX hash tenantId cartId totalAmountCents idempotency key double charge prevention platform fee BPS FREEDOM escrow before order confirmed DNA-8",
+  "ironRules": [
+    "SETNX key = hash(tenantId+cartId+totalAmountCents) — NOT cartId alone",
+    "On SETNX collision: unconditional return of cached result — no reprocessing",
+    "platformFeeBps from FREEDOM config 'platform_fee_bps' — not hardcoded",
+    "PII scrub before storeDocument on nonRepudiationAudit — no raw card data",
+    "Append-only nonRepudiationAudit with prevHash — no deleteDocument or updateDocument",
+    "storeDocument(escrow) BEFORE enqueue(MarketplaceOrderConfirmed) — DNA-8"
+  ],
+  "codeSnippet": "// CORRECT: hash(tenantId+cartId+totalAmountCents) idempotency key (T610)\nconst tenantId = this.als.getStore().tenantId;\nconst key = crypto.createHash('sha256')\n  .update(`${tenantId}:${cartId}:${totalAmountCents}`).digest('hex');\nconst acquired = await this.setnx(`payment-split:${key}`);\nif (!acquired) return cachedResult;              // unconditional return on collision\n\nconst platformFeeBps = await this.freedom.getConfig('platform_fee_bps');\nconst piiScrubbedData = piiScrub(paymentData);   // scrub before audit write\nconst prevHash = await this.nraAudit.getLatestHash();\nawait this.db.storeDocument({                    // append-only, no update/delete\n  ...piiScrubbedData, prevHash, index: 'xiigen-nra-audit'\n});\nawait this.db.storeDocument(escrowRecord);       // DNA-8: store before emit\nawait this.queue.enqueue('MarketplaceOrderConfirmed', { escrowId, ... });\n\n// WRONG: cartId-only key — allows totalAmountCents override double charge\nconst key = cartId;                              // missing tenantId + totalAmountCents\nawait this.db.updateDocument(auditId, patch);   // updateDocument on NRA = BUILD_FAILURE",
+  "appliesTo": ["FLOW-17", "FLOW-09", "FLOW-12"],
+  "curriculumTier": 1,
+  "qualityScore": 0.95,
+  "sourceDocument": "marketplace-payments-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,65 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "phase2E2ETests",
+  "status": "completed",
+  "generatedAt": "2026-05-07T07:16:59.8121556+03:00",
+  "commands": [
+    {
+      "cwd": "client",
+      "command": "VITE_PORT=52020 npx playwright test e2e/ads-platform.spec.ts e2e/ads-platform-mock-states.spec.ts --reporter=line",
+      "firstRunStatus": "failed",
+      "firstRunSummary": "42 passed, 3 failed because the default page exposed the legacy ads-platform-page test id but the FLOW-20 suite expected page-ads-platform"
+    },
+    {
+      "cwd": "client",
+      "command": "npx tsc --noEmit --pretty false",
+      "status": "passed"
+    },
+    {
+      "cwd": "client",
+      "command": "VITE_PORT=52020 npx playwright test e2e/ads-platform.spec.ts e2e/ads-platform-mock-states.spec.ts --reporter=line",
+      "status": "passed",
+      "tests": {
+        "passed": 45,
+        "total": 45
+      },
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ]
+    }
+  ],
+  "repair": {
+    "file": "client/src/pages/ads-platform/AdsPlatformPage.tsx",
+    "summary": "Added visible page-ads-platform heading hooks while preserving the existing ads-platform-page root hook used by older coverage."
+  },
+  "snapshotEvidence": {
+    "directory": "docs/e2e-snapshots/ads-platform",
+    "expectedPngCount": 15,
+    "actualPngCount": 15,
+    "pngFiles": [
+      "01-every-task-type-in-t287-t306-has-at-leas.png",
+      "02-every-plan-step-is-scoped-to-a-single-re.png",
+      "03-no-step-imports-provider-sdks-directly-f.png",
+      "04-no-step-creates-entity-specific-controll.png",
+      "05-all-steps-return-dataprocessresult-t.png",
+      "06-focus-areas-covered-request-response-spe.png",
+      "default.png",
+      "state-1-auction-open.png",
+      "state-2-bid-received.png",
+      "state-3-consent-missing.png",
+      "state-4-fraud-checked.png",
+      "state-5-fraud-detected.png",
+      "state-6-bid-accepted.png",
+      "state-7-political-review.png",
+      "state-8-auction-closed.png"
+    ]
+  },
+  "repoEvidence": {
+    "requiredAtThisPhase": false,
+    "reason": "No tenant fork cascade point has been reached yet. Repo evidence screenshots are required when the marketplace fork phases create or update tenant repositories."
+  },
+  "verdict": "PASS"
+}

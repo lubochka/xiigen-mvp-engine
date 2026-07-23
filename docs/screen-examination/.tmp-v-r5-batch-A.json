@@ -1,0 +1,80 @@
+{
+  "batch_id": "V-R5-A",
+  "flows": [
+    {
+      "slug": "meta-flow-engine",
+      "role": "platform-admin",
+      "grammar": "G4",
+      "verdict": "partial",
+      "weighted_score": 2,
+      "prior_score": 9,
+      "delta": -7,
+      "offences": [
+        {"severity": "MINOR", "axis": "H", "viewport": "desktop", "description": "'Meta Flow Engine — Raw Index' heading still engineering-flavored"},
+        {"severity": "MINOR", "axis": "S", "viewport": "desktop", "description": "Lifecycle canvas selected-node affordance weak; right-pane has no visual link to selection"}
+      ],
+      "notes": "FLOW-NN prefixes gone; Registered Meta-flows use human names; Raw Index collapsed."
+    },
+    {
+      "slug": "rag-quality-feedback",
+      "role": "platform-admin",
+      "grammar": "G6",
+      "verdict": "pass",
+      "weighted_score": 0,
+      "prior_score": 5,
+      "delta": -5,
+      "offences": [],
+      "notes": "Full humanization. PAT-/CYC- eliminated; Stripe-dashboard KPI tiles; mobile card reflow exemplary."
+    },
+    {
+      "slug": "ai-self-modification",
+      "role": "platform-admin",
+      "grammar": "G3",
+      "verdict": "partial",
+      "weighted_score": 1,
+      "prior_score": 8,
+      "delta": -7,
+      "offences": [
+        {"severity": "MINOR", "axis": "H", "viewport": "desktop", "description": "'Raw Index' heading + /api/dynamic/xiigen-* path in collapsed admin section"}
+      ],
+      "notes": "Strong humanization. SMP-/SK- removed; natural product prose; Approve/Reject with semantic colors."
+    },
+    {
+      "slug": "cycle-chain-extension",
+      "role": "platform-admin",
+      "grammar": "G1",
+      "verdict": "partial",
+      "weighted_score": 2,
+      "prior_score": 9,
+      "delta": -7,
+      "offences": [
+        {"severity": "MINOR", "axis": "H", "viewport": "desktop", "description": "Callback column exposes queue:// / function:// URIs; admin-defensible"},
+        {"severity": "MINOR", "axis": "H", "viewport": "desktop", "description": "'Raw Index' heading in collapsed admin section"}
+      ],
+      "notes": "HK-/HX- eliminated; hook names human; registered-by uses flowHumanName; failure reasons plain English."
+    },
+    {
+      "slug": "human-interaction-gate",
+      "role": "platform-admin",
+      "grammar": "G2",
+      "verdict": "pass",
+      "weighted_score": 0,
+      "prior_score": 4,
+      "delta": -4,
+      "offences": [],
+      "notes": "Clean. FLOW-NN + APR-/WF-/HIG- removed; AI suggestion panel Stripe/GitHub-review-style; mobile reflow clean."
+    }
+  ],
+  "batch_total_score": 5,
+  "batch_total_delta_vs_V_R4": -30,
+  "improvement_pct": "85%",
+  "systemic_patterns_still_present": [
+    "Admin-debug Raw Index sections retain '{Flow Name} — Raw Index' heading (3/5 flows); could soften to 'Document browser (debug)'",
+    "Dynamic API paths visible in Raw Index subtitle — fine for admin but slightly leaky"
+  ],
+  "new_patterns_emerged": [
+    "Uniform flowHumanName + status chips + semantic verbs pattern across all 5 flows",
+    "Raw Index collapse-by-default is the canonical hide-engineering-surface pattern",
+    "Stripe-dashboard KPI tile row (4 metrics, semantic tint) adopted consistently"
+  ]
+}

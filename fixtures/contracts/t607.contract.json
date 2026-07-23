@@ -1,0 +1,80 @@
+{
+  "taskTypeId": "T607",
+  "flowId": "FLOW-15",
+  "name": "TenantQuotaMaterializer",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "saas-multi-tenancy",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T607-1",
+      "rule": "ALL quota keys MUST be written atomically using Redis MULTI/EXEC in a single transaction. Individual SET loops are prohibited — a crash between iterations leaves partial quota state.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T607-2",
+      "rule": "Quota values MUST derive from tier definitions in FREEDOM config (tenant_quota_tier_{tier}). Hardcoded quota constants are prohibited — all limits must be operator-tunable via FREEDOM.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T607-3",
+      "rule": "Quota key filter MUST exclude non-quota keys before MULTI/EXEC. Writing to unrelated Redis keys during materialization causes cross-concern pollution.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T607-4",
+      "rule": "TenantQuotaMaterialized MUST include keyCount — the number of quota keys written. Downstream monitors use keyCount to detect incomplete materializations.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T607-5",
+      "rule": "tenantId MUST be resolved from AsyncLocalStorage only — NEVER from request payload.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1524",
+      "token": "IQuotaStoreService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1522",
+      "token": "IFreedomConfigService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "REDIS_MULTI_EXEC_QUOTA",
+    "NO_HARDCODED_QUOTA_VALUES",
+    "QUOTA_KEY_FILTER"
+  ],
+  "freedomComponents": [],
+  "stackCoupling": {
+    "queue": ["TenantQuotaMaterialized"],
+    "database": ["xiigen-tenant-quotas", "xiigen-freedom-config"]
+  },
+  "handlers": [
+    "load_tier_definition",
+    "build_quota_key_map",
+    "filter_quota_keys",
+    "atomic_write_quota_keys",
+    "emit_quota_materialized"
+  ],
+  "namedChecks": [
+    "redis_multi_exec_atomic",
+    "no_hardcoded_quota_values",
+    "quota_key_filter_applied",
+    "key_count_in_event"
+  ],
+  "tags": [
+    "saas",
+    "quota",
+    "redis-multi-exec",
+    "atomic",
+    "tier-definitions",
+    "data-pipeline",
+    "quota-materialization"
+  ],
+  "keywords": "tenant quota materializer Redis MULTI EXEC atomic no individual SET loop tier definitions FREEDOM config quota key filter TenantQuotaMaterialized keyCount"
+}

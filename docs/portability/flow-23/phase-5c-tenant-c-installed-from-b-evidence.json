@@ -1,0 +1,136 @@
+﻿{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phase5cTenantCInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T10:07:00.3347432Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "sourcePackage":  {
+                          "repoFullName":  "lubochka/northwind--northwind-operations-gallery",
+                          "packageName":  "@xiigen-fork/northwind-operations-gallery",
+                          "packageVersion":  "1.0.2",
+                          "sourceCommit":  "4989f0a61057d890b9fa33c4fbadaedc20323f5f"
+                      },
+    "forkApi":  {
+                    "endpoint":  "POST /api/marketplace/packages/form-builder-templates/fork",
+                    "sourceRepoFullName":  "lubochka/northwind--northwind-operations-gallery",
+                    "repoNameOverride":  "tessera-collective--northwind-operations-gallery",
+                    "response":  {
+                                     "forkId":  "fork-form-builder-templates-tessera-collective",
+                                     "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-operations-gallery",
+                                     "repoFullName":  "lubochka/tessera-collective--northwind-operations-gallery",
+                                     "status":  "FORKED",
+                                     "initialCommitSha":  "22a1b3dcf3ccf4786aa8eb71151bfb9c8eafd13b"
+                                 }
+                },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--northwind-operations-gallery",
+                             "url":  "https://github.com/lubochka/tessera-collective--northwind-operations-gallery",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialInstallCommit":  "22a1b3dcf3ccf4786aa8eb71151bfb9c8eafd13b",
+                             "githubActionsRunId":  25625845431,
+                             "githubActionsConclusion":  "success",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-operations-gallery-phase5c-20260510-130215",
+                             "cleanCloneStatus":  "clean against initial install/main",
+                             "tenantConfig":  {
+                                                  "tenantId":  "tessera-collective",
+                                                  "moduleName":  "northwind-operations-gallery",
+                                                  "repoFullName":  "lubochka/tessera-collective--northwind-operations-gallery",
+                                                  "adaptationHistoryEntries":  2
+                                              },
+                             "package":  {
+                                             "name":  "@xiigen-fork/northwind-operations-gallery",
+                                             "version":  "1.0.2"
+                                         },
+                             "bundleManifestItemCount":  130
+                         },
+    "tenantCloneVerification":  [
+                                    {
+                                        "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx tsc --noEmit --pretty false",
+                                        "result":  "passed"
+                                    },
+                                    {
+                                        "command":  "npx jest --colors=false --forceExit",
+                                        "result":  "passed",
+                                        "suites":  3,
+                                        "tests":  6
+                                    },
+                                    {
+                                        "command":  "npm pack --dry-run --json",
+                                        "result":  "passed",
+                                        "entryCount":  131,
+                                        "shasum":  "77ecd7059e2a3a26470fcd04d0c2b0f52f816122"
+                                    }
+                                ],
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "package":  "@xiigen-fork/northwind-operations-gallery",
+                          "version":  "1.0.2",
+                          "shasum":  "b5d76c6d4f4c0b37b864fd1498d7c72af0ebcf37",
+                          "gitHead":  "4989f0a61057d890b9fa33c4fbadaedc20323f5f",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/form-builder-templates-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+                          "verified":  true
+                      },
+    "playwrightEvidence":  {
+                               "spec":  "client/e2e/form-builder-templates-tenant-c-installed.spec.ts",
+                               "passed":  18,
+                               "failed":  0,
+                               "pngDirectory":  "docs/e2e-snapshots/form-builder-templates/tenant-c-installed-from-b",
+                               "pngCount":  18,
+                               "emptyPngCount":  0,
+                               "totalBytes":  662861
+                           },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/form-builder-templates-northwind-v1.0.2-registry-listing-phase5c.png",
+                                                   "sizeBytes":  48863
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-23/tessera-collective--northwind-operations-gallery-tenant-c-installed-from-b-github-listing.png",
+                                                   "sizeBytes":  134150
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-23/tessera-collective--northwind-operations-gallery-tenant-c-installed-from-b-actions-success.png",
+                                                   "sizeBytes":  77983
+                                               }
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypescript":  "passed",
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "highRiskSecretPatternHits":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "phaseGate":  {
+                      "tenantCForkedFromTenantBRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localCloneValidationPassed":  true,
+                      "localRegistryStillReturnsTenantBAdaptedVersion":  true,
+                      "playwrightCascadeScreenshotsPresent":  true,
+                      "repoEvidenceScreenshotsPresent":  true,
+                      "readyForTenantCAdaptation":  true
+                  },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,15 @@
+{
+  "promptId": "t49-compliance-v1.1.0",
+  "taskTypeId": "T49",
+  "flowId": "FLOW-01",
+  "promptType": "compliance",
+  "version": "1.1.0",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "content": "Compliance check for T49 OnboardingDelivery: (1) DNA-1 \u2014 all data as Record<string,unknown>? (2) DNA-3 \u2014 no throw for business logic? (3) DNA-4 \u2014 extends MicroserviceBase? (4) DNA-5 \u2014 tenantId on all operations? (5) DNA-8 \u2014 storeDocument() before each step advancement? (6) FABRIC-FIRST \u2014 ITenantRegistry used for workspace, not raw INSERT? (7) FABRIC-FIRST \u2014 IScopedMemoryService used for workspace idempotency?",
+  "tags": [
+    "flow-01",
+    "t49",
+    "compliance",
+    "xiigen-community"
+  ]
+}

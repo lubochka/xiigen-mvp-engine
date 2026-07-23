@@ -1,0 +1,23 @@
+{
+  "section_engine": "מנוע",
+  "section_admin": "ניהול",
+  "section_learning": "למידה ואיכות",
+  "nav_dashboard": "לוח בקרה",
+  "nav_designer": "מעצב",
+  "nav_flow_library": "ספריית זרימות",
+  "nav_run_flow": "הרצת זרימה",
+  "nav_marketplace": "שוק",
+  "nav_monitor": "ניטור",
+  "nav_registry": "רישום",
+  "nav_ledger": "ספר חשבונות",
+  "nav_events": "אירועים",
+  "nav_rsvp": "אישור השתתפות",
+  "nav_attendance": "נוכחות",
+  "nav_tenants": "שוכרים",
+  "nav_chat": "סוכן על",
+  "nav_generation_lab": "מעבדת יצירה",
+  "nav_model_leaderboard": "דירוג מודלים",
+  "nav_prompt_lab": "מעבדת הנחיות",
+  "nav_quality": "לוח איכות",
+  "brand_subtitle": "לקוח מנוע"
+}

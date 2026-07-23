@@ -1,0 +1,257 @@
+{
+    "flowId":  "FLOW-29",
+    "flowSlug":  "adaptive-rag-deep-research",
+    "implementationSlug":  "rag-optimization",
+    "phase":  "phase-5-tenant-c-install-adapt-auth",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T22:52:56.8690261Z",
+    "tenant":  "tessera-collective",
+    "sourceTenant":  "northwind",
+    "sourceRepoFullName":  "lubochka/northwind--acme-research-router",
+    "sourcePackage":  {
+                          "packageName":  "@xiigen-fork/northwind-knowledge-ops",
+                          "version":  "1.0.2"
+                      },
+    "fork":  {
+                 "forkId":  "fork-northwind-knowledge-ops-tessera-collective",
+                 "method":  "POST",
+                 "url":  "http://localhost:3000/api/marketplace/packages/northwind-knowledge-ops/fork",
+                 "repoNameOverride":  "tessera-collective--northwind-knowledge-ops",
+                 "repoFullName":  "lubochka/tessera-collective--northwind-knowledge-ops",
+                 "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-knowledge-ops",
+                 "initialCommitSha":  "0bb255a1a5c84d139e59e611fa0592b9c4fd7d58",
+                 "usedMarketplaceApi":  true,
+                 "manualRepoCreation":  false,
+                 "syntheticRepo":  false
+             },
+    "initialForkCi":  {
+                          "runId":  25641738291,
+                          "status":  "completed",
+                          "conclusion":  "failure",
+                          "headSha":  "0bb255a1a5c84d139e59e611fa0592b9c4fd7d58",
+                          "failureCause":  "Inherited Acme/Northwind tests expected previous source slug after fork rewrite to northwind-knowledge-ops.",
+                          "repair":  "Updated inherited cascade tests to validate cascade history/origin slug separately and added the Tessera adaptation test."
+                      },
+    "adaptation":  {
+                       "changeType":  "Type A (bounded FREEDOM key value change)",
+                       "moduleName":  "tessera-research-lab",
+                       "packageName":  "@xiigen-fork/tessera-research-lab",
+                       "packageVersion":  "1.0.3",
+                       "sourcePackageName":  "@xiigen-fork/northwind-knowledge-ops",
+                       "sourcePackageVersion":  "1.0.2",
+                       "plainLanguagePolicy":  "Tessera research lab policy: graph-weighted hybrid research with deeper context, stricter quality floor, and collaborative lab naming.",
+                       "adaptationHistoryEntries":  3,
+                       "adaptationHistory":  [
+                                                 {
+                                                     "adaptedBy":  "acme-corp",
+                                                     "version":  "1.0.1",
+                                                     "moduleName":  "acme-research-router",
+                                                     "packageName":  "@xiigen-fork/acme-research-router"
+                                                 },
+                                                 {
+                                                     "adaptedBy":  "northwind",
+                                                     "version":  "1.0.2",
+                                                     "moduleName":  "northwind-knowledge-ops",
+                                                     "packageName":  "@xiigen-fork/northwind-knowledge-ops"
+                                                 },
+                                                 {
+                                                     "adaptedBy":  "tessera-collective",
+                                                     "version":  "1.0.3",
+                                                     "moduleName":  "tessera-research-lab",
+                                                     "packageName":  "@xiigen-fork/tessera-research-lab"
+                                                 }
+                                             ],
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow29_default_retrieval_mode",
+                                                  "from":  null,
+                                                  "to":  "hybrid"
+                                              },
+                                              {
+                                                  "key":  "flow29_vector_top_k",
+                                                  "from":  null,
+                                                  "to":  28
+                                              },
+                                              {
+                                                  "key":  "flow29_graph_hop_limit",
+                                                  "from":  null,
+                                                  "to":  5
+                                              },
+                                              {
+                                                  "key":  "flow29_hybrid_rrf_k",
+                                                  "from":  null,
+                                                  "to":  70
+                                              },
+                                              {
+                                                  "key":  "flow29_hybrid_vector_weight",
+                                                  "from":  null,
+                                                  "to":  0.45
+                                              },
+                                              {
+                                                  "key":  "flow29_hybrid_graph_weight",
+                                                  "from":  null,
+                                                  "to":  0.55
+                                              },
+                                              {
+                                                  "key":  "flow29_reranker_top_n",
+                                                  "from":  null,
+                                                  "to":  14
+                                              },
+                                              {
+                                                  "key":  "flow29_context_budget_tokens",
+                                                  "from":  null,
+                                                  "to":  16000
+                                              },
+                                              {
+                                                  "key":  "flow29_budget_cost_limit_usd",
+                                                  "from":  null,
+                                                  "to":  2
+                                              },
+                                              {
+                                                  "key":  "flow29_self_reflection_confidence_threshold",
+                                                  "from":  null,
+                                                  "to":  0.82
+                                              },
+                                              {
+                                                  "key":  "flow29_eval_min_quality_score",
+                                                  "from":  null,
+                                                  "to":  0.9
+                                              },
+                                              {
+                                                  "key":  "flow29_ab_experiment_epsilon",
+                                                  "from":  null,
+                                                  "to":  0.04
+                                              },
+                                              {
+                                                  "key":  "flow29_feedback_window_minutes",
+                                                  "from":  null,
+                                                  "to":  90
+                                              },
+                                              {
+                                                  "key":  "flow29_module_name",
+                                                  "from":  null,
+                                                  "to":  "tessera-research-lab"
+                                              }
+                                          ]
+                   },
+    "repo":  {
+                 "repoFullName":  "lubochka/tessera-collective--northwind-knowledge-ops",
+                 "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-knowledge-ops",
+                 "clonePath":  "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-knowledge-ops-phase5-20260511-014029",
+                 "adaptedCommitSha":  "dc7d58eb2f4178b714d0d42fb70117be803cc819",
+                 "githubActionsRunId":  25641839322,
+                 "githubActionsConclusion":  "success",
+                 "repoVisibilityRestoredPrivate":  true,
+                 "changedFiles":  [
+                                      "ADAPTATION-CHANGELOG.md",
+                                      "BUNDLE-MANIFEST.json",
+                                      "__tests__/adaptive-rag-deep-research-acme-adaptation.spec.ts",
+                                      "__tests__/adaptive-rag-deep-research-northwind-adaptation.spec.ts",
+                                      "__tests__/adaptive-rag-deep-research-tessera-adaptation.spec.ts",
+                                      "freedom-config.defaults.json",
+                                      "package.json",
+                                      "settings/module.settings.json",
+                                      "tenant.config.json"
+                                  ]
+             },
+    "githubActions":  {
+                          "adaptedRunId":  25641839322,
+                          "adaptedRunUrl":  "https://github.com/lubochka/tessera-collective--northwind-knowledge-ops/actions/runs/25641839322",
+                          "status":  "completed",
+                          "conclusion":  "success"
+                      },
+    "cloneVerification":  {
+                              "installExit":  0,
+                              "tscExit":  0,
+                              "jestExit":  0,
+                              "jestSuitesPassed":  4,
+                              "jestSuitesTotal":  4,
+                              "jestTestsPassed":  6,
+                              "jestTestsTotal":  6,
+                              "packDryRunExit":  0,
+                              "packEntryCount":  138
+                          },
+    "localRegistry":  {
+                          "registry":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/tessera-research-lab",
+                          "publishedVersion":  "1.0.3",
+                          "viewCommand":  "npm view @xiigen-fork/tessera-research-lab version --registry http://localhost:4873",
+                          "viewReturned":  "1.0.3",
+                          "verified":  true
+                      },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/repo-evidence/flow-29",
+                        "files":  [
+                                      "docs/e2e-snapshots/repo-evidence/flow-29/phase-5-tenant-c-v1.0.3-github-listing.png",
+                                      "docs/e2e-snapshots/repo-evidence/flow-29/phase-5-tenant-c-v1.0.3-actions-success.png",
+                                      "docs/e2e-snapshots/repo-evidence/flow-29/phase-5-tenant-c-v1.0.3-package-json.png"
+                                  ],
+                        "pngCount":  3,
+                        "zeroByteCount":  0,
+                        "repoVisibilityRestoredPrivate":  true
+                    },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-10T22:46:45.3542624Z",
+                           "serverBaseUrl":  "http://localhost:3000",
+                           "path":  "/api/runs/phase5-tenant-c-adaptation-auth-probe/trace",
+                           "passed":  12,
+                           "total":  12,
+                           "failed":  0,
+                           "allPassed":  true,
+                           "checks":  [
+                                          "valid own-tenant platform-admin token returns 200 for all three tenants",
+                                          "missing token returns 401 for all three tenants",
+                                          "platform-support wrong-role token returns 403 for all three tenants",
+                                          "acme token in northwind context returns 401",
+                                          "northwind token in tessera context returns 401",
+                                          "acme token in tessera context returns 401"
+                                      ]
+                       },
+    "phaseCloseVerification":  {
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=adaptive-rag-deep-research --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  31,
+                                                      "tests":  357
+                                                  },
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "flowScans":  {
+                                                     "sourceFlowFileCount":  27,
+                                                     "adaptedFlowFileCount":  27,
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0,
+                                                     "failureLines":  0,
+                                                     "note":  "FLOW-29 runtime classes do not use the Service suffix; prompt-pattern class count is therefore zero."
+                                                 }
+                               },
+    "secretHandling":  {
+                           "committedSecrets":  false,
+                           "printedSecrets":  false,
+                           "tenantVaultCredentialsUsed":  true,
+                           "tenantSigningKeysPresent":  true,
+                           "evidenceContainsSecretValues":  false
+                       },
+    "phaseGate":  {
+                      "tenantCForkedFromTenantBPackage":  true,
+                      "tenantCAdapted":  true,
+                      "tenantCAuthChecked":  true,
+                      "greenGitHubActions":  true,
+                      "localRegistryReadback":  true,
+                      "screenshotsCaptured":  true,
+                      "scansHaveZeroFailureLines":  true,
+                      "readyForAuthDecoration":  true
+                  }
+}

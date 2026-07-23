@@ -1,0 +1,247 @@
+{
+  "flowId": "FLOW-16",
+  "flowSlug": "marketplace-payments",
+  "phase": "phase5c5TenantCAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-06T16:57:58.380Z",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "tenantName": "Tessera Collective"
+  },
+  "sourceTenant": {
+    "tenantId": "northwind",
+    "package": "@xiigen-fork/northwind-controlled-marketplace-payments",
+    "version": "1.0.2",
+    "repo": "lubochka/northwind--northwind-controlled-marketplace-payments"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change",
+    "packageName": "@xiigen-fork/tessera-community-marketplace-payments",
+    "packageVersion": "1.0.3",
+    "moduleName": "tessera-community-marketplace-payments",
+    "displayName": "Tessera Community Marketplace Payments",
+    "sourceModuleName": "northwind-controlled-marketplace-payments",
+    "sourcePackageVersion": "1.0.2",
+    "visiblePlainLanguage": "Tessera community payment policy: fifteen-minute checkout locks, 1.5 percent platform fee, and 45-day escrow auto-release while preserving payment guardrails.",
+    "adaptationHistoryEntries": 3,
+    "acmeHistoryPreserved": true,
+    "northwindHistoryPreserved": true,
+    "tesseraHistoryAdded": true,
+    "freedomChanges": [
+      {
+        "key": "checkout_lock_ttl_ms",
+        "from": 420000,
+        "to": 900000
+      },
+      {
+        "key": "platformFeeBps",
+        "from": 225,
+        "to": 150
+      },
+      {
+        "key": "escrow_auto_release_days",
+        "from": 21,
+        "to": 45
+      }
+    ],
+    "inheritedValuesPreserved": [
+      {
+        "key": "paymentSensitive",
+        "value": true,
+        "source": "northwind"
+      },
+      {
+        "key": "requiredCoInstalls",
+        "value": [],
+        "source": "northwind"
+      }
+    ],
+    "invariantsPreserved": [
+      "Acme and Northwind remain present as the first two adaptation history entries.",
+      "BOLA checkout identity verification remains before cart lock or inventory reads.",
+      "Payment capture, escrow, and payout paths remain idempotency-gated before side effects.",
+      "Raw payment card and payout bank details remain absent from persisted records.",
+      "Escrow compensation order remains machine-fixed as REFUND_PAYMENT then RESTORE_INVENTORY."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/marketplace-payments-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/tessera-collective--tessera-community-marketplace-payments",
+    "url": "https://github.com/lubochka/tessera-collective--tessera-community-marketplace-payments",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "previousRepoName": "lubochka/tessera-collective--northwind-controlled-marketplace-payments",
+    "adaptedCommit": "f4ec4db5467afaf0e226520095476fbe27e9540d",
+    "adaptedCommitMessage": "Adapt marketplace payments for Tessera",
+    "cleanClonePath": "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-controlled-marketplace-payments-phase5c-20260506-192322",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/marketplace-payments-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 1,
+        "tests": 3
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 114,
+        "shasum": "3142b9616be4f5a4997f7ba94f57a29030347364"
+      }
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - marketplace-payments",
+    "runId": 25448682727,
+    "jobId": 74659720345,
+    "url": "https://github.com/lubochka/tessera-collective--tessera-community-marketplace-payments/actions/runs/25448682727",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "f4ec4db5467afaf0e226520095476fbe27e9540d",
+    "createdAt": "2026-05-06T16:45:53Z",
+    "updatedAt": "2026-05-06T16:46:51Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/tessera-community-marketplace-payments",
+    "publishedVersion": "1.0.3",
+    "viewCommand": "npm view @xiigen-fork/tessera-community-marketplace-payments@1.0.3 version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+    "npmViewVersion": "1.0.3",
+    "distTags": {
+      "latest": "1.0.3"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/tessera-community-marketplace-payments/-/tessera-community-marketplace-payments-1.0.3.tgz",
+    "shasum": "3142b9616be4f5a4997f7ba94f57a29030347364",
+    "gitHead": "f4ec4db5467afaf0e226520095476fbe27e9540d",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/marketplace-payments-tessera-v1.0.3-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/marketplace-payments-tessera-v1.0.3-registry-listing.png",
+    "screenshotSource": "GET http://localhost:4873/@xiigen-fork%2Ftessera-community-marketplace-payments",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/marketplace-payments/tenant-c-v1.0.3",
+      "count": 18,
+      "zeroByteFiles": 0,
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "states": [
+        "installed package",
+        "buyer checkout",
+        "b2b checkout",
+        "platform reconciliation",
+        "support dispute view",
+        "payee escrow redirect"
+      ]
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-16/tessera-collective--tessera-community-marketplace-payments-tenant-c-v1.0.3-github-listing.png",
+      "bytes": 93966,
+      "width": 1280,
+      "height": 720
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-16/tessera-collective--tessera-community-marketplace-payments-tenant-c-v1.0.3-actions-success.png",
+      "bytes": 63737,
+      "width": 1280,
+      "height": 720
+    },
+    "registryScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/marketplace-payments-tessera-v1.0.3-registry-listing.png",
+      "bytes": 41979,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/marketplace-payments-tenant-c-adapted.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-16 Tenant C v1.0.3 cascade-point visual evidence under docs/e2e-snapshots/marketplace-payments/tenant-c-v1.0.3."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantCAdaptedPlaywright": {
+      "command": "client: VITE_PORT=5174 npx playwright test e2e/marketplace-payments-tenant-c-adapted.spec.ts --reporter=list",
+      "result": "passed",
+      "tests": 18
+    },
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "server: npx jest --testPathPatterns=marketplace-payments --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 108
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantCAdaptedTenantBPackage": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsTenantCVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "cascadeScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForAuthDecorationCheck": true
+  },
+  "verdict": "PASS"
+}

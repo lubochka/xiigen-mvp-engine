@@ -1,0 +1,40 @@
+﻿{
+    "flowId":  "FLOW-05",
+    "flowSlug":  "completion-gamification",
+    "generatedAt":  "2026-05-03T09:39:45.6509366+03:00",
+    "serviceFileCount":  16,
+    "classesMissingMicroserviceBase":  [
+
+                                       ],
+    "connectionTypeFlowScopedAnnotations":  16,
+    "throwNewProdFiles":  [
+
+                          ],
+    "clsImportFiles":  [
+
+                       ],
+    "directSdkImportFiles":  [
+
+                             ],
+    "controllerFiles":  [
+
+                        ],
+    "accessorCollisionHits":  [
+
+                              ],
+    "localFabricInterfaceHits":  [
+
+                                 ],
+    "badFreedomKeyHits":  {
+
+                          },
+    "packageJsonExists":  true,
+    "pluginSdkVersioned":  true,
+    "requiredCoInstallsDeclared":  true,
+    "requiredCoInstallsCount":  0,
+    "behavioralAssertionPresent":  true,
+    "tenantIsolationAssertionPresent":  true,
+    "jestSuitesPassed":  25,
+    "jestTestsPassed":  333,
+    "tscNoEmitPassed":  true
+}

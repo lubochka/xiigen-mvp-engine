@@ -1,0 +1,19 @@
+{
+  "batch_id": "D",
+  "summary_table": [
+    {"slug":"human-interaction-gate","overall_verdict":"PASS","scores_by_role":{"platform-admin":9,"tenant-admin":8,"tenant-user":9,"platform-support":2},"issue":"Four-role matrix mostly strong (admin console + tenant gate config + tenant-user My Approvals); platform-support is GENERIC DENY message — no read-only approval inspector"},
+    {"slug":"i18n-translation","overall_verdict":"CONCERN","scores_by_role":{"tenant-user":2,"tenant-admin":8,"platform-admin":9,"translator":2},"issue":"Strong tenant-admin settings + platform-admin governance; tenant-user AND translator get generic deny cards — translator should have workbench (translation memory, pending strings, segment editor) but gets deny"},
+    {"slug":"marketplace","overall_verdict":"CONCERN","scores_by_role":{"anonymous":5,"public-marketplace-visitor":5,"tenant-user":5,"tenant-admin":5,"business-partner":5},"issue":"Baseline acceptable per needs_purpose_built_ui=NO; all 5 roles see identical table; populated variants show ERROR STATE 'We couldn\\'t load marketplace' — populated capture failed to render; mobile sidebar layout issue"},
+    {"slug":"marketplace-payments","overall_verdict":"PASS","scores_by_role":{"anonymous":8,"public-marketplace-visitor":8,"tenant-user":8,"tenant-admin":8,"referral-user":8,"freelancer":7,"business-partner":8,"event-organiser":7,"platform-admin":8,"platform-support":8},"issue":"EXEMPLARY 10-role differentiation: guest checkout, member checkout, admin payment ops, PO-based B2B checkout, referral-banner checkout, freelancer-redirect, organiser-redirect, platform overview, support inspector"},
+    {"slug":"marketplace-plugin-adapter","overall_verdict":"CONCERN","scores_by_role":{"anonymous":8,"public-marketplace-visitor":8,"tenant-user":2,"tenant-admin":9,"freelancer":7,"business-partner":8,"platform-admin":9,"platform-support":2,"event-organiser":2},"issue":"Strong catalog + tenant-admin installed-plugins + platform-admin lifecycle canvas + vendor dashboard + niche publisher. BUT tenant-user/platform-support/event-organiser get generic deny messages — no purpose-built views"},
+    {"slug":"meta-arbitration-engine","overall_verdict":"PASS","scores_by_role":{"platform-admin":10,"platform-support":8},"issue":"BEST-IN-BATCH: 5-policy × 6-rounds verdict grid + detail pane with rationale + Approve/Override/Escalate/Defer; platform-support gets same grid with disabled controls + escalate"},
+    {"slug":"meta-flow-engine","overall_verdict":"PASS","scores_by_role":{"platform-admin":9,"platform-support":8},"issue":"Rich 8-phase lifecycle + Registered meta-flows with orchestrated chains + Recent executions with per-step checks; support gets preserved-layout read-only (good for escalation clarity)"}
+  ],
+  "batch_systemic_patterns": [
+    "Two populated captures (event-attendance tenant-user, friend-request-social-feed tenant-user) render 404 — route/capture bug",
+    "Generic deny-message pattern for roles that need a real view: i18n translator, plugin-adapter tenant-user/platform-support/event-organiser, human-interaction-gate platform-support",
+    "Marketplace populated variants capture error state ('couldn\\'t load') — populated snapshots failed",
+    "Mobile sidebar layout issue on marketplace flow",
+    "Best-in-batch: meta-arbitration-engine (10/10 platform-admin) and marketplace-payments (10-role exemplary differentiation)"
+  ]
+}

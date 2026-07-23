@@ -1,0 +1,106 @@
+{
+  "name": "@xiigen/saas-multi-tenancy",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-15 saas-multi-tenancy - tenant provisioning, configuration, quota materialization, and lifecycle governance (T605-T608). Portability artifact declaring lifecycle peer co-installs.",
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "services": [
+      "TenantProvisioningOrchestratorService",
+      "TenantConfigurationManagerService",
+      "TenantQuotaMaterializerService",
+      "TenantLifecycleManagerService"
+    ],
+    "taskTypeIds": [
+      "T605",
+      "T606",
+      "T607",
+      "T608"
+    ],
+    "freedomKeys": [
+      "flow15_master_tenant_id_default",
+      "flow15_tenant_default_quota_api_calls",
+      "flow15_tenant_default_quota_storage_gb",
+      "flow15_tenant_default_quota_seats",
+      "flow15_tenant_config_max_custom_keys",
+      "flow15_tenant_data_retention_days",
+      "flow15_tenant_reactivation_payment_check",
+      "flow15_quota_materialization_retry_limit"
+    ],
+    "emitsEventsConsumedBy": [
+      "FLOW-12 (TenantSuspended cascade to subscription billing)",
+      "FLOW-13 (DataPurgeRequested delegation on tenant termination)"
+    ],
+    "readsFromOtherFlows": [],
+    "runtimePeerFlows": [
+      "FLOW-12",
+      "FLOW-13"
+    ],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_CANDIDATE_IN_GENERATION"
+  },
+  "xiigen": {
+    "requiredCoInstalls": [
+      "FLOW-12",
+      "FLOW-13",
+      "FLOW-11",
+      "FLOW-09",
+      "FLOW-04",
+      "FLOW-03",
+      "FLOW-10"
+    ],
+    "requiredCoInstallPackages": [
+      "@xiigen/subscription-billing",
+      "@xiigen/data-warehouse-analytics",
+      "@xiigen/schema-registry-dag",
+      "@xiigen/transactional-event-participation",
+      "@xiigen/event-attendance",
+      "@xiigen/event-management",
+      "@xiigen/reviews-reputation"
+    ],
+    "pluginSdk": "@xiigen/plugin-sdk@^1.0.0"
+  },
+  "requiredCoInstalls": [
+    "@xiigen/subscription-billing",
+    "@xiigen/data-warehouse-analytics",
+    "@xiigen/schema-registry-dag",
+    "@xiigen/transactional-event-participation",
+    "@xiigen/event-attendance",
+    "@xiigen/event-management",
+    "@xiigen/reviews-reputation"
+  ],
+  "coInstallNotes": "FLOW-15 directly requires FLOW-12 for TenantSuspended subscription cascade handling and FLOW-13 for DataPurgeRequested termination delegation. The metadata also declares the known upstream package hops required by FLOW-12 and FLOW-13 so tenant forks install peers through marketplace metadata instead of bundling or double-installing source.",
+  "peerDependencies": {
+    "xiigen-server": "^1.0.0",
+    "@xiigen/subscription-billing": "^1.0.0",
+    "@xiigen/data-warehouse-analytics": "^1.0.0",
+    "@xiigen/schema-registry-dag": "^1.0.0",
+    "@xiigen/transactional-event-participation": "^1.0.0",
+    "@xiigen/event-attendance": "^1.0.0",
+    "@xiigen/event-management": "^1.0.0",
+    "@xiigen/reviews-reputation": "^1.0.0"
+  },
+  "dna": {
+    "compliance": [
+      "DNA-1",
+      "DNA-2",
+      "DNA-3",
+      "DNA-4",
+      "DNA-5",
+      "DNA-6",
+      "DNA-7",
+      "DNA-8",
+      "DNA-9"
+    ],
+    "portabilityInvariants": [
+      "P-1",
+      "P-2",
+      "P-3",
+      "P-4",
+      "P-5"
+    ]
+  },
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED-v3.0"
+}

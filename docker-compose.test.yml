@@ -1,0 +1,299 @@
+# ═══════════════════════════════════════════════════════
+# XIIGen Engine — Docker Compose TEST VARIANT
+# ═══════════════════════════════════════════════════════
+#
+# EXTENDS docker-compose.yml — do not duplicate service definitions.
+# This file overrides ports to test-only values to avoid conflicting
+# with a running production/dev stack.
+#
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.test.yml \
+#     --profile infra up -d
+#   cd server && npm test
+#   docker compose -f docker-compose.yml -f docker-compose.test.yml down
+#
+# Port mapping (test isolation):
+#   elasticsearch: 19200:9200   (prod: 9200)
+#   postgresql:    15432:5432   (new — pgvector/pgvector:pg16)
+#   redis:         16379:6379   (prod: 6379)
+#   localstack:    14566:4566   (new — not in base)
+#   qdrant:        6333:6333    (new — profile: e2e, RAG fabric tests)
+#   ollama:        11434:11434  (new — profile: local-llm, OllamaProvider tests)
+#   lightrag:      19100:19100  (new — profile: local-llm, LightRagProvider tests)
+#
+# Environment:
+#   Server test env reads from .env.test when present.
+#   Falls back to .env if not found.
+
+version: "3.9"
+
+services:
+  # ── Elasticsearch — test port override ───────────────
+  elasticsearch:
+    ports:
+      - "19200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms256m -Xmx256m
+    # Suppress persistent volume in test — ephemeral data only
+    volumes: []
+
+  # ── Redis — test port override ────────────────────────
+  redis:
+    ports:
+      - "16379:6379"
+
+  # ── Qdrant — vector DB for RAG fabric e2e tests ──────
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: xiigen-qdrant-test
+    profiles:
+      - e2e
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_test_data:/qdrant/storage
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:6333/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ── PostgreSQL + pgvector — upgraded from postgres:16-alpine ─
+  postgresql:
+    image: pgvector/pgvector:pg16
+    container_name: xiigen-postgresql-test
+    profiles:
+      - infra
+    ports:
+      - "15432:5432"
+    environment:
+      - POSTGRES_DB=xiigen_test
+      - POSTGRES_USER=xiigen
+      - POSTGRES_PASSWORD=xiigen_test
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xiigen -d xiigen_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ── LocalStack (SQS) — not in base, added for test ────
+  localstack:
+    image: localstack/localstack:3.0
+    container_name: xiigen-localstack-test
+    profiles:
+      - infra
+    ports:
+      - "14566:4566"
+    environment:
+      - SERVICES=sqs
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4566/_localstack/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # ── Server — test environment override ───────────────
+  server:
+    env_file:
+      - .env.test
+    environment:
+      - NODE_ENV=test
+      - PORT=3000
+      - DATABASE_PROVIDER=elasticsearch
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - QUEUE_PROVIDER=sqs
+      - SQS_ENDPOINT=http://localstack:4566
+      - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ── Ollama — local LLM server for OllamaProvider tests ──
+  ollama:
+    image: ollama/ollama
+    container_name: xiigen-ollama-test
+    profiles:
+      - local-llm
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:11434/api/tags || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ── LightRAG — graph+vector RAG server for LightRagProvider tests ──
+  lightrag:
+    build: ./lightrag
+    container_name: xiigen-lightrag-test
+    profiles:
+      - local-llm
+    ports:
+      - "19100:19100"
+    environment:
+      - LLM_PROVIDER=ollama
+      - LLM_MODEL=qwen2.5-coder:7b
+      - EMBEDDING_PROVIDER=ollama
+      - EMBEDDING_MODEL=nomic-embed-text
+      - OLLAMA_HOST=http://ollama:11434
+    depends_on:
+      ollama:
+        condition: service_healthy
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:19100/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ── server-e2e — NestJS server for Playwright UI tests ──
+  server-e2e:
+    build:
+      context: .
+      dockerfile: server/Dockerfile.test
+    container_name: xiigen-server-e2e
+    profiles:
+      - ui-e2e
+    ports:
+      - "13000:3000"
+    environment:
+      - NODE_ENV=test
+      - DATABASE_PROVIDER=in-memory
+      - QUEUE_PROVIDER=in-memory
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3000/health/live || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 30s
+
+  # ── client-e2e — React client for Playwright UI tests ──
+  client-e2e:
+    build:
+      context: .
+      dockerfile: client/Dockerfile.test
+    container_name: xiigen-client-e2e
+    profiles:
+      - ui-e2e
+    ports:
+      - "15173:80"
+    depends_on:
+      server-e2e:
+        condition: service_healthy
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:80 || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  # ── playwright — browser test runner ──
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.50.0-noble
+    container_name: xiigen-playwright
+    profiles:
+      - ui-e2e
+    working_dir: /app/e2e
+    volumes:
+      - ./e2e:/app/e2e
+      - ./playwright-results:/app/e2e/test-results
+    environment:
+      - E2E_BASE_URL=http://client-e2e:80
+      - E2E_SERVER_URL=http://server-e2e:3000
+      - DOCKER_E2E=true
+      - CI=${CI:-false}
+    depends_on:
+      client-e2e:
+        condition: service_healthy
+    networks:
+      - xiigen-net
+    command: npx playwright test
+
+  # ── Memgraph — in-memory graph DB for MemgraphProvider E2E tests ──
+  # Note: requires vm.max_map_count ≥ 262144 on Docker host.
+  #   Linux: sudo sysctl -w vm.max_map_count=262144
+  #   Docker Desktop (WSL2): sets automatically in recent versions.
+  memgraph:
+    image: memgraph/memgraph:latest
+    container_name: xiigen-memgraph-test
+    profiles:
+      - open-source
+    ports:
+      - "17474:7474"
+      - "17687:7687"
+    environment:
+      - MEMGRAPH_USER=xiigen
+      - MEMGRAPH_PASSWORD=xiigen_test
+    command: ["--bolt-port=7687", "--log-level=WARNING"]
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:7474 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ── nano-graphrag — lightweight GraphRAG server for NanoGraphRagProvider tests ──
+  nano-graphrag:
+    build: ./nano-graphrag-server
+    container_name: xiigen-nano-graphrag-test
+    profiles:
+      - open-source
+    ports:
+      - "19300:8080"
+    volumes:
+      - nano_graphrag_data:/data/graphrag_workspaces
+    environment:
+      - WORKING_DIR=/data/graphrag_workspaces
+      - LLM_PROVIDER=mock
+    networks:
+      - xiigen-net
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8080/health')\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  qdrant_test_data:
+    driver: local
+  ollama_data:
+    driver: local
+  nano_graphrag_data:
+    driver: local

@@ -1,0 +1,12 @@
+{
+  "eventType": "warehouse.retention.cohort",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "cohortId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "periodDays": { "type": "integer", "minimum": 1, "required": true },
+    "retentionRate": { "type": "number", "minimum": 0, "maximum": 1, "required": true },
+    "generatedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

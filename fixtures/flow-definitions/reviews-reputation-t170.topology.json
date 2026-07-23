@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-10",
+  "taskTypeId": "T170",
+  "name": "reviews-reputation-review-moderation-engine",
+  "description": "T170 ReviewModerationEngine — ROUTING archetype. Three-path moderation: PASS→ReviewPublished, REJECT→ReviewRejected, UNCERTAIN→ReviewFlaggedForHuman(PENDING). FREEDOM config thresholds. Inverts FLOW-08 binary moderation.",
+  "archetype": "ROUTING",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: three-path-moderation, uncertain-maps-to-pending, freedom-config-thresholds, no-hardcoded-thresholds"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ROUTING arch pattern for T170: three-path-moderation-001",
+      "params": {
+        "archetype": "ROUTING",
+        "taskTypeRef": "T170",
+        "topK": 5,
+        "patternIds": [
+          "three-path-moderation-001",
+          "arch--routing-conditional-path"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T170 into: SETNX dedup → read FREEDOM thresholds → AI confidence → three-way branch → storeDocument+emit"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate review-moderation-engine.service.ts — three-path switch using FREEDOM config thresholds. UNCERTAIN→PENDING, never REJECTED. DPO conflict with FLOW-08 binary moderation."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: three_path_moderation, uncertain_maps_to_pending_not_rejected, freedom_config_thresholds, no_hardcoded_thresholds"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T170 iron rules: three paths enforced, UNCERTAIN→PENDING, FREEDOM config keys present"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=three-path-moderation (UNCERTAIN→PENDING), rejected=binary-moderation (UNCERTAIN→REJECT, FLOW-08 pattern). curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "ReviewAccepted event",
+  "primaryFabric": "AI_ENGINE"
+}

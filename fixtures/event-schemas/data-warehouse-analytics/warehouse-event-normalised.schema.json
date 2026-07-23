@@ -1,0 +1,12 @@
+{
+  "eventType": "warehouse.event.normalised",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "batchId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "sourceFlowId": { "type": "string", "required": true },
+    "normalizedAt": { "type": "string", "format": "date-time", "required": true },
+    "eventCount": { "type": "integer", "minimum": 0, "required": true }
+  }
+}

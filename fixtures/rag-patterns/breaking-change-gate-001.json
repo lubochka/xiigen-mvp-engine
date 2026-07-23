@@ -1,0 +1,22 @@
+{
+  "patternId": "BREAKING-CHANGE-GATE-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-11",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ROUTING",
+  "tags": ["schema-evolution", "breaking-change", "approval-gate", "additive", "classification"],
+  "keywords": "breaking additive schema change classification approval gate version evolution ADDITIVE BREAKING",
+  "ironRules": [
+    "changeType classification (ADDITIVE|BREAKING) runs before any registry write — not after",
+    "BREAKING changeType routes to approval workflow — never directly to publish",
+    "ADDITIVE changeType auto-proceeds to DAG cycle check then publish"
+  ],
+  "codeSnippet": "const changeType = classifyChange(previousSchema, newSchema);\nif (changeType === 'BREAKING') {\n  await queue.enqueue('SchemaApprovalRequired', { schemaType, changedFields });\n  return DataProcessResult.success({ status: 'AWAITING_APPROVAL' });\n}\n// ADDITIVE: proceed to cycle check, then publish",
+  "appliesTo": ["FLOW-12", "FLOW-14", "FLOW-15"],
+  "curriculumTier": 1,
+  "qualityScore": 0.92,
+  "sourceDocument": "FLOW-11-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

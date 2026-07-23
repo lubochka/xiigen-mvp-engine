@@ -1,0 +1,74 @@
+{
+  "version": "v4",
+  "description": "XIIGen Infrastructure Flows State — tracks execution order, flow status, and addenda",
+  "lastUpdated": "2026-03-20",
+  "executionOrder": [
+    "FLOW-25",
+    "FLOW-27",
+    "FLOW-29",
+    "FLOW-30",
+    "FLOW-26",
+    "FLOW-31",
+    "FEATURE-REGISTRY-S1",
+    "FLOW-33",
+    "FLOW-35",
+    "FLOW-36",
+    "FLOW-34",
+    "FLOW-01 through FLOW-24 (any order)"
+  ],
+  "flows": {
+    "FLOW-25": { "status": "COMPLETE" },
+    "FLOW-27": { "status": "COMPLETE" },
+    "FLOW-29": { "status": "COMPLETE" },
+    "FLOW-30": { "status": "COMPLETE" },
+    "FLOW-26": { "status": "COMPLETE" },
+    "FLOW-31": { "status": "COMPLETE", "tests_added": 227, "task_types": "T489-T515", "families": "191-199", "factories": "F1271-F1338" },
+    "FLOW-33": { "status": "PENDING", "task_types": "T516-T522", "factories": "F1339-F1347", "families": "200-201" },
+    "FLOW-35": { "status": "NOT_STARTED" },
+    "FLOW-36": { "status": "NOT_STARTED", "note": "Feature Registry — 6 phases, ~220 tests" },
+    "FLOW-34": { "status": "NOT_STARTED", "note": "Now feature-aware via FEATURE-REGISTRY-S1" }
+  },
+  "artifactBoundaries": {
+    "nextTaskType": "T516",
+    "nextFactory": "F1339",
+    "nextFamily": 200,
+    "nextBfaRule": "CF-739",
+    "nextSkill": "SK-346",
+    "nextDesignRecord": "DR-240"
+  },
+  "addenda": {
+    "FEATURE-REGISTRY-S1": {
+      "status": "COMPLETE",
+      "runs_after": "FLOW-31",
+      "runs_before": "FLOW-33",
+      "description": "Groundwork for Feature-as-First-Class-Entity. No code changes. No task types. No factories.",
+      "ft_namespace": {
+        "reserved_from": "FT-001",
+        "provisional_range": "FT-001 through FT-099 (Figma plugin migration)",
+        "last_assigned": "FT-010",
+        "confirmed_by": "FLOW-36 Phase A"
+      },
+      "schema_location": "contracts/features/feature-manifest.schema.json",
+      "schema_version": "1.0",
+      "phases": {
+        "S1-A": {
+          "status": "COMPLETE",
+          "deliverables": [
+            "DECISIONS-LOCKED.md (D-FT-1)",
+            "contracts/features/feature-manifest.schema.json",
+            "INFRASTRUCTURE-FLOWS-STATE-v4.json (this file)",
+            "STATE-S1-A.json"
+          ]
+        },
+        "S1-B": {
+          "status": "COMPLETE",
+          "deliverables": [
+            "contracts/features/feature-manifest-figma-plugin-v1.json (FT-001 through FT-010)",
+            "STATE-S1-B.json",
+            "FLOW-34 annotation deferred — FLOW-34-REFERENCE-PLAN.md does not exist yet; annotation text stored in STATE-S1-B.json"
+          ]
+        }
+      }
+    }
+  }
+}

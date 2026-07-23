@@ -1,0 +1,94 @@
+{
+  "taskTypeId": "T611",
+  "flowId": "FLOW-16",
+  "name": "MarketplaceEscrowController",
+  "archetype": "ORCHESTRATION",
+  "domainId": "marketplace-payments",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T611-1",
+      "rule": "LIFO compensation order MUST be [REFUND_PAYMENT, RESTORE_INVENTORY]. FIFO order leaves buyer money captured while inventory is released, enabling oversell. REFUND must complete before RESTORE.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T611-2",
+      "rule": "Dispute path MUST use updateDocument(status:DISPUTED, accessBlocked:true) ONLY — NEVER deleteDocument on any escrow record. Deletion destroys forensic evidence for chargeback defence.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T611-3",
+      "rule": "escrow_auto_release_days MUST come from FREEDOM config — not hardcoded. Hardcoded release window prevents operator adjustment.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T611-4",
+      "rule": "Dispute handler MUST NOT trigger compensation saga — compensation is reserved for PaymentReversalRequested only. Triggering LIFO on dispute causes premature refund before dispute resolution.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T611-5",
+      "rule": "DNA-8: storeDocument(escrow release record) MUST occur BEFORE enqueue(EscrowReleased). T612 depends on escrow record existence.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1536",
+      "token": "ISagaCompensationService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1531",
+      "token": "IFreedomConfigService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "LIFO_COMPENSATION_ORDER",
+    "COMPENSATION_STEPS_CONSTANT",
+    "DISPUTE_UPDATE_ONLY_NO_DELETE",
+    "STORE_BEFORE_ESCROW_RELEASED"
+  ],
+  "freedomComponents": [
+    "escrow_auto_release_days",
+    "dispute_evidence_window_days",
+    "compensation_retry_limit"
+  ],
+  "stackCoupling": {
+    "queue": [
+      "EscrowReleased",
+      "EscrowDisputed",
+      "PaymentReversalRequested",
+      "EscrowReleaseRequested",
+      "DisputeInitiated"
+    ],
+    "database": [
+      "xiigen-escrow-records",
+      "xiigen-dispute-records",
+      "xiigen-freedom-config"
+    ]
+  },
+  "handlers": [
+    "handleEscrowReleaseRequested",
+    "handleDisputeInitiated",
+    "handlePaymentReversalRequested"
+  ],
+  "namedChecks": [
+    "lifo_compensation_refund_before_restore",
+    "dispute_updateDocument_never_delete",
+    "escrow_auto_release_days_from_freedom",
+    "no_compensation_on_dispute",
+    "store_before_escrow_released"
+  ],
+  "tags": [
+    "marketplace",
+    "escrow",
+    "lifo",
+    "saga",
+    "compensation",
+    "dispute",
+    "orchestration"
+  ],
+  "keywords": "MarketplaceEscrowController T611 LIFO REFUND_PAYMENT RESTORE_INVENTORY dispute updateDocument deleteDocument prohibited escrow_auto_release_days FREEDOM EscrowReleased EscrowDisputed PaymentReversalRequested FLOW-16"
+}

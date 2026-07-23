@@ -1,0 +1,22 @@
+{
+  "switcher_label": "שפה",
+  "switcher_loading": "טוען תרגומים...",
+  "settings_title": "הגדרות שפה",
+  "settings_description": "בחר את השפה המועדפת עליך. הבחירה נשמרת בין סשנים ומחליפה את ברירת המחדל של השוכר.",
+  "settings_current_locale": "שפה נוכחית",
+  "settings_select_locale": "בחר שפה",
+  "settings_save_btn": "שמור העדפה",
+  "settings_reset_btn": "איפוס לברירת מחדל",
+  "settings_saved": "העדפת השפה שלך נשמרה.",
+  "settings_override_note": "יש לך בחירה מפורשת — שינויים בברירת המחדל לא ישפיעו.",
+  "admin_title": "הגדרות תרגום לשוכר",
+  "admin_default_locale": "שפת ברירת מחדל",
+  "admin_enabled_locales": "שפות מופעלות",
+  "admin_add_locale": "הוסף שפה",
+  "admin_add_placeholder": "תג BCP-47, לדוגמה fr, he, es",
+  "admin_save_btn": "שמור תצורה",
+  "admin_saved": "תצורת התרגום של השוכר נשמרה.",
+  "locale_en": "אנגלית",
+  "locale_he": "עברית",
+  "locale_fr": "צרפתית"
+}

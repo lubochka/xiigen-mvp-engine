@@ -1,0 +1,130 @@
+{
+    "flowId":  "FLOW-29",
+    "flowSlug":  "adaptive-rag-deep-research",
+    "implementationSlug":  "rag-optimization",
+    "phase":  "phase-4.0-tenant-a-original-fork",
+    "status":  "completed",
+    "capturedAt":  "2026-05-10T21:56:27.8012921Z",
+    "tenant":  "acme-corp",
+    "repo":  {
+                 "forkId":  "fork-adaptive-rag-deep-research-acme-corp",
+                 "repoFullName":  "lubochka/acme-corp--adaptive-rag-deep-research",
+                 "repoUrl":  "https://github.com/lubochka/acme-corp--adaptive-rag-deep-research",
+                 "defaultBranch":  "main",
+                 "initialCommitSha":  "ba6357448891edeac1a6436cb539383f10ee0499",
+                 "visibilityAfterScreenshots":  "PRIVATE"
+             },
+    "forkApi":  {
+                    "method":  "POST",
+                    "url":  "http://localhost:3000/api/marketplace/packages/adaptive-rag-deep-research/fork",
+                    "tenantHeader":  "acme-corp",
+                    "role":  "tenant-admin",
+                    "responseStatus":  "FORKED",
+                    "usedRealMarketplaceApi":  true,
+                    "syntheticRepo":  false,
+                    "manualRepoCreation":  false
+                },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — adaptive-rag-deep-research",
+                          "runId":  25640651644,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "ba6357448891edeac1a6436cb539383f10ee0499",
+                          "createdAt":  "2026-05-10T21:47:33Z",
+                          "updatedAt":  "2026-05-10T21:48:16Z",
+                          "url":  "https://github.com/lubochka/acme-corp--adaptive-rag-deep-research/actions/runs/25640651644"
+                      },
+    "localValidation":  {
+                            "cloneDir":  "C:/Projects/xiigen-fork-clones/acme-corp--adaptive-rag-deep-research-phase40-20260511-004905",
+                            "cloneHeadSha":  "ba6357448891edeac1a6436cb539383f10ee0499",
+                            "commands":  [
+                                             "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                             "npx tsc --noEmit --pretty false",
+                                             "npx jest --colors=false --forceExit",
+                                             "npm pack --dry-run --json"
+                                         ],
+                            "results":  {
+                                            "installExit":  0,
+                                            "tscExit":  0,
+                                            "jestExit":  0,
+                                            "jestSuitesPassed":  1,
+                                            "jestSuitesTotal":  1,
+                                            "jestTestsPassed":  1,
+                                            "jestTestsTotal":  1,
+                                            "packDryRunExit":  0,
+                                            "packEntryCount":  134,
+                                            "workingTreeCleanAfterPackFileCleanup":  true
+                                        }
+                        },
+    "bundleManifest":  {
+                           "path":  "BUNDLE-MANIFEST.json",
+                           "requiredBundleChecks":  {
+                                                        "completeModuleBundle":  true,
+                                                        "adaptationSurface":  true,
+                                                        "freedomDefaults":  true,
+                                                        "tenantConfig":  true,
+                                                        "ragSeeds":  true,
+                                                        "standalonePackage":  true
+                                                    },
+                           "manifestEntries":  133,
+                           "canonicalManifestServicePaths":  27,
+                           "implementationCopiedFrom":  "server/src/engine/flows/rag-optimization",
+                           "canonicalPathRequired":  "server/src/engine/flows/adaptive-rag-deep-research/*.ts",
+                           "adaptationSurface":  "docs/portability/flow-29/adaptation-surface-adaptive-rag-deep-research.json"
+                       },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/repo-evidence/flow-29",
+                        "files":  [
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-29/phase-4.0-tenant-a-actions-run.png",
+                                          "bytes":  77952
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-29/phase-4.0-tenant-a-bundle-manifest.png",
+                                          "bytes":  430127
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-29/phase-4.0-tenant-a-repo.png",
+                                          "bytes":  130697
+                                      }
+                                  ],
+                        "pngCount":  3,
+                        "zeroByteCount":  0,
+                        "realGitHubPages":  true,
+                        "repoTemporarilyPublicForScreenshots":  true,
+                        "repoRestoredPrivate":  true
+                    },
+    "closeScans":  {
+                       "scanRoot":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--adaptive-rag-deep-research-phase40-20260511-004905\\server\\src\\engine\\flows\\adaptive-rag-deep-research",
+                       "flowFileCount":  27,
+                       "throwNew":  0,
+                       "exportedServicesByPromptPattern":  0,
+                       "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                       "clsImports":  0,
+                       "directSdkImports":  0,
+                       "anyTypes":  0,
+                       "failureLines":  0,
+                       "note":  "FLOW-29 runtime classes do not use the Service suffix; this matches the pre-existing prompt-pattern scan accepted in phases 0 and 1."
+                   },
+    "credentialHandling":  {
+                               "tenantCredentialsSeededInVault":  true,
+                               "secretsPrinted":  false,
+                               "tenantCredentialPathsUsedByForkHandler":  [
+                                                                              "github_token",
+                                                                              "github_org_name",
+                                                                              "docker_registry_url",
+                                                                              "docker_registry_token"
+                                                                          ]
+                           },
+    "protocolGate":  {
+                         "realMarketplaceApiCall":  true,
+                         "realGitHubRepo":  true,
+                         "greenGitHubActions":  true,
+                         "fullBundle":  true,
+                         "localCloneValidation":  true,
+                         "realGitHubScreenshots":  true,
+                         "closeScansZeroFailureLines":  true,
+                         "phaseComplete":  true
+                     },
+    "verdict":  "PASS"
+}

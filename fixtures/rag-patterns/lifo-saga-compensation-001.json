@@ -1,0 +1,25 @@
+{
+  "patternId": "LIFO-SAGA-COMPENSATION-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-16",
+  "domainId": "marketplace-payments",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": ["lifo", "saga", "compensation", "refund-first", "restore-inventory", "dispute", "no-delete"],
+  "keywords": "LIFO REFUND_PAYMENT RESTORE_INVENTORY compensation order saga escrow dispute updateDocument deleteDocument prohibited escrow_auto_release_days FREEDOM CF-16-3",
+  "ironRules": [
+    "LIFO compensation order: [REFUND_PAYMENT, RESTORE_INVENTORY] — REFUND executes first",
+    "FIFO order (RESTORE then REFUND) creates oversell window — prohibited",
+    "Dispute path: updateDocument(status:DISPUTED, accessBlocked:true) ONLY — never deleteDocument",
+    "Compensation saga triggered by PaymentReversalRequested ONLY — not by DisputeInitiated",
+    "escrow_auto_release_days from FREEDOM config — not hardcoded",
+    "storeDocument(escrowReleaseRecord) BEFORE enqueue(EscrowReleased) — DNA-8"
+  ],
+  "codeSnippet": "// CORRECT: LIFO compensation constant + no saga on dispute (T611)\nconst COMPENSATION_STEPS_LIFO = ['REFUND_PAYMENT', 'RESTORE_INVENTORY'] as const;\n\nasync handlePaymentReversalRequested(event) {\n  // LIFO: REFUND at index 0, RESTORE at index 1\n  for (const step of COMPENSATION_STEPS_LIFO) {\n    await this.sagaService.compensate(step, event.orderId);\n  }\n}\n\nasync handleDisputeInitiated(event) {\n  // updateDocument ONLY — never deleteDocument (forensic evidence preserved)\n  await this.db.updateDocument(event.escrowId, {\n    status: 'DISPUTED',\n    accessBlocked: true\n  });\n  // NO saga compensation triggered here\n  await this.queue.enqueue('EscrowDisputed', { ... });\n}\n\n// WRONG: FIFO compensation — inventory released before refund completes\nconst COMPENSATION_STEPS_FIFO = ['RESTORE_INVENTORY', 'REFUND_PAYMENT'];\n// WRONG: deleteDocument on dispute — destroys forensic evidence\nawait this.db.deleteDocument(event.escrowId);",
+  "appliesTo": ["FLOW-17", "FLOW-19", "FLOW-09"],
+  "curriculumTier": 1,
+  "qualityScore": 0.97,
+  "sourceDocument": "marketplace-payments-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

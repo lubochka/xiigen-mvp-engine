@@ -1,0 +1,59 @@
+# XIIGen Engine — Cline/Windsurf Rules
+
+## Tech Stack
+- **Server:** NestJS 10, TypeScript 5, Jest
+- **Client:** React 18, Vite 5, Tailwind CSS
+- **Infra:** Elasticsearch, PostgreSQL, Redis, AWS SQS (LocalStack)
+
+## Build + Test
+```bash
+cd server && npm run build      # must produce 0 errors
+cd server && npx jest           # 5,512 tests (never decrease)
+cd client && npx jest           # 220 tests
+```
+
+## Architecture Rules
+
+**Rule 1 — Fabric First**
+Service code never imports provider SDKs. Always use fabric interfaces:
+- `@Inject(DATABASE_SERVICE) db: IDatabaseService`
+- `@Inject(QUEUE_SERVICE) queue: IQueueService`
+- `@Inject(AI_PROVIDER) ai: IAiProvider`
+
+**Rule 2 — No Typed Models**
+`Record<string, unknown>` for ALL business data. No TypeScript classes for data.
+
+**Rule 3 — DataProcessResult**
+ALL service methods return `DataProcessResult<T>`. Never throw for business logic.
+
+**Rule 4 — MicroserviceBase**
+ALL services extend `MicroserviceBase`. Inherits 19 architectural components.
+
+**Rule 5 — Tenant Scope**
+Tenant via AsyncLocalStorage only. Never `tenantId` as parameter.
+
+**Rule 6 — DynamicController**
+One controller handles all CRUD via `/api/dynamic/{indexName}`. No entity controllers.
+
+**Rule 7 — No HTTP Between Services**
+Queue Fabric only. Never `fetch()` to another service.
+
+**Rule 8 — Outbox**
+`storeDocument()` BEFORE `enqueue()`. Always.
+
+**Rule 9 — CloudEvents**
+All inter-service events use `createCloudEvent()` envelope.
+
+## Return Patterns
+```typescript
+return DataProcessResult.success(data);
+return DataProcessResult.failure('ERROR_CODE', 'message');
+```
+
+## Never Do
+- Import Elasticsearch/Redis/SQS SDK in service code
+- Create `ProductsController`, `OrdersService`
+- Create `class Product { name: string }`
+- Throw exceptions for business conditions
+- Call another service via HTTP
+- Skip BFA validation for new flows

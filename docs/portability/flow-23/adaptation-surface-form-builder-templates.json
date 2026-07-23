@@ -1,0 +1,362 @@
+{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "flowTitle":  "Form Builder Templates",
+    "protocolVersion":  "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+    "capturedAt":  "2026-05-10",
+    "capturedBy":  "Codex / FLOW-23 mobility-auth session",
+    "surfaceVersion":  "1.0.0",
+    "sources":  [
+                    "docs/business-flows/functional-specs/FLOW-23-form-builder-templates-functional-spec.md",
+                    "server/src/engine-contracts/form-builder-templates-contracts.ts",
+                    "server/src/engine-contracts/form-builder-templates-bfa-rules.ts",
+                    "server/src/engine/flows/form-builder-templates",
+                    "docs/flow-coverage/form-builder-templates/P1-business-logic-inventory.md",
+                    "docs/flow-coverage/form-builder-templates/P5-ui-specs.md"
+                ],
+    "contractSurface":  {
+                            "taskTypeRange":  "T637-T649",
+                            "taskTypeIds":  [
+                                                "T637",
+                                                "T638",
+                                                "T639",
+                                                "T640",
+                                                "T641",
+                                                "T642",
+                                                "T643",
+                                                "T644",
+                                                "T645",
+                                                "T646",
+                                                "T647",
+                                                "T648",
+                                                "T649"
+                                            ],
+                            "factoryIdRange":  "F1585-F1592 plus FLOW-23 supporting factories",
+                            "freedomKeyCount":  12,
+                            "securityClassification":  "tenant-scoped form template validation, publication, instantiation, analytics, binding, collaboration, export, permission, and webhook controls",
+                            "directRuntimePeerDependencies":  [
+
+                                                              ],
+                            "coreGuarantees":  [
+                                                   "Template schema validation remains mandatory before publication.",
+                                                   "Published template versions remain immutable.",
+                                                   "Optimistic concurrency protects draft-to-published transitions.",
+                                                   "Template instantiation keeps an idempotency lock before variable binding.",
+                                                   "Usage analytics remain append-only and exclude user form input values.",
+                                                   "Layout solving and data-slot binding remain pure/validated computations.",
+                                                   "Collaborative editing and webhook dispatch keep idempotency checks first.",
+                                                   "Permission decisions read role from auth context only.",
+                                                   "Audit records remain stored before downstream events.",
+                                                   "Tenant context resolution remains automatic through TenantContextResolver."
+                                               ],
+                            "packageSigningConstraint":  {
+                                                             "tier3EligibleBeforeSigningFirstPass":  false,
+                                                             "reason":  "FLOW-23 publishes tenant-starting template packages and role-gated authoring controls, so Tier 3 requires package-signing first pass."
+                                                         }
+                        },
+    "services":  [
+                     {
+                         "taskTypeId":  "T637",
+                         "className":  "TemplateSchemaValidatorService",
+                         "file":  "server/src/engine/flows/form-builder-templates/template-schema-validator.service.ts",
+                         "adaptableFreedomKeys":  [
+                                                      "flow23_template_max_fields",
+                                                      "flow23_template_schema_version",
+                                                      "flow23_required_field_min_count"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "JSON schema validation remains first",
+                                                    "required fields must exist",
+                                                    "validation audit stored before event"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T638",
+                         "className":  "TemplateVersionPublisherService",
+                         "file":  "server/src/engine/flows/form-builder-templates/template-version-publisher.service.ts",
+                         "adaptableFreedomKeys":  [
+                                                      "flow23_evolution_check_enabled",
+                                                      "flow23_publication_timeout_ms"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "OCC publish transition remains mandatory",
+                                                    "published templates are immutable",
+                                                    "publication audit stored before event"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T639",
+                         "className":  "TemplateInstantiationEngineService",
+                         "file":  "server/src/engine/flows/form-builder-templates/template-instantiation-engine.service.ts",
+                         "adaptableFreedomKeys":  [
+                                                      "flow23_instantiation_timeout_ms",
+                                                      "flow23_max_unresolved_variables"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "instantiation lock acquired before binding",
+                                                    "defaults merge after variable binding",
+                                                    "form instance stored before event"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T640",
+                         "className":  "TemplateUsageAnalyticsService",
+                         "file":  "server/src/engine/flows/form-builder-templates/template-usage-analytics.service.ts",
+                         "adaptableFreedomKeys":  [
+                                                      "flow23_popularity_recompute_interval_hours",
+                                                      "flow23_min_instantiations_for_analytics",
+                                                      "flow23_age_weighting_factor"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "usage metrics append-only",
+                                                    "user input values excluded from metrics",
+                                                    "metrics remain tenant-private"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T641-T649",
+                         "className":  "Supporting template services",
+                         "file":  "server/src/engine/flows/form-builder-templates",
+                         "adaptableFreedomKeys":  [
+                                                      "flow23_export_quality_threshold",
+                                                      "flow23_webhook_retry_limit"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "pure computation boundaries remain fabric-safe",
+                                                    "idempotency checks remain first",
+                                                    "role is never accepted as a request parameter"
+                                                ]
+                     }
+                 ],
+    "adaptationSurface":  {
+                              "configurationKeys":  {
+                                                        "description":  "Tenant-editable FLOW-23 form-template operating values. Tenants may tune limits, display defaults, timeouts, analytics posture, and package naming without changing schema validation order, immutability, OCC, lock/idempotency, audit-before-event ordering, PII exclusion, permission source, or tenant isolation.",
+                                                        "total":  12,
+                                                        "keys":  [
+                                                                     {
+                                                                         "key":  "flow23_template_max_fields",
+                                                                         "type":  "number",
+                                                                         "default":  50,
+                                                                         "unit":  "fields",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  200
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_template_schema_version",
+                                                                         "type":  "enum",
+                                                                         "default":  "draft-2020-12",
+                                                                         "stakeholder":  "platform-admin",
+                                                                         "boundedRange":  {
+                                                                                              "allowedValues":  [
+                                                                                                                    "draft-07",
+                                                                                                                    "draft-2020-12"
+                                                                                                                ]
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_required_field_min_count",
+                                                                         "type":  "number",
+                                                                         "default":  1,
+                                                                         "unit":  "fields",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  20
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_evolution_check_enabled",
+                                                                         "type":  "boolean",
+                                                                         "default":  true,
+                                                                         "stakeholder":  "platform-admin",
+                                                                         "boundedRange":  {
+                                                                                              "allowedValues":  [
+                                                                                                                    true,
+                                                                                                                    false
+                                                                                                                ]
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_publication_timeout_ms",
+                                                                         "type":  "number",
+                                                                         "default":  30000,
+                                                                         "unit":  "milliseconds",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  1000,
+                                                                                              "max":  120000
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_instantiation_timeout_ms",
+                                                                         "type":  "number",
+                                                                         "default":  30000,
+                                                                         "unit":  "milliseconds",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  1000,
+                                                                                              "max":  120000
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_max_unresolved_variables",
+                                                                         "type":  "number",
+                                                                         "default":  0,
+                                                                         "unit":  "variables",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  20
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_popularity_recompute_interval_hours",
+                                                                         "type":  "number",
+                                                                         "default":  24,
+                                                                         "unit":  "hours",
+                                                                         "stakeholder":  "platform-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  168
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_min_instantiations_for_analytics",
+                                                                         "type":  "number",
+                                                                         "default":  3,
+                                                                         "unit":  "instantiations",
+                                                                         "stakeholder":  "platform-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  100
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_age_weighting_factor",
+                                                                         "type":  "number",
+                                                                         "default":  1,
+                                                                         "unit":  "multiplier",
+                                                                         "stakeholder":  "platform-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0.1,
+                                                                                              "max":  10
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_export_quality_threshold",
+                                                                         "type":  "number",
+                                                                         "default":  0.8,
+                                                                         "unit":  "fraction",
+                                                                         "stakeholder":  "platform-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  1
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow23_webhook_retry_limit",
+                                                                         "type":  "number",
+                                                                         "default":  3,
+                                                                         "unit":  "attempts",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  10
+                                                                                          }
+                                                                     }
+                                                                 ]
+                                                    },
+                              "businessDomainAdaptation":  {
+                                                               "description":  "Safe tenant adaptations are limited to form template limits, schema version posture, publication/instantiation timeout defaults, unresolved-variable tolerance, analytics display posture, export quality threshold, webhook retry posture, and customer-facing module naming.",
+                                                               "edgeCases":  [
+                                                                                 {
+                                                                                     "id":  "acme-intake-studio",
+                                                                                     "name":  "Acme intake template studio",
+                                                                                     "semantic":  "Tenant A tunes templates for support and onboarding intake forms with stricter validation and fast publication.",
+                                                                                     "extensionPoint":  "template limits + publication defaults",
+                                                                                     "currentImplementation":  "Schema validation, OCC, immutability, and audit ordering remain fixed."
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "northwind-operations-gallery",
+                                                                                     "name":  "Northwind operations gallery",
+                                                                                     "semantic":  "Tenant B tunes templates for internal operations forms with broader fields and slower analytics recompute.",
+                                                                                     "extensionPoint":  "field limits + analytics defaults",
+                                                                                     "currentImplementation":  "Append-only metrics and PII exclusion remain fixed."
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "tessera-collection-forms",
+                                                                                     "name":  "Tessera collection forms",
+                                                                                     "semantic":  "Tenant C tunes templates for exhibit intake and collector submissions with higher quality gate thresholds.",
+                                                                                     "extensionPoint":  "export quality + webhook defaults",
+                                                                                     "currentImplementation":  "Permission source, idempotency, and tenant isolation remain fixed."
+                                                                                 }
+                                                                             ]
+                                                           }
+                          },
+    "ironRulesMACHINE":  {
+                             "description":  "Fixed invariants that tenant adaptation cannot change.",
+                             "rules":  [
+                                           "Task IDs T637 through T649 remain fixed.",
+                                           "Provider SDK access remains behind fabric interfaces.",
+                                           "Vault credential paths remain outside the package and outside tenant docs.",
+                                           "JSON schema validation remains mandatory before publication.",
+                                           "Published template versions remain immutable.",
+                                           "OCC remains mandatory for publish transitions.",
+                                           "Instantiation idempotency lock remains first.",
+                                           "Audit records remain stored before downstream events.",
+                                           "Usage analytics remain append-only.",
+                                           "User form input values remain excluded from metrics.",
+                                           "Role is read from auth context only.",
+                                           "Tenant context resolution remains automatic through TenantContextResolver."
+                                       ]
+                         },
+    "adaptationExamples":  {
+                               "tenantAIntakeTemplateStudio":  {
+                                                                   "description":  "Tenant A tunes Form Builder Templates for support and onboarding intake templates.",
+                                                                   "change":  {
+                                                                                  "flow23_template_max_fields":  35,
+                                                                                  "flow23_template_schema_version":  "draft-2020-12",
+                                                                                  "flow23_required_field_min_count":  2,
+                                                                                  "flow23_evolution_check_enabled":  true,
+                                                                                  "flow23_publication_timeout_ms":  20000,
+                                                                                  "flow23_instantiation_timeout_ms":  25000,
+                                                                                  "flow23_max_unresolved_variables":  0,
+                                                                                  "flow23_popularity_recompute_interval_hours":  12,
+                                                                                  "flow23_min_instantiations_for_analytics":  2,
+                                                                                  "flow23_age_weighting_factor":  1.5,
+                                                                                  "flow23_export_quality_threshold":  0.85,
+                                                                                  "flow23_webhook_retry_limit":  2
+                                                                              },
+                                                                   "impact":  "Tenant A gets stricter intake-template defaults while schema validation order, immutable published versions, OCC, idempotency, audit ordering, PII exclusion, permission source, and tenant isolation stay unchanged.",
+                                                                   "testable":  "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+                                                               }
+                           },
+    "notPartOfAdaptationSurface":  {
+                                       "description":  "Elements that must not change during tenant adaptation.",
+                                       "elements":  [
+                                                        "Task IDs T637-T649",
+                                                        "Provider SDK boundary",
+                                                        "Vault credential paths",
+                                                        "schema validation order",
+                                                        "published-version immutability",
+                                                        "OCC state transition",
+                                                        "business-level failure results",
+                                                        "audit-before-event ordering",
+                                                        "instantiation idempotency lock",
+                                                        "append-only analytics",
+                                                        "PII exclusion baseline",
+                                                        "role-from-auth-context-only rule",
+                                                        "tenant-scoped analytics",
+                                                        "TenantContextResolver usage"
+                                                    ]
+                                   },
+    "passCriteria":  [
+                         "Tenant adaptations may change only declared FLOW-23 configuration values or display/module metadata.",
+                         "All services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+                         "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+                         "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+                     ]
+}

@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-08",
+  "taskTypeId": "T86-T88",
+  "name": "flow-08-analytics-discovery",
+  "description": "T86 ListingAnalyticsAggregator + T87 ListingDiscoveryEngine + T88 ListingRecommender — SCHEDULED archetype. conversionRate = inquiries / (views || 1). Division by zero guarded with || 1, not separate null check.",
+  "archetype": "SCHEDULED",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: inline-zero-guard with || 1, no separate null check branch"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve SCHEDULED arch pattern for T86-T88: inline zero guard, analytics aggregation, discovery pipeline",
+      "params": {
+        "archetype": "SCHEDULED",
+        "taskTypeRef": "T86-T88",
+        "topK": 5,
+        "patternIds": [
+          "arch--inline-zero-guard",
+          "arch--scheduled-analytics-aggregation",
+          "arch--no-separate-null-check-branch"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T86-T88 into: T86 aggregate (conversionRate = inquiries / (views || 1)) → T87 score listings for discovery → T88 generate recommendations"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate listing-analytics-aggregator.service.ts — conversionRate = inquiries / (views || 1). Division by zero guarded with || 1, not separate null check."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: inline_zero_guard, no_separate_null_check, conversion_rate_formula"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T86-T88 iron rules: inline || 1 guard, scheduled execution, no null branch"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=inline-zero-guard, rejected=separate-null-check-branch. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "@Cron schedule (daily aggregation)",
+  "primaryFabric": "DATABASE"
+}

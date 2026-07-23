@@ -1,0 +1,11 @@
+{
+  "eventType": "MembershipPending",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "membership-recorder",
+  "consumers": ["T112"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "membershipId", "pendingAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T102 for PRIVATE group joins. Triggers SUBFLOW-06P (approval flow). GroupMembershipCompleted is NOT emitted while status=PENDING."
+}

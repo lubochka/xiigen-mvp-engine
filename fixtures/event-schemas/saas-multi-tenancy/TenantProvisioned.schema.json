@@ -1,0 +1,12 @@
+{
+  "eventType": "saas.tenant.provisioned",
+  "flowId": "FLOW-15",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "tier": { "type": "string", "enum": ["FREE", "STARTER", "PROFESSIONAL", "ENTERPRISE"], "required": true },
+    "provisionedAt": { "type": "string", "format": "date-time", "required": true },
+    "freedomSeedCount": { "type": "integer", "minimum": 1, "required": true },
+    "status": { "type": "string", "enum": ["ACTIVE"], "required": true }
+  }
+}

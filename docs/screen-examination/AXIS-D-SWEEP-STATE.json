@@ -1,0 +1,17 @@
+{
+  "schema": "axis-d-sweep-state.v1",
+  "generated_at": "2026-04-21",
+  "parent_commit": "c9ea1758",
+  "status": "IN_PROGRESS",
+  "inventory_subagent": "a524b7d90de0a3408 (running)",
+  "capture_spec": "client/e2e/visual-audit-axis-d-full.spec.ts (scaffold ready; CELLS pending inventory)",
+  "scoring_strategy": {
+    "batch_size_per_subagent": "11-12 flows",
+    "total_subagents_planned": 4,
+    "rubric": "PER-IMAGE-VALIDATION-TEMPLATE Axis A + Axis B + Axis D (MANDATORY for NEEDS_PURPOSE_BUILT_UI) + business-spec module coverage",
+    "image_isolation": "subagent-only; no PNGs read in main context"
+  },
+  "convergence_criterion": "PROPER-EXAMINATION-PLAN-v1 + VISUAL-REEXAMINATION-PLAN dual criterion: score_delta<1% AND coverage_NOT_YET_EXAMINED=0",
+  "pulse_cadence": "3 min (per user 2026-04-21)",
+  "extrapolation": "DISALLOWED — every flow must be directly scored"
+}

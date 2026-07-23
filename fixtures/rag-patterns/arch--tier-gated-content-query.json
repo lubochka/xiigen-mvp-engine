@@ -1,0 +1,18 @@
+{
+  "patternId": "TIER-GATED-CONTENT-QUERY-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-06",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "PROCESSING",
+  "tags": ["tier-gated-query", "query-layer-filter", "BuildSearchFilter", "content-access-level"],
+  "keywords": "tier gated query layer filter BuildSearchFilter content access level over-retrieval cursor ceiling 50",
+  "ironRules": [
+    "content_access_level IN accessLevels[] at query layer — never post-filter in application code",
+    "Cursor ceiling = 50 — never retrieve unlimited documents for feed seeding",
+    "accessLevels[] sourced from T100 output (MembershipActivated payload) — not re-computed",
+    "Feed records stored with PRIVATE knowledgeScope (per-user feed)",
+    "Query target = xiigen-group-content (GLOBAL index — shared group content)"
+  ],
+  "codeSnippet": "// CORRECT: tier filter in BuildSearchFilter at query layer\nconst feedContent = await this.db.searchDocuments('xiigen-group-content', {\n  groupId,\n  content_access_level: accessLevels,   // ← IN filter — query layer gate\n  limit: Math.min(50, cursorSize),       // ← ceiling enforced\n});\n// WRONG: retrieve all content then filter in code\n// const allContent = await this.db.searchDocuments('xiigen-group-content', { groupId });\n// const filtered = allContent.data.filter(c => accessLevels.includes(c.content_access_level));\n// ^ over-retrieval: higher-tier content hits application layer"
+}

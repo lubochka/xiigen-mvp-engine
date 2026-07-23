@@ -1,0 +1,48 @@
+{
+  "flowSlug": "event-attendance",
+  "flowId": "FLOW-04",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-v2.0",
+  "generatedAt": "2026-05-01",
+  "generator": "Phase 4 AI adaptation read of FLOW-04 services, contracts, and visual evidence",
+  "freedomKeys": [
+    {
+      "name": "flow04_rsvp_cancellation_window_hours",
+      "currentDefault": 24,
+      "adaptedValueForAcme": 6,
+      "semantics": "Number of hours before event start when attendee cancellation remains allowed.",
+      "irCitation": "T63 RSVP cancellation window",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"],
+      "readBy": ["RsvpOrchestrator"],
+      "observableVia": "Acme organiser attendance policy screenshot shows a 6-hour cancellation window."
+    },
+    {
+      "name": "flow04_feedback_window_hours",
+      "currentDefault": 24,
+      "adaptedValueForAcme": 12,
+      "semantics": "Number of hours after the event when attendee feedback remains open.",
+      "irCitation": "T66 FeedbackWindowController",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"],
+      "readBy": ["FeedbackWindowController"],
+      "observableVia": "Acme feedback-window screenshot shows feedback open for 12 hours."
+    }
+  ],
+  "adaptationCandidates": ["TYPE-A", "TYPE-B", "TYPE-C", "TYPE-D"],
+  "chosenAdaptationForThisSession": {
+    "type": "TYPE-A",
+    "category": "FREEDOM-config parametric override",
+    "rationale": "The RSVP cancellation and feedback-window values are tenant-facing policy knobs. Changing their values proves tenant adaptation without changing service structure or breaking the FLOW-03 co-install boundary.",
+    "proposedKeys": [
+      "flow04_rsvp_cancellation_window_hours",
+      "flow04_feedback_window_hours"
+    ]
+  },
+  "crossFlowBoundary": {
+    "requiresCoInstall": ["event-management"],
+    "readsFromFLOW03": "event source records and event lifecycle boundary",
+    "reverseDependency": "FLOW-03 does not require FLOW-04",
+    "cascadeImpact": "Tenant forks of FLOW-04 must preserve the required co-install with Event Management."
+  },
+  "phase4Verdict": "PASS - Type A Acme adaptation surface is tenant-observable and ready for fork packaging."
+}

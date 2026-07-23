@@ -1,0 +1,17 @@
+{
+  "eventType": "CompletionRecorded",
+  "flowId": "FLOW-27",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "source": "human_interaction_gate",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": [
+    "userId",
+    "tenantId",
+    "recordId",
+    "status",
+    "timestamp"
+  ],
+  "forbiddenFields": [],
+  "notes": "Event CompletionRecorded for human-interaction-gate"
+}

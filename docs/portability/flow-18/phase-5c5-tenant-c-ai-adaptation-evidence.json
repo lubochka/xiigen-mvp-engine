@@ -1,0 +1,201 @@
+{
+    "flowId":  "FLOW-18",
+    "flowSlug":  "visual-flow-engine",
+    "phase":  "phase5c5TenantCAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-07T02:56:23.5411373+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "tenantName":  "Tessera Collective"
+               },
+    "sourceTenant":  {
+                         "tenantId":  "northwind",
+                         "repo":  "lubochka/northwind--northwind-visual-governance-engine",
+                         "package":  "@xiigen-fork/northwind-visual-governance-engine",
+                         "version":  "1.0.2"
+                     },
+    "tenantRepository":  {
+                             "repo":  "lubochka/tessera-collective--tessera-visual-federation-engine",
+                             "url":  "https://github.com/lubochka/tessera-collective--tessera-visual-federation-engine",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "previousRepoName":  "lubochka/tessera-collective--northwind-visual-governance-engine",
+                             "adaptedCommit":  "3a4ca4af867860d89587be5460d8db0c2eceb857",
+                             "adaptedCommitMessage":  "Adapt visual flow engine for Tessera",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-visual-governance-engine-phase5c-20260507-023628",
+                             "cleanCloneStatus":  "clean",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "__tests__/visual-flow-engine-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "githubActionsRun":  {
+                                                      "runId":  25467662218,
+                                                      "jobId":  74724443920,
+                                                      "url":  "https://github.com/lubochka/tessera-collective--tessera-visual-federation-engine/actions/runs/25467662218",
+                                                      "status":  "completed",
+                                                      "conclusion":  "success",
+                                                      "workflowName":  "XIIGen Flow CI — visual-flow-engine",
+                                                      "headSha":  "3a4ca4af867860d89587be5460d8db0c2eceb857",
+                                                      "createdAt":  "2026-05-06T23:50:54Z",
+                                                      "updatedAt":  "2026-05-06T23:51:40Z",
+                                                      "successfulSteps":  [
+                                                                              "Set up job",
+                                                                              "Run actions/checkout@v4.2.2",
+                                                                              "Run actions/setup-node@v4.4.0",
+                                                                              "Install",
+                                                                              "TypeScript check",
+                                                                              "Test",
+                                                                              "Provenance",
+                                                                              "Post Run actions/setup-node@v4.4.0",
+                                                                              "Post Run actions/checkout@v4.2.2",
+                                                                              "Complete job"
+                                                                          ]
+                                                  },
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --package-lock-only --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  115,
+                                                                 "shasum":  "0ca6e599b9c05226240c3c9eb03f1c39c19abbfb"
+                                                             }
+                                                         ],
+                             "adaptationProof":  {
+                                                     "tenantConfigTenantId":  "tessera-collective",
+                                                     "installedFromRepoFullName":  "lubochka/northwind--northwind-visual-governance-engine",
+                                                     "adaptationHistoryEntries":  3,
+                                                     "lastAdaptationTenantId":  "tessera-collective",
+                                                     "packageName":  "@xiigen-fork/tessera-visual-federation-engine",
+                                                     "packageVersion":  "1.0.3",
+                                                     "moduleName":  "tessera-visual-federation-engine",
+                                                     "repoFullName":  "lubochka/tessera-collective--tessera-visual-federation-engine",
+                                                     "requiredCoInstallPackages":  [
+                                                                                       "@xiigen-fork/tessera-code-audit-governance"
+                                                                                   ],
+                                                     "freedomDefaults":  {
+                                                                             "flow_canvas_max_nodes":  144,
+                                                                             "flow_canvas_max_edges":  288,
+                                                                             "flow_max_node_depth":  64,
+                                                                             "flow_type_compatibility_strict":  true,
+                                                                             "node_type_max_capabilities":  16,
+                                                                             "node_type_lock_ttl_ms":  360000,
+                                                                             "injection_lock_ttl_ms":  360000,
+                                                                             "injection_max_payload_size_kb":  320
+                                                                         }
+                                                 }
+                         },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/tessera-visual-federation-engine",
+                          "publishedVersion":  "1.0.3",
+                          "npmViewVersion":  "1.0.3",
+                          "distTags":  {
+                                           "latest":  "1.0.3"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/tessera-visual-federation-engine/-/tessera-visual-federation-engine-1.0.3.tgz",
+                          "shasum":  "0ca6e599b9c05226240c3c9eb03f1c39c19abbfb",
+                          "integrity":  "sha512-wKy5a9STl1ZoVj5ll7IuNadO0T92GO2FG7A8soXE0Pgo0FTApisDrbszPCGeFVA3edC0i2/6c1Jc7nhSwMdv5g==",
+                          "gitHead":  "3a4ca4af867860d89587be5460d8db0c2eceb857",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/visual-flow-engine-tessera-v1.0.3-registry-api-evidence.json",
+                          "screenshot":  "docs/e2e-snapshots/marketplace/visual-flow-engine-tessera-v1.0.3-registry-listing.png",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "cascadeScreenshots":  {
+                                                      "directory":  "docs/e2e-snapshots/visual-flow-engine/tenant-c-v1.0.3",
+                                                      "count":  15,
+                                                      "zeroByteFiles":  0,
+                                                      "projects":  [
+                                                                       "chromium-desktop",
+                                                                       "chromium-mobile",
+                                                                       "chromium-tablet"
+                                                                   ],
+                                                      "states":  [
+                                                                     "anonymous",
+                                                                     "platform-admin",
+                                                                     "platform-support",
+                                                                     "tenant-admin",
+                                                                     "tenant-user"
+                                                                 ]
+                                                  },
+                           "screenshots":  [
+                                               {
+                                                   "kind":  "repo-homepage",
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-18/tessera-collective--tessera-visual-federation-engine-tenant-c-v1.0.3-github-listing.png",
+                                                   "bytes":  133240
+                                               },
+                                               {
+                                                   "kind":  "actions-success",
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-18/tessera-collective--tessera-visual-federation-engine-tenant-c-v1.0.3-actions-success.png",
+                                                   "bytes":  77950
+                                               },
+                                               {
+                                                   "kind":  "registry-listing",
+                                                   "path":  "docs/e2e-snapshots/marketplace/visual-flow-engine-tessera-v1.0.3-registry-listing.png",
+                                                   "bytes":  51207
+                                               }
+                                           ]
+                       },
+    "mainRepoChangesForCascadeEvidence":  {
+                                              "files":  [
+                                                            "client/e2e/visual-flow-engine-tenant-c-adapted.spec.ts"
+                                                        ],
+                                              "purpose":  "Render and verify FLOW-18 Tenant C adapted package cascade-point visual evidence under docs/e2e-snapshots/visual-flow-engine/tenant-c-v1.0.3."
+                                          },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "client: npx tsc --noEmit --pretty false",
+                                                            "result":  "passed"
+                                                        },
+                                   "tenantCAdaptedPlaywright":  {
+                                                                    "command":  "client: VITE_PORT=5174 npx playwright test e2e/visual-flow-engine-tenant-c-adapted.spec.ts --reporter=line",
+                                                                    "result":  "passed",
+                                                                    "tests":  15
+                                                                },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "secretPatternHits":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCAdaptedTenantBPackage":  true,
+                      "tenantCCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsTenantCVersion":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "registryScreenshotPresent":  false,
+                      "cascadeScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForAuthDecorationCheck":  true
+                  },
+    "verdict":  "PASS"
+}

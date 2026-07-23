@@ -1,0 +1,51 @@
+{
+  "taskTypeId": "T108",
+  "flowId": "FLOW-06",
+  "name": "MemberWelcomeNotifier",
+  "archetype": "BROADCAST",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "status-dependent-notification",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IQueueService",
+    "freedomConfigKey": "flow06_welcome_message_template",
+    "neutralConcepts": [
+      "notification channels are MACHINE constants (not FREEDOM config keys)",
+      "PENDING vs ACTIVE members receive different message wording",
+      "wording templates from FREEDOM config — not hardcoded strings",
+      "time-decoupled from Branch A gate"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F202",
+      "interface": "INotificationService",
+      "fabric": "QUEUE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T108-1",
+      "rule": "Notification channels (in-app, email) are MACHINE constants — not FREEDOM config keys. The channel set is a deployment decision.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T108-2",
+      "rule": "PENDING members receive 'pending approval' message wording. ACTIVE members receive 'welcome' message. Different status → different message.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T108-3",
+      "rule": "Message wording templates from FREEDOM config — no hardcoded strings in notification content.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["welcome-notifier", "status-dependent", "broadcast", "BROADCAST"],
+  "keywords": "member welcome notifier notification channels PENDING ACTIVE message wording FREEDOM config"
+}

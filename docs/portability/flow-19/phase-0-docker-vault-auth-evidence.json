@@ -1,0 +1,205 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "phase": "phase0AuthPreflight",
+  "generatedAt": "2026-05-07T03:54:18.9405500+03:00",
+  "status": "completed",
+  "infrastructure": {
+    "dockerRunning": true,
+    "vaultRunning": true,
+    "vaultSealed": false,
+    "serverHealth": "OK",
+    "githubAuthenticated": true,
+    "githubLogin": "lubochka",
+    "tenantCredentialsSeeded": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    },
+    "testTenantsSeededInServer": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    }
+  },
+  "roleMap": {
+    "source": [
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md FLOW-19 Durable Sagas and Compliance section",
+      "docs/business-flows/functional-specs/FLOW-19-durable-sagas-compliance-functional-spec.md"
+    ],
+    "rolesAllowedOnProbe": [
+      "tenant-user",
+      "tenant-admin",
+      "platform-admin"
+    ],
+    "wrongRoleDeniedOnProbe": "platform-support",
+    "notes": [
+      "ROLE-ANALYSIS-BATCH-04 records 3 full FLOW-19 cells plus 1 partial tenant-user cell.",
+      "The live probe permits the roles with operational FLOW-19 coverage and denies the selected wrong-role case."
+    ]
+  },
+  "server": {
+    "url": "http://localhost:33001",
+    "route": "/api/runs/phase0-auth-probe/trace",
+    "health": "passed"
+  },
+  "vault": {
+    "container": "xiigen-vault",
+    "sealed": false,
+    "signingMaterialReadFromVault": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    },
+    "existingContainerUsed": true,
+    "composeUpNote": "docker compose reported an existing xiigen-vault name conflict; the already-running unsealed xiigen-vault container was used."
+  },
+  "liveAuthMatrix": [
+    {
+      "case": "valid acme-corp tenant-admin token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "valid acme-corp tenant-user token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "valid acme-corp platform-admin token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "missing token denied in acme-corp tenant",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "case": "wrong platform-support role denied in acme-corp tenant",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    },
+    {
+      "case": "valid northwind tenant-admin token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "valid northwind tenant-user token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "valid northwind platform-admin token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "missing token denied in northwind tenant",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "case": "wrong platform-support role denied in northwind tenant",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    },
+    {
+      "case": "valid tessera-collective tenant-admin token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "valid tessera-collective tenant-user token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "valid tessera-collective platform-admin token in own tenant",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "case": "missing token denied in tessera-collective tenant",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "case": "wrong platform-support role denied in tessera-collective tenant",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    },
+    {
+      "case": "acme token in northwind tenant denied",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "case": "northwind token in tessera tenant denied",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "case": "acme token in tessera tenant denied",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    }
+  ],
+  "summary": {
+    "passed": 18,
+    "total": 18,
+    "allPassed": true
+  },
+  "verification": {
+    "serverTypeScript": "passed in pre-existing repair phase: npx tsc --noEmit -p tsconfig.json --pretty false",
+    "serverJest": "passed in pre-existing repair phase: npx jest --testPathPatterns=durable-sagas-compliance --runInBand --colors=false (12 suites / 102 tests)",
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokenMaterialPrinted": false,
+    "signingMaterialWrittenToEvidence": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false
+  },
+  "commands": [
+    "docker info and Docker/Vault readiness checks",
+    "Used already-running xiigen-vault container after compose reported name conflict.",
+    "Read the Vault dev credential from docker-compose.platform.yml without writing it to evidence.",
+    "Seeded GitHub, Docker registry, and JWT signing material into Vault for acme-corp, northwind, and tessera-collective without printing values.",
+    "docker compose -f docker-compose.yml up -d --build server with the Vault secrets provider on SERVER_PORT=33001",
+    "GET http://localhost:33001/health/live",
+    "POST http://localhost:33001/tenants for acme-corp, northwind, and tessera-collective after server restart.",
+    "Read tenant signing material from Vault without printing values.",
+    "Generated short-lived HS256 JWT probes in memory only, with roles claim forced to an array.",
+    "Invoke-WebRequest status-code auth matrix against http://localhost:33001/api/runs/phase0-auth-probe/trace"
+  ],
+  "verdict": "PASS"
+}

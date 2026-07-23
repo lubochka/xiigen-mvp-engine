@@ -1,0 +1,24 @@
+{
+  "patternId": "NON-REPUDIATION-AUDIT-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-16",
+  "domainId": "marketplace-payments",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "tags": ["non-repudiation", "audit", "append-only", "hash-chain", "pii-scrub", "prevHash"],
+  "keywords": "nonRepudiationAudit append-only storeDocument prevHash hash chain PII scrub card number CVV deleteDocument updateDocument prohibited audit trail legal compliance CF-16-9",
+  "ironRules": [
+    "nonRepudiationAudit index is APPEND-ONLY — storeDocument insert only, no updateDocument, no deleteDocument",
+    "Every audit record MUST include prevHash referencing prior record — forms cryptographic chain",
+    "PII MUST be scrubbed before storeDocument — no bankAccountNumber, card number, CVV, full PAN",
+    "Only last4 of card, masked fields, and non-sensitive identifiers permitted in audit records",
+    "Audit chain integrity verifiable by computing hash(record) and comparing with next.prevHash"
+  ],
+  "codeSnippet": "// CORRECT: append-only NRA audit with prevHash + PII scrub (T610)\nconst prevHash = await this.nraAudit.getLatestHash(orderId);\nconst piiScrubbedData = {\n  ...piiScrub(rawPaymentData),  // strip card numbers, CVV, full PAN\n  last4: rawPaymentData.cardLast4,\n  orderId,\n  tenantId,\n  amountCents,\n  prevHash,  // cryptographic chain\n  recordedAt: new Date().toISOString(),\n};\n// append-only — storeDocument only\nawait this.db.storeDocument(piiScrubbedData, 'xiigen-nra-audit');\n\n// WRONG: updateDocument on audit — destroys chain integrity\nawait this.db.updateDocument(existingAuditId, { status: 'corrected' }); // BUILD_FAILURE\n// WRONG: deleteDocument on audit — destroys legal evidence\nawait this.db.deleteDocument(existingAuditId); // BUILD_FAILURE\n// WRONG: raw PII in audit record — stored forever in append-only log\nawait this.db.storeDocument({ ...rawPaymentData, cardNumber: '4111...' }); // BUILD_FAILURE",
+  "appliesTo": ["FLOW-17", "FLOW-19", "FLOW-12"],
+  "curriculumTier": 1,
+  "qualityScore": 0.96,
+  "sourceDocument": "marketplace-payments-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

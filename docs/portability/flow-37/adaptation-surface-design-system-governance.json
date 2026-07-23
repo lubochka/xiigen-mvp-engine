@@ -1,0 +1,378 @@
+{
+  "flowId": "FLOW-37",
+  "flowSlug": "design-system-governance",
+  "implementationSlug": "design-system-governance",
+  "flowTitle": "Design System Governance",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-37 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-37-design-system-governance-functional-spec.md",
+    "docs/sessions/FLOW-37/FLOW-37-STEP-1-INVARIANTS.md",
+    "server/src/engine-contracts/design-system-governance-contracts.ts",
+    "server/src/engine-contracts/design-system-governance-bfa-rules.ts",
+    "server/src/engine/flows/design-system-governance",
+    "server/src/engine/flows/engine-self-awareness/phase-capability-gate.topology.json",
+    "server/src/bootstrap/history-seeds/design-system-governance-design-corpus.json",
+    "docs/flow-coverage/design-system-governance/P1-business-logic-inventory.md",
+    "docs/flow-coverage/design-system-governance/P5-ui-specs.md",
+    "docs/flow-coverage/design-system-governance/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T489-T515",
+    "taskTypeIds": [
+      "T489",
+      "T490",
+      "T491",
+      "T492",
+      "T493",
+      "T494",
+      "T495",
+      "T496",
+      "T497",
+      "T498",
+      "T499",
+      "T500",
+      "T501",
+      "T502",
+      "T503",
+      "T504",
+      "T505",
+      "T506",
+      "T507",
+      "T508",
+      "T509",
+      "T510",
+      "T511",
+      "T512",
+      "T513",
+      "T514",
+      "T515"
+    ],
+    "factoryIdRange": "F1271-F1329",
+    "freedomKeyCount": 10,
+    "securityClassification": "platform-level design governance, token and component registry updates, design debt analysis, publish/deployment gates, and stack portability readiness evidence",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-37 uses design-system-governance as the canonical portability, UI, package, and runtime implementation slug. The current screen is the PlatformOps stack-porting surface backed by the design governance service bundle.",
+    "coreGuarantees": [
+      "Design specs, component maps, tokens, context, and reusable patterns are ingested before arbitration or publication steps.",
+      "Design quality, component schema, token consistency, and deployment gates remain hard gates.",
+      "Governance records for decisions, versions, and evolution are append-oriented and tenant scoped.",
+      "Token library and component catalog updates remain behind database and queue fabric interfaces.",
+      "Design debt, architecture score, health score, and cross-design impact calculations are policy guided but bounded by declared configuration.",
+      "Stack coupling evidence remains visible to platform operators before portability decisions are recorded.",
+      "Tenant scope remains automatic through AsyncLocalStorage.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory."
+    ]
+  },
+  "serviceGroups": [
+    {
+      "family": "INGESTION",
+      "taskTypeIds": ["T489", "T490", "T491", "T492", "T493"],
+      "classes": [
+        "DesignSpecIngester",
+        "ComponentMapParser",
+        "DesignTokenExtractor",
+        "DesignContextBuilder",
+        "DesignPatternParser"
+      ],
+      "adaptableFreedomKeys": [
+        "flow37_module_name",
+        "flow37_primary_stack",
+        "flow37_required_token_categories",
+        "flow37_component_hierarchy_depth"
+      ],
+      "machineLockedRules": [
+        "raw design evidence is normalized before downstream analysis",
+        "component hierarchy and token extraction retain tenant scope",
+        "pattern parsing does not bypass design rule validation"
+      ]
+    },
+    {
+      "family": "ARBITRATION_AND_GATES",
+      "taskTypeIds": ["T494", "T495", "T496", "T497", "T499", "T500", "T501", "T514"],
+      "classes": [
+        "DesignConflictDetector",
+        "ComponentCompatibilityChecker",
+        "DesignRuleValidator",
+        "TokenConflictScanner",
+        "DesignQualityGate",
+        "ComponentSchemaGate",
+        "TokenConsistencyGate",
+        "DesignDeploymentGate"
+      ],
+      "adaptableFreedomKeys": [
+        "flow37_min_compatibility_score",
+        "flow37_max_incompatible_dimensions",
+        "flow37_allow_stack_coupled_ports",
+        "flow37_required_deployment_phases"
+      ],
+      "machineLockedRules": [
+        "quality and deployment gates cannot be skipped by tenant configuration",
+        "schema and token consistency checks run before publication",
+        "wrong-role actors cannot publish or fork packages"
+      ]
+    },
+    {
+      "family": "ANALYSIS_AND_LEARNING",
+      "taskTypeIds": ["T498", "T502", "T503", "T509", "T510", "T511"],
+      "classes": [
+        "DesignDebtAnalyzer",
+        "DesignComplexityAnalyzer",
+        "ArchitectureScorer",
+        "DesignHealthScorer",
+        "DesignFeedbackLearner",
+        "CrossDesignImpactAnalyzer"
+      ],
+      "adaptableFreedomKeys": [
+        "flow37_target_stack",
+        "flow37_max_degraded_stacks",
+        "flow37_default_report_mode",
+        "flow37_review_window_days"
+      ],
+      "machineLockedRules": [
+        "score calculations produce evidence rather than directly mutating governance state",
+        "feedback learning remains asynchronous and tenant scoped",
+        "impact analysis cannot relax deployment gate requirements"
+      ]
+    },
+    {
+      "family": "BUILD_AND_GOVERNANCE",
+      "taskTypeIds": ["T504", "T505", "T506", "T507", "T508", "T512", "T513", "T515"],
+      "classes": [
+        "DesignDecisionLogger",
+        "TokenLibraryUpdater",
+        "ComponentCatalogUpdater",
+        "DesignVersionTracker",
+        "DesignChangeEmitter",
+        "DesignEvolutionTracker",
+        "DesignPublishOrchestrator",
+        "MetaDesignOrchestrator"
+      ],
+      "adaptableFreedomKeys": [
+        "flow37_porting_run_timeout_ms",
+        "flow37_publish_targets",
+        "flow37_max_parallel_stages",
+        "flow37_pipeline_timeout_ms"
+      ],
+      "machineLockedRules": [
+        "registry writes happen before change events",
+        "version and evolution trackers are append-oriented",
+        "publication orchestration remains gated by quality, schema, token, and deployment checks"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-37 values may tune module naming, stack targets, compatibility thresholds, degraded-stack tolerance, review windows, report mode, and run timeouts without changing tenant isolation, fabric boundaries, gate order, registry append rules, or CloudEvents/outbox behavior.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow37_module_name",
+          "type": "string",
+          "default": "design-system-governance",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["tenant.config.json", "settings/module.settings.json"],
+          "boundedRange": { "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+        },
+        {
+          "key": "flow37_primary_stack",
+          "type": "string",
+          "default": "nestjs",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["design governance readiness evidence"],
+          "boundedRange": { "allowedValues": ["nestjs", "python-fastapi", "go-fiber", "java-spring"] }
+        },
+        {
+          "key": "flow37_target_stack",
+          "type": "string",
+          "default": "python-fastapi",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["stack compatibility and report surfaces"],
+          "boundedRange": { "allowedValues": ["python-fastapi", "go-fiber", "java-spring", "node-express"] }
+        },
+        {
+          "key": "flow37_max_incompatible_dimensions",
+          "type": "number",
+          "default": 0,
+          "unit": "dimensions",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["ComponentCompatibilityChecker", "DesignDeploymentGate"],
+          "boundedRange": { "min": 0, "max": 5 }
+        },
+        {
+          "key": "flow37_min_compatibility_score",
+          "type": "number",
+          "default": 0.8,
+          "unit": "score",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["ComponentCompatibilityChecker", "DesignQualityGate"],
+          "boundedRange": { "min": 0.5, "max": 0.98 }
+        },
+        {
+          "key": "flow37_max_degraded_stacks",
+          "type": "number",
+          "default": 1,
+          "unit": "stacks",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["ArchitectureScorer", "DesignHealthScorer"],
+          "boundedRange": { "min": 0, "max": 4 }
+        },
+        {
+          "key": "flow37_porting_run_timeout_ms",
+          "type": "number",
+          "default": 240000,
+          "unit": "milliseconds",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["MetaDesignOrchestrator", "DesignPublishOrchestrator"],
+          "boundedRange": { "min": 30000, "max": 900000 }
+        },
+        {
+          "key": "flow37_review_window_days",
+          "type": "number",
+          "default": 21,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["DesignDecisionLogger", "tenant.config.json"],
+          "boundedRange": { "min": 1, "max": 90 }
+        },
+        {
+          "key": "flow37_allow_stack_coupled_ports",
+          "type": "boolean",
+          "default": false,
+          "stakeholder": "platform-admin",
+          "consumedBy": ["DesignRuleValidator", "DesignDeploymentGate"],
+          "boundedRange": { "allowedValues": [true, false] }
+        },
+        {
+          "key": "flow37_default_report_mode",
+          "type": "string",
+          "default": "executive",
+          "stakeholder": "platform-admin",
+          "consumedBy": ["StackPortingScreen", "DesignHealthScorer"],
+          "boundedRange": { "allowedValues": ["executive", "operations", "audit"] }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to stack governance naming, target-stack policy, compatibility thresholds, degraded-stack tolerance, review timing, report mode, and run timeout budgets.",
+      "edgeCases": [
+        {
+          "id": "acme-stack-governance-hub",
+          "name": "Acme stack governance hub",
+          "semantic": "Tenant A tunes FLOW-37 for strict platform governance with zero incompatible dimensions and executive reporting.",
+          "extensionPoint": "module naming, primary stack, target stack, compatibility threshold, report mode",
+          "currentImplementation": "Design gates, tenant scope, append-only governance logs, and store-before-event ordering remain fixed."
+        },
+        {
+          "id": "northwind-stack-readiness-console",
+          "name": "Northwind stack readiness console",
+          "semantic": "Tenant B tunes FLOW-37 for broader operations readiness with a looser compatibility threshold and limited degraded-stack tolerance.",
+          "extensionPoint": "target stack, degraded stack tolerance, run timeout, review window",
+          "currentImplementation": "Schema, token, quality, and deployment gates still execute before publication."
+        },
+        {
+          "id": "tessera-design-portability-lab",
+          "name": "Tessera design portability lab",
+          "semantic": "Tenant C tunes FLOW-37 for audit-oriented community review with longer review and run windows.",
+          "extensionPoint": "review window, report mode, target stack, timeout budget",
+          "currentImplementation": "No tenant can relax DNA, BFA, role, auth, tenant-scope, or fork provenance rules."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T489 through T515 remain fixed for the design-system-governance implementation bundle.",
+      "Factory IDs F1271 through F1329 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Design evidence normalization precedes arbitration and publication.",
+      "Quality, component schema, token consistency, and deployment gates cannot be bypassed.",
+      "Design decision, version, and evolution records remain append-oriented.",
+      "Registry writes happen before events are emitted.",
+      "Tenant scope is resolved through AsyncLocalStorage.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory.",
+      "Marketplace forks must use tenant credentials from Vault.",
+      "GitHub Actions and local registry readback are required cascade evidence."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAStackGovernanceHub": {
+      "description": "Tenant A tunes FLOW-37 for strict stack governance.",
+      "change": {
+        "flow37_module_name": "acme-stack-governance-hub",
+        "flow37_primary_stack": "nestjs",
+        "flow37_target_stack": "python-fastapi",
+        "flow37_max_incompatible_dimensions": 0,
+        "flow37_min_compatibility_score": 0.82,
+        "flow37_max_degraded_stacks": 1,
+        "flow37_porting_run_timeout_ms": 180000,
+        "flow37_review_window_days": 14,
+        "flow37_allow_stack_coupled_ports": false,
+        "flow37_default_report_mode": "executive"
+      },
+      "impact": "Acme gets a stricter governance hub while gate order, tenant isolation, and fork provenance remain unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json, package metadata, and freedom defaults record these values."
+    },
+    "tenantBReadinessConsole": {
+      "description": "Tenant B tunes FLOW-37 for broader operations readiness.",
+      "change": {
+        "flow37_module_name": "northwind-stack-readiness-console",
+        "flow37_primary_stack": "nestjs",
+        "flow37_target_stack": "go-fiber",
+        "flow37_max_incompatible_dimensions": 1,
+        "flow37_min_compatibility_score": 0.75,
+        "flow37_max_degraded_stacks": 2,
+        "flow37_porting_run_timeout_ms": 300000,
+        "flow37_review_window_days": 30,
+        "flow37_allow_stack_coupled_ports": true,
+        "flow37_default_report_mode": "operations"
+      },
+      "impact": "Northwind gets a wider readiness console while deployment gates and registry append behavior stay fixed.",
+      "testable": "Tenant B fork from Tenant A publishes a distinct package version and keeps CI green."
+    },
+    "tenantCPortabilityLab": {
+      "description": "Tenant C tunes FLOW-37 for audit-oriented portability review.",
+      "change": {
+        "flow37_module_name": "tessera-design-portability-lab",
+        "flow37_primary_stack": "nestjs",
+        "flow37_target_stack": "java-spring",
+        "flow37_max_incompatible_dimensions": 0,
+        "flow37_min_compatibility_score": 0.8,
+        "flow37_max_degraded_stacks": 1,
+        "flow37_porting_run_timeout_ms": 420000,
+        "flow37_review_window_days": 45,
+        "flow37_allow_stack_coupled_ports": false,
+        "flow37_default_report_mode": "audit"
+      },
+      "impact": "Tessera gets longer review windows and audit reporting while core governance invariants stay locked.",
+      "testable": "Tenant C fork from Tenant B adapts locally, passes package CI, and preserves auth boundaries."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T489-T515",
+      "Factory IDs F1271-F1329",
+      "tenant-scoped fabric access",
+      "Vault credential paths",
+      "quality, schema, token, and deployment gate order",
+      "append-oriented governance record rules",
+      "registry write before event emission",
+      "CloudEvents envelope requirements",
+      "FLOW-37 canonical package slug",
+      "marketplace API as the only valid fork origin"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-37 configuration values or display/module metadata.",
+    "FLOW-37 package assembly copies the design-system-governance implementation under the canonical package slug path.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps.",
+    "GitHub repo evidence screenshots and local registry publish/readback must exist at each cascade point."
+  ]
+}

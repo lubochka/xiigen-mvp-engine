@@ -1,0 +1,11 @@
+{
+  "eventType": "MutualCountUpdated",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "mutual-connection-counter",
+  "consumers": ["T82"],
+  "piiFields": [],
+  "allowedPayloadFields": ["connectionId", "userIdA", "userIdB", "mutualCount", "tenantId", "computedAt"],
+  "forbiddenFields": ["mutualUserIds", "sharedConnectionIds", "adjacencyList"],
+  "notes": "Emitted by T80 after full graph recompute. mutualCount is a number only — mutualUserIds is FORBIDDEN (data retention violation). Full recompute guarantees idempotency under queue retries."
+}

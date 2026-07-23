@@ -1,0 +1,12 @@
+{
+  "eventType": "ai-safety-moderation.progress.tracked",
+  "flowId": "FLOW-24",
+  "version": "1.0.0",
+  "properties": {
+    "userId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "lessonsCompleted": { "type": "number", "required": true },
+    "totalLessons": { "type": "number", "required": true },
+    "trackedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

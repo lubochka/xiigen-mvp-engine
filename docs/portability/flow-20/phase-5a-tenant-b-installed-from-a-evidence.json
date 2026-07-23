@@ -1,0 +1,195 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "phase5aTenantBInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-07T09:11:05.8524824+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "repo": "lubochka/acme-corp--acme-strict-privacy-ads-platform",
+    "package": "@xiigen-fork/acme-strict-privacy-ads-platform",
+    "version": "1.0.1"
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/ads-platform/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "sourceRepoFullName": "lubochka/acme-corp--acme-strict-privacy-ads-platform",
+    "repoNameOverride": "northwind--acme-strict-privacy-ads-platform",
+    "repoFullName": "lubochka/northwind--acme-strict-privacy-ads-platform",
+    "repoUrl": "https://github.com/lubochka/northwind--acme-strict-privacy-ads-platform",
+    "initialCommitSha": "418255053f115d1aa5385980164ada4b5842a96b",
+    "initialVersion": "1.0.1",
+    "requestClientTimedOutAfterSeconds": 120,
+    "serverSideResult": "repo created and pushed; GitHub Actions run 25478283924 started"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--acme-strict-privacy-ads-platform",
+    "url": "https://github.com/lubochka/northwind--acme-strict-privacy-ads-platform",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialInstallCommit": "418255053f115d1aa5385980164ada4b5842a96b",
+    "initialActionsRun": {
+      "runId": 25478283924,
+      "jobId": 74756602196,
+      "url": "https://github.com/lubochka/northwind--acme-strict-privacy-ads-platform/actions/runs/25478283924",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "418255053f115d1aa5385980164ada4b5842a96b",
+      "failureReason": "Inherited Acme adaptation test asserted the Acme repo name after the fork engine correctly rewrote tenant.config.json to Northwind."
+    },
+    "repairCommit": "2d4083c64a44f555aed3462a6ff71d62456d6ab2",
+    "repairCommitMessage": "Repair Northwind install proof for Acme ads platform",
+    "repairActionsRun": {
+      "runId": 25478505683,
+      "jobId": 74757287247,
+      "url": "https://github.com/lubochka/northwind--acme-strict-privacy-ads-platform/actions/runs/25478505683",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "2d4083c64a44f555aed3462a6ff71d62456d6ab2",
+      "createdAt": "2026-05-07T05:55:42Z",
+      "updatedAt": "2026-05-07T05:56:19Z",
+      "successfulSteps": [
+        "Set up job",
+        "Run actions/checkout@v4.2.2",
+        "Run actions/setup-node@v4.4.0",
+        "Install",
+        "TypeScript check",
+        "Test",
+        "Provenance",
+        "Post Run actions/setup-node@v4.4.0",
+        "Post Run actions/checkout@v4.2.2",
+        "Complete job"
+      ]
+    },
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-strict-privacy-ads-platform-phase5a-20260507-085005",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "__tests__/ads-platform-acme-adaptation.spec.ts"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      }
+    ],
+    "installProof": {
+      "tenantConfigTenantId": "northwind",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-strict-privacy-ads-platform",
+      "adaptationHistoryEntries": 1,
+      "firstAdaptationTenantId": "acme-corp",
+      "firstAdaptationPublisher": "acme-corp",
+      "manifestContainsStandalonePackage": true,
+      "manifestContainsAdaptationSurface": true,
+      "manifestItemCount": 114
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/acme-strict-privacy-ads-platform",
+    "version": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-strict-privacy-ads-platform/-/acme-strict-privacy-ads-platform-1.0.1.tgz",
+    "shasum": "90dea3e3ce501f1237d3bfcf132737e65deb55b1",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/ads-platform-acme-v1.0.1-registry-api-evidence-phase5a.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/ads-platform-acme-v1.0.1-registry-listing-phase5a.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/ads-platform/tenant-b-installed-from-a",
+      "count": 15,
+      "zeroByteFiles": 0,
+      "playwrightExecutions": 45,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "business-partner",
+        "platform-admin"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-20/northwind--acme-strict-privacy-ads-platform-tenant-b-installed-from-a-github-listing.png",
+        "bytes": 132382
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-20/northwind--acme-strict-privacy-ads-platform-tenant-b-installed-from-a-actions-success.png",
+        "bytes": 78166
+      },
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/ads-platform-acme-v1.0.1-registry-listing-phase5a.png",
+        "bytes": 49159
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/ads-platform-tenant-b-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-20 Tenant B installed-from-A cascade-point visual evidence under docs/e2e-snapshots/ads-platform/tenant-b-installed-from-a."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBInstalledPlaywright": {
+      "command": "client: VITE_PORT=52024 npx playwright test e2e/ads-platform-tenant-b-installed.spec.ts --reporter=line",
+      "result": "passed",
+      "tests": 45,
+      "distinctPngCount": 15,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBForkedTenantAAdaptedSource": true,
+    "tenantBInstalledPackagePreservedTenantAValues": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryStillReturnsTenantAPackage": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBAdaptation": true
+  },
+  "verdict": "PASS"
+}

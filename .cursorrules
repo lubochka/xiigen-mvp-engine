@@ -1,0 +1,70 @@
+# XIIGen Engine — Cursor Rules
+
+## Tech Stack
+- **Server:** NestJS 10, TypeScript 5, Jest
+- **Client:** React 18, Vite 5, Tailwind CSS, Jest + @testing-library/react
+- **Infra:** Elasticsearch 8, PostgreSQL 16, Redis 7, AWS SQS (LocalStack)
+- **AI:** Anthropic Claude, OpenAI, Google Gemini, xAI Grok
+
+## Commands
+```bash
+cd server && npm run build          # build
+cd server && npx jest --verbose     # 5,512 server tests
+cd client && npx jest --verbose     # 220 client tests
+docker compose up --build           # full stack
+```
+
+## Non-Negotiable Rules
+
+### 1. Fabric First
+NEVER import a provider SDK in service code. Always inject the fabric interface.
+```typescript
+// ✅ @Inject(DATABASE_SERVICE) private db: IDatabaseService
+// ❌ import { Client } from '@elastic/elasticsearch'
+```
+
+### 2. No Typed Models (DNA-1)
+ALL business data = `Record<string, unknown>`. No classes or interfaces for data.
+
+### 3. DataProcessResult (DNA-3)
+ALL service methods return `DataProcessResult<T>`. Never `throw` for business logic.
+
+### 4. MicroserviceBase (DNA-4)
+ALL services extend `MicroserviceBase`. No exceptions.
+
+### 5. Tenant Scope (DNA-5)
+Tenant is automatic via AsyncLocalStorage. NEVER pass `tenantId` as parameter.
+
+### 6. DynamicController (DNA-6)
+No entity-specific controllers (`ProductsController`, etc.).
+
+### 7. Queue Only (Rule 11)
+No HTTP between services. All inter-service communication via Queue Fabric.
+
+### 8. Outbox Pattern (DNA-8)
+`storeDocument()` MUST come BEFORE `enqueue()`.
+
+## Directory Structure
+```
+server/src/
+├── kernel/           ← DNA primitives (RARELY TOUCH)
+├── fabrics/          ← 6 fabric layers
+├── factories/        ← Factory pattern + registry
+├── engine-contracts/ ← Task type definitions
+├── engine/           ← Flow generator
+├── guardrails/       ← BFA + DNA validator
+├── freedom/          ← Config manager
+├── af-stations/      ← 11 AF stations + pipeline
+├── api/              ← REST controllers
+└── learning/         ← Feedback + quality scoring
+```
+
+## Anti-Patterns (NEVER)
+- `import { Client } from '@elastic/elasticsearch'` in service code
+- `class ProductModel { name: string }` — use `Record<string, unknown>`
+- `throw new Error()` for business conditions
+- `tenantId` as method parameter
+- Entity-specific controllers
+- `fetch()` or HTTP calls between services
+- `enqueue()` before `storeDocument()`
+- Skip BFA validation on new flows

@@ -1,0 +1,30 @@
+{
+  "name": "@xiigen/friend-request-privacy-sdk",
+  "version": "1.0.0",
+  "description": "FLOW-07 privacy gate SDK - portable PrivacyGatekeeperService contract and data shapes for friend-request-social-feed forks.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "author": "Luba",
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "xiigen": {
+    "flowId": "FLOW-07",
+    "capabilities": [
+      "PRIVACY_GATEKEEPER_CONTRACT"
+    ],
+    "coBundleFor": "@xiigen/friend-request-social-feed"
+  },
+  "keywords": [
+    "xiigen",
+    "friend-request",
+    "privacy-gatekeeper",
+    "flow-07"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "flowId": "FLOW-39",
+  "flowSlug": "oss-curriculum",
+  "phase": "phase-i-certification-declaration",
+  "status": "completed",
+  "generatedAt": "2026-05-12T01:28:00.0000000+03:00",
+  "earnedTier": "Tier 2+",
+  "basis": [
+    "Docker/Vault live auth matrix passed before cascade: 8/8.",
+    "Server TypeScript and FLOW-39 Jest passed: 4 suites / 78 tests.",
+    "Client TypeScript passed after FLOW-39 role-aware Playwright test repair.",
+    "FLOW-39 Playwright and screenshot layer passed: 51/51 plus 3/3 C6, 3/3 run-65, and 3/3 visual-audit.",
+    "Tenant A forked platform source through the marketplace API, adapted, passed GitHub Actions, and published to the local registry.",
+    "Tenant B forked Tenant A through the marketplace API, adapted, passed GitHub Actions, and published to the local registry.",
+    "Tenant C forked Tenant B through the marketplace API, adapted, passed GitHub Actions, and published to the local registry.",
+    "Repo evidence screenshots exist for all three tenants and repos were restored private.",
+    "Post-cascade live auth matrix passed: 8/8.",
+    "Closing portability/auth scans produced zero failure lines."
+  ],
+  "tenantRepos": [
+    "lubochka/acme-corp--oss-curriculum-f39",
+    "lubochka/northwind--oss-curriculum-f39",
+    "lubochka/tessera-collective--oss-curriculum-f39"
+  ],
+  "packages": [
+    "@xiigen-fork/acme-oss-curriculum-lab@1.0.1",
+    "@xiigen-fork/northwind-shadow-learning-hub@1.0.2",
+    "@xiigen-fork/tessera-oss-teaching-loop@1.0.3"
+  ],
+  "verdict": "PASS"
+}

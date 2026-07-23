@@ -1,0 +1,127 @@
+{
+  "flowId": "FLOW-27",
+  "flowSlug": "human-interaction-gate",
+  "implementationSlug": "human-approval-gate",
+  "phase": "phase-4.0-tenant-a-original-fork",
+  "status": "completed",
+  "capturedAt": "2026-05-10T16:40:20.611Z",
+  "tenant": "acme-corp",
+  "repo": {
+    "forkId": "fork-human-interaction-gate-acme-corp",
+    "repoFullName": "lubochka/acme-corp--human-interaction-gate",
+    "repoUrl": "https://github.com/lubochka/acme-corp--human-interaction-gate",
+    "defaultBranch": "main",
+    "initialCommitSha": "5eeb1214f97431f1ef2b17560597c547cb6b59c5",
+    "visibilityAfterScreenshots": "PRIVATE"
+  },
+  "forkApi": {
+    "method": "POST",
+    "url": "http://localhost:3000/api/marketplace/packages/human-interaction-gate/fork",
+    "tenantHeader": "acme-corp",
+    "role": "tenant-admin",
+    "responseStatus": "FORKED",
+    "usedRealMarketplaceApi": true,
+    "syntheticRepo": false,
+    "manualRepoCreation": false
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - human-interaction-gate",
+    "runId": 25633964472,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "5eeb1214f97431f1ef2b17560597c547cb6b59c5",
+    "createdAt": "2026-05-10T16:33:44Z",
+    "updatedAt": "2026-05-10T16:34:28Z",
+    "url": "https://github.com/lubochka/acme-corp--human-interaction-gate/actions/runs/25633964472"
+  },
+  "localValidation": {
+    "cloneDir": "C:/Projects/xiigen-fork-clones/acme-corp--human-interaction-gate-phase40-20260510-193451",
+    "cloneHeadSha": "5eeb1214f97431f1ef2b17560597c547cb6b59c5",
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "installExit": 0,
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 1,
+      "jestSuitesTotal": 1,
+      "jestTestsPassed": 1,
+      "jestTestsTotal": 1,
+      "packDryRunExit": 0,
+      "packEntryCount": 116
+    }
+  },
+  "bundleManifest": {
+    "path": "BUNDLE-MANIFEST.json",
+    "requiredBundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    },
+    "canonicalManifestServicePaths": 10,
+    "wrongImplementationManifestPaths": 0,
+    "canonicalPathRequired": "server/src/engine/flows/human-interaction-gate/*.ts",
+    "wrongImplementationPathRejected": "server/src/engine/flows/human-approval-gate"
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-27",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4.0-tenant-a-repo.png",
+        "bytes": 125268
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4.0-tenant-a-actions-run.png",
+        "bytes": 76154
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-4.0-tenant-a-bundle-manifest.png",
+        "bytes": 371498
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "scanRoot": "C:/Projects/xiigen-fork-clones/acme-corp--human-interaction-gate-phase40-20260510-193451/server/src/engine/flows/human-interaction-gate",
+    "flowFileCount": 10,
+    "throwNew": 0,
+    "exportedServices": 10,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0,
+    "failureLines": 0
+  },
+  "credentialHandling": {
+    "tenantCredentialsSeededInVault": true,
+    "vaultFreedomConnectionSeededFromProcessEnvWithoutPrinting": true,
+    "secretsPrinted": false,
+    "tenantCredentialPathsUsedByForkHandler": [
+      "secret/acme-corp/github_token",
+      "secret/acme-corp/github_org_name",
+      "secret/acme-corp/docker_registry_url",
+      "secret/acme-corp/docker_registry_token"
+    ]
+  },
+  "protocolGate": {
+    "realMarketplaceApiCall": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "fullBundle": true,
+    "localCloneValidation": true,
+    "realGitHubScreenshots": true,
+    "closeScansZeroFailureLines": true,
+    "phaseComplete": true
+  }
+}

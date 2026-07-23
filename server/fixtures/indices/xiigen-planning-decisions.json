@@ -1,0 +1,26 @@
+{
+  "index": "xiigen-planning-decisions",
+  "mappings": {
+    "properties": {
+      "flowId":           { "type": "keyword" },
+      "phase":            { "type": "keyword" },
+      "decisionType":     { "type": "keyword" },
+      "category":         { "type": "keyword" },
+      "trainingCategory": { "type": "keyword" },
+      "status":           { "type": "keyword" },
+      "subjectTaskType":  { "type": "keyword" },
+      "archetype":        { "type": "keyword" },
+      "chosen":           { "type": "object", "enabled": false },
+      "rejected":         { "type": "object", "enabled": false },
+      "teachingPoint":    { "type": "text" },
+      "futureFlowSignal": { "type": "text" },
+      "tenantId":         { "type": "keyword" },
+      "knowledgeScope":   { "type": "keyword" },
+      "ownerId":          { "type": "keyword" },
+      "moduleId":         { "type": "keyword" },
+      "pricingModel":     { "type": "keyword" },
+      "recordedAt":       { "type": "date" },
+      "recordedBy":       { "type": "keyword" }
+    }
+  }
+}

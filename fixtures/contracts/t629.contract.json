@@ -1,0 +1,38 @@
+{
+  "taskTypeId": "T629",
+  "name": "FormSchemaPublisher",
+  "flowId": "FLOW-21",
+  "domainId": "dynamic-forms-workflows",
+  "archetype": "validation",
+  "purpose": "Schema publishing via OCC with DRAFT→PUBLISHED transition; published schemas immutable",
+  "entry": "SchemaPublishRequested event",
+  "ironRules": [
+    "IR-1: OCC via storeDocumentWithOCC(schema, version, expectedVersion)",
+    "IR-2: Published schema.fields immutable — no updates to published version",
+    "IR-3: All field validation rules must exist before publish",
+    "IR-4: Emit SchemaPublished with schemaId, version, fieldCount",
+    "IR-5: tenantId from ALS only"
+  ],
+  "machineComponents": [
+    "OCC on schema publish",
+    "DRAFT→PUBLISHED state transition",
+    "Field validation rules required",
+    "Schema immutability enforcement"
+  ],
+  "freedomComponents": [
+    "schema_publish_timeout_ms",
+    "schema_validation_rule_required"
+  ],
+  "factories": [
+    {
+      "factoryId": "F1503",
+      "interface": "IDatabaseService",
+      "provider": "elasticsearch"
+    },
+    {
+      "factoryId": "F1504",
+      "interface": "IQueueService",
+      "provider": "rabbitmq"
+    }
+  ]
+}

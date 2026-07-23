@@ -1,0 +1,17 @@
+{
+  "eventType": "ads.political.content-flagged",
+  "flowId": "FLOW-20",
+  "version": "1.0.0",
+  "description": "Emitted by T628 PoliticalContentReviewer when model divergence exceeds threshold or initial classification is borderline. Queues content for mandatory human review.",
+  "properties": {
+    "contentId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "model1Score": { "type": "number", "minimum": 0, "maximum": 1, "required": true },
+    "model2Score": { "type": "number", "minimum": 0, "maximum": 1, "required": true },
+    "divergence": { "type": "number", "minimum": 0, "maximum": 1, "required": true },
+    "flagReason": { "type": "string", "enum": ["HIGH_DIVERGENCE", "BORDERLINE_CLASSIFICATION"], "required": true },
+    "humanReviewQueueId": { "type": "string", "required": true },
+    "auditRecordId": { "type": "string", "required": true },
+    "flaggedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

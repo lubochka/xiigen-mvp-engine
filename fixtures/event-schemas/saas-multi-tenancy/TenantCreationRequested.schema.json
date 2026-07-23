@@ -1,0 +1,12 @@
+{
+  "eventType": "saas.tenant.creation.requested",
+  "flowId": "FLOW-15",
+  "version": "1.0.0",
+  "properties": {
+    "requestId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "tier": { "type": "string", "enum": ["FREE", "STARTER", "PROFESSIONAL", "ENTERPRISE"], "required": true },
+    "requestedBy": { "type": "string", "required": true },
+    "requestedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "phase": "phase-1-unit-integration",
+  "generatedAt": "2026-05-06T07:20:45.0000000+03:00",
+  "verification": {
+    "serverTypecheck": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0,
+      "status": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "passedSuites": 2,
+      "passedTests": 63,
+      "status": "passed"
+    },
+    "phaseCloseScan": {
+      "flowFileCount": 16,
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "status": "passed"
+    }
+  },
+  "summary": {
+    "status": "PASS",
+    "unitIntegrationGateComplete": true,
+    "technicalDebtIntroduced": false,
+    "secretsPrintedOrCommitted": false,
+    "notes": [
+      "These commands were run immediately after the Phase 0 Docker/Vault live auth matrix, so they close the Phase 1 unit/integration gate without repeating an identical cycle.",
+      "No FLOW-13 source files were modified in this phase."
+    ]
+  }
+}

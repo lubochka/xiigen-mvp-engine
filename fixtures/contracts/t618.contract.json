@@ -1,0 +1,83 @@
+{
+  "taskTypeId": "T618",
+  "flowId": "FLOW-18",
+  "name": "FlowPublicationOrchestrator",
+  "archetype": "ORCHESTRATION",
+  "domainId": "visual-flow-engine",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T618-1",
+      "rule": "DFS cycle detection (WHITE/GRAY/BLACK coloring) at ORDER 1 — before any type check or write. GRAY node re-visit = cycle. CycleDetected emitted, no further processing.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T618-2",
+      "rule": "Type compatibility per-edge at ORDER 2 — source output schema compatible with target input schema. TypeMismatch emitted with edge details on incompatibility.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T618-3",
+      "rule": "OCC updateDocument(status:PUBLISHED, expectedVersion) at ORDER 3 — NOT plain storeDocument. OCC_CONFLICT → emit FlowPublicationConflict.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T618-4",
+      "rule": "storeDocument(audit) at ORDER 4 BEFORE FlowPublished emit. DNA-8.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T618-5",
+      "rule": "CycleDetected emitted on cycle. TypeMismatch emitted on edge incompatibility. FlowPublicationConflict on OCC conflict.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1547",
+      "token": "IFlowCanvasService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1549",
+      "token": "IFlowPublicationAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "DFS_CYCLE_DETECTION_WHITE_GRAY_BLACK",
+    "TYPE_COMPATIBILITY_PER_EDGE",
+    "OCC_DRAFT_TO_PUBLISHED"
+  ],
+  "freedomComponents": [
+    "flow_max_node_depth",
+    "flow_type_compatibility_strict"
+  ],
+  "stackCoupling": {
+    "queue": ["FlowPublished", "CycleDetected", "TypeMismatch", "FlowPublicationConflict"],
+    "database": ["xiigen-flow-canvases", "xiigen-publication-audit"]
+  },
+  "handlers": [
+    "run_dfs_cycle_detection",
+    "validate_edge_type_compatibility",
+    "occ_publish_transition",
+    "write_publication_audit",
+    "emit_flow_published"
+  ],
+  "namedChecks": [
+    "dfs_before_type_check",
+    "type_compatibility_per_edge",
+    "occ_publish",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "visual-flow",
+    "DFS",
+    "cycle-detection",
+    "WHITE-GRAY-BLACK",
+    "OCC",
+    "type-compatibility",
+    "orchestration"
+  ],
+  "keywords": "flow publication orchestrator DFS WHITE GRAY BLACK cycle detection type compatibility OCC DRAFT PUBLISHED CycleDetected TypeMismatch FlowPublished T618 visual flow engine"
+}

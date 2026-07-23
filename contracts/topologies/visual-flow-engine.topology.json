@@ -1,0 +1,63 @@
+{
+  "flowId": "FLOW-18",
+  "name": "Visual Flow Engine",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T617",
+      "taskTypeId": "T617",
+      "name": "FlowCanvasWriter",
+      "archetype": "validation",
+      "entry": "POST /flows/:id/canvas (BOLA + FLOW_IMMUTABLE guard)"
+    },
+    {
+      "id": "T618",
+      "taskTypeId": "T618",
+      "name": "FlowPublicationOrchestrator",
+      "archetype": "orchestration",
+      "entry": "DFS WHITE/GRAY/BLACK cycle detect + OCC DRAFT\u2192PUBLISHED"
+    },
+    {
+      "id": "T619",
+      "taskTypeId": "T619",
+      "name": "NodeTypeRegistrar",
+      "archetype": "processing",
+      "entry": "SETNX node-type-reg-lock + dual write + redis.del in catch"
+    },
+    {
+      "id": "T620",
+      "taskTypeId": "T620",
+      "name": "CodeInjectionProcessor",
+      "archetype": "emit",
+      "entry": "version lock + pre-write audit (rollback pointer)"
+    }
+  ],
+  "edges": [
+    {
+      "from": "FlowCanvasEditRequested",
+      "to": "T617",
+      "event": "xiigen.visual-flow-engine.canvas-edit-requested.v1"
+    },
+    {
+      "from": "T617",
+      "to": "T618",
+      "event": "xiigen.visual-flow-engine.canvas-updated.v1"
+    },
+    {
+      "from": "T618",
+      "to": "T619",
+      "event": "xiigen.visual-flow-engine.flow-published.v1"
+    },
+    {
+      "from": "T619",
+      "to": "T620",
+      "event": "xiigen.visual-flow-engine.node-type-registered.v1"
+    },
+    {
+      "from": "T620",
+      "to": "VisualFlowLifecycleComplete",
+      "event": "xiigen.visual-flow-engine.code-injected.v1",
+      "condition": "terminal"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+name: tracker-skill
+sk_number: SK-406
+priority: OPTIONAL
+load_order: null
+description: >
+  Project tracker adapter (FREEDOM pattern, multi-tenant). IProjectTrackerService interface
+  with LocalFileTrackerProvider default. Swappable to Jira/Trello/Linear via env vars.
+  Loaded only when tracker is configured.
+triggers:
+  - project tracker
+  - create card
+  - update status
+  - TRACKER_PROVIDER
+  - IProjectTrackerService
+  - LocalFileTrackerProvider
+  - session tracking
+providers:
+  default: local-file (.claude/tracker/{tenantId}/cards.json)
+  configurable:
+    - jira (TRACKER_PROVIDER=jira)
+    - trello (TRACKER_PROVIDER=trello)
+    - linear (TRACKER_PROVIDER=linear)
+multi_tenant: true
+optional: true
+note: >
+  Tracker is observability tooling only. Sessions complete without it.
+  STATE-Pn.json is the source of truth.

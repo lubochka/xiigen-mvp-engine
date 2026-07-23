@@ -1,0 +1,88 @@
+{
+  "$schema": "xiigen-tenant-freedom-profile-v1",
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "tenantId": "acme-pro-members",
+  "profileVersion": "1.0.0",
+  "adaptationCategory": "freedom-config",
+  "basedOnDefaultsVersion": "FLOW-01 v1.0.0 (XIIGEN_FREEDOM_DEFAULTS)",
+  "publishedAt": "2026-04-22",
+  "publishedBy": "architect-mode / FLOW-PORTABILITY-TEST-PROTOCOL-v1.0",
+  "overrides": {
+    "flow01_invitation_inviter_name": {
+      "value": "The Acme Pro Team",
+      "rationale": "Tenant-specific branding; 'that an invitation exists' is MACHINE, the name is FREEDOM",
+      "stakeholder": "product-growth"
+    },
+    "flow01_invitation_community_name": {
+      "value": "Acme Pro Members",
+      "rationale": "Tenant community name in invitation body",
+      "stakeholder": "product-growth"
+    },
+    "flow01_email_verification_ttl_seconds": {
+      "value": 3600,
+      "rationale": "Stricter abuse profile \u2014 1h token TTL vs 24h default",
+      "stakeholder": "security-engineering"
+    },
+    "flow01_resend_rate_limit_minutes": {
+      "value": 15,
+      "rationale": "Reduce friction for legitimate resend attempts",
+      "stakeholder": "product-growth"
+    }
+  },
+  "deploymentInstructions": {
+    "seedIndex": "xiigen-freedom-config",
+    "seedMethod": "IFreedomConfigService.set() per key, within tenant's AsyncLocalStorage context",
+    "sampleSeedScript": "for (const [key, cfg] of Object.entries(overrides)) { await cls.runWith({ tenantId }, () => freedomConfig.set(key, cfg.value)); }",
+    "idempotent": true,
+    "requiresRestart": false
+  },
+  "verificationContract": {
+    "testFile": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts",
+    "testsRunForThisProfile": [
+      "FC-ADAPT-1",
+      "FC-ADAPT-2",
+      "FC-ADAPT-3",
+      "FC-ADAPT-4",
+      "FC-ADAPT-5"
+    ],
+    "allPassed": true,
+    "lastRun": "2026-04-22"
+  },
+  "machineInvariantsPreserved": [
+    "Event names: AccountCreated, VerificationEmailRequested, VerificationCompleted, OnboardingCompleted",
+    "Task-type IDs: T47, T48, T49",
+    "User record schema including onboarding_materials:[]",
+    "Material type literals: workspace_setup, flow_tutorial, community_invitation",
+    "Idempotency key format and outbox ordering (storeDocument before enqueue)",
+    "Token hashing algorithm (sha256)",
+    "Uniform VALIDATION_FAILURE shape (no field leakage)"
+  ],
+  "connections": {
+    "$comment": "Per-tenant CI/CD connection config (Phase C12, DEV-115, 2026-04-26) \u2014 schema per TENANT-CICD-CONNECTION-GUIDANCE-v1.0 \u00a7TENANT PROFILE SCHEMA. connectionVerified=false is the initial state; ForkFlowHandlerService's Step-0 preflight sets it to true and writes lastVerifiedAt when the checkConnection() call returns reachable=true + hasRepoScope=true. If a fork session reads connectionVerified=false it MUST run the preflight before proceeding (Rule F-1).",
+    "github": {
+      "orgName": "lubochka",
+      "vaultKeyPath": "xiigen/tenants/acme-pro-members/github_token",
+      "repoVisibility": "private",
+      "defaultBranch": "main",
+      "connectionVerified": true,
+      "lastVerifiedAt": "2026-04-26T12:26:23.385892+00:00"
+    },
+    "docker": {
+      "registryUrl": "ghcr.io",
+      "vaultKeyPath": "xiigen/tenants/acme-pro-members/docker_registry_token",
+      "imagePullPolicy": "IfNotPresent",
+      "connectionVerified": false,
+      "lastVerifiedAt": null
+    },
+    "ci": {
+      "provider": "github-actions",
+      "workflowTemplate": "flow-ci-v1",
+      "reportWebhook": null,
+      "firstCiRunAt": "2026-04-26T12:22:59.804597+00:00",
+      "lastCiRunAt": "2026-04-26T12:22:59.804597+00:00",
+      "lastCiResult": "success",
+      "lastCiRunUrl": "https://github.com/lubochka/acme-pro-members--user-registration/actions/runs/24956511707"
+    }
+  }
+}

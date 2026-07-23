@@ -1,0 +1,77 @@
+{
+  "taskTypeId": "T623",
+  "flowId": "FLOW-19",
+  "name": "ComplianceAuditWriter",
+  "archetype": "data_pipeline",
+  "domainId": "durable-sagas-compliance",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T623-1",
+      "rule": "retentionExpiresAt computed at write time from FREEDOM config key flow19_compliance_retention_days — NEVER hardcoded, NEVER deferred to batch job. CF-19-3.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T623-2",
+      "rule": "auditHash = SHA-256([tenantId, sagaId, eventType, writtenAt].join(':')) — deterministic tamper-detection fingerprint on every record. CF-19-3.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T623-3",
+      "rule": "ONLY storeDocument on xiigen-compliance-records — updateDocument and deleteDocument are BUILD_FAILURE violations on this index. Append-only. CF-19-3.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T623-4",
+      "rule": "storeDocument at ORDER 3 BEFORE enqueue(ComplianceRecordWritten) at ORDER 4 — DNA-8.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T623-5",
+      "rule": "knowledgeScope: PLATFORM_ONLY on all compliance records — inaccessible to tenant-scoped fabric queries. CF-19-3.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1557",
+      "token": "IComplianceRetentionConfig",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "SHA256_AUDIT_HASH_COMPUTATION",
+    "RETENTION_EXPIRES_AT_WRITE_TIME",
+    "APPEND_ONLY_PLATFORM_ONLY_STORE"
+  ],
+  "freedomComponents": [
+    "flow19_compliance_retention_days"
+  ],
+  "stackCoupling": {
+    "queue": ["ComplianceRecordWritten", "ComplianceWriteFailed"],
+    "database": ["xiigen-compliance-records"]
+  },
+  "handlers": [
+    "compute_retention_expiry",
+    "compute_audit_hash",
+    "append_compliance_record",
+    "emit_compliance_written"
+  ],
+  "namedChecks": [
+    "retention_expires_at_write_time",
+    "audit_hash_sha256",
+    "append_only_compliance_index",
+    "platform_only_knowledge_scope"
+  ],
+  "tags": [
+    "compliance",
+    "immutability",
+    "append-only",
+    "retentionExpiresAt",
+    "platform-only",
+    "sha256",
+    "cf-19-3",
+    "dna-8"
+  ],
+  "keywords": "ComplianceAuditWriter retentionExpiresAt write time FREEDOM config append-only PLATFORM_ONLY auditHash SHA-256 T623 CF-19-3 immutable"
+}

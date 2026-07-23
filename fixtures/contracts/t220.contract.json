@@ -1,0 +1,44 @@
+{
+  "taskTypeId": "T220",
+  "flowId": "FLOW-14",
+  "name": "MartKpiBuilder",
+  "archetype": "modeling",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "pii-gate-then-rls-then-kpi-compute-then-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_pii_gate_strict_mode",
+    "neutralConcepts": [
+      "DR-63: IPiiClassificationService (F462) at ORDER 1 — mart write blocked if piiFieldsDetected > 0",
+      "F463 IRlsPolicyService applied to all mart results before return",
+      "PiiClassificationCompleted emitted BEFORE MartRefreshed — event ordering",
+      "MartRefreshed includes piiGateApplied: true",
+      "storeDocument(mart_record) BEFORE enqueue(MartRefreshed) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F462", "interface": "IPiiClassificationService", "fabric": "CORE" },
+    { "factoryId": "F463", "interface": "IRlsPolicyService", "fabric": "CORE" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T220-1", "rule": "DR-63: IPiiClassificationService (F462) at ORDER 1 — piiFieldsDetected > 0 blocks mart write.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T220-2", "rule": "F463 IRlsPolicyService applied to all mart results before return.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T220-3", "rule": "PiiClassificationCompleted emitted BEFORE MartRefreshed.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T220-4", "rule": "MartRefreshed payload MUST include piiGateApplied: true.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T220-5", "rule": "storeDocument BEFORE enqueue(MartRefreshed) — DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "pii_gate_order_1",
+    "rls_on_mart_results",
+    "pii_event_before_mart_event",
+    "pii_gate_applied_in_payload",
+    "store_before_enqueue"
+  ],
+  "bfaRules": ["DR-63"],
+  "tags": ["mart", "pii", "rls", "kpi", "modeling"],
+  "keywords": "mart KPI builder PII gate classification F462 F463 RLS piiFieldsDetected PiiClassificationCompleted MartRefreshed piiGateApplied DR-63"
+}

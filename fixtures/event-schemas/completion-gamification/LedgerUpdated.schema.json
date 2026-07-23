@@ -1,0 +1,11 @@
+{
+  "eventType": "LedgerUpdated",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "ledger-updater",
+  "consumers": ["T98"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "ledgerId", "pointBreakdown", "newTotal", "updatedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T85 after atomic incrementAndRecord(). pointBreakdown includes base + correctAnswers + streakBonus breakdown. Part of Branch A gate for T98."
+}

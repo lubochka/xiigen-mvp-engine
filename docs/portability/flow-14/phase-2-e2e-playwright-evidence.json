@@ -1,0 +1,81 @@
+{
+  "flowId": "FLOW-14",
+  "flowSlug": "etl-data-integration",
+  "phase": "phase-2-e2e-playwright",
+  "generatedAt": "2026-05-06T07:36:33.638Z",
+  "status": "PASS",
+  "commands": [
+    "docker compose -f docker-compose.yml up -d --build server with SERVER_PORT=3000, SECRETS_PROVIDER=vault",
+    "Invoke-RestMethod http://localhost:3000/health/live",
+    "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+    "Push-Location client; $env:VITE_PORT=5174; npx playwright test etl-data-integration.spec.ts etl-data-integration-mock-states.spec.ts etl-data-integration-crud.spec.ts etl-data-integration-role-matrix.spec.ts --reporter=json; Pop-Location",
+    "FLOW-14 phase-close portability/auth/static/secret scans"
+  ],
+  "server": {
+    "healthUrl": "http://localhost:3000/health/live",
+    "status": "healthy",
+    "secretsProvider": "vault"
+  },
+  "playwright": {
+    "report": "docs/portability/flow-14/phase-2-playwright-report.json",
+    "total": 66,
+    "passed": 66,
+    "failed": 0,
+    "skipped": 0,
+    "projects": {
+      "chromium-desktop": {
+        "total": 22,
+        "passed": 22
+      },
+      "chromium-tablet": {
+        "total": 22,
+        "passed": 22
+      },
+      "chromium-mobile": {
+        "total": 22,
+        "passed": 22
+      }
+    }
+  },
+  "screenshots": {
+    "flowSnapshotDirectory": "docs/e2e-snapshots/etl-data-integration",
+    "expectedFlowProjectPngCount": 51,
+    "actualFlowProjectPngCount": 51,
+    "roleMatrixDirectory": "docs/e2e-snapshots/visual-audit/{project}/etl-data-integration",
+    "expectedRoleMatrixPngCount": 12,
+    "actualRoleMatrixPngCount": 12,
+    "roles": [
+      "tenant-admin",
+      "tenant-user",
+      "platform-admin",
+      "platform-support"
+    ],
+    "viewports": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "repoEvidenceFlow14PngCount": 0,
+    "repoEvidenceStatus": "not-yet-applicable-before-fork-cascade; required at tenant cascade points in Phase 4+"
+  },
+  "phaseCloseScans": {
+    "throwNewFailureLines": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImportFailureLines": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "consumerPlainLanguageFailureLines": 0,
+    "secretPatternFailureLines": 0
+  },
+  "phaseGate": {
+    "e2ePassed": true,
+    "flowPngCountPassed": true,
+    "roleMatrixPngCountPassed": true,
+    "secretScanPassed": true,
+    "closeStatus": "PASS"
+  },
+  "notes": [
+    "Corrected Playwright dynamic API header to the canonical master tenant ID after live TENANT_NOT_FOUND failure exposed a shortened ID in the spec.",
+    "Repo evidence screenshots are intentionally deferred until real tenant GitHub repositories exist during the fork cascade phases."
+  ]
+}

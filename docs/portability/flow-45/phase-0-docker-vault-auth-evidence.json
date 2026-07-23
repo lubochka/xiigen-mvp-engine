@@ -1,0 +1,201 @@
+{
+    "flowId":  "FLOW-45",
+    "flowSlug":  "history-bootstrap",
+    "phase":  "phase0DockerVaultAuth",
+    "generatedAt":  "2026-05-12T01:42:06.3576520Z",
+    "status":  "completed",
+    "server":  {
+                   "healthPayloadStatus":  "OK",
+                   "url":  "http://localhost:33001",
+                   "health":  "passed",
+                   "protectedProbeRoute":  "/api/runs/phase0-auth-probe/trace"
+               },
+    "vault":  {
+                  "sealed":  false,
+                  "container":  "xiigen-vault",
+                  "signingKeysReadFromVault":  {
+                                                   "northwind":  true,
+                                                   "tessera-collective":  true,
+                                                   "acme-corp":  true
+                                               }
+              },
+    "tenants":  [
+                    "acme-corp",
+                    "northwind",
+                    "tessera-collective"
+                ],
+    "github":  {
+                   "tokenPrinted":  false,
+                   "tokenSource":  "key-file-or-gh",
+                   "login":  "lubochka"
+               },
+    "credentialReadback":  {
+                               "acmeGithubTokenPresent":  true,
+                               "secretsPrinted":  false
+                           },
+    "authDecoration":  {
+                           "routeProtected":  true,
+                           "rolesCovered":  [
+                                                "tenant-admin",
+                                                "platform-support"
+                                            ],
+                           "tenantContextsCovered":  [
+                                                         "acme-corp",
+                                                         "northwind",
+                                                         "tessera-collective"
+                                                     ],
+                           "validRole":  "tenant-admin",
+                           "wrongRole":  "platform-support"
+                       },
+    "liveAuthMatrix":  [
+                           {
+                               "name":  "valid acme tenant-admin token in acme tenant",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "valid northwind tenant-admin token in northwind tenant",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "northwind",
+                               "tokenTenant":  "northwind",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "valid tessera tenant-admin token in tessera tenant",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "tessera-collective",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  200,
+                               "actualStatus":  200,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "missing token denied",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  "",
+                               "roles":  [
+
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "acme token in northwind tenant denied",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "northwind",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "northwind token in tessera tenant denied",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "northwind",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "acme token in tessera tenant denied",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "tessera-collective",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "tenant-admin"
+                                         ],
+                               "expectedStatus":  401,
+                               "actualStatus":  401,
+                               "pass":  true
+                           },
+                           {
+                               "name":  "wrong platform-support role denied on run trace",
+                               "method":  "GET",
+                               "path":  "/api/runs/phase0-auth-probe/trace",
+                               "contextTenant":  "acme-corp",
+                               "tokenTenant":  "acme-corp",
+                               "roles":  [
+                                             "platform-support"
+                                         ],
+                               "expectedStatus":  403,
+                               "actualStatus":  403,
+                               "pass":  true
+                           }
+                       ],
+    "dynamicRouteEvidence":  [
+                                 {
+                                     "name":  "dynamic history index accessible with tenant token",
+                                     "method":  "GET",
+                                     "path":  "/api/dynamic/xiigen-architecture-philosophy?knowledgeScope=GLOBAL",
+                                     "contextTenant":  "acme-corp",
+                                     "tokenTenant":  "acme-corp",
+                                     "roles":  [
+                                                   "tenant-admin"
+                                               ],
+                                     "expectedStatus":  200,
+                                     "actualStatus":  200,
+                                     "pass":  true
+                                 },
+                                 {
+                                     "name":  "dynamic history index documents bypass status",
+                                     "method":  "GET",
+                                     "path":  "/api/dynamic/xiigen-architecture-philosophy?knowledgeScope=GLOBAL",
+                                     "contextTenant":  "acme-corp",
+                                     "tokenTenant":  "",
+                                     "roles":  [
+
+                                               ],
+                                     "expectedStatus":  200,
+                                     "actualStatus":  200,
+                                     "pass":  true
+                                 }
+                             ],
+    "summary":  {
+                    "allPassed":  true,
+                    "total":  10,
+                    "passed":  10
+                },
+    "secretHandling":  {
+                           "signingKeysWrittenToEvidence":  false,
+                           "envFilesCommitted":  false,
+                           "tokenValuesCommitted":  false,
+                           "tokenMaterialPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false
+                       },
+    "notes":  [
+                  "Protected route probe verifies JWT, tenant replay, and wrong-role behavior for FLOW-45.",
+                  "FLOW-45 dynamic bootstrap indexes are raw dynamic routes listed in the auth-bypass registry; they are checked separately for tenant registry reachability, not used as the protected-route proof."
+              ],
+    "verdict":  "PASS"
+}

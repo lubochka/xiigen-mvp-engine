@@ -1,0 +1,17 @@
+{
+  "batch_id": "V-R5-D",
+  "flows": [
+    {"slug":"marketplace","role":"tenant-user","grammar":"G3","verdict":"partial","weighted_score":4,"prior_score":2,"delta":2,"offences":[{"severity":"MAJOR","axis":"S","viewport":"all","description":"'We couldn't load the marketplace' error shown instead of G3 grid — regression"},{"severity":"MINOR","axis":"UX-P4","viewport":"all","description":"'0 published packages available' + error card competing messages"},{"severity":"MINOR","axis":"UX-P6","viewport":"all","description":"AppShell sidebar missing on tenant-user view (role-scoped by design)"}],"notes":"Regression: previously rendered package grid; now shows error card. Likely BusinessStateCard shared edit side-effect or API path broken"},
+    {"slug":"bundle-activation","role":"platform-admin","grammar":"G1","verdict":"pass","weighted_score":1,"prior_score":1,"delta":0,"offences":[{"severity":"MINOR","axis":"R","viewport":"tablet","description":"Compliance Gate row wraps v3.0.1 chip"}],"notes":"No regression; clean BusinessStateCard rows with state chips + actions"},
+    {"slug":"user-registration","role":"anonymous","grammar":"G5","verdict":"pass","weighted_score":0,"prior_score":0,"delta":0,"offences":[],"notes":"No regression; SSO + email/password form clean"},
+    {"slug":"completion-gamification","role":"tenant-user","grammar":"G5","verdict":"partial","weighted_score":2,"prior_score":2,"delta":0,"offences":[{"severity":"MAJOR","axis":"S","viewport":"all","description":"Page shows only skeleton placeholders — data never loads for primary capture"}],"notes":"Unchanged vs V-R4 fixed state; skeleton-stable for Playwright but no seeded content"},
+    {"slug":"transactional-event-participation","role":"tenant-user","grammar":"G5","verdict":"pass","weighted_score":0,"prior_score":0,"delta":0,"offences":[],"notes":"No regression; clean G5 checkout with Order Summary + Payment Details"}
+  ],
+  "batch_total_score": 7,
+  "regressed_count": 1,
+  "directive_check_adaptive_rag_topology": {
+    "progressive_disclosure_implemented": false,
+    "evidence": "Desktop and tablet show full 27-node DAG across 6 phases rendered all at once. All nodes visible simultaneously with no collapsed high-level summary layer and no expand-sub-flow affordance. Mobile squeezes full graph into narrow column — unreadable.",
+    "severity_if_not": "MAJOR"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "flowId": "FLOW-07",
+  "taskTypeId": "T80",
+  "name": "flow-07-mutual-connection-counter",
+  "description": "T80 MutualConnectionCounter — DATA_PIPELINE archetype. Full recompute from adjacency list intersection on every invocation — never delta increment.",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: mutual_count_full_recompute, store_before_enqueue"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch patterns for T80: full recompute pattern, idempotent graph intersection",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T80",
+        "topK": 3,
+        "patternIds": [
+          "full-recompute-pattern",
+          "plan-flow07-friend-request-social-feed"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "T80: read adjacency lists for userIdA and userIdB → set intersection → mutualCount (number only, no user ID list) → storeDocument → MutualCountUpdated emit"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate mutual-connection-counter.service.ts: getConnections(userIdA) + getConnections(userIdB), filter intersection, count only. storeDocument('xiigen-mutual-counts', { mutualCount }) BEFORE enqueue('MutualCountUpdated'). NEVER read stored mutualCount and increment."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: mutual_count_full_recompute, store_before_enqueue"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T80 iron rules: full recompute (no delta), count only (no user ID list), DNA-8 ordering"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=full recompute from adjacency lists (idempotent), rejected=delta increment of stored mutualCount (drifts under retries). curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "SocialConnectionEstablished event (@EventPattern)",
+  "primaryFabric": "DATABASE"
+}

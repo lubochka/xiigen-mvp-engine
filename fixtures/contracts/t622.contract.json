@@ -1,0 +1,85 @@
+{
+  "taskTypeId": "T622",
+  "flowId": "FLOW-19",
+  "name": "CompensationEngine",
+  "archetype": "orchestration",
+  "domainId": "durable-sagas-compliance",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T622-1",
+      "rule": "compensationStack executed in REVERSE order (LIFO) — [...stack].reverse() before iteration. Not insertion order, not parallel. CF-19-2.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T622-2",
+      "rule": "Serial execution only — for..of loop, no Promise.all, no concurrent compensation. Parallel execution creates race conditions. CF-19-2.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T622-3",
+      "rule": "SETNX(comp-lock:{sagaId}:{stepIndex}) BEFORE compensation body per step — idempotent crash restart prevents double-execution (double-refund risk). CF-19-2.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T622-4",
+      "rule": "stop-on-first-failure: any compensation step failure → emit CompensationFailed with failedStep, HALT immediately. Do NOT continue to remaining steps. CF-19-2.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T622-5",
+      "rule": "storeDocument(compensationRecord) BEFORE enqueue(CompensationStepExecuted) per step — DNA-8 outbox pattern.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1556",
+      "token": "ICompensationRegistry",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1555",
+      "token": "ISagaStepLockService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "LIFO_REVERSE_ORDER_COMPENSATION",
+    "SERIAL_NO_PARALLEL_EXECUTION",
+    "SETNX_COMP_LOCK_PER_STEP",
+    "STOP_ON_FIRST_FAILURE_HALT"
+  ],
+  "freedomComponents": [
+    "flow19_compensation_timeout_ms",
+    "flow19_compensation_max_attempts"
+  ],
+  "stackCoupling": {
+    "queue": ["CompensationStepExecuted", "CompensationCompleted", "CompensationFailed"],
+    "database": ["xiigen-saga-compensations", "xiigen-saga-compensation-executions"]
+  },
+  "handlers": [
+    "validate_compensation_stack",
+    "serial_lifo_loop",
+    "acquire_comp_lock",
+    "execute_compensation_body",
+    "persist_compensation_record",
+    "emit_or_fail"
+  ],
+  "namedChecks": [
+    "lifo_reverse_order_execution",
+    "serial_no_parallel_compensation",
+    "setnx_comp_lock_before_body",
+    "stop_on_first_failure"
+  ],
+  "tags": [
+    "compensation",
+    "lifo",
+    "serial",
+    "stop-on-first-failure",
+    "setnx",
+    "cf-19-2",
+    "dna-8"
+  ],
+  "keywords": "CompensationEngine LIFO serial stop-on-first-failure idempotent restart SETNX comp-lock T622 CF-19-2 compensationStack reverse no parallel"
+}

@@ -1,0 +1,1 @@
+{"type":"object","properties":{"componentName":{"type":"string"},"workspaceId":{"type":"string"},"isolationVerified":{"type":"boolean"},"verifiedAt":{"type":"string"},"verificationMethod":{"type":"string"},"crossWorkspaceAccessBlocked":{"type":"boolean"}},"required":["componentName","workspaceId","isolationVerified"]}

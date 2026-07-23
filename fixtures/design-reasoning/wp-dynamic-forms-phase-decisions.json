@@ -1,0 +1,92 @@
+{
+  "projectId": "wp-dynamic-forms",
+  "description": "Architecture decisions from Xiigen WordPress Plugin (phases 1-7 complete, 399 tests)",
+  "seedTo": "xiigen-rag-patterns",
+  "patternType": "DESIGN_REASONING",
+  "decisions": [
+    {
+      "decisionId": "D-WP-001",
+      "type": "ARCHITECTURE_DECISION",
+      "capability": "WordPress plugin scaffold + Docker test stack",
+      "projectId": "wp-dynamic-forms",
+      "context": "Phase 1: Scaffold a WordPress plugin with a reliable test stack. The plugin needed to support PHP unit tests, WordPress integration tests, React tests, and end-to-end tests — all running locally without external services.",
+      "proposed": "Standard WordPress plugin structure with manual PHPUnit setup",
+      "challenge": "Standard WordPress plugin test setup requires a real WordPress installation to run integration tests. Docker provides isolation but needs careful orchestration of WordPress + MySQL + WP-CLI to achieve a reliable test environment.",
+      "resolution": "Docker Compose stack with WordPress 6.7 + MySQL 8 + WP-CLI. Plugin entry point xiigen-dynamic-forms.php declared with 'Plugin Name' header for auto-detection by ARCHITECTURE_SCAN. Test levels: PHPUnit (unit), WP_UnitTestCase (integration), Jest (React), Playwright (e2e).",
+      "principleApplied": "Test locally with zero cloud credentials. All 4 test layers runnable from docker-compose up.",
+      "teachingPoint": "WordPress plugin test scaffolding decision: Docker + WP-CLI is the only reliable way to test WP hooks and database operations. Skip manual PHPUnit setup — use WP_UnitTestCase from the start."
+    },
+    {
+      "decisionId": "D-WP-002",
+      "type": "INFRASTRUCTURE_CHOICE",
+      "capability": "WordPress database layer — DatabaseService abstraction",
+      "projectId": "wp-dynamic-forms",
+      "context": "Phase 2: All plugin services need database access. WordPress provides $wpdb as a global. PCP (WordPress.org Plugin Check) requires $wpdb->prepare() everywhere SQL parameters are used.",
+      "proposed": "Use raw $wpdb directly in each service class",
+      "challenge": "Direct $wpdb usage in business logic: (1) violates PCP requirement for prepare() everywhere — hard to enforce without abstraction; (2) makes unit testing harder (requires mocking a global); (3) duplicates the same prepare() boilerplate in every service.",
+      "resolution": "DatabaseService.php wrapping $wpdb->prepare(). All queries route through this service. 26 unit tests + 18 integration tests. doNotDuplicate: true — new services must use DatabaseService, never $wpdb directly.",
+      "principleApplied": "Centralize $wpdb access to enforce prepare() compliance and enable testing via stubs.",
+      "teachingPoint": "In WordPress plugins: always abstract $wpdb into a service class. Direct $wpdb in business logic = PCP compliance risk. CAPABILITY_INVENTORY should mark DatabaseService as INFRASTRUCTURE/doNotDuplicate:true."
+    },
+    {
+      "decisionId": "D-WP-003",
+      "type": "API_DESIGN",
+      "capability": "WordPress security layer — NonceService + CapabilityChecker separation",
+      "projectId": "wp-dynamic-forms",
+      "context": "Phase 3: REST API endpoints and admin forms need security. WordPress security has two concerns: (1) CSRF protection via nonces, (2) authorization via capabilities. Both are required on all state-changing operations.",
+      "proposed": "Inline wp_verify_nonce() and current_user_can() calls at each endpoint",
+      "challenge": "Inline security calls: (1) inconsistently applied — easy to forget one check in a new endpoint; (2) not testable in isolation; (3) mixed with business logic. PCP requires consistent security enforcement.",
+      "resolution": "NonceService (handles wp_create_nonce/wp_verify_nonce) + CapabilityChecker (handles current_user_can). Both called from a shared middleware. Every REST endpoint goes through this middleware. Security conventions become IRON_RULE with confidence 1.0.",
+      "principleApplied": "Security patterns are always IRON_RULE regardless of confidence score. Separation of nonce verification from capability checks makes each independently testable.",
+      "teachingPoint": "WordPress security enforcement: separate NonceService and CapabilityChecker classes, called via middleware pattern. This ensures CONVENTION_EXTRACT detects them as conventions (seen in multiple files) and IRON_RULE_DERIVATION includes them for every new service."
+    },
+    {
+      "decisionId": "D-WP-004",
+      "type": "INFRASTRUCTURE_CHOICE",
+      "capability": "WordPress frontend — @wordpress/scripts over Create React App",
+      "projectId": "wp-dynamic-forms",
+      "context": "Phase 4: Admin panel needs a React frontend. Three options: @wordpress/scripts (official WP build tool), Create React App (popular but deprecated), Vite (modern but non-standard for WP).",
+      "proposed": "Create React App — familiar, well-documented",
+      "challenge": "CRA: deprecated, large bundle, not WordPress-aware. Vite: not integrated with WordPress enqueueing system. @wordpress/scripts: (1) already included in wp-scripts dependency; (2) outputs in format compatible with wp_enqueue_scripts; (3) handles block dependencies correctly; (4) PCP expects this tool.",
+      "resolution": "@wordpress/scripts with standard wp_enqueue_scripts/wp_enqueue_block_editor_assets. Package.json devDependency: @wordpress/scripts. Build output consumed by wp_enqueue_scripts in admin hook.",
+      "principleApplied": "Use the framework-native tool when it exists and is appropriate. @wordpress/scripts is the WordPress-idiomatic choice — it is what ARCHITECTURE_SCAN will detect from package.json.",
+      "teachingPoint": "WordPress plugin frontend: always @wordpress/scripts, never CRA or bare Vite. ARCHITECTURE_SCAN detects this from package.json devDependencies and outputs architecture.frontend = '@wordpress/scripts React'."
+    },
+    {
+      "decisionId": "D-WP-005",
+      "type": "ARCHITECTURE_DECISION",
+      "capability": "Legacy compatibility — LegacyDetector backward-compat pattern",
+      "projectId": "wp-dynamic-forms",
+      "context": "Phase 5: Plugin must support WordPress installations with legacy form data created before the plugin's current schema. New version changes how form definitions are stored.",
+      "proposed": "Migration script that converts all legacy data on activation",
+      "challenge": "Forced migration on activation: (1) breaks if migration fails mid-run; (2) irreversible without backup; (3) causes timeout on large datasets. Users expect plugins to 'just work' after update.",
+      "resolution": "LegacyDetector class that detects schema version at read time and applies migration lazily. Old data converted on first access, not on activation. Existing data never deleted until explicitly confirmed. Backward-compat reading in all queries.",
+      "principleApplied": "Lazy migration over eager migration for user-facing upgrades. Reversibility over convenience.",
+      "teachingPoint": "WordPress plugin upgrades: use LegacyDetector lazy migration pattern. Eager migration on activation fails silently on large sites. CAPABILITY_INVENTORY should classify LegacyDetector as INFRASTRUCTURE/doNotDuplicate:true."
+    },
+    {
+      "decisionId": "D-WP-006",
+      "type": "INFRASTRUCTURE_CHOICE",
+      "capability": "XIIGen bridge authentication — BridgeClient pattern",
+      "projectId": "wp-dynamic-forms",
+      "context": "Phase 6: Plugin needs to call XIIGen API to trigger code generation. Authentication between the WordPress plugin and XIIGen uses API keys stored in WordPress options.",
+      "proposed": "Direct wp_remote_post() calls to XIIGen API from each feature that needs generation",
+      "challenge": "Direct wp_remote_post(): (1) scattered auth logic; (2) no retry or timeout handling; (3) no testable interface; (4) each caller must know the XIIGen URL and key format.",
+      "resolution": "BridgeClient class: single entry point for all XIIGen communication. API key loaded from wp_options via SecretsService. Handles auth headers, timeout, error mapping. doNotDuplicate: true, INTEGRATION category. Stubs available for testing.",
+      "principleApplied": "Fabric-first: all external connections through a single typed client. BridgeClient maps to INTEGRATION category in CAPABILITY_INVENTORY.",
+      "teachingPoint": "External API calls from a WordPress plugin: always route through a single BridgeClient class. CAPABILITY_INVENTORY detects it as INTEGRATION/doNotDuplicate:true. Any new feature needing XIIGen communication uses this client — never direct wp_remote_post."
+    },
+    {
+      "decisionId": "D-WP-007",
+      "type": "API_DESIGN",
+      "capability": "XIIGen execution polling — FlowExecutor pattern",
+      "projectId": "wp-dynamic-forms",
+      "context": "Phase 7: When a user triggers code generation, XIIGen returns a run ID. The plugin must poll for completion and deliver results. WordPress runs in a request-response model — there is no server-side push.",
+      "proposed": "Long-polling: keep HTTP connection open until generation completes",
+      "challenge": "Long-polling: (1) PHP execution timeout (30s default); (2) ties up WordPress server thread; (3) generation may take 60-180 seconds for complex flows. User UI blocks.",
+      "resolution": "FlowExecutor with async polling: (1) POST to start → returns runId; (2) client polls GET /status/{runId} every 3 seconds; (3) server returns current status (PENDING/RUNNING/COMPLETE/FAILED); (4) client displays progress, unblocks user. History stored for retry.",
+      "principleApplied": "Match execution model to runtime constraints. WordPress is synchronous request-response — async polling is the only viable pattern for long-running operations.",
+      "teachingPoint": "WordPress + long-running async tasks: always use polling pattern (POST to start, GET to poll). Never long-poll. FlowExecutor is classified as INTEGRATION/doNotDuplicate:true — CAPABILITY_INVENTORY must detect it."
+    }
+  ]
+}

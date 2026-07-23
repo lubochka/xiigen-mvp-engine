@@ -1,0 +1,22 @@
+{
+  "switcher_label": "Language",
+  "switcher_loading": "Loading translations...",
+  "settings_title": "Language Settings",
+  "settings_description": "Choose your preferred language. Your selection is remembered across sessions and overrides the tenant default.",
+  "settings_current_locale": "Current language",
+  "settings_select_locale": "Select language",
+  "settings_save_btn": "Save preference",
+  "settings_reset_btn": "Reset to tenant default",
+  "settings_saved": "Your language preference has been saved.",
+  "settings_override_note": "You have an explicit override — changes to the tenant default will not affect your language.",
+  "admin_title": "Tenant Translation Settings",
+  "admin_default_locale": "Default locale",
+  "admin_enabled_locales": "Enabled locales",
+  "admin_add_locale": "Add locale",
+  "admin_add_placeholder": "BCP-47 tag, e.g. fr, he, es",
+  "admin_save_btn": "Save configuration",
+  "admin_saved": "Tenant translation configuration saved.",
+  "locale_en": "English",
+  "locale_he": "Hebrew",
+  "locale_fr": "French"
+}

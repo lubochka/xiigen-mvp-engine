@@ -1,0 +1,65 @@
+{
+    "flowId":  "FLOW-29",
+    "flowSlug":  "adaptive-rag-deep-research",
+    "implementationSlug":  "rag-optimization",
+    "displayName":  "Adaptive RAG / Deep Research",
+    "phase":  "pre-existing-defect-check",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T20:53:53.9598554+00:00",
+    "productDecision":  {
+                            "classification":  "engine-internal RAG substrate with platform-admin primary, platform-support read-only, and tenant-admin FREEDOM-gated partial surface",
+                            "source":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-06.md FLOW-29 section",
+                            "portabilityRunMode":  "continue despite slug-to-directory mismatch; use implementationSlug rag-optimization for server scans/tests and flowSlug adaptive-rag-deep-research for protocol naming"
+                        },
+    "roleMap":  {
+                    "primaryRoles":  [
+                                         "platform-admin"
+                                     ],
+                    "partialRoles":  [
+                                         "platform-support",
+                                         "tenant-admin"
+                                     ],
+                    "publicRoles":  [
+
+                                    ],
+                    "wrongRoleForProtectedRoute":  "tenant-user",
+                    "readOnlyRole":  "platform-support",
+                    "source":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-06.md",
+                    "note":  "FLOW-29 is an engine-internal RAG substrate. Auth probes use platform-admin/tenant-admin as allowed roles and tenant-user as the wrong-role probe."
+                },
+    "tests":  {
+                  "command":  "Push-Location server; npx jest --testPathPatterns=adaptive-rag-deep-research --runInBand --colors=false; Pop-Location",
+                  "status":  "passed",
+                  "testSuitesPassed":  31,
+                  "testSuitesTotal":  31,
+                  "testsPassed":  357,
+                  "testsTotal":  357
+              },
+    "staticScans":  {
+                        "scanRoot":  "server/src/engine/flows/rag-optimization",
+                        "sourceFlowFileCount":  27,
+                        "throwNew":  0,
+                        "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                        "clsImports":  0,
+                        "directSdkImports":  0,
+                        "anyTypes":  0,
+                        "failureLines":  0
+                    },
+    "acceptedTrackedIssues":  [
+                                  {
+                                      "id":  "FLOW-29-SLUG-MISMATCH",
+                                      "severity":  "tracked",
+                                      "summary":  "Protocol slug is adaptive-rag-deep-research while implementation files live under server/src/engine/flows/rag-optimization.",
+                                      "status":  "accepted-for-this-protocol-run",
+                                      "source":  "docs/sessions/FLOW-29/FLOW-29-IMPL-STATE.json reconciliation_2026_04_17"
+                                  },
+                                  {
+                                      "id":  "FLOW-29-INTERNAL-SUBSTRATE",
+                                      "severity":  "tracked",
+                                      "summary":  "FLOW-29 is engine-internal and has no dedicated consumer UI page; shared PlatformOpsPage coverage is recorded in fleet validation docs.",
+                                      "status":  "accepted-for-phase-2-planning",
+                                      "source":  "docs/design-reviews/FLEET-VALIDATION-v5.md"
+                                  }
+                              ],
+    "verdict":  "PASS"
+}

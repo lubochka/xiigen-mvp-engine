@@ -1,0 +1,62 @@
+{
+  "flowId": "FLOW-33",
+  "flowSlug": "system-initiation-bootstrap",
+  "phase": "sharedInterfaceExtraction",
+  "generatedAt": "2026-05-11T09:20:46.2518726Z",
+  "protocolGate": "Extract duplicated FLOW-33 local interfaces before governance rule generation and rerun scoped tests plus server TypeScript.",
+  "scanScope": [
+    "server/src/engine/flows/system-initiation-bootstrap",
+    "server/src/engine/flows/generation-loop"
+  ],
+  "filesChanged": {
+    "created": [
+      "server/src/engine/flows/system-initiation-bootstrap/flow33-shared-interfaces.ts",
+      "server/src/engine/flows/generation-loop/generation-loop-shared-interfaces.ts"
+    ],
+    "updated": [
+      "server/src/engine/flows/system-initiation-bootstrap/bootstrap-orchestrator.service.ts",
+      "server/src/engine/flows/system-initiation-bootstrap/context-pack-assembler.service.ts",
+      "server/src/engine/flows/system-initiation-bootstrap/five-arbiter-consensus-gate.service.ts",
+      "server/src/engine/flows/system-initiation-bootstrap/flow33-integration.service.ts",
+      "server/src/engine/flows/system-initiation-bootstrap/graphrag-two-layer-seeder.service.ts",
+      "server/src/engine/flows/system-initiation-bootstrap/implement-family-meta-loop.service.ts",
+      "server/src/engine/flows/system-initiation-bootstrap/implementation-status-registry.service.ts",
+      "server/src/engine/flows/system-initiation-bootstrap/regression-impact-analyzer.service.ts",
+      "server/src/engine/flows/generation-loop/flow-lifecycle-seeder.service.ts",
+      "server/src/engine/flows/generation-loop/flow-lifecycle.service.ts"
+    ]
+  },
+  "extractionSummary": {
+    "flow33SharedModule": "Extracted duplicated document store/updater, queue, AI, FREEDOM config, RAG, context pack, consensus, blast radius, and escalation briefing shapes.",
+    "generationLoopSharedModule": "Extracted residual generation-loop document store/updater and queue shapes that were part of the original scan scope.",
+    "publicTypeCompatibility": "Existing service-level exported domain type names are preserved with type aliases where external tests import them.",
+    "runtimeBehavior": "No runtime logic changed; constructor dependency shapes now reference shared interfaces."
+  },
+  "verification": [
+    {
+      "command": "npx jest --testPathPatterns=system-initiation-bootstrap --runInBand --colors=false",
+      "workingDirectory": "server",
+      "exitCode": 0,
+      "result": "8 suites passed, 139 tests passed"
+    },
+    {
+      "command": "npx jest --testPathPatterns=generation-loop --runInBand --colors=false",
+      "workingDirectory": "server",
+      "exitCode": 0,
+      "result": "4 suites passed, 36 tests passed"
+    },
+    {
+      "command": "npx tsc --noEmit -p tsconfig.json --pretty false",
+      "workingDirectory": "server",
+      "exitCode": 0,
+      "result": "server TypeScript completed with no diagnostics"
+    },
+    {
+      "command": "PowerShell duplicate interface-name scan across system-initiation-bootstrap and generation-loop",
+      "exitCode": 0,
+      "result": "NO_DUPLICATE_INTERFACE_NAMES"
+    }
+  ],
+  "result": "PASS",
+  "nextPhase": "phase0DockerVaultAuth"
+}

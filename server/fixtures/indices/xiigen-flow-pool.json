@@ -1,0 +1,51 @@
+{
+  "index": "xiigen-flow-pool",
+  "description": "Shared execution context store. Every node in every run writes its execution record here. Used by context-query.handler for gap detection and RAG-style retrieval.",
+  "mappings": {
+    "properties": {
+      "entryId":            { "type": "keyword" },
+      "runId":              { "type": "keyword" },
+      "flowId":             { "type": "keyword" },
+      "tenantId":           { "type": "keyword" },
+      "nodeId":             { "type": "keyword" },
+      "nodeType":           { "type": "keyword" },
+      "taskTypeId":         { "type": "keyword" },
+      "executionPhase":     { "type": "keyword" },
+      "sequenceIndex":      { "type": "integer" },
+      "success":            { "type": "boolean" },
+      "failureReason":      { "type": "text", "fields": { "keyword": { "type": "keyword", "ignore_above": 512 } } },
+      "inputs":             { "type": "object", "dynamic": true },
+      "outputs":            { "type": "object", "dynamic": true },
+      "promptsUsed":        {
+        "type": "nested",
+        "properties": {
+          "promptId":       { "type": "keyword" },
+          "version":        { "type": "keyword" },
+          "templateHash":   { "type": "keyword" }
+        }
+      },
+      "judgeDecisions":     {
+        "type": "nested",
+        "properties": {
+          "judgeId":        { "type": "keyword" },
+          "verdict":        { "type": "keyword" },
+          "score":          { "type": "float" },
+          "notes":          { "type": "text" }
+        }
+      },
+      "arbiterDecisions":   {
+        "type": "nested",
+        "properties": {
+          "arbiterId":      { "type": "keyword" },
+          "verdict":        { "type": "keyword" },
+          "score":          { "type": "float" },
+          "notes":          { "type": "text" }
+        }
+      },
+      "contextGapsEmitted":    { "type": "keyword" },
+      "contextBlocksReceived": { "type": "keyword" },
+      "executedAt":         { "type": "date" },
+      "durationMs":         { "type": "integer" }
+    }
+  }
+}

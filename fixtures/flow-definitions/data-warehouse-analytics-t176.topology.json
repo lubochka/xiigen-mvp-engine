@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T176",
+  "name": "data-warehouse-analytics-cohort-analysis-engine",
+  "description": "T176 CohortAnalysisEngine — ANALYTICS_ENGINE archetype. Cohort definitions are tenant-scoped. Cross-flow data joins must include tenantId predicate. Emits CohortAnalysisGenerated.",
+  "archetype": "ANALYTICS_ENGINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: tenant-scoped cohort definitions, tenantId in every cross-flow join predicate, CohortAnalysisGenerated emission, no cross-tenant data"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ANALYTICS_ENGINE arch pattern + cohort-analysis + cross-flow-join + tenant-predicate + cohort-definition patterns for T176",
+      "params": {
+        "archetype": "ANALYTICS_ENGINE",
+        "taskTypeRef": "T176",
+        "topK": 5,
+        "patternIds": [
+          "cohort-analysis-001",
+          "cross-flow-join-001",
+          "tenant-predicate-001",
+          "cohort-definition-001",
+          "analytics-engine-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T176 into: consume queue event → load cohort definition (tenant-scoped) → execute cross-flow data joins with tenantId in ALL predicates → compute cohort metrics → storeDocument(cohortAnalysis) → emit CohortAnalysisGenerated"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate cohort-analysis-engine.service.ts — queue consumer, loads cohort definitions from DATABASE (tenant-scoped from ALS). ALL cross-flow data joins MUST include tenantId predicate — missing tenantId in any join is a security violation. Computes cohort metrics (size, conversion, retention). DNA-8: storeDocument BEFORE emitting CohortAnalysisGenerated."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: cohort_definitions_tenant_scoped, tenant_id_in_all_join_predicates, cohort_analysis_generated_emitted, store_before_emit, no_cross_tenant_join"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T176 iron rules: tenant scoped cohorts, tenantId in every join, DNA-8, CohortAnalysisGenerated event"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=tenant-scoped-cohort+tenant-id-in-all-joins+store-before-emit, rejected=join-without-tenant-predicate OR cross-tenant-cohort-data OR emit-before-store. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Queue consumer",
+  "primaryFabric": "DATABASE"
+}

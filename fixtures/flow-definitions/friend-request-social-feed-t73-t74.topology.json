@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-07",
+  "taskTypeId": "T73-T74",
+  "name": "flow-07-friend-request-path",
+  "description": "T73 FriendRequestProcessor + T74 FriendRequestResponder — ORCHESTRATION archetype. T81 PrivacyGatekeeper called synchronously BEFORE any write. INLINE_ONLY: constructor-injected, no EventPattern.",
+  "archetype": "ORCHESTRATION",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: inline-privacy-before-write, T81 constructor-injected, no EventPattern on T81"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ORCHESTRATION arch pattern for T73-T74: inline privacy gate, synchronous check before write",
+      "params": {
+        "archetype": "ORCHESTRATION",
+        "taskTypeRef": "T73-T74",
+        "topK": 5,
+        "patternIds": [
+          "privacy-gatekeeper-inline-invocation",
+          "arch--inline-only-synchronous-check",
+          "arch--store-before-enqueue"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T73-T74 into: T81 inline privacy check → idempotency (SETNX requestId) → storeDocument → emit FriendRequestSent"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate friend-request-processor.service.ts — T81 PrivacyGatekeeper called synchronously BEFORE any write. INLINE_ONLY injection."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: inline_privacy_before_write, t81_constructor_injected, no_event_pattern_on_t81"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T73-T74 iron rules: synchronous privacy gate, INLINE_ONLY injection, DNA-8 ordering"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=inline-privacy-before-write, rejected=queue-event-for-privacy-check. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "FriendRequestReceived event (@EventPattern)",
+  "primaryFabric": "DATABASE"
+}

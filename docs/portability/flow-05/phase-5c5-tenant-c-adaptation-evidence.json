@@ -1,0 +1,151 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "phase": "5c5-tenant-c-adaptation",
+  "completedAt": "2026-05-03T11:49:27.4710907+03:00",
+  "tenant": "tessera-collective",
+  "sourceTenant": "northwind",
+  "adaptation": {
+    "type": "TYPE-A",
+    "originModuleName": "northwind-momentum-rewards",
+    "proposedModuleName": "tessera-adaptive-learning-rewards",
+    "freedomKeyChanged": "flow05_ml_cooldown_days",
+    "previousValue": 7,
+    "newValue": 5,
+    "rationale": "Tessera keeps the Acme and Northwind learning rewards while reviewing adaptive learning paths every five days.",
+    "visibleProof": "tenant-c-v1.0.0 screenshots show +25 points, a 4-hour streak grace window, and a 5-day learning path review cooldown."
+  },
+  "tenantRepo": {
+    "beforeRename": "lubochka/tessera-collective--northwind-momentum-rewards",
+    "afterRename": "lubochka/tessera-collective--tessera-adaptive-learning-rewards",
+    "adaptationCommitSha": "8109e5e052d7f4959b3075fd8478b3582ef99f6b",
+    "renameVerificationCommitSha": "0d5edef5223507dff36d61b6b4ee1e9e3d638784",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/completion-gamification-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package-lock.json",
+      "package.json",
+      "tenant.config.json"
+    ],
+    "adaptationHistoryEntries": 3,
+    "tenantConfig": {
+      "tenantId": "tessera-collective",
+      "moduleName": "tessera-adaptive-learning-rewards",
+      "moduleVersion": "1.0.0",
+      "repoName": "tessera-collective--tessera-adaptive-learning-rewards",
+      "installedFromRepoFullName": "lubochka/northwind--northwind-momentum-rewards"
+    }
+  },
+  "tenantRepoVerification": {
+    "localCommands": [
+      "npm install --package-lock-only --no-audit --no-fund",
+      "npm run build",
+      "npx jest --colors=false --forceExit"
+    ],
+    "localBuildPassed": true,
+    "localJestSuitesPassed": 2,
+    "localJestTestsPassed": 2,
+    "githubActions": {
+      "adaptationRun": {
+        "runId": 25274616470,
+        "status": "completed",
+        "conclusion": "success",
+        "runUrl": "https://github.com/lubochka/tessera-collective--northwind-momentum-rewards/actions/runs/25274616470"
+      },
+      "renamedRepoRun": {
+        "runId": 25274639839,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "0d5edef5223507dff36d61b6b4ee1e9e3d638784",
+        "createdAt": "2026-05-03T08:46:40Z",
+        "updatedAt": "2026-05-03T08:47:13Z",
+        "runUrl": "https://github.com/lubochka/tessera-collective--tessera-adaptive-learning-rewards/actions/runs/25274639839"
+      }
+    }
+  },
+  "registry": {
+    "url": "http://localhost:4874",
+    "package": "@xiigen/tessera-adaptive-learning-rewards",
+    "version": "1.0.0",
+    "latestTagVerified": "1.0.0",
+    "published": true
+  },
+  "authRegression": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "own-tenant-tessera-v1.0.0",
+        "expected": 200,
+        "actual": 200
+      },
+      {
+        "name": "missing-token-tessera-v1.0.0",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-B-token-in-tenant-C-after-c-adaptation",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-A-token-in-tenant-C-after-c-adaptation",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-C-token-in-tenant-B-after-c-adaptation",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "wrong-role-service-account-on-role-route-tessera-v1.0.0",
+        "expected": 403,
+        "actual": 403
+      }
+    ]
+  },
+  "visualEvidence": {
+    "suite": "client/e2e/completion-gamification-visual.spec.ts",
+    "cascadePoint": "tenant-c-v1.0.0",
+    "roles": [
+      "tenant-user",
+      "referral-user",
+      "freelancer",
+      "event-organiser",
+      "tenant-admin"
+    ],
+    "cells": [
+      "C2 en populated desktop",
+      "C4 he RTL populated desktop",
+      "C6 en populated mobile"
+    ],
+    "testsPassed": 15,
+    "pngCount": 15,
+    "directory": "docs/e2e-snapshots/completion-gamification/tenant-c-v1.0.0",
+    "tenantAValueAssertion": "points-earned contains +25, points breakdown contains base 15 and bonus 10",
+    "tenantBValueAssertion": "streak-grace-window contains 4 hours after midnight",
+    "tenantCValueAssertion": "ml-cooldown-window contains 5 days"
+  },
+  "repoEvidence": {
+    "captureMode": "github-api-endpoint-png",
+    "screenshots": [
+      "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-adaptive-learning-rewards-github-listing.png",
+      "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-adaptive-learning-rewards-repo-homepage.png",
+      "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-adaptive-learning-rewards-actions-success.png",
+      "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-adaptive-learning-rewards-tenant-config.png"
+    ]
+  },
+  "reviewScans": {
+    "throwNewInFlowServices": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImportsInFlowServices": 0,
+    "tenantConsumerInternalCopyHits": 0
+  },
+  "notes": [
+    "Tenant C changed a third distinct FREEDOM key and preserved both upstream adaptation history entries.",
+    "The final visual evidence shows all three tenant adaptations simultaneously.",
+    "All post-adaptation auth checks remained enforced."
+  ]
+}

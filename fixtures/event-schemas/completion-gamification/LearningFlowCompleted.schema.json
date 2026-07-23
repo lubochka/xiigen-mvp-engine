@@ -1,0 +1,11 @@
+{
+  "eventType": "LearningFlowCompleted",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "learning-flow-completed-gate",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "completionId", "pointTotal", "streakCount", "completedAt"],
+  "forbiddenFields": [],
+  "notes": "'LearningFlowCompleted' is a MACHINE string literal constant. Gates on Branch A only (T85 committed + T96 done + T87 done). Branches B and C emit independently."
+}

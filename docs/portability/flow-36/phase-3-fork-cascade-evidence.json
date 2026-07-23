@@ -1,0 +1,130 @@
+{
+  "flowId": "FLOW-36",
+  "flowSlug": "feature-registry",
+  "phase": "phase-3-fork-cascade",
+  "status": "completed",
+  "generatedAt": "2026-05-11T12:35:00Z",
+  "registry": {
+    "url": "http://localhost:4873",
+    "container": "xiigen-verdaccio-flow06-4873",
+    "note": "The existing Verdaccio storage volume was preserved. The missing host-mounted config was restored with a local @xiigen-fork/* publish lane and publish.allow_offline=true before the Northwind and Tessera readbacks."
+  },
+  "cascade": [
+    {
+      "tenantId": "acme-corp",
+      "role": "tenant-admin",
+      "source": "original platform source via marketplace fork API",
+      "repo": "lubochka/acme-corp--feature-registry",
+      "repoUrl": "https://github.com/lubochka/acme-corp--feature-registry",
+      "initialForkCommit": "c76a9a3439433f5a2ba1a741e8f687a28a95d1c4",
+      "initialForkRun": {
+        "databaseId": 25667501359,
+        "conclusion": "success",
+        "url": "https://github.com/lubochka/acme-corp--feature-registry/actions/runs/25667501359"
+      },
+      "adaptedCommit": "18590ad8ad27e6bf3262b01bbba081be5e15f085",
+      "adaptedRun": {
+        "databaseId": 25667690715,
+        "conclusion": "success",
+        "url": "https://github.com/lubochka/acme-corp--feature-registry/actions/runs/25667690715"
+      },
+      "package": {
+        "name": "@xiigen-fork/acme-feature-porting-control",
+        "version": "1.0.1",
+        "registryReadback": "1.0.1"
+      },
+      "localValidation": {
+        "npmInstall": "exit 0",
+        "typescript": "exit 0",
+        "jest": "1 suite passed, 1 test passed",
+        "npmPackDryRun": "exit 0"
+      }
+    },
+    {
+      "tenantId": "northwind",
+      "role": "tenant-admin",
+      "source": "Tenant B forked Tenant A package/repo through marketplace API",
+      "repo": "lubochka/northwind--feature-registry",
+      "repoUrl": "https://github.com/lubochka/northwind--feature-registry",
+      "initialForkCommit": "80a2c1d16bd5401c01065a3b8743c19d3b410e42",
+      "initialForkRun": {
+        "databaseId": 25667885506,
+        "conclusion": "success",
+        "url": "https://github.com/lubochka/northwind--feature-registry/actions/runs/25667885506"
+      },
+      "adaptedCommit": "65202726b069d5b6815e5579de5a1b37ee966f3b",
+      "adaptedRun": {
+        "databaseId": 25668093849,
+        "conclusion": "success",
+        "url": "https://github.com/lubochka/northwind--feature-registry/actions/runs/25668093849"
+      },
+      "package": {
+        "name": "@xiigen-fork/northwind-platform-readiness-hub",
+        "version": "1.0.2",
+        "registryReadback": "1.0.2"
+      },
+      "localValidation": {
+        "npmInstall": "exit 0",
+        "typescript": "exit 0",
+        "jest": "1 suite passed, 1 test passed",
+        "npmPackDryRun": "exit 0"
+      }
+    },
+    {
+      "tenantId": "tessera-collective",
+      "role": "tenant-admin",
+      "source": "Tenant C forked Tenant B package/repo through marketplace API",
+      "repo": "lubochka/tessera-collective--feature-registry",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--feature-registry",
+      "forkApiNote": "The client request timed out after the marketplace API had created the repo; the repo head, initial fork commit, and initial GitHub Actions run were verified through GitHub API before adaptation.",
+      "initialForkCommit": "531e74c7f7653fa5c7e91bd06d292d736356d7d0",
+      "initialForkRun": {
+        "databaseId": 25668782918,
+        "conclusion": "success",
+        "url": "https://github.com/lubochka/tessera-collective--feature-registry/actions/runs/25668782918"
+      },
+      "adaptedCommit": "216ca7e9ab14aafc58a21005f094372cafda5312",
+      "adaptedRun": {
+        "databaseId": 25669247334,
+        "conclusion": "success",
+        "url": "https://github.com/lubochka/tessera-collective--feature-registry/actions/runs/25669247334"
+      },
+      "package": {
+        "name": "@xiigen-fork/tessera-porting-lab",
+        "version": "1.0.3",
+        "registryReadback": "1.0.3"
+      },
+      "localValidation": {
+        "npmInstall": "exit 0",
+        "typescript": "exit 0",
+        "jest": "1 suite passed, 1 test passed",
+        "npmPackDryRun": "exit 0"
+      }
+    }
+  ],
+  "repoEvidenceScreenshots": [
+    "docs/e2e-snapshots/repo-evidence/flow-36/acme-corp/acme-repo-home.png",
+    "docs/e2e-snapshots/repo-evidence/flow-36/acme-corp/acme-package-json.png",
+    "docs/e2e-snapshots/repo-evidence/flow-36/acme-corp/acme-actions-success.png",
+    "docs/e2e-snapshots/repo-evidence/flow-36/northwind/northwind-repo-home.png",
+    "docs/e2e-snapshots/repo-evidence/flow-36/northwind/northwind-package-json.png",
+    "docs/e2e-snapshots/repo-evidence/flow-36/northwind/northwind-actions-success.png",
+    "docs/e2e-snapshots/repo-evidence/flow-36/tessera-collective/tessera-repo-home.png",
+    "docs/e2e-snapshots/repo-evidence/flow-36/tessera-collective/tessera-package-json.png",
+    "docs/e2e-snapshots/repo-evidence/flow-36/tessera-collective/tessera-actions-success.png"
+  ],
+  "privacyRestoration": {
+    "acme-corp--feature-registry": true,
+    "northwind--feature-registry": true,
+    "tessera-collective--feature-registry": true
+  },
+  "protocolChecks": {
+    "marketplaceApiUsedForForks": true,
+    "manualTenantRepoCreationUsed": false,
+    "temporaryLocalForkDirectoriesUsedAsProof": false,
+    "githubActionsUsed": true,
+    "localRegistryPublishAndReadbackUsed": true,
+    "repoEvidenceScreenshotsCaptured": true
+  },
+  "verdict": "PASS"
+}

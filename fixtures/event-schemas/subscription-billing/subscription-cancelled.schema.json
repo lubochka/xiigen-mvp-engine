@@ -1,0 +1,13 @@
+{
+  "eventType": "subscription.cancelled",
+  "flowId": "FLOW-12",
+  "version": "1.0.0",
+  "properties": {
+    "subscriptionId": { "type": "string", "required": true },
+    "subscriberId": { "type": "string", "required": true },
+    "planId": { "type": "string", "required": true },
+    "cancelledAt": { "type": "string", "format": "date-time", "required": true },
+    "reason": { "type": "string", "required": false },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

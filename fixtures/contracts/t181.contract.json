@@ -1,0 +1,45 @@
+{
+  "taskTypeId": "T181",
+  "flowId": "FLOW-13",
+  "name": "DataExportEngine",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "platform-only-encryption-audit-pii-before-export",
+    "tier": "PLATFORM_ONLY",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "data_warehouse_export_retention_days",
+    "neutralConcepts": [
+      "F411 IExportEncryptionService PLATFORM-ONLY — tenant cannot disable or substitute",
+      "F412 IExportAuditService PLATFORM-ONLY — every export attempt recorded including failures",
+      "F423 IPIIMaskingService PLATFORM-ONLY — PII masking executes BEFORE dataset export",
+      "downloadUrl in DataExportReady MUST have expiresAt — non-expiring URLs are a security violation",
+      "storeDocument(exportRecord) BEFORE enqueue(DataExportReady) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F411", "interface": "IExportEncryptionService", "fabric": "PLATFORM_ONLY" },
+    { "factoryId": "F412", "interface": "IExportAuditService", "fabric": "PLATFORM_ONLY" },
+    { "factoryId": "F423", "interface": "IPIIMaskingService", "fabric": "PLATFORM_ONLY" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T181-1", "rule": "F411 IExportEncryptionService is PLATFORM-ONLY — no bypass, no tenant override. Export encryption is non-negotiable.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T181-2", "rule": "F412 IExportAuditService is PLATFORM-ONLY — every export attempt (successful or failed) must be recorded. No bypass permitted.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T181-3", "rule": "F423 IPIIMaskingService PII masking executes BEFORE dataset export. Unmasked PII data must never reach the export payload.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T181-4", "rule": "DataExportReady event downloadUrl MUST include expiresAt field. Non-expiring download URLs are a security violation.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T181-5", "rule": "storeDocument(exportRecord) at ORDER N BEFORE enqueue(DataExportReady). DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "platform_only_encryption_no_bypass",
+    "platform_only_export_audit_no_bypass",
+    "pii_masking_before_export",
+    "download_url_expiry_required",
+    "store_before_enqueue"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "export", "platform-only", "pii", "encryption", "ANALYTICS_ENGINE"],
+  "keywords": "data export engine encryption audit PII masking platform-only download URL expiry export ready analytics warehouse"
+}

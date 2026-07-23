@@ -1,0 +1,12 @@
+{
+  "eventType": "warehouse.training.dataset",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "datasetId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "featureCount": { "type": "integer", "minimum": 1, "required": true },
+    "rowCount": { "type": "integer", "minimum": 1, "required": true },
+    "readyAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,20 @@
+{
+    "flowId":  "FLOW-45",
+    "flowSlug":  "history-bootstrap",
+    "phase":  "phase-i-certification-declaration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:46:33.5909757Z",
+    "earnedTier":  "Tier 1 provisioning bootstrap auth-certified",
+    "declaration":  "FLOW-45 History Bootstrap is certified for Docker/Vault tenant auth, bootstrap seed dependency declaration, GLOBAL knowledge-scope manifesting, public route accessibility, server/client unit coverage, TypeScript checks, and Chromium Playwright route/API verification.",
+    "limitations":  [
+                        "FLOW-45 is a temporal prerequisite for downstream learning and PSH consumers, not a standalone package to publish or tenant-fork through the marketplace cascade.",
+                        "Full package cascade proof is therefore marked not applicable rather than synthetically substituted."
+                    ],
+    "evidenceFiles":  [
+                          "docs/portability/flow-45/phase-0-docker-vault-auth-evidence.json",
+                          "docs/portability/flow-45/phase-1-server-client-test-evidence.json",
+                          "docs/portability/flow-45/phase-2-ui-route-playwright-evidence.json",
+                          "docs/portability/flow-45/phase-close-scan-evidence.json"
+                      ],
+    "verdict":  "PASS"
+}

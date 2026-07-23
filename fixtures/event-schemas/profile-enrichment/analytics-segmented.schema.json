@@ -1,0 +1,11 @@
+{
+  "eventType": "AnalyticsSegmented",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T50-A2 (analytics-segmentation.service.ts)",
+  "consumers": ["T52-C"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "segmentId", "segmentLabel", "confidence", "segmentedAt"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges"],
+  "notes": "A2 runs in parallel with A1 (FAN_IN / Promise.allSettled). A2 analyzes QuestionnaireCompleted answers directly — NOT A1 output. Optional input to NODE C; absent = degraded but valid personalization."
+}

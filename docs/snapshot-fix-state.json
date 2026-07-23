@@ -1,0 +1,364 @@
+{
+  "project": "e2e-snapshot-fix",
+  "createdAt": "2026-04-15",
+  "rootCause": "Plan language drift FLOW-03+ dropped 'UI snapshots' from IMPL-STATE labels; template inertia carried through FLOW-06 then exhausted at FLOW-07; Rule 16 violations (flow-NN paths) in 5 existing tests.",
+  "planDoc": "docs/SNAPSHOT-FIX-PLAN.md",
+  "executionStrategy": "Sequential flow-by-flow, NOT parallel. Commit + push after each flow.",
+  "canonicalPattern": {
+    "templateFile": "client/e2e/profile-enrichment.spec.ts",
+    "snapHelper": "const SNAP = (name) => path.join(__dirname, '..', '..', 'docs', 'e2e-snapshots', '{slug}', name);",
+    "screenshotCall": "await page.screenshot({ path: SNAP('NN-description.png'), fullPage: true });"
+  },
+  "phases": {
+    "PHASE-A": {
+      "label": "Path normalization (flow-NN → semantic slug)",
+      "flows": 5,
+      "status": "PENDING"
+    },
+    "PHASE-B": {
+      "label": "Add screenshots to existing 0-snapshot tests",
+      "flows": 14,
+      "status": "PENDING"
+    },
+    "PHASE-C": {
+      "label": "Create new test files for flows with pages but no spec",
+      "flows": 9,
+      "status": "PENDING"
+    },
+    "PHASE-D": {
+      "label": "Update planning signal in IMPL-STATE.json labels",
+      "flows": 18,
+      "status": "PENDING"
+    },
+    "PHASE-E": {
+      "label": "Update XIIGEN_PRODUCT_SPECS.md with actual snapshot filenames",
+      "status": "PENDING"
+    }
+  },
+  "workItems": [
+    {
+      "order": 1,
+      "phase": "A",
+      "flowId": "FLOW-01",
+      "slug": "user-registration",
+      "testFile": "client/e2e/user-registration.spec.ts",
+      "currentPath": "flow-01",
+      "targetPath": "user-registration",
+      "currentScreenshots": 10,
+      "existingPngDir": "docs/e2e-snapshots/user-registration/ (10 PNGs already present)",
+      "action": "normalize_path",
+      "status": "COMPLETE",
+      "completedAt": "2026-04-15"
+    },
+    {
+      "order": 2,
+      "phase": "A",
+      "flowId": "FLOW-03",
+      "slug": "event-management",
+      "testFile": "client/e2e/event-management.spec.ts",
+      "currentPath": "flow-03",
+      "targetPath": "event-management",
+      "currentScreenshots": 11,
+      "existingPngDir": "docs/e2e-snapshots/event-management/ (11 PNGs already present)",
+      "action": "normalize_path",
+      "status": "COMPLETE",
+      "completedAt": "2026-04-15"
+    },
+    {
+      "order": 3,
+      "phase": "A",
+      "flowId": "FLOW-04",
+      "slug": "event-attendance",
+      "testFile": "client/e2e/event-attendance.spec.ts",
+      "currentPath": "flow-04",
+      "targetPath": "event-attendance",
+      "currentScreenshots": 17,
+      "existingPngDir": "docs/e2e-snapshots/event-attendance/ (17 PNGs already present)",
+      "action": "normalize_path",
+      "status": "COMPLETE",
+      "completedAt": "2026-04-15"
+    },
+    {
+      "order": 4,
+      "phase": "A",
+      "flowId": "FLOW-05",
+      "slug": "completion-gamification",
+      "testFile": "client/e2e/lesson-completion.spec.ts",
+      "currentPath": "flow-05",
+      "targetPath": "completion-gamification",
+      "currentScreenshots": 10,
+      "existingPngDir": "docs/e2e-snapshots/completion-gamification/ (empty — PNGs will be generated on next test run)",
+      "action": "normalize_path",
+      "status": "COMPLETE",
+      "completedAt": "2026-04-15"
+    },
+    {
+      "order": 5,
+      "phase": "A",
+      "flowId": "FLOW-06",
+      "slug": "user-groups-communities",
+      "testFile": "client/e2e/group-membership.spec.ts",
+      "currentPath": "flow-06",
+      "targetPath": "user-groups-communities",
+      "currentScreenshots": 10,
+      "existingPngDir": "docs/e2e-snapshots/user-groups-communities/ (empty — PNGs will be generated on next test run)",
+      "action": "normalize_path",
+      "status": "COMPLETE",
+      "completedAt": "2026-04-15"
+    },
+    {
+      "order": 6,
+      "phase": "B",
+      "flowId": "FLOW-07",
+      "slug": "friend-request-social-feed",
+      "testFile": "client/e2e/social-connections.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 10,
+      "actualScreenshots": 11,
+      "clientPages": 4,
+      "action": "add_screenshots",
+      "status": "COMPLETE",
+      "completedAt": "2026-04-15"
+    },
+    {
+      "order": 7,
+      "phase": "B",
+      "flowId": "FLOW-09",
+      "slug": "transactional-event-participation",
+      "testFile": "client/e2e/transactional-event-participation.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 10,
+      "actualScreenshots": 10,
+      "clientPages": 5,
+      "action": "add_screenshots",
+      "status": "COMPLETE",
+      "completedAt": "2026-04-15"
+    },
+    {
+      "order": 8,
+      "phase": "B",
+      "flowId": "FLOW-10",
+      "slug": "reviews-reputation",
+      "testFile": "client/e2e/reviews-reputation.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 10,
+      "clientPages": 4,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 9,
+      "phase": "B",
+      "flowId": "FLOW-11",
+      "slug": "schema-registry-dag",
+      "testFile": "client/e2e/schema-registry-dag.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 10,
+      "clientPages": 3,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 10,
+      "phase": "B",
+      "flowId": "FLOW-12",
+      "slug": "subscription-billing",
+      "testFile": "client/e2e/subscription-billing.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 10,
+      "clientPages": 3,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 11,
+      "phase": "C",
+      "flowId": "FLOW-08",
+      "slug": "marketplace",
+      "testFile": "client/e2e/marketplace.spec.ts (to create)",
+      "clientPages": 5,
+      "targetScreenshots": 10,
+      "action": "create_new_spec",
+      "status": "PENDING"
+    },
+    {
+      "order": 12,
+      "phase": "C",
+      "flowId": "FLOW-15",
+      "slug": "saas-multi-tenancy",
+      "testFile": "client/e2e/saas-multi-tenancy.spec.ts (to create)",
+      "clientPages": 2,
+      "targetScreenshots": 8,
+      "action": "create_new_spec",
+      "status": "PENDING"
+    },
+    {
+      "order": 13,
+      "phase": "C",
+      "flowId": "FLOW-16",
+      "slug": "marketplace-payments",
+      "testFile": "client/e2e/marketplace-payments.spec.ts (to create)",
+      "clientPages": 2,
+      "targetScreenshots": 8,
+      "action": "create_new_spec",
+      "status": "PENDING"
+    },
+    {
+      "order": 14,
+      "phase": "C",
+      "flowId": "FLOW-17",
+      "slug": "freelancer-marketplace",
+      "testFile": "client/e2e/freelancer-marketplace.spec.ts (to create)",
+      "clientPages": 2,
+      "targetScreenshots": 8,
+      "action": "create_new_spec",
+      "status": "PENDING"
+    },
+    {
+      "order": 15,
+      "phase": "C",
+      "flowId": "FLOW-18",
+      "slug": "visual-flow-engine",
+      "testFile": "client/e2e/visual-flow-engine.spec.ts (to create)",
+      "clientPages": 2,
+      "targetScreenshots": 8,
+      "action": "create_new_spec",
+      "status": "PENDING"
+    },
+    {
+      "order": 16,
+      "phase": "C",
+      "flowId": "FLOW-19",
+      "slug": "durable-sagas-compliance",
+      "testFile": "client/e2e/durable-sagas-compliance.spec.ts (to create)",
+      "clientPages": 2,
+      "targetScreenshots": 8,
+      "action": "create_new_spec",
+      "status": "PENDING"
+    },
+    {
+      "order": 17,
+      "phase": "C",
+      "flowId": "FLOW-20",
+      "slug": "ads-platform",
+      "testFile": "client/e2e/ads-platform.spec.ts (to create)",
+      "clientPages": 2,
+      "targetScreenshots": 8,
+      "action": "create_new_spec",
+      "status": "PENDING"
+    },
+    {
+      "order": 18,
+      "phase": "C",
+      "flowId": "FLOW-23",
+      "slug": "form-builder-templates",
+      "testFile": "client/e2e/form-builder-templates.spec.ts (to create)",
+      "clientPages": 1,
+      "targetScreenshots": 6,
+      "action": "create_new_spec",
+      "status": "PENDING"
+    },
+    {
+      "order": 19,
+      "phase": "B",
+      "flowId": "FLOW-36",
+      "slug": "feature-registry",
+      "testFile": "client/e2e/feature-registry.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 8,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 20,
+      "phase": "B",
+      "flowId": "FLOW-37",
+      "slug": "engine-self-awareness",
+      "testFile": "client/e2e/stack-coupling.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 8,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 21,
+      "phase": "B",
+      "flowId": "FLOW-38",
+      "slug": "rag-quality-feedback",
+      "testFile": "client/e2e/rag-quality.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 8,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 22,
+      "phase": "B",
+      "flowId": "FLOW-39",
+      "slug": "oss-curriculum",
+      "testFile": "client/e2e/oss-curriculum.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 8,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 23,
+      "phase": "B",
+      "flowId": "FLOW-40",
+      "slug": "client-push",
+      "testFile": "client/e2e/client-push.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 8,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 24,
+      "phase": "B",
+      "flowId": "FLOW-45",
+      "slug": "history-bootstrap",
+      "testFile": "client/e2e/history-bootstrap.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 8,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 25,
+      "phase": "B",
+      "flowId": "TEACHING",
+      "slug": "teaching-pipeline",
+      "testFile": "client/e2e/teaching-pipeline.spec.ts",
+      "currentScreenshots": 0,
+      "targetScreenshots": 8,
+      "action": "add_screenshots",
+      "status": "PENDING"
+    },
+    {
+      "order": 26,
+      "phase": "D",
+      "label": "Restore planning signal in IMPL-STATE.json labels",
+      "flows": ["FLOW-07..24"],
+      "action": "update_impl_state_labels",
+      "status": "PENDING"
+    },
+    {
+      "order": 27,
+      "phase": "E",
+      "label": "Update XIIGEN_PRODUCT_SPECS.md references",
+      "action": "update_product_specs",
+      "status": "PENDING"
+    }
+  ],
+  "totalWorkItems": 27,
+  "currentItem": null,
+  "completedCount": 0,
+  "summary": {
+    "pathNormalizations": 5,
+    "screenshotsAdded": 14,
+    "newTestFiles": 9,
+    "planningSignalUpdates": 18,
+    "totalScreenshotCapturesExpected": 180
+  }
+}

@@ -1,0 +1,838 @@
+{
+  "schemaVersion": "2.0",
+  "sourceFlow": "FLOW-34",
+  "extractedAt": "2026-03-23T00:00:00.000Z",
+  "note": "Marketplace plugin FT records for FLOW-34 Mode-B-thin adapters. FT-C1 through FT-C65 cover all 65 plugins from XIIGEN-MARKETPLACE-MASTER-PLAN.md. Wave 1 first: C5 (Canva Text Adapter). FT-ID convention: C = client plugin, numeric = marketplace plan order.",
+  "features": [
+    {
+      "ftId": "FT-C5",
+      "name": "CanvaTextElementsAdapter",
+      "description": "Adapts the Figma-to-Code CSS generation pipeline for Canva Apps SDK. Reads Canva text elements via @canva/design selection API, maps them through the shared CSS engine (unchanged from Figma plugin), writes enhanced text back to canvas. 90% shared code — only canva-adapter.ts differs.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-31",
+        "taskTypeId": "TBD-FLOW-36",
+        "serviceClass": "TBD-FLOW-36",
+        "status": "pending-flow-execution"
+      },
+      "platforms": [
+        {
+          "platformId": "canva",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/canva/FT-C5/src/canva-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Canva text element property names differ from Figma (content vs characters, fontStyle.weight vs fontName.style)",
+        "Canva textAlign uses 'start'/'center'/'end' — Figma uses 'LEFT'/'CENTER'/'RIGHT'",
+        "Canva color is 0-255 RGB — Figma is 0-1 float RGB",
+        "Storage: @canva/app-storage instead of figma.clientStorage",
+        "Build: webpack mandatory for Canva sandbox (cannot substitute Vite)"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-F1",
+      "name": "CanvaSiteGenerator",
+      "description": "Adapts the XIIGen Site Generator for Canva Apps SDK. Reads Canva design elements (text, images, frames, shapes) via @canva/design API, maps them through the shared site generation engine (unchanged from Figma plugin), and exports generated HTML/CSS. 90% shared code — only canva-adapter.ts differs.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "canva",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/canva/FT-F1/src/canva-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Canva element types use TEXT/IMAGE/FRAME/SHAPE — Figma uses NodeType enum",
+        "Canva position is { x, y } on element — Figma uses absoluteTransform matrix",
+        "Canva backgroundColor is hex string — Figma uses RGBA 0-1 float",
+        "Canva layout is implicit by type — Figma uses layoutMode property",
+        "Build: webpack mandatory for Canva sandbox (cannot substitute Vite)"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-M1",
+      "name": "MiroAIArchitect",
+      "description": "Adapts the XIIGen AI Architect for Miro Apps SDK. Reads Miro board items (cards, shapes, connectors, text, frames) via @mirohq/miro-api, maps them through the shared architecture engine, and writes AI-generated architectural documentation back to the Miro board. New platform — no prior implementation.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "miro",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/miro/FT-M1/src/miro-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Miro item types use card/connector/shape/text/frame — no shared type system with Figma/Canva",
+        "Miro color is hex string via style.fillColor — Figma uses RGBA 0-1 float",
+        "Miro position is { x, y } — Figma uses absoluteTransform matrix",
+        "Miro geometry (width/height) is separate object — Figma/Canva inline on element",
+        "Miro connector endpoints are startItem/endItem { id } refs — no Figma equivalent",
+        "Build: webpack mandatory for Miro Apps SDK constraint"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-C6",
+      "name": "CanvaBackgroundRemover",
+      "description": "FT-C6 — Canva adapter for the XIIGen Background Remover. Reads Canva image elements, sends to AI image processing engine, writes processed images back to canvas.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "canva",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/canva/FT-C6/src/canva-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Canva images accessed via @canva/design ImageElement — Figma uses ImageNode fill",
+        "Canva opacity is 0-1 float on element — consistent with CSS",
+        "Build: webpack mandatory for Canva sandbox"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-M2",
+      "name": "MiroSprintPlanner",
+      "description": "FT-M2 — Miro adapter for the XIIGen Sprint Planner. Reads Miro sprint board items (cards, sticky notes, frames) and generates AI-enhanced sprint plans.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "miro",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/miro/FT-M2/src/miro-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Miro sprint items use card/sticky_note/frame — no shared sprint domain with other platforms",
+        "Status field is custom (todo/in_progress/done) — mapped from Miro tags or content convention",
+        "Build: webpack mandatory for Miro Apps SDK"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-NOT1",
+      "name": "NotionDocGenerator",
+      "description": "FT-NOT1 — Notion adapter for the XIIGen Document Generator. Reads Notion blocks and generates AI-enhanced documentation. RESEARCH ONLY — Notion App Gallery is invite-only/closed; this adapter cannot be published to a public marketplace.",
+      "productScope": "client-capability",
+      "portingCandidate": false,
+      "marketplaceClosed": true,
+      "marketplaceNote": "Notion App Gallery is invite-only as of 2026. Not a publishable target. Kept as domain reference implementation.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "notion",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/notion/FT-NOT1/src/notion-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Notion block types (paragraph/heading_1..3/to_do/bulleted_list_item/image) — no shared type system with Figma/Canva/Miro",
+        "Notion headings are separate types (heading_1/2/3) not a level property",
+        "Notion uses @notionhq/client (server-side preferred) — browser SDK has CORS limitations",
+        "Build: webpack mandatory for Notion Apps SDK"
+      ],
+      "platformIncompatibilities": [
+        "Notion marketplace is invite-only — cannot publish without direct invitation from Notion"
+      ]
+    },
+    {
+      "ftId": "FT-S1",
+      "name": "ShopifyProductCopyGenerator",
+      "description": "FT-S1 — Shopify adapter for the XIIGen Product Copy Generator. Reads Shopify product data (title, description, productType, variants) and generates AI-enhanced copy via the shared engine.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "shopify",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/shopify/FT-S1/src/shopify-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Shopify products have variants[] and images[] — no shared product model with Canva/Miro/Notion",
+        "includePricing derived from variants.length > 0 — not a direct Shopify field",
+        "Shopify review timeline 2–4 weeks (FC-28 flag) — build planning buffer",
+        "Build: Shopify Polaris + App Bridge React — webpack required"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-FR1",
+      "name": "FramerComponentLibraryGen",
+      "description": "FT-FR1 — Framer adapter for the XIIGen Component Library Generator. Reads Framer component trees (frame/text/svg/image/component) and generates AI-enhanced component names and documentation. (Master plan: FR = Framer prefix. FR1 = Component Library Generator.)",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "framer",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/framer/FT-FR1/src/framer-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Framer component types (frame/text/svg/image/component) differ from Figma node types and Canva element types",
+        "aspectRatio derived from width/height — not a Framer API field",
+        "backgroundColor defaults to #ffffff when absent — Framer allows undefined",
+        "Build: webpack mandatory for Framer plugin sandbox"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-WF1",
+      "name": "WebflowAICmsContentPopulator",
+      "description": "FT-WF1 — Webflow adapter for the XIIGen AI CMS Content Populator. Reads Webflow CMS collections (slug, name, fieldData, status) and generates AI-enhanced content via the shared engine. (Master plan: WF = Webflow prefix. WF1 = AI CMS Content Populator.)",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "webflow",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/webflow/FT-WF1/src/webflow-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Webflow status is draft/published/archived — mapped to DRAFT/PUBLISHED/ARCHIVED",
+        "contentLength and contentTone are editorial defaults — not Webflow CMS fields",
+        "fieldData is Record<string,string> — schema depends on CMS collection definition",
+        "Build: webpack mandatory for Webflow Apps SDK"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-F3",
+      "name": "FigmaDesignSystemAuditor",
+      "description": "FT-F3 — Figma adapter for the XIIGen Design System Auditor. Reads Figma design tokens (components, text styles, color fills) and generates AI-powered audit results including violation detection and scoring. New platform — Figma Plugin API.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/figma/FT-F3/src/figma-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Figma fills are RGBA 0-1 float — must convert to hex for shared engine",
+        "Figma fontName is { family, style } object — not a single string",
+        "fontSize undefined for non-text nodes — defaults to 0 in shared style",
+        "Figma RECTANGLE maps to SHAPE (no RECTANGLE in shared type system)",
+        "Build: webpack mandatory for Figma Plugin API sandbox"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-C2",
+      "name": "CanvaAIBgSceneGenerator",
+      "description": "FT-C2 — Canva adapter for the XIIGen AI Background Scene Generator. Reads Canva scene elements (image/shape/text/group) and generates AI-enhanced background scenes via text-to-image prompt.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "canva",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/canva/FT-C2/src/canva-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Canva IMAGE → BACKGROUND, SHAPE → DECORATION, GROUP → OVERLAY in shared type system",
+        "position is { x, y } nested — flattened to x/y in shared element",
+        "backgroundColor undefined when no fill — defaults to #ffffff in shared style",
+        "Build: webpack mandatory for Canva sandbox"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-CH1",
+      "name": "ChromeAIPageAnalyzer",
+      "description": "FT-CH1 — Chrome extension adapter for the XIIGen AI Page Analyzer. Reads DOM elements from the current browser page and generates AI-powered accessibility and UX analysis. New platform — Chrome Extension Manifest V3.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "chrome",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/chrome/FT-CH1/src/chrome-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "DOM tagName used as-is (uppercase) — must normalize when matching shared types",
+        "contentDensity inferred from textContent.length — no direct DOM API equivalent",
+        "importance inferred from H1/BUTTON vs H2/A vs P — heuristic, not semantic",
+        "Chrome MV3: service worker context limits DOM access — content script required",
+        "Build: webpack mandatory for Chrome extension bundling"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-G2",
+      "name": "GoogleWSMeetingSummaryGen",
+      "description": "FT-G2 — Google Workspace adapter for the XIIGen Meeting Summary Generator. Reads meeting agenda/action/decision items and generates AI-enhanced summaries with follow-up tracking. New platform — Google Workspace Add-ons.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "google-ws",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/google-ws/FT-G2/src/google-ws-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Google Workspace item types (agenda_item/action_item/decision/note/attendee) — no shared meeting model with other platforms",
+        "requiresFollowUp derived from status=open on action_item — not a Google API field",
+        "priority inferred from item type — heuristic",
+        "Build: webpack mandatory for Google Workspace Add-on bundling"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-W2",
+      "name": "WixAltTextGenerator",
+      "description": "FT-W2 — Wix adapter for the XIIGen Alt-Text Generator. Reads Wix image components (WPhoto/SlideShowGallery/MatrixGallery) and generates AI-enhanced accessibility alt-text. New platform within Wix (W prefix).",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "wix",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/wix/FT-W2/src/wix-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Wix component types (WPhoto/SlideShowGallery/MatrixGallery/WRichText) — unique to Wix, no shared image model with Canva/Figma",
+        "altLength inferred from image width — heuristic (≥1200=detailed, ≥600=medium, <600=short)",
+        "tone inferred from component type — PHOTO=functional, GALLERY=descriptive, WRichText=decorative",
+        "Build: webpack mandatory for Wix App Market extensions"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-F-FLOW",
+      "name": "FigmaFlowRouter",
+      "description": "FT-F-FLOW — Figma adapter for XIIGen Flow Router. Reads Figma diagram nodes (RECTANGLE/ELLIPSE/POLYGON/CONNECTOR) and maps to SharedFlowNode (START/STEP/DECISION/END/CONNECTOR). FLOW family: diagram to system.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "figma",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/figma/FT-F-FLOW/src/figma-flow-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Figma shape types (RECTANGLE/ELLIPSE/POLYGON/CONNECTOR) - Figma Plugin API specific",
+        "ELLIPSE name heuristic: name.toLowerCase().includes(\"start\") -> START else END",
+        "Name ending \"?\" heuristic -> DECISION (applies to RECTANGLE nodes)"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-M-FLOW",
+      "name": "MiroFlowRouter",
+      "description": "FT-M-FLOW — Miro adapter for XIIGen Flow Router. Reads Miro board items (card/shape/connector/sticky_note) and maps to SharedFlowNode. FLOW family: diagram to system.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "miro",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/miro/FT-M-FLOW/src/miro-flow-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Miro REST API item types: card/shape/connector/sticky_note",
+        "shape+diamond -> DECISION; shape+circle+content(\"start\") -> START; shape+circle -> END",
+        "startItem.id -> fromId; endItem.id -> toId"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-WF-FLOW",
+      "name": "WebflowFlowRouter",
+      "description": "FT-WF-FLOW — Webflow adapter for XIIGen Flow Router. Reads Webflow page hierarchy (static/collection/folder/utility) and maps to SharedFlowNode. FLOW family: page-hierarchy to content-flow.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "webflow",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/webflow/FT-WF-FLOW/src/webflow-flow-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Webflow page types: static/collection/folder/utility",
+        "slug=\"/\" -> START; type=utility -> END; type=collection -> DECISION; static/folder -> STEP",
+        "SharedFlowNode extended with optional slug field for URL preservation"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-N-AUTO",
+      "name": "N8nAutoBuilder",
+      "description": "FT-N-AUTO — n8n adapter for XIIGen Auto-Builder. Reads n8n workflow node specs and maps to SharedWorkflowStep (TRIGGER/ACTION/CONDITION/TRANSFORM/OUTPUT). AUTO family: text to workflow.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "n8n",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/n8n/FT-N-AUTO/src/n8n-auto-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "n8n types: trigger/http_request/code/filter/merge/set/webhook/schedule",
+        "no nextNodeIds (empty or undefined) -> OUTPUT type",
+        "http_request/code/webhook -> requiresConfig:true; filter/merge/set -> requiresConfig:false"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-CH-AUTO",
+      "name": "ChromeAutoBuilder",
+      "description": "FT-CH-AUTO — Chrome extension adapter for XIIGen Auto-Builder. Reads Chrome automation actions and maps to SharedWorkflowStep. AUTO family: page-analysis to browser-automation.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "chrome",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/chrome/FT-CH-AUTO/src/chrome-auto-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Chrome action types: click/fill/navigate/scroll/extract/wait/screenshot",
+        "navigate -> TRIGGER (isEntryPoint:true); extract -> TRANSFORM; screenshot -> OUTPUT",
+        "readAutomationActions sorts actions by order field before processing",
+        "fill/navigate -> requiresConfig:true; click/scroll/wait/screenshot -> false"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-MON1",
+      "name": "MondayAITaskEnhancer",
+      "description": "FT-MON1 — monday.com adapter for XIIGen AI Task Enhancer. Reads board items and maps to SharedTaskElement with status/priority normalization. UTILITY family.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "monday-com",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/monday-com/FT-MON1/src/monday-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "monday.com status text values (Done/Working on it/Stuck) - not standardized; unmapped -> TODO",
+        "priority field: critical/high/medium/low (lowercase) -> CRITICAL/HIGH/MEDIUM/LOW",
+        "taskType always TASK; isOverdue requires dueDate field"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-A1",
+      "name": "AtlassianJiraIssueEnhancer",
+      "description": "FT-A1 — Atlassian Jira adapter for XIIGen AI Issue Enhancer. Reads Jira Cloud issues and maps to SharedIssueElement with priority/status/type normalization. UTILITY family.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "atlassian",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/atlassian/FT-A1/src/atlassian-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Jira issue types: Bug/Story/Task/Epic/Sub-task -> BUG/STORY/TASK/EPIC/SUBTASK",
+        "Priority: Highest->CRITICAL, High->HIGH, Medium->MEDIUM, Low/Lowest->LOW",
+        "Status: To Do->TODO, In Progress->IN_PROGRESS, In Review->IN_REVIEW, Done->DONE"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-ST1",
+      "name": "StripePaymentIntelligence",
+      "description": "FT-ST1 — Stripe adapter for XIIGen Payment Intelligence. Reads Stripe payment events and maps to SharedPaymentElement with status/type normalization. UTILITY family.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "stripe",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/stripe/FT-ST1/src/stripe-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Stripe event types: charge/subscription/invoice/payment_intent/customer -> PAYMENT/SUBSCRIPTION/INVOICE/INTENT/CUSTOMER",
+        "subscription type -> isRecurring:true; all others -> false",
+        "Amounts in cents (integer); currency lowercase (usd/eur)"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-G1",
+      "name": "GoogleWorkspaceDocsWriter",
+      "description": "FT-G1 — Google Workspace adapter for XIIGen Docs AI Writer. Reads Google Docs paragraph elements and maps to SharedDocParagraph with type/alignment normalization. UTILITY family.",
+      "productScope": "client-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-34",
+        "status": "implemented"
+      },
+      "platforms": [
+        {
+          "platformId": "google-ws",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "adapters/google-ws/FT-G1/src/google-docs-adapter.ts",
+          "adapterMode": "MODE_B",
+          "signals": {
+            "installs": 0,
+            "activeUsers30d": 0,
+            "likes": 0,
+            "citations": 0,
+            "signalScore": 0,
+            "portingThresholdMet": false,
+            "lastUpdated": "2026-03-23T00:00:00.000Z"
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Google Docs types: heading1/heading2/heading3/title/paragraph/list_item",
+        "Alignment: START->LEFT, END->RIGHT; CENTER and JUSTIFIED pass through",
+        "fontSize: title=36, heading1=24, heading2=20, heading3=16, paragraph/list_item=12"
+      ],
+      "platformIncompatibilities": []
+    }
+  ]
+}

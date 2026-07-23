@@ -1,0 +1,2791 @@
+﻿{
+  "config": {
+    "configFile": "C:\\Projects\\xiigen mvp\\client\\playwright.config.ts",
+    "rootDir": "C:/Projects/xiigen mvp/client/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Projects/xiigen mvp/client/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium-desktop",
+        "name": "chromium-desktop",
+        "testDir": "C:/Projects/xiigen mvp/client/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/xiigen mvp/client/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium-tablet",
+        "name": "chromium-tablet",
+        "testDir": "C:/Projects/xiigen mvp/client/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/xiigen mvp/client/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium-mobile",
+        "name": "chromium-mobile",
+        "testDir": "C:/Projects/xiigen mvp/client/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev -- --port 5174",
+      "url": "http://localhost:5174",
+      "reuseExistingServer": true,
+      "timeout": 60000
+    }
+  },
+  "suites": [
+    {
+      "title": "etl-data-integration-crud.spec.ts",
+      "file": "etl-data-integration-crud.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "FLOW-14 ETL Data Integration API and role surface",
+          "file": "etl-data-integration-crud.spec.ts",
+          "line": 34,
+          "column": 6,
+          "specs": [
+            {
+              "title": "C-01: list endpoint responds",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 33,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:12.772Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-33bd13b5393006f4e1b6",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 44,
+              "column": 3
+            },
+            {
+              "title": "C-02: create -> list -> delete API round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6892,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:12.980Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--47796-ist---delete-API-round-trip-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-48b24712ceddf4a1fcc5",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "C-03: platform-admin ops surface renders pipeline evidence",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4778,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:20.184Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--9cd22-e-renders-pipeline-evidence-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-2e3b295d04c1f0b2882d",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 77,
+              "column": 3
+            },
+            {
+              "title": "C-04: tenant-admin connector catalog renders on load",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4127,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:24.990Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--33aa2-tor-catalog-renders-on-load-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-ed45144f896b2df63549",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 85,
+              "column": 3
+            },
+            {
+              "title": "C-01: list endpoint responds",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 29,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:31.548Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-22d68d00129181737320",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 44,
+              "column": 3
+            },
+            {
+              "title": "C-02: create -> list -> delete API round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4350,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:31.710Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--47796-ist---delete-API-round-trip-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-1ba2d89df7cad9080e82",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "C-03: platform-admin ops surface renders pipeline evidence",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3134,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:36.295Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--9cd22-e-renders-pipeline-evidence-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-6e7b561cd34bdd2c476a",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 77,
+              "column": 3
+            },
+            {
+              "title": "C-04: tenant-admin connector catalog renders on load",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3911,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:39.456Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--33aa2-tor-catalog-renders-on-load-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-1776c08a825ec7b4b1fb",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 85,
+              "column": 3
+            },
+            {
+              "title": "C-01: list endpoint responds",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 77,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:50.512Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-59bbb36bbfcb7b524939",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 44,
+              "column": 3
+            },
+            {
+              "title": "C-02: create -> list -> delete API round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3991,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:50.854Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--47796-ist---delete-API-round-trip-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-2362926877959c2a673e",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "C-03: platform-admin ops surface renders pipeline evidence",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3941,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:55.196Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--9cd22-e-renders-pipeline-evidence-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-c1f6c963a9285d1c78f4",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 77,
+              "column": 3
+            },
+            {
+              "title": "C-04: tenant-admin connector catalog renders on load",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4181,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:59.164Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-crud--33aa2-tor-catalog-renders-on-load-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0908ca70c322321b9dc2-5f91d2f651c4c1c4d1ca",
+              "file": "etl-data-integration-crud.spec.ts",
+              "line": 85,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "etl-data-integration-mock-states.spec.ts",
+      "file": "etl-data-integration-mock-states.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "FLOW-14 ETL Data Integration mock states",
+          "file": "etl-data-integration-mock-states.spec.ts",
+          "line": 30,
+          "column": 6,
+          "specs": [
+            {
+              "title": "default: tenant-admin connector catalog renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 7201,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:12.740Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--97868-n-connector-catalog-renders-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-c6033af1f09eea1e6957",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "state-1 (source-connected): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4696,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:20.205Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--56981-d-visible-with-status-badge-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-2a2455ae18a305d5e266",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-2 (extraction-running): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4085,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:24.945Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--0f352-g-visible-with-status-badge-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-6f5bc08a73a790e8d09c",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-3 (rate-limited): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2744,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:29.083Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--4a181-d-visible-with-status-badge-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-587bd0548bfc695d3cf2",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-4 (blackout-window): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3908,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:31.850Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9b435-w-visible-with-status-badge-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-ce673def80b25106f4a4",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-5 (transform-applied): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2969,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:35.780Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9afa4-d-visible-with-status-badge-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-e09cdddd3aabf6351b0d",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-6 (loaded): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3310,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:38.768Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--c8635-d-visible-with-status-badge-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-17d8c9ff588b469899b4",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-7 (error): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2317,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:42.098Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--a05bc-r-visible-with-status-badge-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-334bf1ef68540bcb6c64",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-8 (peer-inactive): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3092,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:44.435Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9d9c4-e-visible-with-status-badge-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-2676e299838310894e2f",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "default: tenant-admin connector catalog renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 4238,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:31.721Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--97868-n-connector-catalog-renders-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-8657d188ed33e8818efa",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "state-1 (source-connected): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3028,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:36.268Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--56981-d-visible-with-status-badge-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-010b98b315acc8e53861",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-2 (extraction-running): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3951,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:39.324Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--0f352-g-visible-with-status-badge-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-307d5665e18db315ef1f",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-3 (rate-limited): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3752,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:43.330Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--4a181-d-visible-with-status-badge-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-9ba019001632519bf780",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-4 (blackout-window): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3446,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:47.105Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9b435-w-visible-with-status-badge-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-436776ae8d58f4907a03",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-5 (transform-applied): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3362,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:50.576Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9afa4-d-visible-with-status-badge-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-8def0efe475d9625c898",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-6 (loaded): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3360,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:53.955Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--c8635-d-visible-with-status-badge-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-a1091b4f8fa492ac67b8",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-7 (error): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2464,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:57.334Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--a05bc-r-visible-with-status-badge-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-2f2d0f27e30e1edc3c4a",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-8 (peer-inactive): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3423,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:59.827Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9d9c4-e-visible-with-status-badge-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-b6c689fa990385c1629e",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "default: tenant-admin connector catalog renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4314,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:54.044Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--97868-n-connector-catalog-renders-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-16050c2e2f1c84dc1e37",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "state-1 (source-connected): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4192,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:58.825Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--56981-d-visible-with-status-badge-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-ab5e7fb1e1a2ba8c4b7e",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-2 (extraction-running): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2353,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:03.048Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--0f352-g-visible-with-status-badge-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-1a7b0bf703a31ae41ea9",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-3 (rate-limited): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2359,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:05.423Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--4a181-d-visible-with-status-badge-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-92c0fc5482c317177183",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-4 (blackout-window): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2422,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:07.805Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9b435-w-visible-with-status-badge-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-293db1e17b5bdebc68dd",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-5 (transform-applied): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2573,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:10.251Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9afa4-d-visible-with-status-badge-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-9b05f6e7edd4191e61c9",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-6 (loaded): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3030,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:12.853Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--c8635-d-visible-with-status-badge-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-d851f0153774c33154eb",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-7 (error): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1923,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:15.910Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--a05bc-r-visible-with-status-badge-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-c12a3dfdf2311cdb1123",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "state-8 (peer-inactive): visible with status badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1861,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:17.857Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-mock--9d9c4-e-visible-with-status-badge-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff6c0260e5aa0ec24b0b-e485d1cbcc653c3cba92",
+              "file": "etl-data-integration-mock-states.spec.ts",
+              "line": 39,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "etl-data-integration-role-matrix.spec.ts",
+      "file": "etl-data-integration-role-matrix.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "FLOW-14 ETL role matrix captures",
+          "file": "etl-data-integration-role-matrix.spec.ts",
+          "line": 29,
+          "column": 6,
+          "specs": [
+            {
+              "title": "primary role cell - tenant-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 7058,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:12.702Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--71daf-ry-role-cell---tenant-admin-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-c54cabe71ae73506098c",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 4329,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:19.999Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--57822-ary-role-cell---tenant-user-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-fb900a155cf77f3a0965",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2449,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:24.351Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--d087e--role-cell---platform-admin-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-2322d263599b86172f2b",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-support",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2758,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:26.819Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--25909-ole-cell---platform-support-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-b6bbc2beb46b91c7a6ed",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3903,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:38.833Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--71daf-ry-role-cell---tenant-admin-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-01403e407359c095f193",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3348,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:43.151Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--57822-ary-role-cell---tenant-user-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-616c3b7b8291cbc518bc",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2288,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:46.524Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--d087e--role-cell---platform-admin-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-20aa61f9370905f7117e",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-support",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2425,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:48.834Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--25909-ole-cell---platform-support-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-ab6ec1fadba6c0a75f87",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2424,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:04.214Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--71daf-ry-role-cell---tenant-admin-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-b06144416bba8b59edfe",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - tenant-user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2290,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:06.865Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--57822-ary-role-cell---tenant-user-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-19cf2e213a515e745294",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3223,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:09.181Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--d087e--role-cell---platform-admin-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-5d09bab4c465a86fe70e",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "primary role cell - platform-support",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3198,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:12.431Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-role--25909-ole-cell---platform-support-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a7741ebff84dd4affd18-a0cbe3c4ed94a2fad238",
+              "file": "etl-data-integration-role-matrix.spec.ts",
+              "line": 31,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "etl-data-integration.spec.ts",
+      "file": "etl-data-integration.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "FLOW-14 etl-data-integration P1 state coverage",
+          "file": "etl-data-integration.spec.ts",
+          "line": 27,
+          "column": 6,
+          "specs": [
+            {
+              "title": "P1-01: Every task type in T213-T224 has at least one plan step",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 6839,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:12.764Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--de6be--has-at-least-one-plan-step-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-00712b5a0a40490c4922",
+              "file": "etl-data-integration.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "P1-02: Every plan step is scoped to a single responsibility",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4832,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:20.125Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--e5e57--to-a-single-responsibility-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-2057f3a4b04ecb6ac440",
+              "file": "etl-data-integration.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "P1-03: No step imports provider SDKs directly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4110,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:24.989Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--70dc0-orts-provider-SDKs-directly-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-7054504b29dfd70a369d",
+              "file": "etl-data-integration.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "P1-04: No step creates entity-specific controllers",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2927,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:29.133Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--a12b5-entity-specific-controllers-chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-206806dd849de8692046",
+              "file": "etl-data-integration.spec.ts",
+              "line": 67,
+              "column": 3
+            },
+            {
+              "title": "P1-05: All steps return DataProcessResult<T>",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4119,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:32.083Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--ac2d9-return-DataProcessResult-T--chromium-desktop\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-5863abf43e7e5bff624d",
+              "file": "etl-data-integration.spec.ts",
+              "line": 77,
+              "column": 3
+            },
+            {
+              "title": "P1-01: Every task type in T213-T224 has at least one plan step",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3683,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:43.451Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--de6be--has-at-least-one-plan-step-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-5c392ca46b0a15b07f15",
+              "file": "etl-data-integration.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "P1-02: Every plan step is scoped to a single responsibility",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3455,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:47.290Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--e5e57--to-a-single-responsibility-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-1e32dfc2cb2142a4ffed",
+              "file": "etl-data-integration.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "P1-03: No step imports provider SDKs directly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3602,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:50.775Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--70dc0-orts-provider-SDKs-directly-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-6d21a2a92258c5f40c87",
+              "file": "etl-data-integration.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "P1-04: No step creates entity-specific controllers",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3944,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:54.402Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--a12b5-entity-specific-controllers-chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-a2346e3dd6c66182121f",
+              "file": "etl-data-integration.spec.ts",
+              "line": 67,
+              "column": 3
+            },
+            {
+              "title": "P1-05: All steps return DataProcessResult<T>",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-tablet",
+                  "projectName": "chromium-tablet",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3727,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:29:58.405Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--ac2d9-return-DataProcessResult-T--chromium-tablet\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-dd2d639adc345920cd68",
+              "file": "etl-data-integration.spec.ts",
+              "line": 77,
+              "column": 3
+            },
+            {
+              "title": "P1-01: Every task type in T213-T224 has at least one plan step",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2621,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:05.654Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--de6be--has-at-least-one-plan-step-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-1df7971681d0c1b42d31",
+              "file": "etl-data-integration.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "P1-02: Every plan step is scoped to a single responsibility",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3177,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:08.815Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--e5e57--to-a-single-responsibility-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-63283645ebf7dd8a9462",
+              "file": "etl-data-integration.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "P1-03: No step imports provider SDKs directly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3102,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:12.015Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--70dc0-orts-provider-SDKs-directly-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-f1833e9c812542ce244b",
+              "file": "etl-data-integration.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "P1-04: No step creates entity-specific controllers",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2130,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:15.137Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--a12b5-entity-specific-controllers-chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-63e5aa523d8ac54c024f",
+              "file": "etl-data-integration.spec.ts",
+              "line": 67,
+              "column": 3
+            },
+            {
+              "title": "P1-05: All steps return DataProcessResult<T>",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-mobile",
+                  "projectName": "chromium-mobile",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2028,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-06T07:30:17.280Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\xiigen mvp\\client\\playwright-results\\etl-data-integration-FLOW--ac2d9-return-DataProcessResult-T--chromium-mobile\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cfcb49cb99c8d3e4ee15-7b1e4eac91a01ec58429",
+              "file": "etl-data-integration.spec.ts",
+              "line": 77,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-06T07:29:09.653Z",
+    "duration": 70562.237,
+    "expected": 66,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

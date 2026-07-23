@@ -1,0 +1,36 @@
+﻿{
+    "flowId":  "FLOW-18",
+    "flowSlug":  "visual-flow-engine",
+    "phase":  "phase1UnitTests",
+    "generatedAt":  "2026-05-07T00:43:02.1289804+03:00",
+    "status":  "completed",
+    "verification":  {
+                         "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+                         "serverJest":  "passed: npx jest --testPathPatterns=visual-flow-engine --runInBand --colors=false (9 suites / 98 tests)",
+                         "sourceScan":  {
+                                            "throwNew":  0,
+                                            "servicesMissingMicroserviceBase":  0,
+                                            "clsImports":  0,
+                                            "directTenantContextImports":  0,
+                                            "directSdkImports":  0,
+                                            "anyTypes":  0,
+                                            "secretPatternHits":  0
+                                        }
+                     },
+    "roleMap":  {
+                    "rolesCovered":  [
+                                         "tenant-admin",
+                                         "platform-admin",
+                                         "platform-support",
+                                         "tenant-user",
+                                         "anonymous"
+                                     ],
+                    "authRoute":  "/api/runs/phase0-auth-probe/trace"
+                },
+    "commands":  [
+                     "server npx tsc --noEmit -p tsconfig.json --pretty false",
+                     "server npx jest --testPathPatterns=visual-flow-engine --runInBand --colors=false",
+                     "FLOW-18 phase-1 scan: throwNew=0, servicesMissingMicroserviceBase=0, clsImports=0, directTenantContextImports=0, directSdkImports=0, anyTypes=0"
+                 ],
+    "verdict":  "PASS"
+}

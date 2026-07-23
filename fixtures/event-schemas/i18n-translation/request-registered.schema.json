@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.request-registered.v1",
+  "description": "Emitted by T665 TranslationRequestRegistrar when a new locale is detected from a user registration and either stored in xiigen-translation-requests or enrolled in i18n.enabledLocales.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenantId", "eventId", "emittedAt", "locale", "source"],
+  "properties": {
+    "tenantId":   { "type": "string", "description": "Tenant that owns this translation request (ALS)." },
+    "eventId":    { "type": "string" },
+    "emittedAt":  { "type": "string", "format": "date-time" },
+    "locale":     { "type": "string", "description": "BCP-47 locale tag, e.g. 'he', 'fr', 'fr-FR'." },
+    "source":     { "type": "string", "enum": ["user_registration", "tenant_config"] },
+    "userId":     { "type": "string", "description": "For user_registration source — the user who triggered detection." },
+    "enabledLocalesExpanded": { "type": "boolean", "description": "True when this call also mutated freedom_config['i18n.enabledLocales']." }
+  }
+}

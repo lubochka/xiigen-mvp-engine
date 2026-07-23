@@ -1,0 +1,76 @@
+{
+    "flowId":  "FLOW-30",
+    "flowSlug":  "tenant-lifecycle-manager",
+    "implementationSlug":  "tenant-lifecycle",
+    "phase":  "product-decision-and-pre-existing-defect-check",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T23:09:37.6399210Z",
+    "productDecisionGate":  {
+                                "gateId":  "product decision required",
+                                "source":  "PER-FLOW-FIX-MAP-v2.9.md FLOW-30 row",
+                                "question":  "FLOW-15 vs FLOW-30 UI overlap: which is canonical?",
+                                "tenantProtocolClarification":  "FLOW-15 remains the public/user-facing tenant lifecycle surface. FLOW-30 is the engine/platform tenant lifecycle orchestration surface for provisioning, quota, policy, health, audit, and offboarding operations. This resolves tenant adaptation scope for this protocol run; platform-wide canonical product declaration remains tracked separately.",
+                                "recordedForTenantAdaptation":  true,
+                                "blocksThisTenantPortabilityRun":  false
+                            },
+    "roleMap":  {
+                    "primaryRoles":  [
+                                         "platform-admin"
+                                     ],
+                    "partialRoles":  [
+                                         "platform-support",
+                                         "tenant-admin"
+                                     ],
+                    "publicRoles":  [
+
+                                    ],
+                    "wrongRoleForProtectedRoute":  "tenant-user",
+                    "readOnlyRole":  "platform-support",
+                    "source":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-06.md",
+                    "note":  "FLOW-30 is engine tenant lifecycle orchestration: platform-admin primary, platform-support read-only, tenant-admin own-tenant status-only."
+                },
+    "implementationReconciliation":  {
+                                         "implStateClaim":  "NOT_STARTED",
+                                         "actualCodePresent":  true,
+                                         "sourceFlowFileCount":  10,
+                                         "testsPresent":  true,
+                                         "acceptedForProtocolRun":  true,
+                                         "notes":  [
+                                                       "Implementation slug tenant-lifecycle differs from protocol slug tenant-lifecycle-manager.",
+                                                       "IMPL-STATE task range T470-T479 is stale relative to passing contract tests T468-T477.",
+                                                       "Design-sim and UI reflection historical blockers remain tracked; pre-existing server defect gate is clean."
+                                                   ]
+                                     },
+    "jest":  {
+                 "command":  "Push-Location server; npx jest --testPathPatterns=tenant-lifecycle-manager --runInBand --colors=false; Pop-Location",
+                 "status":  "passed",
+                 "exitCode":  0,
+                 "testSuitesPassed":  6,
+                 "testSuitesTotal":  6,
+                 "testsPassed":  149,
+                 "testsTotal":  149
+             },
+    "staticScans":  {
+                        "scanRoot":  "server/src/engine/flows/tenant-lifecycle",
+                        "sourceFlowFileCount":  10,
+                        "throwNew":  0,
+                        "exportedServicesByPromptPattern":  0,
+                        "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                        "clsImports":  0,
+                        "directSdkImports":  0,
+                        "anyTypes":  0,
+                        "failureLines":  0,
+                        "note":  "FLOW-30 runtime classes do not use the Service suffix; prompt-pattern exported service count is therefore zero."
+                    },
+    "phaseGate":  {
+                      "productDecisionClarifiedForTenantRun":  true,
+                      "testsPassed":  true,
+                      "scansHaveZeroFailureLines":  true,
+                      "readyForPhase0DockerVaultAuth":  true
+                  },
+    "secretHandling":  {
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false
+                       }
+}

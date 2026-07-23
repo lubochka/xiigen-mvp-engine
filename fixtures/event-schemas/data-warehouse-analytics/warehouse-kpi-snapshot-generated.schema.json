@@ -1,0 +1,13 @@
+{
+  "eventType": "warehouse.kpi.snapshot",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "snapshotId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "kpiName": { "type": "string", "required": true },
+    "value": { "type": "number", "required": true },
+    "alertFired": { "type": "boolean", "required": true },
+    "generatedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,18 @@
+name: defense-in-depth
+version: "1.1.0"
+priority: HIGH
+entry: SKILL.md
+author: claudekit (adapted)
+updated: "2026-03-18"
+description: >
+  Validate at every layer data passes through to make bugs structurally
+  impossible. Four layers: Entry Point → Business Logic → Environment
+  Guards → Debug Instrumentation.
+triggers:
+  - "bug keeps recurring"
+  - "same error again"
+  - "add validation"
+  - "make it impossible"
+integrates_with:
+  - root-cause-tracing  # Find root cause first, then defend
+  - systematic-debugging  # Phase 4 implementation uses this

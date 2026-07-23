@@ -1,0 +1,212 @@
+{
+  "$schema": "round-convergence.v1",
+  "purpose": "Quantify per-round UX-quality improvement. Stop when round-over-round delta < 1% \u2014 Luba's convergence target.",
+  "measurement_tool": "scripts/ux-quality-score.sh v2 (RUN-137, supersedes v1 from RUN-135)",
+  "measurement_method": "v2 = weighted offence count, USER-VISIBLE lines only. Strips JSDoc (`/** */`), line comments (`//`), JSX comments (`{/* */}`). ENGINE_INTERNAL uses dual-count: total minus `classification=\"ENGINE_INTERNAL\"` prop usages (code identifier rendered as the user-facing 'Platform-only' pill after RUN-122). v1 was replaced because it counted BFA/arbiter references inside JSDoc audit-trail headers as offences, inflating scores by ~50 pts and distorting deltas. Measured by checking out the historical tree and running the v2 script against it, so scores are reproducible from history.",
+
+  "weights": {
+    "BFA_leak_P0": 3,
+    "DNA_leak_P0": 3,
+    "arbiter_leak_P0": 3,
+    "FREEDOM_MACHINE_leak_P0": 3,
+    "DataProcessResult_leak_P0": 3,
+    "ENGINE_INTERNAL_visible_leak_P0": 3,
+    "scope_isolation_leak_P0": 3,
+    "T_number_leak_P1": 2,
+    "CF_number_leak_P1": 2,
+    "hero_metric_tell_P1": 2,
+    "emoji_as_icon_P0": 3,
+    "sidestripe_border_P1": 2,
+    "physical_direction_class_P2": 1,
+    "ml_auto_mr_auto_P2": 1,
+    "coverage_not_yet_examined_P2": 1
+  },
+
+  "convergence_target": {
+    "criterion": "round_over_round_improvement_pct < 1%",
+    "rationale": "When each new round produces less than 1% quality improvement, the sweep has saturated and remaining defects are either per-cell fixes (not bulk patterns) or architecturally deferred (require product decisions).",
+    "status_after_round_4": "CONVERGED \u2014 R4 delta = 0% meets the < 1% criterion. Trajectory: R0=349 \u2192 R1=235 \u2192 R2=106 \u2192 R3=51 \u2192 R4=51. Total improvement from R0: -298 pts / -85.4% under v2 scoring."
+  },
+
+  "rounds": [
+    {
+      "round": 0,
+      "label": "pre-refresh baseline (RUN-86 last commit before Round 1)",
+      "commit": "38dfb943",
+      "commit_date": "2026-04-20",
+      "offences_v2_user_visible": {
+        "BFA": 10,
+        "DNA": 13,
+        "arbiter": 11,
+        "FREEDOM_MACHINE": 2,
+        "DataProcessResult": 1,
+        "ENGINE_INTERNAL_visible": 0,
+        "T_number": 18,
+        "CF_number": 16,
+        "hero_metric": 58,
+        "text_left_right": 35,
+        "ml_mr_auto": 2,
+        "coverage_not_yet_examined": 17
+      },
+      "score_v2": 349,
+      "score_v1_superseded": 402,
+      "delta_vs_prev": null,
+      "improvement_pct": null,
+      "scope": "Round 1 (RUN-87..115b, 28 commits) produces the first measured improvement against this baseline.",
+      "note": "v1 scored 402. v2 restates at 349 because v1 counted JSDoc and comment references plus 14 code-identifier `classification=\"ENGINE_INTERNAL\"` prop usages as offences. v2 filters them out, giving a cleaner floor. Coverage matrix didn't exist at this commit; the 17 NOT_YET_EXAMINED figure reflects the current HEAD matrix (frozen-matrix comparison regime) so all rounds share the same coverage-gap denominator."
+    },
+    {
+      "round": 1,
+      "label": "end of Round 1 \u2014 design-skills refresh + per-flow signature + hero-metric sweep",
+      "commit": "1be26418",
+      "commit_date": "2026-04-20",
+      "commits_in_round": "RUN-87..115b (28 commits)",
+      "offences_v2_user_visible": {
+        "BFA": 10,
+        "DNA": 13,
+        "arbiter": 11,
+        "FREEDOM_MACHINE": 2,
+        "DataProcessResult": 1,
+        "ENGINE_INTERNAL_visible": 0,
+        "T_number": 18,
+        "CF_number": 16,
+        "hero_metric": 0,
+        "text_left_right": 37,
+        "ml_mr_auto": 2,
+        "coverage_not_yet_examined": 17
+      },
+      "score_v2": 235,
+      "score_v1_superseded": 286,
+      "delta_vs_prev": -114,
+      "improvement_pct": 32.66,
+      "notes": "Round 1 focused on hero-metric elimination (58 \u2192 0), emoji-icons, and FLOW-06/07/08/10/12/17/20/22 signature/composition upgrades. Plain-language acronym sweep had not started yet \u2014 that's why BFA/DNA/arbiter counts are identical to R0. Under v2 scoring (comment-filtered) the improvement is 32.7% vs v1's 28.9% because the 53-pt comment+prop overhead isn't double-counted."
+    },
+    {
+      "round": 2,
+      "label": "end of Round 2 \u2014 RTL baseline + module shell + plain-language sweep + coverage matrix + CFI-11 governance sync",
+      "commit": "b6738b1e",
+      "commit_date": "2026-04-20",
+      "commits_in_round": "RUN-116..134 (27 commits)",
+      "offences_v2_user_visible": {
+        "BFA": 0,
+        "DNA": 0,
+        "arbiter": 1,
+        "FREEDOM_MACHINE": 0,
+        "DataProcessResult": 0,
+        "ENGINE_INTERNAL_visible": 0,
+        "T_number": 12,
+        "CF_number": 16,
+        "hero_metric": 0,
+        "text_left_right": 29,
+        "ml_mr_auto": 1,
+        "coverage_not_yet_examined": 17
+      },
+      "score_v2": 106,
+      "score_v1_superseded": 207,
+      "delta_vs_prev": -129,
+      "improvement_pct": 54.89,
+      "notes": "Round 2 killed BFA 10\u21920, DNA 13\u21920, arbiter 11\u21921, FREEDOM 2\u21920, DataProcessResult 1\u21920 user-visible. Only 1 arbiter leak remained at R2-end (fixed in RUN-137 \u2014 see HEAD row). ENGINE_INTERNAL visible leaks already 0 at R0 because the only hits are code-identifier prop usages rendered as 'Platform-only' pill. T-numbers 18\u219212 (6 JSDoc comments gone); CF-numbers 18\u219216 (kept CF-842 rule-id cross-references for platform-admin). Round 2 improvement is DOUBLE Round 1 under v2 scoring because R2 did the acronym sweep that R1 hadn't touched."
+    },
+    {
+      "round": 3,
+      "label": "Round 3 \u2014 targeted cleanup of remaining visible leaks + RTL logical-property sweep + coverage matrix population",
+      "status": "COMPLETE",
+      "baseline_commit": "b6738b1e",
+      "baseline_score_v2": 106,
+      "final_commit": "71a34301",
+      "commits_in_round": "RUN-137..142 (6 commits)",
+      "offences_v2_user_visible": {
+        "BFA": 0,
+        "DNA": 0,
+        "arbiter": 0,
+        "FREEDOM_MACHINE": 0,
+        "DataProcessResult": 0,
+        "ENGINE_INTERNAL_visible": 0,
+        "T_number": 5,
+        "CF_number": 16,
+        "hero_metric": 0,
+        "text_left_right": 0,
+        "ml_mr_auto": 0,
+        "coverage_not_yet_examined": 9
+      },
+      "score_v2": 51,
+      "delta_vs_prev": -55,
+      "improvement_pct": 51.89,
+      "target_delta_pct": ">= 5% (stretch 10%+)",
+      "target_met": "YES \u2014 51.9% actual vs 5%+ required, 5x the stretch target (10%)",
+      "closed_targets": [
+        "BFA user-visible leaks 10\u21920 (retained under v2 after RUN-137 AdsPlatformPage fix)",
+        "DNA user-visible leaks 13\u21920",
+        "arbiter user-visible leaks 11\u21920",
+        "FREEDOM_MACHINE + DataProcessResult + ENGINE_INTERNAL_visible (all 0)",
+        "Physical-direction classes text-left/right on admin pages 29\u21920 (RUN-139 logical-property sweep)",
+        "ml-auto/mr-auto 1\u21920 (RUN-139)",
+        "T-number visible leaks 12\u21925 (RUN-140 fixed body-copy + stub data; 5 remaining are RUN-131 intentional taskTypeId '(T617)' suffixes on DesignSystemGovernance platform-admin compat reports)",
+        "9 NOT_YET_EXAMINED flows examined (RUN-141 + RUN-142): 6 pass clean, 3 needed fixes (saas-multi-tenancy status echoes, durable-sagas LIFO/SCREAMING_SNAKE, platform-agent AF-4/Super-judge)"
+      ],
+      "retained_by_design": [
+        "5 T-numbers in DesignSystemGovernancePage taskTypeId values \u2014 RUN-131 intentional 'human label (T617)' format for platform-admin operator cross-reference on compatibility reports",
+        "16 CF-numbers as ruleId/ruleA/ruleB/ironRule/policyRule field values on platform-admin BFA + ASM + MetaArbitration pages \u2014 stable operator cross-references analogous to Jira ticket IDs in Jira's own UI",
+        "9 coverage_not_yet_examined matches in detailed per-cell entries (e.g. 'tenant-admin cell passed, platform-support cell still pending') \u2014 these are per-(flow\u00d7role\u00d7lang\u00d7state) cells, not whole-flow gaps, and represent the residual Tier-2 audit work"
+      ],
+      "notes": "Round 3 pulled off the three-punch plan: (1) RUN-139 flipped every text-left/right + ml-auto to logical properties (29+1 saved 30 pts), (2) RUN-140 fixed T-number body copy (14 saved), (3) RUN-141+142 closed the 9 NOT_YET_EXAMINED whole-flow gaps and updated the matrix index (8 saved). Remaining 51 pts: 10 from retained T-IDs, 32 from platform-admin CF rule IDs, 9 from per-cell coverage gaps. These are all 'retained by design' or 'detailed-cell' items that no longer move under bulk patterns."
+    },
+    {
+      "round": 4,
+      "label": "Round 4 \u2014 convergence check + residual qualitative pass",
+      "status": "COMPLETE",
+      "baseline_commit": "71a34301",
+      "baseline_score_v2": 51,
+      "final_commit": "2cedcd37",
+      "commits_in_round": "RUN-144 (1 commit \u2014 plus RUN-143 R3-close)",
+      "offences_v2_user_visible": {
+        "BFA": 0,
+        "DNA": 0,
+        "arbiter": 0,
+        "FREEDOM_MACHINE": 0,
+        "DataProcessResult": 0,
+        "ENGINE_INTERNAL_visible": 0,
+        "T_number": 5,
+        "CF_number": 16,
+        "hero_metric": 0,
+        "text_left_right": 0,
+        "ml_mr_auto": 0,
+        "coverage_not_yet_examined": 9
+      },
+      "score_v2": 51,
+      "delta_vs_prev": 0,
+      "improvement_pct": 0.00,
+      "convergence_target": "< 1% improvement",
+      "convergence_verdict": "CONVERGED \u2014 0% delta meets the < 1% criterion",
+      "r4_qualitative_work_committed": [
+        "23 AdminCrudPanel descriptions: 'FLOW-NN admin console backed by /api/dynamic/xiigen-*' \u2192 'Raw index browser (admin debug) \u2014 reads /api/dynamic/xiigen-*'",
+        "AdapterCiCdBridgePage: 2 subtitle 'FLOW-41 \u00b7 ...' prefixes stripped",
+        "AiSelfModificationPage: 3 body-text FLOW-29 + FLOW-44 references rewritten to human labels ('deep-research flow', subtitle FLOW-44 prefix stripped)",
+        "DynamicFormsWorkflowsPage: subtitle rewrote 'FLOW-21 \u00b7 Form schema DSL' \u2192 plain-language explanation; tenant-admin tip dropped FLOW-23 inline reference"
+      ],
+      "why_score_did_not_move": "The v2 score targets acronym / AI-slop / physical-direction leaks, all of which are at 0 user-visible or retained-by-design. R4 fixes improve qualitative UX (Nielsen H2 match-real-world) but the changes fall below the current weight set's threshold \u2014 there is no weight yet for 'FLOW-NN in user-visible subtitle'. A future weight-refresh could add that axis, but the cell-level audit (ROUND-2-COVERAGE-MATRIX.json) is the right home for those observations, not the automated score.",
+      "residual_51pt_floor": {
+        "description": "51 points are the architectural floor: retained-by-design platform-admin identifiers + per-cell coverage gaps. None will move under bulk automated patterns.",
+        "breakdown": {
+          "10_pts": "5 T-IDs \u00d7 weight 2 \u2014 DesignSystemGovernance compatibility-report taskTypeId suffixes (RUN-131 intentional)",
+          "32_pts": "16 CF-IDs \u00d7 weight 2 \u2014 platform-admin rule-catalog IDs on BFA / ASM / MetaArbitration engines (Jira-in-Jira pattern)",
+          "9_pts":  "9 NOT_YET_EXAMINED \u00d7 weight 1 \u2014 per-cell gaps in the detailed matrix (e.g. 'tenant-admin passed, platform-support cell pending') \u2014 these are Tier-2 cell audits, not whole-flow misses"
+        }
+      }
+    }
+  ],
+
+  "instructions_for_future_sessions": {
+    "run_score_at_session_start": "bash scripts/ux-quality-score.sh",
+    "compare_to_last_round": "grep 'score_v2\\|improvement_pct' docs/screen-examination/ROUND-CONVERGENCE.json",
+    "record_after_round_end": "add a new 'round' entry with commit hash + offences_v2_user_visible + score_v2 + delta_vs_prev + improvement_pct",
+    "measuring_historical_commits": "Copy scripts/ux-quality-score.sh to /tmp/ (outside worktree) so it survives checkouts. Stash current changes. Run: git checkout <sha> -- client/src/pages docs/screen-examination && bash /tmp/ux-quality-score.sh && git checkout HEAD -- client/src/pages docs/screen-examination. Repeat for each historical SHA. Finally git stash pop to restore.",
+    "convergence_check": "if last round improvement_pct < 1, declare converged and stop \u2014 remaining work is per-cell / architectural"
+  },
+
+  "known_limits_of_this_measurement": {
+    "automatable_axes_only": "The score measures axes that can be grep-counted: plain-language acronyms, AI-slop patterns, physical-direction classes. Nielsen H1/H2/H8/H9 scoring, interface-design mandate checks (swap/squint/signature), role-branching correctness, business-logic-state fidelity \u2014 these still require visual review and are tracked cell-by-cell in ROUND-2-COVERAGE-MATRIX.json, not by this score.",
+    "score_can_plateau_while_quality_still_low": "If all grep-countable offences reach 0 but 30 flows are still NOT_YET_EXAMINED in the coverage matrix, the score understates residual work. The convergence criterion should be 'score-delta < 1% AND coverage_NOT_YET_EXAMINED = 0' \u2014 otherwise we are just converging on the automatable subset.",
+    "weights_are_rough": "P0 leaks weight 3, P1 weight 2, P2 weight 1. These are heuristic \u2014 tuned to reflect Luba's critique priorities. A weight refresh is fine if a new critique category emerges."
+  }
+}

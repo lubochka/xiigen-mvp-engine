@@ -1,0 +1,12 @@
+{
+  "index": "xiigen-bfa-registrations",
+  "mappings": {
+    "properties": {
+      "flowId":     { "type": "keyword" },
+      "entities":   { "type": "keyword" },
+      "events":     { "type": "keyword" },
+      "apiRoutes":  { "type": "keyword" },
+      "storedAt":   { "type": "date" }
+    }
+  }
+}

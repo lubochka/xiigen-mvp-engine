@@ -1,0 +1,23 @@
+{
+  "batch_id": "V-R5-B",
+  "flows": [
+    {"slug":"visual-flow-engine","role":"platform-admin","grammar":"G4","verdict":"pass","weighted_score":3,"prior_score":6,"delta":-3,"offences":[{"severity":"MINOR","axis":"H","viewport":"desktop","description":"Section headers SCREAMING: NODES, CONNECTIONS, PUBLISHED FLOWS, MASTER CANVAS"},{"severity":"MINOR","axis":"G","viewport":"desktop","description":"n8n/Zapier uses Sentence-case section labels; uppercase feels engine-like"},{"severity":"MINOR","axis":"UX-P6","viewport":"tablet","description":"Mini-canvas preview cramped"}],"notes":"Major humanization landed. TNT-*/flow-acme-* hidden, n1/n2→Node 1/2, FLOW_IMMUTABLE replaced, tenant names friendly"},
+    {"slug":"tenant-lifecycle-manager","role":"platform-admin","grammar":"G6","verdict":"partial","weighted_score":5,"prior_score":6,"delta":-1,"offences":[{"severity":"MAJOR","axis":"H","viewport":"desktop","description":"Status badges SCREAMING (ACTIVE/SUSPENDED/OFFBOARDING)"},{"severity":"MINOR","axis":"H","viewport":"desktop","description":"TENANTS (4) uppercase section header"},{"severity":"MAJOR","axis":"UX-P6","viewport":"tablet","description":"Castle Analytics row wraps awkwardly"},{"severity":"MINOR","axis":"UX-P4","viewport":"mobile","description":"Action buttons stack vertically inconsistently"}],"notes":"TNT-* hidden, Raw Index collapsed; remaining: SCREAMING status badges + tablet row wrapping"},
+    {"slug":"design-intelligence-engine","role":"platform-admin","grammar":"G6","verdict":"partial","weighted_score":5,"prior_score":7,"delta":-2,"offences":[{"severity":"MAJOR","axis":"H","viewport":"desktop","description":"Severity badges HIGH/MEDIUM SCREAMING"},{"severity":"MAJOR","axis":"H","viewport":"desktop","description":"Pattern status APPROVED/DEPRECATED SCREAMING"},{"severity":"MINOR","axis":"H","viewport":"desktop","description":"CROSS-TENANT FINDINGS + PATTERN REGISTRY uppercase"}],"notes":"CTF-/PTN-/TNT- hidden; finding titles + pattern names primary; remaining is SCREAMING badges"},
+    {"slug":"marketplace-plugin-adapter","role":"platform-admin","grammar":"G4","verdict":"BLOCKER","weighted_score":5,"prior_score":7,"delta":-2,"offences":[{"severity":"BLOCKER","axis":"UX-P6","viewport":"mobile","description":"Canvas still clips: state nodes overflow right edge, cannot pan"},{"severity":"BLOCKER","axis":"UX-P6","viewport":"tablet","description":"Canvas left ~40% empty while nodes clipped on right"},{"severity":"MAJOR","axis":"H","viewport":"desktop","description":"Section headers SCREAMING: PENDING SECURITY SCAN, FAILED SECURITY REVIEW, ADAPTER LIFECYCLE, TRANSLATION PHASE"}],"notes":"State names humanized + chip statuses humanized + event key replaced. Canvas responsive BLOCKER persists"},
+    {"slug":"platform-agent","role":"platform-admin","grammar":"G3","verdict":"partial","weighted_score":4,"prior_score":3,"delta":1,"offences":[{"severity":"MAJOR","axis":"H","viewport":"desktop","description":"TNT-acme-corp/TNT-bluebird/TNT-castle still visible as subtitle under Tenant Scope rows; BusinessStateCard fix didn't reach this list"},{"severity":"MINOR","axis":"H","viewport":"desktop","description":"Section headers SCREAMING: AGENT STATUS, TENANT SCOPE, RECENT AGENT ACTIONS"},{"severity":"MINOR","axis":"H","viewport":"desktop","description":"ACTIVE status badge SCREAMING"}],"notes":"FLOW-46 removed, action chips humanized. Regression on TNT exposure — previously hidden by the FLOW-46 issue"}
+  ],
+  "batch_total_score": 22,
+  "batch_total_delta_vs_V_R4": -7,
+  "improvement_pct": "24%",
+  "systemic_patterns_still_present": [
+    "SCREAMING_CAPS section headers across every flow (NODES, CONNECTIONS, TENANTS, PATTERN REGISTRY, AGENT STATUS, ADAPTER LIFECYCLE) — global card-header rule",
+    "Status/severity badges SCREAMING (ACTIVE/SUSPENDED/APPROVED/DEPRECATED/HIGH/MEDIUM) — shared Badge component appears to uppercase",
+    "marketplace-plugin-adapter canvas responsive (tablet+mobile) unresolved since V-R4 despite humanization",
+    "TNT-* tokens still leak where per-row card component did not share the BusinessStateCard fix"
+  ],
+  "new_patterns_emerged": [
+    "Name-level humanization landed cleanly; typography-level (uppercase badges + headers) needs shared-component fix",
+    "BusinessStateCard fix proven for primary subtitle but didn't propagate to list-row subtitle usages"
+  ]
+}

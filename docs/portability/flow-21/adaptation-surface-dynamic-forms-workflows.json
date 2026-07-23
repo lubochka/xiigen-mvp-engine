@@ -1,0 +1,377 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "flowTitle": "Dynamic Forms and Workflows",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-07",
+  "capturedBy": "Codex / FLOW-21 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/21-dynamic-forms-workflows.md",
+    "docs/business-flows/functional-specs/FLOW-21-dynamic-forms-workflows-functional-spec.md",
+    "server/src/engine-contracts/dynamic-forms-workflows-contracts.ts",
+    "server/src/engine-contracts/dynamic-forms-workflows-bfa-rules.ts",
+    "server/src/engine/flows/dynamic-forms-workflows",
+    "docs/flow-coverage/dynamic-forms-workflows/P1-business-logic-inventory.md",
+    "docs/flow-coverage/dynamic-forms-workflows/P5-ui-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T629-T632",
+    "planningTaskTypeRange": "T307-T340",
+    "taskTypeIds": [
+      "T629",
+      "T630",
+      "T631",
+      "T632"
+    ],
+    "factoryIdRange": "F1569-F1576",
+    "freedomKeyCount": 8,
+    "securityClassification": "tenant-scoped form authoring, submission validation, workflow dispatch, and analytics controls",
+    "directRuntimePeerDependencies": [],
+    "coreGuarantees": [
+      "Form schema publishing uses optimistic concurrency and preserves immutable published versions.",
+      "Publishing is blocked when fields or validation rules are missing.",
+      "Submission processing checks tenant ownership before validation and storage.",
+      "Submissions are validated only against the published form schema.",
+      "Validation errors are returned as business results rather than thrown exceptions.",
+      "Submissions are stored before downstream events are emitted.",
+      "Automation rule execution uses one SETNX lock per submission and rule.",
+      "Automation rule conditions select only the intended branch.",
+      "Analytics records are append-only and exclude PII fields.",
+      "Analytics aggregation remains tenant scoped and date partitioned.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-21 can collect respondent PII and dispatch tenant workflows, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T629",
+      "className": "FormSchemaPublisherService",
+      "file": "server/src/engine/flows/dynamic-forms-workflows/form-schema-publisher.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow21_schema_publish_timeout_ms",
+        "flow21_schema_validation_rule_required"
+      ],
+      "machineLockedRules": [
+        "OCC expectedVersion must match before publish",
+        "published schema fields are immutable",
+        "schema fields and validation rules must exist before publish",
+        "tenantId resolved through TenantContextResolver only"
+      ]
+    },
+    {
+      "taskTypeId": "T630",
+      "className": "FormSubmissionProcessorService",
+      "file": "server/src/engine/flows/dynamic-forms-workflows/form-submission-processor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow21_submission_validation_timeout_ms",
+        "flow21_submission_max_field_count"
+      ],
+      "machineLockedRules": [
+        "submitter tenant must match form tenant",
+        "validation uses the published schema only",
+        "validation errors stay business-level results",
+        "submission storage happens before event emission"
+      ]
+    },
+    {
+      "taskTypeId": "T631",
+      "className": "AutomationDispatcherService",
+      "file": "server/src/engine/flows/dynamic-forms-workflows/automation-dispatcher.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow21_rule_lock_ttl_ms",
+        "flow21_rule_condition_timeout_ms"
+      ],
+      "machineLockedRules": [
+        "SETNX rule lock acquired before execution",
+        "one rule execution per submission and rule",
+        "rule tenant must match submission tenant",
+        "rule dispatch preserves outbox ordering"
+      ]
+    },
+    {
+      "taskTypeId": "T632",
+      "className": "SubmissionAnalyticsCollectorService",
+      "file": "server/src/engine/flows/dynamic-forms-workflows/submission-analytics-collector.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow21_analytics_pii_fields",
+        "flow21_analytics_aggregation_window",
+        "flow21_analytics_storage_retention_days"
+      ],
+      "machineLockedRules": [
+        "analytics records are append-only",
+        "email, phone, ssn, password, and creditCard are excluded from analytics",
+        "analytics partitions include tenant and date window",
+        "aggregate metrics remain tenant scoped"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-21 operating values. These values may vary by tenant without changing schema immutability, ownership checks, published-schema validation, store-before-emit ordering, SETNX rule idempotency, PII exclusion, or tenant isolation.",
+      "total": 8,
+      "keys": [
+        {
+          "key": "flow21_schema_publish_timeout_ms",
+          "type": "number",
+          "default": 1000,
+          "unit": "milliseconds",
+          "semantic": "Maximum time allowed for schema fetch and publish operation.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T629.FormSchemaPublisherService"
+          ],
+          "boundedRange": {
+            "min": 50,
+            "max": 10000,
+            "rationale": "Tenants may tune authoring responsiveness while OCC and immutability stay fixed."
+          }
+        },
+        {
+          "key": "flow21_schema_validation_rule_required",
+          "type": "boolean",
+          "default": true,
+          "semantic": "Whether publish is blocked when field validation rules are empty.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T629.FormSchemaPublisherService"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              true
+            ],
+            "rationale": "FLOW-21 certification keeps validation rules mandatory for published forms."
+          }
+        },
+        {
+          "key": "flow21_submission_validation_timeout_ms",
+          "type": "number",
+          "default": 1500,
+          "unit": "milliseconds",
+          "semantic": "Maximum time allowed to load schema and validate one submission.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T630.FormSubmissionProcessorService"
+          ],
+          "boundedRange": {
+            "min": 100,
+            "max": 15000,
+            "rationale": "Tenants may tune latency tolerance while ownership and schema validation remain mandatory."
+          }
+        },
+        {
+          "key": "flow21_submission_max_field_count",
+          "type": "number",
+          "default": 100,
+          "unit": "fields",
+          "semantic": "Maximum submitted fields accepted for one form submission.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T630.FormSubmissionProcessorService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 500,
+            "rationale": "Tenants may support larger forms while preventing runaway payloads."
+          }
+        },
+        {
+          "key": "flow21_rule_lock_ttl_ms",
+          "type": "number",
+          "default": 10000,
+          "unit": "milliseconds",
+          "semantic": "Time-to-live for one automation rule execution lock.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T631.AutomationDispatcherService"
+          ],
+          "boundedRange": {
+            "min": 100,
+            "max": 120000,
+            "rationale": "Tenants may tune workflow dedupe tolerance while SETNX idempotency stays fixed."
+          }
+        },
+        {
+          "key": "flow21_rule_condition_timeout_ms",
+          "type": "number",
+          "default": 500,
+          "unit": "milliseconds",
+          "semantic": "Maximum time to evaluate workflow rule conditions for one submission.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T631.AutomationDispatcherService"
+          ],
+          "boundedRange": {
+            "min": 25,
+            "max": 5000,
+            "rationale": "Tenants may tune rule evaluation posture while conditional branch selection remains deterministic."
+          }
+        },
+        {
+          "key": "flow21_analytics_pii_fields",
+          "type": "string-list",
+          "default": "email,phone,ssn,password,creditCard",
+          "semantic": "Field names excluded from analytics records.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T632.SubmissionAnalyticsCollectorService"
+          ],
+          "boundedRange": {
+            "minimumRequiredValues": [
+              "email",
+              "phone",
+              "ssn",
+              "password",
+              "creditCard"
+            ],
+            "rationale": "Tenants may add exclusions but cannot remove the certified PII baseline."
+          }
+        },
+        {
+          "key": "flow21_analytics_aggregation_window",
+          "type": "enum",
+          "default": "day",
+          "semantic": "Default window for aggregate submission metrics.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T632.SubmissionAnalyticsCollectorService"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "day",
+              "week",
+              "month"
+            ],
+            "rationale": "Tenants may tune reporting granularity while tenant/date partitioning remains fixed."
+          }
+        },
+        {
+          "key": "flow21_analytics_storage_retention_days",
+          "type": "number",
+          "default": 365,
+          "unit": "days",
+          "semantic": "Retention window for analytics records.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T632.SubmissionAnalyticsCollectorService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 2555,
+            "rationale": "Tenants may tune reporting history while PII exclusion and append-only behavior stay fixed."
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to form authoring responsiveness, submission size/latency posture, workflow rule timing, analytics retention, and customer-facing module naming.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "large-intake-forms",
+          "name": "Large intake forms",
+          "semantic": "Tenant A supports longer service-application forms with higher field limits.",
+          "extensionPoint": "flow21_submission_max_field_count",
+          "currentImplementation": "T630 still validates against the published schema and stores before emitting events."
+        },
+        {
+          "id": "strict-published-schema",
+          "name": "Strict published schema",
+          "semantic": "Tenant A keeps validation rules mandatory and shortens publish latency.",
+          "extensionPoint": "flow21_schema_publish_timeout_ms",
+          "currentImplementation": "T629 still uses OCC and preserves immutable published versions."
+        },
+        {
+          "id": "fast-workflow-routing",
+          "name": "Fast workflow routing",
+          "semantic": "Tenant A tunes rule locks and condition timeout for quick routing workflows.",
+          "extensionPoint": "flow21_rule_lock_ttl_ms + flow21_rule_condition_timeout_ms",
+          "currentImplementation": "T631 still uses SETNX per submission/rule and deterministic branch selection."
+        },
+        {
+          "id": "privacy-forward-analytics",
+          "name": "Privacy-forward analytics",
+          "semantic": "Tenant A adds more PII-style field names to the analytics exclusion list and keeps a shorter analytics retention window.",
+          "extensionPoint": "flow21_analytics_pii_fields + flow21_analytics_storage_retention_days",
+          "currentImplementation": "T632 still excludes the certified PII baseline, writes append-only records, and scopes metrics by tenant."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T629 through T632 remain fixed.",
+      "Factory IDs F1569 through F1576 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Schema publishing remains OCC based.",
+      "Published schema fields remain immutable.",
+      "Submissions validate against published schema only.",
+      "Submitter tenant must match form tenant.",
+      "Submission records are stored before events are emitted.",
+      "Rule execution remains SETNX locked per submission and rule.",
+      "Rule branch selection remains condition based.",
+      "Analytics records remain append-only.",
+      "Certified PII fields remain excluded from analytics.",
+      "Analytics metrics remain tenant scoped and date partitioned.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantACommunityIntake": {
+      "description": "Tenant A tunes Dynamic Forms and Workflows for community intake and responsive workflow routing.",
+      "change": {
+        "flow21_schema_publish_timeout_ms": 800,
+        "flow21_schema_validation_rule_required": true,
+        "flow21_submission_validation_timeout_ms": 2500,
+        "flow21_submission_max_field_count": 150,
+        "flow21_rule_lock_ttl_ms": 15000,
+        "flow21_rule_condition_timeout_ms": 750,
+        "flow21_analytics_pii_fields": "email,phone,ssn,password,creditCard,dateOfBirth,address",
+        "flow21_analytics_aggregation_window": "week",
+        "flow21_analytics_storage_retention_days": 180
+      },
+      "impact": "Tenant A gets larger community intake forms, safer analytics, and tuned workflow routing while schema immutability, ownership checks, event ordering, rule idempotency, and tenant isolation stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T629-T632",
+      "Factory IDs F1569-F1576",
+      "Provider SDK boundary",
+      "Vault credential paths",
+      "OCC schema publishing",
+      "published schema immutability",
+      "tenant ownership check",
+      "published-schema-only validation",
+      "business-level validation errors",
+      "store-before-enqueue ordering",
+      "SETNX rule locks",
+      "tenant-matched rule dispatch",
+      "append-only analytics",
+      "PII exclusion baseline",
+      "tenant/date analytics partitioning",
+      "TenantContextResolver usage"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-21 configuration values or display/module metadata.",
+    "All four services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

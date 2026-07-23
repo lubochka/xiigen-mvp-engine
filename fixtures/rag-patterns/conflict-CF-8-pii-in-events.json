@@ -1,0 +1,23 @@
+{
+  "patternId": "conflict-CF-8-pii-in-events",
+  "patternType": "CONFLICT_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "cfId": "CF-8",
+  "trigger": "Service includes email, password, or name fields in queue event payload",
+  "conflictDesc": "PII propagated through queue. Queue consumers receive and may log or store PII. GDPR violation. Audit trail contamination.",
+  "resolution": "Event payloads contain userId/tokenId/correlationId only \u2014 never email, password, name, or other PII. References only.",
+  "flowScope": [
+    "FLOW-01"
+  ],
+  "severity": "CRITICAL",
+  "tags": [
+    "pii",
+    "gdpr",
+    "event-payload",
+    "privacy",
+    "cf-8"
+  ],
+  "keywords": "PII GDPR event payload userId reference only no email password CF-8"
+}

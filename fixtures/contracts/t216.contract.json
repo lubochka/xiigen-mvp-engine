@@ -1,0 +1,45 @@
+{
+  "taskTypeId": "T216",
+  "flowId": "FLOW-14",
+  "name": "BackfillCoordinator",
+  "archetype": "ingestion",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "gap-detect-then-blackout-check-then-ep4-per-slice",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_backfill_max_gap_hours",
+    "neutralConcepts": [
+      "Gap detection against cursor log BEFORE EP-4 per-slice execution",
+      "Blackout window check from FREEDOM config — BackfillBlocked if active",
+      "CF-192: each slice land_raw is append-only",
+      "CF-193: ICursorCheckpointService.validateMonotonic() per slice",
+      "storeDocument(backfill_record) BEFORE enqueue(BackfillCompleted) — DNA-8",
+      "BackfillSliceFailed emitted per failed slice — saga aborts on failure"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F430", "interface": "IRateLimitGuardService", "fabric": "CORE" },
+    { "factoryId": "F_CURSOR", "interface": "ICursorCheckpointService", "fabric": "CORE" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T216-1", "rule": "Gap detection MUST run before any EP-4 slice execution.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T216-2", "rule": "Blackout window from FREEDOM config — BackfillBlocked returned if active.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T216-3", "rule": "CF-192: each slice land is append-only — no updateDocument.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T216-4", "rule": "CF-193: validateMonotonic() per slice before cursor commit.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T216-5", "rule": "storeDocument BEFORE enqueue(BackfillCompleted) — DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "gap_detection_before_ep4",
+    "blackout_window_check",
+    "raw_zone_append_only",
+    "monotonic_cursor_per_slice",
+    "store_before_enqueue"
+  ],
+  "bfaRules": ["CF-192", "CF-193"],
+  "tags": ["backfill", "gap-detection", "ep4", "blackout", "ingestion"],
+  "keywords": "backfill coordinator gap detection blackout window EP-4 slice cursor monotonic CF-192 CF-193 BackfillCompleted BackfillSliceFailed BackfillBlocked"
+}

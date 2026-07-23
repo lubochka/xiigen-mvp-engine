@@ -1,0 +1,11 @@
+{
+  "eventType": "MemberJoinRequested",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "join-request-api",
+  "consumers": ["T99"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "inviteToken", "requestedAt"],
+  "forbiddenFields": ["requestedTier"],
+  "notes": "Trigger event for FLOW-06. requestedTier is FORBIDDEN — server reads tier from xiigen-subscriptions. inviteToken required for PRIVATE group join."
+}

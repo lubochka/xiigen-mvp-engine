@@ -1,0 +1,50 @@
+{
+  "taskTypeId": "T117",
+  "flowId": "FLOW-06",
+  "name": "AccessControlUpdater",
+  "archetype": "ROUTING",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "conditional-update-tier-change",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow06_tier_change_index",
+    "neutralConcepts": [
+      "conditional update WHERE current_tier=oldTier (not SETNX)",
+      "storeDocument BEFORE TierChanged emit",
+      "knowledgeScope PRIVATE — tier change record per-user"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F204",
+      "interface": "IAccessControlUpdaterService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T117-1",
+      "rule": "conditional update WHERE current_tier=oldTier — not SETNX. Idempotent re-application of same tier change must succeed.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T117-2",
+      "rule": "DNA-8: storeDocument BEFORE TierChanged enqueue.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T117-3",
+      "rule": "knowledgeScope = PRIVATE — tier change records are per-user.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["access-control-updater", "conditional-update", "tier-change", "ROUTING"],
+  "keywords": "access control updater conditional update WHERE current tier tier change PRIVATE storeDocument before"
+}

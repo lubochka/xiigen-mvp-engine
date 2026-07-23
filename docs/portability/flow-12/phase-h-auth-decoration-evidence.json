@@ -1,0 +1,164 @@
+﻿{
+    "flowId":  "FLOW-12",
+    "flowSlug":  "subscription-billing",
+    "phase":  "phaseHAuthDecorationCheck",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T04:56:55.6169754+03:00",
+    "server":  {
+                   "baseUrl":  "http://localhost:3000",
+                   "healthLive":  "passed",
+                   "secretsProvider":  "vault",
+                   "vaultSealed":  false
+               },
+    "roleMap":  {
+                    "validRoles":  [
+                                       "tenant-user",
+                                       "tenant-admin",
+                                       "platform-admin"
+                                   ],
+                    "wrongRole":  "platform-support",
+                    "source":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-03.md"
+                },
+    "liveAuthMatrix":  {
+                           "command":  "Vault-backed HS256 JWTs minted in-memory; POST /api/flow/execute with X-Tenant-Id; token values never printed or written",
+                           "total":  8,
+                           "passed":  8,
+                           "cases":  [
+                                         {
+                                             "name":  "valid token own tenant",
+                                             "contextTenant":  "acme-corp",
+                                             "tokenTenant":  "acme-corp",
+                                             "roles":  "tenant-admin",
+                                             "expected":  200,
+                                             "actual":  200,
+                                             "passed":  true
+                                         },
+                                         {
+                                             "name":  "missing token",
+                                             "contextTenant":  "acme-corp",
+                                             "tokenTenant":  "NONE",
+                                             "roles":  "NONE",
+                                             "expected":  401,
+                                             "actual":  401,
+                                             "passed":  true
+                                         },
+                                         {
+                                             "name":  "tenant A token in tenant B context",
+                                             "contextTenant":  "northwind",
+                                             "tokenTenant":  "acme-corp",
+                                             "roles":  "tenant-admin",
+                                             "expected":  401,
+                                             "actual":  401,
+                                             "passed":  true
+                                         },
+                                         {
+                                             "name":  "tenant B token in tenant C context",
+                                             "contextTenant":  "tessera-collective",
+                                             "tokenTenant":  "northwind",
+                                             "roles":  "tenant-admin",
+                                             "expected":  401,
+                                             "actual":  401,
+                                             "passed":  true
+                                         },
+                                         {
+                                             "name":  "tenant A token in tenant C context",
+                                             "contextTenant":  "tessera-collective",
+                                             "tokenTenant":  "acme-corp",
+                                             "roles":  "tenant-admin",
+                                             "expected":  401,
+                                             "actual":  401,
+                                             "passed":  true
+                                         },
+                                         {
+                                             "name":  "wrong role own tenant",
+                                             "contextTenant":  "acme-corp",
+                                             "tokenTenant":  "acme-corp",
+                                             "roles":  "platform-support",
+                                             "expected":  403,
+                                             "actual":  403,
+                                             "passed":  true
+                                         },
+                                         {
+                                             "name":  "tenant B own tenant",
+                                             "contextTenant":  "northwind",
+                                             "tokenTenant":  "northwind",
+                                             "roles":  "tenant-admin",
+                                             "expected":  200,
+                                             "actual":  200,
+                                             "passed":  true
+                                         },
+                                         {
+                                             "name":  "tenant C own tenant",
+                                             "contextTenant":  "tessera-collective",
+                                             "tokenTenant":  "tessera-collective",
+                                             "roles":  "tenant-admin",
+                                             "expected":  200,
+                                             "actual":  200,
+                                             "passed":  true
+                                         }
+                                     ]
+                       },
+    "tenantCredentialReadiness":  {
+                                      "acmeCorpVaultSigningKeyPresent":  true,
+                                      "northwindVaultSigningKeyPresent":  true,
+                                      "tesseraCollectiveVaultSigningKeyPresent":  true,
+                                      "tokenValuesWrittenToEvidence":  false
+                                  },
+    "packageCascade":  {
+                           "acme":  {
+                                        "package":  "@xiigen-fork/acme-enterprise-billing",
+                                        "version":  "1.0.1",
+                                        "gitHead":  "b1b549a6751ce8cf18b3c9eefe83b39098b09c21",
+                                        "repo":  "lubochka/acme-corp--subscription-billing",
+                                        "ciRun":  25410414897,
+                                        "ciConclusion":  "success",
+                                        "visibility":  "PRIVATE"
+                                    },
+                           "northwind":  {
+                                             "package":  "@xiigen-fork/northwind-revenue-recovery-billing",
+                                             "version":  "1.0.2",
+                                             "gitHead":  "4f67bd09824fcb7d4aa1b05b8df1a9fd27217e7c",
+                                             "repo":  "lubochka/northwind--northwind-revenue-recovery-billing",
+                                             "ciRun":  25411355092,
+                                             "ciConclusion":  "success",
+                                             "visibility":  "PRIVATE"
+                                         },
+                           "tessera":  {
+                                           "package":  "@xiigen-fork/tessera-community-billing",
+                                           "version":  "1.0.3",
+                                           "gitHead":  "6e0b454c1c53060af52bf8cdb324005f281fab87",
+                                           "repo":  "lubochka/tessera-collective--tessera-community-billing",
+                                           "ciRun":  25412098419,
+                                           "ciConclusion":  "success",
+                                           "visibility":  "PRIVATE"
+                                       }
+                       },
+    "phaseCloseVerification":  {
+                                   "authMatrixPassed":  true,
+                                   "allTenantReposPrivate":  true,
+                                   "allCascadePackagesPublished":  true,
+                                   "allCascadeCiGreen":  true,
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "committedEnvFiles":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "vaultTenantPathsUsed":  true
+                       },
+    "phaseGate":  {
+                      "liveAuthOwnTenant200":  true,
+                      "missingToken401":  true,
+                      "crossTenant401":  true,
+                      "wrongRole403":  true,
+                      "cascadePackagesRemainPublished":  true,
+                      "realCiGreen":  true,
+                      "readyForCertificationDeclaration":  true
+                  },
+    "verdict":  "PASS"
+}

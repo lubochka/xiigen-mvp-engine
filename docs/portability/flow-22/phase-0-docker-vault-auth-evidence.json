@@ -1,0 +1,289 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "phase": "phase0AuthPreflight",
+  "generatedAt": "2026-05-10T08:50:56.5583574+03:00",
+  "protocolVersion": "3.0",
+  "server": {
+    "serverUrl": "http://localhost:33001",
+    "healthEndpoint": "/health/live",
+    "protectedProbeRoute": "/api/runs/phase0-auth-probe/trace",
+    "secretsProvider": "vault",
+    "serverHealthy": true
+  },
+  "vault": {
+    "address": "http://127.0.0.1:8200",
+    "initialized": true,
+    "sealed": false,
+    "tokenReadFromCompose": true,
+    "existingContainerReused": true,
+    "secretValuesInEvidence": false,
+    "tenantCredentialsSeeded": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ],
+    "tenantSigningKeysPresent": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ]
+  },
+  "github": {
+    "authenticated": true,
+    "login": "lubochka",
+    "tokenSource": "key-file-or-gh-auth-token",
+    "tokenPrinted": false
+  },
+  "tenants": [
+    {
+      "tenantId": "acme-corp",
+      "registryStatus": "present-from-bootstrap",
+      "vaultCredentialReadback": "non-empty"
+    },
+    {
+      "tenantId": "northwind",
+      "registryStatus": "present-from-bootstrap",
+      "vaultCredentialReadback": "non-empty"
+    },
+    {
+      "tenantId": "tessera-collective",
+      "registryStatus": "present-from-bootstrap",
+      "vaultCredentialReadback": "non-empty"
+    }
+  ],
+  "roleMap": {
+    "source": [
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-05.md FLOW-22 CMS Publishing section",
+      "docs/business-flows/functional-specs/FLOW-22-cms-publishing-functional-spec.md",
+      "XIIGEN-AUTH-ROLES-GROUPS-PLAN-v3.0.md context role registry"
+    ],
+    "authProbeRoles": [
+      "tenant-admin",
+      "tenant-user",
+      "platform-admin"
+    ],
+    "wrongRoleProbe": "service-account",
+    "uiPersonaRolesForLaterEvidence": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "freelancer",
+      "business-partner",
+      "event-organiser",
+      "platform-support"
+    ],
+    "notes": [
+      "Role analysis records anonymous, public visitor, tenant-user, tenant-admin, and platform-admin as full FLOW-22 cells.",
+      "Freelancer, business-partner, event-organiser, and platform-support remain context role variants for UI and later cascade evidence.",
+      "Phase 0 probes use short-lived HS256 JWTs generated in memory from per-tenant Vault signing keys; no token strings are written to evidence."
+    ]
+  },
+  "authMatrixSummary": {
+    "total": 18,
+    "passed": 18,
+    "failed": 0
+  },
+  "authMatrix": [
+    {
+      "name": "own-acme-corp-tenant-admin",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "own-acme-corp-tenant-user",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "own-acme-corp-platform-admin",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "missing-token-acme-corp",
+      "requestTenant": "acme-corp",
+      "tokenTenant": null,
+      "tokenRole": null,
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong-role-acme-corp",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "service-account",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "own-northwind-tenant-admin",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "own-northwind-tenant-user",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "own-northwind-platform-admin",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "missing-token-northwind",
+      "requestTenant": "northwind",
+      "tokenTenant": null,
+      "tokenRole": null,
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong-role-northwind",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "service-account",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "own-tessera-collective-tenant-admin",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "own-tessera-collective-tenant-user",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "own-tessera-collective-platform-admin",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": "TRACE_NOT_FOUND",
+      "passed": true
+    },
+    {
+      "name": "missing-token-tessera-collective",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": null,
+      "tokenRole": null,
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong-role-tessera-collective",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "service-account",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "cross-acme-token-in-northwind",
+      "requestTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "cross-northwind-token-in-tessera",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "cross-acme-token-in-tessera",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    }
+  ],
+  "commands": [
+    "docker info",
+    "docker compose -f docker-compose.platform.yml up -d vault, with existing xiigen-vault fallback",
+    "docker exec xiigen-vault vault status -format=json",
+    "read GitHub token from key file or gh auth token without printing it",
+    "vault kv put per-tenant github_token, github_org_name, docker_registry_url, docker_registry_token, and auth/jwt_signing_key",
+    "gh auth status",
+    "gh api user --jq .login",
+    "docker compose -f docker-compose.yml up -d --build server with SERVER_PORT=33001, SECRETS_PROVIDER=vault, VAULT_ADDR=http://vault:8200, FLOW_MOBILITY_BOOTSTRAP_VAULT_CONFIG=true",
+    "GET http://localhost:33001/health/live",
+    "GET http://localhost:33001/tenants to verify acme-corp, northwind, and tessera-collective are present",
+    "read per-tenant auth/jwt_signing_key values from Vault into memory only",
+    "generate short-lived HS256 JWT probes in memory only",
+    "Invoke-WebRequest auth matrix against http://localhost:33001/api/runs/phase0-auth-probe/trace"
+  ],
+  "notes": [
+    "The server bootstrap environment created the three test tenants before auth probes; registry GET confirmed all test tenants were present.",
+    "The existing xiigen-vault container responded sealed=false even though docker compose could not create a duplicate container name.",
+    "No tenant credential, GitHub token, Docker registry token, JWT signing key, or JWT string is committed or printed."
+  ],
+  "verdict": "PASS"
+}

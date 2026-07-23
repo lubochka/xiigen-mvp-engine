@@ -1,0 +1,25 @@
+{
+  "patternId": "INLINE-QUOTA-MANAGER-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-13",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "teachingPoint": "T187 QuotaManager is an INLINE service — F426 does NOT exist. T187 is instantiated directly in the T173 constructor via new QuotaManager(config) and must NEVER be @Inject()-ed or resolved via any factory.",
+  "tags": ["inline-service", "quota", "no-factory", "warehouse", "f426-does-not-exist"],
+  "keywords": "T187 QuotaManager inline instantiated constructor F426 does not exist never inject never factory recordUsage after query INLINE_SERVICE DI resolution failure",
+  "ironRules": [
+    "T187 QuotaManager is an INLINE SERVICE — it has no factory ID. F426 does NOT exist.",
+    "T187 is instantiated directly in T173 QueryExecutionEngine constructor via new QuotaManager(config)",
+    "Never @Inject(T187) or use @Inject('F426') — F426 does not exist and would cause DI failure at runtime",
+    "quota.check() must run BEFORE warehouse read (T173 gate layer 1)",
+    "quotaManager.recordUsage() must be called AFTER successful query execution only"
+  ],
+  "codeSnippet": "// T187 QuotaManager — INLINE service pattern\n// F426 does NOT exist. Never factory-inject T187.\n\n// ✅ CORRECT: inline instantiation in T173 constructor\nconstructor(\n  @Inject(DATABASE_SERVICE) private db: IDatabaseService,\n  // NO @Inject for T187 — it is INLINE\n) {\n  this.quotaManager = new QuotaManager({ configKey: 'warehouse_query_quota_limit' });\n}\n\n// ❌ WRONG — BUILD_FAILURE:\n// @Inject('F426') private quotaManager: IQuotaManagerService  // F426 does not exist!\n// @Inject(T187_TOKEN) private quotaManager: QuotaManager      // T187 is not in DI container\n\nasync execute(): Promise<DataProcessResult<unknown>> {\n  // T187 runs at layer 1 (BEFORE any warehouse access)\n  const quotaCheck = await this.quotaManager.check(tenantId);\n  if (!quotaCheck.isSuccess) return DataProcessResult.failure('QUOTA_EXCEEDED', '...');\n\n  // ... execute query, apply RLS, mask PII ...\n\n  // recordUsage() AFTER successful execution only\n  await this.quotaManager.recordUsage(tenantId);\n  return DataProcessResult.success(result);\n}",
+  "appliesTo": ["FLOW-14", "FLOW-20"],
+  "curriculumTier": 2,
+  "qualityScore": 0.92,
+  "sourceDocument": "data-warehouse-analytics-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

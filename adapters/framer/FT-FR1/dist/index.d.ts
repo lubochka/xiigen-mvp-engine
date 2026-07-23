@@ -1,0 +1,3 @@
+export { FONT_WEIGHT_STYLE_MAP, buildFramerTextAttributes, createTextUpdate, fontWeightToStyle, isFramerTextNode, mapFramerTextNodeToElement, mapFramerTextNodeToStyle, normalizeFontWeight, normalizeNumber, normalizePaint, readSelectionWithFramer, readStoredTextAdapterState, readTextNodes, rgbaToPaint, writeSelectionWithFramer, writeStoredTextAdapterState, writeTextElements, } from './framer-adapter';
+export type { FramerNodeLike, FramerNodeType, FramerPaintInput, FramerPluginRuntimeFacade, FramerPluginStorageFacade, FramerSolidPaint, FramerTextAdapterOutput, FramerTextAdapterReadResult, FramerTextAdapterWriteResult, FramerTextAttributes, FramerTextNode, FramerTextUpdate, SharedTextElement, SharedTextStyle, } from './types';
+//# sourceMappingURL=index.d.ts.map

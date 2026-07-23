@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-42",
+  "flowName": "miro-shape-adapter",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T658",
+        "name": "ShapeHeuristicAnalyzer",
+        "order": 1,
+        "description": "Validate board ownership via fabric, infer shape type from aspect ratio heuristics"
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T659",
+        "name": "AspectRatioCalculator",
+        "order": 2,
+        "description": "Compute aspect ratio (height/width), determine heuristic category"
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T660",
+        "name": "UnsupportedElementHandler",
+        "order": 3,
+        "description": "Audit unknown shape types in xiigen-unsupported-elements for future support"
+      },
+      {
+        "nodeId": "n4",
+        "taskTypeId": "T661",
+        "name": "CoordinateNormalizerMiro",
+        "order": 4,
+        "description": "Transform infinite-canvas (negative-allowed) coords to viewport-relative percentages"
+      },
+      {
+        "nodeId": "n5",
+        "taskTypeId": "T662",
+        "name": "ConfidenceScoringEngine",
+        "order": 5,
+        "description": "Score heuristic confidence based on aspect-ratio certainty and rule matching"
+      },
+      {
+        "nodeId": "n6",
+        "taskTypeId": "T663",
+        "name": "HeuristicMetadataRecorder",
+        "order": 6,
+        "description": "Store heuristic analysis with confidence, rules applied, and audit trail"
+      },
+      {
+        "nodeId": "n7",
+        "taskTypeId": "T664",
+        "name": "ShapeProcessingGate",
+        "order": 7,
+        "description": "Validate all heuristics complete, confidence threshold met, emit ShapeTypeInferred"
+      },
+      {
+        "nodeId": "n8",
+        "taskTypeId": "T665",
+        "name": "OutboxPublisher",
+        "order": 8,
+        "description": "Emit CloudEvents to queue fabric after all storage (DNA-8 outbox pattern)"
+      }
+    ]
+  }
+}

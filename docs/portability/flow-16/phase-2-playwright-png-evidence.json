@@ -1,0 +1,49 @@
+{
+  "flowId": "FLOW-16",
+  "flowSlug": "marketplace-payments",
+  "phase": "phase2E2ETests",
+  "status": "PASS",
+  "capturedAt": "2026-05-06T17:15:20.1376514+03:00",
+  "commands": [
+    {
+      "cwd": "client",
+      "command": "npx tsc --noEmit --pretty false",
+      "status": "PASS"
+    },
+    {
+      "cwd": "client",
+      "command": "$env:VITE_PORT='5174'; npx playwright test e2e/marketplace-payments.spec.ts --reporter=list",
+      "status": "PASS",
+      "summary": "18 passed across chromium-desktop, chromium-tablet, and chromium-mobile"
+    }
+  ],
+  "playwright": {
+    "spec": "client/e2e/marketplace-payments.spec.ts",
+    "projects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "testsPerProject": 6,
+    "totalTests": 18,
+    "passed": 18,
+    "failed": 0
+  },
+  "pngEvidence": {
+    "root": "docs/e2e-snapshots/marketplace-payments",
+    "expectedCount": 18,
+    "actualCount": 18,
+    "zeroByteCount": 0,
+    "projects": {
+      "chromium-desktop": 6,
+      "chromium-tablet": 6,
+      "chromium-mobile": 6
+    }
+  },
+  "protocolNotes": [
+    "The flow Playwright suite now writes screenshots under project-scoped folders so viewport evidence cannot overwrite itself.",
+    "The phase covers the required Marketplace Payments P1 state suite for desktop, tablet, and mobile viewports.",
+    "Per-role visual review remains open for phase3VisualExamination."
+  ],
+  "result": "FLOW-16 phase 2 Playwright and PNG evidence gate passed."
+}

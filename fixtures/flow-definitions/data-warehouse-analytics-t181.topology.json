@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T181",
+  "name": "data-warehouse-analytics-data-export-engine",
+  "description": "T181 DataExportEngine — ANALYTICS_ENGINE archetype. F411 IExportEncryptionService (PLATFORM-ONLY) — no bypass. F412 IExportAuditService (PLATFORM-ONLY) — no bypass. F423 IPIIMaskingService — PII masked before export. downloadUrl must have expiresAt.",
+  "archetype": "ANALYTICS_ENGINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: F411 encryption PLATFORM-ONLY no bypass, F412 audit PLATFORM-ONLY no bypass, F423 PII masking before export, downloadUrl requires expiresAt"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ANALYTICS_ENGINE arch pattern + platform-only-fabric + pii-masking-before-export + expiring-download-url + export-audit patterns for T181",
+      "params": {
+        "archetype": "ANALYTICS_ENGINE",
+        "taskTypeRef": "T181",
+        "topK": 5,
+        "patternIds": [
+          "platform-only-fabric-001",
+          "pii-masking-before-export-001",
+          "expiring-download-url-001",
+          "export-audit-001",
+          "data-export-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T181 into: receive export request → F423 mask PII → F411 encrypt export data → F412 audit export operation → generate downloadUrl with expiresAt → storeDocument(exportRecord) → return downloadUrl"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate data-export-engine.service.ts — HTTP POST via DynamicController. F423 IPIIMaskingService runs FIRST before any export. F411 IExportEncryptionService (PLATFORM-ONLY) — no bypass flag, no conditional skip. F412 IExportAuditService (PLATFORM-ONLY) — no bypass flag, no conditional skip. downloadUrl MUST include expiresAt field. NEVER return raw unmasked PII in export payload."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: f423_pii_masking_first, f411_no_bypass, f412_no_bypass, download_url_has_expires_at, no_raw_pii_in_export"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T181 iron rules: PII masking order, F411/F412 no-bypass, expiresAt on downloadUrl, complete audit trail"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=pii-masking-first+no-bypass-fabrics+expires-at-url, rejected=skip-pii-masking OR bypass-encryption OR bypass-audit OR missing-expires-at. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "HTTP POST via DynamicController",
+  "primaryFabric": "DATABASE"
+}

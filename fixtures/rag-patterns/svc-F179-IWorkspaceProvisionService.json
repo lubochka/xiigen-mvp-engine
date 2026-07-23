@@ -1,0 +1,26 @@
+{
+  "patternId": "svc-F179-IWorkspaceProvisionService",
+  "patternType": "SERVICE_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "factoryId": "F179",
+  "interfaceName": "IWorkspaceProvisionService",
+  "archetype": "ORCHESTRATION",
+  "fabric": "FLOW_ENGINE",
+  "fabricProvider": "XIIGenFlowEngine",
+  "skillRefs": [
+    "SK-08"
+  ],
+  "taskTypeRefs": [
+    "T49"
+  ],
+  "tags": [
+    "workspace",
+    "provision",
+    "idempotent",
+    "tenant-registry"
+  ],
+  "keywords": "workspace provision idempotent tenant registry create isolate",
+  "codeSnippet": "// Idempotency: setIfAbsent prevents duplicate workspace creation on resume\nconst lockKey = `workspace:${userId}:${tenantId}`;\nconst locked = await this.memory.setIfAbsent(lockKey, 'provisioning', 3600);\nif (!locked.data) return DataProcessResult.success({ workspaceId: existing.workspaceId });\n// Use ITenantRegistry \u2014 not a raw database INSERT\nreturn this.tenantRegistry.createTenant(workspaceId, { ownerId: userId });"
+}

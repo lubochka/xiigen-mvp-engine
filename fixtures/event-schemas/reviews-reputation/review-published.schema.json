@@ -1,0 +1,12 @@
+{
+  "eventType": "review.published",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "reviewId": { "type": "string", "required": true },
+    "targetEntityId": { "type": "string", "required": true },
+    "rating": { "type": "integer", "minimum": 1, "maximum": 5, "required": true },
+    "status": { "type": "string", "enum": ["PUBLISHED"], "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

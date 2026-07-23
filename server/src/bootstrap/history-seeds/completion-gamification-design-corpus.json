@@ -1,0 +1,313 @@
+[
+  {
+    "patternId": "FLOW-05-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "Point calculation is always server-side. T84 reads scorePercent from questionnaireResult (stored record), derives points via a FREEDOM formula, and never reads earnedPoints from the incoming request payload. Client-submitted earnedPoints enable point farming: any client can inflate their score.",
+    "positiveExample": "T84 reads questionnaireResult.scorePercent from DB, applies FREEDOM formula → pointBreakdown{}.",
+    "negativeExample": "T84 reads input.earnedPoints and stores it directly — client controls the ledger.",
+    "discriminatingConstraint": "earnedPoints field does not exist in T84 input shape. The field is absent from the contract, not zero-checked.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.96,
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md (DR-05-A)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "freedom-config"
+    ],
+    "keywords": "Point calculation server-side reads scorePercent questionnaireResult derives points FREEDOM formula earnedPoints incoming"
+  },
+  {
+    "patternId": "FLOW-05-DR-02",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "Streak calculations must use local date in the learner's timezone, not UTC midnight. A learner at UTC-8 who completes a lesson at 23:00 local time (07:00 UTC next day) must be credited to the local calendar day. UTC-based streak breaks their chain at exactly the worst moment — late-night completion.",
+    "positiveExample": "T96 receives userTimezoneOffset, computes localDate = utcNow + offset, compares to last streak date.",
+    "negativeExample": "T96 uses new Date().toISOString().slice(0,10) — UTC midnight boundary, breaks streaks for non-UTC learners.",
+    "discriminatingConstraint": "userTimezoneOffset is a required input field. Absence = contract violation. UTC = silent correctness failure.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.94,
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md (DR-05-B)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "event-chaining"
+    ],
+    "keywords": "Streak calculations local date learner timezone midnight UTC-8 completes lesson time next"
+  },
+  {
+    "patternId": "FLOW-05-DR-03",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "Privacy-gated branches require a double gate: T90 checks privacySetting at entry (Branch C gate), and T91 triggers on SocialShareApproved (output of T90), not on QuestionnaireAnswered. Triggering T91 directly on QuestionnaireAnswered bypasses privacy consent and distributes content for private-mode users.",
+    "positiveExample": "T90 reads privacySetting → private: return success({shared:false}). T91 entry: @EventPattern('SocialShareApproved').",
+    "negativeExample": "T91 triggers on QuestionnaireAnswered — fires for all users including private-mode. No consent gate.",
+    "discriminatingConstraint": "T91 event pattern is SocialShareApproved — never QuestionnaireAnswered. The gate is structural, not conditional.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md (DR-05-C)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "privacy",
+      "consent-gate",
+      "social-feed"
+    ],
+    "keywords": "Privacy-gated branches require double gate checks privacySetting entry Branch triggers SocialShareApproved output"
+  },
+  {
+    "patternId": "FLOW-05-DR-04",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "ML adaptation output must pass three guards before being applied: (1) count ceiling (max N modules changed per adaptation — FREEDOM key), (2) protected modules check (certain modules are MACHINE-locked from ML modification), (3) recency window (last adaptation < 7 days → skip). Unbounded ML changes destabilize curriculum structure silently.",
+    "positiveExample": "T89 applies guards in order: count ≤ maxChanges, no protected modules, lastAdaptedAt < now-7d → apply.",
+    "negativeExample": "T89 applies all ML recommendations directly — no ceiling, no protection, no cooldown. Silent curriculum corruption.",
+    "discriminatingConstraint": "All three guards are mandatory. Missing any one = CF-05-ML violation. Guards run before any storeDocument call.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-24"
+    ],
+    "curriculumTier": 2,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md (DR-05-D)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "freedom-config"
+    ],
+    "keywords": "adaptation output pass three guards being applied count ceiling modules changed FREEDOM"
+  },
+  {
+    "patternId": "FLOW-05-DR-05",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "LearningFlowCompleted gates on Branch A completion only — not Branch B (ML) or Branch C (social). B and C are time-decoupled async branches. Waiting for ML adaptation (2-5s) or social distribution (10-30s) before emitting LearningFlowCompleted violates the <1s UX SLA for the gamification reward display.",
+    "positiveExample": "T98 triggers on GamificationBatchStored (T85 output) — Branch A only. B and C complete independently.",
+    "negativeExample": "T98 waits for MLAdaptationCompleted and SocialDistributionCompleted — user waits up to 30s for completion badge.",
+    "discriminatingConstraint": "LearningFlowCompleted is a Branch A output. Branches B and C have no wire to T98.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md (DR-05-E)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "gamification",
+      "social-feed"
+    ],
+    "keywords": "LearningFlowCompleted gates Branch completion social time-decoupled async branches Waiting adaptation distribution emitting"
+  },
+  {
+    "patternId": "FLOW-05-DR-06",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "Achievement unlock requires a history read before emitting AchievementUnlocked. T87 checks xiigen-achievements for an existing record with (userId, achievementId) before writing. Without this check, concurrent GamificationBatchStored events each trigger T87, both find no record, both write, both emit — double unlock with duplicate badge notification.",
+    "positiveExample": "T87: searchDocuments({userId, achievementId}) → count > 0 → return success({alreadyUnlocked:true}). Else storeDocument → emit.",
+    "negativeExample": "T87: no history read — storeDocument always, emit AchievementUnlocked always. Concurrent calls = double unlock.",
+    "discriminatingConstraint": "History read is a precondition gate, not an optimization. Missing read = silent double-emit.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.94,
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md (DR-05-F)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "dna-8",
+      "gamification",
+      "achievement"
+    ],
+    "keywords": "Achievement unlock history read emitting AchievementUnlocked checks xiigen-achievements existing userId achievementId writing"
+  },
+  {
+    "patternId": "FLOW-05-RAG-01",
+    "patternType": "ARCH_PATTERN",
+    "category": "SERVER_SIDE_CALCULATION",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "Gamification point calculation is a server-side operation. The input shape does not include earnedPoints. The server reads the stored questionnaire result, applies a FREEDOM formula, and produces pointBreakdown{}. Any pattern where the client submits earnedPoints creates a point farming vector and is a CF-05-1 violation.",
+    "curriculumTier": 1,
+    "qualityScore": 0.96,
+    "observedIn": "FLOW-05 (T84 PointsCalculator)",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "server-side-calculation",
+      "freedom-config",
+      "gamification"
+    ],
+    "keywords": "Gamification point calculation server-side operation input shape include earnedPoints server reads questionnaire",
+    "archetype": "VALIDATION",
+    "ironRules": [
+      "T84 input schema MUST NOT include earnedPoints field — field is structurally absent, not zero-checked",
+      "Points ALWAYS calculated server-side from stored questionnaire result (scorePercent)",
+      "FREEDOM config provides the scoring formula — never hardcoded constants",
+      "Client-submitted earnedPoints = CF-05-1 violation = BUILD_FAILURE"
+    ],
+    "codeSnippet": "// CORRECT: T84 reads from stored result, never from client input\nconst result = await this.db.searchDocuments('xiigen-questionnaire-results', { userId, questionnaireId });\nconst { scorePercent } = result.data[0];\nconst formula = await this.freedomConfig.get('COMPLETION_POINTS_FORMULA');\nconst pointBreakdown = this.calculatePoints(scorePercent, formula);\n// WRONG: const { earnedPoints } = input; // client-submitted = point farming vector"
+  },
+  {
+    "patternId": "FLOW-05-RAG-02",
+    "patternType": "ARCH_PATTERN",
+    "category": "TIMEZONE_AWARE_STREAK",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "Streak date boundaries must use the learner's local timezone. UTC midnight does not correspond to the end of the learner's day. userTimezoneOffset is a required contract field. The local date is computed as utcTimestamp + offsetMinutes, then formatted as YYYY-MM-DD for streak comparison. CF-05-2 enforces this.",
+    "curriculumTier": 1,
+    "qualityScore": 0.94,
+    "observedIn": "FLOW-05 (T96 StreakManager)",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "timezone-aware-streak"
+    ],
+    "keywords": "Streak date boundaries learner local timezone midnight correspond userTimezoneOffset required contract computed",
+    "archetype": "PROCESSING",
+    "ironRules": [
+      "userTimezoneOffset is a REQUIRED input field — its absence is a contract violation",
+      "Streak boundary = midnight in user local timezone: localMs = utcMs + (offsetMinutes * 60000)",
+      "UTC midnight comparison silently breaks streaks for all positive-offset timezone users",
+      "local date = new Date(localMs).toISOString().slice(0, 10) in YYYY-MM-DD format"
+    ],
+    "codeSnippet": "// CORRECT: timezone-aware streak boundary calculation\nconst localMs = Date.now() + (input.userTimezoneOffset * 60000);\nconst localDate = new Date(localMs).toISOString().slice(0, 10); // YYYY-MM-DD in local TZ\nconst lastStreakDate = lastActivity?.localDate ?? null;\nconst streakContinues = lastStreakDate &&\n  (new Date(localDate).getTime() - new Date(lastStreakDate).getTime() <= 86400000);\n// WRONG: new Date().toISOString().slice(0,10) — UTC midnight, breaks non-UTC users"
+  },
+  {
+    "patternId": "FLOW-05-RAG-03",
+    "patternType": "ARCH_PATTERN",
+    "category": "PRIVACY_GATE_BRANCH",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "Privacy-gated async branches must use structural gating: the branch entry node checks privacy and emits a consent event (SocialShareApproved) only when sharing is permitted. Downstream nodes in the branch listen on the consent event — not on the original trigger. This prevents private-mode content from entering the social distribution pipeline regardless of conditional logic in downstream nodes.",
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "observedIn": "FLOW-05 (T90 SocialShareGate → T91 SocialShareDistributor)",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-08",
+      "FLOW-12"
+    ],
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "privacy-gate-branch",
+      "privacy",
+      "consent-gate",
+      "downstream-coupling",
+      "social-feed"
+    ],
+    "keywords": "Privacy-gated async branches structural gating branch entry checks privacy consent SocialShareApproved sharing",
+    "archetype": "GUARD",
+    "ironRules": [
+      "T90 checks privacySetting at branch C entry — private users return DataProcessResult.success({ shared: false })",
+      "T91 @EventPattern MUST be 'SocialShareApproved' — NEVER 'QuestionnaireAnswered'",
+      "Gate is structural (event pattern change) not conditional logic in T91",
+      "Private-mode users never reach T91 regardless of conditional checks inside T91"
+    ],
+    "codeSnippet": "// CORRECT: structural privacy gate — T90 is branch entry\n@EventPattern('QuestionnaireAnswered')\nasync handleSocialShareGate(input): Promise<DataProcessResult<SocialShareGateResult>> {\n  const privacy = await this.privacyService.check(input.userId);\n  if (privacy.isPrivate) return DataProcessResult.success({ shared: false });\n  await this.queue.enqueue('SocialShareApproved', { userId: input.userId, questionnaireId: input.questionnaireId });\n  return DataProcessResult.success({ shared: true });\n}\n// T91 listens on CONSENT EVENT — never on original trigger\n@EventPattern('SocialShareApproved') // WRONG: 'QuestionnaireAnswered'\nasync handleSocialPost(input): Promise<DataProcessResult<SocialPostResult>> { ... }"
+  },
+  {
+    "patternId": "FLOW-05-RAG-04",
+    "patternType": "ARCH_PATTERN",
+    "category": "ML_OUTPUT_VALIDATION",
+    "sourceFlow": "FLOW-05",
+    "teachingPoint": "ML-generated recommendations must pass three mandatory guards before application: (1) count ceiling (max N changes — FREEDOM), (2) protected module check (certain modules are MACHINE-locked), (3) recency cooldown (skip if last adaptation was within threshold). All three guards run before any storeDocument call. Missing any guard = silent curriculum corruption.",
+    "curriculumTier": 2,
+    "qualityScore": 0.93,
+    "observedIn": "FLOW-05 (T89 MLAdaptationProcessor)",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-24"
+    ],
+    "sourceDocument": "FLOW-05-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-05",
+    "domainId": "completion-gamification",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "ml-output-validation",
+      "dna-8",
+      "freedom-config"
+    ],
+    "keywords": "ML-generated recommendations pass three mandatory guards application count ceiling changes FREEDOM protected",
+    "archetype": "VALIDATION",
+    "ironRules": [
+      "GUARD 1: count ceiling — max N module changes per adaptation (FREEDOM key: ML_ADAPTATION_MAX_CHANGES)",
+      "GUARD 2: protected module check — MACHINE-locked modules removed from suggestions before application",
+      "GUARD 3: recency cooldown — skip if lastAdaptedAt < threshold (FREEDOM key: ML_ADAPTATION_COOLDOWN_DAYS)",
+      "All three guards run BEFORE any storeDocument call — missing any one = silent curriculum corruption"
+    ],
+    "codeSnippet": "// CORRECT: three mandatory guards before applying ML suggestions\n// GUARD 1: count ceiling\nconst maxChanges = await this.freedomConfig.get('ML_ADAPTATION_MAX_CHANGES');\nconst capped = mlOutput.suggestions.slice(0, maxChanges);\n// GUARD 2: protected modules\nconst protected = await this.db.searchDocuments('xiigen-protected-modules', { tenantId });\nconst safe = capped.filter(r => !protected.data.some(p => p.moduleId === r.moduleId));\n// GUARD 3: recency cooldown\nconst cooldownDays = await this.freedomConfig.get('ML_ADAPTATION_COOLDOWN_DAYS');\nconst last = await this.db.searchDocuments('xiigen-adaptations', { userId, tenantId });\nif (last.data?.length && Date.now() - last.data[0].adaptedAt < cooldownDays * 86400000)\n  return DataProcessResult.success({ skipped: true });\n// Only after all 3 guards pass:\nawait this.db.storeDocument('xiigen-adaptations', { userId, tenantId, modules: safe, adaptedAt: Date.now() });"
+  }
+]

@@ -1,0 +1,96 @@
+{
+    "flowId":  "FLOW-42",
+    "flowSlug":  "miro-shape-adapter",
+    "packageSlug":  "miro-ai-architect",
+    "implementationType":  "external-adapter-package",
+    "phase":  "phase-1-adapter-package-and-publication",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T00:42:32.6056227Z",
+    "sprint":  "SPRINT A immediate external-adapter proof for Miro FT-M1 / FLOW-42",
+    "gates":  [
+                  {
+                      "name":  "standalone npm install",
+                      "command":  "npm install --no-audit --no-fund --strict-ssl=false --loglevel warn",
+                      "result":  "PASS",
+                      "note":  "strict-ssl=false used locally because npm registry certificate validation can fail in this Windows environment"
+                  },
+                  {
+                      "name":  "typecheck",
+                      "command":  "npm run typecheck",
+                      "result":  "PASS"
+                  },
+                  {
+                      "name":  "independent package tests",
+                      "command":  "npx jest --runInBand --colors=false",
+                      "result":  "PASS",
+                      "suitesPassed":  1,
+                      "testsPassed":  50
+                  },
+                  {
+                      "name":  "legacy server adapter tests",
+                      "command":  "cd server; npx jest --testPathPatterns=m1-miro-adapter --runInBand --colors=false",
+                      "result":  "PASS",
+                      "suitesPassed":  1,
+                      "testsPassed":  26
+                  },
+                  {
+                      "name":  "production build",
+                      "command":  "npm run build",
+                      "result":  "PASS",
+                      "bundleBytes":  4899
+                  },
+                  {
+                      "name":  "named static checks",
+                      "command":  "NO_FIGMA + NO_WEBFLOW + NO_MIRO_SDK_RUNTIME_IMPORTS + WRITEBACK_PATTERN + STEP_1_IN_PACKAGE",
+                      "result":  "PASS",
+                      "noFigma":  0,
+                      "noWebflow":  0,
+                      "noMiroSdkRuntimeImports":  0,
+                      "writebackPropertyAssignments":  4,
+                      "writebackSyncCalls":  1,
+                      "step1InPackage":  0
+                  },
+                  {
+                      "name":  "package contents",
+                      "command":  "npm pack --dry-run --json",
+                      "result":  "PASS",
+                      "includesStep1":  true,
+                      "includesFunctionalSpec":  true,
+                      "includesTypes":  true,
+                      "includesMainBundle":  true,
+                      "includesClassifier":  true,
+                      "includesSpatialAnalyzer":  true,
+                      "fileCount":  25
+                  },
+                  {
+                      "name":  "local registry publish",
+                      "command":  "npm publish --registry http://localhost:4873 --access public",
+                      "result":  "PASS",
+                      "package":  "@xiigen/miro-ai-architect",
+                      "version":  "1.0.1"
+                  },
+                  {
+                      "name":  "local registry readback",
+                      "command":  "npm view @xiigen/miro-ai-architect version --registry http://localhost:4873",
+                      "result":  "PASS",
+                      "readback":  "1.0.1"
+                  }
+              ],
+    "changedPackageFiles":  [
+                                "adapters/miro/FT-M1/package.json",
+                                "adapters/miro/FT-M1/package-lock.json",
+                                "adapters/miro/FT-M1/tsconfig.json",
+                                "adapters/miro/FT-M1/webpack.config.js",
+                                "adapters/miro/FT-M1/src/miro-adapter.ts",
+                                "adapters/miro/FT-M1/src/types.ts",
+                                "adapters/miro/FT-M1/src/shape-classifier.ts",
+                                "adapters/miro/FT-M1/src/spatial-analyzer.ts",
+                                "adapters/miro/FT-M1/src/html-content-parser.ts",
+                                "adapters/miro/FT-M1/src/index.ts",
+                                "adapters/miro/FT-M1/__tests__/miro-adapter.spec.ts",
+                                "adapters/miro/FT-M1/docs/STEP-1-INVARIANTS.md",
+                                "adapters/miro/FT-M1/docs/FUNCTIONAL-SPEC.md",
+                                "adapters/miro/FT-M1/dist"
+                            ],
+    "verdict":  "PASS"
+}

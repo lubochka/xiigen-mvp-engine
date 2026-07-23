@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T186",
+  "name": "data-warehouse-analytics-data-retention-enforcer",
+  "description": "T186 DataRetentionEnforcer — RETENTION archetype. MANDATORY order: legal-hold-check(1)→approval-token-validate(2)→governance-enforce(3)→purge(4). DataPurged contains tombstoneRef ONLY — prohibited: rawContent/content/payload. F424 PLATFORM-ONLY.",
+  "archetype": "RETENTION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: MANDATORY 4-step order (legal-hold→approval→governance→purge), DataPurged has tombstoneRef ONLY (no rawContent/payload), F424 PLATFORM-ONLY no bypass"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve RETENTION arch pattern + legal-hold-gate + approval-token + governance-enforce + tombstone-ref patterns for T186",
+      "params": {
+        "archetype": "RETENTION",
+        "taskTypeRef": "T186",
+        "topK": 5,
+        "patternIds": [
+          "legal-hold-gate-001",
+          "approval-token-001",
+          "governance-enforce-001",
+          "tombstone-ref-001",
+          "platform-only-fabric-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T186 into: 1-legal-hold-check (abort if hold active) → 2-approval-token-validate → 3-F424-governance-enforce → 4-purge data → emit DataPurged with tombstoneRef ONLY (NEVER include rawContent/content/payload)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate data-retention-enforcer.service.ts — triggered by RetentionPolicyTriggered event. MANDATORY order immutable: (1) legalHoldCheck — abort with LEGAL_HOLD_ACTIVE if hold found, (2) approvalTokenValidate — reject invalid tokens, (3) F424 IGovernanceEnforcementService (PLATFORM-ONLY, no bypass), (4) purge records. DataPurged event contains tombstoneRef field ONLY — NEVER rawContent, content, or payload fields."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: legal_hold_check_step1, approval_token_step2, f424_governance_step3, purge_step4, data_purged_tombstone_only, no_raw_content_in_event"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T186 iron rules: mandatory 4-step order, tombstoneRef only in event, F424 no-bypass, legal hold abort"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=mandatory-4-step-order+tombstone-ref-only+f424-no-bypass, rejected=reordered-steps OR rawContent-in-purged-event OR f424-bypass OR missing-legal-hold-check. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Triggered by RetentionPolicyTriggered event",
+  "primaryFabric": "DATABASE"
+}

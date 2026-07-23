@@ -1,0 +1,31 @@
+{
+  "patternId": "plan-flow02-business-onboarding",
+  "patternType": "PLAN_EXEMPLAR",
+  "flowId": "FLOW-02",
+  "domainId": "business-onboarding",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "summary": "Business onboarding and personalization flow. T50 (ORCHESTRATION) builds business profile with DUAL-RECORD-WRITE (PRIVATE + GLOBAL). T51 (DATA_PIPELINE) runs compatibility scoring with 30s TIMEOUT-AS-SUCCESS-MODE. T52 (ORCHESTRATION) personalizes feed from 4 independent degradable signals, emits PersonalizationCompleted.",
+  "taskSequence": ["T50-A1", "T50-A2", "T50-A3", "T51-B1", "T51-B2", "T52-C", "T52-D"],
+  "archetypes": ["ORCHESTRATION", "ORCHESTRATION", "DATA_PIPELINE", "DATA_PIPELINE", "ORCHESTRATION", "ORCHESTRATION"],
+  "keyPatterns": [
+    "DUAL-RECORD-WRITE: A1 writes PRIVATE (full profile) + GLOBAL (4 match-safe fields) simultaneously",
+    "TIMEOUT-AS-SUCCESS-MODE: B1 30s timeout → partialResults:true → flow continues (not failure)",
+    "PARALLEL-FROM-SAME-INPUT: A1 and A2 both trigger on QuestionnaireCompleted independently",
+    "UPSTREAM-EVENT-NOT-TRIGGER: A3 triggers on BusinessProfileCreated (not QuestionnaireCompleted)",
+    "DEGRADABLE-ANALYTICS: A2 failure → segment=GENERAL fallback, never blocks flow",
+    "4 independent fallbacks in C: each signal degrades independently, degradationLevel tracked",
+    "DEBOUNCE-AS-SUBFLOW: rapid resubmission routed to SUBFLOW-02D (D1/D2/D3), not just a constraint",
+    "COMPLETION-EVENT-DISTINCT: PersonalizationCompleted — NOT OnboardingCompleted (FLOW-01 owns that)"
+  ],
+  "crossFlowGate": "PersonalizationCompleted from T52-D triggers FLOW-03 (EventRecommendations), FLOW-04 (ContentFeed), FLOW-05 (Gamification)",
+  "designReasoningRefs": ["DR-02-A", "DR-02-B", "DR-02-C", "DR-02-D", "DR-02-E", "DR-02-F", "DR-02-G"],
+  "criticalConstraints": [
+    "PersonalizationCompleted is MACHINE — never OnboardingCompleted (cross-flow collision with no local error)",
+    "B1 reads from xiigen-matching-profiles GLOBAL only — never xiigen-business-profiles PRIVATE",
+    "A1 dual writes: GLOBAL record must contain ONLY industryCode/businessStage/locationProximity/teamSizeTier",
+    "30s timeout is MACHINE constant — partialResults:true is a SUCCESS mode, not failureMode",
+    "Debounce key: compound tenantId+userId — single-dimension key contaminates cross-tenant"
+  ],
+  "tags": ["plan", "wave-0", "business-onboarding", "personalization", "fan-out", "fan-in", "degradable", "timeout-as-success"],
+  "keywords": "business onboarding personalization plan fan-out fan-in ORCHESTRATION DATA_PIPELINE wave-0 dual-record GLOBAL PRIVATE timeout partial results degradable"
+}

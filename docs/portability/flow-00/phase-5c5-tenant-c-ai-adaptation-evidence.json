@@ -1,0 +1,194 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phase5c5TenantCAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-05T07:47:29.3908542+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "role":  "Tenant C",
+                   "inheritedFromTenant":  "northwind",
+                   "inheritedPackage":  "@xiigen-fork/northwind-launch-bundles@1.0.2"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "name":  "tessera-community-bundles",
+                       "packageName":  "@xiigen-fork/tessera-community-bundles",
+                       "version":  "1.0.3",
+                       "sourceRepoBeforeRename":  "lubochka/tessera-collective--northwind-launch-bundles",
+                       "sourceRepoAfterRename":  "lubochka/tessera-collective--tessera-community-bundles",
+                       "sourceCommitSha":  "e8771a0309692edaabfd0591866faa36ffc134d2",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow00_activation_stage_labels.dryRun",
+                                                  "from":  "Confirm branch readiness",
+                                                  "to":  "Confirm circle readiness"
+                                              },
+                                              {
+                                                  "key":  "flow00_activation_stage_labels.activate",
+                                                  "from":  "Release branch bundle",
+                                                  "to":  "Release community bundle"
+                                              },
+                                              {
+                                                  "key":  "flow00_activation_stage_labels.track",
+                                                  "from":  "Monitor branch health",
+                                                  "to":  "Monitor community health"
+                                              },
+                                              {
+                                                  "key":  "flow00_support_escalation_channel",
+                                                  "from":  "northwind-branch-ops",
+                                                  "to":  "tessera-community-ops"
+                                              },
+                                              {
+                                                  "key":  "flow00_activation_duration_estimates.perFlowActivationMs",
+                                                  "from":  11000,
+                                                  "to":  12000
+                                              }
+                                          ],
+                       "visiblePlainLanguage":  "Tessera community launch policy: readiness step Confirm circle readiness, support route Tessera community ops, full launch estimate about 12 seconds.",
+                       "invariantsPreserved":  [
+                                                   "required flow validation remains unchanged",
+                                                   "readiness check still runs before full activation",
+                                                   "activation ordering remains unchanged",
+                                                   "tenant isolation and role access remain unchanged",
+                                                   "Acme and Northwind adaptation history remains preserved as earlier cascade entries"
+                                               ]
+                   },
+    "forkRepoVerification":  {
+                                 "path":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-launch-bundles",
+                                 "remote":  "https://github.com/lubochka/tessera-collective--tessera-community-bundles.git",
+                                 "commitSha":  "e8771a0309692edaabfd0591866faa36ffc134d2",
+                                 "commands":  [
+                                                  {
+                                                      "command":  "npx tsc --noEmit",
+                                                      "exitCode":  0
+                                                  },
+                                                  {
+                                                      "command":  "npx jest --colors=false --forceExit",
+                                                      "exitCode":  0,
+                                                      "result":  "2 suites passed, 3 tests passed"
+                                                  }
+                                              ],
+                                 "changedFiles":  [
+                                                      "package.json",
+                                                      "tenant.config.json",
+                                                      "freedom-config.defaults.json",
+                                                      "settings/module.settings.json",
+                                                      "ADAPTATION-CHANGELOG.md",
+                                                      "__tests__/bundle-activation-acme-adaptation.spec.ts"
+                                                  ],
+                                 "adaptationHistoryEntries":  3,
+                                 "workingTreeClean":  true
+                             },
+    "githubActions":  {
+                          "runId":  25358158394,
+                          "workflowName":  "XIIGen Flow CI - bundle-activation",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "e8771a0309692edaabfd0591866faa36ffc134d2",
+                          "url":  "https://github.com/lubochka/tessera-collective--tessera-community-bundles/actions/runs/25358158394"
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/tessera-community-bundles@1.0.3",
+                          "verificationCommand":  "npm view @xiigen-fork/tessera-community-bundles version --registry http://localhost:4873",
+                          "verificationResult":  "1.0.3"
+                      },
+    "applicationEvidence":  {
+                                "clientTypecheck":  {
+                                                        "command":  "npx tsc --noEmit",
+                                                        "workingDirectory":  "client",
+                                                        "exitCode":  0
+                                                    },
+                                "playwright":  {
+                                                   "command":  "npx playwright test e2e/bundle-activation-tenant-c-adaptation.spec.ts e2e/bundle-activation-marketplace-listing.spec.ts --project=chromium-desktop --workers=1",
+                                                   "environment":  {
+                                                                       "SERVER_PORT":  "33001",
+                                                                       "VITE_API_URL":  "http://localhost:33001",
+                                                                       "VITE_PORT":  "5192"
+                                                                   },
+                                                   "result":  "12 passed, 0 failed"
+                                               },
+                                "snapshots":  {
+                                                  "tenantCascadeDirectory":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3",
+                                                  "tenantCascadePngCount":  9,
+                                                  "tenantCascadeMinimumBytes":  37083,
+                                                  "tenantCascadeMaximumBytes":  97217,
+                                                  "marketplaceListingPath":  "docs/e2e-snapshots/marketplace/bundle-activation-v1.0.3-listing.png",
+                                                  "marketplaceListingBytes":  198172,
+                                                  "files":  [
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/platform-admin-C2-en-populated.png",
+                                                                    "bytes":  97217
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/platform-admin-C4-he-rtl-populated.png",
+                                                                    "bytes":  91859
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/platform-admin-C6-en-mobile.png",
+                                                                    "bytes":  82278
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/platform-support-C2-en-populated.png",
+                                                                    "bytes":  77738
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/platform-support-C4-he-rtl-populated.png",
+                                                                    "bytes":  71994
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/platform-support-C6-en-mobile.png",
+                                                                    "bytes":  61955
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/tenant-admin-C2-en-populated.png",
+                                                                    "bytes":  47647
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/tenant-admin-C4-he-rtl-populated.png",
+                                                                    "bytes":  44931
+                                                                },
+                                                                {
+                                                                    "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-v1.0.3/tenant-admin-C6-en-mobile.png",
+                                                                    "bytes":  37083
+                                                                }
+                                                            ]
+                                              }
+                            },
+    "repositoryEvidence":  {
+                               "repoFullName":  "lubochka/tessera-collective--tessera-community-bundles",
+                               "privateAfterEvidenceCapture":  true,
+                               "screenshots":  {
+                                                   "repoListing":  {
+                                                                       "path":  "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-community-bundles-github-listing.png",
+                                                                       "bytes":  167120,
+                                                                       "captureMode":  "GitHub web UI while temporarily public"
+                                                                   },
+                                                   "repoHomepage":  {
+                                                                        "path":  "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-community-bundles-repo-homepage.png",
+                                                                        "bytes":  133092,
+                                                                        "captureMode":  "GitHub web UI while temporarily public"
+                                                                    },
+                                                   "actionsSuccess":  {
+                                                                          "path":  "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-community-bundles-actions-success.png",
+                                                                          "bytes":  76750,
+                                                                          "captureMode":  "GitHub web UI while temporarily public"
+                                                                      }
+                                               }
+                           },
+    "mainRepoVerification":  {
+                                 "clientTypecheck":  "npx tsc --noEmit: passed",
+                                 "playwright":  "Tenant C adaptation plus marketplace listing: 12 passed",
+                                 "repoScreenshotSecretScan":  "pending final scan before commit"
+                             },
+    "secretHandling":  {
+                           "githubTokenPrinted":  false,
+                           "tenantJwtPrinted":  false,
+                           "vaultSigningKeyPrinted":  false,
+                           "registryTokenPrinted":  false,
+                           "repoScreenshotsContainApiDownloadTokens":  false
+                       },
+    "verdict":  "PASS"
+}

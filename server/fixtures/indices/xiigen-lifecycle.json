@@ -1,0 +1,15 @@
+{
+  "index": "xiigen-lifecycle",
+  "mappings": {
+    "properties": {
+      "flowId": { "type": "keyword" },
+      "status": { "type": "keyword" },
+      "wave": { "type": "integer" },
+      "parallelWave": { "type": "keyword" },
+      "activatedAt": { "type": "date" },
+      "updatedAt": { "type": "date" },
+      "prerequisiteFlows": { "type": "keyword" },
+      "downstreamFlows": { "type": "keyword" }
+    }
+  }
+}

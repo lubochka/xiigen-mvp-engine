@@ -1,0 +1,162 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "surfaceVersion": "1.0.0",
+  "generatedAt": "2026-05-03T10:18:00+03:00",
+  "sources": [
+    "docs/sessions/FLOW-05/FLOW-05-STEP-1-INVARIANTS.md",
+    "docs/business-flows/05-completion-gamification.md",
+    "server/src/engine/flows/completion-gamification/package.json",
+    "server/src/engine/flows/completion-gamification/points-calculator.service.ts",
+    "server/src/engine/flows/completion-gamification/streak-manager.service.ts",
+    "server/src/engine/flows/completion-gamification/level-up-checker.service.ts",
+    "server/src/engine/flows/completion-gamification/achievement-gate.service.ts"
+  ],
+  "freedomKeys": [
+    {
+      "name": "flow05_points_formula",
+      "currentValue": {
+        "base": 10,
+        "bonus_threshold": 80,
+        "bonus": 5
+      },
+      "semantics": "Point formula applied by PointsCalculator after reading the stored questionnaire score.",
+      "irCitation": "IR-84-2, IR-84-3",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A"
+      ],
+      "visibleProof": "points-breakdown and points-earned values in the completion screen"
+    },
+    {
+      "name": "flow05_level_thresholds",
+      "currentValue": [
+        100,
+        300,
+        600
+      ],
+      "semantics": "Point totals required to reach levels above level 1.",
+      "irCitation": "IR-86-1",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A"
+      ],
+      "visibleProof": "current-level value in the completion screen"
+    },
+    {
+      "name": "flow05_achievement_criteria",
+      "currentValue": [
+        {
+          "achievementId": "first-completion",
+          "label": "First Completion",
+          "minPoints": 1
+        },
+        {
+          "achievementId": "streak-3",
+          "label": "3-Day Streak",
+          "minStreak": 3
+        }
+      ],
+      "semantics": "Tenant-tunable achievement unlock criteria evaluated after completion.",
+      "irCitation": "IR-87-3",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A",
+        "TYPE-B"
+      ],
+      "visibleProof": "achievement and streak labels in completion or achievement states"
+    },
+    {
+      "name": "flow05_streak_grace_hours",
+      "currentValue": 2,
+      "semantics": "Hours after local midnight that still count toward continuing a streak.",
+      "irCitation": "IR-96-1, IR-96-2",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A"
+      ],
+      "visibleProof": "streak-count explanation in populated completion evidence"
+    },
+    {
+      "name": "flow05_streak_multiplier_step",
+      "currentValue": 0.1,
+      "semantics": "Multiplier gain added per streak day.",
+      "irCitation": "IR-96-2",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A"
+      ],
+      "visibleProof": "points-breakdown multiplier when multiplier is surfaced"
+    },
+    {
+      "name": "flow05_streak_multiplier_max",
+      "currentValue": 2,
+      "semantics": "Maximum point multiplier allowed from streak progression.",
+      "irCitation": "IR-96-2",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A"
+      ],
+      "visibleProof": "points-breakdown multiplier cap when multiplier is surfaced"
+    },
+    {
+      "name": "flow05_social_broadcast_enabled",
+      "currentValue": true,
+      "semantics": "Controls whether completion social-sharing surfaces may broadcast progress.",
+      "irCitation": "FLOW-05 social sharing lifecycle",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A",
+        "TYPE-C"
+      ],
+      "visibleProof": "social-section and social-share-toggle state"
+    },
+    {
+      "name": "flow05_ml_cooldown_days",
+      "currentValue": 7,
+      "semantics": "Minimum days between learning-path adaptation changes for a learner.",
+      "irCitation": "FLOW-05 ML adaptation lifecycle",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A"
+      ],
+      "visibleProof": "curriculum-updating state and adaptation pending messaging"
+    },
+    {
+      "name": "flow05_ml_max_changes",
+      "currentValue": 3,
+      "semantics": "Maximum number of curriculum adaptations allowed per evaluation window.",
+      "irCitation": "FLOW-05 ML adaptation lifecycle",
+      "profile": 2,
+      "adaptationTypes": [
+        "TYPE-A"
+      ],
+      "visibleProof": "curriculum-updating state and adaptation pending messaging"
+    }
+  ],
+  "adaptationCandidates": [
+    {
+      "type": "TYPE-A",
+      "key": "flow05_points_formula",
+      "proposedValue": {
+        "base": 15,
+        "bonus_threshold": 80,
+        "bonus": 10
+      },
+      "reason": "Smallest proof surface: changes earned points without changing roles or flow topology.",
+      "expectedVisibleChange": "Completion result shows +25 total points with base 15 and bonus 10."
+    },
+    {
+      "type": "TYPE-A",
+      "key": "flow05_streak_grace_hours",
+      "proposedValue": 4,
+      "reason": "A tenant can be more forgiving about late-night learning activity.",
+      "expectedVisibleChange": "Streak explanation shows a four-hour grace window."
+    }
+  ],
+  "passCriteria": [
+    "At least one FREEDOM key has name, currentValue, semantics, irCitation, profile, and adaptationTypes.",
+    "Tenant A can apply a TYPE-A value change without altering MACHINE constraints.",
+    "The adapted value is visible in tenant-a-v1.0.1 screenshots."
+  ]
+}

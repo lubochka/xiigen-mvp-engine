@@ -1,0 +1,80 @@
+{
+  "batch_id": "B",
+  "flows": [
+    {
+      "slug": "meta-flow-engine",
+      "role": "platform-admin",
+      "grammar": "G4",
+      "verdict": "MAJOR",
+      "weighted_score": 9,
+      "offences": [
+        {"severity": "MAJOR", "axis": "H", "viewport": "all", "description": "FLOW-NN and MFR-/MF- T-IDs leaked into user copy (Orchestrates: FLOW-01 etc.)"},
+        {"severity": "MAJOR", "axis": "S", "viewport": "desktop", "description": "Raw Index card stuck 'Loading...' below populated content"},
+        {"severity": "MAJOR", "axis": "R", "viewport": "all", "description": "G4 topology canvas is sparse/empty-ish, not n8n/Zapier-like rich graph"},
+        {"severity": "MINOR", "axis": "UX-P5", "viewport": "mobile", "description": "Create meta-flow button text wraps inside pill"},
+        {"severity": "MINOR", "axis": "H", "viewport": "all", "description": "'MF-001' artifact IDs surfaced to admins"}
+      ],
+      "notes": "G4 canvas renders but FLOW-NN leaks + stuck Loading on Raw Index"
+    },
+    {
+      "slug": "tenant-lifecycle-manager",
+      "role": "platform-admin",
+      "grammar": "G6",
+      "verdict": "MAJOR",
+      "weighted_score": 6,
+      "offences": [
+        {"severity": "MAJOR", "axis": "G", "viewport": "all", "description": "G6 Dashboard expected but rendered as tenant CRUD list — no KPI tiles/charts"},
+        {"severity": "MAJOR", "axis": "S", "viewport": "desktop", "description": "Raw Index stuck 'Loading...' state"},
+        {"severity": "MINOR", "axis": "UX-P5", "viewport": "tablet", "description": "4 action buttons crowd row, Provision tenant button text wraps"},
+        {"severity": "MINOR", "axis": "H", "viewport": "all", "description": "TNT- internal IDs shown to admins"}
+      ],
+      "notes": "List renders fine but fails Stripe-dashboard G6 parity"
+    },
+    {
+      "slug": "design-intelligence-engine",
+      "role": "platform-admin",
+      "grammar": "G6",
+      "verdict": "MAJOR",
+      "weighted_score": 7,
+      "offences": [
+        {"severity": "MAJOR", "axis": "G", "viewport": "all", "description": "G6 Dashboard expected; shows findings list + registry, no KPI/trend tiles"},
+        {"severity": "MAJOR", "axis": "R", "viewport": "all", "description": "No Stripe/Linear insights parity — missing charts, sparklines, time-series"},
+        {"severity": "MINOR", "axis": "H", "viewport": "all", "description": "CTF-/PTN- raw IDs and TNT-acme-corp shown in-line"},
+        {"severity": "MINOR", "axis": "S", "viewport": "mobile", "description": "Raw Index 'Loading...' persists on mobile"}
+      ],
+      "notes": "Provider-key banner good; dashboard grammar unmet"
+    },
+    {
+      "slug": "design-system-governance",
+      "role": "platform-admin",
+      "grammar": "G2",
+      "verdict": "partial",
+      "weighted_score": 2,
+      "offences": [
+        {"severity": "MINOR", "axis": "H", "viewport": "all", "description": "T617/T621/T624 task-type IDs leaked in compatibility copy"},
+        {"severity": "MINOR", "axis": "UX-P6", "viewport": "desktop", "description": "Stack-coupling KPI tiles read as hero-metric template"}
+      ],
+      "notes": "Reasonable G2 verdict-grid; only minor copy leaks"
+    },
+    {
+      "slug": "rag-quality-feedback",
+      "role": "platform-admin",
+      "grammar": "G6",
+      "verdict": "MAJOR",
+      "weighted_score": 5,
+      "offences": [
+        {"severity": "MAJOR", "axis": "H", "viewport": "all", "description": "FLOW-18/29/25/26/17 prefixes shown as primary row labels"},
+        {"severity": "MAJOR", "axis": "R", "viewport": "all", "description": "G6 lacks Stripe/Linear charts — only list rows, no time-series viz"},
+        {"severity": "MINOR", "axis": "H", "viewport": "all", "description": "PAT-/CYC- raw artifact IDs surfaced to users"}
+      ],
+      "notes": "Feedback widget + KPI tiles present but FLOW-NN labels dominate"
+    }
+  ],
+  "batch_total_score": 29,
+  "systemic_patterns": [
+    "FLOW-NN and T-ID internal identifiers leaked into user-visible copy across 4/5 flows (H axis)",
+    "G6 Dashboard grammar under-delivered — list views instead of Stripe/Linear insight dashboards (3/5 flows)",
+    "Raw Index admin debug card shows stuck 'Loading...' state below populated content on desktop (3/5 flows)",
+    "Internal artifact prefixes (MF-, TNT-, CTF-, PTN-, PAT-, CYC-, MFR-) exposed as primary row labels rather than hidden/secondary metadata"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-16",
+  "slug": "marketplace-payments",
+  "primaryTaskType": "T609",
+  "primaryTaskName": "MarketplaceCheckoutGateway",
+  "description": "Marketplace payments pipeline with BOLA guard, SETNX cart lock, payment split idempotency, LIFO saga compensation, and vault-ref-only payout. T609 MarketplaceCheckoutGateway validates BOLA at ORDER 1, SETNX cart lock ORDER 2, OCC inventory ORDER 3-4, storeDocument BEFORE CheckoutReserved (DNA-8).",
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "CheckoutRequested event (tenant checkout dispatch)",
+  "primaryFabric": "DATABASE",
+  "nodes": {
+    "n1": {
+      "id": "n1",
+      "type": "validate",
+      "label": "ValidateCheckoutRequest",
+      "description": "Validate checkout request: BOLA (cart.buyerTenantId === ALS.tenantId), CF-16-1 SETNX cart lock ORDER 2, required fields, tenant scope"
+    },
+    "n2": {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "label": "RetrievePaymentPatterns",
+      "description": "RAG retrieval of marketplace payment patterns: CART-LOCK-SETNX-001, PAYMENT-SPLIT-IDEMPOTENCY-001, LIFO-SAGA-COMPENSATION-001, NON-REPUDIATION-AUDIT-001"
+    },
+    "n3": {
+      "id": "n3",
+      "type": "decompose",
+      "label": "DecomposePaymentPlan",
+      "description": "Decompose marketplace payment pipeline into T609 checkout gateway, T610 payment splitter, T611 escrow controller, T612 payout writer sub-tasks"
+    },
+    "n4": {
+      "id": "n4",
+      "type": "ai-generate",
+      "label": "GenerateCheckoutGateway",
+      "description": "AI generates T609 MarketplaceCheckoutGateway: BOLA ORDER 1 cart.buyerTenantId === ALS.tenantId (CF-16-1); SETNX cart lock ORDER 2 with FREEDOM checkout_lock_ttl_ms; OCC inventory reservation ORDER 3-4; storeDocument(audit) BEFORE CheckoutReserved DNA-8. T610: SETNX(hash(tenantId+cartId+totalAmountCents)) unconditional return; platformFeeBps from FREEDOM; PII scrub; append-only nonRepudiationAudit hash chain; escrow BEFORE MarketplaceOrderConfirmed. T611: LIFO [REFUND_PAYMENT, RESTORE_INVENTORY] CF-16-3; dispute=updateDocument only; escrow_auto_release_days from FREEDOM. T612: SETNX payout-lock; payoutVaultRef only (CF-16-5)."
+    },
+    "n5": {
+      "id": "n5",
+      "type": "validate",
+      "label": "ValidateNamedChecks",
+      "description": "Validate named checks: BOLA ORDER 1 present, SETNX hash(tenantId+cartId+total) not cartId-alone, LIFO array order REFUND before RESTORE, no deleteDocument on escrow/audit, payoutVaultRef only"
+    },
+    "n6": {
+      "id": "n6",
+      "type": "score",
+      "label": "ScorePaymentImplementation",
+      "description": "Score implementation: BOLA compliance, split idempotency correctness, LIFO order, append-only NRA audit, vault-ref-only payout, DNA-8 store-before-enqueue"
+    },
+    "n7": {
+      "id": "n7",
+      "type": "route",
+      "label": "RouteOnScore",
+      "description": "Route to feedback (score >= 0.85) or iterate (score < 0.85 AND cycles_remaining > 0)"
+    },
+    "n8": {
+      "id": "n8",
+      "type": "feedback",
+      "label": "StoreFeedback",
+      "description": "DPO triple: chosen=CART-LOCK-SETNX-001+PAYMENT-SPLIT-IDEMPOTENCY-001+LIFO-SAGA-COMPENSATION-001 CF-16-3+NON-REPUDIATION-AUDIT-001+vault-ref-only. rejected=no-BOLA-check OR cartId-only-idempotency OR FIFO-compensation OR deleteDocument-on-dispute OR bank-details-in-payout. discriminatingConstraint: SF-1 BOLA ORDER 1, SF-2 hash(tenantId+cartId+total) SETNX, SF-3 LIFO [REFUND,RESTORE], SF-4 append-only NRA no deleteDocument, SF-5 payoutVaultRef only. curriculumTier=1.",
+      "discriminatingConstraint": "no-BOLA ORDER 1 OR cartId-only SETNX OR FIFO-compensation OR deleteDocument-on-escrow OR bank-details-in-payout receives score=0 and triggers n3 re-iteration. Correct: BOLA first, hash idempotency key, LIFO array, append-only audit, vault-ref-only payout, all DNA-8 gates.",
+      "curriculumTier": 1
+    }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

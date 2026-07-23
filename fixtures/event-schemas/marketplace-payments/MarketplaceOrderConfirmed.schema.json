@@ -1,0 +1,18 @@
+{
+  "eventType": "marketplace.order.confirmed",
+  "flowId": "FLOW-16",
+  "version": "1.0.0",
+  "description": "Emitted by T610 MarketplacePaymentSplitter after payment split, escrow hold, and NRA audit store. escrowId MUST be present — downstream consumers use this to associate escrow with order.",
+  "properties": {
+    "orderId": { "type": "string", "required": true },
+    "cartId": { "type": "string", "required": true },
+    "buyerTenantId": { "type": "string", "required": true },
+    "sellerTenantId": { "type": "string", "required": true },
+    "escrowId": { "type": "string", "required": true },
+    "totalAmountCents": { "type": "integer", "minimum": 1, "required": true },
+    "platformFeeAmountCents": { "type": "integer", "minimum": 0, "required": true },
+    "sellerAmountCents": { "type": "integer", "minimum": 0, "required": true },
+    "confirmedAt": { "type": "string", "format": "date-time", "required": true },
+    "nraAuditDocumentId": { "type": "string", "required": true }
+  }
+}

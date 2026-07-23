@@ -1,0 +1,11 @@
+{
+  "eventType": "GroupMembershipCompleted",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "membership-completed-gate",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "membershipId", "assignedTier", "completedAt"],
+  "forbiddenFields": [],
+  "notes": "'GroupMembershipCompleted' is a MACHINE string literal. Gates on Branch A only (T101+T102+T103 ACTIVE). PENDING state does NOT trigger this event. FeedSeeded and MemberWelcomeNotified emit independently."
+}

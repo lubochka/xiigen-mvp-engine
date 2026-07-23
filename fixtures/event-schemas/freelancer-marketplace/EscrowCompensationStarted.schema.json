@@ -1,0 +1,19 @@
+{
+  "eventType": "freelancer.escrow.compensation.started",
+  "flowId": "FLOW-17",
+  "version": "1.0.0",
+  "properties": {
+    "milestoneId": { "type": "string", "required": true },
+    "contractId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "reason": { "type": "string", "required": true },
+    "compensationChain": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "LIFO compensation chain — executed in reverse order from registration",
+      "required": true
+    },
+    "startedAt": { "type": "string", "format": "date-time", "required": true }
+  },
+  "note": "compensationChain is always [RESTORE_GIG_STATUS, REFUND_MILESTONE] — LIFO reverse of [REFUND_MILESTONE, RESTORE_GIG_STATUS]"
+}

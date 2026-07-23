@@ -1,0 +1,173 @@
+{
+  "flowId": "FLOW-03",
+  "flowSlug": "event-management",
+  "declaredAt": "2026-05-01T04:03:32.802Z",
+  "protocolVersion": "2.0",
+  "earnedTier": "Tier D (full multi-tenant portability)",
+  "authStatus": "authentication deployed and verified with Docker/Vault",
+  "tierCapReason": "No tier cap remains after Docker/Vault auth deployment passed.",
+  "portabilityStatus": "Tier D (full multi-tenant portability) declared under portability protocol v2.0; full three-tenant cascade evidence, green CI, screenshots at all cascade points, and Docker/Vault auth isolation evidence are present.",
+  "completionGate": {
+    "noTechnicalDebt": true,
+    "allPhasesComplete": true,
+    "threeReposWithDistinctNames": true,
+    "allPngsOnDisk": true,
+    "noBlockedVisualFindings": true,
+    "documentationUpdated": true,
+    "allReviewGatesPassed": true,
+    "authDeploymentVerified": true,
+    "crossTenantJwtIsolationVerified": true,
+    "wrongRole403Verified": true
+  },
+  "repositoryEvidence": {
+    "tenantA": {
+      "tenantId": "acme-corp",
+      "repoName": "acme-corp--event-management-acme-curated-events",
+      "repoUrl": "https://github.com/lubochka/acme-corp--event-management-acme-curated-events",
+      "workflowConclusion": "success",
+      "githubListingPng": "docs/e2e-snapshots/repo-evidence/acme-corp--event-management-acme-curated-events-github-listing.png",
+      "repoHomepagePng": "docs/e2e-snapshots/repo-evidence/acme-corp--event-management-acme-curated-events-repo-homepage.png",
+      "githubListingPngExists": true,
+      "repoHomepagePngExists": true
+    },
+    "tenantB": {
+      "tenantId": "northwind",
+      "repoName": "northwind--event-management-northwind-sponsor-forums",
+      "repoUrl": "https://github.com/lubochka/northwind--event-management-northwind-sponsor-forums",
+      "workflowConclusion": "success",
+      "githubListingPng": "docs/e2e-snapshots/repo-evidence/northwind--event-management-northwind-sponsor-forums-github-listing.png",
+      "repoHomepagePng": "docs/e2e-snapshots/repo-evidence/northwind--event-management-northwind-sponsor-forums-repo-homepage.png",
+      "githubListingPngExists": true,
+      "repoHomepagePngExists": true
+    },
+    "tenantC": {
+      "tenantId": "tessera-collective",
+      "repoName": "tessera-collective--event-management-tessera-residency-circles",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--event-management-tessera-residency-circles",
+      "workflowConclusion": "success",
+      "githubListingPng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-tessera-residency-circles-github-listing.png",
+      "repoHomepagePng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-tessera-residency-circles-repo-homepage.png",
+      "githubListingPngExists": true,
+      "repoHomepagePngExists": true
+    }
+  },
+  "screenshotEvidence": {
+    "tenant-a-source": {
+      "directory": "docs/e2e-snapshots/event-management/tenant-a-source",
+      "pngCount": 27,
+      "expectedPngCount": 27
+    },
+    "tenant-a-v1.0.1": {
+      "directory": "docs/e2e-snapshots/event-management/tenant-a-v1.0.1",
+      "pngCount": 27,
+      "expectedPngCount": 27
+    },
+    "tenant-b-installed-from-a": {
+      "directory": "docs/e2e-snapshots/event-management/tenant-b-installed-from-a",
+      "pngCount": 27,
+      "expectedPngCount": 27
+    },
+    "tenant-b-v1.0.2": {
+      "directory": "docs/e2e-snapshots/event-management/tenant-b-v1.0.2",
+      "pngCount": 27,
+      "expectedPngCount": 27
+    },
+    "tenant-c-installed-from-b": {
+      "directory": "docs/e2e-snapshots/event-management/tenant-c-installed-from-b",
+      "pngCount": 27,
+      "expectedPngCount": 27
+    },
+    "tenant-c-v1.0.0": {
+      "directory": "docs/e2e-snapshots/event-management/tenant-c-v1.0.0",
+      "pngCount": 27,
+      "expectedPngCount": 27
+    }
+  },
+  "visualAudits": [
+    {
+      "file": "docs/screen-examination/event-management-phase3-visual-audit-2026-05-01.md",
+      "exists": true,
+      "blockedFindings": 0
+    },
+    {
+      "file": "docs/screen-examination/event-management-phase4-adapted-visual-audit-2026-05-01.md",
+      "exists": true,
+      "blockedFindings": 0
+    },
+    {
+      "file": "docs/screen-examination/event-management-phase5a-tenant-b-installed-visual-audit-2026-05-01.md",
+      "exists": true,
+      "blockedFindings": 0
+    },
+    {
+      "file": "docs/screen-examination/event-management-phase5b-tenant-b-adapted-visual-audit-2026-05-01.md",
+      "exists": true,
+      "blockedFindings": 0
+    },
+    {
+      "file": "docs/screen-examination/event-management-phase5c-tenant-c-installed-visual-audit-2026-05-01.md",
+      "exists": true,
+      "blockedFindings": 0
+    },
+    {
+      "file": "docs/screen-examination/event-management-phase5c5-tenant-c-adapted-visual-audit-2026-05-01.md",
+      "exists": true,
+      "blockedFindings": 0
+    }
+  ],
+  "authEvidence": {
+    "flowLocalControllersFound": 0,
+    "authChecks1Through3": "not applicable for flow-local code because Flow 03 has no flow-local controllers",
+    "globalAuthSuitesPassed": 16,
+    "globalAuthTestsPassed": 197,
+    "crossTenantJwtIsolation": "passed for Tenant C after install and after adaptation; Tenant A and Tenant B tokens are rejected in Tenant C context",
+    "writeRoleChecks": "deferred until auth plan phases 1 through 4 deploy a write-route/user-role provisioning path"
+  },
+  "reviewGate": {
+    "portabilityCheck1": "passed",
+    "portabilityCheck2": "passed",
+    "portabilityCheck3": "passed",
+    "directSdkImports": "passed",
+    "codingRule3ThrowStatements": "passed",
+    "codingRule4MicroserviceBase": "passed"
+  },
+  "declarationFilesUpdated": [
+    "docs/sessions/FLOW-03/FLOW-03-MOBILITY-AUTH-STATE.json",
+    "docs/sessions/FLOW-03/FLOW-03-IMPL-STATE.json",
+    "docs/sessions/FLOW-03/FLOW-03-PLAN-STATE.json",
+    "docs/sessions/FLOW-03/FLOW-03-QA-COVERAGE-STATE.json",
+    "docs/portability/flow-03/FLOW-03-PORTABILITY-STATE.json",
+    "docs/screen-examination/ROUND-2-COVERAGE-MATRIX.json"
+  ],
+  "phaseICommitHash": "1a366e01b2146de770990f352fb11bbf6486d20e",
+  "stateCloseoutCommitHash": "recorded by the state closeout commit that follows this declaration commit",
+  "hashRecordedAt": "2026-05-01T11:26:22.624Z",
+  "dockerVaultAuthEvidence": {
+    "evidenceRecord": "docs/portability/flow-03/phase-0-docker-vault-auth-evidence.json",
+    "generatedAt": "2026-05-01T10:53:06.2798045Z",
+    "baseUrl": "http://localhost:33001",
+    "serverContainer": "xiigen-server",
+    "serverHealth": "healthy",
+    "serverPort": 33001,
+    "secretsProvider": "vault",
+    "vaultContainer": "xiigen-vault",
+    "vaultSealed": false,
+    "tenants": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ],
+    "usersCreated": 7,
+    "liveChecks": {
+      "ownTenantToken": 200,
+      "missingToken": 401,
+      "acmeTokenAgainstNorthwind": 401,
+      "northwindTokenAgainstTessera": 401,
+      "acmeTokenAgainstTessera": 401,
+      "serviceAccountAgainstRoleProtectedRoute": 403
+    },
+    "allPassed": true
+  },
+  "updatedAt": "2026-05-01T10:53:06.2798045Z",
+  "dockerVaultAuthCommitHash": "1a366e01b2146de770990f352fb11bbf6486d20e"
+}

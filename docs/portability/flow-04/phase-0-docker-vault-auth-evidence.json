@@ -1,0 +1,228 @@
+{
+  "flowId": "FLOW-04",
+  "flowSlug": "event-attendance",
+  "testedAt": "2026-05-01T16:57:43.3325816+03:00",
+  "serverBaseUrl": "http://localhost:33002",
+  "secretsProvider": "vault",
+  "roleMap": {
+    "designReviewRoles": [
+      "anonymous",
+      "tenant-user",
+      "referral-user",
+      "event-organiser",
+      "tenant-admin"
+    ],
+    "serverLoginRolesExercised": ["tenant-user", "tenant-admin"],
+    "unsupportedDesignRolesInServerRoleRegistry": [
+      "referral-user",
+      "event-organiser"
+    ],
+    "wrongRoleProbe": "service-account"
+  },
+  "seededTenants": [
+    {
+      "tenant": "acme-corp",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "northwind",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "status": 201,
+      "ok": true
+    }
+  ],
+  "seededUsers": [
+    {
+      "tenant": "acme-corp",
+      "role": "tenant-user",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "acme-corp",
+      "role": "referral-user",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "acme-corp",
+      "role": "event-organiser",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "acme-corp",
+      "role": "tenant-admin",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "northwind",
+      "role": "tenant-user",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "northwind",
+      "role": "referral-user",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "northwind",
+      "role": "event-organiser",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "northwind",
+      "role": "tenant-admin",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "role": "tenant-user",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "role": "referral-user",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "role": "event-organiser",
+      "status": 201,
+      "ok": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "role": "tenant-admin",
+      "status": 201,
+      "ok": true
+    }
+  ],
+  "loginEvidence": [
+    {
+      "tenant": "acme-corp",
+      "seededRole": "tenant-user",
+      "status": 200,
+      "ok": true,
+      "issuedRoles": ["tenant-user"]
+    },
+    {
+      "tenant": "acme-corp",
+      "seededRole": "tenant-admin",
+      "status": 200,
+      "ok": true,
+      "issuedRoles": ["tenant-admin"]
+    },
+    {
+      "tenant": "northwind",
+      "seededRole": "tenant-user",
+      "status": 200,
+      "ok": true,
+      "issuedRoles": ["tenant-user"]
+    },
+    {
+      "tenant": "northwind",
+      "seededRole": "tenant-admin",
+      "status": 200,
+      "ok": true,
+      "issuedRoles": ["tenant-admin"]
+    },
+    {
+      "tenant": "tessera-collective",
+      "seededRole": "tenant-user",
+      "status": 200,
+      "ok": true,
+      "issuedRoles": ["tenant-user"]
+    },
+    {
+      "tenant": "tessera-collective",
+      "seededRole": "tenant-admin",
+      "status": 200,
+      "ok": true,
+      "issuedRoles": ["tenant-admin"]
+    }
+  ],
+  "checks": [
+    {
+      "name": "valid token in own tenant returns 200",
+      "route": "/api/auth/me",
+      "tenantContext": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "name": "missing token returns 401",
+      "route": "/api/auth/me",
+      "tenantContext": "acme-corp",
+      "tokenTenant": null,
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant A token in tenant B context returns 401",
+      "route": "/api/auth/me",
+      "tenantContext": "northwind",
+      "tokenTenant": "acme-corp",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant B token in tenant C context returns 401",
+      "route": "/api/auth/me",
+      "tenantContext": "tessera-collective",
+      "tokenTenant": "northwind",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant A token in tenant C context returns 401",
+      "route": "/api/auth/me",
+      "tenantContext": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "valid tenant-user token reaches role-protected flow route",
+      "route": "/api/flow/execute",
+      "tenantContext": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "name": "wrong-role token on role-protected route returns 403",
+      "route": "/api/flow/execute",
+      "tenantContext": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    }
+  ],
+  "summary": {
+    "totalChecks": 7,
+    "passedChecks": 7,
+    "failedChecks": 0,
+    "allRequiredLiveAuthChecksPassed": true
+  }
+}

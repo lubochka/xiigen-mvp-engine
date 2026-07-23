@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DimensionVersionCreated",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "DimensionVersionCreated" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["dimensionId","entityId","versionNumber","effectiveFrom","effectiveTo","strategy"],
+      "properties": {
+        "dimensionId": { "type": "string" },
+        "entityId": { "type": "string" },
+        "versionNumber": { "type": "integer" },
+        "effectiveFrom": { "type": "string", "format": "date-time" },
+        "effectiveTo": { "type": ["string","null"], "format": "date-time" },
+        "strategy": { "type": "string", "const": "version_only", "description": "DR-62: SCD-2 version-only" }
+      }
+    }
+  }
+}

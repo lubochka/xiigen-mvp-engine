@@ -1,0 +1,29 @@
+﻿{
+    "serverTypeScript":  "exit 0",
+    "flow33Jest":  "8 suites passed, 139 tests passed",
+    "throwNew":  0,
+    "servicesMissingMicroserviceBase":  0,
+    "clsImports":  0,
+    "directTenantContextImports":  0,
+    "directSdkImports":  0,
+    "anyTypes":  0,
+    "authFailures":  0,
+    "screenshotCount":  9,
+    "registryVersions":  [
+                             {
+                                 "package":  "@xiigen-fork/acme-bootstrap-control-room",
+                                 "expected":  "1.0.1",
+                                 "observed":  "1.0.1"
+                             },
+                             {
+                                 "package":  "@xiigen-fork/northwind-self-build-workbench",
+                                 "expected":  "1.0.2",
+                                 "observed":  "1.0.2"
+                             },
+                             {
+                                 "package":  "@xiigen-fork/tessera-initiation-studio",
+                                 "expected":  "1.0.3",
+                                 "observed":  "1.0.3"
+                             }
+                         ]
+}

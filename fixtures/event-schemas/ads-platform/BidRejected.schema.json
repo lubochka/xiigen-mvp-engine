@@ -1,0 +1,14 @@
+{
+  "eventType": "ads.auction.bid-rejected",
+  "flowId": "FLOW-20",
+  "version": "1.0.0",
+  "description": "Emitted by T626 AuctionBidProcessor on SETNX collision (already processed), budget insufficiency, or validation failure. Signals rejection to billing system.",
+  "properties": {
+    "bidId": { "type": "string", "required": true },
+    "auctionId": { "type": "string", "required": true },
+    "rejectionReason": { "type": "string", "enum": ["BID_ALREADY_PROCESSED", "INSUFFICIENT_BUDGET", "VALIDATION_FAILED"], "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "bidAuditId": { "type": "string", "required": true },
+    "rejectedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

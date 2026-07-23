@@ -1,0 +1,33 @@
+{
+  "patternId": "quota-atomic-materialization-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-15",
+  "domainId": "saas-multi-tenancy",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": [
+    "saas",
+    "quota",
+    "redis-multi-exec",
+    "atomic",
+    "tier-definitions",
+    "quota-materialization",
+    "no-hardcoded-values"
+  ],
+  "keywords": "Redis MULTI EXEC quota atomic materialization no individual SET loop tier definitions FREEDOM config quota key filter keyCount TenantQuotaMaterialized T607",
+  "teachingPoint": "T607 TenantQuotaMaterializer MUST write all quota keys in a single Redis MULTI/EXEC transaction. Individual SET loops are prohibited — a crash between iterations creates partial quota enforcement. All quota values MUST derive from tier definitions in FREEDOM config (tenant_quota_tier_{tier}). A quota key filter MUST exclude non-quota keys before the transaction is built.",
+  "ironRules": [
+    "All quota keys written in one Redis MULTI/EXEC — individual SET loop is prohibited",
+    "Quota values derived from FREEDOM config tier definition — no hardcoded constants",
+    "QUOTA_KEY_FILTER applied before MULTI/EXEC — non-quota keys excluded",
+    "TenantQuotaMaterialized event includes keyCount matching number of keys in EXEC",
+    "On EXEC failure, DataProcessResult.failure returned — no partial quota state possible"
+  ],
+  "codeSnippet": "// T607 TenantQuotaMaterializer — atomic quota write via MULTI/EXEC\nasync materializeQuota(tier: string): Promise<DataProcessResult<void>> {\n  const tenantId = this.tenantContext.getTenantId(); // ALS only\n\n  // Load tier definition from FREEDOM — no hardcoded values\n  const tierDef = await this.freedom.getConfig(`tenant_quota_tier_${tier}`); // F1522\n\n  // Build quota key map from tier definition\n  const rawKeyMap = new Map<string, number>(Object.entries(tierDef));\n\n  // QUOTA_KEY_FILTER: exclude non-quota keys from MULTI/EXEC\n  const quotaKeyMap = new Map(\n    [...rawKeyMap.entries()].filter(([k]) => k.startsWith(`quota:${tenantId}:`))\n  );\n\n  if (quotaKeyMap.size === 0) {\n    return DataProcessResult.failure('NO_QUOTA_KEYS', 'Tier definition produced no quota keys');\n  }\n\n  // MULTI/EXEC — atomic, all or nothing\n  const multi = this.quotaStore.multi(); // F1524\n  for (const [key, value] of quotaKeyMap.entries()) {\n    multi.set(key, String(value)); // no individual await — queued in MULTI\n  }\n  await multi.exec(); // atomic commit\n\n  await this.queue.enqueue('TenantQuotaMaterialized', {\n    tenantId,\n    tier,\n    keyCount: quotaKeyMap.size,\n    materializedAt: new Date().toISOString(),\n  });\n  return DataProcessResult.success();\n}",
+  "appliesTo": ["FLOW-16", "FLOW-17", "FLOW-20", "FLOW-21"],
+  "curriculumTier": 2,
+  "qualityScore": 0.95,
+  "sourceDocument": "server/src/engine-contracts/saas-multi-tenancy-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

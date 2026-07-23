@@ -1,0 +1,16 @@
+{
+  "patternId": "privacy-gatekeeper-inline-invocation",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-07",
+  "domainId": "social-connections",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ROUTING",
+  "tags": ["T81", "T73", "T76", "T78", "inline-only", "privacy"],
+  "keywords": "privacy gate inline synchronous T81 PrivacyGatekeeper injectable no EventPattern",
+  "codeSnippet": "@Injectable()\nexport class PrivacyGatekeeper {\n  async check(userId: string, contentOwnerId: string): Promise<DataProcessResult<{ allowed: boolean }>> {\n    const settings = await this.privacySettings.get(userId);  // live DATABASE read, no cache\n    return DataProcessResult.success({ allowed: !settings.isBlockedBy(contentOwnerId) });\n  }\n}\n// WRONG: T73 emits privacy.check.requested to queue\n// @EventPattern('privacy.check.requested') on T81 = BUILD_FAILURE\n// T81 has no @EventPattern — it is @Injectable() only",
+  "ironRules": [
+    "T81 is pure @Injectable() — no @EventPattern, no @MessagePattern (BUILD_FAILURE if generated)",
+    "T73/T76/T78 inject T81 via constructor and call check() synchronously before any write",
+    "Privacy settings read live from DATABASE FABRIC on every call — no local cache"
+  ]
+}

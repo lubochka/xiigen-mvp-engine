@@ -1,0 +1,11 @@
+{
+  "eventType": "MembershipActivated",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "access-control-provisioner",
+  "consumers": ["T104", "T108"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "membershipId", "assignedTier", "accessLevels", "activatedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T101 after storeDocument. Triggers Branch B (T104 content seeding) and Branch C (T108 notifications). T104 must NOT trigger on MemberJoinRequested — only on this event."
+}

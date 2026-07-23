@@ -1,0 +1,14 @@
+XIIGen
+Copyright 2026 Luba Karpenko, Genie Soft LTD
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License, version 3, as published by
+the Free Software Foundation. See the LICENSE file for the full license text.
+
+XIIGen is the application layer of the xiigen-open-llm ecosystem. xiigen-open-llm
+is a planned companion repository that will hold the trainable core under the
+same AGPL license; until it is published this is a described relationship, not a
+link. XIIGen itself does not train model weights; it collects and cleans the
+training signal and consumes ready manifests.

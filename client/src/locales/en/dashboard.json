@@ -1,0 +1,13 @@
+{
+  "page_title": "Engine Dashboard",
+  "bootstrap_title": "Bootstrap Phases",
+  "status_label": "Status:",
+  "refresh_btn": "Refresh",
+  "engine_registry_title": "Engine Registry",
+  "registry_generations": "Generations",
+  "registry_factories": "Factories",
+  "registry_task_types": "Task Types",
+  "registry_promotions": "Promotions",
+  "retry_btn": "Retry",
+  "loading_status": "Loading engine status..."
+}

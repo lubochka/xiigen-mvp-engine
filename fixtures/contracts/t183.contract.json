@@ -1,0 +1,38 @@
+{
+  "taskTypeId": "T183",
+  "flowId": "FLOW-13",
+  "name": "AlertingRulesEngine",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "freedom-config-alert-rules-tenant-scoped-evaluation",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "data_warehouse_alerting_rules",
+    "neutralConcepts": [
+      "Alert rules loaded from FREEDOM config key 'data_warehouse_alerting_rules' — never hardcoded",
+      "Alert evaluation is tenant-scoped — each tenant evaluates against their own rules only",
+      "tenantId must be included in every alert emission",
+      "storeDocument(alertRecord) BEFORE enqueue(KpiSnapshotGenerated) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T183-1", "rule": "Alert rules MUST come from FREEDOM config key 'data_warehouse_alerting_rules' — never a hardcoded array or constant.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T183-2", "rule": "Alert evaluation is tenant-scoped — each tenant evaluates only their own alert rules. Cross-tenant rule evaluation is forbidden.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T183-3", "rule": "tenantId must be present in every alert emission CloudEvent.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T183-4", "rule": "storeDocument(alertRecord) BEFORE enqueue(KpiSnapshotGenerated). DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "freedom_config_alert_rules",
+    "tenant_scoped_evaluation",
+    "store_before_enqueue"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "alerting", "rules", "freedom-config", "tenant-scoped", "ANALYTICS_ENGINE"],
+  "keywords": "alerting rules engine FREEDOM config tenant-scoped evaluation KPI snapshot alert emission tenantId warehouse analytics"
+}

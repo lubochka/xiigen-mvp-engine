@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T184",
+  "name": "data-warehouse-analytics-query-optimization-advisor",
+  "description": "T184 QueryOptimizationAdvisor — QUERY_ENGINE archetype. Read-only optimization suggestions. Scoped to tenant query patterns. T187 quota check NOT required (read-only, no warehouse execution).",
+  "archetype": "QUERY_ENGINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: read-only suggestions only, no warehouse execution, T187 quota check NOT required, tenant query patterns scoped"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve QUERY_ENGINE arch pattern + query-optimization + read-only-advisor + no-quota-check + tenant-query-patterns patterns for T184",
+      "params": {
+        "archetype": "QUERY_ENGINE",
+        "taskTypeRef": "T184",
+        "topK": 5,
+        "patternIds": [
+          "query-optimization-001",
+          "read-only-advisor-001",
+          "no-quota-check-001",
+          "tenant-query-patterns-001",
+          "optimization-suggestion-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T184 into: receive query text → analyze query structure → load tenant query patterns from DATABASE → generate optimization suggestions → return OptimizationReport (NO warehouse execution, NO T187 quota call)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate query-optimization-advisor.service.ts — HTTP GET via DynamicController, analyzes query structure and returns optimization suggestions (index hints, filter reordering, etc.). Scoped to tenant query patterns from ALS. Read-only — NEVER executes against warehouse. T187 QuotaManager NOT called (read-only has no quota cost). Returns OptimizationReport with ranked suggestions."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: read_only_no_execution, t187_not_called, tenant_scoped_patterns, optimization_suggestions_returned, no_warehouse_access"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T184 iron rules: read-only, no T187 call, tenant scoping, useful optimization output"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=read-only-advisor+no-t187-call+tenant-scoped-patterns, rejected=executes-warehouse-query OR calls-t187-quota OR cross-tenant-patterns. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "HTTP GET via DynamicController",
+  "primaryFabric": "DATABASE"
+}

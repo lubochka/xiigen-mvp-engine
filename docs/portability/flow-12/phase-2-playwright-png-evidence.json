@@ -1,0 +1,109 @@
+{
+  "flowId": "FLOW-12",
+  "flowSlug": "subscription-billing",
+  "phase": "phase2E2ETests",
+  "status": "passed",
+  "recordedAt": "2026-05-06T03:10:59.0630130+03:00",
+  "server": {
+    "url": "http://localhost:3000",
+    "health": {
+      "success": true,
+      "status": "OK"
+    },
+    "secretsProvider": "vault",
+    "note": "Server was recreated from host port 33001 to host port 3000 because the FLOW-12 Playwright suite checks localhost:3000 health."
+  },
+  "commands": [
+    {
+      "name": "docker server health",
+      "command": "Invoke-RestMethod 'http://localhost:3000/health/live' | ConvertTo-Json -Compress",
+      "exitCode": 0,
+      "result": "success=true, status=OK"
+    },
+    {
+      "name": "FLOW-12 Playwright suite, first run",
+      "command": "$env:VITE_PORT='5176'; Push-Location client; npx playwright test e2e/subscription-billing.spec.ts --reporter=line; Pop-Location",
+      "exitCode": 1,
+      "result": "21 passed, 6 failed; failures were stale tenant-admin dashboard expectations against the default anonymous pricing branch."
+    },
+    {
+      "name": "FLOW-12 Playwright suite, repaired run",
+      "command": "$env:VITE_PORT='5176'; Push-Location client; npx playwright test e2e/subscription-billing.spec.ts --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "result": "27 passed, 0 failed, 0 skipped"
+    },
+    {
+      "name": "client TypeScript",
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "name": "phase-close portability/auth scan",
+      "command": "FLOW-12 server flow scan for throw new, MicroserviceBase, nestjs-cls, direct TenantContext imports, direct SDK imports, and any types",
+      "exitCode": 0,
+      "result": "zero failure lines"
+    }
+  ],
+  "playwright": {
+    "projects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "specs": [
+      "client/e2e/subscription-billing.spec.ts"
+    ],
+    "testsPassed": 27,
+    "testsFailed": 0,
+    "testsSkipped": 0,
+    "repairNotes": [
+      "R-07, R-08, and the P1 state coverage test now enter /billing-dashboard?role=tenant-admin explicitly.",
+      "Invoice status assertions now match the current user-facing title-case labels: Paid, Failed, Voided.",
+      "The production billing page already exposed the required tenant-admin selectors; only the stale E2E role setup was changed."
+    ]
+  },
+  "pngEvidence": {
+    "docs/e2e-snapshots/subscription-billing": {
+      "count": 9,
+      "zeroByteCount": 0,
+      "files": [
+        "01-subscriptionanalyticsaggregator-data-pip.png",
+        "r-02-after.png",
+        "r-02-before.png",
+        "r-03-after.png",
+        "r-03-before.png",
+        "r-05-after.png",
+        "r-05-before.png",
+        "r-06-after.png",
+        "r-06-before.png"
+      ]
+    },
+    "docs/e2e-snapshots/visual-audit/chromium-desktop/subscription-billing": {
+      "count": 5,
+      "zeroByteCount": 0
+    },
+    "docs/e2e-snapshots/visual-audit/chromium-tablet/subscription-billing": {
+      "count": 5,
+      "zeroByteCount": 0
+    },
+    "docs/e2e-snapshots/visual-audit/chromium-mobile/subscription-billing": {
+      "count": 5,
+      "zeroByteCount": 0
+    },
+    "docs/e2e-snapshots/repo-evidence": {
+      "count": 121,
+      "zeroByteCount": 0,
+      "note": "Repo evidence screenshots exist globally; FLOW-12 cascade-specific repo screenshots are produced during fork cascade phases."
+    }
+  },
+  "phaseCloseScan": {
+    "flowFileCount": 4,
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0
+  }
+}

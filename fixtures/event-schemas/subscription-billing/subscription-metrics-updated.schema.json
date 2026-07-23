@@ -1,0 +1,12 @@
+{
+  "eventType": "subscription.metrics.updated",
+  "flowId": "FLOW-12",
+  "version": "1.0.0",
+  "properties": {
+    "mrrCents": { "type": "integer", "minimum": 0, "required": true },
+    "activeSubscriptions": { "type": "integer", "minimum": 0, "required": true },
+    "trialingSubscriptions": { "type": "integer", "minimum": 0, "required": true },
+    "calculatedAt": { "type": "string", "format": "date-time", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SyncJobCompleted",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "SyncJobCompleted" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["jobId","connectorId","recordsIngested","cursorPosition"],
+      "properties": {
+        "jobId": { "type": "string" },
+        "connectorId": { "type": "string" },
+        "recordsIngested": { "type": "integer" },
+        "cursorPosition": { "type": "string" }
+      }
+    }
+  }
+}

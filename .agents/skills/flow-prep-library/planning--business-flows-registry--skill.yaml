@@ -1,0 +1,51 @@
+name: business-flows-registry
+version: "1.0.0"
+type: reference_document
+priority: MANDATORY
+load_order: 5.3
+updated: "2026-04-20"
+author: luba
+entry: planning--business-flows-registry.md
+
+description: >
+  Authoritative lookup table for all 48 XIIGen flows. Maps every flow to:
+  F4 business spec availability and path, F3 ROLE-ANALYSIS-BATCH file,
+  examination record status (ground truth where present for 38 flows),
+  UI grammar type (G1-G7), and CFI notes. Single document Claude Code reads
+  to answer "which file do I open for FLOW-XX's user intent?" and "what
+  grammar does this flow use?". Contains CFI-12 BLOCKED flags for FLOW-04,
+  FLOW-09, FLOW-34 (stale F1 spec — no UI design until Luba resolves).
+  Contains CFI-05 per-row notes for FLOW-36..40 (Page rewrite needed —
+  apply FLOW-45 RUN-52 template). FLOW-29 marked as reference implementation
+  for G4 TOPOLOGY_CANVAS grammar.
+
+triggers:
+  - "what grammar does FLOW-"
+  - "user intent for FLOW-"
+  - "business spec path"
+  - "which batch file for FLOW-"
+  - "examination record status"
+  - "CFI-05"
+  - "CFI-12"
+  - "G1 flows"
+  - "G2 flows"
+  - "G3 flows"
+
+grammar_types_defined: [G1, G2, G3, G4, G5, G6, G7, NO_XIIGEN_UI]
+
+cfi_12_blocked: [FLOW-04, FLOW-09, FLOW-34]
+cfi_05_pending: [FLOW-36, FLOW-37, FLOW-38, FLOW-39, FLOW-40]
+cfi_05_closed: [FLOW-45]
+no_xiigen_ui: [FLOW-41, FLOW-42, FLOW-43, FLOW-44]
+reference_implementation: "FLOW-29 (G4 TOPOLOGY_CANVAS)"
+
+used_by:
+  - SK-539 §0
+  - SK-540 Step 1
+  - SK-542 Step 1
+  - Q8 (AUTHORING-GUIDE v1.16)
+  - Q10 (ARCHITECT-GUIDE v1.8)
+  - Q-08 Q-24 Q-25 (ORIENTATION-MAP v1.3)
+  - GUIDE-B46 Step 0
+  - GUIDE-B47 Step 0
+  - GUIDE-B50 Step 0a

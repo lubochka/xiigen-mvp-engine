@@ -1,0 +1,72 @@
+﻿{
+    "flowId":  "FLOW-01",
+    "flowSlug":  "user-registration",
+    "phase":  "Phase 4 AI adaptation",
+    "recordedAt":  "2026-04-30T13:06:20.5947876+03:00",
+    "tenantId":  "acme-corp",
+    "tenantName":  "Acme Pro Members",
+    "adaptedPackageName":  "@xiigen-fork/user-registration-acme-pro-members",
+    "adaptedModuleName":  "user-registration-acme-pro-members",
+    "adaptedVersion":  "1.0.1",
+    "localRegistryUrl":  "http://localhost:4873/%40xiigen-fork%2Fuser-registration-acme-pro-members",
+    "registryLatestVersion":  "1.0.1",
+    "registryVersions":  [
+                             "1.0.1"
+                         ],
+    "forkRepository":  {
+                           "url":  "https://github.com/lubochka/acme-corp--user-registration",
+                           "fullName":  "lubochka/acme-corp--user-registration",
+                           "adaptationCommit":  "ac41d5daba4aae906c9cdec07397d22b775ea9bf",
+                           "workflowRunUrl":  "https://github.com/lubochka/acme-corp--user-registration/actions/runs/25158564098",
+                           "workflowConclusion":  "success",
+                           "workflowStatus":  "completed",
+                           "workflowRunId":  25158564098
+                       },
+    "adaptationValues":  {
+                             "invitationInviterName":  "The Acme Pro Team",
+                             "invitationCommunityName":  "Acme Pro Members",
+                             "emailVerificationTtlSeconds":  3600,
+                             "resendRateLimitMinutes":  15
+                         },
+    "visualEvidence":  {
+                           "directory":  "docs/e2e-snapshots/user-registration/tenant-a-acme-v1.0.1",
+                           "freshPngCount":  288,
+                           "expectedFreshPngCount":  288,
+                           "totalPngsOnDisk":  360,
+                           "stalePngsIgnored":  72,
+                           "zeroBytePngs":  0,
+                           "newestWriteTime":  "2026-04-30T13:00:12.3433660+03:00",
+                           "note":  "Only the 288 screenshots refreshed during the Tenant A adaptation run are counted as Phase 4 evidence; older files in the same directory are explicitly ignored."
+                       },
+    "marketplaceEvidence":  {
+                                "screenshot":  "docs/e2e-snapshots/marketplace/user-registration-v1.0.1-listing.png",
+                                "screenshotBytes":  96095,
+                                "packageVisible":  true,
+                                "packageVersionVisible":  "1.0.1"
+                            },
+    "verification":  {
+                         "forkTypeScript":  "passed: npm run tsc in Tenant A fork clone",
+                         "forkJest":  "passed: npm test in Tenant A fork clone; 2 suites, 3 tests",
+                         "forkGithubActions":  "passed: https://github.com/lubochka/acme-corp--user-registration/actions/runs/25158564098 concluded success",
+                         "localRegistry":  "passed: registry latest version is 1.0.1",
+                         "clientTypeScript":  "passed: npx tsc --noEmit from client package",
+                         "adaptedPlaywright":  "passed: XIIGEN_VISUAL_TARGET=tenant-a-acme-v1.0.1 Playwright visual matrix; 288 tests",
+                         "marketplacePlaywright":  "passed: marketplace listing capture Playwright test; 1 test",
+                         "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json from server package",
+                         "serverFlowJest":  "passed: npx jest --testPathPatterns=user-registration --runInBand --forceExit; 16 suites, 257 tests"
+                     },
+    "phaseReviewGate":  {
+                            "directContextImports":  0,
+                            "nonFlowScopedConnectionAnnotations":  0,
+                            "freedomKeyPrefixWarnings":  0,
+                            "controllerFiles":  0,
+                            "authScanFailures":  0,
+                            "publicRouteBypassFailures":  0,
+                            "directSdkImports":  0,
+                            "throwStatements":  0,
+                            "servicesNotExtendingBase":  0,
+                            "scanner":  "PowerShell Select-String case-sensitive fallback after rg.exe was denied by Windows"
+                        },
+    "phaseWorkCommitHash":  "1b3d6751193df1386b39c78bc37df3d3cbf3d801",
+    "stateUpdatedAt":  "2026-04-30T13:15:21.9746788+03:00"
+}

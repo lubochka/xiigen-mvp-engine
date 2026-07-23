@@ -1,0 +1,156 @@
+{
+  "batch_id": "V-R14-B",
+  "captured_after": "RUN-181 through RUN-186 (V-R13 final)",
+  "flows_examined": 8,
+  "flows": [
+    {
+      "slug": "client-push",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Platform-admin primary = purpose-built SSE ops dashboard (active connections with Connected/Expired/Failed pills, event deliveries feed, 24h metrics). Populated = State 4 delivery-confirmed detail with eventId/connectionId/ackLatency. Platform-support = read-only notification audit log with tenant/user search, escalate-to-platform-admin link, NO retry controls. Purpose-built per role, consumer-role-free (this is a platform-ops-only flow), no admin-debug leak."
+    },
+    {
+      "slug": "cms-publishing",
+      "pngs_read": [
+        "populated-anonymous.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png",
+        "reader-anonymous.png"
+      ],
+      "verdict": "BLOCK",
+      "role_differentiation_verified": false,
+      "role_leaks": [
+        "primary-tenant-user.png shows 'Raw index browser (admin debug) — reads /api/dynamic/xiigen-cms-publishing' with destructive Delete actions and New record button — admin-debug interface leaked to a consumer role with destructive actions",
+        "primary-tenant-admin.png shows 'CMS admin — full editorial workflow access' banner but the rendered content below is the same 'Raw index browser (admin debug)' raw CRUD with Delete — editorial workflow UI not actually built for tenant-admin, only raw debug view"
+      ],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": true,
+      "notes": "BLOCK: tenant-user sees admin-debug raw index browser with Delete actions — Rule-6 scope leak + destructive action on consumer role. tenant-admin also stuck in raw-debug view despite CMS-admin banner claiming full workflow access. Reader pages (primary-anonymous/populated-anonymous/primary-public-marketplace-visitor) are purpose-built (reader article cards + subscribe form + marketplace-visitor banner). Platform-admin primary is a purpose-built cross-tenant oversight dashboard. But reader-anonymous.png returns 404 — where a reader content page is expected. Two critical failures: (1) raw-index leak to tenant-user with destructive Delete, (2) tenant-admin given debug view not editorial workflow."
+    },
+    {
+      "slug": "completion-gamification",
+      "pngs_read": [
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "V-R13-A rewrite confirmed. tenant-user = Duolingo pattern (7-day streak with per-day check icons, Today's goal XP progress bar, Level progress, Badges Earned 3/12, Recent XP feed). tenant-admin = Cohort learning health (On-streak-today/Lessons-this-week/At-risk KPIs, top learners leaderboard with medals + XP + streak + lessons, at-risk learners with 'Send a gentle nudge — opt-in, respects quiet hours'). platform-admin = Cross-tenant signals (Active learners 7d / Avg streak / Lessons/week / Tenants on platform KPIs, tenant-level gamification table with View cohorts drill-down, Streak distribution histogram 0-2/3-6/7-13/14-29/30+). Three wholly distinct role surfaces, correct scope separation, no admin-debug leak, humanized copy."
+    },
+    {
+      "slug": "cycle-chain-extension",
+      "pngs_read": [
+        "primary-platform-admin.png"
+      ],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Platform-only flow (single role captured — correct). Purpose-built Hook Registry with pause/delete controls, Active/Paused/Post-retrieval/Pre-arbitration/Payment-post/Flow-complete hook states, recent hook executions with success/failure indicators and Queue-timeout-after-2s error detail. Raw-index panel at bottom is correctly collapsed and labeled 'Platform-only' (raw debug browser allowed here since it IS a platform-admin screen). No leak."
+    },
+    {
+      "slug": "data-warehouse-analytics",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "populated-tenant-admin.png",
+        "primary-business-partner.png",
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png"
+      ],
+      "verdict": "CONCERN",
+      "role_differentiation_verified": true,
+      "role_leaks": [
+        "primary-tenant-admin.png uses banner 'Tenant Analytics Console — all flows, full access' but renders 'Raw index browser (admin debug) — reads /api/dynamic/xiigen-data-warehouse-analytics' with Admin-facing pill + destructive Delete actions — tenant-admin should not see the admin-debug label or raw CRUD for data pipeline records",
+        "primary-platform-admin.png contains raw developer copy '?mock=pipeline-queued etc' leaking mock-URL parameter syntax into user-facing description"
+      ],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Role differentiation present (platform-admin cross-tenant warehouse ops; tenant-admin scoped console; business-partner purpose-built partner analytics with gigs/bids/shortlisted/contracted funnel + ad campaign ROI). Populated states render meaningful content (Data export ready state 8 with exportId/exportType/kms key; tenant-admin populated shows cohort learning — WAIT this is a cross-flow leak? populated-tenant-admin.png renders Cohort learning health which is a gamification screen, not data-warehouse analytics). CONCERN: (1) tenant-admin raw-index admin-debug label with destructive Delete on pipeline records, (2) mock-URL parameter leak in platform-admin copy, (3) populated-tenant-admin shows cohort learning health which appears to be a capture of the wrong flow's populated state — possible mislabeled fixture. Not BLOCK because tenant-admin IS an admin role within their scope, but admin-debug label and raw CRUD are developer-oriented not operator-oriented."
+    },
+    {
+      "slug": "design-intelligence-engine",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png"
+      ],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Role-branched correctly. platform-admin primary = cross-tenant findings (Primary CTA contrast High / Pattern drift Medium / Token mismatch Medium) + Pattern registry with Add pattern + Edit controls (Primary CTA Button 92%, Card Surface 78%, Alert Dialog 64%, Legacy Toast Deprecated 12%). Populated = State 5 Proposal applied with proposalId/targetFlow/appliedAt/revisionId. platform-support = same findings + registry but banner 'read-only for support access. Controls are disabled. Escalate to a platform-admin' + disabled Edit buttons + Escalate link; Add-pattern button removed. tenant-admin = purpose-built add-on upsell ('Design Intelligence — Available as an add-on' with 3 bullet benefits + 'Enable in Tenant Settings' button + 'optional, switch on/off anytime') — correctly scoped to tenant-admin workspace. Humanized copy, no FLOW-NN leaks, no raw-index leak."
+    },
+    {
+      "slug": "design-system-governance",
+      "pngs_read": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Platform-scoped flow. platform-admin primary = State 4 Violation detected card with ruleId/offendingSpec/severity HIGH/detectedAt — admin detail view. Populated = Stack coupling classifications (Neutral 2 / Impl-varies 3 / Stack-coupled 2 / Incompatible 1) with 8 audited stacks (node-express, nestjs, python-fastapi, python-flask, go-fiber, java-spring, rust-actix, dotnet-aspnet) and Compatibility reports showing Flow-canvas-initialize/Code-injection-guard/Cross-flow-policy task-type audits with incompatible dimensions listed. platform-support = same classifications + reports but top banner 'read-only for support access. Controls are disabled. Escalate to a platform-admin for any change' and the stack entries are presented without mutation controls. Correct role-branching with visible support-vs-admin capability delta."
+    },
+    {
+      "slug": "durable-sagas-compliance",
+      "pngs_read": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "V-R11 fix CONFIRMED HELD across all 4 roles. tenant-user = purpose-built 'Your in-flight operations' humanized consumer view ('Operations that depend on several systems (payments, orders, delivery) show their progress here while they run. This view is a summary — the platform handles retries, compensation, and timeouts for you.') with 'No operations in progress' empty state + Contact support link. NO Execute Saga button, NO saga internals, NO step-by-step technical view. tenant-admin = 'Durable Sagas — tenant-scoped read-only view. Execute Saga is restricted to platform-admin. Contact support for help with stuck sagas' banner + saga detail visible (saga-sample-payment-001 Running with 3 steps) + Execute Saga button DISABLED (greyed). platform-admin = Execute Saga button ENABLED (blue, active), full Saga Type dropdown + Step Count input, same saga detail. platform-support = 'Durable Sagas — read-only for support access. Controls are disabled. Escalate to a platform-admin for any change' lock banner + Execute Saga DISABLED + Escalate link. All four roles correctly differentiated per V-R11 contract. Consumer role humanized, admin-read vs admin-write distinction enforced, support read-only with escalate path."
+    }
+  ],
+  "batch_summary": {
+    "pass": 6,
+    "concern": 1,
+    "block": 1
+  },
+  "blockers": [
+    {
+      "slug": "cms-publishing",
+      "severity": "BLOCK",
+      "issue": "tenant-user consumer role sees 'Raw index browser (admin debug) — reads /api/dynamic/xiigen-cms-publishing' with destructive Delete actions and New record button. Admin-debug interface leaked to non-admin role with destructive CRUD. Rule-6 scope isolation + consumer-role destructive-action violations.",
+      "png": "docs/e2e-snapshots/visual-audit/chromium-desktop/cms-publishing/primary-tenant-user.png"
+    },
+    {
+      "slug": "cms-publishing",
+      "severity": "BLOCK",
+      "issue": "tenant-admin banner claims 'CMS admin — full editorial workflow access' but the rendered content is the same raw admin-debug index with Delete — the editorial workflow UI (drafts, reviews, approvals, schedule, publish, archive) that the banner promises is not actually built for tenant-admin.",
+      "png": "docs/e2e-snapshots/visual-audit/chromium-desktop/cms-publishing/primary-tenant-admin.png"
+    },
+    {
+      "slug": "cms-publishing",
+      "severity": "BLOCK-ADJACENT",
+      "issue": "reader-anonymous.png returns '404 — Page Not Found' where a reader experience for anonymous visitors is expected (other anonymous captures render the reader article page correctly, so this specific reader/anonymous variant is broken).",
+      "png": "docs/e2e-snapshots/visual-audit/chromium-desktop/cms-publishing/reader-anonymous.png"
+    }
+  ]
+}

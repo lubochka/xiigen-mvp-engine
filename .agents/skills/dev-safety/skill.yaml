@@ -1,0 +1,27 @@
+name: dev-safety
+sk_number: SK-404
+priority: BLOCKING
+load_order: 3
+description: >
+  Technical safety floor: TypeScript build green, both server (>=2342) and client (>=220)
+  tests passing, npm only, git discipline. Blocks session progress if violated.
+triggers:
+  - npm run build
+  - TypeScript error
+  - test count
+  - jest
+  - compile error
+  - build fails
+  - yarn
+session_gate:
+  server_build: "cd server && npm run build (exit 0)"
+  server_tests: "cd server && npx jest --verbose (>= 2342)"
+  client_build: "cd client && npm run build (exit 0)"
+  client_tests: "cd client && npx jest --verbose (>= 220)"
+  frequency: every phase start and end
+anti_patterns:
+  - skipping build to save time
+  - changing test assertion to make test pass
+  - using yarn instead of npm
+  - committing to main
+  - any TypeScript errors accepted

@@ -1,0 +1,134 @@
+﻿{
+    "flowId":  "FLOW-33",
+    "flowSlug":  "system-initiation-bootstrap",
+    "phase":  "phase3ForkCascade",
+    "generatedAt":  "2026-05-11T10:35:24.2412820Z",
+    "protocolGate":  "Tenant A forked original source through marketplace API; Tenant B forked Tenant A; Tenant C forked Tenant B; each adapted package was verified in GitHub Actions and local registry; real repo screenshots were captured.",
+    "marketplaceApi":  "POST /api/marketplace/packages/system-initiation-bootstrap/fork",
+    "tenants":  [
+                    {
+                        "tenant":  "acme-corp",
+                        "repoFullName":  "lubochka/acme-corp--system-initiation-bootstrap",
+                        "forkSource":  "original platform source",
+                        "initialForkCommit":  "c57bfb4e442a6a89f4b326eeb6dd9e138bd562de",
+                        "initialForkRunId":  25663870333,
+                        "initialForkConclusion":  "success",
+                        "adaptedCommit":  "eee2c7a221398d993dc8cc4176bc3493f3a27661",
+                        "adaptedRunId":  25664101150,
+                        "adaptedConclusion":  "success",
+                        "package":  "@xiigen-fork/acme-bootstrap-control-room",
+                        "version":  "1.0.1",
+                        "registryVersion":  "1.0.1",
+                        "clonePath":  "C:/Projects/xiigen-fork-clones/acme-corp--system-initiation-bootstrap-20260511-131124",
+                        "localVerification":  [
+                                                  "npm install exit 0",
+                                                  "npx tsc --noEmit exit 0",
+                                                  "npx jest 2 suites / 3 tests passed",
+                                                  "npm pack --dry-run exit 0"
+                                              ]
+                    },
+                    {
+                        "tenant":  "northwind",
+                        "repoFullName":  "lubochka/northwind--system-initiation-bootstrap",
+                        "forkSource":  "lubochka/acme-corp--system-initiation-bootstrap",
+                        "initialForkCommit":  "7b63220ecf8bcbba9eb76eddc43d6c1320942b31",
+                        "initialForkRunId":  25664324997,
+                        "initialForkConclusion":  "failure-before-adaptation",
+                        "adaptedCommit":  "89776c917a2e2dc2b15f6eb200036d7da359b09c",
+                        "adaptedRunId":  25664477657,
+                        "adaptedConclusion":  "success",
+                        "package":  "@xiigen-fork/northwind-self-build-workbench",
+                        "version":  "1.0.2",
+                        "registryVersion":  "1.0.2",
+                        "clonePath":  "C:/Projects/xiigen-fork-clones/northwind--system-initiation-bootstrap-20260511-132129",
+                        "localVerification":  [
+                                                  "npm install exit 0",
+                                                  "npx tsc --noEmit exit 0",
+                                                  "npx jest 2 suites / 3 tests passed",
+                                                  "npm pack --dry-run exit 0"
+                                              ]
+                    },
+                    {
+                        "tenant":  "tessera-collective",
+                        "repoFullName":  "lubochka/tessera-collective--system-initiation-bootstrap",
+                        "forkSource":  "lubochka/northwind--system-initiation-bootstrap",
+                        "initialForkCommit":  "190dfa92292b2588619ac96b484f45c8969dcb5a",
+                        "initialForkRunId":  25664672867,
+                        "initialForkConclusion":  "failure-before-adaptation",
+                        "adaptedCommit":  "41b6bcef6064f059c476145013641dc40766393c",
+                        "adaptedRunId":  25664839482,
+                        "adaptedConclusion":  "success",
+                        "package":  "@xiigen-fork/tessera-initiation-studio",
+                        "version":  "1.0.3",
+                        "registryVersion":  "1.0.3",
+                        "clonePath":  "C:/Projects/xiigen-fork-clones/tessera-collective--system-initiation-bootstrap-20260511-132908",
+                        "localVerification":  [
+                                                  "npm install exit 0",
+                                                  "npx tsc --noEmit exit 0",
+                                                  "npx jest 2 suites / 3 tests passed",
+                                                  "npm pack --dry-run exit 0"
+                                              ]
+                    }
+                ],
+    "repoVisibility":  [
+                           {
+                               "repo":  "lubochka/acme-corp--system-initiation-bootstrap",
+                               "isPrivate":  true,
+                               "defaultBranch":  "main",
+                               "url":  "https://github.com/lubochka/acme-corp--system-initiation-bootstrap"
+                           },
+                           {
+                               "repo":  "lubochka/northwind--system-initiation-bootstrap",
+                               "isPrivate":  true,
+                               "defaultBranch":  "main",
+                               "url":  "https://github.com/lubochka/northwind--system-initiation-bootstrap"
+                           },
+                           {
+                               "repo":  "lubochka/tessera-collective--system-initiation-bootstrap",
+                               "isPrivate":  true,
+                               "defaultBranch":  "main",
+                               "url":  "https://github.com/lubochka/tessera-collective--system-initiation-bootstrap"
+                           }
+                       ],
+    "screenshotCount":  9,
+    "screenshots":  [
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\acme-corp\\acme-actions-success.png",
+                            "bytes":  78693
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\acme-corp\\acme-package-json.png",
+                            "bytes":  119894
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\acme-corp\\acme-repo-home.png",
+                            "bytes":  138270
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\northwind\\northwind-actions-success.png",
+                            "bytes":  79020
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\northwind\\northwind-package-json.png",
+                            "bytes":  119473
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\northwind\\northwind-repo-home.png",
+                            "bytes":  138043
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\tessera-collective\\tessera-actions-success.png",
+                            "bytes":  78649
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\tessera-collective\\tessera-package-json.png",
+                            "bytes":  119719
+                        },
+                        {
+                            "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-33\\tessera-collective\\tessera-repo-home.png",
+                            "bytes":  136501
+                        }
+                    ],
+    "registry":  "http://localhost:4873",
+    "conclusion":  "phase-3 fork cascade evidence complete; inherited B/C CI failures were pre-adaptation and resolved by adapted commits with green GitHub Actions."
+}

@@ -1,0 +1,240 @@
+{
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "flowTitle": "XIIGen Community Platform — Member Registration, Email Verification, and Onboarding",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.0",
+  "capturedAt": "2026-04-22",
+  "capturedBy": "architect-mode / plan-file-integration-round-A78",
+  "surfaceVersion": "1.0.0",
+
+  "services": [
+    {
+      "taskTypeId": "T47",
+      "className": "RegistrationService",
+      "file": "server/src/engine/flows/user-registration/registration.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": ["AccountCreated"],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T48",
+      "className": "EmailVerificationService",
+      "file": "server/src/engine/flows/user-registration/email-verification.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": ["VerificationEmailRequested", "VerificationCompleted"],
+      "readsFreedomKeys": [
+        "flow01_resend_rate_limit_minutes",
+        "flow01_email_verification_ttl_seconds"
+      ]
+    },
+    {
+      "taskTypeId": "T49",
+      "className": "OnboardingDeliveryService",
+      "file": "server/src/engine/flows/user-registration/onboarding-delivery.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": ["OnboardingCompleted"],
+      "readsFreedomKeys": [
+        "flow01_invitation_inviter_name",
+        "flow01_invitation_community_name"
+      ]
+    }
+  ],
+
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Per-tenant configurable values. Super-tenant can change once at fork time; sub-tenant can change per install. MACHINE logic around them does not change.",
+      "total": 7,
+      "keys": [
+        {
+          "key": "flow01_resend_rate_limit_minutes",
+          "type": "number",
+          "default": 60,
+          "unit": "minutes",
+          "semantic": "Minimum wait between verification-email resend attempts for the same member within the same tenant. Rule (CF-3) is MACHINE; window is FREEDOM.",
+          "stakeholder": "security-engineering",
+          "consumedBy": ["T48.EmailVerificationService.getResendLimitMinutes"],
+          "ironRuleReferences": ["CF-3", "EV-7", "FLOW-01-RAG-05"]
+        },
+        {
+          "key": "flow01_invitation_inviter_name",
+          "type": "string",
+          "default": "The XIIGen Team",
+          "unit": "display-name",
+          "semantic": "Who appears as the inviter on the community-invitation email. 'That an invitation exists' is MACHINE; the name is FREEDOM.",
+          "stakeholder": "product-growth",
+          "consumedBy": ["T49.OnboardingDeliveryService.deliverInvitation"],
+          "ironRuleReferences": ["FLOW-01-RAG-06", "OD-11"]
+        },
+        {
+          "key": "flow01_invitation_community_name",
+          "type": "string",
+          "default": "XIIGen Community",
+          "unit": "display-name",
+          "semantic": "The community's display name in the invitation email body. Tenants renaming their community change this without touching MACHINE logic.",
+          "stakeholder": "product-growth",
+          "consumedBy": ["T49.OnboardingDeliveryService.deliverInvitation"],
+          "ironRuleReferences": ["FLOW-01-RAG-06", "OD-11"]
+        },
+        {
+          "key": "flow01_email_verification_ttl_seconds",
+          "type": "number",
+          "default": 86400,
+          "unit": "seconds",
+          "semantic": "Time after which a verification token expires. Security engineering decides per tenant abuse profile. 24h default is industry-standard.",
+          "stakeholder": "security-engineering",
+          "consumedBy": ["T48.EmailVerificationService.getTokenExpiryMs"],
+          "ironRuleReferences": ["GAP-09", "EV-1"],
+          "boundedRange": { "min": 300, "max": 604800, "rationale": "5 minutes minimum (attacker clock skew); 7 days maximum (inbox delivery delays)" }
+        },
+        {
+          "key": "flow01_captcha_trigger_threshold",
+          "type": "number",
+          "default": 5,
+          "unit": "failed-attempts-per-ip-per-hour",
+          "semantic": "Number of failed registration attempts from one IP in a rolling hour before CAPTCHA is required. Lower = more aggressive abuse prevention; higher = less friction for legitimate retries.",
+          "stakeholder": "security-engineering",
+          "consumedBy": ["T47.RegistrationService (planned GAP-09 step 4)"],
+          "ironRuleReferences": ["GAP-09"]
+        },
+        {
+          "key": "flow01_registration_rate_limit_per_tenant_hour",
+          "type": "number",
+          "default": 1000,
+          "unit": "registrations-per-tenant-per-hour",
+          "semantic": "Tenant-level cap on successful registrations per hour. Protects against credential-stuffing and bulk-abuse patterns.",
+          "stakeholder": "platform-operations",
+          "consumedBy": ["T47.RegistrationService (planned GAP-09 step 4)"],
+          "ironRuleReferences": ["GAP-09"]
+        },
+        {
+          "key": "flow01_onboarding_reminder_days",
+          "type": "number",
+          "default": 3,
+          "unit": "days",
+          "semantic": "Days after registration before a reminder email is sent to verified-but-not-onboarded users. Product decides based on re-engagement funnel data.",
+          "stakeholder": "product-growth",
+          "consumedBy": ["T49 (planned background job)"],
+          "ironRuleReferences": ["GAP-09"]
+        }
+      ]
+    },
+
+    "grammarAdaptation": {
+      "description": "DSL operators or grammar elements that expand the flow's expressiveness. Tenants can add new operators without modifying MACHINE logic.",
+      "total": 0,
+      "keys": [],
+      "notApplicableReason": "FLOW-01 has no DSL grammar surface. Form-condition-evaluator grammar belongs to FLOW-21/23. FLOW-01 is transaction-mechanics-only."
+    },
+
+    "roleScopeAdaptation": {
+      "description": "Role-visibility matrices for client-side access control. ViewerRole + RoleScopedView define per-role UI rendering.",
+      "total": 0,
+      "notApplicableReason": "FLOW-01 client pages (6 pages per A4 digest) use ViewerRole for rendering, but no explicit role-scope adaptation keys exist. FLOW-01 flows through standard role-aware presentation.",
+      "plannedExtraction": "GAP-11 Guard 4 — ViewerRole extraction to @xiigen/plugin-sdk (pending Tier 2 code work)"
+    },
+
+    "businessDomainAdaptation": {
+      "description": "Business-domain-specific edge cases a tenant can override. For FLOW-01: SSO bypass, invite-code handling, duplicate-email response shape.",
+      "total": 3,
+      "edgeCases": [
+        {
+          "id": "sso-bypass",
+          "name": "SSO bypass of verification + onboarding",
+          "semantic": "Tenants using SSO (per MT-3) can bypass email verification + onboarding delivery by setting existingOnboardingMaterialsCount=3 at completion-gate invocation.",
+          "extensionPoint": "OnboardingDeliveryService.checkCompletionGate.existingOnboardingMaterialsCount parameter",
+          "currentImplementation": "Parameter-driven: caller passes existingOnboardingMaterialsCount=3 to skip delivery + gate."
+        },
+        {
+          "id": "invite-code-gated-registration",
+          "name": "Invite-code gated registration",
+          "semantic": "Tenants restricting registration to invited members can use inviteCode input on RegistrationService.register to gate entry.",
+          "extensionPoint": "RegisterInput.inviteCode field",
+          "currentImplementation": "Optional field stored on user record; validation logic is MACHINE (ship-time) but can be overridden in forked deployments."
+        },
+        {
+          "id": "uniform-validation-failure-shape",
+          "name": "Uniform VALIDATION_FAILURE shape",
+          "semantic": "Tenants with stricter compliance requirements may choose to reveal which field failed (security-vs-UX tradeoff). Current implementation is uniform: 'Registration input validation failed' regardless of field.",
+          "extensionPoint": "RegistrationService.register validation branch",
+          "currentImplementation": "MACHINE: uniform error shape per FLOW-01-RAG-03 (no field leakage in error messages)."
+        }
+      ]
+    }
+  },
+
+  "ironRulesMACHINE": {
+    "description": "Fixed architectural invariants. Tenants cannot change these without breaking cascade safety, DNA compliance, or arbiter contracts.",
+    "rules": [
+      "CF-1: Email uniqueness MUST be checked BEFORE user record created (within each tenant's scope)",
+      "DNA-7: Idempotency key returns same result, no duplicate record",
+      "DNA-8: storeDocument() completes BEFORE enqueue() (outbox pattern)",
+      "DNA-9: All inter-service events use CloudEvents envelope",
+      "EV-5: Token marked 'used' on every submission — even if expired",
+      "EV-6: Supersede previous active tokens BEFORE issuing new one",
+      "FLOW-01-RAG-02: Token stored as sha256 hash — raw token only in VerificationEmailRequested event",
+      "FLOW-01-RAG-03: Uniform VALIDATION_FAILURE — no field names in error (no field leakage)",
+      "OD-6: Completion gate requires all 3 materialTypes PRESENT — failed records count, absent records do not",
+      "AF-9 score threshold for PASS verdict is 0.85 — lowering this would allow DNA violations to pass"
+    ]
+  },
+
+  "adaptationExamples": {
+    "freedom-config-example-shortened-verification-ttl": {
+      "description": "Tenant with high abuse profile reduces verification TTL from 24h to 1h",
+      "change": { "key": "flow01_email_verification_ttl_seconds", "from": 86400, "to": 3600 },
+      "impact": "Users must click verification link within 1 hour; reduces stolen-token window.",
+      "testable": "Layer 1 TI-4 proves tenant-scoped FREEDOM reads; this freedom-config adaptation is addressable by setting the tenant's key value, no code change."
+    },
+    "freedom-config-example-rebranded-invitation": {
+      "description": "Tenant rebrands community invitation (different organization name)",
+      "change": [
+        { "key": "flow01_invitation_inviter_name", "from": "The XIIGen Team", "to": "The Acme Platform Team" },
+        { "key": "flow01_invitation_community_name", "from": "XIIGen Community", "to": "Acme Pro Members" }
+      ],
+      "impact": "All invitation emails use Acme branding; no MACHINE code changes.",
+      "testable": "T49.deliverInvitation reads these keys at runtime; existing tests prove FREEDOM lookup works."
+    }
+  },
+
+  "notPartOfAdaptationSurface": {
+    "description": "Elements of FLOW-01 that are NOT tenant-adaptable. Changing these breaks MACHINE contracts and is forbidden by arbiter gates.",
+    "elements": [
+      "User record schema (onboarding_materials:[] field required)",
+      "Task-type IDs (T47/T48/T49)",
+      "Event names ('AccountCreated', 'VerificationEmailRequested', 'VerificationCompleted', 'OnboardingCompleted')",
+      "Material type literals ('workspace_setup', 'flow_tutorial', 'community_invitation')",
+      "Idempotency key format",
+      "storeDocument-before-enqueue ordering",
+      "Token hashing algorithm (sha256)",
+      "Rate-limit enforcement rule (only the window is FREEDOM, the rule is MACHINE)"
+    ]
+  },
+
+  "layerStatus": {
+    "layer_1_unit": {
+      "status": "COMPLETE",
+      "testFiles": [
+        "server/test/user-registration/phase-01-a.spec.ts",
+        "server/test/user-registration/phase-01-b.spec.ts",
+        "server/test/user-registration/phase-01-c.spec.ts",
+        "server/test/user-registration/phase-01-integration.spec.ts",
+        "server/test/user-registration/phase-01-tenant-isolation.spec.ts"
+      ],
+      "testCount": 193,
+      "lastRun": "2026-04-22",
+      "tenantIsolationSubset": 7,
+      "dnaComplianceSubset": "complete"
+    },
+    "layer_2_playwright": {
+      "status": "PENDING",
+      "blockedOn": "FLOW-01 has 6 client pages; Playwright harness for client pages requires GAP-24 Layer 2 infrastructure per Fix Plan v4.9"
+    },
+    "layer_3_visual": {
+      "status": "PENDING",
+      "blockedOn": "SK-549 visual baseline requires GAP-24 Layer 3 + GAP-27 visual regression matrix (Sprint B per Fix Plan v4.9)"
+    }
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "phase": "5c-tenant-c-install",
+  "completedAt": "2026-05-03T11:38:19.4738021+03:00",
+  "tenant": "tessera-collective",
+  "sourceTenant": "northwind",
+  "sourceRepoFullName": "lubochka/northwind--northwind-momentum-rewards",
+  "sourcePackage": {
+    "name": "@xiigen/northwind-momentum-rewards",
+    "version": "1.0.2",
+    "registry": "http://localhost:4874"
+  },
+  "forkApi": {
+    "method": "POST",
+    "path": "/api/marketplace/packages/completion-gamification/fork",
+    "httpStatus": 202,
+    "status": "FORKED",
+    "forkId": "fork-completion-gamification-tessera-collective",
+    "targetRepoFullName": "lubochka/tessera-collective--northwind-momentum-rewards",
+    "repoNameOverride": "tessera-collective--northwind-momentum-rewards",
+    "initialCommitSha": "6f0b3d40b7b03f83c2def774ce71743ea21fce62",
+    "usedDockerServer": "http://localhost:33001",
+    "usedVaultSecrets": true,
+    "manualRepoCreationUsed": false,
+    "manualFileCopyUsed": false
+  },
+  "githubRepo": {
+    "nameWithOwner": "lubochka/tessera-collective--northwind-momentum-rewards",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-momentum-rewards",
+    "visibility": "private",
+    "defaultBranch": "main",
+    "pushedAt": "2026-05-03T08:35:03Z"
+  },
+  "githubActions": {
+    "runId": 25274414330,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "6f0b3d40b7b03f83c2def774ce71743ea21fce62",
+    "createdAt": "2026-05-03T08:35:06Z",
+    "updatedAt": "2026-05-03T08:35:35Z",
+    "runUrl": "https://github.com/lubochka/tessera-collective--northwind-momentum-rewards/actions/runs/25274414330"
+  },
+  "standaloneCloneVerification": {
+    "clonePath": "<WORKSPACE>/AppData/Local/Temp/xiigen-flow05-tenant-c-clone",
+    "commitSha": "6f0b3d40b7b03f83c2def774ce71743ea21fce62",
+    "packageName": "@xiigen/northwind-momentum-rewards",
+    "packageVersion": "1.0.2",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npm run build",
+      "npx jest --colors=false --forceExit"
+    ],
+    "installPassed": true,
+    "buildPassed": true,
+    "jestPassed": true,
+    "jestSuitesPassed": 2,
+    "jestTestsPassed": 2,
+    "tenantConfig": {
+      "tenantId": "tessera-collective",
+      "moduleName": "northwind-momentum-rewards",
+      "moduleVersion": "1.0.2",
+      "repoName": "tessera-collective--northwind-momentum-rewards",
+      "installedFromRepoFullName": "lubochka/northwind--northwind-momentum-rewards",
+      "adaptationHistoryEntries": 2
+    }
+  },
+  "authRegression": {
+    "passed": true,
+    "blockingCrossTenantCheck": "tenant-B-token-in-tenant-C",
+    "checks": [
+      {
+        "name": "own-tenant-tessera",
+        "expected": 200,
+        "actual": 200
+      },
+      {
+        "name": "missing-token-tessera",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-B-token-in-tenant-C",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-A-token-in-tenant-C",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-C-token-in-tenant-B",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "wrong-role-service-account-on-role-route-tessera",
+        "expected": 403,
+        "actual": 403
+      }
+    ]
+  },
+  "visualEvidence": {
+    "suite": "client/e2e/completion-gamification-visual.spec.ts",
+    "cascadePoint": "tenant-c-installed-from-b",
+    "roles": [
+      "tenant-user",
+      "referral-user",
+      "freelancer",
+      "event-organiser",
+      "tenant-admin"
+    ],
+    "cells": [
+      "C2 en populated desktop",
+      "C4 he RTL populated desktop",
+      "C6 en populated mobile"
+    ],
+    "testsPassed": 15,
+    "pngCount": 15,
+    "directory": "docs/e2e-snapshots/completion-gamification/tenant-c-installed-from-b",
+    "tenantAValueAssertion": "points-earned contains +25, points breakdown contains base 15 and bonus 10",
+    "tenantBValueAssertion": "streak-grace-window contains 4 hours after midnight"
+  },
+  "repoEvidence": {
+    "captureMode": "github-api-endpoint-png",
+    "screenshots": [
+      "docs/e2e-snapshots/repo-evidence/tessera-collective--northwind-momentum-rewards-github-listing.png",
+      "docs/e2e-snapshots/repo-evidence/tessera-collective--northwind-momentum-rewards-repo-homepage.png",
+      "docs/e2e-snapshots/repo-evidence/tessera-collective--northwind-momentum-rewards-actions-success.png",
+      "docs/e2e-snapshots/repo-evidence/tessera-collective--northwind-momentum-rewards-tenant-config.png"
+    ]
+  },
+  "reviewScans": {
+    "throwNewInFlowServices": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImportsInFlowServices": 0,
+    "tenantConsumerInternalCopyHits": 0
+  },
+  "notes": [
+    "Tenant C forked Tenant B's adapted module through the real marketplace fork API.",
+    "The Tenant C bundle preserved both prior adaptation history entries.",
+    "The blocking Tenant B token in Tenant C context check returned 401."
+  ]
+}

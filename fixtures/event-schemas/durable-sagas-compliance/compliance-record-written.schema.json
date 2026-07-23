@@ -1,0 +1,14 @@
+{
+  "eventType": "durable-sagas.compliance.record-written",
+  "flowId": "FLOW-19",
+  "version": "1.0.0",
+  "properties": {
+    "auditId": { "type": "string", "required": true },
+    "sagaId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "sagaType": { "type": "string", "required": true },
+    "eventType": { "type": "string", "required": true },
+    "writtenAt": { "type": "string", "format": "date-time", "required": true },
+    "retentionExpiresAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

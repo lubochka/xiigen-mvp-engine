@@ -1,0 +1,22 @@
+{
+    "flowId":  "FLOW-43",
+    "flowSlug":  "webflow-designer-extension",
+    "phase":  "phase-3-external-adapter-publication",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:01:26.4923861Z",
+    "package":  {
+                    "name":  "@xiigen/webflow-designer-extension",
+                    "version":  "1.0.0",
+                    "registry":  "http://localhost:4873",
+                    "registryReadback":  "1.0.0",
+                    "private":  false,
+                    "main":  "dist/bundle.js",
+                    "types":  "dist/index.d.ts"
+                },
+    "cascade":  {
+                    "sprintACompleted":  true,
+                    "fullThreeTenantRepoCascade":  "SPRINT_B_PENDING",
+                    "note":  "No synthetic repos or screenshots substituted for GitHub cascade proof."
+                },
+    "verdict":  "PASS"
+}

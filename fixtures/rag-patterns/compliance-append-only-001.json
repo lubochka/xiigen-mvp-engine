@@ -1,0 +1,24 @@
+{
+  "patternId": "COMPLIANCE-APPEND-ONLY-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-19",
+  "domainId": "durable-sagas-compliance",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "teachingPoint": "Compliance audit records are append-only and PLATFORM_ONLY. deleteDocument and updateDocument are BLOCKED on the compliance audit index. retentionExpiresAt MUST be computed and stored AT WRITE TIME — not lazily computed at read time. Corrections via reversal records only.",
+  "ironRules": [
+    "deleteDocument BLOCKED on xiigen-compliance-audit index",
+    "updateDocument BLOCKED on xiigen-compliance-audit index",
+    "retentionExpiresAt computed at write time from FREEDOM config retention_period_days",
+    "Corrections via reversal records only — never modify original"
+  ],
+  "codeSnippet": "const retentionDays = await this.freedomConfig.get('compliance_retention_days'); const retentionExpiresAt = new Date(Date.now() + retentionDays * 86400000).toISOString(); await this.db.storeDocument(COMPLIANCE_AUDIT_INDEX, {...record, retentionExpiresAt, knowledgeScope:'PRIVATE'});",
+  "appliesTo": ["FLOW-20", "FLOW-21", "FLOW-22", "FLOW-24"],
+  "curriculumTier": 1,
+  "qualityScore": 0.91,
+  "sourceDocument": "server/src/engine-contracts/durable-sagas-compliance-contracts.ts",
+  "tags": ["compliance", "append-only", "retention", "PLATFORM_ONLY"],
+  "keywords": ["retentionExpiresAt", "append-only", "COMPLIANCE_AUDIT", "reversal"],
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

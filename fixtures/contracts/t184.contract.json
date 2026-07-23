@@ -1,0 +1,37 @@
+{
+  "taskTypeId": "T184",
+  "flowId": "FLOW-13",
+  "name": "QueryOptimizationAdvisor",
+  "archetype": "QUERY_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "read-only-suggestions-tenant-scoped-patterns",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "data_warehouse_query_optimization_config",
+    "neutralConcepts": [
+      "T184 produces suggestions only — it NEVER executes queries",
+      "Query optimization patterns are tenant-scoped — no cross-tenant pattern leakage",
+      "T187 QuotaManager quota check is NOT required for read-only advisor (no warehouse read)",
+      "Suggestions are stateless recommendations — no storeDocument required for advisor output"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_RAG", "interface": "IRagService", "fabric": "RAG" }
+  ],
+  "ironRules": [
+    { "id": "IR-T184-1", "rule": "T184 is READ-ONLY — it produces suggestions only. NEVER execute a query inside the advisor. Query execution is T173's domain.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T184-2", "rule": "Query optimization patterns are tenant-scoped — never expose patterns from one tenant's queries to another tenant.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T184-3", "rule": "T187 QuotaManager quota check is NOT required for T184 (read-only advisor incurs no warehouse read cost). Do not add quota check.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "read_only_no_execution",
+    "tenant_scoped_patterns",
+    "no_quota_check_for_read_only"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "query", "optimization", "read-only", "advisor", "QUERY_ENGINE"],
+  "keywords": "query optimization advisor read-only suggestions tenant-scoped patterns no quota check warehouse analytics"
+}

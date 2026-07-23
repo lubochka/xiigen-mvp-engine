@@ -1,0 +1,83 @@
+{
+  "taskTypeId": "T619",
+  "flowId": "FLOW-18",
+  "name": "NodeTypeRegistrar",
+  "archetype": "VALIDATION",
+  "domainId": "visual-flow-engine",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T619-1",
+      "rule": "SETNX(node-type-reg-lock:{nodeTypeId}) at ORDER 1 before either write. NodeTypeAlreadyExists emitted on lock held.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T619-2",
+      "rule": "storeDocument(nodeType, GLOBAL) at ORDER 2 — first of the dual write. If this fails, redis.del(lockKey) in catch.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T619-3",
+      "rule": "storeDocument(capabilityIndex) at ORDER 3 — second of the dual write. If this fails, redis.del(lockKey) in catch.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T619-4",
+      "rule": "redis.del(lockKey) MUST be called in catch block on any write failure. Missing redis.del = hung lock = future registrations permanently blocked.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T619-5",
+      "rule": "storeDocument(audit) at ORDER 4 BEFORE NodeTypeRegistered emit. DNA-8.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1550",
+      "token": "INodeTypeService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1551",
+      "token": "INodeTypeAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "SETNX_NODE_TYPE_REG_LOCK",
+    "ATOMIC_DUAL_WRITE",
+    "REDIS_DEL_ON_FAILURE"
+  ],
+  "freedomComponents": [
+    "node_type_max_capabilities",
+    "node_type_lock_ttl_ms"
+  ],
+  "stackCoupling": {
+    "queue": ["NodeTypeRegistered", "NodeTypeAlreadyExists", "NodeTypeRegistrationFailed"],
+    "database": ["xiigen-node-types", "xiigen-node-capabilities", "xiigen-node-type-locks", "xiigen-node-type-audit"]
+  },
+  "handlers": [
+    "acquire_setnx_registration_lock",
+    "write_node_type_record",
+    "write_capability_index",
+    "release_lock_on_failure",
+    "emit_node_type_registered"
+  ],
+  "namedChecks": [
+    "setnx_before_writes",
+    "nodeType_before_capability",
+    "redis_del_in_catch",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "visual-flow",
+    "node-type",
+    "SETNX",
+    "atomic-dual-write",
+    "redis-del",
+    "lock-release",
+    "validation"
+  ],
+  "keywords": "node type registrar SETNX atomic dual write redis.del catch lock release NodeTypeRegistered NodeTypeAlreadyExists T619 visual flow engine"
+}

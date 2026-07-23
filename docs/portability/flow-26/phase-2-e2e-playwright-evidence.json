@@ -1,0 +1,89 @@
+{
+  "flowId": "FLOW-26",
+  "flowSlug": "meta-flow-engine",
+  "implementationSlug": "flow-extension-engine",
+  "phase": "phase2E2ETests",
+  "status": "completed",
+  "generatedAt": "2026-05-10T14:38:30.2037943Z",
+  "protocolVersion": "3.0",
+  "commands": [
+    "Push-Location client",
+    "npx tsc --noEmit --pretty false",
+    "VITE_PORT=52426 npx playwright test meta-flow-engine.spec.ts meta-flow-engine-mock-states.spec.ts meta-flow-engine-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+    "Get-ChildItem docs/e2e-snapshots/meta-flow-engine -Filter *.png -File | zero-byte check"
+  ],
+  "firstRunFinding": {
+    "command": "VITE_PORT=52426 npx playwright test meta-flow-engine.spec.ts meta-flow-engine-mock-states.spec.ts meta-flow-engine-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+    "result": "failed",
+    "testsPassed": 18,
+    "testsFailed": 3,
+    "rootCause": "MetaFlowEnginePage resolved the default viewer role as anonymous and the engine-internal raw CRUD panel stayed collapsed, hiding the admin CRUD test IDs."
+  },
+  "repairsApplied": [
+    {
+      "file": "client/src/pages/meta-flow-engine/MetaFlowEnginePage.tsx",
+      "change": "Defaulted the route viewer role to platform-admin for admin/debug captures."
+    },
+    {
+      "file": "client/src/pages/meta-flow-engine/MetaFlowEnginePage.tsx",
+      "change": "Expanded the embedded engine-internal AdminCrudPanel by default and assigned a distinct page test id for the raw index panel."
+    }
+  ],
+  "clientTypescript": {
+    "command": "npx tsc --noEmit --pretty false",
+    "workingDirectory": "client",
+    "exitCode": 0
+  },
+  "playwright": {
+    "command": "npx playwright test meta-flow-engine.spec.ts meta-flow-engine-mock-states.spec.ts meta-flow-engine-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+    "workingDirectory": "client",
+    "exitCode": 0,
+    "testsPassed": 21,
+    "testsTotal": 21,
+    "project": "chromium-desktop",
+    "workers": 1
+  },
+  "sourceCoverage": {
+    "rolesCovered": [
+      "platform-admin"
+    ],
+    "stateScreensCovered": 7,
+    "p1RequirementScreensCovered": 9,
+    "crudScreensCovered": 4,
+    "minimumSourceCount": 21,
+    "actualSourceCount": 21
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/meta-flow-engine",
+    "pngCount": 21,
+    "zeroByteCount": 0,
+    "files": [
+      "01-dna-1-record-string-unknown-no-typed-mod.png",
+      "02-dna-2-buildsearchfilter-dynamic-queries.png",
+      "03-dna-3-dataprocessresult-t-no-throws-for.png",
+      "04-dna-4-microservicebase-19-inherited-comp.png",
+      "05-dna-5-scope-isolation-via-asynclocalstor.png",
+      "06-dna-6-dynamiccontroller-all-crud-via-api.png",
+      "07-dna-7-idempotency-via-queue-deduplicatio.png",
+      "08-dna-8-outbox-pattern-storedocument-befor.png",
+      "09-dna-9-cloudevents-envelope-for-inter-ser.png",
+      "c-03-before.png",
+      "crud-after-create.png",
+      "crud-initial-load.png",
+      "crud-list-with-test-row.png",
+      "default.png",
+      "state-1-flow-registered.png",
+      "state-2-generation-queued.png",
+      "state-3-generation-running.png",
+      "state-4-review-gate.png",
+      "state-5-review-needs-revision.png",
+      "state-6-published.png",
+      "state-7-failed.png"
+    ]
+  },
+  "repoEvidenceScreenshots": {
+    "requiredAtThisPhase": false,
+    "note": "Real GitHub repo screenshots are required at fork cascade points and will be produced in the cascade phases."
+  },
+  "verdict": "PASS"
+}

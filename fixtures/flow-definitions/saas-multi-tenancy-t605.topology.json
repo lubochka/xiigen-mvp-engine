@@ -1,0 +1,32 @@
+{
+  "flowId": "FLOW-15",
+  "slug": "saas-multi-tenancy",
+  "primaryTaskType": "T605",
+  "primaryTaskName": "TenantProvisioningOrchestrator",
+  "description": "SaaS multi-tenancy provisioning pipeline with SETNX idempotency guard, synchronous bulk-seed, and atomic tenant bootstrap. T605 TenantProvisioningOrchestrator acquires provision lock at ORDER 1, seeds FREEDOM defaults synchronously, stores tenant record, then emits TenantProvisioned.",
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "TenantCreationRequested event (tenant onboarding dispatch)",
+  "primaryFabric": "DATABASE",
+  "nodes": {
+    "n1": { "id": "n1", "type": "validate", "label": "ValidateProvisionRequest", "description": "Validate tenant creation request fields, check tenantId from ALS, and verify no duplicate tenantId exists" },
+    "n2": { "id": "n2", "type": "rag-retrieve", "label": "RetrieveProvisioningPatterns", "description": "RAG retrieval of atomic tenant bootstrap patterns: SETNX idempotency, synchronous bulk-seed, provision lock lifecycle" },
+    "n3": { "id": "n3", "type": "decompose", "label": "DecomposeProvisionPlan", "description": "Decompose provisioning into ordered steps: lock acquisition → FREEDOM seed → tenant record → event emission" },
+    "n4": { "id": "n4", "type": "ai-generate", "label": "GenerateProvisioningOrchestrator", "description": "AI generates T605 TenantProvisioningOrchestrator with correct order: SETNX at ORDER 1 via IProvisionLockService (F1521), synchronous bulkSeed via ITenantSeedService (F1520), storeDocument(tenantRecord) via ITenantRegistryService (F1519) BEFORE enqueue(TenantProvisioned). TenantProvisioningFailed emitted on any error. tenantId from ALS only. Content: SETNX_IDEMPOTENCY + ATOMIC_PROVISION_SEQUENCE + PROVISIONING_STATUS_MARKER machine components enforced." },
+    "n5": { "id": "n5", "type": "validate", "label": "ValidateProvisionOrchestrator", "description": "Validate SETNX at ORDER 1, bulkSeed synchronous (no Promise.all/allSettled), storeDocument before enqueue, TenantProvisioningFailed on all error paths, tenantId from ALS only" },
+    "n6": { "id": "n6", "type": "score", "label": "ScoreProvisionOrchestrator", "description": "Score implementation: SETNX order compliance, bulkSeed synchronicity, DNA-8 outbox order, error event coverage, ALS tenant isolation" },
+    "n7": { "id": "n7", "type": "route", "label": "RouteOnScore", "description": "Route to feedback (score >= 0.85) or iterate (score < 0.85)" },
+    "n8": { "id": "n8", "type": "feedback", "label": "StoreFeedback", "description": "DPO triple: chosen=SETNX-order1 + bulkSeed-synchronous + storeDocument-before-enqueue + TenantProvisioningFailed-on-all-errors + tenantId-from-ALS, rejected=SETNX-missing OR bulkSeed-async-scatter OR enqueue-before-store OR tenantId-from-payload. Record model used, score, SETNX compliance flag, DNA-8 compliance flag, ALS isolation flag.", "discriminatingConstraint": "Missing SETNX at ORDER 1 OR async bulkSeed scatter OR enqueue before storeDocument OR tenantId from payload receives score=0 and triggers n3 re-iteration. Correct implementation: SETNX via F1521 at ORDER 1, synchronous bulkSeed via F1520, storeDocument via F1519 before TenantProvisioned enqueue, tenantId from AsyncLocalStorage.", "curriculumTier": 2 }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85" }
+  ],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

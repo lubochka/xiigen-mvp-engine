@@ -1,0 +1,70 @@
+{
+  "batch_id": "D",
+  "flows": [
+    {
+      "slug": "completion-gamification",
+      "role": "tenant-user",
+      "grammar": "G5",
+      "verdict": "pass",
+      "weighted_score": 0,
+      "offences": [],
+      "notes": "Skeleton renders stably across desktop/tablet/mobile. G5 kiosk correctly omits AppShell. Prior BLOCKER (stuck loading, no skeleton) fully resolved.",
+      "fixed_from_prior": true
+    },
+    {
+      "slug": "schema-registry-dag",
+      "role": "platform-admin",
+      "grammar": "G1",
+      "verdict": "partial",
+      "weighted_score": 2,
+      "offences": [
+        {"severity": "MINOR", "axis": "UX-P9", "viewport": "desktop", "description": "G1 grammar expects progress strip; renders tab counts (ACTIVE 3, DRAFT 1, DEPRECATED 1) — acceptable G1 variant"},
+        {"severity": "MINOR", "axis": "H", "viewport": "all", "description": "Subject chips MARKETPLACE/IDENTITY/BILLING/REPUTATION all-caps borders SCREAMING_SNAKE"}
+      ],
+      "notes": "G3 card list renders correctly; AppShell + hamburger on mobile works. Card wrapper gap fixed.",
+      "fixed_from_prior": false
+    },
+    {
+      "slug": "etl-data-integration",
+      "role": "platform-admin",
+      "grammar": "G1",
+      "verdict": "partial",
+      "weighted_score": 2,
+      "offences": [
+        {"severity": "MINOR", "axis": "H", "viewport": "all", "description": "Footer debug: 'The 8 ETL state mocks (?mock=source-connected, ?mock=rate-limited, etc.) are accessible at this route for debug.'"},
+        {"severity": "MINOR", "axis": "UX-P6", "viewport": "all", "description": "Pipeline run IDs PIPE-2026-0420-102 shown mono-all-caps feels code-like"}
+      ],
+      "notes": "Pipeline Runs card list now renders 5 rows with state badges. Hero metric strip clean. Prior gap fixed.",
+      "fixed_from_prior": false
+    },
+    {
+      "slug": "sharable-flows-marketplace",
+      "role": "platform-admin",
+      "grammar": "G3",
+      "verdict": "partial",
+      "weighted_score": 3,
+      "offences": [
+        {"severity": "MAJOR", "axis": "H", "viewport": "all", "description": "Literal \\u2014 escape renders in 'Raw index browser (admin debug) \\u2014 reads /api/dynamic/xiigen-sharable-flows-marketplace'"},
+        {"severity": "MINOR", "axis": "H", "viewport": "all", "description": "Raw index record names (ui-1776451889518) are developer-facing IDs"}
+      ],
+      "notes": "G3 curator grid renders review-queue cards with Approve/Reject. Curator grid gap resolved, em-dash encoding bug persists.",
+      "fixed_from_prior": false
+    },
+    {
+      "slug": "transactional-event-participation",
+      "role": "tenant-user",
+      "grammar": "G5",
+      "verdict": "pass",
+      "weighted_score": 0,
+      "offences": [],
+      "notes": "G5 kiosk checkout composes side-by-side Order Summary + Payment Details. Mobile stacks cleanly. G5 checkout composition gap fully resolved.",
+      "fixed_from_prior": true
+    }
+  ],
+  "batch_total_score": 7,
+  "systemic_patterns": [
+    "Unicode escape sequences (\\u2014 for em-dash) surfacing in rendered text — raw \\u escapes should be decoded or source strings should use literal em-dash",
+    "Debug/developer affordances (mock query params in ETL footer, raw-index browser in sharable-flows) rendered in admin production UIs without dev-mode gate",
+    "Positive: skeleton/loading states across all 5 flows now stable under Playwright capture — no more stuck-loading BLOCKERs"
+  ]
+}

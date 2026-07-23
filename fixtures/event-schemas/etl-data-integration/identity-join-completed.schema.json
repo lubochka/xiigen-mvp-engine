@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.identity.join.completed",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "joinedCount": { "type": "integer", "minimum": 0, "required": true },
+    "crossTenantGuardPassed": { "type": "boolean", "required": true },
+    "confidenceThreshold": { "type": "number", "required": true },
+    "completedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "taskTypeId": "T186",
+  "flowId": "FLOW-13",
+  "name": "DataRetentionEnforcer",
+  "archetype": "RETENTION",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "legal-hold-then-approval-then-governance-then-purge",
+    "tier": "PLATFORM_ONLY",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "data_warehouse_retention_policy",
+    "neutralConcepts": [
+      "EXECUTION ORDER MANDATORY: 1=ILegalHoldService.check() → 2=IApprovalService.validate() → 3=F424.enforceRetention() → 4=execute purge and emit DataPurged",
+      "Legal hold active → emit ContentRetentionExtended, return immediately. Do NOT proceed.",
+      "Approval token missing/invalid/expired → reject without purging, return",
+      "DataPurged event MUST contain tombstoneRef ONLY — rawContent/content/payload/body/data PROHIBITED",
+      "F424 IDataGovernanceService PLATFORM-ONLY — governance policies not tenant-editable",
+      "F425 IWarehouseAuditService records EVERY purge attempt including rejected ones"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F424", "interface": "IDataGovernanceService", "fabric": "PLATFORM_ONLY" },
+    { "factoryId": "F425", "interface": "IWarehouseAuditService", "fabric": "PLATFORM_ONLY" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T186-1", "rule": "EXECUTION ORDER MANDATORY AND INVIOLABLE: 1=ILegalHoldService.check() → 2=IApprovalService.validate() → 3=F424.enforceRetention() → 4=execute purge and emit DataPurged. Any reordering = BUILD_FAILURE.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T186-2", "rule": "If legal hold active → emit ContentRetentionExtended, return immediately. Do NOT proceed to approval, governance, or purge.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T186-3", "rule": "Approval token missing/invalid/expired → reject without purging, return. F425 must record the rejection.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T186-4", "rule": "DataPurged event MUST contain tombstoneRef. PROHIBITED fields: rawContent, content, payload, body, data. Including raw content in purge events violates data protection.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T186-5", "rule": "F424 IDataGovernanceService is PLATFORM-ONLY — governance policies are not tenant-editable. No bypass or tenant override permitted.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T186-6", "rule": "F425 IWarehouseAuditService MUST record every purge attempt including rejected ones. Unaudited purge attempts are a compliance violation.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "legal_hold_check_first",
+    "approval_token_required",
+    "governance_before_purge",
+    "tombstone_ref_not_raw_content",
+    "platform_only_governance"
+  ],
+  "bfaRules": [],
+  "crossFlowReadDependencies": ["FLOW-11"],
+  "tags": ["retention", "compliance", "legal-hold", "governance", "platform-only", "purge", "RETENTION"],
+  "keywords": "data retention enforcer legal hold approval governance purge tombstoneRef platform-only warehouse audit compliance GDPR"
+}

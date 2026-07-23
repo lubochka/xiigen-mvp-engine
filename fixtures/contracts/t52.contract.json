@@ -1,0 +1,91 @@
+{
+  "taskTypeId": "T52",
+  "flowId": "FLOW-02",
+  "name": "PersonalizationBroadcast",
+  "archetype": "BROADCAST",
+  "domainId": "business-onboarding",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "stackCoupling": {
+    "mechanism": "personalization-broadcast-consent-gated",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow02_personalization_feed_ttl_days",
+    "neutralConcepts": [
+      "MACHINE event literal: 'PersonalizationCompleted' — never computed or concatenated",
+      "NODE C: 4 inputs optional — each absent input has named fallback, never DataProcessResult.failure",
+      "Consent gate: private-mode users get completion record stored but no downstream enqueue",
+      "DNA-8: store feed config BEFORE UserFeedPersonalized emit",
+      "Degradable analytics: B1 timeout produces partialResults — C node must handle this gracefully"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F188",
+      "interface": "IFeedPersonalizationService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F189",
+      "interface": "IPersonalizationBroadcastQueue",
+      "fabric": "QUEUE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T52-1",
+      "rule": "PersonalizationCompleted event type MUST be the string literal 'PersonalizationCompleted' — stored as 'as const'. Any dynamic computation, interpolation, or variable assignment from a config value = BUILD_FAILURE. FLOW-01 owns 'OnboardingCompleted'; two flows emitting same literal = silent duplicate feeds.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T52-2",
+      "rule": "NODE C: each of A1/A2/A3/B1 inputs is optional with named fallback. No required() validation on optional signals. Missing signal → degraded but valid output. Never DataProcessResult.failure for absent optional input.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T52-3",
+      "rule": "Broadcast consent gate: check user privacy setting before each enqueue call. private_mode=true → store PersonalizationCompleted record (DNA-8 satisfied) but skip queue.enqueue. The record proves completion; the broadcast is consent-gated.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T52-4",
+      "rule": "DNA-8: storeDocument(personalization-completions, ...) BEFORE queue.enqueue('PersonalizationCompleted', ...). Record must exist before any downstream consumer can react.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T52-5",
+      "rule": "PersonalizationCompleted payload contains NO PII — tenantId, userId, feedId, profileId, personalizationCompletedAt only. No questionnaire data, no goals, no challenges.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T52-6",
+      "rule": "FLOW-02 completion event is 'PersonalizationCompleted' — NEVER 'OnboardingCompleted'. Collision with FLOW-01 causes FLOW-08 (ListingDiscoveryEngine) to create duplicate feeds with no local error.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "machine_literal_event_type",
+    "independent_fallback_inputs",
+    "broadcast_consent_gated"
+  ],
+  "bfaRules": [
+    "CF-797",
+    "CF-802",
+    "CF-803"
+  ],
+  "handlers": [
+    "collect_optional_signals",
+    "build_personalized_feed",
+    "store_personalization_completion",
+    "check_consent_gate",
+    "emit_personalization_completed"
+  ],
+  "tags": [
+    "broadcast",
+    "machine-literal",
+    "consent-gated",
+    "independent-fallbacks",
+    "personalization",
+    "degradable"
+  ],
+  "keywords": "personalization broadcast consent gate machine literal PersonalizationCompleted independent fallbacks degradable analytics optional signals"
+}

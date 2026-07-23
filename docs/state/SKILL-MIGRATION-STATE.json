@@ -1,0 +1,89 @@
+{
+  "project": "xiigen-skill-migration",
+  "version": "3.1-VALIDATED",
+  "current_session": 0,
+  "status": "not_started",
+  "total_sessions": 13,
+  "IMPORTANT_READ_BEFORE_STARTING": [
+    "1. Read the plan at <WORKSPACE>\\.claude\\plans\\dreamy-pondering-map.md for context (do NOT execute it as a script)",
+    "2. Verify artifact numbers from live canonical docs before any session",
+    "3. Run PREREQUISITE-CHECK in SESSION-1 before writing any code",
+    "4. Each session ends with \u26d4 STOP \u2014 never chain sessions",
+    "5. Skill path: .claude/skills/skill-name/ (NOT .claude-skill/)",
+    "6. Client gate: cd client && npm run build && npm test \u2014 REQUIRED in every session gate",
+    "7. Artifact numbers: use HIGHEST of (CLAUDE.md vs plan). CLAUDE.md: F1339/T516/SK-330."
+  ],
+  "test_baselines": {
+    "server_tests": 2342,
+    "client_tests": 220,
+    "server_spec_files": 98,
+    "client_test_files": 7,
+    "note": "CLAUDE.md says 220 client tests; it() grep gives 211. SESSION GATE uses live npx jest output. Count must not decrease between phases.",
+    "client_note": "CLAUDE.md says 220; direct grep shows 211 (zip may lag). Gate: \u2265211 is safe floor."
+  },
+  "artifact_numbers": {
+    "WARNING": "TWO SOURCES DISAGREE. Use the HIGHEST confirmed number. Log which source used.",
+    "from_CLAUDE_md": {
+      "nextFactory": "F1339",
+      "nextTaskType": "T516",
+      "nextSkill": "SK-330",
+      "nextBfaRule": "CF-715",
+      "nextFamily": 200
+    },
+    "from_plan_memory": {
+      "nextFactory": "F1484",
+      "nextTaskType": "T565",
+      "nextSkill": "SK-402",
+      "nextBfaRule": "CF-789",
+      "nextFamily": 223
+    },
+    "PROTOCOL": "Step 1 every session: grep ENGINE_ARCHITECTURE_MERGED for true next numbers. Use max(CLAUDE.md, plan). Record chosen source in STATE.json."
+  },
+  "tracker_config": {
+    "type": "mock",
+    "note": "Phase 1 installs mock tracker. Replace with real config when available.",
+    "multi_tenant": true
+  },
+  "e2e_convention": {
+    "server": "@nestjs/testing AppModule integration specs \u2014 real DI, real pipeline, in-memory providers",
+    "client": "@testing-library/react + jest-environment-jsdom",
+    "docker_e2e": "docker compose --profile infra up \u2192 run test suites against real containers"
+  },
+  "sessions": {
+    "0": { "status": "complete", "title": "Plan approved 2026-03-18" },
+    "1": { "status": "pending", "title": "Governance + Skill Advisor + Tracker Mock", "phase": "P1" },
+    "2": { "status": "pending", "title": "Planning + Discovery", "phase": "P2" },
+    "3": { "status": "pending", "title": "Agent Output Format", "phase": "P3" },
+    "4": { "status": "pending", "title": "Testing Core", "phase": "P4" },
+    "5": { "status": "pending", "title": "Engine QA Draft", "phase": "P5" },
+    "6": { "status": "pending", "title": "Mental Debug", "phase": "P6" },
+    "7": { "status": "pending", "title": "Self-Verification", "phase": "P7" },
+    "8": { "status": "pending", "title": "Bug Class Review (no code)", "phase": "P8" },
+    "9": { "status": "pending", "title": "Engine-Specific Skills", "phase": "P9" },
+    "10": { "status": "pending", "title": "Docker Local Testing", "phase": "P10" },
+    "11": { "status": "pending", "title": "Code Modifications (5 files, own gate each)", "phase": "P11" },
+    "12": { "status": "pending", "title": "Update Existing Skills + Package", "phase": "P12" },
+    "13": { "status": "pending", "title": "9-Dimension Validation + Final ZIP", "phase": "P12-final" }
+  },
+  "gate_results": {},
+  "escalations": [],
+  "code_mod_gates": {
+    "af4-rag-context": { "status": "NOT_APPROVED", "session": 11 },
+    "af11-feedback": { "status": "NOT_APPROVED", "session": 11 },
+    "af2-planning": { "status": "NOT_APPROVED", "session": 11 },
+    "quality-scorer": { "status": "NOT_APPROVED", "session": 11 },
+    "af3-prompt-library": { "status": "NOT_APPROVED", "session": 11 }
+  },
+  "bug_class_taxonomy_approved": false,
+  "skill_path": ".claude/skills/ (NOT .claude-skill/ \u2014 confirmed from xiigen-env)",
+  "planApproved": true,
+  "planApprovedDate": "2026-03-18",
+  "planFile": "<WORKSPACE>\\.claude\\plans\\dreamy-pondering-map.md",
+  "lastUpdated": "2026-03-18T22:00:00Z",
+  "skillCounts": {
+    "newSkillsToCreate": 20,
+    "existingSkillsToUpdate": 3,
+    "codeFilesToModify": 5,
+    "skillYamlFiles": 20
+  }
+}

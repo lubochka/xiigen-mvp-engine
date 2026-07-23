@@ -1,0 +1,18 @@
+{
+    "flowId":  "FLOW-42",
+    "flowSlug":  "miro-shape-adapter",
+    "phase":  "phase-2-external-ui-and-png-evidence",
+    "status":  "not-applicable-by-design",
+    "generatedAt":  "2026-05-12T00:42:32.6056227Z",
+    "basis":  [
+                  "docs/screen-examination/external-adapters-examination.md classifies FLOW-42 as INTERNAL_ONLY external Miro SDK plugin.",
+                  "docs/screen-examination/MARKET-REFERENCE-CATALOG.md says any XIIGen PNG for FLOW-42 is invalid.",
+                  "docs/sessions/FLOW-42/UI-REFLECTION-STATE.json verdict is INTERNAL_ONLY."
+              ],
+    "invalidSnapshotDirs":  0,
+    "checkedPaths":  [
+                         "docs/e2e-snapshots/miro-adapter",
+                         "docs/e2e-snapshots/miro-shape-adapter"
+                     ],
+    "verdict":  "PASS"
+}

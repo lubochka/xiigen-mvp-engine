@@ -1,0 +1,23 @@
+{
+  "batch_id": "V-R5-C",
+  "flows": [
+    {"slug":"dynamic-forms-workflows","role":"tenant-admin","grammar":"G7","verdict":"partial","weighted_score":2,"prior_score":10,"delta":-8,"offences":[{"severity":"MINOR","axis":"H","viewport":"all","description":"DSL token 'viewerRole' still quoted in tenant-admin tip copy"},{"severity":"MINOR","axis":"UX-P5","viewport":"desktop","description":"schema admin-console table shows ui-* IDs (borderline)"}],"notes":"AppShell present (role change worked); Previewing as + Shown only to humanized"},
+    {"slug":"freelancer-marketplace","role":"freelancer","grammar":"G3","verdict":"pass","weighted_score":0,"prior_score":3,"delta":-3,"offences":[],"notes":"AppShell now present; 'You're browsing as a freelancer' human; clean gig cards"},
+    {"slug":"etl-data-integration","role":"platform-admin","grammar":"G1","verdict":"partial","weighted_score":1,"prior_score":2,"delta":-1,"offences":[{"severity":"MINOR","axis":"H","viewport":"all","description":"DEV footer 'mock state' string still visible in Playwright capture (DEV gate runs in dev server)"}],"notes":"PIPE-* IDs dated + acceptable; KPI row clean; only residual is mock-param explainer"},
+    {"slug":"sharable-flows-marketplace","role":"platform-admin","grammar":"G3","verdict":"pass","weighted_score":0,"prior_score":3,"delta":-3,"offences":[],"notes":"Em-dash correct; curator banner + 3 listing cards + review queue all human; raw-index collapsed"},
+    {"slug":"design-system-governance","role":"platform-admin","grammar":"G2","verdict":"MAJOR","weighted_score":5,"prior_score":2,"delta":3,"offences":[{"severity":"MAJOR","axis":"H","viewport":"all","description":"T617/T621/T624 task-type IDs in Compatibility Reports primary labels"},{"severity":"MAJOR","axis":"H","viewport":"all","description":"Dimension chips use slug tokens: runtime-async-model, test-framework, dependency-injection, tenant-isolation"},{"severity":"MINOR","axis":"UX-P4","viewport":"all","description":"No business-context banner explaining 'Stack coupling classifications'"}],"notes":"T-NN retained-by-design now scored as MAJOR per 2026-04-21 directive; needs humanization"},
+    {"slug":"system-initiation-bootstrap","role":"platform-admin","grammar":"G1","verdict":"pass","weighted_score":0,"prior_score":1,"delta":-1,"offences":[],"notes":"ENGINE_WARM→Warm humanized; phase rows sentence-case; KPI row human"}
+  ],
+  "batch_total_score": 8,
+  "batch_total_delta_vs_V_R4": -13,
+  "improvement_pct": "62%",
+  "systemic_patterns_still_present": [
+    "T-NN task-type IDs in user-visible labels (DSG Compatibility Reports)",
+    "code-slug tokens as primary row labels (node-express, python-fastapi etc.) on DSG",
+    "raw DSL identifier 'viewerRole' quoted in dfw tip copy",
+    "DEV-only mock-parameter explainer not gated out of ETL capture (Vite DEV mode = true in Playwright)"
+  ],
+  "new_patterns_emerged": [
+    "DSG regressed: T-NN + dep-slug chips now scored as MAJOR per stricter 2026-04-21 directive (prior scoring was lenient on 'retained-by-design')"
+  ]
+}

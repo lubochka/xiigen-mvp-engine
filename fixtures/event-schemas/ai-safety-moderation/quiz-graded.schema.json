@@ -1,0 +1,12 @@
+{
+  "eventType": "ai-safety-moderation.quiz.graded",
+  "flowId": "FLOW-24",
+  "version": "1.0.0",
+  "properties": {
+    "quizId": { "type": "string", "required": true },
+    "userId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "score": { "type": "number", "required": true },
+    "gradedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

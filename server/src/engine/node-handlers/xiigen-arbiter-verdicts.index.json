@@ -1,0 +1,12 @@
+{
+  "index": "xiigen-arbiter-verdicts",
+  "mappings": {
+    "properties": {
+      "arbiterId": { "type": "keyword" },
+      "candidateLabel": { "type": "keyword" },
+      "verdict": { "type": "keyword" },
+      "reason": { "type": "text" },
+      "evaluatedAt": { "type": "date" }
+    }
+  }
+}

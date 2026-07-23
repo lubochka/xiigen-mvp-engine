@@ -1,0 +1,28 @@
+{
+  "patternId": "ANALYTICS-APPEND-ONLY-001",
+  "patternName": "Append-Only Analytics with PII Exclusion",
+  "flowId": "FLOW-21",
+  "archetype": "DATA_PIPELINE",
+  "taskTypeId": "T632",
+  "sourceFile": "server/src/engine-contracts/dynamic-forms-workflows-contracts.ts",
+  "problem": "Form submission analytics must be aggregated for reporting without exposing PII, and immutability must be enforced to prevent analytics tampering",
+  "solution": "Use append-only storage pattern: insert analytics records, never update. Filter PII fields (email, phone, ssn, password, creditCard) before indexing. Partition analytics by date (YYYY-MM-DD) for efficient time-series queries. Aggregate metrics (count, avg field count, error rate %) per tenantId/formId/dateWindow. Tenant-scope all aggregation queries via tenantId from AsyncLocalStorage.",
+  "pattern": {
+    "step_1": "Extract analytics-safe fields from submission (exclude PII)",
+    "step_2": "Determine aggregation window (TODAY, WEEK, MONTH) and date partition",
+    "step_3": "INSERT analytics record to date-partitioned index (append-only, no updates)",
+    "step_4": "Fetch aggregate document for (tenantId, formId, dateWindow)",
+    "step_5": "Update or create aggregate: increment submitCount, update avg field count, recalculate error rate %",
+    "step_6": "Store aggregate document (upsert: insert if new, update if exists)",
+    "step_7": "All queries filtered by tenantId from ALS (DNA-5)"
+  },
+  "ironRules": [
+    "IR-1: Append-only storage — insert only, never update analytics records",
+    "IR-2: PII exclusion — email, phone, ssn, password, creditCard never indexed",
+    "IR-3: Tenant-scoped aggregation via tenantId from ALS (DNA-5)",
+    "IR-4: Aggregate metrics: count, avg field count, error rate %",
+    "IR-5: Date partitioning for time-series efficiency"
+  ],
+  "usedIn": ["FLOW-21"],
+  "keywords": ["analytics", "append-only", "PII", "immutable", "tenant-scope", "aggregation", "date-partitioning"]
+}

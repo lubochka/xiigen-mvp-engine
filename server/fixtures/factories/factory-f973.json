@@ -1,0 +1,14 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F973",
+  "factoryId": "F973",
+  "flowId": "FLOW-23",
+  "interface": "IPermissionContextReader",
+  "injectionToken": "PERMISSION_CONTEXT_READER",
+  "fabric": "SECRETS",
+  "platformOnly": false,
+  "taskTypes": ["T364"],
+  "bfaRules": ["DD-216"],
+  "owaspRef": "OWASP API1",
+  "note": "Role reads from JWT/AsyncLocalStorage ONLY. No method accepts role as parameter."
+}

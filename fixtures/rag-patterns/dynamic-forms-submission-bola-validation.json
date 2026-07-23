@@ -1,0 +1,28 @@
+{
+  "patternId": "SUBMISSION-VALIDATION-BOLA-001",
+  "patternName": "Submission Validation with BOLA",
+  "flowId": "FLOW-21",
+  "archetype": "DATA_PIPELINE",
+  "taskTypeId": "T630",
+  "sourceFile": "server/src/engine-contracts/dynamic-forms-workflows-contracts.ts",
+  "problem": "Form submissions must be validated against the form's published schema while preventing cross-tenant submissions",
+  "solution": "Implement BOLA (Broken Object Level Authorization) check at ORDER 1 to verify submitterTenantId from AsyncLocalStorage matches form.tenantId. Validate submission against published (immutable) schema version only. Return validation errors as success response, never as failure, to allow client error display.",
+  "pattern": {
+    "step_1": "Extract submitterTenantId from AsyncLocalStorage (ALS)",
+    "step_2": "Fetch form document and verify status=PUBLISHED",
+    "step_3": "BOLA check: submitterTenantId === form.tenantId (order 1, unconditional)",
+    "step_4": "If mismatch: emit SubmissionRejected with UNAUTHORIZED, return failure",
+    "step_5": "Validate submission fields against published schema (field type, required, constraints)",
+    "step_6": "Store submission record (outbox pattern: before emitting events)",
+    "step_7": "Return DataProcessResult.success({valid: true|false, errors: [...]}) even with validation errors"
+  },
+  "ironRules": [
+    "IR-1: BOLA check at ORDER 1 unconditionally",
+    "IR-2: Validate against published schema only (immutable version)",
+    "IR-3: Validation errors as success response, never failure (DNA-4)",
+    "IR-4: tenantId from ALS only (DNA-5)",
+    "IR-5: Store submission before emitting events (DNA-8)"
+  ],
+  "usedIn": ["FLOW-21"],
+  "keywords": ["BOLA", "submission", "validation", "tenant", "authorization", "published-schema", "DNA-5", "DNA-8"]
+}

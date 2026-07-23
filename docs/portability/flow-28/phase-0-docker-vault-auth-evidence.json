@@ -1,0 +1,269 @@
+{
+  "flowId": "FLOW-28",
+  "flowSlug": "blog-cms-modules",
+  "implementationSlug": "blog-cms-modules",
+  "phase": "phase0AuthPreflight",
+  "status": "completed",
+  "generatedAt": "2026-05-10T17:57:04.789Z",
+  "protocolVersion": "3.0",
+  "server": {
+    "serverUrl": "http://localhost:3000",
+    "healthEndpoint": "/health/live",
+    "protectedProbeRoute": "/api/runs/phase0-flow28-auth-probe/trace",
+    "serverHealthy": true,
+    "healthStatusCode": 200
+  },
+  "vault": {
+    "sealed": false,
+    "tokenReadFromCompose": true,
+    "secretValuesInEvidence": false,
+    "tenantSigningKeysPresent": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ],
+    "tenantCredentialsSeeded": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    }
+  },
+  "github": {
+    "authenticated": true,
+    "login": "lubochka",
+    "tokenValuesInEvidence": false
+  },
+  "roleMap": {
+    "authProbeRoles": [
+      "tenant-admin",
+      "tenant-user",
+      "platform-admin"
+    ],
+    "wrongRoleProbe": "platform-support",
+    "uiPersonaRolesForLaterEvidence": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "tenant-user",
+      "tenant-admin",
+      "freelancer",
+      "business-partner",
+      "event-organiser",
+      "platform-admin",
+      "platform-support"
+    ],
+    "source": "docs/design-reviews/ROLE-ANALYSIS-BATCH-06.md"
+  },
+  "tokenHandling": "HS256 tenant JWTs generated in-memory from Vault signing keys; tokens and secret values were not printed or written.",
+  "expectedChecks": [
+    "valid token in its own tenant returns 200",
+    "missing token returns 401",
+    "tenant A token in tenant B context returns 401",
+    "tenant B token in tenant C context returns 401",
+    "tenant A token in tenant C context returns 401",
+    "a wrong-role token on a role-protected route returns 403"
+  ],
+  "authMatrixSummary": {
+    "total": 18,
+    "passed": 18,
+    "failed": 0
+  },
+  "authMatrix": [
+    {
+      "name": "valid acme-corp tenant-admin token in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid acme-corp tenant-user token in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid acme-corp platform-admin token in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "missing token denied in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "",
+      "tokenRole": "",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong platform-support role denied in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "platform-support",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid northwind tenant-admin token in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid northwind tenant-user token in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid northwind platform-admin token in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "missing token denied in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "",
+      "tokenRole": "",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong platform-support role denied in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "platform-support",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid tessera-collective tenant-admin token in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid tessera-collective tenant-user token in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "tenant-user",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid tessera-collective platform-admin token in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "missing token denied in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "",
+      "tokenRole": "",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong platform-support role denied in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "platform-support",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "requestTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    }
+  ],
+  "commands": [
+    "docker info",
+    "vault status -format=json",
+    "vault kv put tenant GitHub, registry, and signing material without printing values",
+    "gh api user --jq .login with GH_TOKEN from local key file or gh auth token",
+    "docker compose -f docker-compose.yml up -d --build server",
+    "GET http://localhost:3000/health/live",
+    "generated short-lived HS256 JWT probes in memory only",
+    "auth matrix against http://localhost:3000/api/runs/phase0-flow28-auth-probe/trace"
+  ],
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeyValuesWrittenToEvidence": false
+  },
+  "verdict": "PASS"
+}

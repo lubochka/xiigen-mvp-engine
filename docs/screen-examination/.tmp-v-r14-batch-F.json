@@ -1,0 +1,184 @@
+{
+  "batch": "F",
+  "run": "V-R14",
+  "rescore_policy": "fresh-no-extrapolation; PNGs read directly; 7-axis rubric",
+  "flows": [
+    {
+      "slug": "sharable-flows-marketplace",
+      "pngs_examined": [
+        "populated-anonymous.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axes": {
+        "shell_correctness": "PASS (anon/public-visitor/tenant-user on kiosk — Browse Flow Templates; tenant-admin + platform-admin render XIIGen admin shell correctly)",
+        "role_branching": "PASS — anon/public see Sign-in gated cards; tenant-user sees Install + installed flows + Update; tenant-admin sees Browse + Installed + Configure for this tenant banner; platform-admin sees curator Review queue with Approve/Reject and fraud-flag tabs",
+        "state_meaningfulness": "BLOCK — populated-anonymous renders BusinessStateCard showing raw 'state 6' in subtitle and 'State 6 / Package LISTED' heading; missing real populated marketplace cards for anonymous populated variant",
+        "role_leaks": "NO",
+        "flow_nn_in_copy": "NO",
+        "raw_index_leaks": "YES — 'state 6' visible to anonymous users in populated-anonymous; also 'Sharable flows marketplace · state 6' subtitle",
+        "humanization": "CONCERN — admin-view subtitle phrasing bleeds to anonymous role; 'Package LISTED' acronym-style caps shown to end user"
+      },
+      "verdict": "CONCERN",
+      "notes": "Primary role screens are strong (real curator queue, installed-flows manager, kiosk for anon/visitor). populated-anonymous PNG leaks 'state 6' raw-index + admin-facing subtitle to public audience."
+    },
+    {
+      "slug": "subscription-billing",
+      "v_r12_b3_verification": "HELD — populated-tenant-admin renders BusinessStateCard with STARTER plan, Active badge, and populated fields (planCode=STARTER, priceMonthly=$9.99, currentPeriod=2026-04, nextBillingDate=2026-05-15, paymentMethod=Card ending 4242). NOT a 404.",
+      "pngs_examined": [
+        "populated-tenant-admin.png",
+        "primary-business-partner.png",
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axes": {
+        "shell_correctness": "PASS — tenant-admin/platform-admin/business-partner on XIIGen admin shell; tenant-user on kiosk (My Subscription)",
+        "role_branching": "PASS — tenant-user sees personal My Subscription + invoice history + retry-payment; tenant-admin sees Billing Dashboard; platform-admin sees aggregate MRR + Stripe webhook audit; business-partner sees Partner Invoicing with contract/Net-30/invoices",
+        "state_meaningfulness": "PASS (primary variants) but populated-tenant-admin has 'state 1' raw subtitle and duplicate-phrased admin-view copy",
+        "role_leaks": "NO",
+        "flow_nn_in_copy": "NO",
+        "raw_index_leaks": "YES — populated-tenant-admin shows 'Subscription billing · state 1' in subtitle and 'State 1' heading; admin-view copy hardcoded",
+        "humanization": "CONCERN — state-indexed wording ('State 1', 'state 1'); domain-fields use camelCase keys (planCode, priceMonthly, currentPeriod, nextBillingDate, paymentMethod) visible to the user rather than humanized labels"
+      },
+      "verdict": "CONCERN",
+      "notes": "V-R12-B3 populated-state payload fix did hold — real plan/dates/card fields render. Residual raw-index+camelCase leak on that same card stops it from being PASS."
+    },
+    {
+      "slug": "system-initiation-bootstrap",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "axes": {
+        "shell_correctness": "PASS — platform-admin + platform-support on XIIGen admin shell",
+        "role_branching": "PASS — platform-admin sees full bootstrap monitor (kernel load/fabric resolution/seed/schema/smoke progress strips + re-run bootstrap + phase/fabrics/indices/smoke metrics); platform-support correctly gated with 'System bootstrap surfaces are not available for your role'",
+        "state_meaningfulness": "CONCERN — populated-platform-admin renders BusinessStateCard with bootId/warmedAt/uptime/requestsServed/healthScore, but identity/subtitle carries 'state 5' raw index; the primary-platform-admin page is the real rich one (progress strips) — populated-platform-admin is the weaker card variant",
+        "role_leaks": "NO",
+        "flow_nn_in_copy": "NO",
+        "raw_index_leaks": "YES — 'state 5' in subtitle and 'State 5 / Engine WARM — API accepting traffic' heading",
+        "humanization": "CONCERN — 'Engine WARM', 'API accepting traffic', camelCase field keys (bootId, warmedAt, requestsServed, healthScore) visible to user"
+      },
+      "verdict": "CONCERN",
+      "notes": "Strong role-branched gating (support denied). Primary platform-admin page is production-quality (progress bars, metrics, re-run action). Populated state PNG reverts to the generic BusinessStateCard with raw-index leak."
+    },
+    {
+      "slug": "tenant-lifecycle-manager",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "axes": {
+        "shell_correctness": "PASS — both roles on XIIGen admin shell",
+        "role_branching": "PASS — platform-admin sees Tenant Operations with Provision tenant + per-row Health/Suspend/Offboard/Force-offboard; platform-support sees read-only Tenant Health Inspector with Suspend/Offboard disabled + 'Lifecycle controls are disabled for support access. Escalate to platform-admin…' banner + View support tickets + Escalate link",
+        "state_meaningfulness": "CONCERN — populated-platform-admin renders generic BusinessStateCard (state 1 'Tenant record created — awaiting provisioning') while primary-platform-admin is the real operations grid; populated-* is a regression compared to primary-*",
+        "role_leaks": "NO",
+        "flow_nn_in_copy": "NO",
+        "raw_index_leaks": "YES — 'state 1' subtitle and 'State 1' heading in populated-platform-admin",
+        "humanization": "CONCERN — camelCase keys (tenantId=TNT-acme-corp, planId=plan-growth, createdBy=signup-flow) shown to user; 'Admin view of tenant provisioning…' subtitle reads like service doc-string"
+      },
+      "verdict": "CONCERN",
+      "notes": "Support vs admin role split is excellent (disabled action buttons + escalation path). Populated-state card again reverts to generic component with raw index leak."
+    },
+    {
+      "slug": "transactional-event-participation",
+      "v_r12_c1_verification": "HELD — 4-role split present: anonymous→Stripe-style Checkout kiosk (order summary + pay button); tenant-user→ticket wallet (3 event tickets, QR placeholders, View ticket); event-organiser→Check-in kiosk with scan-QR + ticket-code entry + 142/250 checked / 108 remaining / 57% progress metrics + recent check-ins; platform-admin→Ticket payments overview with refund queue + disputes + approve/deny per-refund.",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-event-organiser.png",
+        "primary-platform-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axes": {
+        "shell_correctness": "CONCERN — anon on kiosk (correct); tenant-user on kiosk (good for ticket wallet); event-organiser on XIIGen admin shell instead of scanner kiosk (sidebar visible even though inner UI is a scanner kiosk); platform-admin on admin shell (correct)",
+        "role_branching": "PASS — each role gets a genuinely distinct primary verb (pay / show ticket / scan & check-in / settle & refund)",
+        "state_meaningfulness": "PASS — real numbers (142/250, $295 refund amount, $125 ticket tier), event names (Annual Tech Summit 2026), disputed=2, refund queue=8",
+        "role_leaks": "NO",
+        "flow_nn_in_copy": "NO",
+        "raw_index_leaks": "NO",
+        "humanization": "PASS — 'Check-in kiosk', 'My event tickets', 'Ticket payments overview' all read as product copy"
+      },
+      "verdict": "CONCERN",
+      "notes": "V-R12-C1 content fix fully held. Minor shell concern: event-organiser scanner really should drop the XIIGen engine sidebar (this is a door-staff kiosk, not an engine-admin surface). Otherwise the strongest flow in the batch."
+    },
+    {
+      "slug": "user-groups-communities",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axes": {
+        "shell_correctness": "PASS — anon on kiosk (Sign-in-to-join variant); tenant-user on kiosk (full Discover Groups with Join buttons); tenant-admin + platform-support on XIIGen admin shell",
+        "role_branching": "PASS — anon sees Sign-in prompt on each group card; tenant-user sees fully primed discovery (Join group / Request to join / By invitation only per tier); tenant-admin sees admin-view table with Group/Type/Members/Tier/Status + Create new group; platform-support sees a minimal Search Groups form (read-only investigation surface)",
+        "state_meaningfulness": "PASS — domain-meaningful fields (142 members, 34 posts this week, Very active activity, tier badges FREE/STANDARD/PREMIUM, category tags MATHEMATICS/DEVELOPMENT/LANGUAGES/BUSINESS)",
+        "role_leaks": "NO",
+        "flow_nn_in_copy": "NO",
+        "raw_index_leaks": "NO",
+        "humanization": "CONCERN — tenant-admin table header 'Admin view — all groups in your tenant' fine; tier value 'INVITE_ONLY' on admin table renders in snake_case uppercase — slight engineering leak"
+      },
+      "verdict": "PASS",
+      "notes": "Strongest flow in the batch overall; minor humanization nit on 'INVITE_ONLY' snake-case in the admin table row."
+    },
+    {
+      "slug": "user-registration",
+      "pngs_examined": [
+        "default-anonymous.png",
+        "pending-anonymous.png",
+        "primary-anonymous.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axes": {
+        "shell_correctness": "BLOCK — platform-support + tenant-admin + tenant-user all render the consumer 'Create your account' signup form inside the XIIGen admin shell. Authenticated roles should not be shown a signup form at all, let alone wrapped in the admin sidebar. Only anonymous should reach this screen, and anonymous should be kiosk (which it is).",
+        "role_branching": "BLOCK — all authenticated roles see the same anonymous signup form with only an amber 'You appear to be signed in already. Creating a new account will sign you out…' banner. There is no role-branched content for platform-support/tenant-admin/tenant-user on this flow — the expected verb for an already-signed-in user is either 'redirect to dashboard' or 'view profile', not 're-sign-up'.",
+        "state_meaningfulness": "PASS (for the three anonymous variants: default/pending/primary correctly show empty form / 'Check your inbox verification pending' / signup form)",
+        "role_leaks": "YES — engine sidebar (Dashboard/Designer/Flow Library/Run Flow/Marketplace/Monitor/Registry/Ledger/Events/RSVP/Attendance/Tenants/Super Agent/Generation Lab/Model Leaderboard/Prompt Lab) visible behind a consumer signup form",
+        "flow_nn_in_copy": "NO",
+        "raw_index_leaks": "NO",
+        "humanization": "PASS on the anonymous kiosk variants (Check your inbox, Resend verification email)"
+      },
+      "verdict": "BLOCK",
+      "notes": "The three anonymous screens (default/pending/primary) are strong kiosks. But the three authenticated-role pages render the anonymous signup form inside the admin shell — this is a shell+role-branching regression. Authenticated roles should be routed to profile/dashboard, not to signup."
+    },
+    {
+      "slug": "visual-flow-engine",
+      "pngs_examined": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png"
+      ],
+      "axes": {
+        "shell_correctness": "PASS — all three roles on XIIGen admin shell (correct for a designer surface)",
+        "role_branching": "PASS — tenant-admin sees full Visual Flow Canvas with node palette (Input/Transform/Filter/Aggregate/Output) + Save/Publish + Design assistant chat panel; platform-admin sees Cross-tenant audit (Acme/Bluebird/Castle rows with Lock/Unlock) + Master canvas (platform-admin edit); platform-support sees read-only canvas with 'Save / publish / add-edge controls are disabled for support access' banner + Escalate to platform-admin link",
+        "state_meaningfulness": "PASS — real published-flows list with tenant names, versions, timestamps, lock state; nodes pre-populated (Input→Transform); chat transcript shows Assistant+You turns with 14:22/14:23 timestamps",
+        "role_leaks": "NO",
+        "flow_nn_in_copy": "NO",
+        "raw_index_leaks": "NO",
+        "humanization": "PASS — 'Visual Flow Canvas', 'Design assistant', 'Cross-tenant audit', 'Escalate to platform-admin' all read as product copy"
+      },
+      "verdict": "PASS",
+      "notes": "Exemplary 3-role split: designer (tenant-admin) / compliance auditor (platform-admin) / read-only investigator (platform-support) with correctly disabled controls and escalation path. Node palette + chat panel + draft/published topology both rendered."
+    }
+  ],
+  "summary": {
+    "PASS": ["user-groups-communities", "visual-flow-engine"],
+    "CONCERN": ["sharable-flows-marketplace", "subscription-billing", "system-initiation-bootstrap", "tenant-lifecycle-manager", "transactional-event-participation"],
+    "BLOCK": ["user-registration"],
+    "total_flows": 8,
+    "v_r12_b3_subscription_billing": "HELD (real populated STARTER plan + Active badge + fields render)",
+    "v_r12_c1_transactional_event_participation": "HELD (4-role split present: anon Stripe checkout / tenant-user ticket wallet / event-organiser scanner+QR+metrics / platform-admin settlement+refunds)"
+  },
+  "recurring_patterns": [
+    "populated-<role>.png PNGs across subscription-billing / system-initiation-bootstrap / tenant-lifecycle-manager / sharable-flows-marketplace all fall back to a generic BusinessStateCard that leaks 'state N' in subtitle + heading and renders camelCase domain keys (planCode, tenantId, bootId, warmedAt) directly as labels instead of humanized copy",
+    "user-registration authenticated roles see consumer signup form inside engine admin shell — routing bug (should redirect to dashboard/profile) or render fix",
+    "event-organiser scanner kiosk correctly has kiosk content but admin shell chrome remains"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "xiigen-tenant-freedom-profile-v1",
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "tenantId": "tessera-collective",
+  "profileVersion": "1.0.1",
+  "adaptationCategory": "no-adaptation-third-party-tenant",
+  "basedOnDefaultsVersion": "FLOW-01 v1.0.0 (XIIGEN_FREEDOM_DEFAULTS \u2014 fresh root install, no cascade hop)",
+  "lineage": [
+    {
+      "version": "1.0.0",
+      "publisher": "xiigen-platform",
+      "introduces": "FLOW-01 baseline FREEDOM-config defaults"
+    },
+    {
+      "version": "1.0.1",
+      "publisher": "tessera-collective",
+      "introduces": "Fresh root install at platform v1.0.0 with ZERO FREEDOM overrides \u2014 third-party tenant for V-13(D) Phase 5c cross-tenant separation confirmation; deliberately not part of the acme\u2192northwind cascade chain"
+    }
+  ],
+  "publishedAt": "2026-04-25",
+  "publishedBy": "architect-mode / FLOW-PORTABILITY-TEST-PROTOCOL-v2.0",
+  "overrides": {},
+  "overridesNote": "Tessera Collective installs FLOW-01 directly from the xiigen-platform v1.0.0 baseline and does not introduce any FREEDOM-config overrides. Their tenant profile exists to prove that the V-13 cascade-coherence verdict holds for a third tenant outside the acme\u2192northwind cascade. Drift comparison: tenant-c-tessera-v1.0.1 vs platform-source MUST be 0 px (because zero overrides are active and FLOW-01's adaptation surface is server-side-only \u2014 see V-15-DRIFT-PASS-CONTRACT.md).",
+  "deploymentInstructions": {
+    "seedIndex": "xiigen-freedom-config",
+    "seedMethod": "no-op \u2014 tessera does not seed any FREEDOM keys for FLOW-01; they fall through to the platform v1.0.0 defaults under their AsyncLocalStorage context",
+    "sampleSeedScript": "// no overrides to seed; tessera tenant context returns XIIGEN_FREEDOM_DEFAULTS unchanged",
+    "idempotent": true,
+    "requiresRestart": false
+  },
+  "verificationContract": {
+    "testFile": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts",
+    "testsRunForThisProfile": [
+      "FC-ADAPT-1 (default fallback for unknown tenant \u2014 covers tessera by construction)"
+    ],
+    "allPassed": true,
+    "lastRun": "2026-04-25",
+    "note": "Tessera does not have its own FREEDOM-override test class; FC-ADAPT-1 already covers the contract for non-cascade tenants (default values returned in the absence of overrides). Tessera tenant context returns rate_limit=60, ttl=86400, inviter='you', community='our community' \u2014 i.e., the platform v1.0.0 defaults \u2014 exactly as XIIGEN_FREEDOM_DEFAULTS specifies."
+  },
+  "machineInvariantsPreserved": [
+    "Event names: AccountCreated, VerificationEmailRequested, VerificationCompleted, OnboardingCompleted",
+    "Task-type IDs: T47, T48, T49",
+    "User record schema including onboarding_materials:[]",
+    "Material type literals: workspace_setup, flow_tutorial, community_invitation",
+    "Idempotency key format and outbox ordering (storeDocument before enqueue)",
+    "Token hashing algorithm (sha256)",
+    "Uniform VALIDATION_FAILURE shape (no field leakage)"
+  ],
+  "v15DriftContract": {
+    "expectedDrift": "0 px on every PNG (byte-identical to platform-source baseline)",
+    "rationale": "Tessera has zero FREEDOM overrides for FLOW-01 and falls through to platform v1.0.0 defaults under their AsyncLocalStorage context; therefore the rendered output of every kiosk page is pixel-identical to the platform-source capture",
+    "contractFile": "docs/portability/flow-01/V-15-DRIFT-PASS-CONTRACT.md",
+    "behaviouralSeparationProof": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts FC-ADAPT-1 (default fallback for non-cascade tenants)",
+    "observedDrift": "0 px (V-13 instance D + V-15 instance C drift comparison: 252/252 byte-identical pairs vs platform-source; PASS per contract component 1)"
+  },
+  "v13InstanceD": {
+    "purpose": "Third-tenant cascade-coherence confirmation \u2014 proves that a tenant OUTSIDE the acme\u2192northwind cascade installs FLOW-01 cleanly and renders pixel-identical to the platform baseline (because their adaptation surface is empty)",
+    "cascadeRow": 8,
+    "isolationFromCascade": "tessera-collective is not in the acme\u2192northwind cascade chain; its FREEDOM context contains no inherited overrides from acme; the AsyncLocalStorage scope correctly isolates tessera from acme/northwind tenant contexts",
+    "crossTenantIsolationDeferred": "V-16 cross-tenant JWT isolation tests fire at Phase C9 (cascade row 10) with three pairs (A\u2194B, B\u2194C, A\u2194C); this row 8 audit only certifies that tessera renders correctly in its own context"
+  },
+  "connections": {
+    "$comment": "Per-tenant CI/CD connection config (Phase C12, DEV-115, 2026-04-26) \u2014 schema per TENANT-CICD-CONNECTION-GUIDANCE-v1.0 \u00a7TENANT PROFILE SCHEMA. connectionVerified=false is the initial state; ForkFlowHandlerService's Step-0 preflight sets it to true and writes lastVerifiedAt when the checkConnection() call returns reachable=true + hasRepoScope=true. If a fork session reads connectionVerified=false it MUST run the preflight before proceeding (Rule F-1).",
+    "github": {
+      "orgName": "lubochka",
+      "vaultKeyPath": "xiigen/tenants/tessera-collective/github_token",
+      "repoVisibility": "private",
+      "defaultBranch": "main",
+      "connectionVerified": true,
+      "lastVerifiedAt": "2026-04-26T12:26:23.385892+00:00"
+    },
+    "docker": {
+      "registryUrl": "ghcr.io",
+      "vaultKeyPath": "xiigen/tenants/tessera-collective/docker_registry_token",
+      "imagePullPolicy": "IfNotPresent",
+      "connectionVerified": false,
+      "lastVerifiedAt": null
+    },
+    "ci": {
+      "provider": "github-actions",
+      "workflowTemplate": "flow-ci-v1",
+      "reportWebhook": null,
+      "firstCiRunAt": "2026-04-26T12:24:13.010804+00:00",
+      "lastCiRunAt": "2026-04-26T12:24:13.010804+00:00",
+      "lastCiResult": "success",
+      "lastCiRunUrl": "https://github.com/lubochka/tessera-collective--user-registration/actions/runs/24956537010"
+    }
+  }
+}

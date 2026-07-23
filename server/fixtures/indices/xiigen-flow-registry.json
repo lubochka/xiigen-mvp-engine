@@ -1,0 +1,15 @@
+{
+  "index": "xiigen-flow-registry",
+  "mappings": {
+    "properties": {
+      "flowId":       { "type": "keyword" },
+      "status":       { "type": "keyword" },
+      "version":      { "type": "keyword" },
+      "description":  { "type": "text" },
+      "taskTypeIds":  { "type": "keyword" },
+      "archetypes":   { "type": "keyword" },
+      "registeredAt": { "type": "date" },
+      "updatedAt":    { "type": "date" }
+    }
+  }
+}

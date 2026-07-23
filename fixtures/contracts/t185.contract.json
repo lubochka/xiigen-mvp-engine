@@ -1,0 +1,38 @@
+{
+  "taskTypeId": "T185",
+  "flowId": "FLOW-13",
+  "name": "DataLineageTracker",
+  "archetype": "SCHEMA_REGISTRY",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "immutable-append-only-lineage-records",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "data_warehouse_lineage_retention_days",
+    "neutralConcepts": [
+      "Lineage records are IMMUTABLE — append-only, never update or delete",
+      "All lineage records must include tenantId",
+      "Cross-flow lineage must explicitly identify the source flow by flowId",
+      "storeDocument(lineageRecord) BEFORE enqueue — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T185-1", "rule": "Lineage records are IMMUTABLE — append-only. Never update or delete an existing lineage record. Mutating lineage breaks audit integrity.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T185-2", "rule": "All lineage records must include tenantId. Lineage records without tenantId are rejected.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T185-3", "rule": "Cross-flow lineage records must explicitly identify the source flow by flowId. Implicit or missing source flow identification is a BUILD_FAILURE.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T185-4", "rule": "storeDocument(lineageRecord) BEFORE enqueue. DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "immutable_append_only",
+    "tenant_id_required",
+    "cross_flow_source_identified"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "lineage", "immutable", "append-only", "schema-registry", "SCHEMA_REGISTRY"],
+  "keywords": "data lineage tracker immutable append-only tenantId cross-flow source flow identification warehouse analytics audit"
+}

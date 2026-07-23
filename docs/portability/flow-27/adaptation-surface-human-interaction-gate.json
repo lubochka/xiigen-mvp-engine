@@ -1,0 +1,325 @@
+{
+  "flowId": "FLOW-27",
+  "flowSlug": "human-interaction-gate",
+  "implementationSlug": "human-approval-gate",
+  "flowTitle": "Human Interaction Gate",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-10",
+  "capturedBy": "Codex / FLOW-27 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-27/FLOW-27-DESIGN-SIMULATION-R1.md",
+    "server/src/engine-contracts/human-approval-gate-contracts.ts",
+    "server/src/engine-contracts/human-approval-gate-seed-prompts.ts",
+    "server/src/engine-contracts/human-interaction-gate-bfa-rules.ts",
+    "server/src/engine/flows/human-approval-gate",
+    "docs/flow-coverage/human-interaction-gate/P1-business-logic-inventory.md",
+    "docs/flow-coverage/human-interaction-gate/P5-ui-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T413-T422",
+    "taskTypeIds": [
+      "T413",
+      "T414",
+      "T415",
+      "T416",
+      "T417",
+      "T418",
+      "T419",
+      "T420",
+      "T421",
+      "T422"
+    ],
+    "factoryIdRange": "F1103-F1122",
+    "freedomKeyCount": 14,
+    "securityClassification": "tenant-scoped human approval, task assignment, escalation, decision capture, audit, metrics, and delegation controls",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-27 keeps human-interaction-gate as the portability/UI/package slug while current runtime services live under server/src/engine/flows/human-approval-gate. Fork assembly copies that implementation directory into the canonical human-interaction-gate package path.",
+    "coreGuarantees": [
+      "Approval requests are stored before reviewer notification events.",
+      "Decision capture remains idempotent and rejects duplicate decisions.",
+      "Timeout handling escalates overdue work without blocking the live path.",
+      "Human task assignment records deadline, priority, and assignee history.",
+      "SLA metrics and analytics remain asynchronous.",
+      "Scheduled triggers are deduplicated by schedule identity.",
+      "Sequential and parallel approval chains preserve configured ordering.",
+      "Approval gates stop workflow progress until a valid human decision exists.",
+      "Audit trail entries are append-only.",
+      "Delegation preserves previous assignee history."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-27 controls human approval gates and workflow stoppage decisions, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T413",
+      "className": "ApprovalRequestCreatorService",
+      "file": "server/src/engine/flows/human-approval-gate/approval-request-creator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "approval_request_ttl_hours",
+        "reviewer_notification_topic"
+      ],
+      "machineLockedRules": [
+        "approval request is stored before notification",
+        "tenant scope is mandatory"
+      ]
+    },
+    {
+      "taskTypeId": "T414",
+      "className": "ApprovalDecisionCaptureService",
+      "file": "server/src/engine/flows/human-approval-gate/approval-decision-capture.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "decision_event_topics",
+        "valid_decision_values"
+      ],
+      "machineLockedRules": [
+        "decision capture remains idempotent",
+        "valid terminal decisions remain bounded"
+      ]
+    },
+    {
+      "taskTypeId": "T415",
+      "className": "ApprovalTimeoutHandlerService",
+      "file": "server/src/engine/flows/human-approval-gate/approval-timeout-handler.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "timeout_threshold_hours",
+        "escalation_group",
+        "timeout_event_topic"
+      ],
+      "machineLockedRules": [
+        "timeout escalation never deletes pending approval history",
+        "retry behavior remains deduplicated"
+      ]
+    },
+    {
+      "taskTypeId": "T416-T422",
+      "className": "HumanTaskApprovalSuite",
+      "file": "server/src/engine/flows/human-approval-gate",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "task_priority_policy",
+        "chain_topology_config",
+        "parallel_threshold",
+        "delegation_notification_topic",
+        "max_delegation_depth",
+        "audit_index_name",
+        "gate_event_topics",
+        "schedule_event_topic",
+        "max_schedule_horizon_days",
+        "sla_threshold_hours",
+        "metrics_event_topic"
+      ],
+      "machineLockedRules": [
+        "approval gate cannot be bypassed by tenant configuration",
+        "audit trail remains append-only",
+        "scheduled and delegated tasks remain idempotent"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-27 operating values. Tenants may tune reviewer labels, notification topics, timeout thresholds, chain labels, delegation depth, schedule horizon, and module naming without changing tenant isolation, approval-gate enforcement, idempotency, audit ordering, or package provenance requirements.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow27_approval_request_ttl_hours",
+          "type": "number",
+          "default": 72,
+          "unit": "hours",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 720
+          }
+        },
+        {
+          "key": "flow27_timeout_threshold_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 168
+          }
+        },
+        {
+          "key": "flow27_parallel_threshold",
+          "type": "number",
+          "default": 3,
+          "unit": "reviewers",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 2,
+            "max": 10
+          }
+        },
+        {
+          "key": "flow27_max_delegation_depth",
+          "type": "number",
+          "default": 2,
+          "unit": "delegations",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "key": "flow27_max_schedule_horizon_days",
+          "type": "number",
+          "default": 90,
+          "unit": "days",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 365
+          }
+        },
+        {
+          "key": "flow27_sla_threshold_hours",
+          "type": "number",
+          "default": 8,
+          "unit": "hours",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "min": 1,
+            "max": 120
+          }
+        },
+        {
+          "key": "flow27_reviewer_notification_topic",
+          "type": "string",
+          "default": "human.approval.requested",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$",
+            "maxLength": 80
+          }
+        },
+        {
+          "key": "flow27_escalation_group",
+          "type": "string",
+          "default": "senior-reviewers",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "maxLength": 64
+          }
+        },
+        {
+          "key": "flow27_review_queue_label",
+          "type": "string",
+          "default": "Pending review queue",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "maxLength": 80
+          }
+        },
+        {
+          "key": "flow27_module_name",
+          "type": "string",
+          "default": "human-interaction-gate",
+          "stakeholder": "tenant-admin",
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to review queue naming, timeout and delegation thresholds, notification topics, escalation group labels, schedule horizons, SLA display thresholds, and module naming.",
+      "edgeCases": [
+        {
+          "id": "acme-approval-ops",
+          "name": "Acme approval operations",
+          "semantic": "Tenant A tunes the human gate for strict compliance approvals with short SLA thresholds and shallow delegation.",
+          "extensionPoint": "timeouts, SLA threshold, delegation depth, module naming",
+          "currentImplementation": "Approval-gate enforcement, idempotency, tenant isolation, and audit ordering remain fixed."
+        },
+        {
+          "id": "northwind-review-router",
+          "name": "Northwind review router",
+          "semantic": "Tenant B tunes the package for broader parallel review and operations escalation queues.",
+          "extensionPoint": "parallel threshold, escalation group, review queue label",
+          "currentImplementation": "Sequential/parallel chain semantics and gate enforcement remain fixed."
+        },
+        {
+          "id": "tessera-human-gate-studio",
+          "name": "Tessera human gate studio",
+          "semantic": "Tenant C tunes schedule horizons and notification topics for collaborative review studios.",
+          "extensionPoint": "schedule horizon, notification topic, module naming",
+          "currentImplementation": "Append-only audit, tenant scope, and package provenance remain fixed."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T413 through T422 remain fixed.",
+      "Factory IDs F1103 through F1122 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Tenant scope is mandatory for every approval, task, chain, schedule, delegation, audit, and metric record.",
+      "Approval requests are stored before notification events.",
+      "Decision capture remains idempotent.",
+      "Approval gates cannot be bypassed by tenant configuration.",
+      "Audit trail entries remain append-only.",
+      "Delegation preserves previous assignee history.",
+      "Scheduled task triggers remain deduplicated.",
+      "Package provenance and GitHub Actions CI evidence remain required for certification."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAApprovalOps": {
+      "description": "Tenant A tunes Human Interaction Gate for strict compliance approval operations.",
+      "change": {
+        "flow27_approval_request_ttl_hours": 48,
+        "flow27_timeout_threshold_hours": 8,
+        "flow27_parallel_threshold": 2,
+        "flow27_max_delegation_depth": 1,
+        "flow27_max_schedule_horizon_days": 45,
+        "flow27_sla_threshold_hours": 4,
+        "flow27_reviewer_notification_topic": "acme.approval.requested",
+        "flow27_escalation_group": "acme-senior-reviewers",
+        "flow27_review_queue_label": "Acme approval queue",
+        "flow27_module_name": "acme-approval-ops"
+      },
+      "impact": "Tenant A gets stricter approval defaults while gate enforcement, tenant isolation, idempotency, audit ordering, and package provenance stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T413-T422",
+      "Factory IDs F1103-F1122",
+      "implementation provider boundaries",
+      "Vault credential paths",
+      "tenant-scoped queries",
+      "approval-gate enforcement",
+      "decision idempotency",
+      "store-before-notify ordering",
+      "append-only audit trail",
+      "delegation history preservation",
+      "schedule deduplication",
+      "package provenance requirements"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-27 configuration values or display/module metadata.",
+    "FLOW-27 services remain MicroserviceBase subclasses after fork assembly.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

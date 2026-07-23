@@ -1,0 +1,33 @@
+{
+  "patternId": "delivery-gate-before-release-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-17",
+  "domainId": "freelancer-marketplace",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": [
+    "delivery-gate",
+    "escrow-release",
+    "lifo-compensation",
+    "milestone-granularity",
+    "timer-gate",
+    "freedom-config",
+    "no-delete"
+  ],
+  "keywords": "delivery gate SUBMITTED status escrow release LIFO compensation REFUND_MILESTONE RESTORE_GIG_STATUS milestone granularity timer auto-release FREEDOM config MilestoneReleased MilestoneDisputed EscrowCompensationStarted no deleteDocument",
+  "teachingPoint": "T615 DeliveryGateEscrowController enforces delivery gate BEFORE escrow release: delivery.status must be SUBMITTED or release is rejected. Dispute path sets status=DISPUTED with no fund movement — audit + MilestoneDisputed only. LIFO compensation chain is registered as [REFUND_MILESTONE, RESTORE_GIG_STATUS] but executed in reverse as [RESTORE_GIG_STATUS, REFUND_MILESTONE]. Auto-release timer days come from FREEDOM config — never hardcoded. deleteDocument is NEVER called on any milestone.",
+  "ironRules": [
+    "releaseEscrow: delivery.status must equal 'SUBMITTED' — any other status returns DELIVERY_NOT_SUBMITTED with no milestone state change",
+    "Dispute path: storeDocument(MILESTONES_INDEX, status=DISPUTED) + audit + MilestoneDisputed — no fund movement, no deleteDocument",
+    "LIFO chain constant: ESCROW_COMPENSATION_CHAIN = ['REFUND_MILESTONE','RESTORE_GIG_STATUS'] as const — executed via [...chain].reverse()",
+    "Auto-release timer days MUST be read from FREEDOM config (getConfig) — never hardcoded as a literal integer",
+    "deleteDocument is prohibited on any milestone record — status transitions only (RELEASED or DISPUTED)"
+  ],
+  "codeSnippet": "// T615 DeliveryGateEscrowController — delivery gate + LIFO compensation\nconst ESCROW_COMPENSATION_CHAIN = ['REFUND_MILESTONE', 'RESTORE_GIG_STATUS'] as const;\n\nasync releaseEscrow(milestoneId: string): Promise<DataProcessResult<Record<string, unknown>>> {\n  const delivery = (await this.db.searchDocuments('deliveries', { milestoneId })).data?.[0];\n  if (!delivery || delivery['status'] !== 'SUBMITTED') {\n    return DataProcessResult.failure('DELIVERY_NOT_SUBMITTED', 'Delivery must be SUBMITTED before release');\n  }\n  // DNA-8: audit BEFORE enqueue\n  await this.db.storeDocument('milestones', { milestoneId, status: 'RELEASED' });\n  await this.db.storeDocument('escrow-audit', { milestoneId, action: 'ESCROW_RELEASED' });\n  await this.queue.enqueue('MilestoneReleased', { milestoneId });\n  return DataProcessResult.success({ milestoneId, status: 'RELEASED' });\n}\n\nasync startLIFOCompensation(milestoneId: string, contractId: string): Promise<DataProcessResult<void>> {\n  // LIFO: registered [REFUND_MILESTONE, RESTORE_GIG_STATUS], executed reversed\n  const compensationChain = [...ESCROW_COMPENSATION_CHAIN].reverse(); // [RESTORE_GIG_STATUS, REFUND_MILESTONE]\n  await this.queue.enqueue('EscrowCompensationStarted', {\n    milestoneId, contractId,\n    compensationChain, // [RESTORE_GIG_STATUS, REFUND_MILESTONE]\n    startedAt: new Date().toISOString()\n  });\n  return DataProcessResult.success();\n}\n\nasync getAutoReleaseDays(): Promise<number> {\n  // FREEDOM config — NEVER hardcoded\n  const config = await this.freedom.getConfig('escrow_auto_release_days');\n  return Number(config ?? 7);\n}",
+  "appliesTo": ["FLOW-16", "FLOW-19", "FLOW-20"],
+  "curriculumTier": 2,
+  "qualityScore": 0.97,
+  "sourceDocument": "server/src/engine-contracts/freelancer-marketplace-contracts.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

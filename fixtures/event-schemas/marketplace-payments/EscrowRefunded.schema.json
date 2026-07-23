@@ -1,0 +1,10 @@
+{
+  "required": ["tenantId", "orderId", "buyerTenantId", "refundAmountCents", "refundedAt"],
+  "properties": {
+    "tenantId": { "type": "string" },
+    "orderId": { "type": "string" },
+    "buyerTenantId": { "type": "string" },
+    "refundAmountCents": { "type": "integer", "minimum": 1 },
+    "refundedAt": { "type": "string", "format": "date-time" }
+  }
+}

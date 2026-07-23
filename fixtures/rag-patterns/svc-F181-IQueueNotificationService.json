@@ -1,0 +1,26 @@
+{
+  "patternId": "svc-F181-IQueueNotificationService",
+  "patternType": "SERVICE_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "factoryId": "F181",
+  "interfaceName": "IQueueNotificationService",
+  "archetype": "EVENT_EMIT",
+  "fabric": "QUEUE",
+  "fabricProvider": "RedisStreams",
+  "skillRefs": [
+    "SK-04"
+  ],
+  "taskTypeRefs": [
+    "T49"
+  ],
+  "tags": [
+    "notification",
+    "queue",
+    "gateway",
+    "flow-02-trigger"
+  ],
+  "keywords": "notification queue emit UserOnboardingCompleted FLOW-02 gateway trigger",
+  "codeSnippet": "// Gate: emit ONLY after ALL steps complete (CF-4)\nif (completedSteps.length < requiredSteps.length) {\n  return DataProcessResult.failure('INCOMPLETE_ONBOARDING');\n}\n// DNA-8: storeDocument completion record BEFORE emitting\nawait this.db.storeDocument(tenantId, 'completions', completionRecord, userId);\nreturn this.queue.enqueueAsync(tenantId, createCloudEvent({\n  type: 'xiigen.user-registration.onboarding-completed.v1',\n  data: { userId, workspaceId }  // no PII \u2014 CF-8\n}));"
+}

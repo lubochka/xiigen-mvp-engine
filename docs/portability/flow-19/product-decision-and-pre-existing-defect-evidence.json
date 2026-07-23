@@ -1,0 +1,120 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "recordedAt": "2026-05-07T03:35:02.4990468+03:00",
+  "phase": "preExistingDefectCheck",
+  "productDecision": {
+    "status": "no-flow-specific-product-blocker-found",
+    "decision": "FLOW-19 Durable Sagas and Compliance is eligible to proceed into Docker/Vault auth and fork cascade certification after repairing inherited portability defects in the four flow services.",
+    "sources": [
+      "docs/business-flows/19-durable-sagas-compliance.md",
+      "docs/business-flows/functional-specs/FLOW-19-durable-sagas-compliance-functional-spec.md",
+      "server/src/engine/flows/durable-sagas-compliance",
+      "<WORKSPACE>/AppData/Local/Temp/flow-mobility-auth-package-v2-readonly/flow_mobility_fixed/PER-FLOW-FIX-MAP-v2.9.md"
+    ]
+  },
+  "fixMap": {
+    "rowSummary": "FLOW-19 requires AI Protocol Phase 1 first, tenant context service decoupling as the second pilot, then data classification annotation, plugin SDK publication, and configuration key scoping before full distribution proof.",
+    "firstTestable": "Phase 1 now; template after tenant context service decoupling; distribution after data classification, plugin SDK publication, and configuration key scoping.",
+    "priority": "first unblocking step"
+  },
+  "roleMap": {
+    "status": "defined",
+    "sources": [
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md FLOW-19 Durable Sagas and Compliance section",
+      "docs/business-flows/functional-specs/FLOW-19-durable-sagas-compliance-functional-spec.md"
+    ],
+    "roles": [
+      {
+        "role": "anonymous",
+        "coverage": "none",
+        "use": "no saga or compliance surface"
+      },
+      {
+        "role": "tenant-user",
+        "coverage": "partial",
+        "use": "narrow per-user GDPR/data-request status slice",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "tenant-admin",
+        "coverage": "full",
+        "use": "tenant-scoped saga dashboard and compliance audit dashboard",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "platform-admin",
+        "coverage": "full",
+        "use": "cross-tenant saga operations, dead-letter queue, compensation-chain debug, and audit export",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "platform-support",
+        "coverage": "full",
+        "use": "read-only saga state and compliance audit inspection for support tickets",
+        "authProbeExpected": 403,
+        "note": "wrong-role case for the shared run trace probe if the probe permits tenant-user, tenant-admin, and platform-admin"
+      }
+    ],
+    "notes": [
+      "ROLE-ANALYSIS-BATCH-04 records 3 full FLOW-19 cells plus 1 partial tenant-user cell."
+    ]
+  },
+  "preExistingDefectCheck": {
+    "initialJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=durable-sagas-compliance --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "testSuites": 12,
+      "tests": 102
+    },
+    "initialScan": {
+      "flowFiles": 5,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 4,
+      "clsImports": 4,
+      "directTenantContextImports": 4,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    },
+    "rootCause": "The four FLOW-19 production services still used the old direct ClsService tenant access pattern and did not extend MicroserviceBase. This matched the PER-FLOW-FIX-MAP row that marks FLOW-19 tenant context service decoupling as the second pilot.",
+    "fixApplied": {
+      "summary": "Replaced direct ClsService/TenantContext imports with TenantContextResolver, added MicroserviceBase inheritance and service descriptors, and renamed injected fabrics to dbFabric/queueFabric to avoid base-class getter collisions.",
+      "files": [
+        "server/src/engine/flows/durable-sagas-compliance/saga-orchestrator.service.ts",
+        "server/src/engine/flows/durable-sagas-compliance/compensation-engine.service.ts",
+        "server/src/engine/flows/durable-sagas-compliance/compliance-audit-writer.service.ts",
+        "server/src/engine/flows/durable-sagas-compliance/data-retention-enforcer.service.ts"
+      ]
+    },
+    "finalVerification": {
+      "typescript": {
+        "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+        "result": "passed"
+      },
+      "jest": {
+        "command": "Push-Location server; npx jest --testPathPatterns=durable-sagas-compliance --runInBand --colors=false; Pop-Location",
+        "result": "passed",
+        "testSuites": 12,
+        "tests": 102
+      },
+      "finalScan": {
+        "flowFiles": 5,
+        "throwNew": 0,
+        "servicesMissingMicroserviceBase": 0,
+        "clsImports": 0,
+        "directTenantContextImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "secretPatternHits": 0
+      }
+    }
+  },
+  "phaseGate": {
+    "preExistingDefectCheckComplete": true,
+    "allTestsPassed": true,
+    "scanFailureLines": 0,
+    "newTechnicalDebt": false,
+    "readyForPhase0AuthPreflight": true
+  }
+}

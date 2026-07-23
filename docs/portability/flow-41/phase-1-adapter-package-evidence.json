@@ -1,0 +1,73 @@
+{
+    "flowId":  "FLOW-41",
+    "flowSlug":  "canva-text-adapter",
+    "implementationType":  "external-adapter-package",
+    "phase":  "phase-1-adapter-package-and-publication",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T00:16:43.1519452Z",
+    "sprint":  "SPRINT A immediate external-adapter proof from PER-FLOW-FIX-MAP-v2.9",
+    "gates":  [
+                  {
+                      "command":  "rg ADAPTATION server/src/engine-contracts/archetypes.ts server/src/engine/node-handlers",
+                      "name":  "ADAPTATION archetype registered",
+                      "result":  "PASS"
+                  },
+                  {
+                      "command":  "npm install --no-audit --no-fund --strict-ssl=false --loglevel warn",
+                      "name":  "standalone npm install",
+                      "result":  "PASS",
+                      "note":  "strict-ssl=false used locally because npm registry certificate validation failed in this Windows environment"
+                  },
+                  {
+                      "command":  "npm run typecheck",
+                      "name":  "typecheck",
+                      "result":  "PASS"
+                  },
+                  {
+                      "suitesPassed":  1,
+                      "command":  "npm test",
+                      "name":  "unit tests",
+                      "result":  "PASS",
+                      "testsPassed":  26
+                  },
+                  {
+                      "command":  "npm run build",
+                      "name":  "production build",
+                      "result":  "PASS"
+                  },
+                  {
+                      "command":  "NO_LOCALSTORAGE + NO_FIGMA_RUNTIME + SDK_BOUNDARY_RUNTIME_IMPORTS + STEP_1_IN_PACKAGE",
+                      "name":  "named static checks",
+                      "result":  "PASS"
+                  },
+                  {
+                      "includesFunctionalSpec":  true,
+                      "includesStep1":  true,
+                      "command":  "npm pack --dry-run --json",
+                      "name":  "package contents",
+                      "result":  "PASS"
+                  },
+                  {
+                      "version":  "1.0.1",
+                      "command":  "npm publish --registry http://localhost:4873 --access public",
+                      "name":  "local registry publish",
+                      "result":  "PASS",
+                      "package":  "@xiigen/canva-text-elements-adapter"
+                  },
+                  {
+                      "readback":  "1.0.1",
+                      "command":  "npm view @xiigen/canva-text-elements-adapter version --registry http://localhost:4873",
+                      "name":  "local registry readback",
+                      "result":  "PASS"
+                  }
+              ],
+    "changedPackageFiles":  [
+                                "adapters/canva/FT-C5/package.json",
+                                "adapters/canva/FT-C5/package-lock.json",
+                                "adapters/canva/FT-C5/src/canva-adapter.ts",
+                                "adapters/canva/FT-C5/docs/STEP-1-INVARIANTS.md",
+                                "adapters/canva/FT-C5/docs/FUNCTIONAL-SPEC.md",
+                                "adapters/canva/FT-C5/dist"
+                            ],
+    "verdict":  "PASS"
+}

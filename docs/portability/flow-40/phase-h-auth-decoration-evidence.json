@@ -1,0 +1,83 @@
+{
+  "flowId": "FLOW-40",
+  "flowSlug": "client-push",
+  "phase": "phase-h-auth-decoration",
+  "status": "completed",
+  "generatedAt": "2026-05-11T23:25:55.921Z",
+  "server": {
+    "url": "http://localhost:33001",
+    "healthLive": {
+      "success": true,
+      "data": {
+        "status": "OK",
+        "timestamp": 1778541887968
+      }
+    },
+    "secretsProvider": "vault"
+  },
+  "authMatrix": [
+    {
+      "name": "valid token in acme tenant returns 200",
+      "tenantContext": "acme-corp",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "name": "valid token in northwind tenant returns 200",
+      "tenantContext": "northwind",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "name": "valid token in tessera tenant returns 200",
+      "tenantContext": "tessera-collective",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "passed": true
+    },
+    {
+      "name": "missing token returns 401",
+      "tenantContext": "acme-corp",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant A token in tenant B context returns 401",
+      "tenantContext": "northwind",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant B token in tenant C context returns 401",
+      "tenantContext": "tessera-collective",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "tenant A token in tenant C context returns 401",
+      "tenantContext": "tessera-collective",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true
+    },
+    {
+      "name": "wrong role token on role-protected route returns 403",
+      "tenantContext": "acme-corp",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "passed": true
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "total": 8,
+    "failed": 0
+  },
+  "verdict": "PASS",
+  "tokenMaterialRedacted": true
+}

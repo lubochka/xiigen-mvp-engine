@@ -1,0 +1,155 @@
+{
+  "version": "v5",
+  "description": "XIIGen Infrastructure Flows State — tracks execution order, flow status, and addenda",
+  "lastUpdated": "2026-03-26",
+  "previousVersion": "INFRASTRUCTURE-FLOWS-STATE-v4.json",
+  "executionOrder": [
+    "FLOW-25",
+    "FLOW-27",
+    "FLOW-29",
+    "FLOW-30",
+    "FLOW-26",
+    "FLOW-31",
+    "FEATURE-REGISTRY-S1",
+    "FLOW-33",
+    "FLOW-35",
+    "FLOW-36",
+    "FLOW-34",
+    "FLOW-01 through FLOW-24 (any order)",
+    "FLOW-PREREQ-01 (pre-generation gate — runs before any domain flow Phase A)",
+    "FLOW-PREREQ-02 (autonomous prerequisite resolution)",
+    "FLOW-PREREQ-03 (human-escalated architectural decisions)"
+  ],
+  "flows": {
+    "FLOW-25": { "status": "COMPLETE" },
+    "FLOW-27": { "status": "COMPLETE" },
+    "FLOW-29": { "status": "COMPLETE" },
+    "FLOW-30": { "status": "COMPLETE" },
+    "FLOW-26": { "status": "COMPLETE" },
+    "FLOW-31": { "status": "COMPLETE", "tests_added": 227, "task_types": "T489-T515", "families": "191-199", "factories": "F1271-F1338" },
+    "FLOW-33": { "status": "COMPLETE", "task_types": "T516-T522", "factories": "F1339-F1347", "families": "200-201" },
+    "FLOW-35": { "status": "COMPLETE", "note": "Meta-arbitration engine" },
+    "FLOW-36": { "status": "COMPLETE", "note": "Feature Registry — FT-XXX artifacts" },
+    "FLOW-34": { "status": "COMPLETE", "note": "Feature-aware via FEATURE-REGISTRY-S1" },
+    "FLOW-01": { "status": "COMPLETE" },
+    "FLOW-02": { "status": "COMPLETE" },
+    "FLOW-03": { "status": "COMPLETE" },
+    "FLOW-04": { "status": "COMPLETE" },
+    "FLOW-05": { "status": "COMPLETE" },
+    "FLOW-06": { "status": "COMPLETE" },
+    "FLOW-07": { "status": "COMPLETE" },
+    "FLOW-08": { "status": "COMPLETE" },
+    "FLOW-09": { "status": "COMPLETE" },
+    "FLOW-10": { "status": "COMPLETE" },
+    "FLOW-11": { "status": "COMPLETE" },
+    "FLOW-12": { "status": "COMPLETE" },
+    "FLOW-13": { "status": "COMPLETE" },
+    "FLOW-14": { "status": "COMPLETE" },
+    "FLOW-15": { "status": "COMPLETE" },
+    "FLOW-16": { "status": "COMPLETE" },
+    "FLOW-17": { "status": "COMPLETE" },
+    "FLOW-18": { "status": "COMPLETE" },
+    "FLOW-19": { "status": "COMPLETE" },
+    "FLOW-20": { "status": "COMPLETE" },
+    "FLOW-21": { "status": "COMPLETE" },
+    "FLOW-22": { "status": "COMPLETE" },
+    "FLOW-23": { "status": "COMPLETE" },
+    "FLOW-24": { "status": "COMPLETE" },
+    "FLOW-28": { "status": "NOT_STARTED", "note": "Blog/CMS Modules — namespace reserved F1129-F1175, T423-T440; not yet implemented" },
+    "FLOW-PREREQ-01": {
+      "status": "PHASE_A_COMPLETE",
+      "note": "Phase B activates when convergence.handler (C-2) + multi-generate.handler (A-4) complete",
+      "task_types": "T580, T581, T586",
+      "factories": "F1508-F1510",
+      "families": "206",
+      "bfa_rules": "CF-789, CF-790, CF-791",
+      "services": [
+        "SpecAuditService (SS-04)",
+        "PrerequisiteCompletionGateService (SS-09)"
+      ],
+      "es_indices": ["xiigen-spec-audit-reports"]
+    },
+    "FLOW-PREREQ-02": {
+      "status": "PHASE_A_COMPLETE",
+      "note": "T582 FabricInterfaceGenerator — Phase B BLOCKED on convergence.handler (C-2) + multi-generate.handler (A-4). T583 FreedomConfigRegistrar — Phase B ready.",
+      "task_types": "T582, T583",
+      "factories": "F1511-F1514",
+      "families": "207",
+      "bfa_rules": "CF-792, CF-793, CF-794"
+    },
+    "FLOW-PREREQ-03": {
+      "status": "PHASE_A_COMPLETE",
+      "note": "CapabilityGapFlowProposer is bootstrap boundary — all proposals require PENDING_LUBA_REVIEW approval",
+      "task_types": "T584, T585",
+      "factories": "F1515-F1517",
+      "families": "208",
+      "bfa_rules": "CF-795, CF-796",
+      "services": [
+        "CapabilityGapFlowProposerService (SS-09)"
+      ],
+      "es_indices": ["xiigen-capability-gap-proposals"]
+    }
+  },
+  "artifactBoundaries": {
+    "nextTaskType": "T587",
+    "nextFactory": "F1518",
+    "nextFamily": 209,
+    "nextBfaRule": "CF-797",
+    "nextSkill": "SK-448",
+    "testBaseline": 5512,
+    "lastUpdated": "2026-03-26",
+    "updatedBy": "Round 3 SS-07/SS-08/SS-09"
+  },
+  "selfSufficiencyRounds": {
+    "Round1": {
+      "sessions": "SS-01, SS-02, SS-03",
+      "capability": "Self-knowledge: xiigen-capability-manifest + fabric registry + drift detection",
+      "status": "COMPLETE"
+    },
+    "Round2": {
+      "sessions": "SS-04, SS-05, SS-06",
+      "capability": "Detection: SpecAuditService + SPEC-001/002/003 + RAG patterns + CLI",
+      "status": "COMPLETE"
+    },
+    "Round3": {
+      "sessions": "SS-07, SS-08, SS-09",
+      "capability": "Resolution: FLOW-PREREQ-01/02/03 Phase A contracts + CompletionGate + FlowProposer",
+      "status": "PHASE_A_COMPLETE",
+      "phaseB": "Blocked on Feature Plan C-2 (convergence.handler) + A-4 (multi-generate.handler)"
+    }
+  },
+  "addenda": {
+    "FEATURE-REGISTRY-S1": {
+      "status": "COMPLETE",
+      "runs_after": "FLOW-31",
+      "runs_before": "FLOW-33",
+      "description": "Groundwork for Feature-as-First-Class-Entity. No code changes. No task types. No factories.",
+      "ft_namespace": {
+        "reserved_from": "FT-001",
+        "provisional_range": "FT-001 through FT-099 (Figma plugin migration)",
+        "last_assigned": "FT-010",
+        "confirmed_by": "FLOW-36 Phase A"
+      },
+      "schema_location": "contracts/features/feature-manifest.schema.json",
+      "schema_version": "1.0",
+      "phases": {
+        "S1-A": {
+          "status": "COMPLETE",
+          "deliverables": [
+            "DECISIONS-LOCKED.md (D-FT-1)",
+            "contracts/features/feature-manifest.schema.json",
+            "INFRASTRUCTURE-FLOWS-STATE-v4.json (previous version)",
+            "STATE-S1-A.json"
+          ]
+        },
+        "S1-B": {
+          "status": "COMPLETE",
+          "deliverables": [
+            "contracts/features/feature-manifest-figma-plugin-v1.json (FT-001 through FT-010)",
+            "STATE-S1-B.json"
+          ]
+        }
+      }
+    }
+  }
+}

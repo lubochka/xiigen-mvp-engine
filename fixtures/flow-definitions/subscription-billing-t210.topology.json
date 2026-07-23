@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-12",
+  "taskTypeId": "T210",
+  "name": "subscription-billing-subscription-lifecycle-manager",
+  "description": "T210 SubscriptionLifecycleManager — ORCHESTRATION archetype. Creates new subscription with SETNX duplicate prevention. Validates plan ACTIVE status. Stores paymentMethodId (vault ref) NEVER paymentMethodToken. trialDays>0→TRIALING, trialDays===0→ACTIVE. DNA-8.",
+  "archetype": "ORCHESTRATION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: SETNX duplicate guard, plan ACTIVE status, paymentMethodId vault ref (never token), trialDays branching, DNA-8 store before emit"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ORCHESTRATION arch pattern + setnx-duplicate-prevention + subscription-lifecycle + vault-ref-not-token + trial-active-branching patterns for T210",
+      "params": {
+        "archetype": "ORCHESTRATION",
+        "taskTypeRef": "T210",
+        "topK": 5,
+        "patternIds": [
+          "setnx-duplicate-prevention-001",
+          "subscription-lifecycle-001",
+          "vault-ref-not-token-001",
+          "trial-active-branching-001",
+          "audit-before-emit-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T210 into: consume SubscribeRequested → SETNX check → validate plan ACTIVE → store paymentMethodId (vault ref) → compute status: trialDays>0→TRIALING else ACTIVE → storeDocument(subscription) → emit SubscriptionActivated or SubscriptionTrialStarted"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate subscription-lifecycle-manager.service.ts — triggered by SubscribeRequested CloudEvent, SETNX prevents duplicate subscriptions for same tenantId+subscriberId+planId. Validates plan status=ACTIVE before proceeding. Stores paymentMethodId (vault reference) — NEVER paymentMethodToken or raw card data. status = trialDays > 0 ? 'TRIALING' : 'ACTIVE'. DNA-8: storeDocument(subscriptionRecord) BEFORE emitting SubscriptionActivated."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: setnx_dedup_guard, plan_active_validated, payment_method_id_not_token, trial_status_branching, store_before_emit"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T210 iron rules: SETNX guard, plan validation, vault ref only, trial branching, DNA-8 compliance"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=setnx-guard+vault-ref-only+trial-branching+store-before-emit, rejected=no-dedup-check OR stores-payment-token OR hardcoded-status OR emit-before-store. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Triggered by SubscribeRequested CloudEvent",
+  "primaryFabric": "DATABASE"
+}

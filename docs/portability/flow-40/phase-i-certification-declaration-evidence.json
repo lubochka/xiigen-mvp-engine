@@ -1,0 +1,56 @@
+{
+  "flowId": "FLOW-40",
+  "flowSlug": "client-push",
+  "phase": "phase-i-certification-declaration",
+  "status": "completed",
+  "generatedAt": "2026-05-11T23:26:52.787Z",
+  "earnedTier": "Tier 2+",
+  "basis": [
+    "Docker/Vault live auth matrix passed before fork cascade.",
+    "T587-T589 services extend MicroserviceBase and carry FLOW_SCOPED portability annotations.",
+    "Server TypeScript, FLOW-40 Jest, client TypeScript, and FLOW-40 Playwright suites passed.",
+    "Tenant A forked original platform source through marketplace API, adapted, published, and passed GitHub Actions.",
+    "Tenant B forked Tenant A through marketplace API, adapted, published, and passed GitHub Actions.",
+    "Tenant C forked Tenant B through marketplace API, adapted, published, and passed GitHub Actions.",
+    "Local registry readback returned adapted package versions 1.0.1, 1.0.2, and 1.0.3.",
+    "Post-cascade auth decoration matrix passed.",
+    "Closing scans produced zero failure lines and no secret-pattern hits."
+  ],
+  "tenantRepos": [
+    {
+      "tenant": "acme-corp",
+      "repo": "lubochka/acme-corp--client-push-f40",
+      "package": "@xiigen-fork/acme-client-push-lab",
+      "version": "1.0.1",
+      "latestRunId": 25702748516
+    },
+    {
+      "tenant": "northwind",
+      "repo": "lubochka/northwind--client-push-f40",
+      "package": "@xiigen-fork/northwind-delivery-signal-hub",
+      "version": "1.0.2",
+      "latestRunId": 25702961320
+    },
+    {
+      "tenant": "tessera-collective",
+      "repo": "lubochka/tessera-collective--client-push-f40",
+      "package": "@xiigen-fork/tessera-notification-ops-loop",
+      "version": "1.0.3",
+      "latestRunId": 25703161945
+    }
+  ],
+  "evidenceFiles": [
+    "docs/portability/flow-40/adaptation-surface-client-push.json",
+    "docs/portability/flow-40/phase-0-docker-vault-auth-evidence.json",
+    "docs/portability/flow-40/phase-1-unit-integration-evidence.json",
+    "docs/portability/flow-40/phase-2-playwright-png-evidence.json",
+    "docs/portability/flow-40/phase-3-fork-cascade-evidence.json",
+    "docs/portability/flow-40/phase-close-scan-evidence.json",
+    "docs/portability/flow-40/phase-h-auth-decoration-evidence.json",
+    "docs/portability/flow-40/product-decision-and-pre-existing-defect-evidence.json"
+  ],
+  "limitations": [
+    "GitHub Actions show only non-blocking Node 20 deprecation annotations inherited from workflow dependencies."
+  ],
+  "verdict": "PASS"
+}

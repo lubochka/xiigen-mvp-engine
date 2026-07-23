@@ -1,0 +1,234 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "phase": "phase5bTenantBAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-06T15:17:55.0193717+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "package": "@xiigen-fork/acme-enterprise-saas-multi-tenancy",
+    "version": "1.0.1",
+    "repo": "lubochka/acme-corp--acme-enterprise-saas-multi-tenancy"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change",
+    "packageName": "@xiigen-fork/northwind-controlled-saas-multi-tenancy",
+    "packageVersion": "1.0.2",
+    "moduleName": "northwind-controlled-saas-multi-tenancy",
+    "displayName": "Northwind Controlled SaaS Multi-Tenancy",
+    "sourceModuleName": "acme-enterprise-saas-multi-tenancy",
+    "sourcePackageVersion": "1.0.1",
+    "visiblePlainLanguage": "Northwind controlled tenancy policy: preserve Acme retention, tighten quota defaults, and require payment checks before reactivation.",
+    "freedomChanges": [
+      {
+        "key": "flow15_tenant_default_quota_api_calls",
+        "from": 250000,
+        "to": 100000
+      },
+      {
+        "key": "flow15_tenant_default_quota_storage_gb",
+        "from": 2048,
+        "to": 1024
+      },
+      {
+        "key": "flow15_tenant_default_quota_seats",
+        "from": 500,
+        "to": 250
+      },
+      {
+        "key": "flow15_tenant_reactivation_payment_check",
+        "from": null,
+        "to": true
+      }
+    ],
+    "inheritedValuesPreserved": [
+      {
+        "key": "flow15_tenant_data_retention_days",
+        "value": 365,
+        "source": "acme-corp"
+      }
+    ],
+    "invariantsPreserved": [
+      "Acme remains the first adaptation history entry and Northwind appends the second entry.",
+      "masterTenantId remains machine-controlled and is not exposed as a tenant override.",
+      "Tenant identity continues to be resolved from tenant context or internal hash, never request body input.",
+      "FLOW-12 and FLOW-13 remain peer dependencies rather than bundled source."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/saas-multi-tenancy-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--northwind-controlled-saas-multi-tenancy",
+    "url": "https://github.com/lubochka/northwind--northwind-controlled-saas-multi-tenancy",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "sourceRepoBeforeRename": "lubochka/northwind--acme-enterprise-saas-multi-tenancy",
+    "previousInstallCommit": "5131573617f3f89fa6a5f4be71007dded35f0252",
+    "adaptedCommit": "d6061af16b68a4fa0970bd0090b4b4b5dba0260b",
+    "adaptedCommitMessage": "Adapt SaaS multi-tenancy for Northwind",
+    "cleanClonePath": "C:/Projects/xiigen-fork-clones/northwind--acme-enterprise-saas-multi-tenancy-phase5a-20260506-145350",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/saas-multi-tenancy-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 1,
+        "tests": 3
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 114,
+        "shasum": "202044bbf9a4ccfeb4e7727c60fd09a0f5586ab0"
+      }
+    ],
+    "adaptationHistoryEntries": 2
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - saas-multi-tenancy",
+    "runId": 25434421198,
+    "jobId": 74608542009,
+    "url": "https://github.com/lubochka/northwind--northwind-controlled-saas-multi-tenancy/actions/runs/25434421198",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "d6061af16b68a4fa0970bd0090b4b4b5dba0260b",
+    "createdAt": "2026-05-06T12:10:58Z",
+    "updatedAt": "2026-05-06T12:11:41Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "ping": "passed",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/northwind-controlled-saas-multi-tenancy",
+    "publishedVersion": "1.0.2",
+    "viewCommand": "npm view @xiigen-fork/northwind-controlled-saas-multi-tenancy version --registry http://localhost:4873",
+    "npmViewVersion": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-controlled-saas-multi-tenancy/-/northwind-controlled-saas-multi-tenancy-1.0.2.tgz",
+    "shasum": "202044bbf9a4ccfeb4e7727c60fd09a0f5586ab0",
+    "gitHead": "d6061af16b68a4fa0970bd0090b4b4b5dba0260b",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/saas-multi-tenancy-northwind-v1.0.2-registry-api-evidence.json",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/saas-multi-tenancy/tenant-b-v1.0.2",
+      "count": 18,
+      "zeroByteFiles": 0,
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ]
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-15/northwind--northwind-controlled-saas-multi-tenancy-tenant-b-v1.0.2-github-listing.png",
+      "bytes": 126406,
+      "width": 1280,
+      "height": 1157
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-15/northwind--northwind-controlled-saas-multi-tenancy-tenant-b-v1.0.2-actions-success.png",
+      "bytes": 75056,
+      "width": 1280,
+      "height": 872
+    },
+    "registryScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/saas-multi-tenancy-northwind-v1.0.2-registry-listing.png",
+      "bytes": 46446,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/saas-multi-tenancy-tenant-b-adapted.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-15 Tenant B v1.0.2 cascade-point visual evidence under docs/e2e-snapshots/saas-multi-tenancy/tenant-b-v1.0.2."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBAdaptedPlaywright": {
+      "command": "client: VITE_PORT=5174 npx playwright test e2e/saas-multi-tenancy-tenant-b-adapted.spec.ts --reporter=list",
+      "result": "passed",
+      "tests": 18
+    },
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "server: npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 111
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantBAdaptedFlow": true,
+    "tenantBCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "cascadeScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstall": true
+  },
+  "verdict": "PASS"
+}

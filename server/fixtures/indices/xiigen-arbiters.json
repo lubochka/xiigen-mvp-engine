@@ -1,0 +1,17 @@
+{
+  "index": "xiigen-arbiters",
+  "mappings": {
+    "properties": {
+      "tenantId": { "type": "keyword" },
+      "arbiterId": { "type": "keyword" },
+      "namespace": { "type": "keyword" },
+      "checkId": { "type": "keyword" },
+      "evaluationPattern": { "type": "keyword" },
+      "description": { "type": "text" },
+      "severity": { "type": "keyword" },
+      "flowId": { "type": "keyword" },
+      "taskTypeId": { "type": "keyword" },
+      "createdAt": { "type": "date" }
+    }
+  }
+}

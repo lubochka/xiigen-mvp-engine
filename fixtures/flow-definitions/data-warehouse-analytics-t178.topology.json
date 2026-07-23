@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T178",
+  "name": "data-warehouse-analytics-retention-cohort-analyzer",
+  "description": "T178 RetentionCohortAnalyzer — ANALYTICS_ENGINE archetype. Retention cohorts tenant-scoped. periodDays from FREEDOM config retention window. Emits RetentionCohortGenerated.",
+  "archetype": "ANALYTICS_ENGINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: periodDays from FREEDOM config (NEVER hardcoded), tenant-scoped cohorts, RetentionCohortGenerated emission"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ANALYTICS_ENGINE arch pattern + retention-cohort + freedom-config-period + tenant-scoped-cohort patterns for T178",
+      "params": {
+        "archetype": "ANALYTICS_ENGINE",
+        "taskTypeRef": "T178",
+        "topK": 5,
+        "patternIds": [
+          "retention-cohort-001",
+          "freedom-config-period-001",
+          "tenant-scoped-cohort-001",
+          "analytics-engine-001",
+          "cohort-window-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T178 into: consume queue event → load periodDays from FREEDOM config retention window → build cohort time windows → count retained users per period → storeDocument(retentionCohort) → emit RetentionCohortGenerated"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate retention-cohort-analyzer.service.ts — queue consumer, loads periodDays from FREEDOM config retention window key (NEVER hardcoded as 7, 30, etc.). Cohort definitions tenant-scoped from ALS. Computes retention percentages per period window. DNA-8: storeDocument(retentionCohort) BEFORE emitting RetentionCohortGenerated."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: period_days_from_freedom_config, not_hardcoded_period, tenant_scoped_cohorts, retention_cohort_generated_emitted, store_before_emit"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T178 iron rules: FREEDOM config periodDays, tenant isolation, DNA-8, RetentionCohortGenerated event"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=freedom-period-days+tenant-scoped+store-before-emit, rejected=hardcoded-7-or-30-days OR cross-tenant-cohort OR emit-before-store. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Queue consumer",
+  "primaryFabric": "DATABASE"
+}

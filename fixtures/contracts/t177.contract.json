@@ -1,0 +1,37 @@
+{
+  "taskTypeId": "T177",
+  "flowId": "FLOW-13",
+  "name": "FunnelAnalysisEngine",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "ordered-tenant-scoped-funnel-bounded-conversion",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "warehouse_funnel_analysis_config",
+    "neutralConcepts": [
+      "Funnel steps must be ordered and tenant-scoped",
+      "conversionRate is computed as converted / entered, bounded [0, 1]",
+      "conversionRate cannot exceed 1.0 — validate before storing",
+      "Emit FunnelAnalysisGenerated (warehouse.funnel.analysis) on completion"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T177-1", "rule": "Funnel steps must be ordered and tenant-scoped — unordered or cross-tenant funnels are rejected.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T177-2", "rule": "conversionRate = converted / entered, bounded [0, 1]. Values > 1.0 or < 0 are a BUILD_FAILURE.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T177-3", "rule": "Emit FunnelAnalysisGenerated (warehouse.funnel.analysis) on completion.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "funnel_steps_ordered_and_tenant_scoped",
+    "conversion_rate_bounded_zero_to_one",
+    "emit_funnel_analysis_on_completion"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "funnel", "conversion-rate", "tenant-scoped", "ANALYTICS_ENGINE"],
+  "keywords": "funnel analysis engine ordered tenant scoped conversionRate bounded 0 1 converted entered FunnelAnalysisGenerated"
+}

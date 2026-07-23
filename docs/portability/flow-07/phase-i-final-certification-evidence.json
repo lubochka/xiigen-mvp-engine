@@ -1,0 +1,166 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phaseIFinalCertification",
+  "generatedAt": "2026-05-03T22:50:52+03:00",
+  "earnedTier": "Tier D",
+  "declarations": {
+    "portabilityStatus": "Tier D",
+    "authStatus": "authentication in place",
+    "tenantCertTier": "Tier D",
+    "overallReadiness": "all eight questions passed"
+  },
+  "completionGate": {
+    "allPriorPhasesCompleted": true,
+    "technicalDebtItems": 0,
+    "openBlockers": 0,
+    "realMarketplaceApiForks": true,
+    "realGitHubRepos": true,
+    "greenGitHubActions": true,
+    "localRegistryCascadeVerified": true,
+    "dockerVaultAuthVerified": true,
+    "crossTenantJwtIsolationPassed": true,
+    "roleProtectedRoutesReturn403ForWrongRole": true,
+    "missingTokensReturn401": true,
+    "visualEvidenceAtAllCascadePoints": true,
+    "repoScreenshotsAtAllCascadePoints": true,
+    "secretsPrintedOrCommitted": false
+  },
+  "repositories": [
+    {
+      "tenant": "acme-corp",
+      "packageName": "@xiigen-fork/acme-quiet-community-feed",
+      "version": "1.0.1",
+      "repoFullName": "lubochka/acme-corp--quiet-community-feed",
+      "finalActionsRunId": 25287032253,
+      "finalCommit": "00c1561860be4264e3156a0759d52a2005b88ad5",
+      "cascadePoint": "tenant-a-v1.0.1",
+      "repoScreenshots": [
+        "docs/e2e-snapshots/repo-evidence/acme-corp--quiet-community-feed-github-listing.png",
+        "docs/e2e-snapshots/repo-evidence/acme-corp--quiet-community-feed-repo-homepage.png"
+      ]
+    },
+    {
+      "tenant": "northwind",
+      "packageName": "@xiigen-fork/northwind-fresh-trust-feed",
+      "version": "1.0.2",
+      "repoFullName": "lubochka/northwind--fresh-trust-feed",
+      "finalActionsRunId": 25287706320,
+      "finalCommit": "e9cc03cab82e00b967b9783d29d00c521d0c2127",
+      "cascadePoint": "tenant-b-v1.0.2",
+      "installedCascadePoint": "tenant-b-installed-from-a",
+      "repoScreenshots": [
+        "docs/e2e-snapshots/repo-evidence/northwind--fresh-trust-feed-github-listing.png",
+        "docs/e2e-snapshots/repo-evidence/northwind--fresh-trust-feed-repo-homepage.png"
+      ]
+    },
+    {
+      "tenant": "tessera-collective",
+      "packageName": "@xiigen-fork/tessera-community-bridge-feed",
+      "version": "1.0.0",
+      "repoFullName": "lubochka/tessera-collective--community-bridge-feed",
+      "finalActionsRunId": 25288575833,
+      "finalCommit": "6cd3a099880769ee938b05d4ddfa2609cada4639",
+      "cascadePoint": "tenant-c-v1.0.0",
+      "installedCascadePoint": "tenant-c-installed-from-b",
+      "repoScreenshots": [
+        "docs/e2e-snapshots/repo-evidence/tessera-collective--community-bridge-feed-github-listing.png",
+        "docs/e2e-snapshots/repo-evidence/tessera-collective--community-bridge-feed-repo-homepage.png"
+      ]
+    }
+  ],
+  "registryPackages": [
+    {
+      "tenant": "acme-corp",
+      "packageName": "@xiigen-fork/acme-quiet-community-feed",
+      "version": "1.0.1",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "tenant": "northwind",
+      "packageName": "@xiigen-fork/northwind-fresh-trust-feed",
+      "version": "1.0.2",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "packageName": "@xiigen-fork/tessera-community-bridge-feed",
+      "version": "1.0.0",
+      "registry": "http://localhost:4873",
+      "verified": true
+    }
+  ],
+  "visualEvidence": {
+    "cascadeDirectories": [
+      {
+        "path": "docs/e2e-snapshots/friend-request-social-feed/tenant-a-v1.0.1",
+        "expectedPngCount": 21,
+        "actualPngCount": 21,
+        "smallPngCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/friend-request-social-feed/tenant-b-installed-from-a",
+        "expectedPngCount": 21,
+        "actualPngCount": 21,
+        "smallPngCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/friend-request-social-feed/tenant-b-v1.0.2",
+        "expectedPngCount": 21,
+        "actualPngCount": 21,
+        "smallPngCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/friend-request-social-feed/tenant-c-installed-from-b",
+        "expectedPngCount": 21,
+        "actualPngCount": 21,
+        "smallPngCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/friend-request-social-feed/tenant-c-v1.0.0",
+        "expectedPngCount": 21,
+        "actualPngCount": 21,
+        "smallPngCount": 0
+      }
+    ],
+    "repoEvidenceDirectory": "docs/e2e-snapshots/repo-evidence",
+    "repoListingScreenshotsVerified": true
+  },
+  "authEvidence": {
+    "phase0Evidence": "docs/portability/flow-07/phase-0-docker-vault-auth-evidence.json",
+    "phaseHDecorationEvidence": "docs/portability/flow-07/phase-h-auth-decoration-evidence.json",
+    "finalCascadeAuthEvidence": "docs/portability/flow-07/phase-5c5-tenant-c-adaptation-evidence.json",
+    "phase0Checks": "27/27 passed",
+    "finalCascadeChecks": "6/6 passed",
+    "protectedRoles": [
+      "tenant-user",
+      "tenant-admin",
+      "platform-admin"
+    ]
+  },
+  "sourceEvidenceFiles": [
+    "docs/portability/flow-07/phase-0-docker-vault-auth-evidence.json",
+    "docs/portability/flow-07/phase-4-tenant-a-original-fork-evidence.json",
+    "docs/portability/flow-07/phase-4-tenant-a-ai-adaptation-evidence.json",
+    "docs/portability/flow-07/phase-4.5-tenant-a-repo-rename-evidence.json",
+    "docs/portability/flow-07/phase-5a-tenant-b-installed-from-a-evidence.json",
+    "docs/portability/flow-07/phase-5b-tenant-b-adaptation-evidence.json",
+    "docs/portability/flow-07/phase-5c-tenant-c-installed-from-b-evidence.json",
+    "docs/portability/flow-07/phase-5c5-tenant-c-adaptation-evidence.json",
+    "docs/portability/flow-07/phase-h-auth-decoration-evidence.json"
+  ],
+  "stateFilesUpdated": [
+    "docs/sessions/FLOW-07/FLOW-07-MOBILITY-AUTH-STATE.json",
+    "docs/sessions/FLOW-07/FLOW-07-IMPL-STATE.json",
+    "docs/sessions/FLOW-07/FLOW-07-PLAN-STATE.json",
+    "docs/sessions/FLOW-07/FLOW-07-QA-COVERAGE-STATE.json"
+  ],
+  "secretHandling": {
+    "printedTenantTokens": false,
+    "printedVaultSecrets": false,
+    "committedSecrets": false,
+    "usedClaudeSessionTokenAsEvidence": false
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.sync.failed",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "connectorId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "reason": { "type": "string", "required": true },
+    "sagaStep": { "type": "string", "required": true },
+    "failedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

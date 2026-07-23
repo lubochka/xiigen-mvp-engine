@@ -1,0 +1,65 @@
+{
+    "flowId":  "FLOW-15",
+    "flowSlug":  "saas-multi-tenancy",
+    "phase":  "phase-1-unit-integration-tests",
+    "generatedAt":  "2026-05-06T13:45:43.5021448+03:00",
+    "branch":  "Skills_Creation_Claude",
+    "protocol":  "FLOW-MOBILITY-AUTH phase-1 unit and integration verification",
+    "tests":  [
+                  {
+                      "layer":  "server-typescript",
+                      "command":  "npx tsc --noEmit -p tsconfig.json --pretty false",
+                      "cwd":  "server",
+                      "passed":  true,
+                      "exitCode":  0
+                  },
+                  {
+                      "layer":  "server-jest",
+                      "command":  "npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false",
+                      "cwd":  "server",
+                      "passed":  true,
+                      "exitCode":  0,
+                      "suitesPassed":  8,
+                      "suitesTotal":  8,
+                      "testsPassed":  111,
+                      "testsTotal":  111,
+                      "snapshots":  0
+                  }
+              ],
+    "suiteBreakdown":  [
+                           "test/e2e/saas-multi-tenancy/saas-multi-tenancy-proper-flow.e2e.spec.ts",
+                           "test/e2e/saas-multi-tenancy/phase-a.spec.ts",
+                           "test/e2e/saas-multi-tenancy/phase-b.spec.ts",
+                           "test/e2e/saas-multi-tenancy/phase-c.spec.ts",
+                           "test/e2e/saas-multi-tenancy/phase-d.spec.ts",
+                           "test/e2e/saas-multi-tenancy/saas-multi-tenancy.e2e.spec.ts",
+                           "test/e2e/saas-multi-tenancy/saas-multi-tenancy-integration.spec.ts",
+                           "src/engine-contracts/__tests__/saas-multi-tenancy-bfa-rules.spec.ts"
+                       ],
+    "behavioralAssertions":  [
+                                 "T605-7 verifies configured masterTenantId can change provision result and FREEDOM seed value with canonical fallback.",
+                                 "T608-6 verifies TenantTerminated payload contains tombstoneRef, cancelledAt, and dataRetentionDays with no raw PII.",
+                                 "Proper-flow DC-10 verifies services use TenantContextResolver/ALS or internal hash and never request-body tenantId."
+                             ],
+    "staticCloseScan":  {
+                            "filesScanned":  4,
+                            "throwNew":  0,
+                            "servicesMissingMicroserviceBase":  0,
+                            "clsImports":  0,
+                            "directTenantContextImports":  0,
+                            "directSdkImports":  0,
+                            "anyProductionHits":  0,
+                            "passed":  true
+                        },
+    "phaseGate":  {
+                      "typescriptPassed":  true,
+                      "jestPassed":  true,
+                      "zeroFailureLines":  true,
+                      "phase1Complete":  true
+                  },
+    "commands":  [
+                     "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                     "Push-Location server; npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false; Pop-Location",
+                     "Static close scan for FLOW-15 production services: zero failure lines."
+                 ]
+}

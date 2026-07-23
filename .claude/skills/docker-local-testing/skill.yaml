@@ -1,0 +1,21 @@
+name: docker-local-testing
+sk_number: SK-421
+version: "1.0.0"
+load_order: 21
+priority: RECOMMENDED
+status: APPROVED
+description: |
+  All 6 fabric provider test coverage using Docker. Ensures every fabric interface
+  is tested against a real containerized dependency — not just an in-memory fallback.
+  Governs docker-compose.test.yml startup, port assignments, tenant isolation testing,
+  and provider swap verification.
+triggers:
+  - "docker"
+  - "docker-compose"
+  - "fabric provider test"
+  - "elasticsearch container"
+  - "localstack"
+  - "provider swap"
+  - "tenant isolation e2e"
+  - "real database test"
+phase_created: 10

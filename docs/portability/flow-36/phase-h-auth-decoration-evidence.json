@@ -1,0 +1,81 @@
+{
+  "flowId": "FLOW-36",
+  "flowSlug": "feature-registry",
+  "phase": "phase-h-auth-decoration",
+  "status": "completed",
+  "generatedAt": "2026-05-11T12:33:29.4575560Z",
+  "server": "http://localhost:33001",
+  "secretsProvider": "vault",
+  "tenantCredentialSource": "Vault tenant jwt_signing_key values; tokens minted locally and not printed",
+  "tests": [
+    {
+      "name": "valid acme-corp platform-admin token in own tenant",
+      "expected": 200,
+      "actual": 200,
+      "pass": true,
+      "responseBytes": 6487
+    },
+    {
+      "name": "valid northwind platform-admin token in own tenant",
+      "expected": 200,
+      "actual": 200,
+      "pass": true,
+      "responseBytes": 10889
+    },
+    {
+      "name": "valid tessera-collective platform-admin token in own tenant",
+      "expected": 200,
+      "actual": 200,
+      "pass": true,
+      "responseBytes": 8212
+    },
+    {
+      "name": "missing token returns 401",
+      "expected": 401,
+      "actual": 401,
+      "pass": true,
+      "responseBytes": 43
+    },
+    {
+      "name": "tenant A token in tenant B context returns 401",
+      "expected": 401,
+      "actual": 401,
+      "pass": true,
+      "responseBytes": 43
+    },
+    {
+      "name": "tenant B token in tenant C context returns 401",
+      "expected": 401,
+      "actual": 401,
+      "pass": true,
+      "responseBytes": 43
+    },
+    {
+      "name": "tenant A token in tenant C context returns 401",
+      "expected": 401,
+      "actual": 401,
+      "pass": true,
+      "responseBytes": 43
+    },
+    {
+      "name": "wrong-role token on role-protected route returns 403",
+      "expected": 403,
+      "actual": 403,
+      "pass": true,
+      "responseBytes": 118
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "allPassed": true
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeysPrinted": false
+  },
+  "verdict": "PASS"
+}

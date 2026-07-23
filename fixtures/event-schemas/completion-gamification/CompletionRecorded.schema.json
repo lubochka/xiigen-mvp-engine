@@ -1,0 +1,11 @@
+{
+  "eventType": "CompletionRecorded",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "completion-recorder",
+  "consumers": ["T84", "T87", "T88", "T90", "T96"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "completionId", "answers", "timeTaken", "userTimezoneOffset", "completedAt"],
+  "forbiddenFields": ["earnedPoints"],
+  "notes": "Emitted by T83 after storeDocument. Triggers Branch A (T84, T87, T96) and Branch B (T88) and Branch C (T90). earnedPoints remains forbidden downstream."
+}

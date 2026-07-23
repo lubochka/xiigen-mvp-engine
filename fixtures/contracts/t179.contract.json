@@ -1,0 +1,39 @@
+{
+  "taskTypeId": "T179",
+  "flowId": "FLOW-13",
+  "name": "ReportScheduler",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "store-before-enqueue-future-schedule",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "warehouse_report_schedule_config",
+    "neutralConcepts": [
+      "scheduleAt must be in the future at time of scheduling — past scheduleAt is rejected",
+      "Report configurations are FREEDOM config — tenant-editable",
+      "DNA-8: storeDocument() BEFORE enqueue() for scheduled report jobs",
+      "Emit ReportScheduled (warehouse.report.scheduled) on successful scheduling"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T179-1", "rule": "scheduleAt MUST be in the future at time of scheduling. Past scheduleAt must be rejected with failure — never silently accepted.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T179-2", "rule": "DNA-8: storeDocument(scheduledReport) BEFORE enqueue(ReportScheduled). Enqueue before store is a BUILD_FAILURE.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T179-3", "rule": "Report configurations are FREEDOM config — tenant-editable via warehouse_report_schedule_config.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T179-4", "rule": "Emit ReportScheduled (warehouse.report.scheduled) on successful scheduling.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "schedule_at_must_be_future",
+    "store_before_enqueue",
+    "report_config_from_freedom_config",
+    "emit_report_scheduled_on_success"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "scheduler", "report", "dna-8", "store-before-enqueue", "ANALYTICS_ENGINE"],
+  "keywords": "report scheduler scheduleAt future DNA-8 storeDocument before enqueue FREEDOM config ReportScheduled warehouse.report.scheduled"
+}

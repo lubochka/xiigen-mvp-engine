@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T189",
+  "name": "schema-registry-dag-registration-gateway",
+  "description": "T189 SchemaRegistrationGateway — TRANSACTION archetype. OCC publish gate, TWO-COLOR DFS cycle check, BREAKING approval routing, ADDITIVE fast-path, DAG async rebuild.",
+  "archetype": "TRANSACTION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: OCC gate, three-state DFS, BREAKING approval routing, async DAG rebuild, schema version pin"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve TRANSACTION arch pattern + OCC-publish-gate + two-color-dfs-cycle + breaking-change-gate + dag-rebuild-async patterns for T189",
+      "params": {
+        "archetype": "TRANSACTION",
+        "taskTypeRef": "T189",
+        "topK": 5,
+        "patternIds": [
+          "occ-publish-gate-001",
+          "two-color-dfs-cycle-001",
+          "breaking-change-gate-001",
+          "dag-rebuild-async-001",
+          "schema-version-pin-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T189 into: structure-validate → SETNX → fetch-previous → T190-classify → T191-cycle-check → T193-compat → BREAKING/ADDITIVE route → audit-storeDocument → enqueue"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-registration-gateway.service.ts — tenantId from ALS (ClsService), schemaId=SHA-256(tenantId+schemaType+version), SETNX at order 2, T190 classifyChange() at order 3, T191 cycleCheck() at order 4, T193 compatCheck() at order 5. BREAKING → SchemaApprovalRequired, ADDITIVE → SchemaQueued. DNA-8: storeDocument(auditRecord) BEFORE enqueue."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: setnx_before_classify, breaking_routes_to_approval, additive_routes_to_queued, store_before_enqueue, als_tenant_id"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T189 iron rules: OCC gate, three-state DFS, BREAKING approval, async DAG, version pin"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=breaking-routes-to-approval+additive-fast-path+occ-guard, rejected=all-schemas-through-approval+store-without-occ. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "SchemaRegistrationRequested event",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,58 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "phase": "Phase 5a - Tenant B installs Tenant A adapted version",
+  "tenantId": "northwind",
+  "completedAt": "2026-04-29T11:10:00+03:00",
+  "sourceTenantId": "acme-corp",
+  "sourceModuleName": "acme-pro-matching",
+  "repoBefore": "lubochka/northwind--profile-enrichment",
+  "repoAfter": "lubochka/northwind--acme-pro-matching",
+  "repoUrl": "https://github.com/lubochka/northwind--acme-pro-matching",
+  "adaptedCommitSha": "f51440212855399f8ad6a9ba41cfe110f9efc5c9",
+  "ciEvidence": {
+    "workflowRunId": 25097776158,
+    "workflowRunUrl": "https://github.com/lubochka/northwind--acme-pro-matching/actions/runs/25097776158",
+    "workflowConclusion": "success",
+    "workflowStatus": "completed",
+    "headSha": "f51440212855399f8ad6a9ba41cfe110f9efc5c9"
+  },
+  "repoConfigEvidence": {
+    "tenantId": "northwind",
+    "moduleName": "acme-pro-matching",
+    "moduleVersion": "1.0.1",
+    "adaptationHistoryCount": 1,
+    "inheritedByTenantId": "northwind"
+  },
+  "localForkVerification": {
+    "clonePath": "C:/tmp/xiigen-phase5a/northwind--profile-enrichment",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "result": "package install completed, TypeScript passed, Jest passed: 1 suite, 2 tests, 0 failures"
+  },
+  "visualEvidence": {
+    "directory": "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-installed-from-a",
+    "roles": [
+      "tenant-user",
+      "tenant-admin",
+      "freelancer",
+      "business-partner",
+      "event-organiser"
+    ],
+    "screensPerRole": 3,
+    "pngCount": 15
+  },
+  "repoEvidenceFiles": [
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-installed-from-a-repo/northwind--acme-pro-matching-repo-homepage.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-installed-from-a-repo/northwind--acme-pro-matching-github-listing.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-installed-from-a-repo/northwind--acme-pro-matching-github-actions-success.png"
+  ],
+  "playwrightEvidence": {
+    "command": "cd client && VITE_PORT=5178 npx playwright test e2e/profile-enrichment-portability-visual.spec.ts --project=chromium-desktop",
+    "result": "12 tests passed; Tenant B installed-from-A captured 15 role screenshots"
+  },
+  "nextPhase": "Phase 5b - Tenant B adapts"
+}

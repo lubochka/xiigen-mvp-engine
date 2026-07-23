@@ -1,0 +1,15 @@
+{
+  "index": "xiigen-design-snapshots",
+  "mappings": {
+    "properties": {
+      "snapshotId":     { "type": "keyword" },
+      "tenantId":       { "type": "keyword" },
+      "packageId":      { "type": "keyword" },
+      "packageVersion": { "type": "keyword" },
+      "flowId":         { "type": "keyword" },
+      "patternIds":     { "type": "keyword" },
+      "arbiterConfigIds": { "type": "keyword" },
+      "installedAt":    { "type": "date" }
+    }
+  }
+}

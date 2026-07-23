@@ -1,0 +1,59 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "phase": "phase1UnitTests",
+  "generatedAt": "2026-05-07T04:00:20.5217640+03:00",
+  "status": "completed",
+  "commands": [
+    {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "status": "passed"
+    },
+    {
+      "command": "Push-Location server; npx jest --testPathPatterns=durable-sagas-compliance --runInBand --colors=false; Pop-Location",
+      "status": "passed",
+      "summary": {
+        "testSuites": {
+          "passed": 12,
+          "total": 12
+        },
+        "tests": {
+          "passed": 102,
+          "total": 102
+        },
+        "snapshots": {
+          "total": 0
+        }
+      }
+    }
+  ],
+  "testSuites": [
+    "test/e2e/durable-sagas-compliance/durable-sagas-compliance-proper-flow.e2e.spec.ts",
+    "test/e2e/durable-sagas-compliance/durable-sagas-compliance.e2e.spec.ts",
+    "test/e2e/durable-sagas-compliance/phase-a.spec.ts",
+    "test/e2e/durable-sagas-compliance/phase-b.spec.ts",
+    "test/e2e/durable-sagas-compliance/phase-c.spec.ts",
+    "test/e2e/durable-sagas-compliance/phase-d.spec.ts",
+    "test/e2e/durable-sagas-compliance/durable-sagas-compliance-integration.spec.ts",
+    "server/src/engine/flows/durable-sagas-compliance/saga-orchestrator.service.spec.ts",
+    "server/src/engine/flows/durable-sagas-compliance/compensation-engine.service.spec.ts",
+    "server/src/engine/flows/durable-sagas-compliance/compliance-audit-writer.service.spec.ts",
+    "server/src/engine/flows/durable-sagas-compliance/data-retention-enforcer.service.spec.ts",
+    "server/src/engine-contracts/__tests__/durable-sagas-compliance-bfa-rules.spec.ts"
+  ],
+  "sourceScan": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0,
+    "secretPatternHits": 0
+  },
+  "secretHandling": {
+    "tokenValuesWrittenToEvidence": false,
+    "signingMaterialWrittenToEvidence": false,
+    "envFilesCommitted": false
+  },
+  "verdict": "PASS"
+}

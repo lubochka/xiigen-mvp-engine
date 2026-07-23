@@ -1,0 +1,141 @@
+{
+  "flowId": "FLOW-48",
+  "slug": "i18n-translation",
+  "name": "i18n Translation Pipeline",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T665",
+      "name": "TranslationRequestRegistrar",
+      "archetype": "validation",
+      "entry": "AccountCreated event (acceptLanguage field)",
+      "responsibility": "Parse acceptLanguage, normalise to BCP-47, store translation request doc, expand i18n.enabledLocales"
+    },
+    {
+      "id": "T666",
+      "name": "TranslationResolverService",
+      "archetype": "orchestration",
+      "entry": "GET /api/translations/:moduleId/:locale",
+      "responsibility": "5-step pipeline: tenant cache → policy gate → marketplace probe → marketplace-delta → full tenant translation"
+    },
+    {
+      "id": "T667",
+      "name": "MarketplaceTranslationCacheJob",
+      "archetype": "transaction",
+      "entry": "Async queue job — runs under MASTER_TENANT_ID CLS context",
+      "responsibility": "Translate marketplace base terms using master AI keys; write master CAS + master lookup ref"
+    },
+    {
+      "id": "T668",
+      "name": "TenantTranslationWriter",
+      "archetype": "data_pipeline",
+      "entry": "Translation result ready — writes to CAS + lookup ref",
+      "responsibility": "SHA-256 via IContentHashService, blob via IPackageContentStoreService, ref via F1523.storeRef()"
+    },
+    {
+      "id": "T669",
+      "name": "TranslationPolicyGate",
+      "archetype": "validation",
+      "entry": "Inline — called by T666 Step 2 (never throws, CF-812)",
+      "responsibility": "Check locale permitted: in freedom_config['i18n.enabledLocales'] OR in xiigen-translation-requests. Returns PERMITTED/DENIED."
+    },
+    {
+      "id": "T670",
+      "name": "UserPreferencesManager",
+      "archetype": "data_pipeline",
+      "entry": "GET/PUT /api/users/:userId/preferences",
+      "responsibility": "Read/write xiigen-user-preferences; enforce userOverride > tenantDefault priority"
+    }
+  ],
+  "edges": [
+    {
+      "from": "AccountCreated",
+      "to": "T665",
+      "event": "xiigen.user-registration.account-created.v1",
+      "condition": "acceptLanguage present"
+    },
+    {
+      "from": "T665",
+      "to": "TranslationRequestStored",
+      "event": "xiigen.i18n-translation.request-registered.v1",
+      "condition": "locale permitted + BCP-47 parse succeeded"
+    },
+    {
+      "from": "TranslationRequested",
+      "to": "T666",
+      "event": "xiigen.i18n-translation.resolution-requested.v1",
+      "condition": ""
+    },
+    {
+      "from": "T666",
+      "to": "T669",
+      "event": "xiigen.i18n-translation.policy-check-inline.v1",
+      "condition": "inline"
+    },
+    {
+      "from": "T669",
+      "to": "TranslationFallback",
+      "event": "xiigen.i18n-translation.policy-denied.v1",
+      "condition": "denied — terminal [CF-812]"
+    },
+    {
+      "from": "T666",
+      "to": "T668",
+      "event": "xiigen.i18n-translation.translation-complete.v1",
+      "condition": "policy permitted + AI translation succeeded"
+    },
+    {
+      "from": "T666",
+      "to": "T667",
+      "event": "xiigen.i18n-translation.marketplace-cache-miss.v1",
+      "condition": "marketplace source, master miss — async"
+    },
+    {
+      "from": "T668",
+      "to": "TranslationCached",
+      "event": "xiigen.i18n-translation.ref-stored.v1",
+      "condition": "terminal"
+    },
+    {
+      "from": "T667",
+      "to": "MarketplaceCacheStored",
+      "event": "xiigen.i18n-translation.master-cache-complete.v1",
+      "condition": "terminal"
+    },
+    {
+      "from": "UserPreferencesRequested",
+      "to": "T670",
+      "event": "xiigen.i18n-translation.preferences-requested.v1",
+      "condition": ""
+    },
+    {
+      "from": "T670",
+      "to": "PreferencesUpdated",
+      "event": "xiigen.i18n-translation.preferences-updated.v1",
+      "condition": "terminal"
+    }
+  ],
+  "ironRules": [
+    { "ruleId": "CF-810", "name": "Translation tenant isolation", "appliesTo": ["T665", "T667", "T668", "T670"] },
+    { "ruleId": "CF-811", "name": "Master key boundary", "appliesTo": ["T667"] },
+    { "ruleId": "CF-812", "name": "English fallback absolute", "appliesTo": ["T666", "T669"] },
+    { "ruleId": "CF-813", "name": "Concurrent translation idempotency", "appliesTo": ["T668"] },
+    { "ruleId": "CF-814", "name": "Null acceptLanguage no-op", "appliesTo": ["T665"] },
+    { "ruleId": "CF-815", "name": "AI invalid JSON fallback", "appliesTo": ["T666"] },
+    { "ruleId": "CF-816", "name": "Marketplace job SETNX idempotency", "appliesTo": ["T667"] }
+  ],
+  "factories": [
+    {
+      "id": "F1523",
+      "name": "ITranslationLookup",
+      "fabric": "DATABASE",
+      "indices": ["xiigen-translation-refs", "xiigen-translation-requests"]
+    }
+  ],
+  "esIndices": [
+    "xiigen-translation-refs",
+    "xiigen-translation-requests",
+    "xiigen-user-preferences"
+  ],
+  "crossFlowTouches": ["FLOW-01"]
+}

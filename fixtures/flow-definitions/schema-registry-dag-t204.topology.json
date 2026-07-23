@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T204",
+  "name": "schema-registry-dag-dag-conflict-detector",
+  "description": "T204 DagConflictDetector — VALIDATION archetype (inline). Detects dependency conflicts in DAG before publish. Cross-schema conflict analysis.",
+  "archetype": "VALIDATION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: cross-schema conflict analysis inline, called from T189 or T194, pure detection with no side effects, returns conflict report"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve VALIDATION arch pattern + dag-conflict-detection + cross-schema-analysis + inline-validator patterns for T204",
+      "params": {
+        "archetype": "VALIDATION",
+        "taskTypeRef": "T204",
+        "topK": 5,
+        "patternIds": [
+          "dag-conflict-detection-001",
+          "cross-schema-analysis-001",
+          "inline-validator-001",
+          "dependency-conflict-001",
+          "pre-publish-validation-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T204 into: receive new schema proposal → load existing DAG adjacency → analyze cross-schema dependency conflicts → return ConflictReport with conflicting pairs and resolution hints"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate dag-conflict-detector.service.ts — detectConflicts(newSchema, dagContext) pure function, reads existing DAG adjacency records from DATABASE, identifies circular or incompatible dependencies, returns ConflictReport. NEVER mutates DAG. No side effects. Called inline by T189 before SETNX and by T194 before OCC store."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: pure_detection_no_side_effects, cross_schema_conflict_analysis, returns_conflict_report, no_dag_mutation, called_inline_by_t189_t194"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T204 iron rules: pure function, no side effects, cross-schema analysis, correct conflict identification"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=pure-detection+no-side-effects+cross-schema-analysis, rejected=mutates-dag-on-detect OR side-effects-in-validator OR single-schema-analysis-only. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "inline call from T189 or T194",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,202 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "phase": "phase4AiAdaptation",
+  "status": "completed",
+  "generatedAt": "2026-05-06T08:26:57.3681290+03:00",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "tenantName": "Acme Corp"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change",
+    "packageName": "@xiigen-fork/acme-enterprise-warehouse-analytics",
+    "packageVersion": "1.0.1",
+    "moduleName": "acme-enterprise-warehouse-analytics",
+    "displayName": "Acme Enterprise Warehouse Analytics",
+    "sourceModuleName": "data-warehouse-analytics",
+    "sourcePackageVersion": "1.0.0-fork",
+    "visiblePlainLanguage": "Acme enterprise analytics policy: higher daily query capacity, broader retention cohort window, shorter sensitive export links, and earlier KPI threshold alerts.",
+    "freedomChanges": [
+      {
+        "key": "flow13_warehouse_daily_query_limit",
+        "from": 5000,
+        "to": 20000
+      },
+      {
+        "key": "flow13_warehouse_retention_period_days",
+        "from": 30,
+        "to": 90
+      },
+      {
+        "key": "flow13_warehouse_export_ttl_hours",
+        "from": 24,
+        "to": 4
+      },
+      {
+        "key": "flow13_warehouse_kpi_thresholds_default",
+        "from": {
+          "criticalMin": null,
+          "criticalMax": 100000
+        },
+        "to": {
+          "criticalMin": null,
+          "criticalMax": 5000
+        }
+      }
+    ],
+    "invariantsPreserved": [
+      "T173 query gate order remains T187 quota, F422 row-level security, then F423 PII masking.",
+      "T187 QuotaManager remains inline only and F426 remains absent.",
+      "T181 export encryption, audit, and masking remain mandatory.",
+      "T186 legal hold and approval token gates still precede purge.",
+      "Every cross-flow join still requires tenantId predicates.",
+      "FLOW-11, FLOW-09, and FLOW-10 remain co-install dependencies rather than bundled source."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/data-warehouse-analytics-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/acme-corp--acme-enterprise-warehouse-analytics",
+    "url": "https://github.com/lubochka/acme-corp--acme-enterprise-warehouse-analytics",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "originalForkRepo": "lubochka/acme-corp--data-warehouse-analytics-r2",
+    "initialForkCommit": "b7a62b9e73f62597886a96660eab0f7023fdbf1b",
+    "adaptedCommit": "27c3e9a519a516d2e6f571a568e74a4891182575",
+    "adaptedCommitMessage": "Adapt data warehouse analytics for Acme",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--data-warehouse-analytics-r2-phase40-20260506-081134",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/data-warehouse-analytics-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 5
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 127,
+        "shasum": "939524b045c192ddd0885655f1d20e0f6b68e6aa"
+      }
+    ],
+    "adaptationHistoryEntries": 1
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI — data-warehouse-analytics",
+    "runId": 25418051707,
+    "jobId": 74553579728,
+    "url": "https://github.com/lubochka/acme-corp--acme-enterprise-warehouse-analytics/actions/runs/25418051707",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "27c3e9a519a516d2e6f571a568e74a4891182575",
+    "createdAt": "2026-05-06T05:24:02Z",
+    "updatedAt": "2026-05-06T05:24:41Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "ping": "passed",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/acme-enterprise-warehouse-analytics",
+    "publishedVersion": "1.0.1",
+    "viewCommand": "npm view @xiigen-fork/acme-enterprise-warehouse-analytics version --registry http://localhost:4873",
+    "npmViewVersion": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-enterprise-warehouse-analytics/-/acme-enterprise-warehouse-analytics-1.0.1.tgz",
+    "shasum": "939524b045c192ddd0885655f1d20e0f6b68e6aa",
+    "gitHead": "27c3e9a519a516d2e6f571a568e74a4891182575",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/data-warehouse-analytics-acme-v1.0.1-registry-api-evidence.json",
+    "verified": true
+  },
+  "visualEvidence": {
+    "marketplaceListingScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/data-warehouse-analytics-acme-v1.0.1-registry-listing.png",
+      "bytes": 50016
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-13/acme-corp--acme-enterprise-warehouse-analytics-tenant-a-v1.0.1-github-listing.png",
+      "bytes": 134600
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-13/acme-corp--acme-enterprise-warehouse-analytics-tenant-a-v1.0.1-actions-success.png",
+      "bytes": 80041
+    },
+    "repoVisibilityRestored": true
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 2,
+      "tests": 63
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tenantSecretsStoredInVault": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantAAdaptedFlow": true,
+    "tenantACommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBInstall": true
+  },
+  "verdict": "PASS"
+}

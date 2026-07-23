@@ -1,0 +1,196 @@
+{
+  "batch": "V-R15 RESCORE BATCH C",
+  "audited_at": "2026-04-22",
+  "rubric": "docs/screen-examination/PER-IMAGE-VALIDATION-TEMPLATE.md",
+  "flows": [
+    {
+      "slug": "dynamic-forms-workflows",
+      "verdict": "CONCERN",
+      "v_r14_block_status": "N/A",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-tenant-user.png",
+        "primary-tenant-admin.png",
+        "populated-anonymous.png",
+        "populated-tenant-user.png",
+        "populated-tenant-admin.png",
+        "build-tenant-admin.png",
+        "respond-tenant-user.png"
+      ],
+      "findings": {
+        "anonymous_primary": "PASS — kiosk shell, Role-Aware Form Demo with 2 fields (Full Name, Email Address), 'Previewing as an anonymous visitor' chip, Submit CTA. No engine leaks.",
+        "tenant_user_primary": "PASS — kiosk shell, 3 fields including Company Name with 'Hidden from an anonymous visitor' helper.",
+        "tenant_admin_primary": "BLOCK — bottom of page shows 'Form Schemas — Admin Console' block with raw ui-NNN ids (ui-1776451844457, ui-1776452118157, ui-1776452307474), 'Tenant-facing' chip, 'created via UI form' tech-speak, Delete CTAs, and prominent 'reads /api/dynamic/xiigen-dynamic-forms-workflows' API path. THIS IS THE SAME ADMIN-CONSOLE DEBUG VIEW THAT WAS FLAGGED ELSEWHERE. Header has helpful Tenant-admin tip (good), but the raw crud table remains below the form.",
+        "populated_tenant_admin": "BLOCK — 'Schema ID: FRM-2026-0419-017 · Version 3 · Published at 2026-04-19 11:00 · Public URL /forms/FRM-2026-0419-017' — monospace technical artifact IDs rendered as domain fields on a populated view. Also 'Dynamic forms · step 3' breadcrumb uses system lifecycle wording.",
+        "populated_anonymous": "CONCERN — minimal 'State 3 · Form schema published — accepting submissions' block. For anonymous there is no domain fields_shown at all; this is a phase indicator, not a populated payload. Fails Axis D (NEEDS_PURPOSE_BUILT_UI requires real domain fields on populated).",
+        "populated_tenant_user": "CONCERN — identical to anonymous populated, same state-marker framing without tenant-facing fields.",
+        "build_tenant_admin": "PASS — Form builder with Field Types palette + 4 fields + Live Preview + Condition Builder. Good domain tokens. Partnership intake form. Audience selectors work.",
+        "respond_tenant_user": "PASS — kiosk Typeform-style respondent: question 3 of 4, keyboard letter-prefix answers (A/B/C/D), OK + Enter CTA, up/down nav. Domain signature strong.",
+        "shared_acronyms": "'FRM-2026-0419-017' appears in user-facing tokens — marginal, but at least the labels 'Schema ID' and 'Version' are plain; acceptable. 'UI' token in 'created via UI form' is jargon."
+      },
+      "verdict_reason": "Tenant-admin primary retains the raw DynamicController CRUD table with ui-NNN ids and Delete actions — the exact pattern V-R14 said to remove from tenant-admin primaries. Populated-state (admin/user/anon) all three show state-marker blocks instead of domain data per Axis D."
+    },
+    {
+      "slug": "etl-data-integration",
+      "verdict": "PASS",
+      "v_r14_block_status": "BLOCK_RESOLVED",
+      "pngs_examined": [
+        "primary-tenant-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "populated-platform-admin.png"
+      ],
+      "findings": {
+        "tenant_admin_primary": "BLOCK_RESOLVED. The page is now 'Connectors' with description 'Data integrations for your workspace. Platform-level extraction, fraud checks, and schema evolution are managed by platform administrators.' KPIs: ACTIVE CONNECTORS 3, LAST SYNC 12 min ago, ROWS TRANSFERRED (7D) 1.2M. Four connector cards: PostgreSQL replica — Production (Database, Active, 828,400 rows), Stripe events (Payments webhook, Active, 14,820 rows), Segment analytics (Events stream, Paused, 412,000 rows), HubSpot CRM (CRM REST, Needs credentials, Not yet synced). Each has Configure + Disconnect CTAs. '+ Add connector' top-right CTA. 'Need a connector that's not listed? Request a new integration →' footer. NO raw ui-NNN browser, NO /api/dynamic paths. Confidence: FULL BLOCK_RESOLVED.",
+        "platform_admin_primary": "PASS — 'Platform ETL Ops' with cross-tenant KPIs (active extraction jobs 47, dead-letter queue 12, connectors 3 degraded of 142), Recent Pipeline Runs with PIPE-2026-0420-NNN ids + tenant name (Acme Corp, Bluebird Media, Castle Analytics, Delta Logistics) + status chips (Complete/Running/Failed). Domain-native, readable.",
+        "platform_support_primary": "PASS — 'ETL Inspector', read-only search for tenant or connector, 'Escalate ETL issue to platform admin →' link. Matches read-only support pattern.",
+        "populated_platform_admin": "CONCERN — 'ETL integration · step 5' with Job id JOB-2026-0419-042, Rows transformed 128400, Schema version v7, Duration ms 24100. All four are domain fields, but 'step 5' lifecycle phrase + monospace-as-technical typography is the engineering-leak tell.",
+        "acronyms": "ETL appears as domain acronym in page titles and is acceptable (industry-standard term). No BFA/DNA/T-NNN leaks."
+      },
+      "verdict_reason": "V-R14 blocker removed. Tenant-admin primary is now a legitimate Connectors catalog with KPIs and connector cards — exactly the fix described."
+    },
+    {
+      "slug": "event-attendance",
+      "verdict": "BLOCK",
+      "v_r14_block_status": "N/A",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-tenant-user.png",
+        "primary-tenant-admin.png",
+        "primary-event-organiser.png",
+        "populated-tenant-user.png"
+      ],
+      "findings": {
+        "anonymous_primary": "PASS — Annual Tech Summit 2026 event card (Convention Center · Hall A, date), 'Sign in to RSVP' gate, 'RSVP is available to registered users only.' Clear kiosk external shell.",
+        "tenant_user_primary": "PASS — 'Your attendance' page with Annual Tech Summit 2026 event. RSVP status: CONFIRMED + Checked in chips, 'Reference: att-001 · Arrive 15 minutes before start.' 'View my QR code →' link. External-tenant-module shell correct.",
+        "event_organiser_primary": "CONCERN — 'Attendance moderation' admin-shell view. KPIs 3/2/2 (Confirmed/Waitlisted/Checked In) — good. RSVPs list shows 'att-001 · CONFIRMED · Checked in', 'att-002 · CONFIRMED', 'att-003 · WAITLISTED' with all-caps state chips. Refund requests show 'att-002 · ref-001 · Schedule conflict · $149', Approve/Reject. Engineering leaks: all-caps STATUS chips (CONFIRMED/WAITLISTED) and raw att-NNN/ref-NNN tokens repeated in every row. Correctly uses engine admin shell for organiser.",
+        "tenant_admin_primary": "PASS — 'Attendance' with same KPI tiles + 'Open check-in kiosk' CTA (green) + RSVPs list (same att-NNN chip pattern) + Waitlist management panel with 'Promote next in line' CTA. Engine admin shell is correct for tenant-admin.",
+        "populated_tenant_user": "BLOCK — 404 PAGE NOT FOUND. 'The page you're looking for doesn't exist.' Populated view on tenant-user is broken route for this flow. Axis D state fails catastrophically.",
+        "acronyms": "RSVP is domain-native (good). All-caps state chips (CONFIRMED/WAITLISTED/PENDING_REVIEW) are Layer-2 tell. att-NNN, ref-NNN raw record ids in user-facing copy."
+      },
+      "verdict_reason": "populated-tenant-user returns 404 — broken mock route for the flow's main consumer populated state. Also Layer 2 tells (all-caps state chips + raw record ids) on organiser/admin views."
+    },
+    {
+      "slug": "event-management",
+      "verdict": "CONCERN",
+      "v_r14_block_status": "N/A",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-tenant-user.png",
+        "primary-tenant-admin.png",
+        "primary-platform-admin.png"
+      ],
+      "findings": {
+        "anonymous_primary": "PASS — 'Upcoming Events' card with 'Sign in to create or manage events. Sign in' helper, 3 event cards (Annual Tech Summit 2026 / Spring Networking Mixer / Developer Workshop) each with date, spots remaining, 'Sign in to register' CTA. 'Browse all events →' link. Clean kiosk.",
+        "tenant_user_primary": "PASS — same 'Upcoming Events' with attendee-framing helper ('You're viewing events as an attendee. To create events, contact your admin to enable the organiser role.'), Browse events CTA, 3 Register CTAs with → arrows.",
+        "tenant_admin_primary": "CONCERN — 'Event Moderation' engine-admin-shell view. Table shows Event Title / Organiser / Status / Action with 'PENDING_REVIEW' all-caps chip and raw org-001/org-002 tokens in Organiser column, plus Approve/Reject actions. Admin shell OK for role; but 'PENDING_REVIEW' all-caps chip + raw org-NNN user tokens are Layer 2 tells.",
+        "platform_admin_primary": "CONCERN — 'Platform Event Ops' cross-tenant summary card with KPIs (active events 284, pending moderation 12 needs review), 'Open event policy console →' link. No leaks per se, but KPI labels are in small-caps uppercase style which is Layer-2 tell-adjacent. Acceptable.",
+        "acronyms": "None critical. 'PENDING_REVIEW' snake-caps + 'org-NNN' raw identifiers are the engineering leaks."
+      },
+      "verdict_reason": "Tenant-admin Event Moderation exposes all-caps state chip (PENDING_REVIEW) and raw org-NNN tokens rather than humanized (e.g. 'Pending review' / organiser name)."
+    },
+    {
+      "slug": "feature-registry",
+      "verdict": "CONCERN",
+      "v_r14_block_status": "N/A",
+      "pngs_examined": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "populated-platform-admin.png"
+      ],
+      "findings": {
+        "platform_admin_primary": "CONCERN — 'Feature Matrix' with '6 features registered · 4 portable · 2 engine-internal' summary and 6 feature cards: FT-024 Event capacity overflow / FT-031 Gig milestone escrow / FT-047 Adaptive RAG deep research / FT-052 Marketplace template gallery / FT-063 Meta-arbitration consensus / FT-071 Tenant onboarding wizard. Porting status badges (web 0.84, mobile-ios 0.61, etc.), 'Port to another platform' and 'Initiate porting' CTAs, 'Engine-internal' lock chip. FT-NNN tokens are the flow's own identifier system — present in every card title prefix. Memory rule: 'No X-NN IDs in user-facing copy (humanize per role)'. FT-NNN in user-facing card chips partially violates this; feature NAME is next to it so mitigation is real but weak.",
+        "platform_support_primary": "CONCERN — same Feature Matrix with read-only banner 'Feature Registry — read-only for support access. Controls are disabled. Escalate to a platform-admin for any change.' Same FT-NNN tokens shown prominently.",
+        "populated_platform_admin": "BLOCK — 'Feature registry · step 4' breadcrumb uses internal lifecycle vocab. Description: 'Admin view of FT-XXX records — registration, porting decision, verification, activation, deprecation.' 'FT-XXX' literal acronym in the description. Fields: Feature id FT-024, Target platform marketplace, Adapter mode 'Mode b', Activated at 2026-04-19 10:30. Monospace values, lifecycle jargon, FT-XXX literal in copy.",
+        "acronyms": "'FT-XXX', 'FT-024', 'FT-047', 'RAG', 'Engine-internal'. Mixed: RAG is domain-native (AI), but 'FT-XXX' as literal placeholder in copy is engineering tell."
+      },
+      "verdict_reason": "Populated page literally prints 'FT-XXX records' in description (Axis E acronym leak + Axis F Layer-3 H2-match-real-world fails). Platform-admin audience is internal so FT-NNN tokens as primary card identifiers are tolerable — but 'FT-XXX' placeholder literal is not."
+    },
+    {
+      "slug": "form-builder-templates",
+      "verdict": "PASS",
+      "v_r14_block_status": "BLOCK_RESOLVED",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-tenant-user.png",
+        "primary-tenant-admin.png"
+      ],
+      "findings": {
+        "anonymous_primary": "BLOCK_RESOLVED. Shows 'Form templates' catalog with subtitle 'Browse templates the community has published. Sign in to use one in your workspace.' Three template cards (Partnership intake / Customer feedback / Event RSVP confirmation) each showing field count + install count + 'Sign in to use' CTA. Footer: 'Template authoring (validate, publish, analytics) is available to workspace administrators.' NO Validate template / Publish version / Create form / View analytics CTAs on anonymous. FULLY FIXED.",
+        "tenant_user_primary": "BLOCK_RESOLVED. Same catalog with subtitle 'Browse templates published by your workspace admins. Install a template to start a new form.' Three cards with 'Use template' CTAs. Same admin-only footer note. NO authoring controls. FULLY FIXED.",
+        "tenant_admin_primary": "PASS — retains admin authoring controls: Validate template / Publish version (with v1 · Draft chip) / Create form / View analytics tiles; Recent Templates panel; Available Condition Variables with viewerRole; Condition Builder with Variable/Operator/Value selectors producing 'viewerRole == \"freelancer\"' expression; Role Preview with 'Preview as: Tenant User' + Visible/Hidden field lists. Appropriately gated to admin role. Uses engine-admin shell correctly. The expression snippet has code-font but in context it's a 'paste this' affordance (acceptable).",
+        "acronyms": "'viewerRole' is a code-token but Condition Builder is an advanced authoring tool — code-shape is intentional. RSVP is domain-native."
+      },
+      "verdict_reason": "V-R14 blocker fully resolved: consumer roles (anonymous + tenant-user) now see a clean Form templates catalog with sign-in / use-template CTAs; admin authoring controls are gated to tenant-admin."
+    },
+    {
+      "slug": "freelancer-marketplace",
+      "verdict": "BLOCK",
+      "v_r14_block_status": "N/A",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-business-partner.png",
+        "primary-freelancer.png",
+        "primary-tenant-user.png",
+        "primary-tenant-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "findings": {
+        "anonymous_primary": "PASS — 'Freelancer Gigs' kiosk. Sign-in / Create account gate ('Sign in to post a gig or place a bid'). 4 gig cards (Build a REST API integration $800–1500, Design a mobile app UI $500–900, Write developer documentation $300–600, Migrate legacy PHP codebase to Node.js $2,000–4,000) with bid counts + 'Sign in to bid' helper. Clean kiosk.",
+        "business_partner_primary": "BLOCK — 'Post a Gig' form rendered WITH engine-admin sidebar (XIIGen · Engine Client · Dashboard / Marketplace / Ledger / Events). Business-partner should be consumer shell (module or kiosk). Shell mismatch — Axis A BLOCK.",
+        "freelancer_primary": "BLOCK — 'Browse & Bid on Gigs' kiosk/module with 'You're browsing as a freelancer' banner, Open Gigs list with 'Open' chips, Submit a Bid form (bid amount + proposal + Submit Bid purple CTA). Freelancer should be consumer shell too — BUT image shows NO sidebar here, which is correct for freelancer. Good. However the purple primary CTA is a Layer 2 tell-color (cyan/purple on light as non-standard). Marginal.",
+        "tenant_user_primary": "BLOCK — 'Post a Gig' form with NO shell at all (no sidebar, no language selector, no branding). This is a broken layout — should either be kiosk chrome or consumer-module chrome. Shell missing.",
+        "tenant_admin_primary": "BLOCK — 'Gig Moderation' table with Gig Title / Posted By / Bids / Status / Action columns. 'Posted By' shows raw user-abc123, user-def456 user-id strings. Status chips 'POSTED' all-caps. Remove action per row. Two separate engineering leaks: raw user tokens and all-caps status chip.",
+        "platform_admin_primary": "PASS — 'Gig Platform Overview' cross-tenant summary: Total active gigs 1,247, Flagged for review 3 flagged, 'Open Gig Ops Console →' CTA. Clean.",
+        "platform_support_primary": "PASS — 'Gig Inspector (Read-Only)' search (Gig ID or title), Escalate link. Read-only support pattern.",
+        "acronyms": "'POSTED' all-caps chip; user-abc123 / user-def456 raw tokens; 'REST API' / 'PHP' / 'Node.js' (acceptable technical domain names in gig titles)."
+      },
+      "verdict_reason": "Multiple shell mismatches: business-partner Post-a-Gig is served with the admin engine sidebar (Dashboard/Marketplace/Ledger/Events) — consumer role inside engine chrome. tenant-user Post-a-Gig has NO shell at all (no header/branding/nav). Plus tenant-admin Gig Moderation has user-NNN raw ids + POSTED all-caps chip."
+    },
+    {
+      "slug": "friend-request-social-feed",
+      "verdict": "BLOCK",
+      "v_r14_block_status": "N/A",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-tenant-user.png",
+        "primary-tenant-admin.png",
+        "primary-platform-admin.png",
+        "populated-tenant-user.png"
+      ],
+      "findings": {
+        "anonymous_primary": "PASS — 'Public Posts' kiosk with sign-in banner and 3 public post cards from community members showing 'Sign in to like or comment' helper. Domain-friendly.",
+        "tenant_user_primary": "PASS — 'Social Feed' kiosk with post composer + feed of 4 posts (Ada Lovelace / Grace Hopper / Margaret Hamilton / Katherine Johnson) with avatar initials, @handles, timestamps, like/comment/share counts. 'Just shipped the adaptive-rag-deep-research topology canvas' in feed content contains slug 'adaptive-rag-deep-research' which is a tell; 'CRUD table' phrase also leaks. Content authorship is fine though (users can write anything).",
+        "tenant_admin_primary": "CONCERN — 'Post Moderation Queue' admin view with 3 flagged posts. User tokens 'user-abc', 'user-def', 'user-ghi' as raw ids per row + 'Flagged' chip + relative timestamps. Review/Dismiss CTAs. Shell correct for tenant-admin. Raw user-NNN tokens are the leak.",
+        "platform_admin_primary": "CONCERN — 'Platform Content Overview' cross-tenant KPIs: 'POSTS FLAGGED (24H) 47', 'NLP POLICY VIOLATIONS 3 needs review'. NLP is an acronym leak (Axis E). 'Open platform moderation console →' / 'View NLP audit log →' links. NLP in user-facing copy fails Axis E.",
+        "populated_tenant_user": "BLOCK — 404 PAGE NOT FOUND. Populated feed view for tenant-user broken route. Axis D state fails.",
+        "acronyms": "'NLP' in user-facing platform-admin view; 'CRUD' and 'adaptive-rag-deep-research' slug inside a post body (less severe as user-authored content); 'user-abc/def/ghi' raw tokens on tenant-admin moderation."
+      },
+      "verdict_reason": "populated-tenant-user returns 404 — main consumer populated route broken. Platform-admin NLP acronym leak in two places (KPI label + View NLP audit log link)."
+    }
+  ],
+  "summary": {
+    "total_flows": 8,
+    "pass": 2,
+    "concern": 3,
+    "block": 3,
+    "v_r14_blocks_in_this_batch": 2,
+    "v_r14_block_resolved": 2,
+    "v_r14_block_persists": 0,
+    "block_list": [
+      "event-attendance — populated-tenant-user 404 + all-caps state chips + att-NNN raw tokens",
+      "freelancer-marketplace — business-partner primary has admin engine sidebar; tenant-user primary has NO shell; tenant-admin has user-abc123 raw ids + POSTED all-caps chip",
+      "friend-request-social-feed — populated-tenant-user 404 + 'NLP' acronym leak in platform-admin KPI + user-abc/def/ghi raw tokens in tenant-admin"
+    ],
+    "concern_list": [
+      "dynamic-forms-workflows — tenant-admin primary still has Form Schemas Admin Console with ui-NNN raw table + Delete CTAs + /api/dynamic path; populated views all 3 show only state-marker block, no domain fields",
+      "event-management — tenant-admin has PENDING_REVIEW all-caps chip + org-001/002 raw ids",
+      "feature-registry — populated shows literal 'FT-XXX records' placeholder in description"
+    ],
+    "pass_list": [
+      "etl-data-integration — V-R14 BLOCK fully resolved, Connectors catalog with KPIs + 4 connector cards + Configure/Disconnect + Add connector",
+      "form-builder-templates — V-R14 BLOCK fully resolved, anonymous + tenant-user see Form templates catalog; admin retains authoring"
+    ]
+  }
+}

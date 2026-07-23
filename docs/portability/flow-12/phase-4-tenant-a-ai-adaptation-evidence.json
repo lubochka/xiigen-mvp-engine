@@ -1,0 +1,230 @@
+{
+    "flowId":  "FLOW-12",
+    "flowSlug":  "subscription-billing",
+    "phase":  "phase4AiAdaptation",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T03:54:18.0812123+03:00",
+    "tenant":  {
+                   "tenantId":  "acme-corp",
+                   "tenantName":  "Acme Corp"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "Type A (FREEDOM key value change)",
+                       "packageName":  "@xiigen-fork/acme-enterprise-billing",
+                       "packageVersion":  "1.0.1",
+                       "moduleName":  "acme-enterprise-billing",
+                       "displayName":  "Acme Enterprise Billing",
+                       "sourceModuleName":  "subscription-billing",
+                       "sourcePackageVersion":  "1.0.0-fork",
+                       "visiblePlainLanguage":  "Acme enterprise billing policy: 30-day trial defaults, 48/120/240-hour failed-payment retries, 730-day plan audit retention, and 90-day billing analytics.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "subscription_billing_plan_audit_retention",
+                                                  "from":  365,
+                                                  "to":  730
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_default_trial_days",
+                                                  "from":  14,
+                                                  "to":  30
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_dunning_schedule",
+                                                  "from":  [
+                                                               {
+                                                                   "wait_hours":  24,
+                                                                   "attempt":  0
+                                                               },
+                                                               {
+                                                                   "wait_hours":  72,
+                                                                   "attempt":  1
+                                                               },
+                                                               {
+                                                                   "wait_hours":  168,
+                                                                   "attempt":  2
+                                                               }
+                                                           ],
+                                                  "to":  [
+                                                             {
+                                                                 "wait_hours":  48,
+                                                                 "attempt":  0
+                                                             },
+                                                             {
+                                                                 "wait_hours":  120,
+                                                                 "attempt":  1
+                                                             },
+                                                             {
+                                                                 "wait_hours":  240,
+                                                                 "attempt":  2
+                                                             }
+                                                         ]
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_metrics_window_days",
+                                                  "from":  30,
+                                                  "to":  90
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "prices remain integer cents",
+                                                   "payment validation remains before subscription state writes",
+                                                   "billing locks remain before invoice and charge execution",
+                                                   "invoice identifiers remain tenant, subscription, and period scoped",
+                                                   "billing audit records remain stored before billing events are emitted",
+                                                   "role access remains unchanged"
+                                               ],
+                       "adaptedFilesInTenantRepo":  [
+                                                        "ADAPTATION-CHANGELOG.md",
+                                                        "BUNDLE-MANIFEST.json",
+                                                        "__tests__/subscription-billing-acme-adaptation.spec.ts",
+                                                        "freedom-config.defaults.json",
+                                                        "package.json",
+                                                        "settings/module.settings.json",
+                                                        "tenant.config.json"
+                                                    ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/acme-corp--subscription-billing",
+                             "url":  "https://github.com/lubochka/acme-corp--subscription-billing",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialForkCommit":  "8aded57bea72b72486aca9a0c024768d697f7eb6",
+                             "adaptedCommit":  "b1b549a6751ce8cf18b3c9eefe83b39098b09c21",
+                             "adaptedCommitMessage":  "Adapt subscription billing for Acme enterprise policy",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--subscription-billing-phase40",
+                             "cleanCloneStatus":  "clean",
+                             "adaptationHistoryEntries":  1,
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --package-lock-only --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  3
+                                                             }
+                                                         ]
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — subscription-billing",
+                          "runId":  25410414897,
+                          "url":  "https://github.com/lubochka/acme-corp--subscription-billing/actions/runs/25410414897",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "b1b549a6751ce8cf18b3c9eefe83b39098b09c21",
+                          "createdAt":  "2026-05-06T00:46:28Z",
+                          "updatedAt":  "2026-05-06T00:47:23Z",
+                          "jobs":  [
+                                       {
+                                           "name":  "Standalone flow test — subscription-billing",
+                                           "status":  "completed",
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/acme-corp--subscription-billing/actions/runs/25410414897/job/74530690493"
+                                       }
+                                   ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "container":  "xiigen-verdaccio-flow06-4873",
+                          "ping":  "passed",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/acme-enterprise-billing",
+                          "publishedVersion":  "1.0.1",
+                          "viewCommand":  "npm view @xiigen-fork/acme-enterprise-billing version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+                          "npmViewVersion":  "1.0.1",
+                          "distTags":  {
+                                           "latest":  "1.0.1"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/acme-enterprise-billing/-/acme-enterprise-billing-1.0.1.tgz",
+                          "shasum":  "e77db22e23e1c6265806694af29ec2616d93e93b",
+                          "gitHead":  "b1b549a6751ce8cf18b3c9eefe83b39098b09c21",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.1-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "applicationEvidence":  {
+                                "filesChangedInMainRepo":  [
+                                                               "client/e2e/subscription-billing-tenant-a-adaptation.spec.ts",
+                                                               "client/src/pages/MarketplacePage.tsx",
+                                                               "client/src/pages/subscription-billing/BillingDashboardPage.tsx"
+                                                           ],
+                                "visibleAdaptationSummary":  "30-day trial defaults, 48/120/240-hour retries, 730-day plan audit retention, and 90-day analytics.",
+                                "playwright":  {
+                                                   "command":  "VITE_PORT=5192 VITE_API_URL=http://localhost:3000 npx playwright test e2e/subscription-billing-tenant-a-adaptation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                   "result":  "passed",
+                                                   "tests":  31
+                                               },
+                                "screenshots":  {
+                                                    "tenantCascadeDirectory":  "docs/e2e-snapshots/subscription-billing/tenant-a-v1.0.1",
+                                                    "tenantCascadeCount":  30,
+                                                    "tenantCascadeZeroByte":  0,
+                                                    "tenantCascadeMinBytes":  22976,
+                                                    "tenantCascadeMaxBytes":  50686,
+                                                    "marketplaceListingPath":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.1-listing.png",
+                                                    "marketplaceListingBytes":  324739,
+                                                    "registryApiEvidencePath":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.1-registry-api-evidence.json",
+                                                    "repoListingPath":  "docs/e2e-snapshots/repo-evidence/flow-12/acme-corp--subscription-billing-tenant-a-v1.0.1-github-listing.png",
+                                                    "repoListingBytes":  129928,
+                                                    "repoActionsSuccessPath":  "docs/e2e-snapshots/repo-evidence/flow-12/acme-corp--subscription-billing-tenant-a-v1.0.1-actions-success.png",
+                                                    "repoActionsSuccessBytes":  71525,
+                                                    "repoCaptureNote":  "GitHub screenshots were captured during a temporary public visibility window; gh repo view after capture confirmed visibility PRIVATE."
+                                                }
+                            },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "clientPlaywright":  {
+                                                            "command":  "subscription-billing-tenant-a-adaptation.spec.ts chromium-desktop",
+                                                            "result":  "passed",
+                                                            "tests":  31
+                                                        },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=subscription-billing --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  7,
+                                                      "tests":  78
+                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0
+                                                 },
+                                   "gitDiffCheck":  "passed"
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantAAdaptedFlow":  true,
+                      "tenantACommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "marketplaceScreenshotPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBInstall":  true
+                  },
+    "verdict":  "PASS"
+}

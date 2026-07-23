@@ -1,0 +1,32 @@
+# Platform services that run alongside the engine in dev.
+# Vault OSS is the default ISecretsManager backend per FORK-FLOW-ENGINE-PLAN-v1.1.
+# Bring up with: docker compose -f docker-compose.platform.yml up -d
+#
+# NOTE: Vault's dev-mode root token is used here only for the container to
+# auto-unseal on startup. It is NOT a tenant credential — tenants have their
+# own `vault_token` entries stored as per-tenant FREEDOM keys. See
+# server/src/fabrics/implementations/vault-secrets-manager.service.ts.
+
+services:
+  vault:
+    image: hashicorp/vault:1.15
+    container_name: xiigen-vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "xiigen-dev-root-token"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+    cap_add:
+      - IPC_LOCK
+    healthcheck:
+      test: ["CMD", "vault", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    networks:
+      - xiigen-net
+    restart: unless-stopped
+
+networks:
+  xiigen-net:
+    driver: bridge

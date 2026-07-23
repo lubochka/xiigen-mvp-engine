@@ -1,0 +1,93 @@
+{
+  "taskTypeId": "T47",
+  "flowId": "FLOW-01",
+  "name": "SSOAndEmailAuth",
+  "archetype": "ROUTING",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "stackCoupling": {
+    "mechanism": "token-generation-and-rate-limiting",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IScopedMemoryService",
+    "freedomConfigKey": "sso_providers_enabled",
+    "neutralConcepts": [
+      "No PII in event payload",
+      "Rate-limit from FREEDOM config",
+      "Atomic set-if-not-exists idempotency via IScopedMemoryService.setIfAbsent()",
+      "DNA-8: store before emit"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F174",
+      "interface": "IUserRepository",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F175",
+      "interface": "IEmailVerificationQueue",
+      "fabric": "QUEUE"
+    },
+    {
+      "factoryId": "F176",
+      "interface": "ISSOAuthProvider",
+      "fabric": "AI_ENGINE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-1",
+      "rule": "Check email uniqueness BEFORE creating user record (CF-1)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-2",
+      "rule": "Rate limit: read limit from FREEDOM config \u2014 never hardcode",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-3",
+      "rule": "Idempotency key: auth_attempt:<userId>:<correlationId> \u2014 deduplicate (CF-2)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-4",
+      "rule": "DNA-8: storeDocument() BEFORE enqueue() on every state transition",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-5",
+      "rule": "No PII in emitted events \u2014 userId reference only (CF-8)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-6",
+      "rule": "SSO token validation via ISSOAuthProvider only \u2014 never import OAuth SDK directly",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "bfaRules": [
+    "CF-1",
+    "CF-2",
+    "CF-3",
+    "CF-4",
+    "CF-5",
+    "CF-6",
+    "CF-7",
+    "CF-8"
+  ],
+  "handlers": [
+    "validate_email_uniqueness",
+    "route_auth_pathway",
+    "store_user_record",
+    "emit_registration_initiated"
+  ],
+  "tags": [
+    "registration",
+    "routing",
+    "sso",
+    "idempotency",
+    "tenant-scoped"
+  ],
+  "keywords": "user registration SSO email auth routing idempotency duplicate prevention"
+}

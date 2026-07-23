@@ -1,0 +1,87 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "phase": "phase3VisualExamination",
+  "generatedAt": "2026-05-10T09:43:26.8569151+03:00",
+  "status": "completed",
+  "clientTypeScript": {
+    "command": "client: npx tsc --noEmit --pretty false",
+    "result": "passed"
+  },
+  "playwrightRegression": {
+    "command": "client: VITE_PORT=5181 npx playwright test cms-publishing.spec.ts cms-publishing-mock-states.spec.ts cms-publishing-crud.spec.ts --reporter=line --workers=1",
+    "result": "passed",
+    "total": 54,
+    "passed": 54,
+    "failed": 0
+  },
+  "visualAudit": {
+    "command": "client: VITE_PORT=5182 npx playwright test visual-audit-flow-22-pilot.spec.ts --reporter=line --workers=1",
+    "result": "passed",
+    "total": 27,
+    "passed": 27,
+    "failed": 0,
+    "roles": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "tenant-user",
+      "freelancer",
+      "business-partner",
+      "event-organiser",
+      "tenant-admin",
+      "platform-admin",
+      "platform-support"
+    ],
+    "viewports": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ]
+  },
+  "pngEvidence": {
+    "directory": "docs/e2e-snapshots/visual-audit/*/cms-publishing",
+    "totalCmsVisualPngCount": 33,
+    "primaryPngCount": 27,
+    "emptyPngCount": 0,
+    "totalBytes": 1749034
+  },
+  "plainLanguageScan": {
+    "path": "client/src/pages/cms-publishing",
+    "patterns": [
+      "BFA",
+      "DNA-[1-9]",
+      "AF-station",
+      "arbiter",
+      "FREEDOM config",
+      "MACHINE code",
+      "DataProcessResult",
+      "ENGINE_INTERNAL",
+      "T###",
+      "CF-###"
+    ],
+    "hits": 0,
+    "repair": "Changed the CMS raw-index panel classification literal from ENGINE_INTERNAL to ADMIN_FACING; the panel remains inside an admin-only details wrapper."
+  },
+  "sourceScan": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0
+  },
+  "roleCoverageNotes": [
+    "Anonymous and public-marketplace-visitor render the public reader surface.",
+    "Tenant-user renders the authenticated reader surface.",
+    "Freelancer renders contributor compose/submit.",
+    "Tenant-admin renders the editorial workflow surface.",
+    "Platform-admin renders cross-tenant CMS oversight.",
+    "Platform-support renders the read-only support inspector.",
+    "Business-partner and event-organiser currently render the explicit CMS fallback view; this is documented as partial role coverage for later product expansion."
+  ],
+  "phaseGate": {
+    "visualAuditPassed": true,
+    "perRolePrimaryPngsPresent": true,
+    "plainLanguageScanClean": true,
+    "regressionPlaywrightPassed": true,
+    "readyForPhase4TenantAOriginalFork": true
+  },
+  "verdict": "PASS"
+}

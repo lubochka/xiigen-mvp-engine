@@ -1,0 +1,13 @@
+{
+  "page_title": "Tableau de bord du moteur",
+  "bootstrap_title": "Phases d'amorçage",
+  "status_label": "Statut :",
+  "refresh_btn": "Actualiser",
+  "engine_registry_title": "Registre du moteur",
+  "registry_generations": "Générations",
+  "registry_factories": "Fabriques",
+  "registry_task_types": "Types de tâche",
+  "registry_promotions": "Promotions",
+  "retry_btn": "Réessayer",
+  "loading_status": "Chargement du statut du moteur..."
+}

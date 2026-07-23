@@ -1,0 +1,19 @@
+{
+  "patternId": "plan-flow07-friend-request-social-feed",
+  "patternType": "PLAN_EXEMPLAR",
+  "flowId": "FLOW-07",
+  "domainId": "social-connections",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": ["FLOW-07", "T73-T82", "social-graph", "privacy-gate", "feed-integration"],
+  "keywords": "friend request social feed privacy gate inline bidirectional graph feed scoring delivery",
+  "codeSnippet": "// Entry: POST /relations/connect → T73 (T81 inline check first)\n// Accept: T74 → T75 (atomic bidirectional) → SocialConnectionEstablished\n// Feed: T76 (T81 inline) → T77 (score=0 valid) → T78 (T81 independent)\n// Analytics: T80 (full recompute) + T82 (aggregate only)",
+  "ironRules": [
+    "T81 INLINE_ONLY — no @EventPattern anywhere on T81",
+    "T75 writes both graph edges in one ORM transaction",
+    "T77 never filters by score — T78 applies delivery thresholds",
+    "T78 calls T81 independently of T76's result",
+    "T80 full recompute — never delta increment",
+    "SocialConnectionEstablished gates on T75 only — T76-T78 time-decoupled"
+  ]
+}

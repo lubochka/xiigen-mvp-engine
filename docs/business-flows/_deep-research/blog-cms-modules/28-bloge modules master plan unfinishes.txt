@@ -1,0 +1,137 @@
+
+# XIIGen MASTER EXECUTION PLAN — FLOW-26: Blog/CMS Modules Platform
+## Date: 2026-03-01 | Status: PLANNING COMPLETE → READY TO EXECUTE
+## Phase: P0 → P3 | Estimated Duration: 16 weeks
+
+---
+
+## FLOW-26 OVERVIEW
+
+**Domain**: Blog/CMS Modules Platform — 14 CMS modules, 6 core flows
+**Engine Extension**: 47 factories (F1075–F1121), 18 task types (T389–T406), 12 skills (SK-251–SK-262)
+**Approach**: Fabric-first. Engine generates services on top of existing fabrics. No new fabrics.
+**Key Flows Generated**:
+1. Content Lifecycle (Draft → Review → Publish → Archive)
+2. Public Page Request Pipeline (Route → Cache-first → Render)
+3. Media Upload & Transform Pipeline
+4. Search Index Cascade (post-publish)
+5. Hook Fan-Out System (CMS extensions)
+6. Comment Moderation Queue
+
+---
+
+## MILESTONE PLAN
+
+### P0 — FOUNDATION (Weeks 1–4)
+
+**Goal**: Engine can generate content storage services with DNA compliance. All factories registered.
+
+**P0.1 — Factory Registry Extension** (Week 1)
+- Register F1075–F1121 in engine factory registry
+- Define FactoryResolutionContext for all 10 families
+- Config keys added to FREEDOM layer config schema
+- AF-7 (Compliance) rules updated to check new factories for DNA patterns
+
+**P0.2 — Core Skills Injection** (Week 1–2)
+- SK-251 (Content Repository) → INJECTED status
+- SK-252 (Taxonomy & Slug Resolver) → INJECTED status
+- SK-260 (Content Permission Service) → INJECTED status
+- SK-262 (Site Config & Permalink Manager) → INJECTED status
+
+**P0.3 — BFA Registration** (Week 2)
+- Register FLOW-26 entities in BFA global registry:
+  - blog_content, blog_comment, taxonomy_term, media_asset, hook_registration
+- Register CloudEvents:
+  - blog.content.published, blog.content.archived, blog.content.scheduled
+- CF-510–CF-544 conflict rules activated in BFA rule engine
+
+**P0.4 — DNA Compliance Baseline** (Week 3)
+- AF-7 scan validates all SK-251–SK-262 for 6 DNA patterns
+- AF-8 scan validates: XSS prevention in comment body, BOLA in T396, SSRF in T400
+- AF-9 (Judge) quality gates configured for all T389–T406
+
+**P0.5 — Task Type Contract Registration** (Week 4)
+- T389–T406 registered in engine task type catalog
+- Templates 83–88 added to flow definition store
+- Promotion Ladder: SK-251–SK-262 → INJECTED status (validated by AF-9)
+
+**P0 EXIT CRITERIA**:
+- [ ] All 47 factories resolve correctly via CreateAsync() in integration test
+- [ ] AF-7 compliance scan passes for all 12 skills (DNA-1 through DNA-6)
+- [ ] BFA CF-510–CF-544 registered and producing correct conflict detections
+- [ ] Zero backward compatibility regressions (T1–T388 existing tests pass)
+
+---
+
+### P1 — CORE FLOWS (Weeks 5–10)
+
+**Goal**: Engine generates working Content Lifecycle + Public Page + Media flows.
+
+**P1.1 — Content Lifecycle Flow** (Week 5–6)
+- Engine generates ContentLifecycleService (T389) via AF-1 (Genesis)
+  - AF-4 retrieves SK-251, SK-260 patterns
+  - AF-5 runs Claude + Gemini parallel generation
+  - AF-10 merges outputs
+  - AF-9 validates state machine correctness
+- ContentPublishingService (T391) generated
+  - Approval gate wired (F1110 — human-in-loop)
+  - CloudEvents emission verified (F1111)
+  - Hook fan-out integrated (F1090, F1092)
+- ContentSchedulerService (T392) generated
+- ContentArchiveService (T393) generated
+- Stress tests ST-300, ST-301, ST-307, ST-308 run
+
+**P1.2 — Public Page Request Pipeline** (Week 7–8)
+- Engine generates PublicPageService (T396) via AF-1
+  - Cache-first pattern from SK-258
+  - Slug resolution from SK-252
+  - Related content RAG from F1099
+- PageCacheInvalidationService (T398) generated
+- SearchIndexCascadeService (T397) generated
+- Stress tests ST-303, ST-306, ST-307 run
+
+**P1.3 — Media Upload & Transform Pipeline** (Week 9–10)
+- Engine generates MediaUploadService (T394) via AF-1
+  - AF-8 validates content-type allowlist, malware scan hook
+  - AF-4 retrieves SK-254 pattern
+- MediaVariantService (T395) generated
+- Stress tests ST-302, ST-314 run
+
+**P1 EXIT CRITERIA**:
+- [ ] ST-300 (1000 concurrent publishes): PASS
+- [ ] ST-303 (page cache hit rate > 95%): PASS
+- [ ] ST-302 (500 concurrent media uploads): PASS
+- [ ] All 6 iron rules in T391 verified by AF-9
+- [ ] BFA cross-flow conflicts CF-510–CF-521 producing correct warnings
+
+---
+
+### P2 — ADVANCED FLOWS (Weeks 11–13)
+
+**Goal**: Engine generates Extension System, Comment Moderation, AI Enhancement, Sitemap flows.
+
+**P2.1 — Extension System (Hooks & Webhooks)** (Week 11)
+- Engine generates HookExecutorService (T399) via AF-1
+  - Fan-out pattern from SK-253
+  - Handler isolation verified (ST-304)
+- WebhookDispatcherService (T400) generated
+  - SSRF protection (CF-535) verified by AF-8
+  - Retry policy with exponential backoff
+- Stress tests ST-304, ST-312, ST-323 run
+
+**P2.2 — Comment Moderation Flow** (Week 12)
+- Engine generates CommentSubmissionService (T401) via AF-1
+  - AI spam gate from SK-256
+  - Rate limiting pre-gate (T406 integration)
+- CommentModerationService (T402) generated
+  - Human-in-loop decision pattern from SK-261
+- Stress tests ST-305, ST-321 run
+
+**P2.3 — AI Content Enhancement** (Week 13)
+- Engine generates AiContentEnhancementService (T404) via AF-1
+  - Multi-model via AiDispatcher (SK-257)
+  - RAG context from IRagService (SK-252 + existing content patterns)
+  - AF-11 feedback loop wired
+- Taxonomy propagation service (T403) generated
+- Sitemap rebuild service (T405) generated
+- Stress tests ST-311,

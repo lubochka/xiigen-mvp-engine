@@ -1,0 +1,264 @@
+{
+    "flowId":  "FLOW-10",
+    "flowSlug":  "reviews-reputation",
+    "phase":  "phase4AiAdaptation",
+    "generatedAt":  "2026-05-05T22:15:01.6566236+03:00",
+    "tenant":  "acme-corp",
+    "adaptation":  {
+                       "changeType":  "Type A (FREEDOM key value change)",
+                       "moduleName":  "acme-verified-trust-reviews",
+                       "packageName":  "@xiigen-fork/acme-verified-trust-reviews",
+                       "packageVersion":  "1.0.1",
+                       "sourceModuleName":  "reviews-reputation",
+                       "sourcePackageVersion":  "1.0.0-fork",
+                       "plainLanguagePolicy":  "Acme verified-trust reviews policy: 92% auto-approve threshold, 20% quarantine floor, and stronger recent-review weighting while preserving tenant-scoped moderation.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow10_moderation_pass_threshold",
+                                                  "from":  0.85,
+                                                  "to":  0.92
+                                              },
+                                              {
+                                                  "key":  "flow10_moderation_reject_threshold",
+                                                  "from":  0.3,
+                                                  "to":  0.2
+                                              },
+                                              {
+                                                  "key":  "flow10_reputation_recency_weights",
+                                                  "from":  [
+                                                               1,
+                                                               0.9,
+                                                               0.8,
+                                                               0.7,
+                                                               0.6
+                                                           ],
+                                                  "to":  [
+                                                             1,
+                                                             0.95,
+                                                             0.9,
+                                                             0.8,
+                                                             0.7
+                                                         ]
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "review submission eligibility remains tenant-scoped",
+                                                   "moderation decisions remain stored before reputation aggregation",
+                                                   "reputation score updates remain event-driven and tenant-scoped",
+                                                   "owner response publishing remains separated from reviewer identity",
+                                                   "role access remains unchanged"
+                                               ]
+                   },
+    "tenantRepository":  {
+                             "repoFullName":  "lubochka/acme-corp--reviews-reputation",
+                             "repoUrl":  "https://github.com/lubochka/acme-corp--reviews-reputation",
+                             "sourceCommitSha":  "86a3ba695ecb6d4266a5d51cd254fc3e3e0677ef",
+                             "adaptedCommitSha":  "7a91bbf8bf9c7ef8e4ddea745822f56b333bba64",
+                             "defaultBranch":  "main",
+                             "clonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--reviews-reputation-phase40",
+                             "workingTreeClean":  true,
+                             "privateAfterEvidenceCapture":  true,
+                             "visibilityAfterEvidenceCapture":  "PRIVATE",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/reviews-reputation-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npx tsc --noEmit",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             }
+                                                         ],
+                             "adaptationHistoryEntries":  1
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI - reviews-reputation",
+                          "runId":  25396548422,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "7a91bbf8bf9c7ef8e4ddea745822f56b333bba64",
+                          "url":  "https://github.com/lubochka/acme-corp--reviews-reputation/actions/runs/25396548422",
+                          "createdAt":  "2026-05-05T19:05:35Z",
+                          "updatedAt":  "2026-05-05T19:06:25Z",
+                          "successfulSteps":  [
+                                                  "Install",
+                                                  "TypeScript check",
+                                                  "Test",
+                                                  "Provenance"
+                                              ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localRegistry":  {
+                          "registry":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/acme-verified-trust-reviews",
+                          "publishedVersion":  "1.0.1",
+                          "viewCommand":  "npm view @xiigen-fork/acme-verified-trust-reviews version --registry http://localhost:4873",
+                          "viewReturned":  "1.0.1",
+                          "verified":  true
+                      },
+    "applicationEvidence":  {
+                                "filesChangedInMainRepo":  [
+                                                               "client/e2e/reviews-reputation-tenant-a-adaptation.spec.ts",
+                                                               "client/src/pages/MarketplacePage.tsx",
+                                                               "client/src/pages/reviews-reputation/ReviewSubmissionPage.tsx"
+                                                           ],
+                                "visibleAdaptationSummary":  "92% auto-approve threshold, 20% quarantine floor, and stronger recent-review weighting.",
+                                "playwright":  {
+                                                   "command":  "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/reviews-reputation-tenant-a-adaptation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                   "result":  "passed",
+                                                   "tests":  13
+                                               },
+                                "screenshots":  {
+                                                    "tenantCascadeDirectory":  "docs/e2e-snapshots/reviews-reputation/tenant-a-v1.0.1",
+                                                    "tenantCascadeCount":  12,
+                                                    "tenantCascadeZeroByte":  0,
+                                                    "tenantCascadeMinBytes":  24970,
+                                                    "tenantCascadeMaxBytes":  43767,
+                                                    "marketplaceListingPath":  "docs/e2e-snapshots/marketplace/reviews-reputation-v1.0.1-listing.png",
+                                                    "marketplaceListingBytes":  289369,
+                                                    "repoListingPath":  "docs/e2e-snapshots/repo-evidence/flow-10/acme-corp--reviews-reputation-tenant-a-v1.0.1-github-listing.png",
+                                                    "repoListingBytes":  126884,
+                                                    "repoActionsSuccessPath":  "docs/e2e-snapshots/repo-evidence/flow-10/acme-corp--reviews-reputation-tenant-a-v1.0.1-actions-success.png",
+                                                    "repoActionsSuccessBytes":  76626,
+                                                    "repoCaptureNote":  "GitHub screenshots show the temporary Public badge because capture required anonymous browser access; gh repo view after capture confirmed visibility PRIVATE."
+                                                }
+                            },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-05T22:12:09.9101589+03:00",
+                           "serverBaseUrl":  "http://localhost:33001",
+                           "passed":  8,
+                           "total":  8,
+                           "allPassed":  true,
+                           "matrix":  [
+                                          {
+                                              "actualStatus":  200,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  200,
+                                              "name":  "valid acme token in acme tenant"
+                                          },
+                                          {
+                                              "actualStatus":  200,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  200,
+                                              "name":  "valid northwind token in northwind tenant"
+                                          },
+                                          {
+                                              "actualStatus":  200,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  200,
+                                              "name":  "valid tessera token in tessera tenant"
+                                          },
+                                          {
+                                              "actualStatus":  401,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  401,
+                                              "name":  "missing token denied"
+                                          },
+                                          {
+                                              "actualStatus":  401,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  401,
+                                              "name":  "acme token in northwind tenant denied"
+                                          },
+                                          {
+                                              "actualStatus":  401,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  401,
+                                              "name":  "northwind token in tessera tenant denied"
+                                          },
+                                          {
+                                              "actualStatus":  401,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  401,
+                                              "name":  "acme token in tessera tenant denied"
+                                          },
+                                          {
+                                              "actualStatus":  403,
+                                              "path":  "/api/marketplace/packages/acme-verified-trust-reviews/fork",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  403,
+                                              "name":  "wrong referral-user role denied on Acme adapted fork endpoint"
+                                          }
+                                      ]
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "clientPlaywright":  {
+                                                            "command":  "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/reviews-reputation-tenant-a-adaptation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                            "result":  "passed",
+                                                            "tests":  13
+                                                        },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  8,
+                                                      "tests":  113
+                                                  },
+                                   "flowScans":  {
+                                                     "flowFileCount":  4,
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "flowScopedAnnotations":  4,
+                                                     "flowIdAnnotations":  4,
+                                                     "localFreedomClones":  0,
+                                                     "unscopedFreedomReads":  0,
+                                                     "directSdkImports":  0,
+                                                     "productionAnyTypes":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantAAdaptedFlow":  true,
+                      "tenantACommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "liveAuthMatrixPassed":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBInstall":  true
+                  },
+    "verdict":  "PASS"
+}

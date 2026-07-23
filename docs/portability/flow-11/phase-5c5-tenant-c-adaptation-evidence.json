@@ -1,0 +1,212 @@
+{
+  "flowId": "FLOW-11",
+  "flowSlug": "schema-registry-dag",
+  "phase": "phase5c5TenantCAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-06T02:28:36.5451353+03:00",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "role": "Tenant C",
+    "adaptedFromTenant": "northwind",
+    "sourceRepoFullName": "lubochka/northwind--northwind-schema-lineage-dag",
+    "sourcePackageName": "@xiigen-fork/northwind-schema-lineage-dag",
+    "sourcePackageVersion": "1.0.2",
+    "adaptedPackageName": "@xiigen-fork/tessera-schema-custody-dag",
+    "adaptedPackageVersion": "1.0.3",
+    "localRegistry": "http://localhost:4873"
+  },
+  "adaptation": {
+    "changeType": "Type A (FREEDOM key value change)",
+    "moduleName": "tessera-schema-custody-dag",
+    "repoName": "tessera-collective--tessera-schema-custody-dag",
+    "repoFullName": "lubochka/tessera-collective--tessera-schema-custody-dag",
+    "plainLanguagePolicy": "Tessera schema custody policy: 12-hour approval window, approve-by-default custody decisions, 3-day deprecation review, and fast visualization refresh while preserving Acme and Northwind history.",
+    "freedomChanges": [
+      {
+        "key": "flow11_schema_registry_approval_window_ms",
+        "from": 86400000,
+        "to": 43200000
+      },
+      {
+        "key": "flow11_schema_registry_default_approval_decision",
+        "from": "DEFER",
+        "to": "APPROVE"
+      },
+      {
+        "key": "flow11_schema_registry_deprecation_ttl_ms",
+        "from": 604800000,
+        "to": 259200000
+      },
+      {
+        "key": "flow11_schema_registry_visualization_cache_ttl_ms",
+        "from": 60000,
+        "to": 30000
+      }
+    ],
+    "invariantsPreserved": [
+      "Acme and Northwind schema adaptation history remains visible in adaptationHistory",
+      "schema registration remains tenant-scoped",
+      "schema approval decisions remain separated from schema validation",
+      "schema dependency graphs remain cycle-checked before publication",
+      "role access remains unchanged"
+    ],
+    "adaptationHistory": {
+      "entries": 3,
+      "history0": "Acme v1.0.1 adaptation preserved",
+      "history1": "Northwind v1.0.2 adaptation preserved",
+      "history2": "Tessera v1.0.3 adaptation added"
+    }
+  },
+  "tenantRepository": {
+    "initialRepoFullName": "lubochka/tessera-collective--northwind-schema-lineage-dag",
+    "renamedRepoFullName": "lubochka/tessera-collective--tessera-schema-custody-dag",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--tessera-schema-custody-dag",
+    "defaultBranch": "main",
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-schema-lineage-dag",
+    "localRemote": "https://github.com/lubochka/tessera-collective--tessera-schema-custody-dag.git",
+    "adaptedCommitSha": "ee2f4efb7b934a31e9c96886e0a90f93f794b8a0",
+    "commitMessage": "Adapt Tessera schema custody policy",
+    "workingTreeCleanAfterPublish": true,
+    "privateAfterEvidenceCapture": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/schema-registry-dag-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-schema-lineage-dag",
+    "headSha": "ee2f4efb7b934a31e9c96886e0a90f93f794b8a0",
+    "commands": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "exitCode": 0,
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "exitCode": 0,
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 5 tests passed"
+      }
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - schema-registry-dag",
+    "runId": 25407629031,
+    "jobId": 74522105788,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "ee2f4efb7b934a31e9c96886e0a90f93f794b8a0",
+    "url": "https://github.com/lubochka/tessera-collective--tessera-schema-custody-dag/actions/runs/25407629031",
+    "createdAt": "2026-05-05T23:19:26Z",
+    "updatedAt": "2026-05-05T23:20:13Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "evidencePath": "docs/e2e-snapshots/marketplace/schema-registry-dag-v1.0.3-registry-api-evidence.json",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/tessera-schema-custody-dag",
+    "publishedVersion": "1.0.3",
+    "viewCommand": "npm view @xiigen-fork/tessera-schema-custody-dag version gitHead --registry http://localhost:4873 --json",
+    "viewReturned": "1.0.3",
+    "latest": "1.0.3",
+    "gitHead": "ee2f4efb7b934a31e9c96886e0a90f93f794b8a0",
+    "shasum": "1648edc7233b4840f581c74ca8e9fdd67b360020",
+    "tarball": "http://localhost:4873/@xiigen-fork/tessera-schema-custody-dag/-/tessera-schema-custody-dag-1.0.3.tgz",
+    "verified": true
+  },
+  "visualEvidence": {
+    "marketplaceListingScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/schema-registry-dag-v1.0.3-registry-listing.png",
+      "bytes": 14873
+    },
+    "roleMatrixDirectory": "docs/e2e-snapshots/schema-registry-dag/tenant-c-v1.0.3",
+    "roleMatrixCount": 3,
+    "roleMatrixZeroByte": 0,
+    "roleMatrixMinBytes": 28347,
+    "roleMatrixMaxBytes": 47300,
+    "roleMatrixFiles": [
+      {
+        "name": "01-tessera-v103-schema-registry.png",
+        "bytes": 47300
+      },
+      {
+        "name": "02-tessera-v103-schema-submission.png",
+        "bytes": 28347
+      },
+      {
+        "name": "03-tessera-v103-dag-visualization.png",
+        "bytes": 33905
+      }
+    ],
+    "repoScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-11/tessera-collective--tessera-schema-custody-dag-github-listing.png",
+      "bytes": 94632
+    },
+    "actionsScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-11/tessera-collective--tessera-schema-custody-dag-actions-success.png",
+      "bytes": 75720
+    },
+    "repoVisibilityRestoredAfterCapture": true
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "result": "passed"
+    },
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 12,
+      "tests": 105
+    },
+    "flowScans": {
+      "flowFileCount": 20,
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "unscopedFreedomReads": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCAdaptedTenantBPackage": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForAuthDecorationCheck": true
+  },
+  "verdict": "PASS"
+}

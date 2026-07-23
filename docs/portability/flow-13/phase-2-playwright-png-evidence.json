@@ -1,0 +1,81 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "phase": "phase-2-playwright-png",
+  "generatedAt": "2026-05-06T07:30:10.0000000+03:00",
+  "environment": {
+    "serverForPlaywright": "http://localhost:3000",
+    "vitePort": 5174,
+    "playwrightProjects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "dockerServerHealth": "GET http://localhost:3000/health/live passed"
+  },
+  "testRepair": {
+    "initialRun": {
+      "command": "Push-Location client; npx playwright test data-warehouse-analytics.spec.ts data-warehouse-analytics-mock-states.spec.ts data-warehouse-analytics-crud.spec.ts --reporter=line; Pop-Location",
+      "result": "27 passed, 27 failed",
+      "rootCause": "FLOW-13 page is role-aware and defaults anonymous users to the analytics-unavailable branch; stale specs expected tenant-admin raw panel without setting role."
+    },
+    "filesChanged": [
+      "client/e2e/data-warehouse-analytics.spec.ts",
+      "client/e2e/data-warehouse-analytics-mock-states.spec.ts",
+      "client/e2e/data-warehouse-analytics-crud.spec.ts"
+    ],
+    "changes": [
+      "P1 and default mock-state specs now navigate with role=tenant-admin and assert analytics-admin-view.",
+      "CRUD spec now opens the platform-only raw index panel explicitly before asserting raw CRUD controls.",
+      "CRUD spec uses project-unique record names to prevent cross-project strict-mode collisions.",
+      "CRUD spec waits for either list or empty-state after async raw-index reload.",
+      "All three specs write project-specific screenshot filenames to preserve desktop/tablet/mobile evidence."
+    ]
+  },
+  "verification": {
+    "focusedCrudRerun": {
+      "command": "Push-Location client; $env:VITE_PORT='5174'; npx playwright test data-warehouse-analytics-crud.spec.ts --reporter=line; Pop-Location",
+      "passed": 12,
+      "failed": 0,
+      "status": "passed"
+    },
+    "fullPlaywright": {
+      "command": "Push-Location client; $env:VITE_PORT='5174'; npx playwright test data-warehouse-analytics.spec.ts data-warehouse-analytics-mock-states.spec.ts data-warehouse-analytics-crud.spec.ts --reporter=line; Pop-Location",
+      "passed": 54,
+      "failed": 0,
+      "status": "passed"
+    },
+    "clientTypecheck": {
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "exitCode": 0,
+      "status": "passed"
+    }
+  },
+  "pngEvidence": {
+    "snapshotDirectory": "docs/e2e-snapshots/data-warehouse-analytics",
+    "totalPng": 72,
+    "totalNonEmpty": 72,
+    "projectSpecificPng": 54,
+    "projectSpecificNonEmpty": 54,
+    "projectSpecificBreakdown": {
+      "chromium-desktop": 18,
+      "chromium-tablet": 18,
+      "chromium-mobile": 18
+    },
+    "sourceSurfacesCovered": [
+      "tenant-admin default analytics surface",
+      "five P1 state coverage checks",
+      "eight business mock states",
+      "four CRUD round-trip states"
+    ],
+    "legacySharedNamesRetained": true,
+    "repoEvidencePngsGlobal": 133,
+    "repoEvidenceNote": "FLOW-13 cascade-specific GitHub repo screenshots are pending the fork cascade phases; global repo-evidence screenshots are present."
+  },
+  "summary": {
+    "status": "PASS",
+    "playwrightGateComplete": true,
+    "technicalDebtIntroduced": false,
+    "secretsPrintedOrCommitted": false
+  }
+}

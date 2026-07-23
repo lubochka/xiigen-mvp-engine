@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T195",
+  "name": "schema-registry-dag-schema-index-manager",
+  "description": "T195 SchemaIndexManager — SCHEDULED archetype. Rebuilds schema search index periodically. Tenant-scoped index entries. GLOBAL vs PRIVATE scope propagated from source schema record.",
+  "archetype": "SCHEDULED",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: scheduled entry pattern, tenant-scoped index rebuild, GLOBAL vs PRIVATE scope propagation, no direct tenant cross-read"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve SCHEDULED arch pattern + tenant-scoped-index + scope-propagation + index-rebuild patterns for T195",
+      "params": {
+        "archetype": "SCHEDULED",
+        "taskTypeRef": "T195",
+        "topK": 5,
+        "patternIds": [
+          "scheduled-index-rebuild-001",
+          "tenant-scoped-index-001",
+          "scope-propagation-001",
+          "global-private-scope-001",
+          "cron-task-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T195 into: scheduled trigger → load all schemas for tenant → propagate GLOBAL/PRIVATE scope from source record → rebuild search index entries → store updated index document"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-index-manager.service.ts — CRON or queue-scheduled trigger, reads schemas from DATABASE with tenant scope isolation (ALS), propagates scope=GLOBAL or scope=PRIVATE from source schema record onto index entry. NEVER cross-reads other tenants. DNA-8: storeDocument index BEFORE any downstream notification."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: scheduled_entry_only, tenant_scope_isolated, global_private_scope_from_source, index_entries_tenant_scoped, no_cross_tenant_read"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T195 iron rules: scheduled entry, tenant isolation, scope propagation, index rebuild correctness"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=scheduled-entry+tenant-scoped+scope-propagated-from-source, rejected=http-triggered-index-rebuild OR cross-tenant-read OR scope-hardcoded-not-from-source. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Scheduled task (CRON or queue job)",
+  "primaryFabric": "DATABASE"
+}

@@ -1,0 +1,59 @@
+{
+  "batch_id": "V-R12-A",
+  "captured_after": "RUN-181 (21c06e89) + recapture RUN-182 (d64174f9)",
+  "fixes": [
+    {
+      "fix_id": "V-R12-A1",
+      "flow": "human-interaction-gate",
+      "role": "platform-support",
+      "pre_fix": "deny/404",
+      "post_fix_expected": "read-only inspector with lock banner + disabled controls + escalate link",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "Lock-icon banner reads 'Human Interaction Gate - read-only for support access. Controls are disabled. Escalate to a platform-admin for any change.' Pending Review Queue visible with 5 items; right pane shows 'Read-only inspector - click an item for context'. Approve/Reject/Escalate buttons rendered in muted/outline style; Defer and Request info are disabled-grey. 'Escalate to platform-admin ->' link at footer.",
+      "evidence_tablet": "Same lock banner, same read-only inspector label, same dim action row, same escalate link. Right pane stacks slightly but content identical.",
+      "evidence_mobile": "Sidebar collapsed to hamburger; lock banner wraps to 2 lines; queue list + inspector stacked. Action buttons shrink but lock state preserved; escalate link visible.",
+      "notes": "Exemplary pattern matched (lock banner + disabled fieldset style + escalate). No deny page regression. Domain fields (GIG-8412, 84% confidence, $420.00) populate correctly - useful inspector context."
+    },
+    {
+      "fix_id": "V-R12-A2",
+      "flow": "oss-curriculum",
+      "role": "platform-support",
+      "pre_fix": "deny/404",
+      "post_fix_expected": "read-only inspector with visible lock banner + disabled CRUD controls + escalate-to-admin link",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "Lock banner 'OSS Curriculum - read-only for support access. Controls are disabled. Escalate to a platform-admin for any change.' Curriculum Modules Published: 142, Community Submissions Pending: 8, Shadow Run Grade Trend 87% improving. Tier 1-5 assignment cards + Shadow Runs list shown read-only (no Create/Edit/Delete buttons visible). Escalate link at bottom.",
+      "evidence_tablet": "Same banner wrapping to 2 lines. KPI row wraps; tier cards remain horizontally scrollable set; shadow runs list intact. Escalate link visible.",
+      "evidence_mobile": "Hamburger + EN selector at top, banner wraps to 4 lines. KPIs stack. Tier cards in compact row. Escalate link at footer.",
+      "notes": "No CRUD affordances visible (correct - platform-support should only inspect). DPO triples classification visible (7 triples). No deny regression."
+    },
+    {
+      "fix_id": "V-R12-A3",
+      "flow": "marketplace-plugin-adapter",
+      "role": "platform-support",
+      "pre_fix": "deny/404",
+      "post_fix_expected": "read-only inspector with lock banner + disabled Install/Remove buttons + Escalate",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "Lock banner 'Marketplace Plugin Adapter - read-only for support access. Controls are disabled. Escalate to a platform-admin for any change.' Adapter Lifecycle topology canvas (8 states) with 'read-only inspector' label. KPIs: Pending Security Scan 8 plugins, Failed Security Review 2, Approved This Week 23. Right-side Translation Phase inspector shows Payload translated / Running. Zoom controls (+/-/fit) present but no Install/Remove buttons. Escalate link at footer.",
+      "evidence_tablet": "Canvas replaced with vertical state list (Adapter registered, Handshake pending, Plugin connected, Payload translating, Payload translated, Synced, Schema mismatch, Rate limited) each with phase + description + next transition. No install controls. Escalate link present.",
+      "evidence_mobile": "Same vertical state list, compressed. All 8 states listed with phase/status chips. No CRUD. Escalate link present.",
+      "notes": "Install/Remove buttons absent (correct for read-only). Topology drill-down works progressively (canvas on desktop, list on narrower viewports) - matches the progressive drill-down feedback preference. No deny regression."
+    },
+    {
+      "fix_id": "V-R12-A4",
+      "flow": "marketplace-plugin-adapter",
+      "role": "event-organiser",
+      "pre_fix": "deny/404",
+      "post_fix_expected": "curated plugin list - Eventbrite Sync, Zoom Webinars, Stripe Tickets - with event-organiser framing",
+      "verdict": "VERIFIED",
+      "evidence_desktop": "Tenant-module shell (sidebar: Dashboard/Marketplace/Events/RSVP/Attendance - no engine nav). Blue framing banner: 'Plugins relevant to events - connect your event tools to automate ticketing, webinars, and attendee communications.' Heading 'Event-ready plugins'. Three cards: Eventbrite Sync (Events category, Free, Security Verified), Zoom Webinars (Webinars, $4.99/mo, Security Verified), Stripe Tickets (Payments, Free, Security Verified). Each has blue 'Install via Events ->' CTA. Footer hint 'Looking for more? The full plugin catalog is available once installed via your event workspace.'",
+      "evidence_tablet": "Same 3 cards side-by-side, slightly narrower. Event framing banner wraps.",
+      "evidence_mobile": "Cards stack vertically. All 3 plugins present in correct order (Eventbrite Sync, Zoom Webinars, Stripe Tickets). Event framing preserved.",
+      "notes": "All 3 required plugins present with correct categories. Event-organiser framing is explicit ('relevant to events', 'Install via Events', 'event workspace'). No admin controls leaked. Consumer shell correct (no ENGINE sidebar section)."
+    }
+  ],
+  "batch_summary": {
+    "verified": 4,
+    "partial": 0,
+    "failed": 0
+  }
+}

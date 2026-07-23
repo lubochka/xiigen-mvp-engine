@@ -1,0 +1,25 @@
+{
+  "batch_id": "F",
+  "summary_table": [
+    {"slug":"sharable-flows-marketplace","axis_d_total":11,"max":15,"issue":"All 8 states rendered; anon+publisher purpose-built. Missing admin approve/reject CTA. anonymous+public-marketplace-visitor collapse to same view. Install/rollback buttons absent"},
+    {"slug":"subscription-billing","axis_d_total":11,"max":15,"issue":"PAID/FAILED/VOIDED + dunning retry + TRIALING states shown. Validation errors explicit. No business-partner revenue-share view; no tenant-admin cancel-plan flow; same chrome across all roles"},
+    {"slug":"system-initiation-bootstrap","axis_d_total":8,"max":15,"issue":"WORST IN BATCH. Anonymous role routes to tenant-signup (misrouted for platform-only flow); no purpose-built progress bar or fabric health matrix; platform-support distinct surface missing"},
+    {"slug":"tenant-lifecycle-manager","axis_d_total":13,"max":15,"issue":"BEST IN BATCH. Platform-admin console: tenant list + health meters + suspend/offboard/force-offboard + raw-index fallback. All 8 states rendered with good state-signals (quota/reason/gracePeriod). No distinct platform-support variant"},
+    {"slug":"transactional-event-participation","axis_d_total":11,"max":15,"issue":"Purchase/waitlist/refund forms shipped. No event-organiser scan-check-in + no platform-admin reconciliation + confirmation screens only show loading/not-found (no happy-path booking card)"},
+    {"slug":"user-groups-communities","axis_d_total":14,"max":15,"issue":"4-persona coverage well done: discovery + join-confirmed + admin-approval queue + member feed + tier upgrade. platform-support not visibly present"},
+    {"slug":"user-registration","axis_d_total":12,"max":15,"issue":"State matrix comprehensive (form/validation/verification/onboarding/SSO-bypass). No tenant-admin invite flow + no platform-support reset-account; SSO provider choice not shown in form"},
+    {"slug":"visual-flow-engine","axis_d_total":13,"max":15,"issue":"Strong n8n-style canvas for tenant-admin; platform-admin cross-tenant audit with lock/unlock; platform-support read-only + escalate. Topology-error banner shown in EVERY role view (masks happy-path)"}
+  ],
+  "batch_summary": {
+    "avg_d_total_of_15": 11.625,
+    "top_flow": "user-groups-communities (14)",
+    "bottom_flow": "system-initiation-bootstrap (8)",
+    "global_observations": [
+      "'Missing provider keys' amber banner ubiquitous across shots (non-blocking but pervasive)",
+      "platform-support role rarely has distinct surface — reuses admin chrome or missing",
+      "Generic key-value-table state pages should be replaced with role-specific consoles (system-initiation-bootstrap most affected)",
+      "tenant-lifecycle-manager and visual-flow-engine exhibit strongest purpose-built admin UX",
+      "system-initiation-bootstrap anonymous route falls through to tenant-signup — misrouted for platform-only flow"
+    ]
+  }
+}

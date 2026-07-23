@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.record.quarantined",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "connectorId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "quarantineReason": { "type": "string", "required": true },
+    "knowledgeScope": { "type": "string", "enum": ["PRIVATE"], "required": true },
+    "quarantinedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

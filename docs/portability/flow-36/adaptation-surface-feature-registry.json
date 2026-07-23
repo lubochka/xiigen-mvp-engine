@@ -1,0 +1,451 @@
+{
+  "flowId": "FLOW-36",
+  "flowSlug": "feature-registry",
+  "implementationSlug": "feature-registry",
+  "flowTitle": "Feature Registry",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-36 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-36-feature-registry-functional-spec.md",
+    "docs/sessions/FLOW-36/FLOW-36-STEP-1-INVARIANTS.md",
+    "server/src/engine-contracts/feature-registry-contracts.ts",
+    "server/src/engine-contracts/feature-registry-bfa-rules.ts",
+    "server/src/engine/flows/feature-registry",
+    "server/src/bootstrap/history-seeds/feature-registry-design-corpus.json",
+    "docs/flow-coverage/feature-registry/P1-business-logic-inventory.md",
+    "docs/flow-coverage/feature-registry/P5-ui-specs.md",
+    "docs/flow-coverage/feature-registry/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T567-T573",
+    "taskTypeIds": [
+      "T567",
+      "T568",
+      "T569",
+      "T570",
+      "T571",
+      "T572",
+      "T573"
+    ],
+    "factoryIdRange": "F1492-F1498",
+    "freedomKeyCount": 10,
+    "securityClassification": "platform-level feature registry, feature-porting decisions, adapter generation, simulator checks, and tenant-visible read-only feature inventory",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-36 uses feature-registry as the canonical portability, UI, package, and runtime implementation slug.",
+    "coreGuarantees": [
+      "FT records keep stable feature identity across platforms.",
+      "portingCandidate is MACHINE-classified and cannot be overridden by tenant configuration.",
+      "Engine-internal features produce a terminal PROHIBITED result before cost estimation or adapter generation.",
+      "Feature-manifest schema v2.0 validation runs before FT records are committed.",
+      "FT-ID uniqueness is enforced before creating a registry entry.",
+      "Signal aggregation routes MODE_A or MODE_B from the FT platform list.",
+      "Porting thresholds and cost thresholds are configurable only through declared FREEDOM keys.",
+      "Platform adapters contain zero business logic and call canonical services through queue fabric events.",
+      "Platform simulator runs with local mocks and zero cloud credentials.",
+      "Pipeline checkpoints are persisted before the next step begins.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Tenant scope remains automatic through AsyncLocalStorage.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory."
+    ]
+  },
+  "services": [
+    {
+      "taskTypeId": "T567",
+      "className": "FeatureExtractor",
+      "file": "server/src/engine/flows/feature-registry/feature-extractor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow36_module_name",
+        "flow36_extraction_confidence_threshold",
+        "flow36_max_ft_per_extraction"
+      ],
+      "machineLockedRules": [
+        "portingCandidate classification is MACHINE-owned",
+        "feature-manifest schema v2.0 validation precedes storeDocument",
+        "FT-ID uniqueness is checked before registry writes"
+      ]
+    },
+    {
+      "taskTypeId": "T568",
+      "className": "FeatureSignalAggregator",
+      "file": "server/src/engine/flows/feature-registry/feature-signal-aggregator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow36_porting_threshold"
+      ],
+      "machineLockedRules": [
+        "signal mode is derived from ftRecord.platforms",
+        "MODE_A and MODE_B formula routing remains fixed"
+      ]
+    },
+    {
+      "taskTypeId": "T569",
+      "className": "PortingCostEstimator",
+      "file": "server/src/engine/flows/feature-registry/porting-cost-estimator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow36_max_porting_cost_usd",
+        "flow36_default_target_platform"
+      ],
+      "machineLockedRules": [
+        "cost estimation never runs for portingCandidate=false",
+        "RAG retrieval includes target platform constraints",
+        "cost, effort days, and complexity score are all emitted"
+      ]
+    },
+    {
+      "taskTypeId": "T570",
+      "className": "PortingDecisionGate",
+      "file": "server/src/engine/flows/feature-registry/porting-decision-gate.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow36_porting_threshold",
+        "flow36_max_porting_cost_usd",
+        "flow36_porting_review_window_days"
+      ],
+      "machineLockedRules": [
+        "PROHIBITED guard executes first",
+        "terminal decisions stop the pipeline",
+        "decision record is stored before decision event emission"
+      ]
+    },
+    {
+      "taskTypeId": "T571",
+      "className": "PlatformAdapterGenerator",
+      "file": "server/src/engine/flows/feature-registry/platform-adapter-generator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow36_max_adapter_retry_rounds",
+        "flow36_default_target_platform"
+      ],
+      "machineLockedRules": [
+        "adapter generation refuses portingCandidate=false",
+        "adapter contains zero business logic",
+        "canonical service calls happen through queue fabric events"
+      ]
+    },
+    {
+      "taskTypeId": "T572",
+      "className": "PlatformSimulator",
+      "file": "server/src/engine/flows/feature-registry/platform-simulator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow36_simulator_timeout_ms",
+        "flow36_default_target_platform"
+      ],
+      "machineLockedRules": [
+        "simulator uses local mocks only",
+        "cloud credentials are never required",
+        "implemented status is set only after simulator PASS"
+      ]
+    },
+    {
+      "taskTypeId": "T573",
+      "className": "FeaturePortingOrchestrator",
+      "file": "server/src/engine-contracts/feature-registry-contracts.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow36_porting_pipeline_timeout_ms"
+      ],
+      "machineLockedRules": [
+        "pipeline step order remains fixed",
+        "checkpoints are persisted before the next step",
+        "terminal steps stop the pipeline"
+      ],
+      "note": "The orchestration contract is registered in the engine-contract layer; current runtime implementation is covered by the decision, adapter, simulator, and scanner services."
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-36 values may tune module naming, acceptance thresholds, run limits, cost ceilings, retry and timeout budgets, review windows, and default target platform without changing FT identity, portingCandidate ownership, prohibited-guard order, tenant isolation, fabric boundaries, adapter purity, simulator locality, or event ordering.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow36_module_name",
+          "type": "string",
+          "default": "feature-registry",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "tenant.config.json",
+            "settings/module.settings.json"
+          ],
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        },
+        {
+          "key": "flow36_extraction_confidence_threshold",
+          "type": "number",
+          "default": 0.8,
+          "unit": "score",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T567.FeatureExtractor"
+          ],
+          "boundedRange": {
+            "min": 0.5,
+            "max": 0.98
+          }
+        },
+        {
+          "key": "flow36_max_ft_per_extraction",
+          "type": "number",
+          "default": 25,
+          "unit": "features",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T567.FeatureExtractor"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 100
+          }
+        },
+        {
+          "key": "flow36_porting_threshold",
+          "type": "number",
+          "default": 60,
+          "unit": "score",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T568.FeatureSignalAggregator",
+            "T570.PortingDecisionGate"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 100
+          }
+        },
+        {
+          "key": "flow36_max_porting_cost_usd",
+          "type": "number",
+          "default": 3000,
+          "unit": "USD",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T569.PortingCostEstimator",
+            "T570.PortingDecisionGate"
+          ],
+          "boundedRange": {
+            "min": 100,
+            "max": 25000
+          }
+        },
+        {
+          "key": "flow36_max_adapter_retry_rounds",
+          "type": "number",
+          "default": 3,
+          "unit": "attempts",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T571.PlatformAdapterGenerator"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 10
+          }
+        },
+        {
+          "key": "flow36_simulator_timeout_ms",
+          "type": "number",
+          "default": 60000,
+          "unit": "milliseconds",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T572.PlatformSimulator"
+          ],
+          "boundedRange": {
+            "min": 5000,
+            "max": 300000
+          }
+        },
+        {
+          "key": "flow36_porting_pipeline_timeout_ms",
+          "type": "number",
+          "default": 240000,
+          "unit": "milliseconds",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T573.FeaturePortingOrchestrator"
+          ],
+          "boundedRange": {
+            "min": 30000,
+            "max": 900000
+          }
+        },
+        {
+          "key": "flow36_porting_review_window_days",
+          "type": "number",
+          "default": 21,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T570.PortingDecisionGate",
+            "tenant.config.json"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 90
+          }
+        },
+        {
+          "key": "flow36_default_target_platform",
+          "type": "string",
+          "default": "figma",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T569.PortingCostEstimator",
+            "T571.PlatformAdapterGenerator",
+            "T572.PlatformSimulator"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "figma",
+              "canva",
+              "miro",
+              "webflow",
+              "framer",
+              "custom"
+            ]
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to registry module naming, feature extraction acceptance thresholds, porting threshold and cost policy, adapter retry budget, simulator/pipeline timeouts, review windows, and a default target platform.",
+      "edgeCases": [
+        {
+          "id": "acme-feature-porting-control",
+          "name": "Acme feature porting control",
+          "semantic": "Tenant A tunes FLOW-36 for a stricter platform governance console with high confidence requirements, faster simulator checks, and a lower cost ceiling.",
+          "extensionPoint": "module naming, extraction confidence, porting threshold, cost ceiling, simulator timeout",
+          "currentImplementation": "FT identity, portingCandidate classification, prohibited-guard order, adapter purity, and tenant isolation remain fixed."
+        },
+        {
+          "id": "northwind-platform-readiness-hub",
+          "name": "Northwind platform readiness hub",
+          "semantic": "Tenant B tunes the package for broader marketplace readiness scanning with more FT records per extraction, a larger cost ceiling, and extra adapter retry rounds.",
+          "extensionPoint": "extraction run size, porting threshold, cost ceiling, adapter retry budget, review window",
+          "currentImplementation": "Cost estimation still runs only for portable features and adapters still contain zero business logic."
+        },
+        {
+          "id": "tessera-porting-lab",
+          "name": "Tessera porting lab",
+          "semantic": "Tenant C tunes the package for slower community review and longer simulator/pipeline timeouts while keeping a moderate porting threshold.",
+          "extensionPoint": "review window, simulator timeout, pipeline timeout, default target platform",
+          "currentImplementation": "No tenant can relax DNA, BFA, tenant-scope, outbox, CloudEvents, prohibited-guard, or simulator-locality rules."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T567 through T573 remain fixed.",
+      "Factory IDs F1492 through F1498 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "FT-ID identity remains stable across platforms.",
+      "portingCandidate remains MACHINE-owned.",
+      "Feature-manifest schema v2.0 validation happens before registry writes.",
+      "PROHIBITED guard runs before AI calls, cost estimation, and adapter generation.",
+      "PortingCostEstimator never runs when portingCandidate=false.",
+      "Adapters contain zero business logic.",
+      "Adapters call canonical services through queue fabric events, never direct HTTP.",
+      "Platform simulator runs with zero cloud credentials.",
+      "Pipeline checkpoints persist before the next step begins.",
+      "Terminal pipeline states stop further execution.",
+      "Tenant scope is resolved through AsyncLocalStorage.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAFeaturePortingControl": {
+      "description": "Tenant A tunes FLOW-36 for a strict internal feature-porting control room.",
+      "change": {
+        "flow36_module_name": "acme-feature-porting-control",
+        "flow36_extraction_confidence_threshold": 0.82,
+        "flow36_max_ft_per_extraction": 25,
+        "flow36_porting_threshold": 72,
+        "flow36_max_porting_cost_usd": 2500,
+        "flow36_max_adapter_retry_rounds": 2,
+        "flow36_simulator_timeout_ms": 45000,
+        "flow36_porting_pipeline_timeout_ms": 180000,
+        "flow36_porting_review_window_days": 14,
+        "flow36_default_target_platform": "figma"
+      },
+      "impact": "Acme gets stricter acceptance and faster feedback while feature identity, porting gates, and simulator locality remain unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    },
+    "tenantBReadinessHub": {
+      "description": "Tenant B tunes FLOW-36 for broader marketplace readiness review.",
+      "change": {
+        "flow36_module_name": "northwind-platform-readiness-hub",
+        "flow36_extraction_confidence_threshold": 0.75,
+        "flow36_max_ft_per_extraction": 40,
+        "flow36_porting_threshold": 64,
+        "flow36_max_porting_cost_usd": 5000,
+        "flow36_max_adapter_retry_rounds": 4,
+        "flow36_simulator_timeout_ms": 90000,
+        "flow36_porting_pipeline_timeout_ms": 300000,
+        "flow36_porting_review_window_days": 30,
+        "flow36_default_target_platform": "canva"
+      },
+      "impact": "Northwind gets a wider readiness hub while the prohibited guard and adapter purity remain fixed.",
+      "testable": "Tenant B fork from Tenant A publishes a distinct package version and keeps CI green."
+    },
+    "tenantCPortingLab": {
+      "description": "Tenant C tunes FLOW-36 for slower review and longer simulator windows.",
+      "change": {
+        "flow36_module_name": "tessera-porting-lab",
+        "flow36_extraction_confidence_threshold": 0.8,
+        "flow36_max_ft_per_extraction": 20,
+        "flow36_porting_threshold": 68,
+        "flow36_max_porting_cost_usd": 3500,
+        "flow36_max_adapter_retry_rounds": 3,
+        "flow36_simulator_timeout_ms": 120000,
+        "flow36_porting_pipeline_timeout_ms": 420000,
+        "flow36_porting_review_window_days": 45,
+        "flow36_default_target_platform": "miro"
+      },
+      "impact": "Tessera gets a community-oriented porting lab while core governance invariants stay locked.",
+      "testable": "Tenant C fork from Tenant B adapts locally, passes package CI, and preserves auth boundaries."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T567-T573",
+      "Factory IDs F1492-F1498",
+      "FT-ID identity format",
+      "portingCandidate ownership",
+      "productScope assignment rules",
+      "feature-manifest schema validation",
+      "PROHIBITED guard order",
+      "cost-estimator eligibility",
+      "adapter zero-business-logic rule",
+      "queue fabric adapter calls",
+      "simulator local-only runtime",
+      "tenant-scoped fabric access",
+      "Vault credential paths",
+      "store-before-event ordering",
+      "CloudEvents envelope requirements",
+      "FLOW-36 canonical package slug"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-36 configuration values or display/module metadata.",
+    "FLOW-36 package assembly copies the feature-registry implementation under the canonical package slug path.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

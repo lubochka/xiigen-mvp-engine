@@ -1,0 +1,95 @@
+{
+  "batch_id": "C",
+  "flows": [
+    {
+      "slug": "ai-self-modification",
+      "role": "platform-admin",
+      "grammar": "G3",
+      "verdict": "MAJOR",
+      "weighted_score": 8,
+      "offences": [
+        {"severity":"MAJOR","axis":"H","viewport":"all","description":"Raw proposal IDs SMP-2026-0418-001 and skill:SK-512 exposed in user-visible content"},
+        {"severity":"MAJOR","axis":"H","viewport":"all","description":"FLOW-29/FLOW-16/FLOW-09 prefix tokens exposed in AI reasoning body text"},
+        {"severity":"MINOR","axis":"H","viewport":"all","description":"Raw Index card exposes ui-17764... synthetic IDs and /api/dynamic/xiigen-ai-self-modification path"},
+        {"severity":"MINOR","axis":"UX-P1","viewport":"all","description":"'Platform-only' pill and metric tokens risk low contrast on muted background"},
+        {"severity":"MINOR","axis":"G","viewport":"all","description":"G3 Card List borderline — 'Pending Proposals' container is single card not list"}
+      ],
+      "notes": "Functional UI with approve/reject affordance. Major H-axis leakage."
+    },
+    {
+      "slug": "cycle-chain-extension",
+      "role": "platform-admin",
+      "grammar": "G1",
+      "verdict": "MAJOR",
+      "weighted_score": 9,
+      "offences": [
+        {"severity":"MAJOR","axis":"H","viewport":"all","description":"SCREAMING_SNAKE enums visible: after_retrieval_log, pre_arbitration_audit, on_payment_dispute, custom_tenant_webhook"},
+        {"severity":"MAJOR","axis":"H","viewport":"all","description":"FLOW-29/16/09 prefix tokens exposed in 'Registered by' metadata"},
+        {"severity":"MINOR","axis":"H","viewport":"all","description":"Raw hook IDs HK-001..HK-004 and execution IDs HX-2026-0419-0142 exposed"},
+        {"severity":"MINOR","axis":"G","viewport":"all","description":"G1 Progress Strip assigned but renders as card list, no Vercel/CircleCI step strip"},
+        {"severity":"MINOR","axis":"UX-P6","viewport":"all","description":"Monospace technical IDs dominate visual hierarchy over human-readable titles"}
+      ],
+      "notes": "Clear status pills but G1 grammar mismatch and engine-internal leakage."
+    },
+    {
+      "slug": "module-lifecycle",
+      "role": "platform-admin",
+      "grammar": "G1",
+      "verdict": "partial",
+      "weighted_score": 3,
+      "offences": [
+        {"severity":"MINOR","axis":"H","viewport":"all","description":"MOD-analytics-dashboard, MOD-smart-inbox, MOD-legacy-export module slugs as raw prefixed strings"},
+        {"severity":"MINOR","axis":"G","viewport":"all","description":"G1 Progress Strip expected but actual layout is card list — no pipeline stages"},
+        {"severity":"MINOR","axis":"UX-P5","viewport":"mobile","description":"Publish/Deprecate/Retire action buttons wrap and cramped on mobile"}
+      ],
+      "notes": "Status pills acceptable; overall clean and usable."
+    },
+    {
+      "slug": "admin-i18n",
+      "role": "platform-admin",
+      "grammar": "Settings",
+      "verdict": "partial",
+      "weighted_score": 2,
+      "offences": [
+        {"severity":"MINOR","axis":"UX-P2","viewport":"all","description":"ENABLED/DISABLED pill badges unclear as interactive toggles"},
+        {"severity":"MINOR","axis":"H","viewport":"all","description":"Translation keys common.save_changes, booking.confirm_reminder as raw code-style to admin"}
+      ],
+      "notes": "Clean settings layout, good language display with quality scores, excellent responsive reflow."
+    },
+    {
+      "slug": "reviews-reputation",
+      "role": "tenant-user",
+      "grammar": "G3",
+      "verdict": "partial",
+      "weighted_score": 3,
+      "offences": [
+        {"severity":"MINOR","axis":"G","viewport":"all","description":"Assigned G3 but /reviews/submit renders single-form — no card list"},
+        {"severity":"MINOR","axis":"UX-P9","viewport":"all","description":"No AppShell for tenant-user — only EN selector. Isolated user cannot navigate"},
+        {"severity":"MINOR","axis":"UX-P1","viewport":"all","description":"Empty star icons gray with sub-4.5:1 contrast against white"}
+      ],
+      "notes": "Clean minimal form; previously partial — status confirmed partial."
+    },
+    {
+      "slug": "visual-flow-engine",
+      "role": "platform-admin",
+      "grammar": "G4",
+      "verdict": "MAJOR",
+      "weighted_score": 6,
+      "offences": [
+        {"severity":"MAJOR","axis":"H","viewport":"all","description":"Raw flow IDs flow-acme-onboarding + tenant IDs TNT-acme-corp exposed as primary content"},
+        {"severity":"MINOR","axis":"H","viewport":"all","description":"Node identifiers n1, n2 rendered as visible labels on canvas"},
+        {"severity":"MINOR","axis":"G","viewport":"all","description":"G4 Topology Canvas present but only 2 nodes, 0 edges — minimal n8n parity"},
+        {"severity":"MINOR","axis":"S","viewport":"mobile","description":"Mobile shows 'Loading topology...' under Saved topology section"}
+      ],
+      "notes": "Canvas with zoom is reasonable n8n-style. Escalated from partial to MAJOR due to tenant + flow ID leakage."
+    }
+  ],
+  "batch_total_score": 31,
+  "systemic_patterns": [
+    "H-axis leakage of FLOW-NN, skill:SK-XXX, and synthetic ui-XXX identifiers across 4 of 6 admin flows",
+    "G1 Progress Strip grammar assigned but pages render as card lists — consistent Vercel/CircleCI reference parity miss",
+    "SCREAMING_SNAKE enum slugs shown to admin without human-readable labels",
+    "Monospace code-style identifiers compete with human titles for visual hierarchy",
+    "Missing provider keys yellow banner persists across every admin route — dismiss state not sticky"
+  ]
+}

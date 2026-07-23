@@ -1,0 +1,36 @@
+{
+  "taskTypeId": "T174",
+  "flowId": "FLOW-13",
+  "name": "MetricAggregationEngine",
+  "archetype": "ANALYTICS_ENGINE",
+  "domainId": "data-warehouse-analytics",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "windowed-tenant-scoped-aggregation",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "warehouse_metric_aggregation_window",
+    "neutralConcepts": [
+      "Aggregation windows must include eventWindowStart and eventWindowEnd",
+      "All metric aggregations are tenant-scoped — never cross-tenant",
+      "Emit MetricAggregated on completion"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T174-1", "rule": "Aggregation windows MUST include eventWindowStart and eventWindowEnd — windowless aggregations are rejected.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T174-2", "rule": "All metric aggregations are tenant-scoped — cross-tenant metric aggregation is forbidden.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T174-3", "rule": "Emit MetricAggregated (warehouse.metric.aggregated) on completion.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "windowed_aggregation_required",
+    "tenant_scoped_metrics_no_cross_tenant",
+    "emit_metric_aggregated_on_completion"
+  ],
+  "bfaRules": [],
+  "tags": ["analytics", "aggregation", "windowed", "tenant-scoped", "ANALYTICS_ENGINE"],
+  "keywords": "metric aggregation engine windowed tenant scoped eventWindowStart eventWindowEnd MetricAggregated"
+}

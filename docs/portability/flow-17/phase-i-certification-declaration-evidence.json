@@ -1,0 +1,189 @@
+﻿{
+    "flowId":  "FLOW-17",
+    "flowSlug":  "freelancer-marketplace",
+    "phase":  "phaseICertificationDeclaration",
+    "generatedAt":  "2026-05-07T00:13:18.6146999+03:00",
+    "status":  "completed",
+    "earnedTier":  "Tier 2+ (Tier 3 not declared)",
+    "tier3Eligibility":  {
+                             "eligible":  false,
+                             "blockerId":  "FLOW-17-PACKAGE-SIGNING-FIRST-PASS",
+                             "blocker":  "Tier 3 ineligible until package signing first pass for marketplace package distribution with escrow/payment co-install dependency.",
+                             "reason":  "FLOW-17 is marketplace-sensitive because gig acceptance, freelancer contracts, escrow release/dispute windows, bilateral reviews, and a required FLOW-16 marketplace-payments co-install are part of the certified package path. The session completed cascade, auth, registry, CI, and visual evidence gates, but package signing is still required before Tier 3 distribution can be declared."
+                         },
+    "productDecisionClosure":  {
+                                   "status":  "completed-with-tier3-blocker",
+                                   "decision":  "FLOW-17 completes the mobility/auth protocol evidence through three tenant repos, three adapted packages, green GitHub Actions, Verdaccio readback, screenshots, and post-cascade live auth. Certification is capped at Tier 2+ until the package-signing first pass is implemented for marketplace package distribution.",
+                                   "evidence":  [
+                                                    "Tenant A adapted and published @xiigen-fork/acme-enterprise-freelancer-marketplace@1.0.1.",
+                                                    "Tenant B installed from Tenant A, adapted, and published @xiigen-fork/northwind-curated-freelancer-marketplace@1.0.2.",
+                                                    "Tenant C installed from Tenant B, adapted, and published @xiigen-fork/tessera-community-freelancer-marketplace@1.0.3.",
+                                                    "Post-cascade live Docker/Vault auth matrix passed 8/8.",
+                                                    "Package-signing first pass remains pending and prevents Tier 3 declaration."
+                                                ]
+                               },
+    "tierBasis":  [
+                      "Docker/Vault auth completed with tenant credentials and signing keys under all three tenant Vault paths.",
+                      "Tenant A forked original FLOW-17 source through the marketplace API, adapted, published v1.0.1, and passed real GitHub Actions.",
+                      "Tenant B forked Tenant A through the marketplace API, adapted, published v1.0.2, and passed real GitHub Actions.",
+                      "Tenant C forked Tenant B through the marketplace API, adapted, published v1.0.3, and passed real GitHub Actions.",
+                      "Local registry readbacks match each adapted package version and package shasum.",
+                      "Real repo, Actions, registry, and viewport screenshots exist for each cascade point.",
+                      "Post-cascade auth matrix passed 8/8 with Vault-backed JWTs and no secret material committed.",
+                      "Tier 3 is withheld because package signing first pass is still pending for marketplace package distribution."
+                  ],
+    "tenantPackages":  [
+                           {
+                               "tenant":  "acme-corp",
+                               "package":  "@xiigen-fork/acme-enterprise-freelancer-marketplace",
+                               "version":  "1.0.1",
+                               "gitHead":  "d82bf1bb869d5f562308cebcdafd569ffe67152c",
+                               "shasum":  "1471f5547e5f976fb1f51c38f977d8d37ed20814",
+                               "repo":  "lubochka/acme-corp--acme-enterprise-freelancer-marketplace",
+                               "actionsRunId":  25456436142,
+                               "requiredCoInstalls":  [
+                                                          "FLOW-16"
+                                                      ],
+                               "requiredCoInstallPackages":  [
+                                                                 "@xiigen-fork/acme-enterprise-marketplace-payments"
+                                                             ],
+                               "pluginSdk":  "@xiigen/plugin-sdk@^1.0.0"
+                           },
+                           {
+                               "tenant":  "northwind",
+                               "package":  "@xiigen-fork/northwind-curated-freelancer-marketplace",
+                               "version":  "1.0.2",
+                               "gitHead":  "1a1e7594c9bba775344c2bb541dbb78f513ce8b3",
+                               "shasum":  "b5ae42e6340b184e940d4f99fc4136afbbce840d",
+                               "repo":  "lubochka/northwind--northwind-curated-freelancer-marketplace",
+                               "actionsRunId":  25458090425,
+                               "requiredCoInstalls":  [
+                                                          "FLOW-16"
+                                                      ],
+                               "requiredCoInstallPackages":  [
+                                                                 "@xiigen-fork/northwind-controlled-marketplace-payments"
+                                                             ],
+                               "pluginSdk":  "@xiigen/plugin-sdk@^1.0.0"
+                           },
+                           {
+                               "tenant":  "tessera-collective",
+                               "package":  "@xiigen-fork/tessera-community-freelancer-marketplace",
+                               "version":  "1.0.3",
+                               "gitHead":  "df921b08c3fa0ac01dc6befbbfb83f848e61e4ca",
+                               "shasum":  "990a60fafe6c2f24edd8313e5e7f20428a37adfb",
+                               "repo":  "lubochka/tessera-collective--tessera-community-freelancer-marketplace",
+                               "actionsRunId":  25460274651,
+                               "requiredCoInstalls":  [
+                                                          "FLOW-16"
+                                                      ],
+                               "requiredCoInstallPackages":  [
+                                                                 "@xiigen-fork/tessera-community-marketplace-payments"
+                                                             ],
+                               "pluginSdk":  "@xiigen/plugin-sdk@^1.0.0"
+                           }
+                       ],
+    "visualCascade":  [
+                          {
+                              "directory":  "docs/e2e-snapshots/freelancer-marketplace/tenant-b-installed-from-a",
+                              "pngCount":  27,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "directory":  "docs/e2e-snapshots/freelancer-marketplace/tenant-b-v1.0.2",
+                              "pngCount":  27,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "directory":  "docs/e2e-snapshots/freelancer-marketplace/tenant-c-installed-from-b",
+                              "pngCount":  27,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "directory":  "docs/e2e-snapshots/freelancer-marketplace/tenant-c-v1.0.3",
+                              "pngCount":  27,
+                              "zeroByteFiles":  0
+                          }
+                      ],
+    "githubActions":  {
+                          "tenantAOriginalFork":  {
+                                                      "repo":  "lubochka/acme-corp--freelancer-marketplace",
+                                                      "runId":  25455571203,
+                                                      "conclusion":  "success"
+                                                  },
+                          "tenantAAdapted":  {
+                                                 "repo":  "lubochka/acme-corp--acme-enterprise-freelancer-marketplace",
+                                                 "runId":  25456436142,
+                                                 "conclusion":  "success"
+                                             },
+                          "tenantBInstalled":  {
+                                                   "repo":  "lubochka/northwind--acme-enterprise-freelancer-marketplace",
+                                                   "runId":  25457323521,
+                                                   "conclusion":  "success",
+                                                   "note":  "initial inherited assertion run failed, repaired package assertion run passed"
+                                               },
+                          "tenantBAdapted":  {
+                                                 "repo":  "lubochka/northwind--northwind-curated-freelancer-marketplace",
+                                                 "runId":  25458090425,
+                                                 "conclusion":  "success"
+                                             },
+                          "tenantCInstalled":  {
+                                                   "repo":  "lubochka/tessera-collective--northwind-curated-freelancer-marketplace",
+                                                   "runId":  25459321894,
+                                                   "conclusion":  "success",
+                                                   "note":  "initial inherited assertion run failed, repaired package assertion run passed"
+                                               },
+                          "tenantCAdapted":  {
+                                                 "repo":  "lubochka/tessera-collective--tessera-community-freelancer-marketplace",
+                                                 "runId":  25460274651,
+                                                 "conclusion":  "success"
+                                             }
+                      },
+    "authSummary":  {
+                        "evidence":  "docs/portability/flow-17/phase-h-auth-decoration-evidence.json",
+                        "postCascadeMatrix":  "passed 8/8",
+                        "route":  "/api/runs/phase0-auth-probe/trace",
+                        "validRole":  "tenant-admin",
+                        "wrongRole":  "platform-support",
+                        "tenants":  [
+                                        "acme-corp",
+                                        "northwind",
+                                        "tessera-collective"
+                                    ]
+                    },
+    "protocolCompletionGate":  {
+                                   "noTechnicalDebt":  true,
+                                   "dockerVaultAuth":  true,
+                                   "threeTenantRepos":  true,
+                                   "greenGitHubActions":  true,
+                                   "registryPackagesPublished":  true,
+                                   "coInstallDependenciesDeclared":  true,
+                                   "fullCascade":  true,
+                                   "perRoleVisualEvidence":  true,
+                                   "noSecretsCommitted":  true,
+                                   "packageSigningFirstPass":  false,
+                                   "tier3Eligible":  false
+                               },
+    "evidenceFiles":  [
+                          "docs/portability/flow-17/product-decision-and-pre-existing-defect-evidence.json",
+                          "docs/portability/flow-17/phase-0-docker-vault-auth-evidence.json",
+                          "docs/portability/flow-17/phase-1-unit-integration-evidence.json",
+                          "docs/portability/flow-17/phase-2-playwright-png-evidence.json",
+                          "docs/portability/flow-17/phase-3-visual-examination-evidence.json",
+                          "docs/portability/flow-17/phase-4.0-tenant-a-original-fork-evidence.json",
+                          "docs/portability/flow-17/phase-4-tenant-a-ai-adaptation-evidence.json",
+                          "docs/portability/flow-17/phase-5a-tenant-b-installed-from-a-evidence.json",
+                          "docs/portability/flow-17/phase-5b-tenant-b-adaptation-evidence.json",
+                          "docs/portability/flow-17/phase-5c-tenant-c-installed-from-b-evidence.json",
+                          "docs/portability/flow-17/phase-5c5-tenant-c-ai-adaptation-evidence.json",
+                          "docs/portability/flow-17/phase-h-auth-decoration-evidence.json"
+                      ],
+    "verification":  {
+                         "registryReadbacks":  "passed for Acme v1.0.1, Northwind v1.0.2, and Tessera v1.0.3; all returned expected versions and package shasums.",
+                         "githubActions":  "passed for original Tenant A fork plus adapted Tenant A, Tenant B, and Tenant C repos; Tenant B/C install repos passed after tenant assertion repair.",
+                         "cascadePngs":  "108 cascade PNGs across four cascade points, 0 zero-byte files; repo-evidence PNG files present for FLOW-17.",
+                         "auth":  "post-cascade live auth matrix passed 8/8.",
+                         "behavioralAssertion":  "FLOW-17 freelancer marketplace safeguards preserved: BOLA before SETNX/OCC, immutable contract fields, escrow release/dispute gate, review append-only semantics, no PII in platform audit, and FLOW-16 payment co-install metadata.",
+                         "blocker":  "Package-signing first pass remains pending; Tier 3 not declared."
+                     },
+    "verdict":  "PASS_WITH_TIER3_BLOCKER"
+}

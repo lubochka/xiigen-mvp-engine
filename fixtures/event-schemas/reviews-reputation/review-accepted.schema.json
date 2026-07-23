@@ -1,0 +1,12 @@
+{
+  "eventType": "review.accepted",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "reviewId": { "type": "string", "required": true },
+    "reviewerId": { "type": "string", "required": true },
+    "targetEntityId": { "type": "string", "required": true },
+    "status": { "type": "string", "enum": ["ACCEPTED"], "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

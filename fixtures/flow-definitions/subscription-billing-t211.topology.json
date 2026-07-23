@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-12",
+  "taskTypeId": "T211",
+  "name": "subscription-billing-recurring-billing-engine",
+  "description": "T211 RecurringBillingEngine — BILLING archetype. MANDATORY order: status(1)→lock(2)→invoice(3)→charge(4)→audit(5)→emit(6). DPO conflict: inverts FLOW-09-T107 seat-before-payment. dunning from FREEDOM config.",
+  "archetype": "BILLING",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: MANDATORY 6-step order (status→lock→invoice→charge→audit→emit), dunning from FREEDOM config, DPO conflict with FLOW-09-T107, no step reordering"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve BILLING arch pattern + billing-step-order + dunning-from-config + billing-lock-guard + audit-before-emit patterns for T211",
+      "params": {
+        "archetype": "BILLING",
+        "taskTypeRef": "T211",
+        "topK": 5,
+        "patternIds": [
+          "billing-step-order-001",
+          "dunning-from-config-001",
+          "billing-lock-guard-001",
+          "audit-before-emit-001",
+          "recurring-billing-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T211 into: 1-check subscription status → 2-acquire billing lock → 3-generate invoice → 4-charge payment method → 5-storeDocument(billingAudit) → 6-emit BillingCycleCompleted. dunningConfig from FREEDOM. Steps IMMUTABLE in order."
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate recurring-billing-engine.service.ts — triggered by BillingCycleDue delayed queue job. MANDATORY step order: (1) check subscription status=ACTIVE, (2) acquire billing lock, (3) generate invoice, (4) charge via payment fabric, (5) storeDocument(billingAudit) DNA-8, (6) emit BillingCycleCompleted. dunningMaxAttempts and dunningIntervalDays read from FREEDOM config NEVER hardcoded. DPO contrast: inverts T107 which charges before seating."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: status_check_step1, lock_acquired_step2, invoice_step3, charge_step4, audit_store_step5, emit_step6, dunning_from_freedom_config, no_step_reorder"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T211 iron rules: mandatory step order, dunning from FREEDOM config, lock guard, DNA-8 at step 5"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=mandatory-6-step-order+dunning-from-freedom+lock-before-invoice, rejected=reordered-steps OR hardcoded-dunning-config OR charge-before-lock OR emit-before-audit. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Triggered by BillingCycleDue delayed queue job",
+  "primaryFabric": "DATABASE"
+}

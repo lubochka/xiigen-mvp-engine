@@ -1,0 +1,37 @@
+{
+  "title": "design-intelligence-engine-Updated-event-schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "entityId": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "design-intelligence-engine.Updated"
+      ]
+    },
+    "data": {
+      "type": "object"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "timestamp",
+    "entityId",
+    "eventType"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "flowId": "FLOW-37",
+  "flowName": "design-system-governance",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T403",
+        "name": "Service1",
+        "order": 1
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T404",
+        "name": "Service2",
+        "order": 2
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T405",
+        "name": "Service3",
+        "order": 3
+      }
+    ]
+  }
+}

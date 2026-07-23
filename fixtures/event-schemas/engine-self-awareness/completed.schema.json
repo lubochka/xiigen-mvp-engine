@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "entityId": {
+      "type": "string"
+    },
+    "flowId": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "entityId",
+    "flowId"
+  ]
+}

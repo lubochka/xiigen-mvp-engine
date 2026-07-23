@@ -1,0 +1,47 @@
+{
+  "taskTypeId": "T666",
+  "flowId": "FLOW-48",
+  "name": "TranslationResolverService",
+  "archetype": "ORCHESTRATION",
+  "domainId": "i18n-translation",
+  "seededAt": "2026-04-19T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "http-orchestration-5-step-pipeline",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService + IAiProvider + IPackageContentStoreService + ITranslationLookup (F1523)",
+    "freedomConfigKey": "i18n.enabledLocales",
+    "neutralConcepts": [
+      "entry: GET /api/translations/:moduleId/:locale",
+      "Step 1 tenant cache via F1523.findRef(ALS.tenantId, moduleId, locale)",
+      "Step 2 inline policy gate via T669 (CF-812 never throws)",
+      "Step 3 marketplace probe via TenantModuleRegistry",
+      "Step 4 marketplace delta path — delta empty shortcut OR delta translate+merge",
+      "Step 5 full tenant translation via IAiProvider.generateStructured (FAST role)",
+      "ALL exceptions → { fallback: true, locale: 'en' } via CF-812",
+      "AI JSON schema validation failure → fallback (CF-815)"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F1523",
+      "interface": "ITranslationLookup",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "CF-812",
+      "rule": "HTTP 200 in ALL execution paths. No 4xx or 5xx from this endpoint. Errors, denied policies, and AI failures all produce { fallback: true, locale: 'en' }.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "CF-815",
+      "rule": "IAiProvider.generateStructured() invalid JSON → fallback path. No partial translation written to CAS.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": ["http_contract_always_200", "ai_json_schema_validation"],
+  "bfaRules": ["CF-812", "CF-815"],
+  "tags": ["orchestration", "5-step-pipeline", "cache-first", "marketplace-delta", "FLOW-48"],
+  "keywords": "translation resolver orchestration pipeline cache policy gate marketplace delta AI fallback always-200 i18n-translation FLOW-48"
+}

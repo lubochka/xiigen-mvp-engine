@@ -1,0 +1,116 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phase4-tenant-a-ai-adaptation",
+  "generatedAt": "2026-05-03T21:09:22.8683515+03:00",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "role": "Tenant A"
+  },
+  "adaptation": {
+    "name": "quiet-community-feed",
+    "packageName": "@xiigen-fork/acme-quiet-community-feed",
+    "version": "1.0.1",
+    "sourceRepo": "lubochka/acme-corp--friend-request-social-feed",
+    "sourceCommitSha": "5d7f38e1838199fbe607348e5b248704137c1639",
+    "freedomChanges": [
+      {
+        "key": "flow07_delivery_score_threshold",
+        "from": 0.1,
+        "to": 0.35
+      },
+      {
+        "key": "flow07_max_feed_inserts_per_connection",
+        "from": 25,
+        "to": 12
+      }
+    ],
+    "invariantsPreserved": [
+      "accepted-connection authorization remains required for feed delivery",
+      "privacy relation checks remain unchanged",
+      "role access remains unchanged"
+    ]
+  },
+  "forkRepoVerification": {
+    "path": "<WORKSPACE>\\AppData\\Local\\Temp\\flow07-acme-fork-verification",
+    "commands": [
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "1 suite passed, 1 test passed"
+      },
+      {
+        "command": "git rev-parse HEAD",
+        "exitCode": 0,
+        "result": "5d7f38e1838199fbe607348e5b248704137c1639"
+      },
+      {
+        "command": "git status --short",
+        "exitCode": 0,
+        "result": "clean"
+      }
+    ],
+    "changedFiles": [
+      "package.json",
+      "tenant.config.json",
+      "freedom-config.defaults.json",
+      "settings/module.settings.json",
+      "BUNDLE-MANIFEST.json",
+      "ADAPTATION-CHANGELOG.md"
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - friend-request-social-feed",
+    "runId": 25286663436,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "5d7f38e1838199fbe607348e5b248704137c1639",
+    "url": "https://github.com/lubochka/acme-corp--friend-request-social-feed/actions/runs/25286663436",
+    "createdAt": "2026-05-03T18:03:41Z",
+    "updatedAt": "2026-05-03T18:04:20Z"
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873",
+    "publishedPackage": "@xiigen-fork/acme-quiet-community-feed@1.0.1",
+    "verificationCommand": "npm view @xiigen-fork/acme-quiet-community-feed version --registry http://localhost:4873",
+    "verificationResult": "1.0.1"
+  },
+  "applicationEvidence": {
+    "clientTypecheck": {
+      "command": "npx tsc --noEmit",
+      "workingDirectory": "client",
+      "exitCode": 0
+    },
+    "playwright": {
+      "command": "npx playwright test e2e/friend-request-social-feed-tenant-a-adaptation.spec.ts --project=chromium-desktop --workers=1",
+      "workingDirectory": "client",
+      "environment": {
+        "SERVER_PORT": "33001",
+        "VITE_PORT": "5181",
+        "CLIENT_URL": "http://localhost:5181",
+        "VITE_API_URL": "http://localhost:33001"
+      },
+      "result": "22 passed"
+    },
+    "snapshots": {
+      "tenantCascadeDirectory": "docs/e2e-snapshots/friend-request-social-feed/tenant-a-v1.0.1",
+      "tenantCascadePngCount": 21,
+      "tenantCascadeSmallPngCount": 0,
+      "tenantCascadeMinimumBytes": 25048,
+      "marketplaceListingPath": "docs/e2e-snapshots/marketplace/friend-request-social-feed-v1.0.1-listing.png",
+      "marketplaceListingBytes": 140933
+    }
+  },
+  "secretHandling": {
+    "githubTokenPrinted": false,
+    "tenantJwtPrinted": false,
+    "vaultSigningKeyPrinted": false,
+    "registryTokenPrinted": false
+  },
+  "verdict": "PASS"
+}

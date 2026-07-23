@@ -1,0 +1,20 @@
+{
+    "flowId":  "FLOW-43",
+    "flowSlug":  "webflow-designer-extension",
+    "phase":  "phase-i-certification-declaration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:01:26.4923861Z",
+    "earnedTier":  "Tier 1 external-adapter Sprint A",
+    "declaration":  "FLOW-43 Webflow Designer Extension adapter is certified for standalone package portability, local-registry publication, Docker/Vault tenant auth, and static package-boundary checks.",
+    "limitations":  [
+                        "Full three-tenant external GitHub repository cascade and GitHub Actions screenshots remain Sprint B infrastructure work; no synthetic proof was used."
+                    ],
+    "evidenceFiles":  [
+                          "docs/portability/flow-43/phase-0-docker-vault-auth-evidence.json",
+                          "docs/portability/flow-43/phase-1-adapter-package-evidence.json",
+                          "docs/portability/flow-43/phase-2-external-ui-evidence.json",
+                          "docs/portability/flow-43/phase-3-external-adapter-publication-evidence.json",
+                          "docs/portability/flow-43/phase-close-scan-evidence.json"
+                      ],
+    "verdict":  "PASS"
+}

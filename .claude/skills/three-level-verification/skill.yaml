@@ -1,0 +1,25 @@
+name: three-level-verification
+sk_number: SK-413
+version: "1.0.0"
+load_order: 14
+priority: MANDATORY
+author: luba
+updated: "2026-03-18"
+description: >
+  Verifies that any engine fix propagates correctly through all 3 test levels
+  before being declared done. Prevents the failure mode where a unit test passes
+  but the fix breaks at simulation or e2e level. Invoke after any fix to an
+  AF station, DNA guard, fabric provider, or skill block.
+triggers:
+  - "bug fix complete"
+  - "fix propagated"
+  - "tests pass"
+  - "phase complete"
+  - "AF station changed"
+  - "DNA guard updated"
+  - "fabric provider fixed"
+  - "before declaring done"
+integrates_with:
+  - bug-to-tests (bug fix is a 3-level-verification candidate)
+  - test-integrity (Level 2 uses contract-driven-testing pattern)
+  - retroactive-development (Level 3 validates all flows using T-XXX)

@@ -1,0 +1,494 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "flowTitle": "Data Warehouse and Analytics",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-06",
+  "capturedBy": "Codex / FLOW-13 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-13/FLOW-13-STEP-1-INVARIANTS.md",
+    "docs/business-flows/13-data-warehouse-analytics.md",
+    "server/src/engine-contracts/data-warehouse-analytics-contracts.ts",
+    "server/src/engine-contracts/data-warehouse-analytics-bfa-rules.ts",
+    "server/src/engine/flows/data-warehouse-analytics",
+    "server/src/bootstrap/history-seeds/data-warehouse-analytics-design-corpus.json"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T169-T188",
+    "taskTypeIds": [
+      "T169",
+      "T170",
+      "T171",
+      "T172",
+      "T173",
+      "T174",
+      "T175",
+      "T176",
+      "T177",
+      "T178",
+      "T179",
+      "T180",
+      "T181",
+      "T182",
+      "T183",
+      "T184",
+      "T185",
+      "T186",
+      "T187",
+      "T188"
+    ],
+    "platformOnlyFactories": [
+      "F392",
+      "F394",
+      "F411",
+      "F412",
+      "F422",
+      "F423",
+      "F424",
+      "F425"
+    ],
+    "inlineServices": [
+      {
+        "taskTypeId": "T187",
+        "name": "QuotaManager",
+        "rule": "Inline only. F426 does not exist and must never be generated or injected."
+      }
+    ],
+    "crossFlowReadDependencies": [
+      {
+        "sourceFlow": "FLOW-11",
+        "consumerTaskTypeId": "T186",
+        "purpose": "Legal hold and schema-governance read before irreversible purge."
+      },
+      {
+        "sourceFlow": "FLOW-09",
+        "consumerTaskTypeId": "T180",
+        "purpose": "Tenant-scoped transactional event facts for correlation analytics."
+      },
+      {
+        "sourceFlow": "FLOW-10",
+        "consumerTaskTypeId": "T180",
+        "purpose": "Tenant-scoped review and reputation facts for correlation analytics."
+      }
+    ]
+  },
+  "services": [
+    {
+      "taskTypeId": "T173",
+      "className": "QueryExecutionEngineService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/query-execution-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_daily_query_limit"
+      ]
+    },
+    {
+      "taskTypeId": "T174",
+      "className": "MetricAggregationEngineService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/metric-aggregation-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_metric_window_days"
+      ]
+    },
+    {
+      "taskTypeId": "T175",
+      "className": "KPIDashboardGeneratorService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/kpi-dashboard-generator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_kpi_thresholds_default"
+      ]
+    },
+    {
+      "taskTypeId": "T176",
+      "className": "CohortAnalysisEngineService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/cohort-analysis-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_cohort_window_days"
+      ]
+    },
+    {
+      "taskTypeId": "T177",
+      "className": "FunnelAnalysisEngineService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/funnel-analysis-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_funnel_conversion_floor"
+      ]
+    },
+    {
+      "taskTypeId": "T178",
+      "className": "RetentionCohortAnalyzerService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/retention-cohort-analyzer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_retention_period_days"
+      ]
+    },
+    {
+      "taskTypeId": "T179",
+      "className": "ReportSchedulerService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/report-scheduler.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_report_schedule_policy"
+      ]
+    },
+    {
+      "taskTypeId": "T180",
+      "className": "CrossFlowCorrelationEngineService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/crossflow-correlation-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_correlation_window_days"
+      ]
+    },
+    {
+      "taskTypeId": "T181",
+      "className": "DataExportEngineService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/data-export-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_export_ttl_hours"
+      ]
+    },
+    {
+      "taskTypeId": "T182",
+      "className": "TrainingDatasetBuilderService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/training-dataset-builder.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_training_dataset_max_rows"
+      ]
+    },
+    {
+      "taskTypeId": "T183",
+      "className": "AlertingRulesEngineService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/alerting-rules-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_alert_rules_default"
+      ]
+    },
+    {
+      "taskTypeId": "T184",
+      "className": "QueryOptimizationAdvisorService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/query-optimization-advisor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_optimizer_suggestion_limit"
+      ]
+    },
+    {
+      "taskTypeId": "T185",
+      "className": "DataLineageTrackerService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/data-lineage-tracker.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_lineage_retention_days"
+      ]
+    },
+    {
+      "taskTypeId": "T186",
+      "className": "DataRetentionEnforcerService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/data-retention-enforcer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_retention_policy_days"
+      ]
+    },
+    {
+      "taskTypeId": "T187",
+      "className": "QuotaManager",
+      "file": "server/src/engine/flows/data-warehouse-analytics/quota-manager.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_daily_query_limit"
+      ]
+    },
+    {
+      "taskTypeId": "T188",
+      "className": "WarehouseHealthMonitorService",
+      "file": "server/src/engine/flows/data-warehouse-analytics/warehouse-health-monitor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "flow13_warehouse_health_latency_threshold_ms"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe analytics policy values that can change without weakening tenant isolation, platform-only security gates, irreversible purge safeguards, or event contracts.",
+      "total": 8,
+      "keys": [
+        {
+          "key": "flow13_warehouse_kpi_thresholds_default",
+          "runtimeProjectionKey": "warehouse_kpi_thresholds_{kpiType}",
+          "type": "object",
+          "default": {
+            "criticalMin": null,
+            "criticalMax": 100000
+          },
+          "semantic": "Default alert thresholds for tenant KPI dashboards.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T175.KPIDashboardGeneratorService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1000000000,
+            "rationale": "Tenants may tune dashboard sensitivity while alert evaluation remains tenant-scoped."
+          }
+        },
+        {
+          "key": "flow13_warehouse_alert_rules_default",
+          "runtimeProjectionKey": "warehouse_alert_rules_{metricType}",
+          "type": "array",
+          "default": [
+            {
+              "alertName": "high-volume",
+              "operator": "GTE",
+              "threshold": 10000
+            }
+          ],
+          "semantic": "Default metric alert rules for warehouse alerting.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T183.AlertingRulesEngineService"
+          ],
+          "boundedRange": {
+            "minLength": 0,
+            "maxLength": 20,
+            "rationale": "Tenants may tune which alerts fire without changing event schemas or role gates."
+          }
+        },
+        {
+          "key": "flow13_warehouse_retention_period_days",
+          "runtimeProjectionKey": "warehouse_retention_period_days",
+          "type": "number",
+          "default": 30,
+          "unit": "days",
+          "semantic": "Retention cohort lookback window.",
+          "stakeholder": "analytics-operations",
+          "consumedBy": [
+            "T178.RetentionCohortAnalyzerService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 730,
+            "rationale": "Tenants may adapt cohort windows while cohort membership stays tenant-scoped."
+          }
+        },
+        {
+          "key": "flow13_warehouse_retention_policy_days",
+          "runtimeProjectionKey": "warehouse_retention_policy_days",
+          "type": "number",
+          "default": 365,
+          "unit": "days",
+          "semantic": "Default policy age before governance can consider data purge.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T186.DataRetentionEnforcerService"
+          ],
+          "boundedRange": {
+            "min": 30,
+            "max": 3650,
+            "rationale": "Retention policy may vary by tenant, but legal hold and approval-token gates remain MACHINE."
+          }
+        },
+        {
+          "key": "flow13_warehouse_daily_query_limit",
+          "runtimeProjectionKey": "warehouse_quota.maxQueriesPerDay",
+          "type": "number",
+          "default": 5000,
+          "unit": "queries per day",
+          "semantic": "Daily query quota before T187 denies execution.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T173.QueryExecutionEngineService",
+            "T187.QuotaManager"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1000000,
+            "rationale": "Tenants may tune cost controls while quota remains the first gate before warehouse reads."
+          }
+        },
+        {
+          "key": "flow13_warehouse_export_ttl_hours",
+          "runtimeProjectionKey": "warehouse_export_ttl_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "semantic": "Tenant export link expiry window.",
+          "stakeholder": "data-operations",
+          "consumedBy": [
+            "T181.DataExportEngineService"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 168,
+            "rationale": "Tenants may choose shorter or longer export availability while encryption, audit, and masking remain mandatory."
+          }
+        },
+        {
+          "key": "flow13_warehouse_training_dataset_max_rows",
+          "runtimeProjectionKey": "warehouse_training_dataset_max_rows",
+          "type": "number",
+          "default": 50000,
+          "unit": "rows",
+          "semantic": "Maximum rows in a tenant training dataset export.",
+          "stakeholder": "analytics-operations",
+          "consumedBy": [
+            "T182.TrainingDatasetBuilderService"
+          ],
+          "boundedRange": {
+            "min": 100,
+            "max": 10000000,
+            "rationale": "Dataset scale may adapt while PII masking and tenant scoping remain fixed."
+          }
+        },
+        {
+          "key": "flow13_warehouse_health_latency_threshold_ms",
+          "runtimeProjectionKey": "warehouse_health_latency_threshold_ms",
+          "type": "number",
+          "default": 4000,
+          "unit": "milliseconds",
+          "semantic": "Latency threshold used by warehouse health monitoring.",
+          "stakeholder": "platform-support",
+          "consumedBy": [
+            "T188.WarehouseHealthMonitorService"
+          ],
+          "boundedRange": {
+            "min": 100,
+            "max": 60000,
+            "rationale": "Support teams may tune health sensitivity while the monitor remains read-only."
+          }
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-13 has no tenant-editable grammar surface. Tenants may tune analytics policy values and report presentation copy without changing query parsing, event schemas, or security gates.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "Tenant-admin analytics operations, tenant-user read access, platform-admin support, and platform-support diagnostics are fixed for certification. Tenant adaptation may not weaken role isolation or expose private analytics records across tenants.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Tenant analytics policies that can change while fixed warehouse ingestion, security, export, retention, and correlation invariants remain intact.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "enterprise-query-quota",
+          "name": "Enterprise query quota",
+          "semantic": "Tenant A can raise its daily warehouse query quota for enterprise analytics users.",
+          "extensionPoint": "flow13_warehouse_daily_query_limit",
+          "currentImplementation": "T173 invokes T187 quota before RLS and masking; T187 denies when maxQueriesPerDay is exceeded."
+        },
+        {
+          "id": "strict-export-window",
+          "name": "Strict export window",
+          "semantic": "Tenant A can shorten export link lifetime for sensitive reporting teams.",
+          "extensionPoint": "flow13_warehouse_export_ttl_hours",
+          "currentImplementation": "T181 emits DataExportReady only after encryption, audit, and PII masking."
+        },
+        {
+          "id": "quarterly-retention-analysis",
+          "name": "Quarterly retention analysis",
+          "semantic": "Tenant A can broaden retention cohorts to a 90 day window.",
+          "extensionPoint": "flow13_warehouse_retention_period_days",
+          "currentImplementation": "T178 reads retention period policy before computing tenant-scoped cohort results."
+        },
+        {
+          "id": "sensitive-kpi-thresholds",
+          "name": "Sensitive KPI thresholds",
+          "semantic": "Tenant A can lower KPI thresholds so alerts fire earlier.",
+          "extensionPoint": "flow13_warehouse_kpi_thresholds_default",
+          "currentImplementation": "T175 computes alertFired against FREEDOM thresholds and stores tenant-scoped snapshots."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "Task type range remains T169 through T188.",
+      "F426 does not exist; T187 QuotaManager is an inline service only.",
+      "T173 gate order remains T187 quota, F422 row-level security, then F423 PII masking.",
+      "F411 export encryption, F412 export audit, F422 row-level security, F423 PII masking, F424 data governance, and F425 warehouse audit are platform-only.",
+      "All cross-flow joins include tenantId in every predicate.",
+      "T186 legal-hold check runs before approval-token validation and purge.",
+      "T186 emits purge evidence with tombstone references only, never raw content or payload fields.",
+      "All analytics, cohort, retention, export, lineage, and health records remain tenant-scoped.",
+      "Store-before-enqueue ordering remains mandatory for scheduled report and retention operations.",
+      "FLOW-11, FLOW-09, and FLOW-10 are declared as co-install metadata where needed; their source is not bundled into FLOW-13 forks."
+    ]
+  },
+  "adaptationExamples": {
+    "tenant-a-enterprise-analytics": {
+      "description": "Tenant A raises query quota and broadens retention cohort analysis for enterprise reporting.",
+      "change": {
+        "flow13_warehouse_daily_query_limit": 20000,
+        "flow13_warehouse_retention_period_days": 90
+      },
+      "impact": "Enterprise analytics users can run more warehouse queries and view longer retention cohorts while quota, RLS, masking, and tenant scope remain enforced.",
+      "testable": "Tenant A adaptation evidence shows the policy in tenant.config.json adaptationHistory and fork CI still passes."
+    },
+    "tenant-a-sensitive-export-mode": {
+      "description": "Tenant A shortens export availability and lowers KPI thresholds for sensitive data teams.",
+      "change": {
+        "flow13_warehouse_export_ttl_hours": 4,
+        "flow13_warehouse_kpi_thresholds_default": {
+          "criticalMin": null,
+          "criticalMax": 5000
+        }
+      },
+      "impact": "Exports expire faster and dashboards alert earlier without changing encryption, audit, masking, or query gate order.",
+      "testable": "Tenant A before/after assertion shows the adapted policy in the fork package without changing MACHINE invariants."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T169 through T188",
+      "Platform-only security and governance factories",
+      "Inline-only QuotaManager T187",
+      "Query gate order",
+      "Row-level security before result return",
+      "PII masking before serialization or export",
+      "Approval token and legal hold checks before purge",
+      "Tombstone-only purge evidence",
+      "Cross-flow tenantId join predicates",
+      "Tenant scope isolation",
+      "DataProcessResult return contract"
+    ]
+  },
+  "passCriteria": [
+    "Tenant A can apply a TYPE-A analytics policy change without altering MACHINE constraints.",
+    "The adapted policy is present in tenant.config.json adaptationHistory.",
+    "At least one before/after behavior assertion proves the adapted policy changes quota, export TTL, retention window, or KPI threshold behavior.",
+    "Auth checks still return 401 for missing token, 401 for cross-tenant token, and 403 for wrong-role token after adaptation."
+  ]
+}

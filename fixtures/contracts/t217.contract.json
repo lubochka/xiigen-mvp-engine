@@ -1,0 +1,43 @@
+{
+  "taskTypeId": "T217",
+  "flowId": "FLOW-14",
+  "name": "RawToStagingTransformer",
+  "archetype": "transform",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "schema-validate-then-normalize-then-idempotency-then-store-staging-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_schema_validation_strict",
+    "neutralConcepts": [
+      "CF-192: raw→staging zone promotion only — never raw→core or raw→mart direct",
+      "Schema validation BEFORE normalization — quarantine on schema failure",
+      "DNA-7: idempotency check before staging write",
+      "storeDocument(staging_record) BEFORE enqueue(RecordPromotedToStaging) — DNA-8",
+      "Quarantine records stored in xiigen-quarantine-records with knowledgeScope PRIVATE",
+      "RecordQuarantined emitted for every quarantined record"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T217-1", "rule": "CF-192: raw→staging promotion only — never skip to core or mart.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T217-2", "rule": "Schema validation BEFORE normalization — invalid records quarantined.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T217-3", "rule": "Idempotency check BEFORE staging write — DNA-7.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T217-4", "rule": "storeDocument(staging) BEFORE enqueue(RecordPromotedToStaging) — DNA-8.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T217-5", "rule": "All stored records include knowledgeScope: PRIVATE.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "raw_to_staging_only",
+    "schema_validate_before_normalize",
+    "idempotency_before_write",
+    "store_before_enqueue",
+    "knowledge_scope_private"
+  ],
+  "bfaRules": ["CF-192"],
+  "tags": ["transform", "raw-staging", "quarantine", "zone-promotion", "idempotency"],
+  "keywords": "raw to staging transformer schema validation normalization quarantine zone promotion CF-192 DNA-7 DNA-8 RecordPromotedToStaging RecordQuarantined"
+}

@@ -1,0 +1,285 @@
+{
+    "flowId":  "FLOW-10",
+    "flowSlug":  "reviews-reputation",
+    "phase":  "phase5bTenantBAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-05T22:46:38.3683678+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "role":  "Tenant B",
+                   "adaptedFromTenant":  "acme-corp",
+                   "sourceRepoFullName":  "lubochka/acme-corp--reviews-reputation",
+                   "sourcePackageName":  "@xiigen-fork/acme-verified-trust-reviews",
+                   "sourcePackageVersion":  "1.0.1",
+                   "adaptedPackageName":  "@xiigen-fork/northwind-trust-signal-reviews",
+                   "adaptedPackageVersion":  "1.0.2",
+                   "localRegistry":  "http://localhost:4873"
+               },
+    "adaptation":  {
+                       "changeType":  "Type A (FREEDOM key value change)",
+                       "moduleName":  "northwind-trust-signal-reviews",
+                       "repoName":  "northwind--northwind-trust-signal-reviews",
+                       "repoFullName":  "lubochka/northwind--northwind-trust-signal-reviews",
+                       "plainLanguagePolicy":  "Northwind trust-signal reviews policy: 88% auto-approve threshold, 15% quarantine floor, and longer-tail reputation weighting while preserving Acme history.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow10_moderation_pass_threshold",
+                                                  "from":  0.92,
+                                                  "to":  0.88
+                                              },
+                                              {
+                                                  "key":  "flow10_moderation_reject_threshold",
+                                                  "from":  0.2,
+                                                  "to":  0.15
+                                              },
+                                              {
+                                                  "key":  "flow10_reputation_recency_weights",
+                                                  "from":  [
+                                                               1,
+                                                               0.95,
+                                                               0.9,
+                                                               0.8,
+                                                               0.7
+                                                           ],
+                                                  "to":  [
+                                                             1,
+                                                             0.9,
+                                                             0.85,
+                                                             0.8,
+                                                             0.75
+                                                         ]
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "Acme moderation history remains visible in adaptationHistory",
+                                                   "review submission eligibility remains tenant-scoped",
+                                                   "moderation decisions remain stored before reputation aggregation",
+                                                   "longer-tail reputation weighting remains a FREEDOM value change",
+                                                   "role access remains unchanged"
+                                               ],
+                       "adaptationHistory":  {
+                                                 "entries":  2,
+                                                 "history0":  "Acme v1.0.1 adaptation preserved",
+                                                 "history1":  "Northwind v1.0.2 adaptation added"
+                                             }
+                   },
+    "tenantRepository":  {
+                             "initialRepoFullName":  "lubochka/northwind--acme-verified-trust-reviews",
+                             "renamedRepoFullName":  "lubochka/northwind--northwind-trust-signal-reviews",
+                             "repoUrl":  "https://github.com/lubochka/northwind--northwind-trust-signal-reviews",
+                             "defaultBranch":  "main",
+                             "clonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-verified-trust-reviews",
+                             "localRemote":  "https://github.com/lubochka/northwind--northwind-trust-signal-reviews.git",
+                             "adaptedCommitSha":  "fe81804a79e7e86a2926bb8be1d46b9d04066796",
+                             "commitMessage":  "Adapt Northwind trust signal reviews policy",
+                             "workingTreeCleanAfterPublish":  true,
+                             "privateAfterEvidenceCapture":  true,
+                             "visibilityAfterEvidenceCapture":  "PRIVATE",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "__tests__/reviews-reputation-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ]
+                         },
+    "tenantCloneVerification":  {
+                                    "clonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-verified-trust-reviews",
+                                    "headSha":  "fe81804a79e7e86a2926bb8be1d46b9d04066796",
+                                    "commands":  [
+                                                     {
+                                                         "command":  "Get-Content tenant.config.json,freedom-config.defaults.json,settings/module.settings.json | ConvertFrom-Json",
+                                                         "exitCode":  0,
+                                                         "result":  "json-ok"
+                                                     },
+                                                     {
+                                                         "command":  "npx tsc --noEmit",
+                                                         "exitCode":  0,
+                                                         "result":  "passed"
+                                                     },
+                                                     {
+                                                         "command":  "npx jest --colors=false --forceExit",
+                                                         "exitCode":  0,
+                                                         "result":  "2 suites passed, 4 tests passed"
+                                                     }
+                                                 ]
+                                },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI - reviews-reputation",
+                          "runId":  25398167720,
+                          "jobId":  74490421231,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "fe81804a79e7e86a2926bb8be1d46b9d04066796",
+                          "url":  "https://github.com/lubochka/northwind--northwind-trust-signal-reviews/actions/runs/25398167720",
+                          "successfulSteps":  [
+                                                  "Install",
+                                                  "TypeScript check",
+                                                  "Test",
+                                                  "Provenance"
+                                              ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localRegistry":  {
+                          "registry":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/northwind-trust-signal-reviews",
+                          "publishedVersion":  "1.0.2",
+                          "viewCommand":  "npm view @xiigen-fork/northwind-trust-signal-reviews version --registry http://localhost:4873",
+                          "viewReturned":  "1.0.2",
+                          "verified":  true
+                      },
+    "applicationEvidence":  {
+                                "filesChangedInMainRepo":  [
+                                                               "client/e2e/reviews-reputation-tenant-b-adaptation.spec.ts",
+                                                               "client/src/pages/MarketplacePage.tsx",
+                                                               "client/src/pages/reviews-reputation/ReviewSubmissionPage.tsx"
+                                                           ],
+                                "visibleAdaptationSummary":  "88% auto-approve threshold, 15% quarantine floor, and longer-tail reputation weighting.",
+                                "playwright":  {
+                                                   "command":  "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/reviews-reputation-tenant-b-adaptation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                   "result":  "passed",
+                                                   "tests":  13
+                                               },
+                                "screenshots":  {
+                                                    "tenantCascadeDirectory":  "docs/e2e-snapshots/reviews-reputation/tenant-b-v1.0.2",
+                                                    "tenantCascadeCount":  12,
+                                                    "tenantCascadeZeroByte":  0,
+                                                    "tenantCascadeMinBytes":  25186,
+                                                    "tenantCascadeMaxBytes":  43594,
+                                                    "marketplaceListingPath":  "docs/e2e-snapshots/marketplace/reviews-reputation-v1.0.2-listing.png",
+                                                    "marketplaceListingBytes":  304179,
+                                                    "repoListingPath":  "docs/e2e-snapshots/repo-evidence/flow-10/northwind--northwind-trust-signal-reviews-github-listing.png",
+                                                    "repoListingBytes":  129034,
+                                                    "repoActionsSuccessPath":  "docs/e2e-snapshots/repo-evidence/flow-10/northwind--northwind-trust-signal-reviews-actions-success.png",
+                                                    "repoActionsSuccessBytes":  75433
+                                                }
+                            },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-05T22:45:30.6068243+03:00",
+                           "serverBaseUrl":  "http://localhost:33001",
+                           "passed":  8,
+                           "total":  8,
+                           "allPassed":  true,
+                           "matrix":  [
+                                          {
+                                              "actualStatus":  200,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  200,
+                                              "name":  "valid acme token in acme tenant"
+                                          },
+                                          {
+                                              "actualStatus":  200,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  200,
+                                              "name":  "valid northwind token in northwind tenant"
+                                          },
+                                          {
+                                              "actualStatus":  200,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  200,
+                                              "name":  "valid tessera token in tessera tenant"
+                                          },
+                                          {
+                                              "actualStatus":  401,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  401,
+                                              "name":  "missing token denied"
+                                          },
+                                          {
+                                              "actualStatus":  401,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  401,
+                                              "name":  "acme token in northwind tenant denied"
+                                          },
+                                          {
+                                              "actualStatus":  401,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  401,
+                                              "name":  "northwind token in tessera tenant denied"
+                                          },
+                                          {
+                                              "actualStatus":  401,
+                                              "path":  "/api/flow/execute",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  401,
+                                              "name":  "acme token in tessera tenant denied"
+                                          },
+                                          {
+                                              "actualStatus":  403,
+                                              "path":  "/api/marketplace/packages/northwind-trust-signal-reviews/fork",
+                                              "method":  "POST",
+                                              "pass":  true,
+                                              "expectedStatus":  403,
+                                              "name":  "wrong referral-user role denied on Northwind adapted fork endpoint"
+                                          }
+                                      ]
+                       },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "clientPlaywright":  {
+                                                            "command":  "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/reviews-reputation-tenant-b-adaptation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                            "result":  "passed",
+                                                            "tests":  13
+                                                        },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  8,
+                                                      "tests":  113
+                                                  },
+                                   "flowScans":  {
+                                                     "flowFileCount":  4,
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "flowScopedAnnotations":  4,
+                                                     "flowIdAnnotations":  4,
+                                                     "localFreedomClones":  0,
+                                                     "unscopedFreedomReads":  0,
+                                                     "directSdkImports":  0,
+                                                     "productionAnyTypes":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBAdaptedTenantAPackage":  true,
+                      "tenantBCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "liveAuthMatrixPassed":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantCInstall":  true
+                  },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,12 @@
+{
+  "eventType": "etl.record.promoted.staging",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "connectorId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "recordId": { "type": "string", "required": true },
+    "idempotencyKey": { "type": "string", "required": false },
+    "promotedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

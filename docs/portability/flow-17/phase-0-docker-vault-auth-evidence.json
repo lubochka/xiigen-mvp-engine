@@ -1,0 +1,242 @@
+{
+  "flowId": "FLOW-17",
+  "flowSlug": "freelancer-marketplace",
+  "phase": "phase0AuthPreflight",
+  "generatedAt": "2026-05-06T20:38:12.5571523+03:00",
+  "status": "completed",
+  "infrastructure": {
+    "dockerRunning": true,
+    "vaultRunning": true,
+    "vaultSealed": false,
+    "serverHealth": "OK",
+    "githubAuthenticated": true,
+    "githubLogin": "lubochka",
+    "tenantCredentialsSeeded": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    }
+  },
+  "roleMap": {
+    "status": "defined",
+    "source": [
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md FLOW-17 Freelancer Marketplace section",
+      "client/src/pages/freelancer-marketplace/GigPostingPage.tsx RoleScopedView cases",
+      "client/src/pages/freelancer-marketplace/MilestoneDashboardPage.tsx role capability matrix"
+    ],
+    "roles": [
+      {
+        "role": "anonymous",
+        "coverage": "full",
+        "use": "public gig browse and freelancer directory preview",
+        "authProbeExpected": null,
+        "note": "public role; protected server probe verifies missing-token 401 instead"
+      },
+      {
+        "role": "public-marketplace-visitor",
+        "coverage": "full",
+        "use": "shared gig permalink and public detail landing",
+        "authProbeExpected": null,
+        "note": "public marketplace role; not represented by JWT on protected probe"
+      },
+      {
+        "role": "tenant-user",
+        "coverage": "full",
+        "use": "client persona that posts gigs, reviews bids, funds escrow, and releases milestones",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "tenant-admin",
+        "coverage": "full",
+        "use": "gig moderation, identity verification, dispute adjudication",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "referral-user",
+        "coverage": "partial",
+        "use": "referred freelancer banner and first-hire credit context",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "freelancer",
+        "coverage": "full",
+        "use": "primary worker role: profile, bids, delivery submission, portfolio",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "business-partner",
+        "coverage": "full",
+        "use": "B2B hirer, freelancer pool management, bulk contracts",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "platform-admin",
+        "coverage": "full",
+        "use": "cross-tenant disputes, policy enforcement, verification, trust scoring",
+        "authProbeExpected": 200
+      },
+      {
+        "role": "platform-support",
+        "coverage": "full",
+        "use": "read-only gig and dispute inspection",
+        "authProbeExpected": 403,
+        "note": "wrong-role case for run trace probe because probe permits tenant-user, tenant-admin, and platform-admin"
+      }
+    ],
+    "notes": [
+      "FLOW-17 has 8 full role cells plus 1 partial referral-user banner cell; event-organiser has no distinct surface and falls through to tenant-user or business-partner behavior.",
+      "No separate flow-specific auth route exists; phase 0 uses GET /api/runs/:runId/trace as the live protected probe."
+    ]
+  },
+  "server": {
+    "url": "http://localhost:3000",
+    "route": "/api/runs/phase0-auth-probe/trace",
+    "health": "passed"
+  },
+  "vault": {
+    "container": "xiigen-vault",
+    "sealed": false,
+    "signingKeysReadFromVault": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    }
+  },
+  "liveAuthMatrix": [
+    {
+      "name": "valid acme tenant-admin token in acme tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid northwind tenant-admin token in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid tessera tenant-admin token in tessera tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "missing token denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "wrong platform-support role denied on run trace",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-support"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "total": 8,
+    "allPassed": true
+  },
+  "verification": {
+    "serverTypeScript": "passed earlier in this phase after FLOW-17 repair: npx tsc --noEmit -p tsconfig.json --pretty false",
+    "serverJest": "passed earlier in this phase after FLOW-17 repair: npx jest --testPathPatterns=freelancer-marketplace --runInBand --colors=false (8 suites / 89 tests)",
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokenMaterialPrinted": false,
+    "signingKeysWrittenToEvidence": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false
+  },
+  "commands": [
+    "GET http://localhost:3000/health/live",
+    "Read tenant JWT signing keys from Vault without printing values.",
+    "Generated short-lived HS256 JWT probes in memory only.",
+    "Invoke-WebRequest status-code auth matrix against http://localhost:3000/api/runs/phase0-auth-probe/trace",
+    "FLOW-17 role map read from ROLE-ANALYSIS-BATCH-04 and client role branches."
+  ],
+  "verdict": "PASS"
+}

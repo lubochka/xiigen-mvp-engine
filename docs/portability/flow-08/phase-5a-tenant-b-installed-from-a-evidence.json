@@ -1,0 +1,252 @@
+{
+  "flowId": "FLOW-08",
+  "flowSlug": "marketplace",
+  "phase": "phase5aTenantBInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-05T14:22:52.9391992+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "role": "Tenant B",
+    "installedFromTenant": "acme-corp",
+    "installedFromRepoFullName": "lubochka/acme-corp--acme-curated-marketplace",
+    "packageName": "@xiigen-fork/acme-curated-marketplace",
+    "packageVersion": "1.0.1",
+    "localRegistry": "http://localhost:4873"
+  },
+  "marketplaceForkApi": {
+    "method": "POST",
+    "path": "/api/marketplace/packages/acme-curated-marketplace/fork",
+    "serverBaseUrl": "http://localhost:33001",
+    "targetTenant": "northwind",
+    "auth": "Tenant-scoped northwind tenant-admin JWT minted from Vault signing key; token value not printed or stored.",
+    "request": {
+      "flowId": "FLOW-08",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.1",
+      "repoNameOverride": "northwind--acme-curated-marketplace",
+      "sourceRepoFullName": "lubochka/acme-corp--acme-curated-marketplace"
+    },
+    "result": {
+      "forkId": "fork-acme-curated-marketplace-northwind",
+      "repoFullName": "lubochka/northwind--acme-curated-marketplace",
+      "repoUrl": "https://github.com/lubochka/northwind--acme-curated-marketplace",
+      "status": "FORKED",
+      "initialCommitSha": "a8352332d8b45ab884b6b5b1112f1c7e8d752bcc"
+    }
+  },
+  "localRegistryVerification": {
+    "command": "npm view @xiigen-fork/acme-curated-marketplace version --registry http://localhost:4873",
+    "expectedVersion": "1.0.1",
+    "actualVersion": "1.0.1",
+    "pingStatusCode": 200
+  },
+  "repository": {
+    "fullName": "lubochka/northwind--acme-curated-marketplace",
+    "htmlUrl": "https://github.com/lubochka/northwind--acme-curated-marketplace",
+    "defaultBranch": "main",
+    "createdAt": "2026-05-05T11:14:42Z",
+    "pushedAt": "2026-05-05T11:20:02Z",
+    "privateAfterEvidenceCapture": true,
+    "visibilityAfterEvidenceCapture": "private",
+    "localClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-curated-marketplace",
+    "localRemote": "https://github.com/lubochka/northwind--acme-curated-marketplace.git"
+  },
+  "initialCi": {
+    "runId": 25373147428,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "a8352332d8b45ab884b6b5b1112f1c7e8d752bcc",
+    "url": "https://github.com/lubochka/northwind--acme-curated-marketplace/actions/runs/25373147428",
+    "rootCause": "Inherited Tenant A adaptation test asserted tenantId acme-corp after cascade fork correctly rewrote tenant.config.json for northwind."
+  },
+  "repairCommit": {
+    "sha": "0f04e4296f92db5281a531bc2aa088207e7f6e3f",
+    "message": "Make Acme marketplace test cascade-safe",
+    "changedFile": "__tests__/marketplace-acme-adaptation.spec.ts",
+    "fix": "Assert Acme adaptation history is preserved while allowing downstream tenant repo identity to change.",
+    "tenantConfigAssertions": {
+      "tenantId": "northwind",
+      "flowId": "FLOW-08",
+      "flowSlug": "acme-curated-marketplace",
+      "moduleName": "acme-curated-marketplace",
+      "moduleVersion": "1.0.1",
+      "repoName": "northwind--acme-curated-marketplace",
+      "repoFullName": "lubochka/northwind--acme-curated-marketplace",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-curated-marketplace",
+      "adaptationHistoryEntries": 1
+    }
+  },
+  "githubActions": {
+    "runId": 25373301005,
+    "jobId": 74401960827,
+    "workflowName": "XIIGen Flow CI - marketplace",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "0f04e4296f92db5281a531bc2aa088207e7f6e3f",
+    "url": "https://github.com/lubochka/northwind--acme-curated-marketplace/actions/runs/25373301005",
+    "createdAt": "2026-05-05T11:20:05Z",
+    "updatedAt": "2026-05-05T11:20:45Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-curated-marketplace",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "exitCode": 0,
+        "notes": "Completed with dependency deprecation warnings only."
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 5 tests passed"
+      }
+    ],
+    "workingTreeCleanAfterRepair": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-05T14:22:52.9391992+03:00",
+    "passed": 8,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "acme own marketplace browse",
+        "tenantHeader": "acme-corp",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "northwind own marketplace browse",
+        "tenantHeader": "northwind",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "tessera own marketplace browse",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "missing token denied",
+        "tenantHeader": "northwind",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token in northwind context denied",
+        "tenantHeader": "northwind",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "northwind token in tessera context denied",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token in tessera context denied",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "wrong role cannot fork",
+        "tenantHeader": "northwind",
+        "method": "POST",
+        "path": "/api/marketplace/packages/acme-curated-marketplace/fork",
+        "expectedStatus": 403,
+        "actualStatus": 403
+      }
+    ]
+  },
+  "visualEvidence": {
+    "tenantBInstalledMatrix": {
+      "path": "docs/e2e-snapshots/marketplace/tenant-b-installed-from-a",
+      "expected": 9,
+      "actual": 9,
+      "minBytes": 200977,
+      "maxBytes": 223767,
+      "roles": [
+        "tenant-admin",
+        "platform-admin",
+        "platform-support"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "repoScreenshots": {
+      "repoHomepage": {
+        "path": "docs/e2e-snapshots/repo-evidence/northwind--acme-curated-marketplace-repo-homepage.png",
+        "bytes": 132121
+      },
+      "actionsSuccess": {
+        "path": "docs/e2e-snapshots/repo-evidence/northwind--acme-curated-marketplace-actions-success.png",
+        "bytes": 64408
+      },
+      "repoVisibilityRestoredToPrivate": true
+    }
+  },
+  "mainRepoVerification": {
+    "clientNpxTscNoEmit": "passed",
+    "clientPlaywright": {
+      "command": "VITE_PORT=5189 npx playwright test e2e/marketplace-phase5a-tenant-b-installed.spec.ts --project=chromium-desktop --workers=1",
+      "status": "passed",
+      "tests": 9
+    },
+    "serverNpxTscNoEmit": "passed",
+    "serverJestMarketplace": {
+      "command": "npx jest --testPathPatterns=marketplace --runInBand",
+      "status": "passed",
+      "testSuites": 60,
+      "tests": 1146
+    },
+    "phaseCloseScans": {
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 0,
+      "directSdkImports": 0,
+      "controllerUseGuards": true,
+      "controllerRouteCount": 4,
+      "controllerRolesOrPublicDeclarations": 4,
+      "controllerPublicRoutes": 0
+    }
+  },
+  "secretHandling": {
+    "printedTenantTokens": false,
+    "printedVaultSigningKeys": false,
+    "committedEnvFiles": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "verdict": "PASS"
+}

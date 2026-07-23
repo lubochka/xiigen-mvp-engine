@@ -1,0 +1,177 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xiigen.io/schemas/feature-manifest/v2",
+  "title": "XIIGen Feature Manifest",
+  "description": "Canonical record of a capability implemented on one or more platforms",
+  "type": "object",
+  "required": ["schemaVersion", "features"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "2.0" },
+    "sourceFlow": { "type": "string", "description": "e.g. FLOW-31, FEATURE-REGISTRY-S1" },
+    "extractedAt": { "type": "string", "format": "date-time" },
+    "features": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Feature" }
+    }
+  },
+  "definitions": {
+    "Feature": {
+      "type": "object",
+      "required": ["ftId", "name", "description", "productScope", "canonicalImplementation", "platforms"],
+      "properties": {
+        "ftId": {
+          "type": "string",
+          "pattern": "^FT-[0-9]{3,6}$",
+          "description": "Stable ID across all platforms"
+        },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "productScope": {
+          "type": "string",
+          "enum": ["xiigen-capability", "client-capability"],
+          "description": "D-FT-2: MACHINE field — classification determined at extraction time by FeatureExtractor. Tenants cannot reclassify. xiigen-capability = XIIGen infrastructure feature. client-capability = capability generated for client flows."
+        },
+        "canonicalImplementation": {
+          "type": "object",
+          "description": "Where the business logic lives in XIIGen (Mode A)",
+          "properties": {
+            "flowId": { "type": "string" },
+            "taskTypeId": { "type": "string" },
+            "serviceClass": { "type": "string" }
+          }
+        },
+        "platforms": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/PlatformAdapter" }
+        },
+        "signals": { "$ref": "#/definitions/CanonicalSignals" },
+        "portingConstraints": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What must change when porting to another platform"
+        },
+        "platformIncompatibilities": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Platforms this feature cannot run on and why"
+        }
+      }
+    },
+    "PlatformAdapter": {
+      "type": "object",
+      "required": ["platformId", "status", "adapterPath"],
+      "properties": {
+        "platformId": {
+          "type": "string",
+          "enum": [
+            "figma", "canva", "miro", "webflow", "framer",
+            "atlassian", "shopify", "wix", "chrome", "vscode",
+            "monday", "notion", "google-workspace",
+            "xiigen-saas", "xiigen-oss", "xiigen-enterprise", "xiigen-lean"
+          ],
+          "description": "D-FT-3: xiigen-saas/oss/enterprise/lean are first-class platformId values. Same PortingDecisionGate logic applies."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["implemented", "planned", "porting-in-progress", "incompatible"]
+        },
+        "version": { "type": "string" },
+        "adapterPath": { "type": "string", "description": "Path to adapter code" },
+        "adapterMode": {
+          "type": "string",
+          "enum": ["MODE-A", "MODE-B"],
+          "description": "MODE-A: runs on XIIGen. MODE-B: ships to platform, tested via simulator"
+        },
+        "signals": { "$ref": "#/definitions/FeatureSignals" },
+        "portingCandidate": {
+          "type": "boolean",
+          "description": "Whether this platform adapter is a candidate for porting to other platforms"
+        },
+        "portingCandidateReason": {
+          "type": "string",
+          "description": "Required when portingCandidate=false: reason this adapter is not a porting candidate"
+        },
+        "stackType": {
+          "type": "string",
+          "description": "Open string — the specific technology. Examples: 'canva-app', 'node-nestjs', 'figma-plugin', 'our-internal-go-service'. Required from FLOW-00.2 onwards."
+        },
+        "stackCategory": {
+          "type": "string",
+          "enum": [
+            "design-platform-plugin", "whiteboard-plugin", "ecommerce-app",
+            "productivity-plugin", "browser-extension", "crm-extension",
+            "automation-node", "payment-plugin", "web-framework", "cms-plugin",
+            "erp-extension", "mobile-native", "mobile-cross", "desktop-native",
+            "client-spa", "client-ssr", "platform-service", "sdk-package",
+            "build-tool", "test-runner", "ci-cd", "custom"
+          ],
+          "description": "D-STACK-7: closed enum — the KIND of technology. stackType is the open specific name."
+        },
+        "stackSide": {
+          "type": "string",
+          "enum": ["server", "client", "platform", "other"],
+          "description": "Which side of the system this platform entry runs on."
+        }
+      },
+      "if": {
+        "properties": { "portingCandidate": { "const": false } },
+        "required": ["portingCandidate"]
+      },
+      "then": {
+        "required": ["portingCandidateReason"]
+      }
+    },
+    "CanonicalSignals": {
+      "type": "object",
+      "description": "Usage and quality signals — populated by FLOW-36 signal tracking. Supports STANDARD and XIIGEN_VARIANT signal modes.",
+      "properties": {
+        "signalMode": {
+          "type": "string",
+          "enum": ["STANDARD", "XIIGEN_VARIANT"],
+          "description": "XIIGEN_VARIANT: used for xiigen-saas/oss/enterprise/lean platform adapters"
+        },
+        "installs": { "type": "integer", "minimum": 0 },
+        "activeUsers30d": { "type": "integer", "minimum": 0 },
+        "likes": { "type": "integer", "minimum": 0 },
+        "citations": { "type": "integer", "minimum": 0 },
+        "signalScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "portingThresholdMet": { "type": "boolean" },
+        "lastUpdated": { "type": "string", "format": "date-time" },
+        "deployedInVariants": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["xiigen-saas", "xiigen-oss", "xiigen-enterprise", "xiigen-lean"]
+          },
+          "description": "XIIGEN_VARIANT mode only: which product variants include this feature"
+        },
+        "leanCompatible": {
+          "type": "boolean",
+          "description": "XIIGEN_VARIANT mode only: true if feature works in resource-constrained lean deployment"
+        },
+        "ossIncluded": {
+          "type": "boolean",
+          "description": "XIIGEN_VARIANT mode only: true if feature is included in open-source distribution"
+        },
+        "enterpriseAdoptionCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "XIIGEN_VARIANT mode only: number of enterprise tenants using this feature"
+        }
+      }
+    },
+    "FeatureSignals": {
+      "type": "object",
+      "description": "Per-platform usage and quality signals — populated by FLOW-36 signal tracking",
+      "properties": {
+        "installs": { "type": "integer", "minimum": 0 },
+        "activeUsers30d": { "type": "integer", "minimum": 0 },
+        "likes": { "type": "integer", "minimum": 0 },
+        "citations": { "type": "integer", "minimum": 0 },
+        "signalScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "portingThresholdMet": { "type": "boolean" },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

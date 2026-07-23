@@ -1,0 +1,28 @@
+{
+  "patternId": "AUTOMATION-DISPATCH-RULE-001",
+  "patternName": "Automation Rule Dispatch with SETNX",
+  "flowId": "FLOW-21",
+  "archetype": "ORCHESTRATION",
+  "taskTypeId": "T631",
+  "sourceFile": "server/src/engine-contracts/dynamic-forms-workflows-contracts.ts",
+  "problem": "Form submissions can trigger automation rules with conditional branching, but concurrent submission processing must not cause duplicate rule execution",
+  "solution": "Use SETNX (SET if Not eXists) atomicity to acquire rule execution locks. Each rule per submission has a unique lock key: rule-exec-lock:{submissionId}:{ruleId}. Evaluate rule conditions (field, operator, value) to determine which actions to execute (then-actions vs else-actions). Store rule execution record before releasing lock.",
+  "pattern": {
+    "step_1": "Fetch automation rules for the form",
+    "step_2": "For each rule: SETNX(rule-exec-lock:{submissionId}:{ruleId}) with TTL",
+    "step_3": "If lock held: skip rule (idempotency — rule already executed)",
+    "step_4": "If lock acquired: evaluate rule.condition against submission data",
+    "step_5": "Condition true: queue thenActions; false: queue elseActions",
+    "step_6": "Store rule execution record with condition result + actions executed",
+    "step_7": "Release lock (DELETE or let TTL expire)"
+  },
+  "ironRules": [
+    "IR-1: SETNX(rule-exec-lock) at ORDER 1 for idempotency",
+    "IR-2: Rule condition evaluation with multi-path dispatch",
+    "IR-3: Queue rule actions (emit, webhook, transform, store)",
+    "IR-4: Store execution before releasing lock (DNA-8)",
+    "IR-5: tenantId from ALS; rule.tenantId must match"
+  ],
+  "usedIn": ["FLOW-21"],
+  "keywords": ["SETNX", "automation", "rules", "conditional", "dispatch", "idempotency", "lock", "branching"]
+}

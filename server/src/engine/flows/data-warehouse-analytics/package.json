@@ -1,0 +1,92 @@
+{
+  "name": "@xiigen/data-warehouse-analytics",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-13 data-warehouse-analytics - tenant-scoped warehouse analytics, query gates, exports, retention, lineage, and cross-flow correlation lifecycle (T169-T188). Portability artifact declaring analytics co-install dependencies.",
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "services": [
+      "QueryExecutionEngineService",
+      "MetricAggregationEngineService",
+      "KPIDashboardGeneratorService",
+      "CohortAnalysisEngineService",
+      "FunnelAnalysisEngineService",
+      "RetentionCohortAnalyzerService",
+      "ReportSchedulerService",
+      "CrossFlowCorrelationEngineService",
+      "DataExportEngineService",
+      "TrainingDatasetBuilderService",
+      "AlertingRulesEngineService",
+      "QueryOptimizationAdvisorService",
+      "DataLineageTrackerService",
+      "DataRetentionEnforcerService",
+      "QuotaManager",
+      "WarehouseHealthMonitorService"
+    ],
+    "taskTypeIds": [
+      "T169",
+      "T170",
+      "T171",
+      "T172",
+      "T173",
+      "T174",
+      "T175",
+      "T176",
+      "T177",
+      "T178",
+      "T179",
+      "T180",
+      "T181",
+      "T182",
+      "T183",
+      "T184",
+      "T185",
+      "T186",
+      "T187",
+      "T188"
+    ],
+    "freedomKeys": [
+      "flow13_warehouse_kpi_thresholds_default",
+      "flow13_warehouse_alert_rules_default",
+      "flow13_warehouse_retention_period_days",
+      "flow13_warehouse_retention_policy_days",
+      "flow13_warehouse_daily_query_limit",
+      "flow13_warehouse_export_ttl_hours",
+      "flow13_warehouse_training_dataset_max_rows",
+      "flow13_warehouse_health_latency_threshold_ms"
+    ],
+    "emitsEventsConsumedBy": [
+      "Tenant analytics dashboards and export consumers",
+      "FLOW-14 ETL and data integration downstream warehouse provisioning consumers"
+    ],
+    "readsFromOtherFlows": [
+      "FLOW-11 (legal-hold and schema-governance reads before retention purge)",
+      "FLOW-09 (tenant-scoped transactional event facts for cross-flow correlation)",
+      "FLOW-10 (tenant-scoped review and reputation facts for cross-flow correlation)"
+    ],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_CANDIDATE_IN_GENERATION"
+  },
+  "xiigen": {
+    "requiredCoInstalls": [
+      "FLOW-11",
+      "FLOW-09",
+      "FLOW-10"
+    ],
+    "requiredCoInstallPackages": [
+      "@xiigen/schema-registry-dag",
+      "@xiigen/transactional-event-participation",
+      "@xiigen/reviews-reputation"
+    ],
+    "pluginSdk": "@xiigen/plugin-sdk@^1.0.0"
+  },
+  "requiredCoInstalls": [
+    "@xiigen/schema-registry-dag",
+    "@xiigen/transactional-event-participation",
+    "@xiigen/reviews-reputation"
+  ],
+  "coInstallNotes": "FLOW-13 declares FLOW-11, FLOW-09, and FLOW-10 as co-install metadata because warehouse analytics reads their tenant-scoped records for legal-hold, transactional, and reputation correlation use cases. Their source is not bundled or double-installed inside the FLOW-13 package; tenant forks must satisfy these dependencies through package metadata and the marketplace cascade.",
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED-v3.0"
+}

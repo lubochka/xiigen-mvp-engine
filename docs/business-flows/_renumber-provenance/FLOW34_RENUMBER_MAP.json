@@ -1,0 +1,93 @@
+{
+  "flow": "FLOW-34",
+  "name": "Skill Multi-Target Translation (Translate to Alternatives)",
+  "actual_prior_state": "Post FLOW-33 (F1-F1428, T1-T542, Families 1-212)",
+  "renumber_offsets": {
+    "factory": "+798 (F631→F1429)",
+    "family": "+129 (84→213)",
+    "task_type": "+296 (T247→T543)",
+    "template": "+76 (50→126)",
+    "bfa_rule": "+456 (CF-295→CF-751)",
+    "stress_test": "+299 (ST-164→ST-463)",
+    "skill": "+210 (SK-145→SK-355)",
+    "design_decision": "+212 (DD-130→DD-342)",
+    "design_record": "+156 (DR-99→DR-255)"
+  },
+  "new_artifacts": {
+    "factories": "F1429-F1483 (55 factories, 10 families: 213-222)",
+    "task_types": "T543-T564 (22 engine contracts)",
+    "templates": "126-133 (8 flow templates)",
+    "bfa_rules": "CF-751-CF-788 (38 conflict rules)",
+    "stress_tests": "ST-463-ST-497 (35 tests)",
+    "skills": "SK-355-SK-378 (24 skill patterns)",
+    "design_decisions": "DD-342-DD-357 (16 decisions)",
+    "design_records": "DR-255-DR-266 (12 records)"
+  },
+  "post_flow34_state": {
+    "factories": "F1-F1483 (222 families)",
+    "task_types": "T1-T564",
+    "templates": "1-133",
+    "bfa_rules": "CF-1-CF-788",
+    "stress_tests": "ST-1-ST-497",
+    "skills": "SK-1-SK-378",
+    "design_decisions": "DD-1-DD-357",
+    "design_records": "DR-1-DR-266",
+    "dna_patterns": "DNA-1-DNA-9",
+    "engine_primitives": "EP-1-EP-6"
+  },
+  "next_available": {
+    "factory": "F1484",
+    "family": 223,
+    "task_type": "T565",
+    "template": 134,
+    "bfa_rule": "CF-789",
+    "stress_test": "ST-498",
+    "skill": "SK-379",
+    "design_decision": "DD-358",
+    "design_record": "DR-267"
+  },
+  "family_map": {
+    "213": "Canonical Skill Store & Spec Management (F1429-F1435)",
+    "214": "Variant Registry & Selection Engine (F1436-F1442)",
+    "215": "Target Adapter Code Generation (F1443-F1449)",
+    "216": "WordPress Plugin Packaging (F1450-F1454)",
+    "217": "WordPress Theme Packaging (F1455-F1459)",
+    "218": "Server Language SDK Scaffolding (F1460-F1465)",
+    "219": "Cross-Variant Conformance Testing (F1466-F1470)",
+    "220": "Graph RAG Skill Index (F1471-F1475)",
+    "221": "Variant Promotion Pipeline (F1476-F1479)",
+    "222": "Multi-Target Orchestration Control (F1480-F1483)"
+  },
+  "task_type_map": {
+    "T543": "Canonical Skill Extraction Gate",
+    "T544": "Skill Variant Descriptor Attach",
+    "T545": "Canonical Spec Conformance Seed",
+    "T546": "Server Variant Generation — Node",
+    "T547": "Server Variant Generation — Go",
+    "T548": "Server Variant Generation — Java",
+    "T549": "Server Variant Generation — Rust",
+    "T550": "Server Variant Generation — PHP",
+    "T551": "Server Variant Cross-Language Judge",
+    "T552": "Client Variant Generation — ReactJS",
+    "T553": "Client Variant Generation — Vue",
+    "T554": "Client Variant Generation — Angular",
+    "T555": "Client Variant Fabric Compliance Gate",
+    "T556": "WordPress Plugin Packaging Gate",
+    "T557": "WordPress Theme Packaging Gate",
+    "T558": "WordPress Security & Auth Gate",
+    "T559": "Cross-Variant Conformance Runner",
+    "T560": "Variant Promotion Ladder Gate",
+    "T561": "Graph RAG Node Ingestion",
+    "T562": "Graph RAG Edge Linking",
+    "T563": "Graph RAG Variant Selection Query",
+    "T564": "Multi-Target Translation Orchestrator"
+  },
+  "validation": {
+    "stale_references": "0 in FLOW-34 sections (F631/T247 in SESSION_STATE are correct FLOW-18 refs)",
+    "factory_count": "55 unique F-numbers verified",
+    "task_type_count": "22 unique T-numbers verified",
+    "skill_count": "24 unique SK-numbers verified",
+    "bfa_rule_count": "38 unique CF-numbers verified",
+    "backward_compatibility": "F1-F1428, T1-T542 unchanged"
+  }
+}

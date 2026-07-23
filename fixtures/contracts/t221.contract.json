@@ -1,0 +1,41 @@
+{
+  "taskTypeId": "T221",
+  "flowId": "FLOW-14",
+  "name": "IdentityJoinResolver",
+  "archetype": "modeling",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "cross-tenant-guard-then-confidence-threshold-then-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_identity_join_confidence_threshold",
+    "neutralConcepts": [
+      "CF-204: cross-tenant join guard — all join inputs MUST carry tenantId",
+      "Cross-tenant join rejected with CrossTenantViolation event",
+      "Confidence threshold from FREEDOM config (flow14_identity_join_confidence_threshold, default 0.9)",
+      "IdentityJoinCompleted includes crossTenantGuardPassed: true",
+      "storeDocument(join_record) BEFORE enqueue(IdentityJoinCompleted) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_FREEDOM", "interface": "IFreedomConfigService", "fabric": "FREEDOM" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T221-1", "rule": "CF-204: cross-tenant join guard — all join inputs MUST carry tenantId. Cross-tenant rejected.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T221-2", "rule": "Confidence threshold from FREEDOM config — not hardcoded.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T221-3", "rule": "IdentityJoinCompleted MUST include crossTenantGuardPassed: true.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T221-4", "rule": "storeDocument BEFORE enqueue(IdentityJoinCompleted) — DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "cross_tenant_join_guard",
+    "confidence_threshold_from_freedom",
+    "cross_tenant_guard_passed_in_payload",
+    "store_before_enqueue"
+  ],
+  "bfaRules": ["CF-204"],
+  "tags": ["identity", "join", "cross-tenant", "confidence", "modeling"],
+  "keywords": "identity join resolver cross-tenant guard CF-204 confidence threshold FREEDOM config IdentityJoinCompleted CrossTenantViolation crossTenantGuardPassed"
+}

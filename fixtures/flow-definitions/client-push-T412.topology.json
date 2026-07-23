@@ -1,0 +1,26 @@
+{
+  "flowId": "FLOW-40",
+  "flowName": "client-push",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T412",
+        "name": "Service1",
+        "order": 1
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T413",
+        "name": "Service2",
+        "order": 2
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T414",
+        "name": "Service3",
+        "order": 3
+      }
+    ]
+  }
+}

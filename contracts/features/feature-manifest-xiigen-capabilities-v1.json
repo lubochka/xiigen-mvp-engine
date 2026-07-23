@@ -1,0 +1,419 @@
+{
+  "schemaVersion": "2.0",
+  "sourceFlow": "FEATURE-REGISTRY-S1",
+  "extractedAt": "2026-03-22T00:00:00.000Z",
+  "note": "XIIGen own infrastructure capabilities. FT-100–FT-107 confirmed by FLOW-36 Phase A. FT-108–FT-109 from FLOW-35 (implemented). FT-110–FT-115 from FLOW-36 (planned). productScope=xiigen-capability: these features power XIIGen itself, not client flows. Signals use XIIGEN_VARIANT mode.",
+  "features": [
+    {
+      "ftId": "FT-100",
+      "name": "MultiTenantFlowOrchestration",
+      "description": "Core tenant-scoped flow execution engine: resolves tenant context via AsyncLocalStorage, dispatches flow phases in order, enforces phase gate contracts, and emits lifecycle events per DNA-9.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal. Requires AsyncLocalStorage for tenant context propagation. Porting would expose core orchestration internals to an untrusted platform runtime. Architectural boundary violation.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-33",
+        "taskTypeId": "T516",
+        "serviceClass": "BootstrapOrchestrator",
+        "status": "confirmed"
+      },
+      "platforms": [],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-101",
+      "name": "GraphRAGTwoLayerSeeding",
+      "description": "Two-layer GraphRAG population protocol: Layer 1 seeds node semantics (task types, services, patterns), Layer 2 seeds cross-flow dependency edges. Layer 2 is blocked until Layer 1 is COMPLETE (CF-743).",
+      "productScope": "xiigen-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-33",
+        "taskTypeId": "T517",
+        "serviceClass": "GraphRAGTwoLayerSeeder",
+        "status": "confirmed"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "server/src/engine/flows/flow33/graphrag-two-layer-seeder.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas", "xiigen-enterprise", "xiigen-oss"],
+            "leanCompatible": false,
+            "ossIncluded": true,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [
+        "Requires RAG fabric with vector indexing for semantic node search",
+        "Layer ordering is enforced via database sentinel — port must preserve CF-743 gate"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-102",
+      "name": "ImplementationStatusTracking",
+      "description": "Per-family implementation run tracker with SETNX idempotency locks. State machine: PENDING → IN_PROGRESS → COMPLETED | FAILED | NEEDS_REVIEW. Composite key: tenantId::flowId::familyId::runId (CF-739).",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal state machine. Requires access to XIIGen's internal bootstrap sentinel state. Porting would expose idempotency lock mechanism to an external platform runtime.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-33",
+        "taskTypeId": "T518",
+        "serviceClass": "ImplementationStatusRegistry",
+        "status": "confirmed"
+      },
+      "platforms": [],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-103",
+      "name": "FamilyMetaImplementationLoop",
+      "description": "AI-driven bounded generation loop per family: assembles fresh ContextPack each attempt, generates code via AI, runs FiveArbiterConsensusGate, injects feedback between rounds (CF-750), escalates on max retries.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal generation loop. IS XIIGen's code generation engine. Porting would expose generation internals to an external platform runtime. Architectural boundary violation.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-33",
+        "taskTypeId": "T519",
+        "serviceClass": "ImplementFamilyMetaLoop",
+        "status": "confirmed"
+      },
+      "platforms": [],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-104",
+      "name": "FiveArbiterConsensusGate",
+      "description": "Quality gate running 5 specialized arbiters in parallel (Promise.allSettled) covering architecture, security, DNA compliance, business logic, and integration. Quorum: ≥4/5 APPROVED required.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal consensus gate. Requires access to XIIGen's arbiter registry and internal evaluation state. Porting would expose AI generation quality control to an untrusted platform.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-33",
+        "taskTypeId": "T520",
+        "serviceClass": "FiveArbiterConsensusGate",
+        "status": "confirmed"
+      },
+      "platforms": [],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-105",
+      "name": "RegressionImpactAnalysis",
+      "description": "Computes blast radius of a promoted flow via GraphRAG edge traversal. Implements 3-case promotion protocol: CASE_C (empty blast→ACTIVE), CASE_A (within threshold→PROMOTED→ACTIVE/REGRESSED), CASE_B (exceeds→EscalationBriefing).",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal analysis. Requires access to XIIGen's internal GraphRAG dependency graph and promotion state machine. Porting would expose regression analysis internals.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-33",
+        "taskTypeId": "T521",
+        "serviceClass": "RegressionImpactAnalyzer",
+        "status": "confirmed"
+      },
+      "platforms": [],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-106",
+      "name": "ContextPackAssembly",
+      "description": "Assembles a TTL-governed ContextPack for a family implementation attempt: retrieves RAG context, reads flow contracts, checks existing pack staleness (CF-747). Stored before emit (DNA-8).",
+      "productScope": "xiigen-capability",
+      "portingCandidate": true,
+      "canonicalImplementation": {
+        "flowId": "FLOW-33",
+        "taskTypeId": "T522",
+        "serviceClass": "ContextPackAssembler",
+        "status": "confirmed"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "implemented",
+          "version": "1.0.0",
+          "adapterPath": "server/src/engine/flows/flow33/context-pack-assembler.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas", "xiigen-enterprise", "xiigen-oss"],
+            "leanCompatible": false,
+            "ossIncluded": true,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [
+        "TTL must come from FREEDOM config (flow33_context_pack_ttl_minutes)",
+        "RAG fabric required for similar-context retrieval"
+      ],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-107",
+      "name": "FeatureRegistryPortingDecisionGate",
+      "description": "Cross-platform porting decision gate: evaluates feature signals, portingCandidate flag, blast radius, and tenant FREEDOM config to return APPROVE | DEFER | BLOCK | PROHIBITED for a given ftId × targetPlatform pair.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal porting governance. This IS the porting decision engine. Porting it to an external platform would expose XIIGen's architectural boundary enforcement logic.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-36",
+        "taskTypeId": "T570",
+        "serviceClass": "PortingDecisionGate",
+        "status": "pending-flow-execution"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "planned",
+          "version": "TBD",
+          "adapterPath": "server/src/engine/flows/feature-registry/porting-decision-gate.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas", "xiigen-enterprise", "xiigen-oss"],
+            "leanCompatible": false,
+            "ossIncluded": true,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-108",
+      "name": "RoundSummaryProcessor",
+      "description": "Triggered by ArbitersComplete event. Collects all arbiter results for the current generation round and assembles a structured RoundSummary. Enriches with cost, token counts, model metadata. Persists before emit (DNA-8).",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal meta-arbitration. Requires access to XIIGen's internal arbiter registry and round state. Porting would expose generation quality collection internals.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-35",
+        "taskTypeId": "T565",
+        "serviceClass": "RoundSummaryProcessor",
+        "status": "confirmed"
+      },
+      "platforms": [],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-109",
+      "name": "MetaDecisionEngine",
+      "description": "Triggered by RoundSummaryReady event. Applies all 5 meta-arbiter policies (SpendGovernor, SecurityCircuitBreaker, ImprovementDetector, ModelFitness, RoundController) in sequence. Produces final RoundDecision: CONTINUE | ESCALATE | HALT | ACCEPT.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal meta-arbiter. IS XIIGen's generation quality governance engine. Porting would expose spend governance, security circuit breaker, and model fitness evaluation to an external runtime. Architectural boundary violation.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-35",
+        "taskTypeId": "T566",
+        "serviceClass": "MetaDecisionEngine",
+        "status": "confirmed"
+      },
+      "platforms": [],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-110",
+      "name": "FeatureExtractor",
+      "description": "Extracts FT entries from source code or design input with portingCandidate classification and productScope assignment. Validates output against feature-manifest.schema.json v2.0.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal feature extraction. Requires access to XIIGen's internal feature registry and RAG indexes. Porting would expose FT extraction and classification logic to an external runtime.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-36",
+        "taskTypeId": "T567",
+        "serviceClass": "FeatureExtractor",
+        "status": "pending-flow-execution"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "planned",
+          "version": "TBD",
+          "adapterPath": "server/src/engine/flows/feature-registry/feature-extractor.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas"],
+            "leanCompatible": false,
+            "ossIncluded": false,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-111",
+      "name": "FeatureSignalAggregator",
+      "description": "Aggregates MODE_A (engine telemetry) and MODE_B (marketplace) signals per FT per platform. Evaluates porting threshold formulas.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal signal governance. Requires access to XIIGen's internal telemetry and porting threshold evaluation. Porting would expose signal aggregation and threshold logic.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-36",
+        "taskTypeId": "T568",
+        "serviceClass": "FeatureSignalAggregator",
+        "status": "pending-flow-execution"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "planned",
+          "version": "TBD",
+          "adapterPath": "server/src/engine/flows/feature-registry/feature-signal-aggregator.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas"],
+            "leanCompatible": false,
+            "ossIncluded": false,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-112",
+      "name": "PortingCostEstimator",
+      "description": "Estimates porting effort for a specific FT to a target platform via RAG retrieval of platform constraint docs and historical porting data. Only runs when portingCandidate=true.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal cost estimation. Requires access to XIIGen's internal RAG indexes for platform constraints. Porting would expose internal cost model to an external runtime.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-36",
+        "taskTypeId": "T569",
+        "serviceClass": "PortingCostEstimator",
+        "status": "pending-flow-execution"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "planned",
+          "version": "TBD",
+          "adapterPath": "server/src/engine/flows/feature-registry/porting-cost-estimator.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas"],
+            "leanCompatible": false,
+            "ossIncluded": false,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-113",
+      "name": "PlatformAdapterGenerator",
+      "description": "Generates thin adapter code for target platform after PortingDecisionGate APPROVE. Adapter contains only platform-specific API calls — zero business logic.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal code generation. IS XIIGen's adapter code generator. Porting it to Figma/Canva would create a paradox — you cannot use an adapter generator running in Figma to generate Figma adapters.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-36",
+        "taskTypeId": "T571",
+        "serviceClass": "PlatformAdapterGenerator",
+        "status": "pending-flow-execution"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "planned",
+          "version": "TBD",
+          "adapterPath": "server/src/engine/flows/feature-registry/platform-adapter-generator.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas"],
+            "leanCompatible": false,
+            "ossIncluded": false,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-114",
+      "name": "PlatformSimulator",
+      "description": "Simulates target platform runtime for generated adapter validation. Supports Figma and Canva mock runtimes. Local-only, zero cloud credentials.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal simulator infrastructure. Requires XIIGen's local mock runtime infrastructure. Porting the simulator to the platform it simulates creates a circular dependency.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-36",
+        "taskTypeId": "T572",
+        "serviceClass": "PlatformSimulator",
+        "status": "pending-flow-execution"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "planned",
+          "version": "TBD",
+          "adapterPath": "server/src/engine/flows/feature-registry/platform-simulator.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas"],
+            "leanCompatible": false,
+            "ossIncluded": false,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    },
+    {
+      "ftId": "FT-115",
+      "name": "FeaturePortingOrchestrator",
+      "description": "Orchestrates the full porting pipeline for one FT: portingCandidate guard → cost estimation → decision gate → adapter generation → simulator. Emits per-step progress events.",
+      "productScope": "xiigen-capability",
+      "portingCandidate": false,
+      "portingCandidateReason": "Engine-internal orchestration. IS XIIGen's porting pipeline coordinator. Requires access to all porting sub-services. Porting would expose the entire porting orchestration engine to an external platform.",
+      "canonicalImplementation": {
+        "flowId": "FLOW-36",
+        "taskTypeId": "T573",
+        "serviceClass": "FeaturePortingOrchestrator",
+        "status": "pending-flow-execution"
+      },
+      "platforms": [
+        {
+          "platformId": "xiigen-saas",
+          "status": "planned",
+          "version": "TBD",
+          "adapterPath": "server/src/engine/flows/feature-registry/feature-porting-orchestrator.service.ts",
+          "adapterMode": "MODE-A",
+          "signals": {
+            "signalMode": "XIIGEN_VARIANT",
+            "deployedInVariants": ["xiigen-saas"],
+            "leanCompatible": false,
+            "ossIncluded": false,
+            "enterpriseAdoptionCount": 0
+          }
+        }
+      ],
+      "portingConstraints": [],
+      "platformIncompatibilities": []
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "patternId": "all-or-nothing-group-booking",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-09",
+  "domainId": "transactional-event-participation",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": ["T108", "group-booking", "transaction", "atomicity", "all-or-nothing", "rollback"],
+  "keywords": "all or nothing group booking transaction atomic rollback partial failure coordinator",
+  "appliesTo": ["T108"],
+  "qualityScore": 0.91,
+  "curriculumTier": 2,
+  "ironRules": [
+    "ALL group ticket issuances must be in ONE db.transaction() — any loop outside transaction is BUILD_FAILURE",
+    "Any member failure triggers full rollback — no partial group booking permitted",
+    "GroupBookingCompleted emitted only after all members have confirmed tickets",
+    "for...of loop outside transaction is a BUILD_FAILURE per CF-09-4"
+  ],
+  "codeSnippet": "// T108 GroupBookingCoordinatorHandler — CORRECT all-or-nothing pattern\nasync coordinateGroupBooking(input: GroupInput): Promise<DataProcessResult<GroupResult>> {\n  // ALL issuances in ONE transaction — atomic rollback if any member fails\n  const result = await this.db.transaction(async () => {\n    const issuedTickets: Record<string, unknown>[] = [];\n    for (const member of input.members) {\n      const ticket = await this.issueTicket({ memberId: member.userId, eventId: input.eventId });\n      if (!ticket.isSuccess) throw new Error(`Member ${member.userId} ticket issuance failed`);\n      issuedTickets.push(ticket.data as Record<string, unknown>);\n    }\n    return issuedTickets;\n  });\n  // DNA-8: storeDocument BEFORE GroupBookingCompleted\n  await this.db.storeDocument('group-bookings', { groupId: input.groupId, status: 'CONFIRMED', knowledgeScope: 'PRIVATE' }, input.groupId);\n  await this.queue.enqueue('group.booking.completed', { groupId: input.groupId });\n  return DataProcessResult.success({ groupId: input.groupId, ticketCount: result.length });\n}\n// WRONG: for (const member of input.members) { await this.issueTicket(member); } — loop outside transaction"
+}

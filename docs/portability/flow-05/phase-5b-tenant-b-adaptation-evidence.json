@@ -1,0 +1,162 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "phase": "5b-tenant-b-adaptation",
+  "completedAt": "2026-05-03T11:25:52.4129254+03:00",
+  "tenant": "northwind",
+  "sourceTenant": "acme-corp",
+  "adaptation": {
+    "type": "TYPE-A",
+    "originModuleName": "acme-learning-rewards",
+    "proposedModuleName": "northwind-momentum-rewards",
+    "freedomKeyChanged": "flow05_streak_grace_hours",
+    "previousValue": 2,
+    "newValue": 4,
+    "rationale": "Northwind keeps Acme's stronger reward total and gives late-night learners more time after midnight to keep a streak.",
+    "visibleProof": "tenant-b-v1.0.2 screenshots show +25 points, base 15, bonus 10, and a 4-hour streak grace window."
+  },
+  "tenantRepo": {
+    "beforeRename": "lubochka/northwind--acme-learning-rewards",
+    "afterRename": "lubochka/northwind--northwind-momentum-rewards",
+    "adaptationCommitSha": "129b9bc2ae7afc3a97b80f81a36d7122b93db186",
+    "renameVerificationCommitSha": "512d4273e9134b3ad8d34101e8c3210452f9c3e2",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/completion-gamification-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package-lock.json",
+      "package.json",
+      "tenant.config.json"
+    ],
+    "adaptationHistoryEntries": 2,
+    "tenantConfig": {
+      "tenantId": "northwind",
+      "moduleName": "northwind-momentum-rewards",
+      "moduleVersion": "1.0.2",
+      "repoName": "northwind--northwind-momentum-rewards",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-learning-rewards"
+    }
+  },
+  "tenantRepoVerification": {
+    "localCommands": [
+      "npm install --package-lock-only --no-audit --no-fund",
+      "npm run build",
+      "npx jest --colors=false --forceExit"
+    ],
+    "localBuildPassed": true,
+    "localJestSuitesPassed": 2,
+    "localJestTestsPassed": 2,
+    "githubActions": {
+      "adaptationRun": {
+        "runId": 25274136154,
+        "status": "completed",
+        "conclusion": "success",
+        "runUrl": "https://github.com/lubochka/northwind--acme-learning-rewards/actions/runs/25274136154"
+      },
+      "renamedRepoRun": {
+        "runId": 25274151807,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "512d4273e9134b3ad8d34101e8c3210452f9c3e2",
+        "createdAt": "2026-05-03T08:21:50Z",
+        "updatedAt": "2026-05-03T08:22:12Z",
+        "runUrl": "https://github.com/lubochka/northwind--northwind-momentum-rewards/actions/runs/25274151807"
+      }
+    }
+  },
+  "registry": {
+    "url": "http://localhost:4874",
+    "package": "@xiigen/northwind-momentum-rewards",
+    "version": "1.0.2",
+    "latestTagVerified": "1.0.2",
+    "published": true
+  },
+  "visualEvidence": {
+    "suite": "client/e2e/completion-gamification-visual.spec.ts",
+    "cascadePoint": "tenant-b-v1.0.2",
+    "roles": [
+      "tenant-user",
+      "referral-user",
+      "freelancer",
+      "event-organiser",
+      "tenant-admin"
+    ],
+    "cells": [
+      "C2 en populated desktop",
+      "C4 he RTL populated desktop",
+      "C6 en populated mobile"
+    ],
+    "testsPassed": 15,
+    "pngCount": 15,
+    "directory": "docs/e2e-snapshots/completion-gamification/tenant-b-v1.0.2",
+    "tenantAValueAssertion": "points-earned contains +25, points breakdown contains base 15 and bonus 10",
+    "tenantBValueAssertion": "streak-grace-window contains 4 hours after midnight"
+  },
+  "marketplaceEvidence": {
+    "suite": "client/e2e/completion-gamification-marketplace-listing.spec.ts",
+    "testsPassed": 2,
+    "northwindScreenshot": "docs/e2e-snapshots/marketplace/completion-gamification-v1.0.2-listing.png",
+    "listingShows": [
+      "Northwind Momentum Rewards",
+      "v1.0.2",
+      "preserves Acme Learning Rewards",
+      "four-hour streak grace window"
+    ],
+    "internalCopyHits": 0
+  },
+  "authRegression": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "own-tenant-northwind-v1.0.2",
+        "expected": 200,
+        "actual": 200
+      },
+      {
+        "name": "missing-token-northwind-v1.0.2",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-A-token-in-tenant-B-after-adaptation",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-B-token-in-tenant-C-after-adaptation",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-C-token-in-tenant-B-after-adaptation",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "wrong-role-service-account-on-role-route-after-adaptation",
+        "expected": 403,
+        "actual": 403
+      }
+    ]
+  },
+  "repoEvidence": {
+    "captureMode": "github-api-endpoint-png",
+    "screenshots": [
+      "docs/e2e-snapshots/repo-evidence/northwind--northwind-momentum-rewards-github-listing.png",
+      "docs/e2e-snapshots/repo-evidence/northwind--northwind-momentum-rewards-repo-homepage.png",
+      "docs/e2e-snapshots/repo-evidence/northwind--northwind-momentum-rewards-actions-success.png",
+      "docs/e2e-snapshots/repo-evidence/northwind--northwind-momentum-rewards-tenant-config.png"
+    ]
+  },
+  "reviewScans": {
+    "throwNewInFlowServices": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImportsInFlowServices": 0,
+    "tenantConsumerInternalCopyHits": 0
+  },
+  "notes": [
+    "Tenant B changed a different FREEDOM key from Tenant A and preserved Tenant A's adaptation history.",
+    "The local registry accepts anonymous Verdaccio publish only when npm receives a registry-scoped token flag; the flag used here was a dummy value and no secret was printed.",
+    "Platform visual hooks were extended so the evidence screenshots can assert both cascade values in rendered UI."
+  ]
+}

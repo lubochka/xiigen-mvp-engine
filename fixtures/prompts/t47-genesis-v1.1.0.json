@@ -1,0 +1,15 @@
+{
+  "promptId": "t47-genesis-v1.1.0",
+  "taskTypeId": "T47",
+  "flowId": "FLOW-01",
+  "promptType": "genesis",
+  "version": "1.1.0",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "content": "Generate a NestJS UserRegistrationInitiatorService (T47) that accepts initial signup via SSO or email+password and routes to the appropriate auth pathway. ROUTING archetype. Inject IUserRepository (F174) via DATABASE FABRIC for user record creation + uniqueness check. Inject IEmailVerificationQueue (F175) via QUEUE FABRIC for verification email trigger. Inject ISSOAuthProvider (F176) via AI_ENGINE FABRIC for SSO token validation. CRITICAL: Check email uniqueness BEFORE creating user record (CF-1). User record MUST be stored via storeDocument() BEFORE emitting UserRegistrationInitiated event (DNA-8 outbox pattern). Build idempotency key: 'auth_attempt:<userId>:<correlationId>' to deduplicate registration attempts (CF-2). No PII in emitted events \u2014 userId reference only, never email or credentials in payload (CF-8). Read FREEDOM config for sso_providers_enabled, password_min_length. SSO token validation via ISSOAuthProvider only \u2014 never import OAuth library directly. Emit CloudEvents envelope via createCloudEvent(). Return DataProcessResult.failure('DUPLICATE_EMAIL') on uniqueness violation. Extend MicroserviceBase. Return DataProcessResult<{ userId, authPathway, correlationId }>.\n\nDO NOT: hardcode rate limits, import ioredis or any Redis SDK directly, store passwords in plaintext, include email in event payload, skip the uniqueness check.\n\nDO: use IScopedMemoryService.setIfAbsent() for idempotency, read all config from FREEDOM config, call storeDocument() before enqueue(), use createCloudEvent() wrapper.",
+  "tags": [
+    "flow-01",
+    "t47",
+    "genesis",
+    "xiigen-community"
+  ]
+}

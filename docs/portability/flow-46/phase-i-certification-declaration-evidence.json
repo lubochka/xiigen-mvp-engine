@@ -1,0 +1,20 @@
+{
+    "flowId":  "FLOW-46",
+    "flowSlug":  "platform-agent",
+    "phase":  "phase-i-certification-declaration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T02:31:41.4750188Z",
+    "earnedTier":  "Tier 2 platform-governance portability/auth certified",
+    "declaration":  "FLOW-46 Platform Agent is certified for Docker/Vault tenant auth, platform-governance role coverage, seed dependency declaration, server/client unit coverage, TypeScript checks, Chromium Playwright UI/topology/CRUD verification, and zero-failure close scans with a single audited tenant-scope specialist.",
+    "limitations":  [
+                        "Tier 3 tenant fork cascade is ineligible for this flow because FLOW-46 is an identity-critical platform agent rather than a tenant-distributed package.",
+                        "No synthetic GitHub fork proof was substituted."
+                    ],
+    "evidenceFiles":  [
+                          "docs/portability/flow-46/phase-0-docker-vault-auth-evidence.json",
+                          "docs/portability/flow-46/phase-1-server-client-test-evidence.json",
+                          "docs/portability/flow-46/phase-2-ui-route-playwright-evidence.json",
+                          "docs/portability/flow-46/phase-close-scan-evidence.json"
+                      ],
+    "verdict":  "PASS"
+}

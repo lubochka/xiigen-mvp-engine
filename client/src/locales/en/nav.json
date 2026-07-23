@@ -1,0 +1,23 @@
+{
+  "section_engine": "Engine",
+  "section_admin": "Administration",
+  "section_learning": "Learning & Quality",
+  "nav_dashboard": "Dashboard",
+  "nav_designer": "Designer",
+  "nav_flow_library": "Flow Library",
+  "nav_run_flow": "Run Flow",
+  "nav_marketplace": "Marketplace",
+  "nav_monitor": "Monitor",
+  "nav_registry": "Registry",
+  "nav_ledger": "Ledger",
+  "nav_events": "Events",
+  "nav_rsvp": "RSVP",
+  "nav_attendance": "Attendance",
+  "nav_tenants": "Tenants",
+  "nav_chat": "Super Agent",
+  "nav_generation_lab": "Generation Lab",
+  "nav_model_leaderboard": "Model Leaderboard",
+  "nav_prompt_lab": "Prompt Lab",
+  "nav_quality": "Quality Dashboard",
+  "brand_subtitle": "Engine Client"
+}

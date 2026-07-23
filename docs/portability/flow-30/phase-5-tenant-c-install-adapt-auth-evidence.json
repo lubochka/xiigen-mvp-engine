@@ -1,0 +1,235 @@
+{
+    "flowId":  "FLOW-30",
+    "flowSlug":  "tenant-lifecycle-manager",
+    "implementationSlug":  "tenant-lifecycle",
+    "phase":  "phase-5-tenant-c-install-adapt-auth",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T01:14:28.0629767Z",
+    "tenant":  "tessera-collective",
+    "sourceTenant":  "northwind",
+    "sourceRepoFullName":  "lubochka/northwind--acme-tenant-ops",
+    "sourcePackage":  {
+                          "packageName":  "@xiigen-fork/northwind-lifecycle-control",
+                          "version":  "1.0.2"
+                      },
+    "fork":  {
+                 "forkId":  "fork-northwind-lifecycle-control-tessera-collective",
+                 "method":  "POST",
+                 "url":  "http://localhost:3000/api/marketplace/packages/northwind-lifecycle-control/fork",
+                 "repoNameOverride":  "tessera-collective--northwind-lifecycle-control",
+                 "repoFullName":  "lubochka/tessera-collective--northwind-lifecycle-control",
+                 "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-lifecycle-control",
+                 "initialCommitSha":  "b2603089ca6252ccdba925bec36ee30e3b4f90ae",
+                 "usedMarketplaceApi":  true,
+                 "manualRepoCreation":  false,
+                 "syntheticRepo":  false,
+                 "clientRequestNote":  "The POST completed server-side after the client timed out; the API-created repo, initial commit, and initial CI run were verified before adaptation."
+             },
+    "initialForkCi":  {
+                          "runId":  25644825244,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "b2603089ca6252ccdba925bec36ee30e3b4f90ae",
+                          "url":  "https://github.com/lubochka/tessera-collective--northwind-lifecycle-control/actions/runs/25644825244"
+                      },
+    "adaptation":  {
+                       "changeType":  "Type A (bounded FREEDOM key value change)",
+                       "moduleName":  "tessera-lifecycle-studio",
+                       "packageName":  "@xiigen-fork/tessera-lifecycle-studio",
+                       "packageVersion":  "1.0.3",
+                       "sourcePackageName":  "@xiigen-fork/northwind-lifecycle-control",
+                       "sourcePackageVersion":  "1.0.2",
+                       "plainLanguagePolicy":  "Tessera lifecycle studio policy: collaborative tenant lifecycle oversight, balanced storage and compute, extended retention, earlier health signals, and 20-minute usage review windows.",
+                       "adaptationHistoryEntries":  3,
+                       "adaptationHistory":  [
+                                                 {
+                                                     "adaptedBy":  "acme-corp",
+                                                     "version":  "1.0.1",
+                                                     "moduleName":  "acme-tenant-ops",
+                                                     "packageName":  "@xiigen-fork/acme-tenant-ops"
+                                                 },
+                                                 {
+                                                     "adaptedBy":  "northwind",
+                                                     "version":  "1.0.2",
+                                                     "moduleName":  "northwind-lifecycle-control",
+                                                     "packageName":  "@xiigen-fork/northwind-lifecycle-control"
+                                                 },
+                                                 {
+                                                     "adaptedBy":  "tessera-collective",
+                                                     "version":  "1.0.3",
+                                                     "moduleName":  "tessera-lifecycle-studio",
+                                                     "packageName":  "@xiigen-fork/tessera-lifecycle-studio"
+                                                 }
+                                             ],
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow30_module_name",
+                                                  "from":  "northwind-lifecycle-control",
+                                                  "to":  "tessera-lifecycle-studio"
+                                              },
+                                              {
+                                                  "key":  "flow30_quota_tier",
+                                                  "from":  "standard",
+                                                  "to":  "collaborative"
+                                              },
+                                              {
+                                                  "key":  "flow30_storage_limit_gb",
+                                                  "from":  750,
+                                                  "to":  1200
+                                              },
+                                              {
+                                                  "key":  "flow30_compute_unit_limit",
+                                                  "from":  180,
+                                                  "to":  260
+                                              },
+                                              {
+                                                  "key":  "flow30_retention_days",
+                                                  "from":  45,
+                                                  "to":  120
+                                              },
+                                              {
+                                                  "key":  "flow30_audit_retention_days",
+                                                  "from":  365,
+                                                  "to":  540
+                                              },
+                                              {
+                                                  "key":  "flow30_health_warning_threshold",
+                                                  "from":  0.75,
+                                                  "to":  0.68
+                                              },
+                                              {
+                                                  "key":  "flow30_usage_window_minutes",
+                                                  "from":  15,
+                                                  "to":  20
+                                              }
+                                          ]
+                   },
+    "repo":  {
+                 "repoFullName":  "lubochka/tessera-collective--northwind-lifecycle-control",
+                 "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-lifecycle-control",
+                 "clonePath":  "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-lifecycle-control-phase5-20260511-040020",
+                 "adaptedCommitSha":  "2b17e4dc4bb29a31c0e49d33b589b51a00d72047",
+                 "githubActionsRunId":  25645045192,
+                 "githubActionsConclusion":  "success",
+                 "repoVisibilityRestoredPrivate":  true,
+                 "changedFiles":  [
+                                      "ADAPTATION-CHANGELOG.md",
+                                      "BUNDLE-MANIFEST.json",
+                                      "__tests__/tenant-lifecycle-manager-northwind-adaptation.spec.ts",
+                                      "__tests__/tenant-lifecycle-manager-tessera-adaptation.spec.ts",
+                                      "freedom-config.defaults.json",
+                                      "package.json",
+                                      "settings/module.settings.json",
+                                      "tenant.config.json"
+                                  ]
+             },
+    "githubActions":  {
+                          "adaptedRunId":  25645045192,
+                          "adaptedRunUrl":  "https://github.com/lubochka/tessera-collective--northwind-lifecycle-control/actions/runs/25645045192",
+                          "status":  "completed",
+                          "conclusion":  "success"
+                      },
+    "cloneVerification":  {
+                              "installExit":  0,
+                              "tscExit":  0,
+                              "jestExit":  0,
+                              "jestSuitesPassed":  4,
+                              "jestSuitesTotal":  4,
+                              "jestTestsPassed":  4,
+                              "jestTestsTotal":  4,
+                              "packDryRunExit":  0,
+                              "packEntryCount":  121
+                          },
+    "localRegistry":  {
+                          "registry":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/tessera-lifecycle-studio",
+                          "publishedVersion":  "1.0.3",
+                          "viewCommand":  "npm view @xiigen-fork/tessera-lifecycle-studio version --registry http://localhost:4873",
+                          "viewReturned":  "1.0.3",
+                          "verified":  true
+                      },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/repo-evidence/flow-30",
+                        "files":  [
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-30/phase-5-tenant-c-v1.0.3-github-listing.png",
+                                          "bytes":  136428
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-30/phase-5-tenant-c-v1.0.3-actions-success.png",
+                                          "bytes":  79804
+                                      },
+                                      {
+                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-30/phase-5-tenant-c-v1.0.3-package-json.png",
+                                          "bytes":  133661
+                                      }
+                                  ],
+                        "pngCount":  3,
+                        "zeroByteCount":  0,
+                        "repoVisibilityRestoredPrivate":  true
+                    },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-11T01:14:28.0629767Z",
+                           "serverBaseUrl":  "http://localhost:3000",
+                           "path":  "/api/runs/phase5-tenant-c-adaptation-auth-probe/trace",
+                           "passed":  12,
+                           "total":  12,
+                           "failed":  0,
+                           "allPassed":  true,
+                           "checks":  [
+                                          "valid own-tenant platform-admin token returns 200 for all three tenants",
+                                          "missing token returns 401 for all three tenants",
+                                          "platform-support wrong-role token returns 403 for all three tenants",
+                                          "acme token in northwind context returns 401",
+                                          "northwind token in tessera context returns 401",
+                                          "acme token in tessera context returns 401"
+                                      ]
+                       },
+    "phaseCloseVerification":  {
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=tenant-lifecycle-manager --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  6,
+                                                      "tests":  149
+                                                  },
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "flowScans":  {
+                                                     "sourceFlowFileCount":  10,
+                                                     "adaptedFlowFileCount":  10,
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0,
+                                                     "failureLines":  0,
+                                                     "note":  "FLOW-30 runtime classes do not use the Service suffix; prompt-pattern class count is therefore zero."
+                                                 }
+                               },
+    "secretHandling":  {
+                           "committedSecrets":  false,
+                           "printedSecrets":  false,
+                           "tenantVaultCredentialsUsed":  true,
+                           "tenantSigningKeysPresent":  true,
+                           "evidenceContainsSecretValues":  false
+                       },
+    "phaseGate":  {
+                      "tenantCForkedFromTenantBPackage":  true,
+                      "tenantCAdapted":  true,
+                      "tenantCAuthChecked":  true,
+                      "greenGitHubActions":  true,
+                      "localRegistryReadback":  true,
+                      "screenshotsCaptured":  true,
+                      "scansHaveZeroFailureLines":  true,
+                      "readyForAuthDecoration":  true
+                  }
+}

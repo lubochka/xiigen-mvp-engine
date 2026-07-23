@@ -1,0 +1,68 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase2E2ETests",
+  "status": "completed",
+  "generatedAt": "2026-05-10T12:48:22.190Z",
+  "protocolVersion": "3.0",
+  "commands": [
+    "Push-Location client",
+    "npx tsc --noEmit --pretty false",
+    "VITE_PORT=52425 npx playwright test bfa-cross-flow-governance-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+    "VITE_PORT=52425 npx playwright test bfa-cross-flow-governance.spec.ts bfa-cross-flow-governance-mock-states.spec.ts bfa-cross-flow-governance-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+    "Get-ChildItem docs/e2e-snapshots/bfa-cross-flow-governance -Filter *.png -File | zero-byte check"
+  ],
+  "repairsApplied": [
+    {
+      "file": "client/src/pages/bfa-cross-flow-governance/BfaCrossFlowGovernancePage.tsx",
+      "change": "Admin route defaults to platform-admin and opens the embedded raw-governance CRUD panel for live CRUD evidence."
+    },
+    {
+      "file": "client/src/components/admin/AdminCrudPanel.tsx",
+      "change": "Added opt-in defaultExpanded and pageTestId props so embedded panels can avoid duplicate page test ids without changing shared defaults."
+    }
+  ],
+  "clientTypescript": {
+    "command": "npx tsc --noEmit --pretty false",
+    "workingDirectory": "client",
+    "exitCode": 0
+  },
+  "playwright": {
+    "command": "npx playwright test bfa-cross-flow-governance.spec.ts bfa-cross-flow-governance-mock-states.spec.ts bfa-cross-flow-governance-crud.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+    "workingDirectory": "client",
+    "exitCode": 0,
+    "testsPassed": 16,
+    "testsTotal": 16,
+    "project": "chromium-desktop",
+    "workers": 1
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/bfa-cross-flow-governance",
+    "pngCount": 20,
+    "zeroByteCount": 0,
+    "files": [
+      "01-change-intake-parse-001-t375-content-add.png",
+      "02-blast-radius-traversal-001-t380-transiti.png",
+      "03-cross-tenant-guard-001-t387-cross-tenant.png",
+      "c-03-before.png",
+      "crud-after-create.png",
+      "crud-initial-load.png",
+      "crud-list-with-test-row.png",
+      "default.png",
+      "state-1-change-intake.png",
+      "state-1-rule-draft.png",
+      "state-2-blast-radius.png",
+      "state-2-change-ingested.png",
+      "state-3-arbitration-machine.png",
+      "state-3-blast-radius-computed.png",
+      "state-4-cross-tenant.png",
+      "state-4-rule-published.png",
+      "state-5-violation-detected.png",
+      "state-6-rule-enforced.png",
+      "state-7-cross-tenant-guard.png",
+      "state-8-rule-suspended.png"
+    ]
+  },
+  "verdict": "PASS"
+}

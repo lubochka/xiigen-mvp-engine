@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-06",
+  "name": "User Groups and Communities",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T71",
+      "taskTypeId": "T71",
+      "name": "GroupMembershipProcessor",
+      "archetype": "orchestration",
+      "entry": "POST /groups/:id/join"
+    },
+    {
+      "id": "T72",
+      "taskTypeId": "T72",
+      "name": "MembershipTierUpdater",
+      "archetype": "data_pipeline",
+      "entry": "MembershipAccepted event (tier assignment per FREEDOM config)"
+    },
+    {
+      "id": "T89",
+      "taskTypeId": "T89",
+      "name": "GroupFeedPopulator",
+      "archetype": "ai_generation",
+      "entry": "TierAssigned event (tier-gated content retrieval)"
+    },
+    {
+      "id": "T90",
+      "taskTypeId": "T90",
+      "name": "AccessControlEnforcer",
+      "archetype": "validation",
+      "entry": "Inline guard — called by T71/T89 (scope_isolation arbiter)"
+    }
+  ],
+  "edges": [
+    { "from": "GroupJoinRequested", "to": "T71", "event": "xiigen.user-groups.join-requested.v1" },
+    { "from": "T71", "to": "T90", "event": "xiigen.user-groups.access-check-inline.v1", "condition": "inline" },
+    { "from": "T71", "to": "T72", "event": "xiigen.user-groups.membership-accepted.v1", "condition": "access granted" },
+    { "from": "T71", "to": "MembershipRejected", "event": "xiigen.user-groups.membership-rejected.v1", "condition": "access denied — terminal" },
+    { "from": "T72", "to": "T89", "event": "xiigen.user-groups.tier-assigned.v1" },
+    { "from": "T89", "to": "T90", "event": "xiigen.user-groups.feed-access-check-inline.v1", "condition": "inline per item" },
+    { "from": "T89", "to": "GroupFeedDelivered", "event": "xiigen.user-groups.feed-populated.v1", "condition": "terminal" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": [],
+      "notQueueable": ["GroupJoinRequested", "GroupLeaveRequested"],
+      "notQueueableReason": {
+        "GroupJoinRequested": "Capacity slot — requires live connection",
+        "GroupLeaveRequested": "Affects member count and content ownership"
+      }
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T74",
+        "runsWhileUserViews": "GroupHome or GroupAnalyticsDashboard",
+        "signalType": "new-content-available-banner",
+        "signalText": "Engagement stats updated — pull to refresh"
+      }
+    ]
+  }
+}

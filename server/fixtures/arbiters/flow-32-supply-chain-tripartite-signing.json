@@ -1,0 +1,27 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-32-supply_chain_tripartite_signing",
+  "checkId": "supply_chain_tripartite_signing",
+  "flowId": "FLOW-32",
+  "bfaRule": "CF-715",
+  "severity": "BUILD_FAILURE",
+  "description": "T518 must reference all three supply chain factories: F1416 (IArtifactSigningService), F1417 (ISBOMGeneratorService), F1418 (ISLSAAttestationService). Missing any one causes BUILD_FAILURE — artifact.signed will never emit.",
+  "taskTypeIds": ["T518"],
+  "scanFor": {
+    "required": [
+      "F1416",
+      "IArtifactSigningService",
+      "ARTIFACT_SIGNING_SERVICE",
+      "F1417",
+      "ISBOMGeneratorService",
+      "SBOM_GENERATOR_SERVICE",
+      "F1418",
+      "ISLSAAttestationService",
+      "SLSA_ATTESTATION_SERVICE"
+    ],
+    "allMustBePresent": true
+  },
+  "onFailure": "BUILD_FAILURE",
+  "rationale": "Tripartite signing (sign + SBOM + SLSA) is the minimum supply chain requirement for marketplace artifact distribution. Partial signing is not acceptable.",
+  "active": true
+}

@@ -1,0 +1,16 @@
+{
+  "patternId": "two-phase-privacy-gate",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-07",
+  "domainId": "social-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ROUTING",
+  "tags": ["T76", "T78", "T81", "two-phase", "privacy"],
+  "keywords": "two phase privacy gate independent T78 T76 T81 generation delivery stale",
+  "codeSnippet": "// T76 FeedItemGenerator — Phase 1 check\nconst p1 = await this.privacyGatekeeper.check(userId, ownerId);\nif (!p1.data!.allowed) return DataProcessResult.success({ skipped: true });\n// T78 FeedDeliveryOrchestrator — Phase 2 (UNCONDITIONAL — T76 result irrelevant)\nconst p2 = await this.privacyGatekeeper.check(userId, ownerId);\nif (!p2.data!.allowed) return DataProcessResult.success({ suppressed: true });\n// WRONG: T78 reads stale cached result from T76\n// const cached = feedItem.privacyCheckPassedAtGeneration; // stale — settings may have changed",
+  "ironRules": [
+    "T78 MUST call T81 independently regardless of T76's check result",
+    "Privacy settings can change between generation (T76) and delivery (T78)",
+    "T78 reading feedItem.privacyCheckPassedAtGeneration and skipping T81 = BUILD_FAILURE"
+  ]
+}

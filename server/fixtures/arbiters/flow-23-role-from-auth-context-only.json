@@ -1,0 +1,24 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-23-role_from_auth_context_only",
+  "checkId": "role_from_auth_context_only",
+  "flowId": "FLOW-23",
+  "bfaRule": "DD-216",
+  "owaspReference": "OWASP API1 — Broken Object Level Authorization",
+  "severity": "score-zero",
+  "description": "Role must come from auth context only — never req.body, params, query, or method parameter",
+  "taskTypeId": "T364",
+  "forbiddenPatterns": [
+    "req.body.role",
+    "req.params.role",
+    "req.query.role",
+    "body.role",
+    "params.role",
+    "enforce(action, resource, role)",
+    "hasPermission(action, resource, role)"
+  ],
+  "requiredInjection": "PERMISSION_CONTEXT_READER",
+  "requiredMethod": "permissionReader.getRole()",
+  "violationCode": "OWASP_API1_ROLE_INJECTION",
+  "active": true
+}

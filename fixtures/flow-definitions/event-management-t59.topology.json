@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-03",
+  "taskTypeId": "T59",
+  "name": "flow-03-event-creation-orchestrator",
+  "description": "T59 EventCreationOrchestrator — ORCHESTRATION archetype. EventCreated stored before outbox enqueue (DNA-8). Idempotent by (organizerId, title, startsAt).",
+  "archetype": "ORCHESTRATION",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: store-before-enqueue (DNA-8), idempotency by (organizerId, title, startsAt)"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ORCHESTRATION arch pattern for T59: store-before-enqueue, event creation idempotency",
+      "params": {
+        "archetype": "ORCHESTRATION",
+        "taskTypeRef": "T59",
+        "topK": 5,
+        "patternIds": [
+          "arch--store-before-enqueue",
+          "arch--idempotent-create-by-composite-key",
+          "arch--outbox-pattern"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T59 into: idempotency check → storeDocument(EventCreated) → enqueue(EventCreated) → return result"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate event-creation-orchestrator.service.ts — EventCreated stored before outbox enqueue (DNA-8). Idempotent by (organizerId, title, startsAt)."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: store_before_enqueue, idempotent_composite_key, dna8_ordering"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T59 iron rules: DNA-8 outbox ordering, composite-key idempotency"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=store-before-enqueue, rejected=enqueue-then-store. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "EventCreationRequested command",
+  "primaryFabric": "DATABASE"
+}

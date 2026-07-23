@@ -1,0 +1,58 @@
+{
+  "flowSlug": "profile-enrichment",
+  "flowId": "FLOW-02",
+  "generatedAt": "2026-04-28",
+  "protocolPhase": "AI Adaptation Protocol Phase 1",
+  "freedomKeys": [
+    {
+      "name": "flow02_match_timeout_seconds",
+      "currentValue": "30",
+      "semantics": "Maximum seconds B1 CompatibilityScoringService waits before treating partial results as success (TIMEOUT-AS-SUCCESS-MODE). Tenants with large matching-profile pools may increase; tenants wanting fast-fail may decrease.",
+      "irCitation": "FLOW-02-RAG-timeout-as-success-mode",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"]
+    },
+    {
+      "name": "flow02_debounce_window_seconds",
+      "currentValue": "300",
+      "semantics": "How long a cached B1 scoring result is honored before recomputing. Prevents repeated scoring for the same user within 5 minutes. Tenants may tune to match their event frequency.",
+      "irCitation": "FLOW-02-B1-debounce",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"]
+    },
+    {
+      "name": "flow02_match_weight_industry",
+      "currentValue": "0.4",
+      "semantics": "Weight of industry-code signal in compatibility scoring. Sum of all 4 weights must equal 1.0. Tenants in niche industries may increase this; generalist platforms may decrease.",
+      "irCitation": "FLOW-02-scoring-weights",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"]
+    },
+    {
+      "name": "flow02_match_weight_stage",
+      "currentValue": "0.3",
+      "semantics": "Weight of business-stage signal in compatibility scoring. Early-stage-focused tenants may increase; mature-business-focused tenants may decrease.",
+      "irCitation": "FLOW-02-scoring-weights",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"]
+    },
+    {
+      "name": "flow02_match_weight_location",
+      "currentValue": "0.2",
+      "semantics": "Weight of location-proximity signal in compatibility scoring. Local-first platforms increase this; global platforms decrease it.",
+      "irCitation": "FLOW-02-scoring-weights",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"]
+    },
+    {
+      "name": "flow02_match_weight_team",
+      "currentValue": "0.1",
+      "semantics": "Weight of team-size-tier signal in compatibility scoring. Enterprise-focused tenants may increase; solo-founder platforms may decrease.",
+      "irCitation": "FLOW-02-scoring-weights",
+      "profile": 2,
+      "adaptationTypes": ["TYPE-A"]
+    }
+  ],
+  "adaptationCandidates": ["TYPE-A"],
+  "notes": "All 6 keys are TYPE-A (value change only). No TYPE-B grammar change available — flow UI is admin-only. TYPE-A on match weights is the fastest proof: change industry weight from 0.4 to a tenant-specific value, rerun jest, confirm test FC-ADAPT-2 reflects new weight."
+}

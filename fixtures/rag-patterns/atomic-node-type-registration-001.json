@@ -1,0 +1,33 @@
+{
+  "patternId": "atomic-node-type-registration-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-18",
+  "domainId": "visual-flow-engine",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "VALIDATION",
+  "tags": [
+    "setnx",
+    "atomic-dual-write",
+    "lock-release",
+    "node-type",
+    "registration",
+    "idempotency",
+    "capability-index"
+  ],
+  "keywords": "SETNX node-type-reg-lock atomic dual write capability index lock release redis.del deleteDocument catch NodeTypeRegistered NodeTypeAlreadyExists storeDocument both writes",
+  "teachingPoint": "T619 NodeTypeRegistrar enforces atomic dual-write registration: ORDER 1 = SETNX node-type-reg-lock:{nodeTypeId} (NodeTypeAlreadyExists on lock held), ORDER 2 = storeDocument nodeType to NODE_TYPES_INDEX (GLOBAL scope), ORDER 3 = storeDocument capabilityIndex. catch block MUST release lock via deleteDocument(NODE_TYPE_LOCKS_INDEX, lockKey).catch(() => {}) — never leave a stale lock. NodeTypeRegistered emitted after DNA-8 audit storeDocument.",
+  "ironRules": [
+    "ORDER 1 SETNX: search for node-type-reg-lock:{nodeTypeId} before creating — duplicate lock returns NodeTypeAlreadyExists with no NodeTypeRegistered event",
+    "ORDER 2 storeDocument nodeType (NODE_TYPES_INDEX, GLOBAL scope) MUST complete before ORDER 3 capability index write — atomicity depends on order",
+    "catch block MUST call deleteDocument(NODE_TYPE_LOCKS_INDEX, lockKey).catch(() => {}) — .catch(() => {}) prevents catch-within-catch error propagation; never omit the lock release",
+    "nodeType document stored with scope: 'GLOBAL' — node types are platform-wide, not tenant-scoped",
+    "storeDocument(NODE_TYPE_AUDIT_INDEX) MUST complete before enqueue(NodeTypeRegistered) — DNA-8 outbox pattern"
+  ],
+  "codeSnippet": "// T619 NodeTypeRegistrar — SETNX + atomic dual-write + lock release in catch\nconst NODE_TYPE_LOCK_PREFIX = 'node-type-reg-lock' as const;\n\nasync registerNodeType(nodeTypeId: string, schema: Record<string, unknown>): Promise<DataProcessResult<Record<string, unknown>>> {\n  const tenantId = this.tenantContext.getTenantId();\n  const lockKey = `${NODE_TYPE_LOCK_PREFIX}:${nodeTypeId}`;\n\n  // ORDER 1: SETNX — prevent duplicate registration\n  const lockResult = await this.db.searchDocuments('node-type-locks', { lockKey });\n  if (lockResult.data?.length) {\n    return DataProcessResult.success({ nodeTypeId, alreadyRegistered: true });\n  }\n  await this.db.storeDocument('node-type-locks', { lockKey, nodeTypeId, createdAt: new Date().toISOString() });\n\n  try {\n    // ORDER 2: storeDocument nodeType (GLOBAL scope)\n    await this.db.storeDocument('node-types', { nodeTypeId, tenantId, schema, scope: 'GLOBAL', registeredAt: new Date().toISOString() });\n\n    // ORDER 3: storeDocument capabilityIndex\n    await this.db.storeDocument('capability-index', { nodeTypeId, tenantId, capabilities: schema['capabilities'] ?? [], indexedAt: new Date().toISOString() });\n\n    // DNA-8: audit BEFORE enqueue\n    await this.db.storeDocument('node-type-audit', { nodeTypeId, tenantId, action: 'REGISTERED', registeredAt: new Date().toISOString() });\n    await this.queue.enqueue('NodeTypeRegistered', { nodeTypeId, tenantId, registeredAt: new Date().toISOString() });\n    return DataProcessResult.success({ nodeTypeId, tenantId });\n  } catch (err) {\n    // MUST release lock on failure — .catch(() => {}) prevents secondary error\n    await this.db.deleteDocument('node-type-locks', lockKey).catch(() => {});\n    return DataProcessResult.failure('REGISTRATION_FAILED', String(err));\n  }\n}",
+  "appliesTo": ["FLOW-19", "FLOW-21", "FLOW-26", "FLOW-36"],
+  "curriculumTier": 2,
+  "qualityScore": 0.96,
+  "sourceDocument": "server/src/engine/flows/visual-flow-engine/node-type-registrar.service.ts",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

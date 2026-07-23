@@ -1,0 +1,26 @@
+{
+    "flowId":  "FLOW-40",
+    "flowSlug":  "client-push",
+    "phase":  "phase-close-scans",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T02:26:25.4671922+03:00",
+    "scans":  {
+                  "serviceFiles":  3,
+                  "missingMicroserviceBase":  0,
+                  "missingConnectionAnnotation":  0,
+                  "throwNew":  0,
+                  "clsImports":  0,
+                  "directTenantContextMentions":  0,
+                  "typedAny":  0,
+                  "jsonFilesChecked":  7,
+                  "jsonFailures":  0,
+                  "secretPatternHits":  0,
+                  "repoEvidenceScreenshots":  {
+                                                  "northwind":  3,
+                                                  "tessera-collective":  3,
+                                                  "acme-corp":  3
+                                              },
+                  "failureLines":  0
+              },
+    "verdict":  "PASS"
+}

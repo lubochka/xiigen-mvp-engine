@@ -1,0 +1,38 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phaseHDocumentation",
+  "generatedAt": "2026-05-03T22:36:45+03:00",
+  "authDecorationChecks": {
+    "flowLocalControllerFiles": 0,
+    "flowLocalPublicRoutes": 0,
+    "flowLocalAuthSpecHits": 0,
+    "result": "passed",
+    "note": "FLOW-07 exposes service behavior through the shared FlowHttpController rather than flow-local controllers."
+  },
+  "sharedRouteChecks": {
+    "flowHttpControllerHasRoles": true,
+    "runTraceRoleProtected": true,
+    "executeFlowRoleProtected": true,
+    "checkedFile": "server/src/api/flow-http.controller.ts"
+  },
+  "liveAuthEvidence": {
+    "source": "docs/portability/flow-07/phase-5c5-tenant-c-adaptation-evidence.json",
+    "passed": 6,
+    "total": 6,
+    "checks": [
+      "tessera tenant-user /api/auth/me after adaptation returned 200",
+      "tessera tenant-admin /api/runs/flow07-auth-probe/trace after adaptation returned 200",
+      "missing token /api/runs/flow07-auth-probe/trace after adaptation returned 401",
+      "wrong-role token /api/runs/flow07-auth-probe/trace after adaptation returned 403",
+      "northwind token rejected in tessera context after adaptation returned 401",
+      "acme token rejected in tessera context after adaptation returned 401"
+    ]
+  },
+  "secretHandling": {
+    "printedTenantTokens": false,
+    "printedVaultSecrets": false,
+    "storedSecretsInDocs": false,
+    "usedClaudeSessionTokenAsEvidence": false
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "patternId": "arch--degradable-analytics",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-02",
+  "domainId": "generic",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "archetype": "DATA_PIPELINE",
+  "tags": [
+    "analytics",
+    "degradable",
+    "fallback-segment",
+    "not-critical-path",
+    "graceful-degradation",
+    "degradation-level"
+  ],
+  "keywords": "analytics degradable fallback segment not critical path graceful degradation level optional signal",
+  "codeSnippet": "// Analytics is never on the critical path.\n// A fallback segment is always better than a blocked flow.\n// Record the degradation level so downstream nodes can adapt.\n\ntry {\n  const segmentResult = await this.db.searchDocuments(ANALYTICS_SEGMENTS_INDEX, { user_id });\n  if (segmentResult.isSuccess && segmentResult.data?.length > 0) {\n    segment = segmentResult.data[0].segment;  // 'TECH_STARTUP', 'SMB', etc.\n    signalsUsed++;\n  } else {\n    // A2 degraded — use GENERAL fallback\n    segment = 'GENERAL';\n    confidence = 0.0;\n    degradationLevel += 1;  // ← recorded, not silenced\n  }\n} catch {\n  // A2 exception — same GENERAL fallback, same degradation record\n  segment = 'GENERAL'; confidence = 0.0; degradationLevel += 1;\n}\n\n// Four independent fallbacks — A1/A2/A3/B1 each degrade independently\n// degradationLevel: 0=full, 1-3=partial, 4=all-absent (trending content used)\n// FLOW-04 reads degradationLevel to adapt the UI (show 'improving your feed' banner)",
+  "ironRules": [
+    "analytics failure → GENERAL segment fallback, never DataProcessResult.failure",
+    "degradationLevel must appear in output record — downstream nodes read it",
+    "each of 4 inputs (A1/A2/A3/B1) has an INDEPENDENT named fallback",
+    "BLOCK if: any input modeled as REQUIRED (node fails if absent)"
+  ]
+}

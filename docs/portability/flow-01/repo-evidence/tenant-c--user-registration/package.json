@@ -1,0 +1,76 @@
+{
+  "name": "@tessera-collective/user-registration",
+  "version": "1.0.1",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-01 user-registration — tessera-collective tenant fork. Email-based intake, uniqueness verification, credential hashing, idempotent account creation, email verification, and onboarding-material delivery. Fresh root install at platform v1.0.0 (NOT in the acme→northwind cascade). Zero FREEDOM-config overrides — tessera tenant context returns the platform v1.0.0 defaults under their AsyncLocalStorage scope. Repository exists for V-14 instance C evidence (third-party-tenant repo provisioning) and V-13 instance D drift verification.",
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "publisher": "tessera-collective",
+  "basedOn": "@xiigen/user-registration@1.0.0",
+  "ultimateRoot": "@xiigen/user-registration@1.0.0",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "tenantId": "tessera-collective",
+    "adaptationCategory": "no-adaptation-third-party-tenant",
+    "services": [
+      "RegistrationService",
+      "EmailVerificationService",
+      "OnboardingDeliveryService"
+    ],
+    "taskTypeIds": ["T47", "T48", "T49"],
+    "freedomKeys": [
+      "flow01_resend_rate_limit_minutes",
+      "flow01_email_verification_ttl_seconds",
+      "flow01_invitation_inviter_name",
+      "flow01_invitation_community_name",
+      "flow01_captcha_trigger_threshold",
+      "flow01_registration_rate_limit_per_tenant_hour",
+      "flow01_onboarding_reminder_days"
+    ],
+    "tenantOverrides": {},
+    "overrideSources": {},
+    "emitsEventsConsumedBy": [
+      "FLOW-02 (AccountCreated → PersonalizationCompletionService)",
+      "FLOW-48 (AccountCreated → TranslationRequestRegistrar via acceptLanguage)",
+      "FLOW-08 (OnboardingCompleted → marketplace activation gate)",
+      "Email infrastructure (VerificationEmailRequested → fire-and-forget delivery)",
+      "FLOW-02 (VerificationCompleted → activation listeners)"
+    ],
+    "readsFromOtherFlows": [],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_TENANT_FORK_NO_OVERRIDES"
+  },
+  "requiredCoInstalls": [],
+  "coInstallNotes": "Fresh root install from platform-source (no cascade hops). FLOW-01 stands alone for its 3 services (T47-T49). Downstream flows (FLOW-02, FLOW-08, FLOW-48) consume FLOW-01 events but are NOT required for FLOW-01 to boot. Circular co-install runtime test: server/test/user-registration/phase-01-circular-install.spec.ts proves FLOW-01 services boot standalone.",
+  "peerDependencies": {
+    "xiigen-server": "^1.0.0"
+  },
+  "dna": {
+    "compliance": ["DNA-1", "DNA-2", "DNA-3", "DNA-4", "DNA-5", "DNA-6", "DNA-7", "DNA-8", "DNA-9"],
+    "portabilityInvariants": ["P-1", "P-2", "P-3", "P-4", "P-5"]
+  },
+  "adaptationProvenance": {
+    "sourceVersion": "@xiigen/user-registration@1.0.0",
+    "ultimateRoot": "@xiigen/user-registration@1.0.0",
+    "tenantId": "tessera-collective",
+    "adaptationDate": "2026-04-25",
+    "adaptationMethod": "Fresh root install — no FREEDOM overrides applied; tenant exists for V-13(D) Phase 5c third-party tenant separation confirmation",
+    "adaptationPlan": "docs/portability/flow-01/adaptation-plan-freedom-config-user-registration.md",
+    "tenantProfile": "docs/portability/flow-01/tenant-profile-tessera-collective.json",
+    "verificationContract": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts (FC-ADAPT-1 default-fallback case covers tessera by construction)",
+    "machineInvariantsPreserved": true,
+    "freedomKeysOverridden": 0,
+    "freedomKeysInherited": 0,
+    "cascadeLineage": [
+      { "version": "1.0.0", "publisher": "xiigen-platform", "introduces": "FLOW-01 baseline FREEDOM-config defaults" },
+      { "version": "1.0.1", "publisher": "tessera-collective", "introduces": "Fresh root install with zero FREEDOM overrides; third-party tenant for V-13(D) cross-tenant separation confirmation; deliberately not part of the acme→northwind cascade" }
+    ]
+  },
+  "v13InstanceD": {
+    "purpose": "Third-tenant cascade-coherence confirmation — proves a tenant OUTSIDE the acme→northwind cascade installs FLOW-01 cleanly and renders pixel-identical to platform-source baseline (because their adaptation surface is empty)",
+    "cascadeRow": 9,
+    "isolationFromCascade": "tessera-collective is not in the acme→northwind cascade chain; their FREEDOM context contains no inherited overrides from acme; AsyncLocalStorage scope correctly isolates tessera from acme/northwind tenant contexts",
+    "crossTenantIsolationDeferred": "V-16 cross-tenant JWT isolation tests fire at Phase C9 (cascade row 10) with three pairs (A↔B, B↔C, A↔C); this row 9 audit only certifies that tessera's repo provisioning + UI surface are correctly bounded"
+  },
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v2.0"
+}

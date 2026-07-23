@@ -1,0 +1,86 @@
+{
+  "taskTypeId": "T608",
+  "flowId": "FLOW-15",
+  "name": "TenantLifecycleManager",
+  "archetype": "ORCHESTRATION",
+  "domainId": "saas-multi-tenancy",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T608-1",
+      "rule": "Tenant suspension MUST use updateDocument ONLY — deleteDocument is prohibited. Deletion destroys the audit trail and makes recovery impossible. TenantSuspended MUST carry cascadeToSubscriptions: true.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T608-2",
+      "rule": "Subscription cascade on suspension MUST be handled via TenantSuspended event (cascadeToSubscriptions: true) — never direct service call to subscription service. Inter-service calls via HTTP are prohibited (Rule 11).",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T608-3",
+      "rule": "Data purge MUST be delegated via DataPurgeRequested event — T608 MUST NOT perform direct data deletion. tombstoneRef MUST be a one-way hash (SHA-256) of tenantId — never the raw tenantId.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T608-4",
+      "rule": "DataPurgeRequested MUST only be emitted during termination flow — NEVER during suspension. Conflating suspension with purge risks irreversible data loss for recoverable suspended tenants.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T608-5",
+      "rule": "tenantId MUST be resolved from AsyncLocalStorage only — NEVER from request payload.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1519",
+      "token": "ITenantRegistryService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1525",
+      "token": "ITenantLifecycleAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "SUSPEND_NOT_DELETE",
+    "CASCADE_TO_SUBSCRIPTIONS",
+    "DELEGATED_PURGE"
+  ],
+  "freedomComponents": [
+    "tenant_data_retention_days"
+  ],
+  "stackCoupling": {
+    "queue": ["TenantSuspended", "TenantTerminated", "DataPurgeRequested"],
+    "database": ["xiigen-tenants", "xiigen-lifecycle-audit"]
+  },
+  "handlers": [
+    "validate_lifecycle_transition",
+    "update_tenant_status",
+    "emit_tenant_suspended_with_cascade",
+    "compute_tombstone_ref",
+    "emit_data_purge_requested",
+    "emit_tenant_terminated",
+    "record_lifecycle_audit"
+  ],
+  "namedChecks": [
+    "suspend_not_delete",
+    "cascade_to_subscriptions_in_event",
+    "data_purge_delegated_not_direct",
+    "tombstone_ref_one_way_hash",
+    "purge_only_on_termination_not_suspension"
+  ],
+  "tags": [
+    "saas",
+    "tenant-lifecycle",
+    "suspend-not-delete",
+    "cascade-subscriptions",
+    "delegated-purge",
+    "tombstone",
+    "audit-trail",
+    "orchestration"
+  ],
+  "keywords": "tenant lifecycle manager suspend not delete updateDocument cascadeToSubscriptions TenantSuspended DataPurgeRequested tombstoneRef SHA-256 one-way hash TenantTerminated compliance audit trail"
+}

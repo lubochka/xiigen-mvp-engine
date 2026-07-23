@@ -1,0 +1,164 @@
+{
+  "flowId": "FLOW-06",
+  "flowSlug": "user-groups-communities",
+  "flowTitle": "XIIGen Community Platform - User Groups & Communities",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-03",
+  "capturedBy": "Codex / FLOW-06 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "services": [
+    {
+      "taskTypeId": "T71",
+      "className": "GroupMembershipProcessorService",
+      "file": "server/src/engine/flows/user-groups-communities/group-membership-processor.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "groups.membership.joined",
+        "groups.membership.rejected"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T72",
+      "className": "MembershipTierUpdaterService",
+      "file": "server/src/engine/flows/user-groups-communities/membership-tier-updater.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "groups.membership.tier-updated"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T89",
+      "className": "GroupFeedPopulatorService",
+      "file": "server/src/engine/flows/user-groups-communities/group-feed-populator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "groups.feed.populated"
+      ],
+      "readsFreedomKeys": [
+        "flow06_group_feed_weights"
+      ]
+    },
+    {
+      "taskTypeId": "T90",
+      "className": "AccessControlEnforcerService",
+      "file": "server/src/engine/flows/user-groups-communities/access-control-enforcer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "groups.access.decided"
+      ],
+      "readsFreedomKeys": []
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe values that can change at fork time without changing MACHINE ordering, access control, or scope isolation.",
+      "total": 1,
+      "keys": [
+        {
+          "key": "flow06_group_feed_weights",
+          "type": "object",
+          "default": {
+            "recencyWeight": 0.6,
+            "popularityWeight": 0.4
+          },
+          "unit": "scoring-weight-map",
+          "semantic": "Controls how GroupFeedPopulator balances recency and popularity when scoring feed items for an active group member.",
+          "stakeholder": "community-operations",
+          "consumedBy": [
+            "T89.GroupFeedPopulatorService.populateFeed"
+          ],
+          "ironRuleReferences": [
+            "CF-06-1",
+            "CF-06-4"
+          ],
+          "boundedRange": {
+            "recencyWeight": {
+              "min": 0,
+              "max": 1
+            },
+            "popularityWeight": {
+              "min": 0,
+              "max": 1
+            },
+            "rationale": "Weights are normalized scoring inputs; MACHINE logic still clamps final engagement score to [0, 1]."
+          }
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-06 has no tenant-editable grammar surface.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "Role visibility is implemented through existing role-aware pages and global authorization checks.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Tenant-specific community policies that may become future FREEDOM keys after this first proof.",
+      "total": 2,
+      "edgeCases": [
+        {
+          "id": "invite-only-join-policy",
+          "name": "Invite-only join handling",
+          "semantic": "Private groups can require valid invitations before a membership request is accepted.",
+          "extensionPoint": "GroupMembershipProcessorService.processJoinRequest",
+          "currentImplementation": "MACHINE guard: invite-only checks happen before accepted membership is stored."
+        },
+        {
+          "id": "tier-gated-content-policy",
+          "name": "Tier-gated content",
+          "semantic": "Content delivery depends on active membership and tier access.",
+          "extensionPoint": "AccessControlEnforcerService.enforceAccess",
+          "currentImplementation": "MACHINE guard: access is logged and denied unless membership and tier checks pass."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "CF-06-1: Content retrieval begins only after active membership is stored.",
+      "CF-06-2: Membership tier comes from server-side subscription or membership state, not client input.",
+      "CF-06-3: Membership creation is idempotent for the same user and group.",
+      "CF-06-4: Membership, approval, feed, and tier records remain PRIVATE per tenant.",
+      "DNA-8: storeDocument completes before enqueue for membership, tier, feed, and access events."
+    ]
+  },
+  "adaptationExamples": {
+    "freedom-config-example-feed-weighting": {
+      "description": "Tenant A favors fresh community posts over popular older posts.",
+      "change": {
+        "key": "flow06_group_feed_weights",
+        "from": {
+          "recencyWeight": 0.6,
+          "popularityWeight": 0.4
+        },
+        "to": {
+          "recencyWeight": 0.8,
+          "popularityWeight": 0.2
+        }
+      },
+      "impact": "Feed ordering becomes more time-sensitive while access control, membership activation, and score clamping stay unchanged.",
+      "testable": "GroupFeedPopulator reads the flow-scoped FREEDOM key and still clamps engagement scores."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T71, T72, T89, and T90",
+      "Tenant and group scope isolation",
+      "Membership-before-content ordering",
+      "Access-control logging before event emission",
+      "CloudEvents envelope usage",
+      "DataProcessResult return contract"
+    ]
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "flowId": "FLOW-00",
+  "flowSlug": "bundle-activation",
+  "flowTitle": "Bundle Activation",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-04",
+  "capturedBy": "Codex / FLOW-00 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "services": [
+    {
+      "taskTypeId": "T574",
+      "className": "BundleValidatorService",
+      "file": "server/src/engine/flows/bundle-activation/bundle-validator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "bfa.validate-cross-flow"
+      ],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T575",
+      "className": "BundleActivationOrchestratorService",
+      "file": "server/src/engine/flows/bundle-activation/bundle-activation-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "bundle-activation.flow-activation-progress",
+        "bundle-activation.bundle-activated"
+      ],
+      "readsFreedomKeys": [
+        "bundle.defaultFreedomConfig"
+      ]
+    },
+    {
+      "taskTypeId": "T576",
+      "className": "BundleStatusTrackerService",
+      "file": "server/src/engine/flows/bundle-activation/bundle-status-tracker.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [
+        "bundle-activation.bundle-degraded",
+        "bundle-activation.bundle-restored"
+      ],
+      "readsFreedomKeys": []
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe display and operations values that can change without changing activation ordering, tenant isolation, or BFA validation.",
+      "total": 3,
+      "keys": [
+        {
+          "key": "flow00_activation_stage_labels",
+          "type": "object",
+          "default": {
+            "validate": "Validate prerequisites",
+            "dryRun": "Preview activation",
+            "activate": "Activate bundle",
+            "track": "Track health"
+          },
+          "unit": "label-map",
+          "semantic": "Plain-language stage labels shown in tenant and platform operation views.",
+          "stakeholder": "tenant-operations",
+          "consumedBy": [
+            "BundleActivationPage"
+          ],
+          "boundedRange": {
+            "maxLabelLength": 48,
+            "rationale": "Labels must remain readable in compact operation panels."
+          }
+        },
+        {
+          "key": "flow00_activation_duration_estimates",
+          "type": "object",
+          "default": {
+            "perFlowDryRunMs": 5000,
+            "perFlowActivationMs": 10000
+          },
+          "unit": "milliseconds",
+          "semantic": "Display-only estimated timing for bundle progress and support expectations.",
+          "stakeholder": "platform-operations",
+          "consumedBy": [
+            "BundleValidatorService.validateBundle",
+            "BundleActivationPage"
+          ],
+          "boundedRange": {
+            "min": 1000,
+            "max": 900000,
+            "rationale": "Estimates tune communication only; they do not alter orchestration timeouts."
+          }
+        },
+        {
+          "key": "flow00_support_escalation_channel",
+          "type": "string",
+          "default": "platform-support",
+          "unit": "routing-key",
+          "semantic": "Tenant-visible support destination for failed, degraded, or rollback-incomplete activation states.",
+          "stakeholder": "support-operations",
+          "consumedBy": [
+            "BundleActivationPage"
+          ],
+          "boundedRange": {
+            "maxLength": 64,
+            "rationale": "Routing labels must remain non-secret and suitable for UI display."
+          }
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-00 uses the fixed G1 progress-strip grammar. Tenants may tune labels but not remove checkpoint visibility.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "Roles are fixed for certification: tenant-admin and platform-admin are executable auth roles; platform-support is UI-only until added to canonical server roles.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Tenant-specific bundle catalog entries can be published through marketplace adaptation, but the activation safety gates remain MACHINE.",
+      "total": 2,
+      "edgeCases": [
+        {
+          "id": "tenant-specific-bundle-labels",
+          "name": "Tenant-specific bundle labels",
+          "semantic": "Tenants can rename bundle offerings without changing required flow order or BFA checks.",
+          "extensionPoint": "BundleActivationPage",
+          "currentImplementation": "Display labels are separate from MACHINE flow identifiers."
+        },
+        {
+          "id": "support-escalation-routing",
+          "name": "Support escalation routing",
+          "semantic": "Tenants can route failed activations to their chosen support channel.",
+          "extensionPoint": "BundleActivationPage",
+          "currentImplementation": "Support copy is UI-only and does not change orchestration behavior."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "CF-822: requiredFlows must not be empty.",
+      "CF-823: every required flow must exist before activation.",
+      "CF-826: DRY_RUN must run before FULL for every required flow.",
+      "CF-827: flows activate in dependency order.",
+      "CF-828: FREEDOM config defaults are additive only.",
+      "CF-829: BFA cross-flow validation checks every required flow.",
+      "CF-831: status tracking checks all bundles that include a regenerated flow.",
+      "DNA-8: storeDocument completes before enqueue for activation and status events."
+    ]
+  },
+  "adaptationExamples": {
+    "tenant-a-plain-language-stage-copy": {
+      "description": "Tenant A makes activation stages more operationally specific for administrators.",
+      "change": {
+        "key": "flow00_activation_stage_labels",
+        "from": {
+          "dryRun": "Preview activation"
+        },
+        "to": {
+          "dryRun": "Check bundle readiness"
+        }
+      },
+      "impact": "The UI copy changes while DRY_RUN-before-FULL, dependency order, and status persistence remain unchanged.",
+      "testable": "Role screenshots show the adapted label and unit tests still enforce DRY_RUN before FULL."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T574, T575, and T576",
+      "Bundle validation before activation",
+      "DRY_RUN-before-FULL activation order",
+      "Dependency-order provisioning",
+      "Additive-only FREEDOM default writes",
+      "Tenant-scoped bundle status",
+      "MicroserviceBase and DataProcessResult service contracts"
+    ]
+  }
+}

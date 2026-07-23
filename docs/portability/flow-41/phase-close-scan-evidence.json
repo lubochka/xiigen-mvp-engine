@@ -1,0 +1,22 @@
+{
+    "flowId":  "FLOW-41",
+    "flowSlug":  "canva-text-adapter",
+    "phase":  "phase-close-scan",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T00:16:43.1519452Z",
+    "checks":  {
+                   "dockerVaultAuthFailures":  0,
+                   "jsonFailures":  0,
+                   "step1InPackage":  true,
+                   "adaptationArchetypeRegistered":  true,
+                   "pngEvidenceCount":  1,
+                   "noLocalStorageHits":  0,
+                   "registryReadback":  "1.0.1",
+                   "secretPatternHits":  0,
+                   "noFigmaRuntimeHits":  0,
+                   "sdkBoundaryRuntimeImports":  0,
+                   "packageJsonPrivateFalse":  true
+               },
+    "failureLines":  0,
+    "verdict":  "PASS"
+}

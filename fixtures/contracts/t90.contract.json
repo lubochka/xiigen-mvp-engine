@@ -1,0 +1,56 @@
+{
+  "taskTypeId": "T90",
+  "flowId": "FLOW-05",
+  "name": "SocialShareGate",
+  "archetype": "BROADCAST",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "sole-branch-entry-gate",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IQueueService",
+    "freedomConfigKey": "flow05_social_share_enabled",
+    "neutralConcepts": [
+      "T90 is SOLE entry to the social branch",
+      "emits SocialShareApproved (pass) OR SocialShareSkipped (skip)",
+      "SocialShareSkipped is DataProcessResult.success — not failure",
+      "T91 triggers on SocialShareApproved — never on QuestionnaireAnswered"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F193",
+      "interface": "ISocialShareGateService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T90-1",
+      "rule": "T90 (SocialShareGate) is the SOLE entry to the social branch. No other node can start Branch C.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T90-2",
+      "rule": "T90 emits exactly one of: SocialShareApproved (privacy=public) or SocialShareSkipped (privacy=private). Never emits both.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T90-3",
+      "rule": "SocialShareSkipped is DataProcessResult.success({ skipped: true }) — not failure. Private mode is a valid outcome.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T90-4",
+      "rule": "T91 (QuestionnairePostBuilder) must trigger on SocialShareApproved — never on QuestionnaireAnswered. T90's check cannot block T91 if T91 shares the original trigger.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["social-share-gate", "privacy", "sole-entry", "BROADCAST"],
+  "keywords": "social share gate privacy sole entry approved skipped branch topology T91 trigger"
+}

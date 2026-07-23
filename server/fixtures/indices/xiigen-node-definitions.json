@@ -1,0 +1,12 @@
+{
+  "index": "xiigen-node-definitions",
+  "mappings": {
+    "properties": {
+      "nodeId": { "type": "keyword" },
+      "nodeType": { "type": "keyword" },
+      "description": { "type": "text" },
+      "config": { "type": "object", "dynamic": true },
+      "createdAt": { "type": "date" }
+    }
+  }
+}

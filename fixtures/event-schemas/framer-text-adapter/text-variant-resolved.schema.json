@@ -1,0 +1,1 @@
+{"type":"object","properties":{"componentName":{"type":"string"},"workspaceId":{"type":"string"},"variantName":{"type":"string"},"resolvedFontSize":{"type":"number"},"baseStyle":{"type":"object"},"resolvedAt":{"type":"string"}},"required":["componentName","workspaceId","variantName","resolvedFontSize"]}

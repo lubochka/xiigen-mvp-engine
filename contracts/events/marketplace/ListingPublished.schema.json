@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.marketplace.listing-published.v1",
+  "taskTypeId": "T83",
+  "flowId": "FLOW-08",
+  "description": "Emitted by T83 ListingPublisher after audit, moderation PASS, price validation, and persist. Triggers T84 CatalogIndexer.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.marketplace.listing-published.v1",
+    "source": "xiigen/flows/marketplace-listings-catalog/t83",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "listingId": { "type": "string", "description": "Opaque listing identifier" },
+    "sellerId": { "type": "string", "description": "Opaque seller identifier — no PII" },
+    "categoryId": { "type": "string", "description": "Listing category" },
+    "price": { "type": "number", "description": "Listing price (0 = free listing, valid)" },
+    "status": { "type": "string", "enum": ["PUBLISHED"], "description": "Only PUBLISHED listings emit this event" },
+    "tenantId": { "type": "string", "description": "Tenant scope — from AsyncLocalStorage" },
+    "correlationId": { "type": "string", "description": "Idempotency key" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "sellerId is opaque. No personal data, contact info, or address in payload.",
+  "requiredByFlows": ["FLOW-08"]
+}

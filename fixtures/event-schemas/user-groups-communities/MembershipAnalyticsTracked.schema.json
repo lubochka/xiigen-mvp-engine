@@ -1,0 +1,11 @@
+{
+  "eventType": "MembershipAnalyticsTracked",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "membership-analytics",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "assignedTier", "groupType", "trackedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T110 for analytics tracking. Branch C sub-step. Time-decoupled from all gates."
+}

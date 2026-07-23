@@ -1,0 +1,208 @@
+﻿{
+    "flowId":  "FLOW-11",
+    "flowSlug":  "schema-registry-dag",
+    "phase":  "phase5aTenantBInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T01:52:11.9049024+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "role":  "Tenant B",
+                   "installedFromTenant":  "acme-corp",
+                   "installedFromRepoFullName":  "lubochka/acme-corp--schema-registry-dag",
+                   "packageName":  "@xiigen-fork/acme-schema-governance-dag",
+                   "packageVersion":  "1.0.1",
+                   "localRegistry":  "http://localhost:4873"
+               },
+    "marketplaceForkApi":  {
+                               "method":  "POST",
+                               "path":  "/api/marketplace/packages/acme-schema-governance-dag/fork",
+                               "serverBaseUrl":  "http://localhost:33001",
+                               "targetTenant":  "northwind",
+                               "auth":  "Tenant-scoped northwind tenant-admin JWT minted from Vault signing key; token value not stored in evidence.",
+                               "request":  {
+                                               "flowId":  "FLOW-11",
+                                               "targetGitHubUsername":  "lubochka",
+                                               "initialVersion":  "1.0.1",
+                                               "repoNameOverride":  "northwind--acme-schema-governance-dag",
+                                               "sourceRepoFullName":  "lubochka/acme-corp--schema-registry-dag"
+                                           },
+                               "result":  {
+                                              "forkId":  "fork-acme-schema-governance-dag-northwind",
+                                              "repoFullName":  "lubochka/northwind--acme-schema-governance-dag",
+                                              "repoUrl":  "https://github.com/lubochka/northwind--acme-schema-governance-dag",
+                                              "status":  "FORKED",
+                                              "initialCommitSha":  "83e4c7cb991d2ea8b202b55c5af9b0eed0003d75"
+                                          }
+                           },
+    "localRegistryVerification":  {
+                                      "command":  "npm view @xiigen-fork/acme-schema-governance-dag version --registry http://localhost:4873",
+                                      "expectedVersion":  "1.0.1",
+                                      "actualVersion":  "1.0.1"
+                                  },
+    "repository":  {
+                       "fullName":  "lubochka/northwind--acme-schema-governance-dag",
+                       "htmlUrl":  "https://github.com/lubochka/northwind--acme-schema-governance-dag",
+                       "defaultBranch":  "main",
+                       "createdAt":  "2026-05-05T22:33:25Z",
+                       "pushedAt":  "2026-05-05T22:39:18Z",
+                       "privateAfterEvidenceCapture":  true,
+                       "visibilityAfterEvidenceCapture":  "PRIVATE",
+                       "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-schema-governance-dag",
+                       "localRemote":  "https://github.com/lubochka/northwind--acme-schema-governance-dag.git"
+                   },
+    "initialCi":  {
+                      "runId":  25406059701,
+                      "status":  "completed",
+                      "conclusion":  "failure",
+                      "headSha":  "83e4c7cb991d2ea8b202b55c5af9b0eed0003d75",
+                      "url":  "https://github.com/lubochka/northwind--acme-schema-governance-dag/actions/runs/25406059701",
+                      "rootCause":  "Inherited Tenant A adaptation test asserted tenantId acme-corp after cascade fork correctly rewrote tenant.config.json for northwind."
+                  },
+    "repairCommit":  {
+                         "sha":  "4c2e7f04462160f6f1d5d96b1a5a3bdea2f75874",
+                         "message":  "Make Acme schema install test cascade-safe",
+                         "changedFiles":  [
+                                              "__tests__/schema-registry-dag-acme-adaptation.spec.ts",
+                                              "settings/module.settings.json"
+                                          ],
+                         "fix":  "Assert Northwind install identity and repository metadata while preserving the Acme adaptation history record and FREEDOM values.",
+                         "tenantConfigAssertions":  {
+                                                        "tenantId":  "northwind",
+                                                        "flowId":  "FLOW-11",
+                                                        "flowSlug":  "acme-schema-governance-dag",
+                                                        "moduleName":  "acme-schema-governance-dag",
+                                                        "moduleVersion":  "1.0.1",
+                                                        "repoName":  "northwind--acme-schema-governance-dag",
+                                                        "repoFullName":  "lubochka/northwind--acme-schema-governance-dag",
+                                                        "installedFromRepoFullName":  "lubochka/acme-corp--schema-registry-dag",
+                                                        "adaptationHistoryEntries":  1
+                                                    }
+                     },
+    "githubActions":  {
+                          "runId":  25406211914,
+                          "jobId":  74517635969,
+                          "workflowName":  "XIIGen Flow CI - schema-registry-dag",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "4c2e7f04462160f6f1d5d96b1a5a3bdea2f75874",
+                          "url":  "https://github.com/lubochka/northwind--acme-schema-governance-dag/actions/runs/25406211914",
+                          "createdAt":  "2026-05-05T22:39:20Z",
+                          "updatedAt":  "2026-05-05T22:40:04Z",
+                          "successfulSteps":  [
+                                                  "Install",
+                                                  "TypeScript check",
+                                                  "Test",
+                                                  "Provenance"
+                                              ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localCloneVerification":  {
+                                   "clonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-schema-governance-dag",
+                                   "headSha":  "4c2e7f04462160f6f1d5d96b1a5a3bdea2f75874",
+                                   "commands":  [
+                                                    {
+                                                        "command":  "npm install --no-audit --no-fund",
+                                                        "exitCode":  0,
+                                                        "notes":  "Completed with dependency deprecation warnings only."
+                                                    },
+                                                    {
+                                                        "command":  "npx tsc --noEmit --pretty false",
+                                                        "exitCode":  0
+                                                    },
+                                                    {
+                                                        "command":  "npx jest --colors=false --forceExit",
+                                                        "exitCode":  0,
+                                                        "result":  "2 suites passed, 5 tests passed"
+                                                    }
+                                                ],
+                                   "workingTreeCleanAfterRepair":  true
+                               },
+    "visualEvidence":  {
+                           "tenantBInstalledMatrix":  {
+                                                          "path":  "docs/e2e-snapshots/schema-registry-dag/tenant-b-installed-from-a",
+                                                          "expected":  3,
+                                                          "actual":  3,
+                                                          "zeroByte":  0,
+                                                          "minBytes":  28785,
+                                                          "maxBytes":  47972,
+                                                          "roles":  [
+                                                                        "tenant-admin",
+                                                                        "platform-admin"
+                                                                    ],
+                                                          "cells":  [
+                                                                        "schema-registry tenant-admin",
+                                                                        "schema-submission tenant-admin",
+                                                                        "dag-visualization platform-admin"
+                                                                    ],
+                                                          "files":  [
+                                                                        {
+                                                                            "path":  "docs/e2e-snapshots/schema-registry-dag/tenant-b-installed-from-a/01-northwind-schema-registry.png",
+                                                                            "bytes":  47972
+                                                                        },
+                                                                        {
+                                                                            "path":  "docs/e2e-snapshots/schema-registry-dag/tenant-b-installed-from-a/02-northwind-schema-submission.png",
+                                                                            "bytes":  28785
+                                                                        },
+                                                                        {
+                                                                            "path":  "docs/e2e-snapshots/schema-registry-dag/tenant-b-installed-from-a/03-northwind-dag-visualization.png",
+                                                                            "bytes":  44112
+                                                                        }
+                                                                    ]
+                                                      },
+                           "repoScreenshots":  {
+                                                   "repoListing":  {
+                                                                       "path":  "docs/e2e-snapshots/repo-evidence/flow-11/northwind--acme-schema-governance-dag-github-listing.png",
+                                                                       "bytes":  134954,
+                                                                       "captureMode":  "GitHub web UI while temporarily public"
+                                                                   },
+                                                   "actionsSuccess":  {
+                                                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-11/northwind--acme-schema-governance-dag-actions-success.png",
+                                                                          "bytes":  77429,
+                                                                          "captureMode":  "GitHub web UI while temporarily public"
+                                                                      },
+                                                   "repoVisibilityRestoredToPrivate":  true
+                                               }
+                       },
+    "mainRepoVerification":  {
+                                 "clientTypeScript":  {
+                                                          "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                          "result":  "passed"
+                                                      },
+                                 "serverTypeScript":  {
+                                                          "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                          "result":  "passed"
+                                                      },
+                                 "serverJest":  {
+                                                    "command":  "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location",
+                                                    "result":  "passed",
+                                                    "suites":  12,
+                                                    "tests":  105
+                                                },
+                                 "phaseCloseScans":  {
+                                                         "flowFileCount":  20,
+                                                         "throwNew":  0,
+                                                         "clsImports":  0,
+                                                         "servicesMissingMicroserviceBase":  0,
+                                                         "unscopedFreedomReads":  0,
+                                                         "directSdkImports":  0,
+                                                         "anyTypes":  0
+                                                     }
+                             },
+    "secretHandling":  {
+                           "committedEnvFiles":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBInstalledTenantAPackage":  true,
+                      "tenantBCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "localRegistryReturnsTenantAVersion":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBAdaptation":  true
+                  },
+    "verdict":  "PASS"
+}

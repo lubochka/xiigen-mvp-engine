@@ -1,0 +1,43 @@
+﻿{
+    "flowId":  "FLOW-16",
+    "flowSlug":  "marketplace-payments",
+    "phase":  "phase1UnitTests",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T17:09:29.0869870+03:00",
+    "verification":  {
+                         "serverTypeScript":  {
+                                                  "command":  "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+                                                  "result":  "passed"
+                                              },
+                         "serverJest":  {
+                                            "command":  "server: npx jest --testPathPatterns=marketplace-payments --runInBand --colors=false",
+                                            "result":  "passed",
+                                            "suites":  8,
+                                            "tests":  108
+                                        },
+                         "sourceScan":  {
+                                            "throwNew":  0,
+                                            "servicesMissingMicroserviceBase":  0,
+                                            "clsImports":  0,
+                                            "directTenantContextImports":  0,
+                                            "directSdkImports":  0,
+                                            "anyTypes":  0,
+                                            "secretPatternHits":  0
+                                        }
+                     },
+    "namedChecks":  {
+                        "checkoutOutbox":  "passed: check_outbox_before_enqueue and T609 DNA-8 tests",
+                        "idempotency":  "passed: check_idempotency_key_registered and duplicate checkout/payout tests",
+                        "escrow":  "passed: check_payment_escrow_created plus escrow release/refund tests",
+                        "compensation":  "passed: check_checkout_saga_lifo_order and T611 LIFO compensation tests",
+                        "payoutVaultRefs":  "passed: T612 payoutVaultRef present and bank detail fields absent",
+                        "kycPayloadScrub":  "passed: check_kyc_doc_not_in_payload and KYC_DOC_IN_PAYLOAD error path"
+                    },
+    "phaseGate":  {
+                      "typescriptClean":  true,
+                      "jestClean":  true,
+                      "scansClean":  true,
+                      "readyForPlaywright":  true
+                  },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,256 @@
+﻿{
+    "flowId":  "FLOW-12",
+    "flowSlug":  "subscription-billing",
+    "phase":  "phase5bTenantBAdapts",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T04:27:29.5931578+03:00",
+    "tenant":  {
+                   "tenantId":  "northwind",
+                   "role":  "Tenant B",
+                   "adaptedFromTenant":  "acme-corp",
+                   "installedFromRepoFullName":  "lubochka/acme-corp--subscription-billing",
+                   "packageName":  "@xiigen-fork/northwind-revenue-recovery-billing",
+                   "packageVersion":  "1.0.2",
+                   "localRegistry":  "http://localhost:4873"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "Type A (FREEDOM key value change)",
+                       "packageName":  "@xiigen-fork/northwind-revenue-recovery-billing",
+                       "packageVersion":  "1.0.2",
+                       "moduleName":  "northwind-revenue-recovery-billing",
+                       "displayName":  "Northwind Revenue Recovery Billing",
+                       "sourceModuleName":  "acme-enterprise-billing",
+                       "visiblePlainLanguage":  "Northwind revenue recovery billing policy: 21-day trials, four-step recovery at 24/96/216/360 hours, three-year plan audit retention, and 120-day billing analytics while preserving Acme history.",
+                       "adaptationHistoryEntries":  2,
+                       "acmeHistoryPreserved":  true,
+                       "northwindHistoryAdded":  true,
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "subscription_billing_plan_audit_retention",
+                                                  "from":  730,
+                                                  "to":  1095
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_default_trial_days",
+                                                  "from":  30,
+                                                  "to":  21
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_dunning_schedule",
+                                                  "from":  [
+                                                               {
+                                                                   "wait_hours":  48,
+                                                                   "attempt":  0
+                                                               },
+                                                               {
+                                                                   "wait_hours":  120,
+                                                                   "attempt":  1
+                                                               },
+                                                               {
+                                                                   "wait_hours":  240,
+                                                                   "attempt":  2
+                                                               }
+                                                           ],
+                                                  "to":  [
+                                                             {
+                                                                 "wait_hours":  24,
+                                                                 "attempt":  0
+                                                             },
+                                                             {
+                                                                 "wait_hours":  96,
+                                                                 "attempt":  1
+                                                             },
+                                                             {
+                                                                 "wait_hours":  216,
+                                                                 "attempt":  2
+                                                             },
+                                                             {
+                                                                 "wait_hours":  360,
+                                                                 "attempt":  3
+                                                             }
+                                                         ]
+                                              },
+                                              {
+                                                  "key":  "subscription_billing_metrics_window_days",
+                                                  "from":  90,
+                                                  "to":  120
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "prices remain integer cents",
+                                                   "payment validation remains before subscription state writes",
+                                                   "billing locks remain before invoice and charge execution",
+                                                   "invoice identifiers remain tenant, subscription, and period scoped",
+                                                   "billing audit records remain stored before billing events are emitted",
+                                                   "role access remains unchanged",
+                                                   "Acme adaptation history remains visible to downstream tenants"
+                                               ],
+                       "adaptedFilesInTenantRepo":  [
+                                                        "ADAPTATION-CHANGELOG.md",
+                                                        "__tests__/subscription-billing-acme-adaptation.spec.ts",
+                                                        "freedom-config.defaults.json",
+                                                        "package.json",
+                                                        "settings/module.settings.json",
+                                                        "tenant.config.json"
+                                                    ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/northwind--northwind-revenue-recovery-billing",
+                             "url":  "https://github.com/lubochka/northwind--northwind-revenue-recovery-billing",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-billing",
+                             "adaptedCommit":  "4f67bd09824fcb7d4aa1b05b8df1a9fd27217e7c",
+                             "adaptedCommitMessage":  "Adapt Northwind revenue recovery billing policy",
+                             "cleanCloneStatus":  true,
+                             "tenantConfig":  {
+                                                  "tenantId":  "northwind",
+                                                  "flowId":  "FLOW-12",
+                                                  "flowSlug":  "northwind-revenue-recovery-billing",
+                                                  "originFlowSlug":  "subscription-billing",
+                                                  "moduleName":  "northwind-revenue-recovery-billing",
+                                                  "moduleVersion":  "1.0.2",
+                                                  "repoName":  "northwind--northwind-revenue-recovery-billing",
+                                                  "repoFullName":  "lubochka/northwind--northwind-revenue-recovery-billing",
+                                                  "installedFromRepoFullName":  "lubochka/acme-corp--subscription-billing",
+                                                  "adaptationHistoryEntries":  2,
+                                                  "acmeAdaptationPreserved":  true,
+                                                  "northwindAdaptationAdded":  true
+                                              }
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — subscription-billing",
+                          "runId":  25411355092,
+                          "url":  "https://github.com/lubochka/northwind--northwind-revenue-recovery-billing/actions/runs/25411355092",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "4f67bd09824fcb7d4aa1b05b8df1a9fd27217e7c",
+                          "createdAt":  "2026-05-06T01:19:49Z",
+                          "updatedAt":  "2026-05-06T01:20:43Z",
+                          "jobs":  [
+                                       {
+                                           "name":  "Standalone flow test — subscription-billing",
+                                           "status":  "completed",
+                                           "conclusion":  "success",
+                                           "url":  "https://github.com/lubochka/northwind--northwind-revenue-recovery-billing/actions/runs/25411355092/job/74533597492"
+                                       }
+                                   ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation in prior runs; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/northwind-revenue-recovery-billing",
+                          "publishedVersion":  "1.0.2",
+                          "viewCommand":  "npm view @xiigen-fork/northwind-revenue-recovery-billing version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+                          "npmViewVersion":  "1.0.2",
+                          "distTags":  {
+                                           "latest":  "1.0.2"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/northwind-revenue-recovery-billing/-/northwind-revenue-recovery-billing-1.0.2.tgz",
+                          "shasum":  "7c917ac4dbe3172abc61cbbe502a292eb03c84c3",
+                          "gitHead":  "4f67bd09824fcb7d4aa1b05b8df1a9fd27217e7c",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.2-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "localCloneVerification":  {
+                                   "clonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-billing",
+                                   "headSha":  "4f67bd09824fcb7d4aa1b05b8df1a9fd27217e7c",
+                                   "commands":  [
+                                                    {
+                                                        "command":  "npm install --package-lock-only --no-audit --no-fund",
+                                                        "exitCode":  0
+                                                    },
+                                                    {
+                                                        "command":  "npx tsc --noEmit --pretty false",
+                                                        "exitCode":  0
+                                                    },
+                                                    {
+                                                        "command":  "npx jest --colors=false --forceExit",
+                                                        "exitCode":  0,
+                                                        "result":  "2 suites passed, 3 tests passed"
+                                                    }
+                                                ],
+                                   "workingTreeCleanAfterAdaptation":  true
+                               },
+    "applicationEvidence":  {
+                                "filesChangedInMainRepo":  [
+                                                               "client/e2e/subscription-billing-tenant-b-adaptation.spec.ts",
+                                                               "client/src/pages/MarketplacePage.tsx",
+                                                               "client/src/pages/subscription-billing/BillingDashboardPage.tsx"
+                                                           ],
+                                "visibleAdaptationSummary":  "21-day trials, four-step recovery at 24/96/216/360 hours, three-year plan audit retention, and 120-day analytics while preserving Acme history.",
+                                "playwright":  {
+                                                   "command":  "VITE_PORT=5194 VITE_API_URL=http://localhost:3000 npx playwright test e2e/subscription-billing-tenant-b-adaptation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+                                                   "result":  "passed",
+                                                   "tests":  31
+                                               },
+                                "screenshots":  {
+                                                    "tenantCascadeDirectory":  "docs/e2e-snapshots/subscription-billing/tenant-b-v1.0.2",
+                                                    "tenantCascadeCount":  30,
+                                                    "tenantCascadeZeroByte":  0,
+                                                    "tenantCascadeMinBytes":  25015,
+                                                    "tenantCascadeMaxBytes":  53137,
+                                                    "marketplaceListingPath":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.2-listing.png",
+                                                    "marketplaceListingBytes":  339150,
+                                                    "registryApiEvidencePath":  "docs/e2e-snapshots/marketplace/subscription-billing-v1.0.2-registry-api-evidence.json",
+                                                    "repoListingPath":  "docs/e2e-snapshots/repo-evidence/flow-12/northwind--northwind-revenue-recovery-billing-github-listing.png",
+                                                    "repoListingBytes":  128748,
+                                                    "repoActionsSuccessPath":  "docs/e2e-snapshots/repo-evidence/flow-12/northwind--northwind-revenue-recovery-billing-actions-success.png",
+                                                    "repoActionsSuccessBytes":  74884,
+                                                    "repoCaptureNote":  "GitHub screenshots were captured during a temporary public visibility window; gh repo view after capture confirmed visibility PRIVATE."
+                                                }
+                            },
+    "phaseCloseVerification":  {
+                                   "clientTypeScript":  {
+                                                            "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "clientPlaywright":  {
+                                                            "command":  "subscription-billing-tenant-b-adaptation.spec.ts chromium-desktop",
+                                                            "result":  "passed",
+                                                            "tests":  31
+                                                        },
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=subscription-billing --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  7,
+                                                      "tests":  78
+                                                  },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0
+                                                 },
+                                   "gitDiffCheck":  "passed"
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantBAdaptedTenantAPackage":  true,
+                      "tenantBCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsTenantBVersion":  true,
+                      "acmeHistoryPreserved":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "marketplaceScreenshotPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantCInstall":  true
+                  },
+    "verdict":  "PASS"
+}

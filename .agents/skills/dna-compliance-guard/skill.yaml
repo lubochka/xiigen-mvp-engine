@@ -1,0 +1,26 @@
+name: dna-compliance-guard
+sk_number: SK-418
+version: "1.0.0"
+load_order: 18
+priority: RECOMMENDED
+status: APPROVED
+description: |
+  9 DNA guard patterns for the XIIGen engine. Each pattern has a detection command,
+  example violation, fix pattern, and test template. Run pre-commit on any new or
+  modified TypeScript files.
+triggers:
+  - "DNA violation"
+  - "DNA compliance"
+  - "DNA-1"
+  - "DNA-2"
+  - "DNA-3"
+  - "DNA-4"
+  - "DNA-5"
+  - "DNA-6"
+  - "DNA-7"
+  - "DNA-8"
+  - "DNA-9"
+  - "typed model"
+  - "hardcoded query"
+  - "missing tenant scope"
+phase_created: 9

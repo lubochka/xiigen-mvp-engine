@@ -1,0 +1,22 @@
+{
+  "patternId": "OCC-PUBLISH-GATE-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-11",
+  "domainId": "schema-registry-dag",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "tags": ["occ", "versioning", "concurrent-write", "schema-registry"],
+  "keywords": "occ optimistic concurrency control publish version pin schema storeDocumentWithOCC getDocumentWithVersion",
+  "ironRules": [
+    "storeDocumentWithOCC(data, expectedVersionPin) — not plain storeDocument() — for any shared versioned resource",
+    "On OptimisticConcurrencyConflict: emit conflict event — do NOT silently retry",
+    "Read versionPin with getDocumentWithVersion() immediately before the write"
+  ],
+  "codeSnippet": "const { data: current, versionPin } = await db.getDocumentWithVersion(index, filter);\nconst result = await db.storeDocumentWithOCC(index, newSchema, versionPin);\nif (!result.isSuccess && result.errorCode === 'OCC_CONFLICT') {\n  await queue.enqueue('SchemaPublishConflict', { schemaType });\n  return DataProcessResult.failure('OCC_CONFLICT', 'Version changed — retry with fresh read');\n}",
+  "appliesTo": ["FLOW-12", "FLOW-13", "FLOW-14"],
+  "curriculumTier": 2,
+  "qualityScore": 0.93,
+  "sourceDocument": "FLOW-11-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

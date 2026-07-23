@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SchemaEvolutionRejected",
+  "type": "object",
+  "required": ["specversion", "type", "source", "id", "time", "data"],
+  "properties": {
+    "specversion": { "type": "string", "enum": ["1.0"] },
+    "type": { "type": "string", "enum": ["warehouse.schema.evolution.rejected"] },
+    "source": { "type": "string" },
+    "id": { "type": "string" },
+    "time": { "type": "string", "format": "date-time" },
+    "data": {
+      "type": "object",
+      "required": ["schemaId", "tenantId", "rejectedAt", "changeType", "reason"],
+      "properties": {
+        "schemaId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "rejectedAt": { "type": "string", "format": "date-time" },
+        "changeType": {
+          "type": "string",
+          "enum": [
+            "breaking_field_removal",
+            "breaking_type_change",
+            "other_breaking"
+          ]
+        },
+        "reason": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

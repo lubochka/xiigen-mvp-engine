@@ -1,0 +1,249 @@
+{
+  "flowId": "FLOW-14",
+  "flowSlug": "etl-data-integration",
+  "phase": "phase4Point0TenantAOriginalFork",
+  "phaseStatus": "completed",
+  "generatedAt": "2026-05-06T08:26:34.1213768Z",
+  "tenant": "acme-corp",
+  "protocolVersion": "3.0",
+  "productAndFixMapActions": [
+    {
+      "id": "FLOW-14-FIXMAP-004",
+      "status": "completed",
+      "action": "Tenant context service decoupling already verified before fork."
+    },
+    {
+      "id": "FLOW-14-FIXMAP-001",
+      "status": "completed",
+      "action": "Configuration key scoping evidence already recorded for FLOW-14 adaptation surface."
+    },
+    {
+      "id": "FLOW-14-FIXMAP-006",
+      "status": "pending",
+      "action": "Product decision still required before co-install dependency declaration and final cascade certification."
+    },
+    {
+      "id": "FLOW-14-FIXMAP-008",
+      "status": "in-progress",
+      "action": "Tenant A original fork now proves the first cascade point; downstream cascade still required."
+    }
+  ],
+  "dockerVaultServer": {
+    "serverPort": 3000,
+    "secretsProvider": "vault",
+    "vaultAddressInContainer": "http://vault:8200",
+    "tenantCredentialVerification": "Vault tenant credential paths and fork-manager runtime paths were seeded and read back as non-empty without printing secret values.",
+    "healthCheck": "GET http://localhost:3000/health/live passed before the corrected Tenant A fork evidence was collected."
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/etl-data-integration/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "initialVersion": "1.0.1",
+    "repoFullName": "lubochka/acme-corp--etl-data-integration",
+    "repoUrl": "https://github.com/lubochka/acme-corp--etl-data-integration",
+    "visibilityAfterEvidence": "PRIVATE",
+    "forkId": "fork-etl-data-integration-acme-corp",
+    "initialCommitSha": "c69952b38b88c3ac6d8ad0926f5f4a3fc5368fad",
+    "preflightCorrections": [
+      "First authenticated fork attempt reached the handler but failed before side effects with GITHUB_CREDENTIALS_MISSING because ISecretsManager reads secret/{tenantId}/{key}; seeded runtime paths and vault_token/vault_address FREEDOM config without printing secrets.",
+      "Second fork attempt passed credentials but failed assembly because FLOW-14 functional spec lives under docs/business-flows/functional-specs; FlowFileAssemblerService now falls back to that canonical folder and has a regression test."
+    ]
+  },
+  "githubActions": {
+    "workflow": {
+      "id": 271860572,
+      "name": "XIIGen Flow CI — etl-data-integration",
+      "path": ".github/workflows/flow-ci.yml",
+      "state": "active",
+      "html_url": "https://github.com/lubochka/acme-corp--etl-data-integration/blob/main/.github/workflows/flow-ci.yml",
+      "url": "https://api.github.com/repos/lubochka/acme-corp--etl-data-integration/actions/workflows/271860572"
+    },
+    "initialPushRun": {
+      "databaseId": 25423451375,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "note": "The first watch was cancelled locally at the timeout and did not provide valid green evidence."
+    },
+    "evidenceRun": {
+      "conclusion": "success",
+      "createdAt": "2026-05-06T08:23:40Z",
+      "databaseId": 25424424557,
+      "displayTitle": "XIIGen Flow CI — etl-data-integration",
+      "event": "workflow_dispatch",
+      "headSha": "c69952b38b88c3ac6d8ad0926f5f4a3fc5368fad",
+      "jobs": [
+        {
+          "completedAt": "2026-05-06T08:24:16Z",
+          "conclusion": "success",
+          "databaseId": 74574131280,
+          "name": "Standalone flow test — etl-data-integration",
+          "startedAt": "2026-05-06T08:23:52Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-05-06T08:23:54Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-05-06T08:23:53Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:23:54Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4.2.2",
+              "number": 2,
+              "startedAt": "2026-05-06T08:23:54Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:23:55Z",
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4.4.0",
+              "number": 3,
+              "startedAt": "2026-05-06T08:23:54Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:24:09Z",
+              "conclusion": "success",
+              "name": "Install",
+              "number": 4,
+              "startedAt": "2026-05-06T08:23:55Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:24:11Z",
+              "conclusion": "success",
+              "name": "TypeScript check",
+              "number": 5,
+              "startedAt": "2026-05-06T08:24:09Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:24:14Z",
+              "conclusion": "success",
+              "name": "Test",
+              "number": 6,
+              "startedAt": "2026-05-06T08:24:11Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:24:14Z",
+              "conclusion": "success",
+              "name": "Provenance",
+              "number": 7,
+              "startedAt": "2026-05-06T08:24:14Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:24:14Z",
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4.4.0",
+              "number": 13,
+              "startedAt": "2026-05-06T08:24:14Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:24:15Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4.2.2",
+              "number": 14,
+              "startedAt": "2026-05-06T08:24:14Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-05-06T08:24:15Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "startedAt": "2026-05-06T08:24:15Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/lubochka/acme-corp--etl-data-integration/actions/runs/25424424557/job/74574131280"
+        }
+      ],
+      "status": "completed",
+      "updatedAt": "2026-05-06T08:24:17Z",
+      "url": "https://github.com/lubochka/acme-corp--etl-data-integration/actions/runs/25424424557",
+      "workflowName": "XIIGen Flow CI — etl-data-integration"
+    },
+    "green": true,
+    "publicDuringSuccessfulDispatch": true,
+    "visibilityAfterEvidence": "PRIVATE"
+  },
+  "localCloneValidation": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--etl-data-integration-phase40-20260506-111858",
+    "commands": [
+      "gh repo clone lubochka/acme-corp--etl-data-integration C:\\Projects\\xiigen-fork-clones\\acme-corp--etl-data-integration-phase40-20260506-111858",
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "npmInstall": "passed",
+    "typescript": "passed",
+    "jest": "passed: 1 suite, 1 test",
+    "bundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true,
+      "packageName": "@xiigen-fork/etl-data-integration",
+      "packageVersion": "1.0.0-fork",
+      "tenantId": "acme-corp",
+      "manifestFileCount": 120
+    }
+  },
+  "repoScreenshots": [
+    {
+      "kind": "repo",
+      "path": "docs/e2e-snapshots/repo-evidence/flow-14/phase-4.0-tenant-a-repo.png",
+      "sizeBytes": 120379
+    },
+    {
+      "kind": "actions-run",
+      "path": "docs/e2e-snapshots/repo-evidence/flow-14/phase-4.0-tenant-a-actions-run.png",
+      "sizeBytes": 72766
+    },
+    {
+      "kind": "bundle-manifest",
+      "path": "docs/e2e-snapshots/repo-evidence/flow-14/phase-4.0-tenant-a-bundle-manifest.png",
+      "sizeBytes": 367626
+    }
+  ],
+  "sourceValidation": {
+    "serverTypescript": "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+    "assemblerJest": "passed: npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false; 1 suite, 11 tests",
+    "phaseCloseScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "tenantContextResolverReferencesAllowed": 36,
+      "secretPatternHits": 0,
+      "jsonValid": true,
+      "passed": true
+    }
+  },
+  "secretHandling": {
+    "secretsPrinted": false,
+    "secretsCommitted": false,
+    "tenantCredentialsStoredInVault": true,
+    "claudeSessionTokenUsedAsEvidence": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantAOriginalFork": "passed",
+    "greenGithubActions": true,
+    "fullBundleEvidence": true,
+    "realGithubScreenshots": true,
+    "localForkCloneTestsPassed": true,
+    "readyForNextPhase": "phase4AiAdaptation"
+  }
+}

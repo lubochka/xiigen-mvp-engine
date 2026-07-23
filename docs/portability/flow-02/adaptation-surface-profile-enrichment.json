@@ -1,0 +1,337 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "flowTitle": "XIIGen Platform — Profile Enrichment & Matching Intelligence",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2",
+  "capturedAt": "2026-04-23",
+  "capturedBy": "architect-mode / opus-4.7 / session vigorous-margulis",
+  "surfaceVersion": "1.0.0",
+
+  "services": [
+    {
+      "taskTypeId": "T50",
+      "archetype": "fan_in",
+      "className": "BusinessProfileService",
+      "file": "server/src/engine/flows/profile-enrichment/business-profile.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE + GLOBAL (dual-record-write)",
+      "emits": ["BusinessProfileCreated", "EnrichmentCompleted", "user.enrichment.branch.failed"],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T50-aux",
+      "className": "AnalyticsSegmentationService",
+      "file": "server/src/engine/flows/profile-enrichment/analytics-segmentation.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": ["UserSegmented"],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T50-aux",
+      "className": "LearningProgramService",
+      "file": "server/src/engine/flows/profile-enrichment/learning-program.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": ["LearningProgramInitialized"],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T51",
+      "archetype": "convergence",
+      "className": "CompatibilityScoringService",
+      "file": "server/src/engine/flows/profile-enrichment/compatibility-scoring.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": ["BusinessMatchesFound", "MatchingConverged", "MatchingDeferred"],
+      "readsFreedomKeys": [
+        "flow02_match_timeout_seconds",
+        "flow02_match_weight_industry",
+        "flow02_match_weight_stage",
+        "flow02_match_weight_location",
+        "flow02_match_weight_team"
+      ]
+    },
+    {
+      "taskTypeId": "T51-aux",
+      "className": "ConnectionSuggestionService",
+      "file": "server/src/engine/flows/profile-enrichment/connection-suggestion.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": ["ConnectionSuggestionsBuilt"],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T51-aux",
+      "className": "FeedPersonalizationService",
+      "file": "server/src/engine/flows/profile-enrichment/feed-personalization.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": [],
+      "readsFreedomKeys": []
+    },
+    {
+      "taskTypeId": "T52",
+      "archetype": "broadcast",
+      "className": "PersonalizationCompletionService",
+      "file": "server/src/engine/flows/profile-enrichment/personalization-completion.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "emits": ["PersonalizationCompleted", "OnboardingBroadcastSent"],
+      "readsFreedomKeys": []
+    }
+  ],
+
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Per-tenant configurable values. Super-tenant sets defaults at fork; sub-tenant overrides at install. MACHINE logic around them does not change.",
+      "total": 6,
+      "keys": [
+        {
+          "key": "flow02_debounce_window_seconds",
+          "type": "number",
+          "default": 300,
+          "unit": "seconds",
+          "semantic": "Debounce window for QuestionnaireCompleted deduplication. Tenants with chatty upstream clients can raise this; tenants with strict UX latency can lower it.",
+          "stakeholder": "platform-operations",
+          "consumedBy": ["T50.BusinessProfileService.createProfile (debounce guard)"],
+          "ironRuleReferences": ["DNA-7"]
+        },
+        {
+          "key": "flow02_match_timeout_seconds",
+          "type": "number",
+          "default": 30,
+          "unit": "seconds",
+          "semantic": "Timeout for compatibility scoring (B1) — after this, partialResults=true is returned. Timeout-as-success pattern; MACHINE behavior around timeout is fixed.",
+          "stakeholder": "platform-operations",
+          "consumedBy": ["T51.CompatibilityScoringService.scoreCompatibility"],
+          "ironRuleReferences": ["QG-02-21"],
+          "boundedRange": { "min": 5, "max": 120, "rationale": "5s floor for realistic AI call; 2min ceiling for user-perceived latency budget" }
+        },
+        {
+          "key": "flow02_match_weight_industry",
+          "type": "number",
+          "default": 0.4,
+          "unit": "weight",
+          "semantic": "Contribution of `industry_code` match to the compatibility score. Tenants with industry-specific communities (e.g. legal-tech-only) may weight this higher.",
+          "stakeholder": "product / data-science",
+          "consumedBy": ["T51.CompatibilityScoringService.scoreCompatibility"],
+          "ironRuleReferences": [],
+          "boundedRange": { "min": 0, "max": 1 }
+        },
+        {
+          "key": "flow02_match_weight_stage",
+          "type": "number",
+          "default": 0.3,
+          "unit": "weight",
+          "semantic": "Contribution of `business_stage` match (early / growth / mature). Tenants whose communities span multiple stages may lower this.",
+          "stakeholder": "product / data-science",
+          "consumedBy": ["T51.CompatibilityScoringService.scoreCompatibility"],
+          "ironRuleReferences": [],
+          "boundedRange": { "min": 0, "max": 1 }
+        },
+        {
+          "key": "flow02_match_weight_location",
+          "type": "number",
+          "default": 0.2,
+          "unit": "weight",
+          "semantic": "Contribution of `location_proximity` match. Remote-first tenants lower; region-focused tenants raise.",
+          "stakeholder": "product / data-science",
+          "consumedBy": ["T51.CompatibilityScoringService.scoreCompatibility"],
+          "ironRuleReferences": [],
+          "boundedRange": { "min": 0, "max": 1 }
+        },
+        {
+          "key": "flow02_match_weight_team",
+          "type": "number",
+          "default": 0.1,
+          "unit": "weight",
+          "semantic": "Contribution of `team_size_tier` match. Tenants of mostly solopreneurs lower; enterprise tenants raise.",
+          "stakeholder": "product / data-science",
+          "consumedBy": ["T51.CompatibilityScoringService.scoreCompatibility"],
+          "ironRuleReferences": [],
+          "boundedRange": { "min": 0, "max": 1 }
+        }
+      ],
+      "consistencyRule": "The four match weights (industry + stage + location + team) MUST sum to 1.0. Enforced by contract invariant — NOT MACHINE logic; just a registry consistency gate."
+    },
+
+    "grammarAdaptation": {
+      "description": "DSL operators or grammar elements.",
+      "total": 0,
+      "keys": [],
+      "notApplicableReason": "FLOW-02 has no DSL grammar surface. Matches FLOW-01 stance — profile-enrichment is data pipeline + scoring, not form-condition evaluation."
+    },
+
+    "roleScopeAdaptation": {
+      "description": "Role-visibility matrices for client-side access control. Uses ViewerRole via @xiigen/plugin-sdk workspace package.",
+      "total": 3,
+      "keys": [
+        {
+          "pageFile": "client/src/pages/profile-enrichment/QuestionnairePage.tsx",
+          "roles": ["MEMBER (self)", "ADMIN (read+edit any)"],
+          "semantic": "Member can complete their own questionnaire; admin sees + can edit any member's answers for moderation",
+          "extensionPoint": "ViewerRole-aware render; tenants can override per-role visibility of specific questionnaire fields via FREEDOM config (future — not in this session)"
+        },
+        {
+          "pageFile": "client/src/pages/profile-enrichment/MatchingPage.tsx",
+          "roles": ["MEMBER (own matches)", "CONNECTION (visible-to-connection only)", "ADMIN (all)"],
+          "semantic": "Compatibility scores are private except to the two members involved + admin",
+          "extensionPoint": "Confidence-display threshold per role — tenants can set ADMIN-only visibility of raw numerical score; MEMBER sees only qualitative label"
+        },
+        {
+          "pageFile": "client/src/pages/profile-enrichment/PersonalizationPage.tsx",
+          "roles": ["MEMBER (own feed)", "ADMIN (audit view)"],
+          "semantic": "Personalization reasoning is shown only to the member; admin audit view shows without reasoning",
+          "extensionPoint": "Show/hide reasoning toggle per role — FREEDOM-configurable"
+        }
+      ],
+      "dependencies": [
+        "@xiigen/plugin-sdk workspace package (monorepo-private, version 1.0.0)",
+        "ViewerRole primitive from plugin-sdk — already extracted at client/src/components/common/ViewerRole.ts"
+      ]
+    },
+
+    "businessDomainAdaptation": {
+      "description": "Business-domain edge cases a tenant can override through parameters + FREEDOM.",
+      "total": 3,
+      "edgeCases": [
+        {
+          "id": "timeout-as-success",
+          "name": "Timeout returns partialResults=true (not failure)",
+          "semantic": "B1 scoring caller passes `timeoutMs` (default from `flow02_match_timeout_seconds`). On timeout, `partialResults=true` flows downstream. Tenants cannot change this pattern (MACHINE) but can tune the timeout window.",
+          "extensionPoint": "flow02_match_timeout_seconds FREEDOM key",
+          "currentImplementation": "Timeout window tunable; timeout-as-success behavior fixed."
+        },
+        {
+          "id": "a2-general-fallback",
+          "name": "Missing industry → segment=GENERAL",
+          "semantic": "Analytics segmentation returns `segment='GENERAL'` with `degraded=true` when industry missing. Tenants cannot disable GENERAL fallback (MACHINE) but can map their own taxonomies to the input industry field.",
+          "extensionPoint": "Upstream questionnaire mapping (out of flow scope)",
+          "currentImplementation": "Always succeeds; GENERAL fallback is MACHINE."
+        },
+        {
+          "id": "consent-gated-broadcast",
+          "name": "Per-channel consent gate on T52 community broadcast",
+          "semantic": "Each community channel (Slack/community-feed/etc) requires explicit consent per member. Tenants cannot bypass consent (MACHINE + IR-1 + CF-801) but can define the enabled channel list via FREEDOM.",
+          "extensionPoint": "flow02_broadcast_channels_enabled FREEDOM key (registered in contract, pending registry alignment per ISSUE-002)",
+          "currentImplementation": "Consent gate per channel is MACHINE; channel list tunable."
+        }
+      ]
+    }
+  },
+
+  "ironRulesMACHINE": {
+    "description": "Fixed architectural invariants. Tenants cannot change these without breaking cascade safety, DNA compliance, or cross-flow contracts.",
+    "rules": [
+      "DNA-4: All services extend MicroserviceBase (QG-02-00)",
+      "Rule 1 / D-HIST-001: No direct SDK imports — fabric interfaces only (QG-02-01)",
+      "DNA-3: All methods return DataProcessResult<T> — never throw (QG-02-02)",
+      "DNA-5: Tenant scope via AsyncLocalStorage — never tenantId parameter (QG-02-03)",
+      "DNA-8: storeDocument() BEFORE enqueue() on every state transition (QG-02-04, QG-02-11, QG-02-22, QG-02-32)",
+      "DNA-7: Idempotency key format = sha256(tenantId + userId + 'business-profile')",
+      "T50 archetype is fan_in: Promise.allSettled, NEVER Promise.all (QG-02-10)",
+      "T51 confidence threshold from FREEDOM config — score-0 if hardcoded (QG-02-20, QG-02-23 + named check convergence_threshold_from_freedom_config)",
+      "T51 degraded terminal emits MatchingDeferred — NEVER DataProcessResult.failure (QG-02-21)",
+      "T52 consent checked per channel BEFORE broadcast emit (QG-02-30, CF-801)",
+      "T52 channel failure returns DataProcessResult.success — best-effort observer (QG-02-31, CF-799)",
+      "No PII in queue event payloads — userId + matched IDs only (QG-02-33, IR-1)",
+      "DUAL-RECORD-WRITE: A1 writes PRIVATE xiigen-business-profiles + GLOBAL xiigen-matching-profiles (4 match-safe fields only)",
+      "Cross-flow contract (FLOW-02-DR-02-C): FLOW-02 emits PersonalizationCompleted, NEVER OnboardingCompleted",
+      "Match weight registry consistency: flow02_match_weight_{industry,stage,location,team} MUST sum to 1.0"
+    ]
+  },
+
+  "adaptationExamples": {
+    "freedom-config-example-industry-tenant": {
+      "description": "A legal-tech-only tenant reweights matching toward industry + stage",
+      "change": [
+        { "key": "flow02_match_weight_industry", "from": 0.4, "to": 0.6 },
+        { "key": "flow02_match_weight_stage", "from": 0.3, "to": 0.2 },
+        { "key": "flow02_match_weight_location", "from": 0.2, "to": 0.1 },
+        { "key": "flow02_match_weight_team", "from": 0.1, "to": 0.1 }
+      ],
+      "impact": "Matches surface legal-industry-adjacent businesses first; MACHINE scoring logic unchanged.",
+      "testable": "Layer 1 phase-02-adaptation-freedom-config.spec.ts FC-ADAPT-1 asserts weights applied per-tenant."
+    },
+    "freedom-config-example-aggressive-timeout": {
+      "description": "UX-strict tenant shortens scoring timeout from 30s to 8s",
+      "change": { "key": "flow02_match_timeout_seconds", "from": 30, "to": 8 },
+      "impact": "B1 more often returns partialResults=true; downstream B2/C/D handle partial gracefully (MACHINE).",
+      "testable": "Layer 1 phase-02-adaptation-freedom-config.spec.ts FC-ADAPT-2 asserts timeout applied."
+    }
+  },
+
+  "notPartOfAdaptationSurface": {
+    "description": "Elements of FLOW-02 that are NOT tenant-adaptable.",
+    "elements": [
+      "Task-type IDs (T50, T51, T52)",
+      "Event names (BusinessProfileCreated, BusinessMatchesFound, PersonalizationCompleted, MatchingConverged, MatchingDeferred, OnboardingBroadcastSent)",
+      "Index names (xiigen-business-profiles PRIVATE, xiigen-matching-profiles GLOBAL)",
+      "DUAL-RECORD-WRITE field set (profile_id, user_id, tenant_id, industry_code, business_stage, location_proximity, team_size_tier — fixed set)",
+      "connection_type='FLOW_SCOPED' and knowledge_scope enum values ('PRIVATE' | 'GLOBAL')",
+      "Idempotency key format (sha256 hex, first 12 chars)",
+      "Promise.allSettled requirement on fan-in",
+      "Degraded terminal routing (MatchingDeferred)",
+      "storeDocument-before-enqueue ordering",
+      "Consent gate semantics (per-channel check required)",
+      "Best-effort delivery semantics (channel failure = success)",
+      "FLOW-01→FLOW-02 event contract (trigger = UserOnboardingCompleted)"
+    ]
+  },
+
+  "layerStatus": {
+    "layer_1_unit": {
+      "status": "PRE-ADAPTATION COMPLETE",
+      "testFiles": [
+        "server/test/profile-enrichment/phase-02-a.spec.ts",
+        "server/test/profile-enrichment/phase-02-b.spec.ts",
+        "server/test/profile-enrichment/phase-02-c.spec.ts",
+        "server/test/profile-enrichment/phase-02-corpus.spec.ts",
+        "server/test/profile-enrichment/phase-02-integration.spec.ts"
+      ],
+      "adaptationSpecPlanned": "server/test/profile-enrichment/phase-02-adaptation-freedom-config.spec.ts (Phase 2 of this portability session)"
+    },
+    "layer_2_playwright": {
+      "status": "PENDING",
+      "plannedFile": "client/e2e/profile-enrichment-tenant-isolation.spec.ts (Phase 3)",
+      "conditional": "Playwright harness availability — check before writing"
+    },
+    "layer_3_visual": {
+      "status": "PENDING",
+      "delegation": "UI/UX agent via Claude_Preview MCP. Screenshots saved under docs/portability/flow-02/visual-evidence/. Verdict returned to session chat. Images NEVER sent to chat.",
+      "cells": [
+        "C1 default desktop 1440 LTR — Questionnaire + Matching + Personalization",
+        "C2 default tablet 768 LTR",
+        "C3 default mobile 375 LTR",
+        "C4 acme-pro-members desktop 1440 LTR (FREEDOM-override visual diff)",
+        "C5 acme-pro-members desktop 1440 RTL",
+        "C6 role-scope: MEMBER vs ADMIN vs CONNECTION on MatchingPage",
+        "C7 degraded state: partialResults=true on MatchingPage + degraded=true on PersonalizationPage"
+      ]
+    }
+  },
+
+  "fourAxisReview": {
+    "fabricFirst": {
+      "scope": "server/src/engine/flows/profile-enrichment/*.ts",
+      "detection": "grep -rn \"^import.*from '@elastic\\|@aws-sdk\\|stripe\\|openai\\|@anthropic\\|bull\\|kafka'\"",
+      "expected": "0 hits"
+    },
+    "genieDna": {
+      "scope": "all touched files this session",
+      "detection": "dna-compliance-guard-SKILL.md pre-commit gate",
+      "expected": "0 violations across DNA-1..DNA-9"
+    },
+    "tenantSeparation": {
+      "scope": "repo-wide",
+      "detection": "(a) grep process.env.* reads for tenant config; (b) grep secret patterns sk-ant- / sk-proj- / ghp_ / AIzaSy / pcsk_ in committed files; (c) tenant isolation spec proves acme-pro-members overrides do not leak to default tenant",
+      "expected": "(a) 0 tenant-scoped env reads; (b) 0 secret-pattern matches in committed code; (c) isolation spec green"
+    },
+    "visualValidation": {
+      "scope": "3 React pages under client/src/pages/profile-enrichment/",
+      "detection": "UI/UX agent (SK-549 delegate) runs cells C1..C7; returns verdict table",
+      "expected": "All cells PASS; 0 images in session chat; screenshots persisted under docs/portability/flow-02/visual-evidence/"
+    }
+  }
+}

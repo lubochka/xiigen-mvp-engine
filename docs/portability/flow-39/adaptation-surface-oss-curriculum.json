@@ -1,0 +1,407 @@
+{
+  "flowId": "FLOW-39",
+  "flowSlug": "oss-curriculum",
+  "implementationSlug": "oss-curriculum",
+  "flowTitle": "OSS Curriculum",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-39 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "server/src/engine/flows/oss-curriculum",
+    "server/src/engine-contracts/oss-curriculum-contracts.ts",
+    "server/src/engine-contracts/oss-curriculum-bfa-rules.ts",
+    "fixtures/flow-definitions/oss-curriculum-T409.topology.json",
+    "server/src/bootstrap/history-seeds/oss-curriculum-design-corpus.json",
+    "docs/sessions/FLOW-39/FLOW-39-STEP-1-INVARIANTS.md",
+    "docs/flow-coverage/oss-curriculum/P1-business-logic-inventory.md",
+    "docs/flow-coverage/oss-curriculum/P5-ui-specs.md",
+    "docs/flow-coverage/oss-curriculum/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T597-T600",
+    "taskTypeIds": [
+      "T597",
+      "T598",
+      "T599",
+      "T600"
+    ],
+    "topologyTaskTypeIds": [
+      "T409"
+    ],
+    "factoryIdRange": "not declared in current FLOW-39 contracts",
+    "freedomKeyCount": 10,
+    "securityClassification": "tenant-scoped OSS curriculum teaching loop, shadow run provenance, learning-signal collection, and plateau recommendation surface",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-39 uses oss-curriculum as the canonical portability, UI, package, and runtime implementation slug.",
+    "coreGuarantees": [
+      "Curriculum tier assignment runs before a DPO triple can be marked validated.",
+      "Archetype-to-tier mapping is MACHINE locked and never tenant configurable.",
+      "Shadow runs are submitted asynchronously and never block the primary cycle.",
+      "Every shadow run record includes ossModel and cycleId provenance.",
+      "Learning signal records contain exactly grade_trend, rag_context_size, and graph_context_size.",
+      "Grade plateaus create recommendations only and never trigger automatic model swaps or remediation.",
+      "Tenant scope remains automatic through AsyncLocalStorage and fabric providers.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Store-before-event ordering and queue event publication remain mandatory.",
+      "Vault credential paths remain outside forked packages and tenant docs."
+    ]
+  },
+  "services": [
+    {
+      "taskTypeId": "T597",
+      "className": "CurriculumTierAssigner",
+      "file": "server/src/engine/flows/oss-curriculum/curriculum-tier-assigner.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow39_module_name",
+        "flow39_curriculum_label",
+        "flow39_default_station"
+      ],
+      "machineLockedRules": [
+        "CurriculumTierAssigner runs before any validated DPO triple is persisted.",
+        "ARCHETYPE_TIER_MAP remains ROUTING=1, DATA_PIPELINE=2, PROCESSING=3, ORCHESTRATION=4, SCHEDULED=5.",
+        "Tier assignment remains idempotent by dpoTripleId."
+      ]
+    },
+    {
+      "taskTypeId": "T598",
+      "className": "ShadowRunOrchestrator",
+      "file": "server/src/engine/flows/oss-curriculum/shadow-run-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow39_oss_models",
+        "flow39_shadow_submission_mode",
+        "flow39_shadow_run_label"
+      ],
+      "machineLockedRules": [
+        "Shadow run submission is async and does not wait for OSS model responses.",
+        "Every shadow run record includes ossModel and cycleId.",
+        "Shadow run documents are stored before ShadowRunsSubmitted is enqueued."
+      ]
+    },
+    {
+      "taskTypeId": "T599",
+      "className": "LearningSignalCollector",
+      "file": "server/src/engine/flows/oss-curriculum/learning-signal-collector.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow39_signal_retention_days",
+        "flow39_show_signal_breakdown"
+      ],
+      "machineLockedRules": [
+        "Signal collection remains idempotent by shadowRunId.",
+        "Each signal record contains exactly grade_trend, rag_context_size, and graph_context_size.",
+        "Signal records are stored before LearningSignalRecorded is enqueued."
+      ]
+    },
+    {
+      "taskTypeId": "T600",
+      "className": "CurriculumProgressTracker",
+      "file": "server/src/engine/flows/oss-curriculum/curriculum-progress-tracker.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow39_min_cycles",
+        "flow39_plateau_window",
+        "flow39_recommendation_mode"
+      ],
+      "machineLockedRules": [
+        "Plateau detection reads the canonical 3-signal learning record shape.",
+        "Plateau detection returns PRE_SEEDING_RECOMMENDED only and does not trigger automatic action.",
+        "Progress checks are idempotent by dpoTripleId, ossModel, and cycleId."
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-39 values may tune module naming, labels, OSS model lists, display mode, signal retention, minimum cycles, and recommendation presentation without changing tier ordering, async shadow execution, provenance, exact signal shape, idempotency, outbox, or tenant isolation behavior.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow39_module_name",
+          "type": "string",
+          "default": "oss-curriculum",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "tenant.config.json",
+            "settings/module.settings.json"
+          ],
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        },
+        {
+          "key": "flow39_curriculum_label",
+          "type": "string",
+          "default": "OSS curriculum",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "OssCurriculumScreen",
+            "tenant.config.json"
+          ],
+          "boundedRange": {
+            "minLength": 3,
+            "maxLength": 64
+          }
+        },
+        {
+          "key": "flow39_default_station",
+          "type": "string",
+          "default": "AF-06",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "CurriculumProgressTracker display context",
+            "OssCurriculumScreen filters"
+          ],
+          "boundedRange": {
+            "pattern": "^AF-[0-9]{2}$"
+          }
+        },
+        {
+          "key": "flow39_oss_models",
+          "type": "array",
+          "default": [
+            "llama3:8b",
+            "codellama:13b",
+            "deepseek-coder:6.7b"
+          ],
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "ShadowRunOrchestrator"
+          ],
+          "boundedRange": {
+            "minItems": 1,
+            "maxItems": 5,
+            "itemPattern": "^[a-zA-Z0-9._:-]+$"
+          }
+        },
+        {
+          "key": "flow39_shadow_submission_mode",
+          "type": "string",
+          "default": "async",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "ShadowRunOrchestrator",
+            "OssCurriculumScreen"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "async"
+            ]
+          }
+        },
+        {
+          "key": "flow39_shadow_run_label",
+          "type": "string",
+          "default": "Shadow comparison",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "OssCurriculumScreen",
+            "tenant package metadata"
+          ],
+          "boundedRange": {
+            "minLength": 3,
+            "maxLength": 80
+          }
+        },
+        {
+          "key": "flow39_signal_retention_days",
+          "type": "number",
+          "default": 180,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "tenant.config.json",
+            "OssCurriculumScreen"
+          ],
+          "boundedRange": {
+            "min": 30,
+            "max": 730
+          }
+        },
+        {
+          "key": "flow39_show_signal_breakdown",
+          "type": "boolean",
+          "default": true,
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "OssCurriculumScreen"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              true,
+              false
+            ]
+          }
+        },
+        {
+          "key": "flow39_min_cycles",
+          "type": "number",
+          "default": 3,
+          "unit": "cycles",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "CurriculumProgressTracker"
+          ],
+          "boundedRange": {
+            "min": 3,
+            "max": 12
+          }
+        },
+        {
+          "key": "flow39_recommendation_mode",
+          "type": "string",
+          "default": "pre-seeding-recommendation",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "CurriculumProgressTracker",
+            "OssCurriculumScreen"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "pre-seeding-recommendation",
+              "review-only"
+            ]
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to curriculum naming, station defaults, model-list display, retention, signal visibility, and recommendation presentation.",
+      "edgeCases": [
+        {
+          "id": "acme-oss-curriculum-lab",
+          "name": "Acme OSS curriculum lab",
+          "semantic": "Tenant A tunes FLOW-39 for a compact internal OSS comparison lab with stricter cycle review and short retention.",
+          "extensionPoint": "module naming, curriculum label, OSS model list, retention, and minimum cycles",
+          "currentImplementation": "Tier mapping, async shadow execution, provenance, and exact signal shape remain fixed."
+        },
+        {
+          "id": "northwind-shadow-learning-hub",
+          "name": "Northwind shadow learning hub",
+          "semantic": "Tenant B tunes FLOW-39 for broader shadow-learning visibility with longer signal retention and signal breakdown enabled.",
+          "extensionPoint": "display labels, signal retention, station defaults, and package metadata",
+          "currentImplementation": "Shadow runs still carry ossModel and cycleId and never block the primary cycle."
+        },
+        {
+          "id": "tessera-oss-teaching-loop",
+          "name": "Tessera OSS teaching loop",
+          "semantic": "Tenant C tunes FLOW-39 for review-only teaching recommendations and a smaller model list.",
+          "extensionPoint": "recommendation display mode, model list, module name, and station label",
+          "currentImplementation": "Plateau detection still creates recommendations only and no automatic remediation."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T597 through T600 remain fixed for the runtime implementation bundle.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "CurriculumTierAssigner runs before any validated DPO triple is written.",
+      "Archetype-to-tier mapping remains a MACHINE constant.",
+      "ShadowRunOrchestrator remains asynchronous and does not await OSS model responses.",
+      "Every shadow run record includes ossModel and cycleId.",
+      "LearningSignalCollector stores exactly three canonical signals.",
+      "CurriculumProgressTracker recommends pre-seeding on plateau and never triggers automatic action.",
+      "Tenant scope is resolved through AsyncLocalStorage.",
+      "Store-before-event ordering remains mandatory.",
+      "Marketplace forks must use tenant credentials from Vault.",
+      "GitHub Actions and local registry readback are required cascade evidence."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantAOssCurriculumLab": {
+      "description": "Tenant A tunes FLOW-39 for a strict internal OSS curriculum lab.",
+      "change": {
+        "flow39_module_name": "acme-oss-curriculum-lab",
+        "flow39_curriculum_label": "Acme OSS curriculum lab",
+        "flow39_default_station": "AF-06",
+        "flow39_oss_models": [
+          "llama3:8b",
+          "codellama:13b"
+        ],
+        "flow39_shadow_submission_mode": "async",
+        "flow39_shadow_run_label": "Acme shadow comparison",
+        "flow39_signal_retention_days": 90,
+        "flow39_show_signal_breakdown": true,
+        "flow39_min_cycles": 3,
+        "flow39_recommendation_mode": "pre-seeding-recommendation"
+      },
+      "impact": "Acme gets a compact curriculum lab while tier mapping, async shadow execution, and the 3-signal record shape remain unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and package metadata record these values."
+    },
+    "tenantBShadowLearningHub": {
+      "description": "Tenant B tunes FLOW-39 for longer-running shadow learning visibility.",
+      "change": {
+        "flow39_module_name": "northwind-shadow-learning-hub",
+        "flow39_curriculum_label": "Northwind shadow learning hub",
+        "flow39_default_station": "AF-07",
+        "flow39_oss_models": [
+          "llama3:8b",
+          "codellama:13b",
+          "deepseek-coder:6.7b",
+          "mistral:7b"
+        ],
+        "flow39_shadow_submission_mode": "async",
+        "flow39_shadow_run_label": "Northwind learning shadow run",
+        "flow39_signal_retention_days": 365,
+        "flow39_show_signal_breakdown": true,
+        "flow39_min_cycles": 4,
+        "flow39_recommendation_mode": "pre-seeding-recommendation"
+      },
+      "impact": "Northwind gets broader shadow learning history while every run remains tenant scoped and provenance complete.",
+      "testable": "Tenant B fork from Tenant A publishes a distinct package version and keeps CI green."
+    },
+    "tenantCOssTeachingLoop": {
+      "description": "Tenant C tunes FLOW-39 for review-only teaching recommendations.",
+      "change": {
+        "flow39_module_name": "tessera-oss-teaching-loop",
+        "flow39_curriculum_label": "Tessera OSS teaching loop",
+        "flow39_default_station": "AF-05",
+        "flow39_oss_models": [
+          "llama3:8b",
+          "deepseek-coder:6.7b"
+        ],
+        "flow39_shadow_submission_mode": "async",
+        "flow39_shadow_run_label": "Tessera review shadow",
+        "flow39_signal_retention_days": 540,
+        "flow39_show_signal_breakdown": true,
+        "flow39_min_cycles": 5,
+        "flow39_recommendation_mode": "review-only"
+      },
+      "impact": "Tessera gets a review-oriented teaching loop while plateau logic remains recommendation-only.",
+      "testable": "Tenant C fork from Tenant B adapts locally, passes package CI, and preserves auth boundaries."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T597-T600",
+      "CF-803 tier assignment ordering",
+      "CF-804 shadow run provenance",
+      "ARCHETYPE_TIER_MAP values",
+      "async shadow-run contract",
+      "exact 3-signal learning record shape",
+      "plateau recommendation-only behavior",
+      "idempotency key formats",
+      "tenant-scoped fabric access",
+      "Vault credential paths",
+      "store-before-event ordering",
+      "FLOW-39 canonical package slug",
+      "marketplace API as the only valid fork origin"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-39 configuration values or display/module metadata.",
+    "FLOW-39 package assembly copies the oss-curriculum implementation under the canonical package slug path.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps.",
+    "GitHub repo evidence screenshots and local registry publish/readback must exist at each cascade point."
+  ]
+}

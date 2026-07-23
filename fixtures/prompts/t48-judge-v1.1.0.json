@@ -1,0 +1,15 @@
+{
+  "promptId": "t48-judge-v1.1.0",
+  "taskTypeId": "T48",
+  "flowId": "FLOW-01",
+  "promptType": "judge",
+  "version": "1.1.0",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "content": "Judge the T48 EmailVerificationWaitState implementation. Score 0-100. Iron rules (70 points): CF-3 resend idempotency (15), CF-5 token revocation ordering (15), CF-6 expiry rejection (15), CF-7 SLA tracking (10), ISchedulerService not Bull directly (15). DNA compliance (20 points): DNA-8 outbox ordering (10), DNA-2 BuildSearchFilter (10). Quality (10 points): FREEDOM config for TTL, virtualClock-testable. Score-0 violations: direct Bull import, silent token acceptance, hardcoded 24h.",
+  "tags": [
+    "flow-01",
+    "t48",
+    "judge",
+    "xiigen-community"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "eventType": "EnrichmentFailed",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T50 (analytics-segmentation.service.ts or learning-program.service.ts)",
+  "consumers": ["analytics-service"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "enrichmentType", "errorCode", "failedAt"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges", "revenue"],
+  "notes": "Best-effort event: emitted when optional enrichment nodes (A2 analytics or A3 learning program) fail. Does NOT block the main flow — FAN_IN Promise.allSettled ensures sibling nodes continue. Consumed by analytics-service for monitoring only. DEGRADABLE: personalization continues with reduced signal set."
+}

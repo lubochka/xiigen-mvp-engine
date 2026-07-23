@@ -1,0 +1,33 @@
+{
+  "checkpoint": "STATE-S1-A",
+  "addendum": "FEATURE-REGISTRY-S1",
+  "phase": "S1-A",
+  "status": "COMPLETE",
+  "date": "2026-03-20",
+  "gate_checks": {
+    "D-FT-1_in_DECISIONS-LOCKED": true,
+    "feature-manifest.schema.json_created": true,
+    "schema_self_validates": true,
+    "minimal_feature_object_validates": true,
+    "INFRASTRUCTURE-FLOWS-STATE-v4_addendum_added": true,
+    "no_code_changes": true,
+    "no_task_types_added": true,
+    "no_factory_registrations": true,
+    "no_enum_values": true
+  },
+  "artifacts_produced": [
+    "DECISIONS-LOCKED.md",
+    "contracts/features/feature-manifest.schema.json",
+    "INFRASTRUCTURE-FLOWS-STATE-v4.json",
+    "STATE-S1-A.json"
+  ],
+  "schema_version": "1.0",
+  "ft_namespace_locked": "FT-001 onwards",
+  "provisional_range": "FT-001 through FT-099",
+  "next_phase": "S1-B",
+  "S1-B_requires": [
+    "Figma plugin zip scan",
+    "feature-manifest-figma-plugin-v1.json with >= 5 FT entries",
+    "FLOW-34-REFERENCE-PLAN.md Phase A annotation"
+  ]
+}

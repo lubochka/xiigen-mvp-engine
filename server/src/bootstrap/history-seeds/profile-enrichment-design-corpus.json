@@ -1,0 +1,486 @@
+[
+  {
+    "patternId": "FLOW-02-DR-02-A",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-02",
+    "teachingPoint": "Before chaining nodes, ask: does this node need the prior node's OUTPUT or the same INPUT? Same input = parallel.",
+    "positiveExample": "A1 and A2 both run immediately on QuestionnaireCompleted — neither needs the other's output",
+    "negativeExample": "Chain A1 → A2 sequentially — A2 waits for A1 even though A2 analyzes the raw questionnaire directly",
+    "discriminatingConstraint": "A2 analyzes QuestionnaireCompleted answers[] — not NODE A1's structured profile. Chaining adds latency with no correctness benefit.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1.md",
+    "flowId": "FLOW-02",
+    "domainId": "profile-enrichment",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "parallel-execution",
+      "event-chaining"
+    ],
+    "keywords": "chaining nodes need prior OUTPUT INPUT parallel"
+  },
+  {
+    "patternId": "FLOW-02-DR-02-B",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-02",
+    "teachingPoint": "Degraded completion is a first-class state, not an error. Give long-running optional steps a timeout and a valid degraded output path.",
+    "positiveExample": "B1 timeout at 30s → BusinessMatchesFound{ partialResults: true } → flow continues to B2 and C",
+    "negativeExample": "B1 timeout → DataProcessResult.failure → entire onboarding flow halts for users on large tenants",
+    "discriminatingConstraint": "A 30-second timeout that fails the entire flow means a user on a large tenant with many businesses can never complete onboarding.",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1.md",
+    "flowId": "FLOW-02",
+    "domainId": "profile-enrichment",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "timeout-as-success",
+      "partial-results",
+      "multi-tenant"
+    ],
+    "keywords": "Degraded completion first-class state error Give long-running optional steps timeout valid output"
+  },
+  {
+    "patternId": "FLOW-02-DR-02-C",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-02",
+    "teachingPoint": "Each flow that completes a distinct user state emits a distinct event. Reusing a completion event name creates cross-flow collisions with no local error.",
+    "positiveExample": "FLOW-02 emits PersonalizationCompleted — different consumers (FLOW-03/04/05) from FLOW-01's OnboardingCompleted",
+    "negativeExample": "FLOW-02 emits OnboardingCompleted — FLOW-08 (ListingDiscoveryEngine) receives a second event, creates a duplicate listing feed for the same userId",
+    "discriminatingConstraint": "FLOW-01 already owns OnboardingCompleted. Two flows emitting the same event = FLOW-08 creates duplicate feeds with no error anywhere.",
+    "appliesTo": [
+      "FLOW-03",
+      "FLOW-04",
+      "FLOW-05",
+      "FLOW-09"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.94,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1.md",
+    "flowId": "FLOW-02",
+    "domainId": "profile-enrichment",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "cross-flow",
+      "listing"
+    ],
+    "keywords": "completes distinct user state Reusing completion name cross-flow collisions local error"
+  },
+  {
+    "patternId": "FLOW-02-DR-02-D",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-02",
+    "teachingPoint": "Personalization quality degrades gracefully. A user with fewer signals gets a less personalized experience — not a broken one.",
+    "positiveExample": "NODE C: each of four inputs (A1/A2/A3/B1) has an independent named fallback — node always produces output",
+    "negativeExample": "NODE C: requires all four signals; fails if any absent — analytics timeout breaks personalization for all users on a slow tenant",
+    "discriminatingConstraint": "If B1 timed out (partialResults) or A2 degraded, requiring all signals blocks PersonalizationCompleted. A degraded signal produces a degraded but valid output.",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.9,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1-ADDENDUM.md",
+    "flowId": "FLOW-02",
+    "domainId": "profile-enrichment",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "timeout-as-success",
+      "multi-tenant",
+      "analytics"
+    ],
+    "keywords": "Personalization quality degrades gracefully user fewer signals gets less personalized experience broken"
+  },
+  {
+    "patternId": "FLOW-02-DR-02-E",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-02",
+    "teachingPoint": "Debounce keys scope to the minimum isolation unit: tenantId + userId. A single-dimension key contaminates across tenants.",
+    "positiveExample": "Compound key 'debounce:{tenantId}:{userId}', 300-second window, latest-wins — isolates correctly per-tenant per-user",
+    "negativeExample": "Key scoped to userId only — User A in Tenant A blocks User A in Tenant B's completely separate questionnaire",
+    "discriminatingConstraint": "A single-dimension userId key: Tenant A's rapid questionnaire edits debounce against Tenant B's separate user with the same userId.",
+    "appliesTo": [
+      "FLOW-03",
+      "FLOW-07",
+      "FLOW-14"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.88,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1.md",
+    "flowId": "FLOW-02",
+    "domainId": "profile-enrichment",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "tenant-scope",
+      "multi-tenant",
+      "cross-flow"
+    ],
+    "keywords": "Debounce keys scope minimum isolation unit tenantId userId single-dimension contaminates across tenants"
+  },
+  {
+    "patternId": "FLOW-02-DR-02-F",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-02",
+    "teachingPoint": "If handling a scenario requires its own nodes, failure modes, and audit records, it is a subflow. A constraint on the triggering node is documentation. The subflow is enforcement.",
+    "positiveExample": "SUBFLOW-02D: three nodes (D1 key check / D2 profile return / D3 discard record) — each independently failable, each with own arbiters",
+    "negativeExample": "A constraint on NODE A1: 'handle debounce' — Claude Code produces a service with no debounce logic because the constraint had no node to implement it",
+    "discriminatingConstraint": "The debounce scenario requires audit records (D3 Stale Event Discard Record). That node is entirely absent from any implementation built from a narrative constraint.",
+    "appliesTo": [
+      "FLOW-03",
+      "FLOW-07",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.89,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R2.md",
+    "flowId": "FLOW-02",
+    "domainId": "profile-enrichment",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design"
+    ],
+    "keywords": "handling scenario nodes failure modes audit subflow constraint triggering documentation enforcement"
+  },
+  {
+    "patternId": "FLOW-02-DR-02-G",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-02",
+    "teachingPoint": "When a long-running operation has a designed early-exit path, that path is a SUCCESS MODE. The node produces output. Output = success. Placing it in failureModes teaches every downstream model to treat partial results as an error.",
+    "positiveExample": "B1 POSITIVE example: TIMEOUT in quality.successModes — 'PARTIAL_RESULTS: 30s elapsed → partialResults: true, partial matchedBusinessIds emitted'",
+    "negativeExample": "B1 POSITIVE example (R1 original): TIMEOUT in failureModes — teaches convergence models that timeout belongs with CONFIG_ERROR and STORE_FAILED",
+    "discriminatingConstraint": "DataProcessResult.failure means no output. A 30-second timeout that produces partial matches IS output. Output in failureModes is a contradiction that models propagate forward.",
+    "appliesTo": [
+      "FLOW-03",
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R2.md",
+    "flowId": "FLOW-02",
+    "domainId": "profile-enrichment",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "timeout-as-success",
+      "partial-results",
+      "config-over-code",
+      "downstream-coupling"
+    ],
+    "keywords": "long-running operation designed early-exit path SUCCESS MODE produces output Placing failureModes teaches"
+  },
+  {
+    "patternId": "FLOW-02-RAG-circuit-breaker-degraded",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-02",
+    "domainId": "business-onboarding",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "PROCESSING",
+    "tags": [
+      "circuit-breaker",
+      "degraded-completion",
+      "timeout",
+      "partial-results"
+    ],
+    "keywords": "circuit breaker degraded completion timeout partialResults success mode B1 matching",
+    "teachingPoint": "Long-running optional steps get a timeout and a degraded-but-valid output. partialResults: true is a valid response. 'still processing' is a valid UI state. Timeouts that halt flows penalize all users whenever infrastructure is slow.",
+    "ironRules": [
+      "B1 30s timeout routes to BusinessMatchesFound{ partialResults: true } — not DataProcessResult.failure",
+      "partialResults: true is a success mode — never in failureModes",
+      "Degraded output is valid output — flow continues with partial data"
+    ],
+    "codeSnippet": "return DataProcessResult.success({ matches: partialMatches, partialResults: true })\n// Never: return DataProcessResult.failure('TIMEOUT')",
+    "positiveExample": "B1: 30s timeout → BusinessMatchesFound{ partialResults: true } → B2 produces partial suggestions → flow completes",
+    "negativeExample": "B1: 30s timeout → DataProcessResult.failure — user on large tenant can never complete onboarding",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "qualityScore": 0.91,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1.md"
+  },
+  {
+    "patternId": "FLOW-02-RAG-parallel-from-same-input",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-02",
+    "domainId": "business-onboarding",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "ORCHESTRATION",
+    "tags": [
+      "parallel-execution",
+      "input-dependency",
+      "node-topology",
+      "latency"
+    ],
+    "keywords": "parallel same input output dependency A1 A2 QuestionnaireCompleted sequential chain latency",
+    "teachingPoint": "When two nodes receive the same input and neither needs the other's output, they run in parallel. Ask: does this node need the prior node's OUTPUT or the same INPUT?",
+    "ironRules": [
+      "Nodes that receive the same input and produce independent output run in parallel — not sequentially",
+      "Ask: does this node need the PRIOR OUTPUT or the SAME INPUT? Same input = parallel.",
+      "A2 analyzes QuestionnaireCompleted answers[] directly — not A1's structured profile"
+    ],
+    "codeSnippet": "// CORRECT: parallel\nawait Promise.all([a1.process(event), a2.analyze(event)])\n// WRONG: sequential\nconst a1Result = await a1.process(event); await a2.analyze(a1Result);",
+    "positiveExample": "A1 and A2 both receive QuestionnaireCompleted, start immediately — A2 analyzes raw answers, does not wait for A1's structured profile",
+    "negativeExample": "A1 → A2 sequential — A2 blocked waiting for A1's profile that it will never use",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "qualityScore": 0.89,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1.md"
+  },
+  {
+    "patternId": "FLOW-02-RAG-completion-event-distinct",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-02",
+    "domainId": "business-onboarding",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "ORCHESTRATION",
+    "tags": [
+      "event-naming",
+      "cross-flow",
+      "collision",
+      "machine-constant"
+    ],
+    "keywords": "completion event distinct cross-flow collision PersonalizationCompleted OnboardingCompleted FLOW-08",
+    "teachingPoint": "Each flow that completes a distinct user state emits a distinct event. 'OnboardingCompleted' and 'PersonalizationCompleted' are different events for different consumers. Reusing event names across flows creates cross-flow collisions with no local error.",
+    "ironRules": [
+      "Each flow emits its own completion event — never reuse another flow's event name",
+      "FLOW-02 emits PersonalizationCompleted — NEVER OnboardingCompleted (owned by FLOW-01)",
+      "Collision: FLOW-08 creates duplicate listing feeds with no local error"
+    ],
+    "codeSnippet": "emit('PersonalizationCompleted') // MACHINE: FLOW-02 only\n// Never: emit('OnboardingCompleted') // FLOW-01 owns this",
+    "positiveExample": "PersonalizationCompleted — consumed by FLOW-03/04/05. OnboardingCompleted — consumed by FLOW-08. Two events, two consumer sets, no collision.",
+    "negativeExample": "FLOW-02 emits OnboardingCompleted — FLOW-08 receives a second event for same userId and creates a duplicate listing feed",
+    "appliesTo": [
+      "FLOW-03",
+      "FLOW-04",
+      "FLOW-05",
+      "FLOW-09"
+    ],
+    "qualityScore": 0.94,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1.md"
+  },
+  {
+    "patternId": "FLOW-02-RAG-degradable-analytics",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-02",
+    "domainId": "business-analytics",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "PROCESSING",
+    "tags": [
+      "analytics",
+      "degradable",
+      "critical-path",
+      "fallback-segment"
+    ],
+    "keywords": "analytics not critical path fallback segment GENERAL degraded confidence A2 failure",
+    "teachingPoint": "Analytics is never on the critical path. A fallback segment is always better than a blocked flow. Record the degradation level so downstream nodes can adapt.",
+    "ironRules": [
+      "Analytics is never on the critical path — A2 failure produces fallback segment, not flow failure",
+      "A2 failure → segment='GENERAL', confidence=0.0, degraded:true — flow continues",
+      "DataProcessResult.failure from A2 blocks PersonalizationCompleted for entire tenant — never correct"
+    ],
+    "codeSnippet": "// A2 failure path:\nreturn DataProcessResult.success({ segment: 'GENERAL', confidence: 0.0, degraded: true })\n// Never: return DataProcessResult.failure('ANALYTICS_UNAVAILABLE')",
+    "positiveExample": "A2 failure → segment='GENERAL', confidence=0.0, degraded:true stored — NODE C uses GENERAL segment for trending content",
+    "negativeExample": "A2 failure → DataProcessResult.failure — analytics timeout blocks PersonalizationCompleted for entire tenant",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "qualityScore": 0.9,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1.md"
+  },
+  {
+    "patternId": "FLOW-02-RAG-partial-input-partial-output",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-02",
+    "domainId": "business-matching",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "PROCESSING",
+    "tags": [
+      "partial-input",
+      "partial-output",
+      "circuit-breaker",
+      "propagation"
+    ],
+    "keywords": "partial input partial output B1 B2 partialResults circuit breaker forward propagate insufficient matches",
+    "teachingPoint": "When upstream input is partial (circuit breaker fired), the node produces partial output — not failure. B1 returned 3 matches instead of 20? B2 returns 3 suggestions. DataProcessResult.failure is reserved for infrastructure errors, not partial upstream results.",
+    "ironRules": [
+      "Partial upstream input produces partial output — not DataProcessResult.failure",
+      "B1 partialResults:true → B2 returns partial suggestions with partialResults:true forwarded",
+      "DataProcessResult.failure('INSUFFICIENT_MATCHES') blocks onboarding — incorrect for partial upstream"
+    ],
+    "codeSnippet": "// B2 with partial B1 input:\nreturn DataProcessResult.success({ suggestions: partialSuggestions, partialResults: true })\n// Never: return DataProcessResult.failure('INSUFFICIENT_MATCHES')",
+    "positiveExample": "B1 partialResults: true → B2 produces 3 suggestions with partialResults: true forwarded — 'still finding connections' UI state",
+    "negativeExample": "B1 partialResults: true → B2 returns DataProcessResult.failure('INSUFFICIENT_MATCHES') — blocking onboarding because matching was slow",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-12",
+      "FLOW-18"
+    ],
+    "qualityScore": 0.9,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R1-ADDENDUM.md"
+  },
+  {
+    "patternId": "FLOW-02-RAG-upstream-event-not-trigger",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-02",
+    "domainId": "business-onboarding",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "ROUTING",
+    "tags": [
+      "trigger-event",
+      "upstream-dependency",
+      "event-chain",
+      "node-ordering"
+    ],
+    "keywords": "upstream event trigger BusinessProfileCreated QuestionnaireCompleted A3 A1 dependency output",
+    "teachingPoint": "A node that depends on a prior node's output triggers on the prior node's EMISSION EVENT — not on the original flow trigger. A3 depends on A1's structured output. A1 emits BusinessProfileCreated. A3 triggers on BusinessProfileCreated — not QuestionnaireCompleted.",
+    "ironRules": [
+      "A node that depends on a prior node's output triggers on the prior node's EMISSION EVENT",
+      "A3 triggers on BusinessProfileCreated (emitted by A1) — NOT QuestionnaireCompleted",
+      "Triggering A3 on QuestionnaireCompleted: A1 has not yet run, profile is absent, output is empty silently"
+    ],
+    "codeSnippet": "@EventPattern('BusinessProfileCreated') // A3 trigger\n// Not: @EventPattern('QuestionnaireCompleted') — A1 has not run yet",
+    "positiveExample": "NODE A3 UPSTREAM_CONTEXT: 'Trigger: BusinessProfileCreated event (NOT QuestionnaireCompleted). Raw questionnaire answers are NOT available to this node — by design.'",
+    "negativeExample": "NODE A3 triggers on QuestionnaireCompleted — runs before A1 completes, reads absent profile, produces empty curriculum silently",
+    "appliesTo": [
+      "FLOW-03",
+      "FLOW-07",
+      "FLOW-12"
+    ],
+    "qualityScore": 0.92,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R2.md"
+  },
+  {
+    "patternId": "FLOW-02-RAG-timeout-as-success-mode",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-02",
+    "domainId": "business-matching",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "PROCESSING",
+    "tags": [
+      "timeout",
+      "success-mode",
+      "failure-mode",
+      "designed-degradation"
+    ],
+    "keywords": "timeout success mode failure mode designed degradation B1 partial output valid",
+    "teachingPoint": "A designed early-exit path is a success mode, not a failure mode. DataProcessResult.failure means no output. A 30-second timeout that produces partial results IS output. Placing timeout in failureModes teaches models to treat designed degradation as errors.",
+    "ironRules": [
+      "A designed early-exit path that produces output is a SUCCESS MODE — never in failureModes",
+      "B1 30s timeout produces partialResults:true — that IS output, output = success",
+      "Placing timeout in failureModes teaches downstream models to treat designed degradation as errors"
+    ],
+    "codeSnippet": "// quality.successModes:\n// 'PARTIAL_RESULTS: 30s elapsed → partialResults:true'\n// Never in failureModes — produces valid output",
+    "positiveExample": "B1 quality.successModes: ['FULL_RESULTS: partialResults:false', 'PARTIAL_RESULTS: 30s elapsed → partialResults:true'] — timeout produces output",
+    "negativeExample": "B1 failureModes: ['TIMEOUT: 30s elapsed — emit BusinessMatchesFound{ partialResults:true }'] — timeout placed as failure despite producing valid output",
+    "appliesTo": [
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-18"
+    ],
+    "qualityScore": 0.91,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-DESIGN-SIMULATION-R2.md"
+  },
+  {
+    "patternId": "FLOW-02-RAG-dual-record-write",
+    "patternType": "ARCH_PATTERN",
+    "sourceFlow": "FLOW-02",
+    "teachingPoint": "When a node writes data that other nodes need for DIFFERENT purposes, write two records with different scopes. PRIVATE record: full data owned by this user. GLOBAL record: curated public-safe subset readable by any node in the tenant. The GLOBAL record IS the enforcement layer — do not rely on arbiters alone to prevent private data access.",
+    "positiveExample": "NODE A1 writes: (1) xiigen-business-profiles PRIVATE { skills[], goals[], challenges[], ... } and (2) xiigen-matching-profiles GLOBAL { industryCode, businessStage, locationProximity, teamSizeTier }. B1 and B2 read from GLOBAL only — cannot access challenges[] by design.",
+    "negativeExample": "NODE A1 writes one PRIVATE record. B2 reads the full profile to get industryCode — and simultaneously has access to challenges[], goals[], revenue. Security arbiter blocks at generation time but nothing prevents accidental access at runtime.",
+    "appliesTo": [
+      "FLOW-03",
+      "FLOW-07",
+      "FLOW-12"
+    ],
+    "qualityScore": 0.93,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-02-THREE-FIXES.md",
+    "flowId": "FLOW-02",
+    "domainId": "profile-enrichment",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "tenant-scope",
+      "multi-tenant",
+      "dual-record-write",
+      "scope-isolation"
+    ],
+    "keywords": "writes other nodes need DIFFERENT purposes write scopes PRIVATE full owned user",
+    "archetype": "TRANSACTION",
+    "ironRules": [
+      "A1 MUST call storeDocument twice: (1) xiigen-business-profiles PRIVATE full profile, (2) xiigen-matching-profiles GLOBAL 4-field subset — one call is MISSING_SCOPE_ENFORCEMENT",
+      "xiigen-matching-profiles GLOBAL record contains ONLY industryCode, businessStage, locationProximity, teamSizeTier — any sensitive field (goals, challenges, revenue, skills) = BUILD_FAILURE",
+      "Downstream nodes (B1, B2) read from xiigen-matching-profiles GLOBAL ONLY — never from xiigen-business-profiles — structural enforcement, not just arbiter enforcement"
+    ],
+    "codeSnippet": "// CORRECT: dual-record write — scope enforcement via data design\nawait db.storeDocument('xiigen-business-profiles', fullProfile, { scope: 'PRIVATE' });\nawait db.storeDocument('xiigen-matching-profiles', {\n  industryCode: fullProfile.industryCode,\n  businessStage: fullProfile.businessStage,\n  locationProximity: fullProfile.locationProximity,\n  teamSizeTier: fullProfile.teamSizeTier,\n}, { scope: 'GLOBAL' });\n// WRONG: single PRIVATE record — B2 reads full profile including challenges[], goals[]"
+  }
+]

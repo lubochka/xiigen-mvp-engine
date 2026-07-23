@@ -1,0 +1,42 @@
+{
+    "flowId":  "FLOW-32",
+    "flowSlug":  "sharable-flows-marketplace",
+    "implementationSlug":  "sharable-flows-marketplace",
+    "phase":  "phase1UnitIntegration",
+    "recordedAt":  "2026-05-11T05:57:02.3425554Z",
+    "commands":  [
+                     {
+                         "name":  "server TypeScript",
+                         "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                         "exitCode":  0,
+                         "result":  "passed"
+                     },
+                     {
+                         "name":  "FLOW-32 Jest pattern",
+                         "command":  "Push-Location server; npx jest --testPathPatterns=sharable-flows-marketplace --runInBand --colors=false; Pop-Location",
+                         "exitCode":  0,
+                         "testSuitesPassed":  4,
+                         "testSuitesTotal":  4,
+                         "testsPassed":  134,
+                         "testsTotal":  134,
+                         "result":  "passed"
+                     }
+                 ],
+    "staticScans":  {
+                        "scanRoot":  "server/src/engine/flows/sharable-flows-marketplace",
+                        "sourceFlowFileCount":  20,
+                        "throwNew":  0,
+                        "exportedServices":  20,
+                        "servicesMissingMicroserviceBase":  0,
+                        "clsImports":  0,
+                        "directSdkImports":  0,
+                        "anyTypes":  0,
+                        "failureLines":  0
+                    },
+    "secretHandling":  {
+                           "containsCredentials":  false,
+                           "containsSigningKeys":  false,
+                           "containsBearerTokens":  false
+                       },
+    "verdict":  "PASS"
+}

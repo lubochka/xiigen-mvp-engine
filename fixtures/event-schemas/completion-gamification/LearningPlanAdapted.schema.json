@@ -1,0 +1,11 @@
+{
+  "eventType": "LearningPlanAdapted",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "curriculum-adapter",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "planId", "appliedChanges", "changeCount", "adaptedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T89 (Branch B) when ML adaptation applied. Time-decoupled from Branch A gate. changeCount ≤ 3 (MACHINE ceiling). Not included in LearningFlowCompleted gate."
+}

@@ -1,0 +1,23 @@
+{
+  "project": "xiigen-skill-adaptation",
+  "phase": 8,
+  "phaseStatus": "COMPLETE",
+  "completedAt": "2026-03-18",
+  "sessionType": "REVIEW_SESSION_NO_CODE",
+  "skillsCreatedToDate": 18,
+  "taxonomyApproved": true,
+  "deliverables": [
+    ".claude/skills/engine-qa/SKILL.md (updated: DRAFT→APPROVED, load_order 11, open questions→decisions)",
+    ".claude/skills/engine-qa/skill.yaml (updated: status/priority/load_order)",
+    "DECISIONS.md (created: DR-P8-001, DR-P8-002, DR-P8-003)"
+  ],
+  "taxonomyDecisions": {
+    "DR-P8-001": "fabricType mismatch: CLASS F = fix contract; CLASS A = registry normalization (separate improvement)",
+    "DR-P8-002": "DNA violation in generated output: CLASS C = what (violation in output); CLASS D = why (station choice caused it)",
+    "DR-P8-003": "Skill injection bug: subtype of CLASS D (AF Pipeline); 6 classes remain, no Class G"
+  },
+  "testCounts": {
+    "note": "No TypeScript changes — no test run required for review session"
+  },
+  "deviationsFromPlan": "None. 3 decisions recorded, engine-qa promoted to APPROVED."
+}

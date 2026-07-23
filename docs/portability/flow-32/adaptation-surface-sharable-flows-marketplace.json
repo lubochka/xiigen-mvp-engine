@@ -1,0 +1,422 @@
+{
+  "flowId": "FLOW-32",
+  "flowSlug": "sharable-flows-marketplace",
+  "implementationSlug": "sharable-flows-marketplace",
+  "flowTitle": "Sharable Flows Marketplace",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-32 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-32-sharable-flows-marketplace-functional-spec.md",
+    "docs/sessions/FLOW-32/FLOW-32-STEP-1-INVARIANTS.md",
+    "server/src/engine-contracts/sharable-flows-marketplace-contracts.ts",
+    "server/src/engine-contracts/sharable-flows-marketplace-bfa-rules.ts",
+    "server/src/engine/flows/sharable-flows-marketplace",
+    "server/src/bootstrap/history-seeds/sharable-flows-marketplace-design-corpus.json",
+    "rag-benchmark/seed_sharable_flows_marketplace_patterns.py",
+    "docs/flow-coverage/sharable-flows-marketplace/P1-business-logic-inventory.md",
+    "docs/flow-coverage/sharable-flows-marketplace/P5-ui-specs.md",
+    "docs/flow-coverage/sharable-flows-marketplace/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T516-T535",
+    "taskTypeIds": [
+      "T516",
+      "T517",
+      "T518",
+      "T519",
+      "T520",
+      "T521",
+      "T522",
+      "T523",
+      "T524",
+      "T525",
+      "T526",
+      "T527",
+      "T528",
+      "T529",
+      "T530",
+      "T531",
+      "T532",
+      "T533",
+      "T534",
+      "T535"
+    ],
+    "factoryIdRange": "F1339-F1418",
+    "freedomKeyCount": 10,
+    "securityClassification": "tenant-scoped marketplace packaging, installation, review, usage metering, settlement, and sandbox controls",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-32 uses sharable-flows-marketplace as the canonical portability, UI, package, and runtime implementation slug.",
+    "coreGuarantees": [
+      "Marketplace package records stay tenant scoped and content addressed.",
+      "Published versions are immutable; security updates create new versions.",
+      "Artifact signing, verification, certification, and notarization remain required before marketplace trust is declared.",
+      "Install and RAG blueprint sharing stay logic-plane only and must not copy tenant data, embeddings, documents, or secrets.",
+      "Binding documents store secret references only and never store literal credentials.",
+      "Governance migrations revalidate all consumers and do not sample.",
+      "Revenue settlement uses integer cents and idempotent settlement keys.",
+      "Fraud signals are routed to human review and cannot auto-suspend, ban, revoke, terminate, or disable a tenant.",
+      "Sandbox tenants use the sandbox prefix and remain isolated from production resources.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory for marketplace side effects."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-32 is a marketplace distribution surface; Tier 3 requires signing, provenance, and CI evidence before portability certification can advance."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T516-T521",
+      "className": "Package Publication And Artifact Trust Pipeline",
+      "file": "server/src/engine/flows/sharable-flows-marketplace",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow32_module_name",
+        "flow32_review_queue_sla_hours",
+        "flow32_allowed_package_categories",
+        "flow32_featured_strip_slots"
+      ],
+      "machineLockedRules": [
+        "package artifacts are content addressed",
+        "published versions are immutable",
+        "signing, verification, certification, and notarization cannot be bypassed"
+      ]
+    },
+    {
+      "taskTypeId": "T522-T523",
+      "className": "Marketplace Install And Binding Pipeline",
+      "file": "server/src/engine/flows/sharable-flows-marketplace",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow32_install_permission_policy",
+        "flow32_dependency_install_mode",
+        "flow32_preview_mode_enabled"
+      ],
+      "machineLockedRules": [
+        "install copies logic artifacts only",
+        "tenant data and embeddings are never copied between tenants",
+        "binding documents store only secret references"
+      ]
+    },
+    {
+      "taskTypeId": "T524-T527",
+      "className": "Discovery Governance And Migration Pipeline",
+      "file": "server/src/engine/flows/sharable-flows-marketplace",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow32_discovery_ranking_weights",
+        "flow32_governance_migration_profile",
+        "flow32_rollback_retention_days"
+      ],
+      "machineLockedRules": [
+        "discovery reads remain tenant scoped",
+        "governance migrations revalidate all consumers",
+        "rollback paths distinguish migration failure from validation failure"
+      ]
+    },
+    {
+      "taskTypeId": "T528-T530",
+      "className": "RAG Blueprint Sharing Pipeline",
+      "file": "server/src/engine/flows/sharable-flows-marketplace",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow32_blueprint_visibility_policy",
+        "flow32_import_approval_roles"
+      ],
+      "machineLockedRules": [
+        "RAG blueprint export, publish, and import remain logic-plane only",
+        "documents, embeddings, vector stores, tenant data, and secrets stay out of shared blueprints",
+        "import decisions remain tenant scoped"
+      ]
+    },
+    {
+      "taskTypeId": "T531-T535",
+      "className": "Usage Revenue Fraud And Sandbox Pipeline",
+      "file": "server/src/engine/flows/sharable-flows-marketplace",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow32_settlement_period_days",
+        "flow32_fraud_review_threshold",
+        "flow32_sandbox_ttl_hours"
+      ],
+      "machineLockedRules": [
+        "usage events preserve publisher and consumer tenant separation",
+        "settlement uses integer cents and idempotent period keys",
+        "fraud detection can flag and route but cannot auto-suspend",
+        "sandbox tenant identifiers keep the sandbox prefix"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-32 values may tune marketplace naming, curation, category presentation, permission prompts, dependency install behavior, discovery ranking, review thresholds, settlement cadence, and sandbox lifetime without changing tenant isolation, artifact trust, logic-plane sharing, secret-reference binding, human review, integer settlement, or store-before-event ordering.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow32_module_name",
+          "type": "string",
+          "default": "sharable-flows-marketplace",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "tenant.config.json",
+            "settings/module.settings.json"
+          ],
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        },
+        {
+          "key": "flow32_review_queue_sla_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T516.MarketplacePackageCreator",
+            "T525.GovernanceMigrationOrchestrator"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 168
+          }
+        },
+        {
+          "key": "flow32_allowed_package_categories",
+          "type": "string-array",
+          "default": [
+            "commerce",
+            "social",
+            "analytics",
+            "content",
+            "admin"
+          ],
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T516.MarketplacePackageCreator",
+            "T524.TemplateDiscoveryEngine"
+          ],
+          "boundedRange": {
+            "minItems": 1,
+            "maxItems": 12
+          }
+        },
+        {
+          "key": "flow32_featured_strip_slots",
+          "type": "number",
+          "default": 6,
+          "unit": "cards",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T524.TemplateDiscoveryEngine"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 12
+          }
+        },
+        {
+          "key": "flow32_install_permission_policy",
+          "type": "enum",
+          "default": "tenant-admin-confirm",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T522.MarketplaceInstaller",
+            "T523.BindingDocumentManager"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "tenant-admin-confirm",
+              "platform-curated-only",
+              "blocked"
+            ]
+          }
+        },
+        {
+          "key": "flow32_dependency_install_mode",
+          "type": "enum",
+          "default": "prompt",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T522.MarketplaceInstaller"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "prompt",
+              "auto-install",
+              "block"
+            ]
+          }
+        },
+        {
+          "key": "flow32_discovery_ranking_weights",
+          "type": "object",
+          "default": {
+            "quality": 0.4,
+            "installCount": 0.25,
+            "freshness": 0.2,
+            "rating": 0.15
+          },
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T524.TemplateDiscoveryEngine",
+            "T533.MarketplaceAnalyticsAggregator"
+          ],
+          "boundedRange": {
+            "sum": 1
+          }
+        },
+        {
+          "key": "flow32_settlement_period_days",
+          "type": "number",
+          "default": 30,
+          "unit": "days",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T531.UsageMeter",
+            "T532.RevenueSettlementEngine"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 90
+          }
+        },
+        {
+          "key": "flow32_fraud_review_threshold",
+          "type": "number",
+          "default": 0.72,
+          "unit": "ratio",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T534.FraudDetectionService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "key": "flow32_sandbox_ttl_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T535.SandboxEnvironmentProvisioner"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 168
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to marketplace naming, category and curation presentation, install policy, dependency prompt behavior, discovery ranking, review threshold, settlement cadence, sandbox lifetime, and display metadata.",
+      "edgeCases": [
+        {
+          "id": "acme-curated-flow-store",
+          "name": "Acme curated flow store",
+          "semantic": "Tenant A tunes the original package for a curated internal marketplace with stricter human review and short sandbox sessions.",
+          "extensionPoint": "module naming, review SLA, category set, sandbox TTL",
+          "currentImplementation": "Artifact trust, logic-plane sharing, tenant isolation, and human review remain fixed."
+        },
+        {
+          "id": "northwind-partner-template-exchange",
+          "name": "Northwind partner template exchange",
+          "semantic": "Tenant B tunes the adapted package for partner template discovery with weighted freshness and prompt-based dependency installs.",
+          "extensionPoint": "discovery ranking, dependency install mode, permission policy",
+          "currentImplementation": "Dependencies remain explicit tenant decisions and cross-tenant data copying remains prohibited."
+        },
+        {
+          "id": "tessera-community-pattern-library",
+          "name": "Tessera community pattern library",
+          "semantic": "Tenant C tunes the cascade package for a community pattern library with slower settlement and lower featured density.",
+          "extensionPoint": "featured strip size, settlement period, fraud review threshold",
+          "currentImplementation": "Revenue math stays integer-based and fraud outcomes still require human review."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T516 through T535 remain fixed.",
+      "Factory IDs F1339 through F1418 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Marketplace package, install, usage, settlement, and sandbox records remain tenant scoped.",
+      "Package artifacts remain content addressed.",
+      "Published versions remain immutable.",
+      "Artifact trust requires signing, verification, certification, and notarization evidence.",
+      "Install and RAG blueprint sharing remain logic-plane only.",
+      "Tenant data, embeddings, documents, vector stores, and literal secrets are not shared between tenants.",
+      "Binding documents store secret references only.",
+      "Governance migrations revalidate all consumers.",
+      "Revenue settlement uses integer cents only.",
+      "Fraud outcomes require human review and cannot auto-suspend, ban, revoke, terminate, or disable accounts.",
+      "Sandbox tenant IDs keep the sandbox prefix.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantACuratedFlowStore": {
+      "description": "Tenant A tunes Sharable Flows Marketplace for an internal curated flow store.",
+      "change": {
+        "flow32_module_name": "acme-curated-flow-store",
+        "flow32_review_queue_sla_hours": 12,
+        "flow32_allowed_package_categories": [
+          "commerce",
+          "analytics",
+          "admin"
+        ],
+        "flow32_featured_strip_slots": 4,
+        "flow32_install_permission_policy": "tenant-admin-confirm",
+        "flow32_dependency_install_mode": "prompt",
+        "flow32_discovery_ranking_weights": {
+          "quality": 0.5,
+          "installCount": 0.2,
+          "freshness": 0.15,
+          "rating": 0.15
+        },
+        "flow32_settlement_period_days": 30,
+        "flow32_fraud_review_threshold": 0.8,
+        "flow32_sandbox_ttl_hours": 12
+      },
+      "impact": "Tenant A gets a curated marketplace package while artifact trust, logic-plane sharing, secret-reference binding, tenant isolation, and human review stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T516-T535",
+      "Factory IDs F1339-F1418",
+      "provider SDK boundaries",
+      "Vault credential paths",
+      "tenant-scoped fabric access",
+      "content-addressable storage",
+      "version immutability",
+      "artifact signing and provenance checks",
+      "logic-plane-only install and sharing",
+      "secret-reference binding",
+      "all-consumer governance revalidation",
+      "integer-only settlement",
+      "human review for fraud outcomes",
+      "sandbox tenant prefixing",
+      "store-before-event ordering",
+      "FLOW-32 canonical package slug"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-32 configuration values or display/module metadata.",
+    "FLOW-32 package assembly copies the sharable-flows-marketplace implementation under the canonical package slug path.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

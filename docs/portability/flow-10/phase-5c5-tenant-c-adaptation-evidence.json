@@ -1,0 +1,297 @@
+{
+  "flowId": "FLOW-10",
+  "flowSlug": "reviews-reputation",
+  "phase": "phase5c5TenantCAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-05T23:18:00.0000000+03:00",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "role": "Tenant C",
+    "adaptedFromTenant": "northwind",
+    "adaptedFromRepoFullName": "lubochka/northwind--northwind-trust-signal-reviews",
+    "previousPackageName": "@xiigen-fork/northwind-trust-signal-reviews",
+    "previousPackageVersion": "1.0.2",
+    "packageName": "@xiigen-fork/tessera-community-trust-reviews",
+    "packageVersion": "1.0.3",
+    "localRegistry": "http://localhost:4873"
+  },
+  "adaptation": {
+    "type": "Type A (FREEDOM key value change)",
+    "moduleName": "tessera-community-trust-reviews",
+    "packageName": "@xiigen-fork/tessera-community-trust-reviews",
+    "version": "1.0.3",
+    "changes": [
+      {
+        "key": "flow10_moderation_pass_threshold",
+        "from": 0.88,
+        "to": 0.9
+      },
+      {
+        "key": "flow10_moderation_reject_threshold",
+        "from": 0.15,
+        "to": 0.12
+      },
+      {
+        "key": "flow10_reputation_recency_weights",
+        "from": [
+          1,
+          0.9,
+          0.85,
+          0.8,
+          0.75
+        ],
+        "to": [
+          1,
+          0.92,
+          0.88,
+          0.84,
+          0.8
+        ]
+      }
+    ],
+    "machineInvariantsPreserved": [
+      "Acme and Northwind moderation history remains visible in adaptationHistory",
+      "review submission eligibility remains tenant-scoped",
+      "moderation decisions remain stored before reputation aggregation",
+      "community-weighted reputation decay remains a FREEDOM value change",
+      "role access remains unchanged"
+    ]
+  },
+  "repository": {
+    "fullName": "lubochka/tessera--tessera-community-trust-reviews",
+    "htmlUrl": "https://github.com/lubochka/tessera--tessera-community-trust-reviews",
+    "defaultBranch": "main",
+    "createdAt": "2026-05-05T19:49:20Z",
+    "pushedAt": "2026-05-05T20:10:33Z",
+    "updatedAt": "2026-05-05T20:12:28Z",
+    "privateAfterEvidenceCapture": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "localClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera--northwind-trust-signal-reviews",
+    "localRemote": "https://github.com/lubochka/tessera--tessera-community-trust-reviews.git"
+  },
+  "tenantRepoCommit": {
+    "sha": "8079f99a0be44d11330671da6e2df1de6025d527",
+    "message": "Adapt Tessera community trust reviews policy",
+    "changedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/reviews-reputation-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "repoRenamedFrom": "lubochka/tessera--northwind-trust-signal-reviews",
+    "repoRenamedTo": "lubochka/tessera--tessera-community-trust-reviews"
+  },
+  "githubActions": {
+    "runId": 25399669762,
+    "jobId": 74495587379,
+    "workflowName": "XIIGen Flow CI - reviews-reputation",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "8079f99a0be44d11330671da6e2df1de6025d527",
+    "url": "https://github.com/lubochka/tessera--tessera-community-trust-reviews/actions/runs/25399669762",
+    "createdAt": "2026-05-05T20:10:36Z",
+    "updatedAt": "2026-05-05T20:11:27Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\tessera--northwind-trust-signal-reviews",
+    "headSha": "8079f99a0be44d11330671da6e2df1de6025d527",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "exitCode": 0,
+        "notes": "Completed with dependency deprecation warnings only."
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      }
+    ],
+    "workingTreeCleanAfterPush": true
+  },
+  "localRegistryPublish": {
+    "publishCommand": "npm publish --registry http://localhost:4873",
+    "published": true,
+    "packageName": "@xiigen-fork/tessera-community-trust-reviews",
+    "version": "1.0.3",
+    "viewCommand": "npm view @xiigen-fork/tessera-community-trust-reviews version --registry http://localhost:4873",
+    "expectedVersion": "1.0.3",
+    "actualVersion": "1.0.3"
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-05T23:15:08.0085303+03:00",
+    "serverBaseUrl": "http://localhost:33001",
+    "passed": 8,
+    "total": 8,
+    "allPassed": true,
+    "matrix": [
+      {
+        "name": "valid acme token in acme tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "valid northwind token in northwind tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "valid tessera token in tessera tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "missing token denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "acme token in northwind tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "northwind token in tessera tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "acme token in tessera tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "wrong referral-user role denied on Tessera adapted fork endpoint",
+        "method": "POST",
+        "path": "/api/marketplace/packages/tessera-community-trust-reviews/fork",
+        "expectedStatus": 403,
+        "actualStatus": 403,
+        "pass": true
+      }
+    ]
+  },
+  "visualEvidence": {
+    "tenantAdaptedMatrix": {
+      "path": "docs/e2e-snapshots/reviews-reputation/tenant-c-v1.0.3",
+      "expected": 12,
+      "actual": 12,
+      "zeroByte": 0,
+      "minBytes": 25811,
+      "maxBytes": 44427,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "freelancer"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "marketplaceListing": {
+      "path": "docs/e2e-snapshots/marketplace/reviews-reputation-v1.0.3-listing.png",
+      "bytes": 316877
+    },
+    "repoScreenshots": {
+      "repoListing": {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/tessera--tessera-community-trust-reviews-github-listing.png",
+        "bytes": 127457,
+        "captureMode": "GitHub web UI while temporarily public"
+      },
+      "actionsSuccess": {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/tessera--tessera-community-trust-reviews-actions-success.png",
+        "bytes": 77979,
+        "captureMode": "GitHub web UI while temporarily public"
+      },
+      "repoVisibilityRestoredToPrivate": true
+    }
+  },
+  "mainRepoVerification": {
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "result": "passed"
+    },
+    "clientPlaywright": {
+      "command": "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/reviews-reputation-tenant-c-adaptation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+      "result": "passed",
+      "tests": 13
+    },
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 8,
+      "tests": 113
+    },
+    "phaseCloseScans": {
+      "flowFileCount": 4,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "flowScopedAnnotations": 4,
+      "flowIdAnnotations": 4,
+      "localFreedomClones": 0,
+      "unscopedFreedomReads": 0,
+      "directSdkImports": 0,
+      "productionAnyTypes": 0
+    }
+  },
+  "secretHandling": {
+    "committedEnvFiles": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCAdaptedTenantBPackage": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryReturnsTenantCVersion": true,
+    "cascadeScreenshotsPresent": true,
+    "marketplaceScreenshotPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForAuthDecorationCheck": true
+  },
+  "verdict": "PASS"
+}

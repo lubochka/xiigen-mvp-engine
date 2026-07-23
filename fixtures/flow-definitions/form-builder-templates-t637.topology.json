@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-23",
+  "slug": "form-builder-templates",
+  "primaryTaskType": "T637",
+  "primaryTaskName": "TemplateSchemaValidator",
+  "description": "Form builder templates pipeline with three-gate validation. T637 TemplateSchemaValidator: JSON Schema validation at ORDER 1, required field enforcement at ORDER 2, type compatibility at ORDER 3. T638 TemplateVersionPublisher: OCC DRAFT→PUBLISHED at ORDER 1, version immutability at ORDER 2, schema evolution check at ORDER 3. T639 TemplateInstantiationEngine: SETNX lock at ORDER 1, variable binding at ORDER 2, default merge at ORDER 3, redis.del in finally. T640 TemplateUsageAnalytics: append-only metrics, PII exclusion, popularity scoring.",
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "TemplateValidationRequested event (user submits form template)",
+  "primaryFabric": "DATABASE",
+  "nodes": {
+    "n1": {
+      "id": "n1",
+      "type": "validate",
+      "label": "ValidateTemplateRequest",
+      "description": "Validate template submission: templateId present; schema valid JSON; requiredFields defined"
+    },
+    "n2": {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "label": "RetrieveValidationPatterns",
+      "description": "RAG retrieval of schema validation + publication + instantiation patterns from FLOW-23"
+    },
+    "n3": {
+      "id": "n3",
+      "type": "decompose",
+      "label": "DecomposeValidationPlan",
+      "description": "Decompose validation into ordered steps: JSON Schema validation → required field enforcement → type compatibility"
+    },
+    "n4": {
+      "id": "n4",
+      "type": "ai-generate",
+      "label": "GenerateSchemaValidator",
+      "description": "AI generates T637 with three-gate validation: JSON Schema at ORDER 1, required fields at ORDER 2, type compatibility at ORDER 3. Also generates T638 with OCC publication + immutability guard + evolution check. T639 with SETNX lock + binding + defaults. T640 with append-only metrics + PII exclusion."
+    },
+    "n5": {
+      "id": "n5",
+      "type": "validate",
+      "label": "ValidateImplementation",
+      "description": "Validate JSON Schema at ORDER 1, required field enforcement at ORDER 2, type compatibility at ORDER 3, audit before enqueue (DNA-8), OCC publication, version immutability, SETNX lock, PII exclusion"
+    },
+    "n6": {
+      "id": "n6",
+      "type": "score",
+      "label": "ScoreImplementation",
+      "description": "Score: JSON Schema validation order compliance, required field enforcement, type compatibility, OCC publish, immutability guard, SETNX lock, redis.del in finally, PII exclusion, audit before enqueue"
+    },
+    "n7": {
+      "id": "n7",
+      "type": "route",
+      "label": "RouteOnScore",
+      "description": "Route to feedback (score >= 0.85) or iterate (score < 0.85)"
+    },
+    "n8": {
+      "id": "n8",
+      "type": "feedback",
+      "label": "StoreFeedback",
+      "description": "DPO triple: chosen=JSON-Schema-ORDER1+required-fields-ORDER2+type-compatibility-ORDER3+OCC-DRAFT-PUBLISHED+SETNX-lock+redis.del-in-finally+PII-exclusion+append-only-metrics, rejected=schema-not-validated OR required-check-after-type OR OCC-missing OR immutability-after-write OR lock-without-redis.del OR user-values-in-metrics",
+      "discriminatingConstraint": "Missing JSON Schema validation at ORDER 1 OR required field check after type compatibility OR non-OCC publication OR immutability check after write OR SETNX lock missing OR redis.del missing in finally OR user input values in metrics receives score=0 and triggers n3 re-iteration. CF-23-1..4.",
+      "curriculumTier": 2
+    }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85" }
+  ],
+  "seededAt": "2026-04-14T00:00:00Z"
+}

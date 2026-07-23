@@ -1,0 +1,40 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-32-fraud_human_review_required",
+  "checkId": "fraud_human_review_required",
+  "flowId": "FLOW-32",
+  "bfaRule": "CF-736",
+  "severity": "score-zero",
+  "description": "T534 fraud detection must not auto-suspend or auto-ban. All fraud signals require routing to human review via F1403 (IHumanReviewService) before any account action.",
+  "taskTypeIds": ["T534"],
+  "scanFor": {
+    "banned": [
+      "autoSuspend",
+      "auto_suspend",
+      "auto_ban",
+      "autoBan",
+      "immediate_action",
+      "immediateAction",
+      "suspendAccount(",
+      "banTenant(",
+      "disableAccount(",
+      "revokeAccess(",
+      "terminateAccount("
+    ],
+    "anyPresent": "FAIL",
+    "caseSensitive": false
+  },
+  "required": {
+    "atLeastOne": [
+      "F1403",
+      "IHumanReviewService",
+      "HUMAN_REVIEW_SERVICE",
+      "humanReview",
+      "createReviewCase"
+    ]
+  },
+  "onFailure": "score-0",
+  "stRef": "ST-454",
+  "failureMessage": "CF-736/ST-454: Fraud automation violation in T534. All fraud signals must route to human review via F1403 (IHumanReviewService). No auto-suspend or auto-ban.",
+  "active": true
+}

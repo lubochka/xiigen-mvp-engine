@@ -1,0 +1,83 @@
+{
+  "taskTypeId": "T614",
+  "flowId": "FLOW-17",
+  "name": "MilestoneContractManager",
+  "archetype": "TRANSACTION",
+  "domainId": "freelancer-marketplace",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T614-1",
+      "rule": "CONTRACT_IMMUTABLE_FIELDS = [clientId, contractTotal, gigId, freelancerId] — compile-time constant. NEVER a database lookup. Any immutable field write rejected at ORDER 1 with no storage attempt.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T614-2",
+      "rule": "ContractFieldImmutable emitted immediately on immutable field rejection at ORDER 1.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T614-3",
+      "rule": "Sum validation at ORDER 2 — milestones.reduce(sum) must equal contractTotal exactly. MilestoneSumMismatch emitted on failure.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T614-4",
+      "rule": "storeDocumentWithOCC — not plain storeDocument. OCC_CONFLICT → emit ContractUpdateConflict.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T614-5",
+      "rule": "storeDocument(audit) at ORDER 4 BEFORE FreelancerContractActivated emit. DNA-8.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1540",
+      "token": "IContractMilestoneService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1541",
+      "token": "IContractAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "CONTRACT_IMMUTABLE_FIELDS_GUARD",
+    "MILESTONE_SUM_VALIDATION",
+    "OCC_CONTRACT_WRITE"
+  ],
+  "freedomComponents": [
+    "contract_max_milestones",
+    "contract_min_milestone_amount_cents"
+  ],
+  "stackCoupling": {
+    "queue": ["FreelancerContractActivated", "ContractFieldImmutable", "MilestoneSumMismatch", "ContractUpdateConflict"],
+    "database": ["xiigen-freelancer-contracts", "xiigen-contract-audit"]
+  },
+  "handlers": [
+    "validate_immutable_fields",
+    "validate_milestone_sum",
+    "write_contract_occ",
+    "write_contract_audit",
+    "emit_contract_activated"
+  ],
+  "namedChecks": [
+    "immutable_field_compile_time",
+    "sum_equals_total",
+    "occ_not_plain_store",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "freelancer",
+    "milestone",
+    "CONTRACT_IMMUTABLE_FIELDS",
+    "sum-validation",
+    "OCC",
+    "compile-time",
+    "transaction"
+  ],
+  "keywords": "milestone contract manager CONTRACT_IMMUTABLE_FIELDS sum validation OCC FreelancerContractActivated ContractFieldImmutable MilestoneSumMismatch T614 freelancer marketplace"
+}

@@ -1,0 +1,44 @@
+{
+  "flowId": "FLOW-35",
+  "flowSlug": "meta-arbitration-engine",
+  "phase": "phase-i-certification-declaration",
+  "status": "completed_as_partial_certification",
+  "generatedAt": "2026-05-12T03:35:00Z",
+  "certification": {
+    "earnedTier": "Tier 1+ server/auth foundation verified",
+    "fullMobilityTierDeclared": false,
+    "decision": "FLOW-35 has current server TypeScript, targeted Jest/e2e, static scan, import-trace, and Docker/Vault auth evidence. Full mobility certification is withheld until Playwright/PNG evidence and a real three-tenant fork cascade are run for FLOW-35.",
+    "basis": [
+      "FLOW-35 targeted suite passed 11 suites and 140 tests.",
+      "server TypeScript exited 0.",
+      "server/src/engine/flows/meta-arbitration scan returned zero failure counters.",
+      "FLOW-35 to FLOW-36 import trace found no direct source coupling.",
+      "Docker/Vault live auth matrix passed 8/8."
+    ]
+  },
+  "completionGate": {
+    "preExistingDefectsClosed": true,
+    "dockerVaultAuthEvidence": true,
+    "unitIntegrationEvidence": true,
+    "playwrightPngEvidence": false,
+    "forkCascadeEvidence": false,
+    "authDecorationEvidence": false,
+    "certificationDeclared": true,
+    "fullProtocolComplete": false
+  },
+  "openIssues": [
+    {
+      "id": "FLOW-35-PLAYWRIGHT-PNG-PENDING",
+      "severity": "blocking-for-tier2-plus",
+      "summary": "Run FLOW-35 Playwright/PNG role matrix and repo screenshot evidence.",
+      "status": "open"
+    },
+    {
+      "id": "FLOW-35-FORK-CASCADE-PENDING",
+      "severity": "blocking-for-tier2-plus",
+      "summary": "Three-tenant marketplace fork cascade with real repos, green GitHub Actions, local registry readbacks, and repo screenshots has not been run for FLOW-35 in this round.",
+      "status": "open"
+    }
+  ],
+  "verdict": "PARTIAL_PASS"
+}

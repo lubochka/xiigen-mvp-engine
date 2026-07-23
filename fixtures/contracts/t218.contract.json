@@ -1,0 +1,42 @@
+{
+  "taskTypeId": "T218",
+  "flowId": "FLOW-14",
+  "name": "SchemaDriftDetector",
+  "archetype": "transform",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "freedom-threshold-then-drift-score-then-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_schema_drift_quarantine_threshold",
+    "neutralConcepts": [
+      "IR-1: drift threshold from FREEDOM config (flow14_schema_drift_quarantine_threshold, default 0.3)",
+      "IR-2: SchemaDriftDetected emitted only when driftScore > threshold",
+      "First schema for connector stored as baseline — driftScore=0 returned",
+      "approve() stores new schema version BEFORE emitting SchemaApproved — DNA-8",
+      "storeDocument(schema_version) BEFORE enqueue(SchemaDriftDetected) — DNA-8",
+      "Pipeline paused until SchemaApproved received (IR-4)"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_FREEDOM", "interface": "IFreedomConfigService", "fabric": "FREEDOM" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T218-1", "rule": "Drift threshold MUST come from FREEDOM config (flow14_schema_drift_quarantine_threshold).", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T218-2", "rule": "SchemaDriftDetected emitted ONLY when driftScore > threshold.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T218-3", "rule": "approve() stores schema version BEFORE emitting SchemaApproved — DNA-8.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T218-4", "rule": "storeDocument(schema_version) BEFORE enqueue(SchemaDriftDetected) — DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "drift_threshold_from_freedom",
+    "drift_above_threshold_only",
+    "store_before_enqueue",
+    "approve_stores_version"
+  ],
+  "bfaRules": [],
+  "tags": ["schema", "drift", "approval-gate", "freedom-config", "transform"],
+  "keywords": "schema drift detector freedom config threshold drift score SchemaDriftDetected SchemaApproved approve pipeline paused baseline version"
+}

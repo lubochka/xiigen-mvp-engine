@@ -1,0 +1,15 @@
+{
+  "index": "xiigen-install-validation",
+  "mappings": {
+    "properties": {
+      "validationId": { "type": "keyword" },
+      "tenantId":     { "type": "keyword" },
+      "packageId":    { "type": "keyword" },
+      "flowId":       { "type": "keyword" },
+      "status":       { "type": "keyword" },
+      "snapshotId":   { "type": "keyword" },
+      "gapCount":     { "type": "integer" },
+      "validatedAt":  { "type": "date" }
+    }
+  }
+}

@@ -1,0 +1,328 @@
+[
+  {
+    "patternId": "FLOW-01-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "Name the completion event before designing any step. It is a permanent cross-flow contract.",
+    "positiveExample": "Round 1: name 'OnboardingCompleted' before any node expansion begins",
+    "negativeExample": "Round 10: emit 'UserRegistrationComplete' after all steps designed — event name reflects steps not contracts",
+    "discriminatingConstraint": "The last event is the first decision — completion event names are permanent",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R4.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "cross-flow",
+      "registration"
+    ],
+    "keywords": "Name completion designing step permanent cross-flow contract"
+  },
+  {
+    "patternId": "FLOW-01-DR-02",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "N independent deliveries = N separate node types. Never parameterise independent deliverables.",
+    "positiveExample": "Three separate nodes C1/C2/C3 — each independently failable, independently retryable",
+    "negativeExample": "One SendOnboardingMaterial node with materialType parameter — failure in one blocks all three",
+    "discriminatingConstraint": "Independent deliverables = independent nodes — a materialType parameter is a loop; a loop creates a dependency",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-15",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R2.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "retry"
+    ],
+    "keywords": "independent deliveries separate types parameterise deliverables"
+  },
+  {
+    "patternId": "FLOW-01-DR-03",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "Trace all downstream reads before writing the schema. Schema gaps discovered at NODE D are silent production failures.",
+    "positiveExample": "NODE A3 schema includes onboardingMaterials: [] — NODE D reads this field 7 steps later",
+    "negativeExample": "NODE A3 creates { userId, email, status } minimal record — NODE D reads absent onboardingMaterials, fails silently",
+    "discriminatingConstraint": "Read contracts are satisfied at write time, not at read time",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-09"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R4.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "downstream-coupling"
+    ],
+    "keywords": "Trace downstream reads writing schema gaps discovered silent production failures"
+  },
+  {
+    "patternId": "FLOW-01-DR-04",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "When external verification is available, do not re-verify. SSO collapses the identity zone.",
+    "positiveExample": "SSO path arrives at NODE B directly — Google already verified the email",
+    "negativeExample": "SSO user goes through email verification as well — redundant, degrades UX",
+    "discriminatingConstraint": "The verification zone is a means to proving identity. SSO provides that proof externally.",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-20"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.88,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R2.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design"
+    ],
+    "keywords": "external verification available re-verify collapses identity zone"
+  },
+  {
+    "patternId": "FLOW-01-DR-05",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "The completion gate checks presence, not success. A recorded failed delivery satisfies the gate.",
+    "positiveExample": "NODE D: all three materialTypes present (even all failed) → emit OnboardingCompleted",
+    "negativeExample": "NODE D: requires status='delivered' for all three — transient email failure blocks user permanently",
+    "discriminatingConstraint": "The gate is 'did we try' not 'did we succeed'. An absent record is a crash; a failed record is information.",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-15",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R4.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design"
+    ],
+    "keywords": "completion gate checks presence success recorded failed delivery satisfies"
+  },
+  {
+    "patternId": "FLOW-01-RAG-01",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "ORCHESTRATION",
+    "tags": [
+      "cross-flow",
+      "event-naming",
+      "machine-constant",
+      "acceptance-threshold"
+    ],
+    "keywords": "cross-flow event name machine constant acceptance threshold completion OnboardingCompleted",
+    "teachingPoint": "Cross-flow event names are MACHINE constants. Any step that emits an event consumed by another flow: acceptanceThreshold=0.95, Business arbiter mandatory, exact string literal in code.",
+    "ironRules": [
+      "Cross-flow event type is a string literal — never computed or read from config",
+      "acceptanceThreshold=0.95 on all nodes emitting cross-flow events",
+      "Business arbiter mandatory on cross-flow emission nodes"
+    ],
+    "codeSnippet": "type: 'OnboardingCompleted' // MACHINE: do not change\n// Not: type: config.get('completion_event')\n// Not: type: completionEventName",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "qualityScore": 0.94,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R3.md"
+  },
+  {
+    "patternId": "FLOW-01-RAG-02",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-01",
+    "domainId": "identity-verification",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "DATA_PIPELINE",
+    "tags": [
+      "security",
+      "token",
+      "hashing",
+      "audit"
+    ],
+    "keywords": "token hash raw verification security breach database store event",
+    "teachingPoint": "Verification tokens are stored as hashes. The raw token appears only in the event sent to the email service. A database breach exposes only hashes.",
+    "ironRules": [
+      "Token stored as hash only — raw token never written to persistent storage",
+      "Raw token transmitted in the verification event only, for link construction",
+      "Breach of token index exposes only hashes — not usable tokens"
+    ],
+    "codeSnippet": "storeDocument({ tokenHash: sha256(rawToken) }) // raw token NOT stored\nemit({ rawToken }) // raw token in event only — for email link",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-09"
+    ],
+    "qualityScore": 0.94,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R3.md"
+  },
+  {
+    "patternId": "FLOW-01-RAG-03",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "ROUTING",
+    "tags": [
+      "security",
+      "intake-validation",
+      "error-shape",
+      "information-leakage"
+    ],
+    "keywords": "intake validation uniform failure shape security information leakage field name",
+    "teachingPoint": "Intake node failure shape is MACHINE (uniform). Different error shapes per field leak which validation rule fired — a security vulnerability, not just a UX issue.",
+    "ironRules": [
+      "All validation failures return VALIDATION_FAILURE — same error code regardless of which field failed",
+      "No error message reveals field names, validation rules, or which check fired"
+    ],
+    "codeSnippet": "return DataProcessResult.failure('VALIDATION_FAILURE', 'Input validation failed')\n// Never: { field: 'email', error: 'invalid format' }",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-09"
+    ],
+    "qualityScore": 0.89,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R3.md"
+  },
+  {
+    "patternId": "FLOW-01-RAG-04",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-01",
+    "domainId": "identity-verification",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "DATA_PIPELINE",
+    "tags": [
+      "audit-trail",
+      "token-lifecycle",
+      "revocation",
+      "status-transitions"
+    ],
+    "keywords": "token superseded revoke audit trail status lifecycle delete expire used",
+    "teachingPoint": "When replacing a token, update status to 'superseded' — never delete. Each status is distinct: expired=natural, used=submission attempt, superseded=explicitly replaced. Audit trails are non-negotiable.",
+    "ironRules": [
+      "Replaced tokens marked status='superseded' with supersededAt timestamp — never deleted",
+      "Each token status encodes a distinct lifecycle event: expired, used, superseded",
+      "Token records are immutable after creation except for status transitions"
+    ],
+    "codeSnippet": "await storeDocument(index, { ...token, status: 'superseded', supersededAt: now })\n// Never: await deleteDocument(index, token.tokenId)",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-09"
+    ],
+    "qualityScore": 0.88,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R3.md"
+  },
+  {
+    "patternId": "FLOW-01-RAG-05",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "ROUTING",
+    "tags": [
+      "rate-limiting",
+      "freedom-config",
+      "machine-freedom-split"
+    ],
+    "keywords": "rate limit window freedom config machine enforcement resend verification tenant regional",
+    "teachingPoint": "FREEDOM rate limit window, MACHINE enforcement rule. 'The window is configurable; the existence of the limit is not.' RATE_LIMIT_EXCEEDED response includes retryAfterMinutes for UI countdown.",
+    "ironRules": [
+      "Rate limit window sourced from FREEDOM config — never hardcoded",
+      "Rate limit enforcement rule is MACHINE — tenants cannot disable it",
+      "RATE_LIMIT_EXCEEDED response includes retryAfterMinutes field"
+    ],
+    "codeSnippet": "const windowMin = await this.freedomConfig.get('flow01_resend_rate_limit_minutes')\n// Never: const LIMIT_MINUTES = 60",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-15",
+      "FLOW-18"
+    ],
+    "qualityScore": 0.89,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R3.md"
+  },
+  {
+    "patternId": "FLOW-01-RAG-06",
+    "patternType": "ARCH_PATTERN",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-10T00:00:00Z",
+    "archetype": "ORCHESTRATION",
+    "tags": [
+      "freedom-config",
+      "tenant-customization",
+      "onboarding-delivery",
+      "machine-freedom-split"
+    ],
+    "keywords": "tenant specific parameters freedom config machine rule social invitation content wording",
+    "teachingPoint": "Social delivery nodes have tenant-specific parameters. Every such parameter is a FREEDOM config key. 'What the invitation says' is FREEDOM. 'That an invitation exists' is MACHINE.",
+    "ironRules": [
+      "All tenant-specific delivery parameters sourced from FREEDOM config keys",
+      "Delivery content (wording, sender name) is FREEDOM; delivery existence is MACHINE",
+      "No hardcoded content in delivery nodes"
+    ],
+    "codeSnippet": "const inviterName = await this.freedomConfig.get('flow01_invitation_inviter_name')\n// Never: const inviterName = 'John from Community'",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-15",
+      "FLOW-18"
+    ],
+    "qualityScore": 0.86,
+    "curriculumTier": 1,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R3.md"
+  }
+]

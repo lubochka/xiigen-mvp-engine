@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.0",
+  "catalogVersion": "1",
+  "description": "XIIGen Solution Bundle Catalog — Feature lists populated by FLOW-00 Phase A. Feature assignments use Figma plugin FT-001..010 as provisional values pending full Feature Registry population.",
+  "generatedBy": "FLOW-00-Phase-A",
+  "generatedAt": "2026-03-22T00:00:00.000Z",
+  "bundles": [
+    {
+      "bundleId": "B-001",
+      "name": "B2B Marketplace",
+      "description": "End-to-end B2B marketplace: product catalogues, RFQ workflows, supplier onboarding, buyer/seller matching, and order management.",
+      "targetDomain": "marketplace",
+      "features": ["FT-001", "FT-002", "FT-003"],
+      "defaultFreedomConfig": {
+        "matching_algorithm": "portfolio-based",
+        "payment_model": "escrow",
+        "onboarding_questionnaire": "b2b-marketplace-v1",
+        "blast_radius_promotion_threshold": {
+          "directDependencies": 0,
+          "transitiveDependencies": 2
+        }
+      },
+      "incompatibleWith": ["B-003"],
+      "requiredFlows": ["FLOW-01", "FLOW-02", "FLOW-03", "FLOW-09"],
+      "minFlowVersions": {
+        "FLOW-01": "v1",
+        "FLOW-02": "v1",
+        "FLOW-03": "v1",
+        "FLOW-09": "v1"
+      },
+      "status": "PLANNED"
+    },
+    {
+      "bundleId": "B-002",
+      "name": "Community Platform",
+      "description": "Community and social features: discussion boards, reputation systems, event management, member directories, and content moderation.",
+      "targetDomain": "community",
+      "features": ["FT-004", "FT-005", "FT-006"],
+      "defaultFreedomConfig": {
+        "reputation_algorithm": "engagement-weighted",
+        "moderation_mode": "community-led",
+        "blast_radius_promotion_threshold": {
+          "directDependencies": 0,
+          "transitiveDependencies": 2
+        }
+      },
+      "incompatibleWith": [],
+      "requiredFlows": ["FLOW-01", "FLOW-04", "FLOW-05", "FLOW-08"],
+      "minFlowVersions": {
+        "FLOW-01": "v1",
+        "FLOW-04": "v1",
+        "FLOW-05": "v1",
+        "FLOW-08": "v1"
+      },
+      "status": "PLANNED"
+    },
+    {
+      "bundleId": "B-003",
+      "name": "Content Creator",
+      "description": "Creator economy tools: digital product sales, subscription tiers, content gating, fan engagement, and creator analytics.",
+      "targetDomain": "content",
+      "features": ["FT-007", "FT-008"],
+      "defaultFreedomConfig": {
+        "subscription_model": "tiered",
+        "content_gating": "paywall",
+        "blast_radius_promotion_threshold": {
+          "directDependencies": 0,
+          "transitiveDependencies": 2
+        }
+      },
+      "incompatibleWith": ["B-001"],
+      "requiredFlows": ["FLOW-01", "FLOW-06", "FLOW-07"],
+      "minFlowVersions": {
+        "FLOW-01": "v1",
+        "FLOW-06": "v1",
+        "FLOW-07": "v1"
+      },
+      "status": "PLANNED"
+    },
+    {
+      "bundleId": "B-004",
+      "name": "B2B SaaS",
+      "description": "SaaS product fundamentals: multi-tenant workspaces, team management, role-based access, billing integration, and usage analytics.",
+      "targetDomain": "saas",
+      "features": ["FT-009", "FT-010"],
+      "defaultFreedomConfig": {
+        "workspace_model": "multi-tenant",
+        "billing_integration": "stripe",
+        "blast_radius_promotion_threshold": {
+          "directDependencies": 0,
+          "transitiveDependencies": 2
+        }
+      },
+      "incompatibleWith": [],
+      "requiredFlows": ["FLOW-01", "FLOW-02", "FLOW-10", "FLOW-11"],
+      "minFlowVersions": {
+        "FLOW-01": "v1",
+        "FLOW-02": "v1",
+        "FLOW-10": "v1",
+        "FLOW-11": "v1"
+      },
+      "status": "PLANNED"
+    }
+  ]
+}

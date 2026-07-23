@@ -1,0 +1,18 @@
+{
+  "index": "xiigen-flow-state-snapshots",
+  "mappings": {
+    "properties": {
+      "snapshotId": { "type": "keyword" },
+      "flowId": { "type": "keyword" },
+      "taskTypeId": { "type": "keyword" },
+      "tenantId": { "type": "keyword" },
+      "runId": { "type": "keyword" },
+      "phase": { "type": "keyword" },
+      "state": { "type": "object", "dynamic": true },
+      "appReopenBehavior": { "type": "keyword" },
+      "optimisticActions": { "type": "object", "dynamic": true },
+      "createdAt": { "type": "date" },
+      "updatedAt": { "type": "date" }
+    }
+  }
+}

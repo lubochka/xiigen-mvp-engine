@@ -1,0 +1,25 @@
+{
+  "patternId": "arch--debounce-as-subflow",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-02",
+  "domainId": "generic",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "archetype": "ROUTING",
+  "tags": [
+    "debounce",
+    "subflow",
+    "audit-record",
+    "compound-key",
+    "not-just-a-constraint",
+    "enforcement"
+  ],
+  "keywords": "debounce subflow audit record compound key enforcement not constraint narrative note",
+  "codeSnippet": "// Debounce is a SUBFLOW — not a constraint on the triggering node.\n// A constraint on NODE A1: 'handle debounce' is documentation.\n// The subflow is enforcement.\n\n// SUBFLOW-02D: QuestionnaireDebounce (three nodes)\n// D1 — Debounce Key Check: is this submission within the window?\n// D2 — Existing Profile Return: return current profile without reprocessing (READ-ONLY)\n// D3 — Stale Event Discard Record: write PERSISTENT audit record (not a log line)\n\n// D1 key check:\nconst debounceKey = `debounce:${tenantId}:${userId}`;  // COMPOUND — never userId alone\nconst windowSeconds = await this.freedomConfig.get('flow02_debounce_window_seconds') ?? 300;\n// Cross-tenant isolation: Tenant A's rapid edits cannot debounce Tenant B's user\n\n// D3 discard record (persistent — not application logs):\nawait this.db.storeDocument('xiigen-debounce-discards', {\n  userId, questionnaireId,\n  discardedAt: new Date().toISOString(),\n  reason: 'DEBOUNCE_ACTIVE',\n  windowSeconds,\n  tenantId,\n  connectionType: 'FLOW_SCOPED', knowledgeScope: 'PRIVATE',\n}, `discard-${questionnaireId}`);\n// ↑ Answers: 'why was my profile update ignored?' — without this record, there is no answer",
+  "ironRules": [
+    "debounce key is COMPOUND: tenantId + userId — single userId key contaminates cross-tenant",
+    "window duration from FREEDOM config — enforcement rule is MACHINE",
+    "debounce store unavailable → DataProcessResult.failure — never silent pass-through",
+    "discarded events are RECORDED in persistent store — not logged to application logs",
+    "D2 is READ-ONLY — it returns existing profile, never creates one"
+  ]
+}

@@ -1,0 +1,125 @@
+﻿{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "phase5bTenantBAdapts",
+    "capturedAt":  "2026-05-06T12:19:21.3153799+03:00",
+    "tenant":  "northwind",
+    "status":  "completed",
+    "sourceTenant":  "acme-corp",
+    "sourcePackage":  {
+                          "packageName":  "@xiigen-fork/acme-enterprise-etl-data-integration",
+                          "packageVersion":  "1.0.1",
+                          "sourceRepoFullName":  "lubochka/acme-corp--etl-data-integration"
+                      },
+    "tenantAdaptedRepo":  {
+                              "previousRepoFullName":  "lubochka/northwind--acme-enterprise-etl-data-integration",
+                              "repoFullName":  "lubochka/northwind--northwind-exchange-etl-data-integration",
+                              "repoUrl":  "https://github.com/lubochka/northwind--northwind-exchange-etl-data-integration",
+                              "adaptedCommitSha":  "f8bb9bffd0308bb4b846c6ed67a79caf35fee3a5",
+                              "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-etl-data-integration-phase5a-20260506-115656",
+                              "visibilityAfterEvidence":  "PRIVATE"
+                          },
+    "githubActions":  {
+                          "runId":  25426505550,
+                          "jobId":  74581218909,
+                          "runUrl":  "https://github.com/lubochka/northwind--northwind-exchange-etl-data-integration/actions/runs/25426505550",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "f8bb9bffd0308bb4b846c6ed67a79caf35fee3a5"
+                      },
+    "localTenantValidation":  [
+                                  "npm install --package-lock-only --no-audit --no-fund passed.",
+                                  "npx tsc --noEmit --pretty false passed.",
+                                  "npx jest --colors=false --forceExit passed: 3 suites / 8 tests.",
+                                  "npm pack --dry-run --json returned @xiigen-fork/northwind-exchange-etl-data-integration@1.0.2 with 124 files."
+                              ],
+    "registryPublication":  {
+                                "registry":  "http://localhost:4873",
+                                "packageName":  "@xiigen-fork/northwind-exchange-etl-data-integration",
+                                "packageVersion":  "1.0.2",
+                                "shasum":  "c598809aacaed5316ff5c327ee66cdacef011bce",
+                                "gitHead":  "f8bb9bffd0308bb4b846c6ed67a79caf35fee3a5",
+                                "tarball":  "http://localhost:4873/@xiigen-fork/northwind-exchange-etl-data-integration/-/northwind-exchange-etl-data-integration-1.0.2.tgz",
+                                "registryApiEvidence":  "docs/e2e-snapshots/marketplace/etl-data-integration-northwind-v1.0.2-registry-api-evidence.json"
+                            },
+    "tenantAdaptationSummary":  {
+                                    "packageName":  "@xiigen-fork/northwind-exchange-etl-data-integration",
+                                    "packageVersion":  "1.0.2",
+                                    "newTenant":  "northwind",
+                                    "inheritedAdaptation":  "acme-corp v1.0.1",
+                                    "freedomChanges":  [
+                                                           "flow14_sync_page_size: 1000 to 750",
+                                                           "flow14_backfill_slice_size: 5000 to 3500",
+                                                           "flow14_backfill_max_parallel_slices: 4 to 5",
+                                                           "flow14_schema_drift_quarantine_threshold: 0.15 to 0.10",
+                                                           "flow14_schema_approval_timeout_ms: 600000 to 300000",
+                                                           "flow14_identity_confidence_threshold: 0.92 to 0.94",
+                                                           "flow14_identity_max_join_inputs: 3 to 2",
+                                                           "flow14_reverse_etl_push_batch_size: 250 to 400",
+                                                           "flow14_reverse_etl_lock_timeout_ms: 120000 to 90000",
+                                                           "flow14_partner_dropoff_alert_threshold added as 12",
+                                                           "flow14_exchange_sla_minutes added as 30"
+                                                       ],
+                                    "machineInvariantsPreserved":  [
+                                                                       "Acme adaptation history remains recorded.",
+                                                                       "Connector credentials remain Vault-only.",
+                                                                       "HMAC verification remains timing-safe and fail-closed.",
+                                                                       "Cross-tenant identity joins remain blocked.",
+                                                                       "Raw-zone storage remains append-only.",
+                                                                       "FLOW-13 peer ACTIVE check remains required before cross-flow analytics.",
+                                                                       "Reverse ETL remains queue-fabric-only.",
+                                                                       "RLS remains mandatory for marts, identity links, and provisioned zones.",
+                                                                       "storeDocument remains before enqueue for all workflow events."
+                                                                   ]
+                                },
+    "visualEvidence":  {
+                           "playwrightSpec":  "client/e2e/etl-data-integration-tenant-b-adaptation.spec.ts",
+                           "command":  "npx playwright test e2e/etl-data-integration-tenant-b-adaptation.spec.ts --project=chromium-desktop",
+                           "result":  "12 passed",
+                           "pngDirectory":  "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2",
+                           "pngCount":  12,
+                           "zeroByteFiles":  0,
+                           "pngFiles":  [
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/platform-admin-C2-en-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/platform-admin-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/platform-admin-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/platform-support-C2-en-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/platform-support-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/platform-support-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/tenant-admin-C2-en-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/tenant-admin-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/tenant-admin-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/tenant-user-C2-en-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/tenant-user-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2/tenant-user-C6-en-mobile.png"
+                                        ]
+                       },
+    "screenshots":  [
+                        "docs/e2e-snapshots/etl-data-integration/tenant-b-v1.0.2",
+                        "docs/e2e-snapshots/repo-evidence/flow-14/northwind--northwind-exchange-etl-data-integration-tenant-b-v1.0.2-github-listing.png",
+                        "docs/e2e-snapshots/repo-evidence/flow-14/northwind--northwind-exchange-etl-data-integration-tenant-b-v1.0.2-actions-success.png",
+                        "docs/e2e-snapshots/marketplace/etl-data-integration-northwind-v1.0.2-registry-listing.png"
+                    ],
+    "phaseCloseChecks":  {
+                             "clientTypeScript":  "passed: npx tsc --noEmit --pretty false",
+                             "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+                             "serverJest":  "passed: npx jest --testPathPatterns=etl-data-integration --runInBand --colors=false (15 suites / 220 tests)",
+                             "sourceScan":  {
+                                                "throwNew":  0,
+                                                "servicesMissingMicroserviceBase":  0,
+                                                "clsImports":  0,
+                                                "directTenantContextImports":  0,
+                                                "directSdkImports":  0,
+                                                "anyTypes":  0,
+                                                "secretPatternHits":  0
+                                            }
+                         },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "result":  "Tenant B adapted Tenant A package, published v1.0.2 to the local registry, proved green GitHub Actions, and produced Tenant B adapted visual cascade evidence."
+}

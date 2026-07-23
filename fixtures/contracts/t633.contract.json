@@ -1,0 +1,37 @@
+{
+  "taskTypeId": "T633",
+  "taskName": "ContentVersionPublisher",
+  "archetype": "TRANSACTION",
+  "flowId": "FLOW-22",
+  "description": "Publishes approved content versions with OCC state machine enforcement (DRAFT→PENDING_REVIEW→PUBLISHED→ARCHIVED)",
+  "triggerEvent": "ContentPublishRequested",
+  "emittedEvents": ["ContentPublished", "ContentPublishConflict"],
+  "inputSchema": {
+    "type": "object",
+    "required": ["contentId", "versionNumber"],
+    "properties": {
+      "contentId": { "type": "string" },
+      "versionNumber": { "type": "number" }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "contentId": { "type": "string" },
+      "versionNumber": { "type": "number" },
+      "slug": { "type": "string" },
+      "state": { "type": "string" },
+      "publishedAt": { "type": "string" }
+    }
+  },
+  "ironRules": [
+    "IR-1: OCC via versionNumber — conflict returns failure",
+    "IR-2: schemaVersion pinned at draft creation",
+    "IR-3: Slug allocated once, never changed",
+    "IR-4: State machine DRAFT → PENDING_REVIEW → PUBLISHED → ARCHIVED",
+    "IR-5: Published version append-only",
+    "IR-6: tenantId from ALS only (DNA-5)"
+  ],
+  "patternReferences": ["OCC-DRAFT-PUBLISHED-001"],
+  "qualityScore": 0.92
+}

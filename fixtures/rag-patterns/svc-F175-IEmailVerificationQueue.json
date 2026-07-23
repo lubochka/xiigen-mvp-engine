@@ -1,0 +1,27 @@
+{
+  "patternId": "svc-F175-IEmailVerificationQueue",
+  "patternType": "SERVICE_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "factoryId": "F175",
+  "interfaceName": "IEmailVerificationQueue",
+  "archetype": "EVENT_EMIT",
+  "fabric": "QUEUE",
+  "fabricProvider": "RedisStreams",
+  "skillRefs": [
+    "SK-04"
+  ],
+  "taskTypeRefs": [
+    "T47",
+    "T48"
+  ],
+  "tags": [
+    "email",
+    "queue",
+    "verification",
+    "event-emit"
+  ],
+  "keywords": "email verification queue enqueue event emit CloudEvents",
+  "codeSnippet": "// DNA-8: storeDocument BEFORE enqueue\nawait this.db.storeDocument(tenantId, 'verifications', record, tokenId);\nawait this.queue.enqueueAsync(tenantId, createCloudEvent({\n  type: 'xiigen.user-registration.email-verification-sent.v1',\n  data: { userId, tokenId }  // no PII \u2014 CF-8\n}));"
+}

@@ -1,0 +1,26 @@
+{
+  "patternId": "SCHEMA-PUBLISHING-OCC-001",
+  "patternName": "Schema Publishing with OCC",
+  "flowId": "FLOW-21",
+  "archetype": "VALIDATION",
+  "taskTypeId": "T629",
+  "sourceFile": "server/src/engine-contracts/dynamic-forms-workflows-contracts.ts",
+  "problem": "Form schemas need to be published as immutable, read-only versions while supporting concurrent publish attempts from form builders",
+  "solution": "Use Optimistic Concurrency Control (OCC) to manage schema state transitions (DRAFT→PUBLISHED). Published schemas are immutable; any attempt to update a published schema fails. New versions created as separate documents with DRAFT status.",
+  "pattern": {
+    "step_1": "Fetch schema with current version using getDocumentWithVersion()",
+    "step_2": "Validate all fields have validation rules defined; reject if empty",
+    "step_3": "Attempt OCC update: storeDocumentWithOCC(schema, expectedVersion=currentVersion)",
+    "step_4": "On conflict (expected version mismatch): emit SchemaPublishFailed with OCC_CONFLICT",
+    "step_5": "On success: update status=PUBLISHED, increment version, emit SchemaPublished"
+  },
+  "ironRules": [
+    "IR-1: OCC via storeDocumentWithOCC(schema, version, expectedVersion)",
+    "IR-2: Published schema.fields immutable — no updates allowed",
+    "IR-3: All field validation rules must exist before publish",
+    "IR-4: Emit SchemaPublished with schemaId, version, publishedAt",
+    "IR-5: tenantId from ALS only"
+  ],
+  "usedIn": ["FLOW-21"],
+  "keywords": ["OCC", "schema", "publish", "immutable", "DRAFT", "PUBLISHED", "validation-rules"]
+}

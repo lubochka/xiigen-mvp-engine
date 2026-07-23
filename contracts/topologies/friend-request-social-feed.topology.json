@@ -1,0 +1,92 @@
+{
+  "flowId": "FLOW-07",
+  "name": "Social Connections",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T73",
+      "taskTypeId": "T73",
+      "name": "FriendRequestProcessor",
+      "archetype": "orchestration",
+      "entry": "POST /friends/request (calls T81 PrivacyGatekeeper inline)"
+    },
+    {
+      "id": "T74",
+      "taskTypeId": "T74",
+      "name": "FriendRequestResponder",
+      "archetype": "orchestration",
+      "entry": "FriendRequestSent event"
+    },
+    {
+      "id": "T75",
+      "taskTypeId": "T75",
+      "name": "ConnectionGraphWriter",
+      "archetype": "orchestration",
+      "entry": "FriendRequestAccepted event (bidirectional atomic write)"
+    },
+    {
+      "id": "T76",
+      "taskTypeId": "T76",
+      "name": "FeedItemGenerator",
+      "archetype": "ai_generation",
+      "entry": "ConnectionEstablished event (calls T81 privacy gate)"
+    },
+    {
+      "id": "T77",
+      "taskTypeId": "T77",
+      "name": "FeedScorer",
+      "archetype": "ai_generation",
+      "entry": "FeedItemGenerated event (score=0 passes through)"
+    },
+    {
+      "id": "T78",
+      "taskTypeId": "T78",
+      "name": "FeedDeliveryOrchestrator",
+      "archetype": "orchestration",
+      "entry": "FeedItemScored event (two-phase privacy — calls T81 again)"
+    },
+    {
+      "id": "T79",
+      "taskTypeId": "T79",
+      "name": "SocialNotificationDispatcher",
+      "archetype": "orchestration",
+      "entry": "ConnectionEstablished event"
+    },
+    {
+      "id": "T82",
+      "taskTypeId": "T82",
+      "name": "SocialGraphAnalytics",
+      "archetype": "observability",
+      "entry": "Graph topology analysis (TTL-windowed)"
+    }
+  ],
+  "edges": [
+    { "from": "FriendRequestRequested", "to": "T73", "event": "xiigen.friend-request.request-requested.v1" },
+    { "from": "T73", "to": "T74", "event": "xiigen.friend-request.request-sent.v1" },
+    { "from": "T74", "to": "T75", "event": "xiigen.friend-request.request-accepted.v1", "condition": "accepted" },
+    { "from": "T75", "to": "T76", "event": "xiigen.friend-request.connection-established.v1" },
+    { "from": "T75", "to": "T79", "event": "xiigen.friend-request.connection-established.v1" },
+    { "from": "T76", "to": "T77", "event": "xiigen.friend-request.feed-item-generated.v1" },
+    { "from": "T77", "to": "T78", "event": "xiigen.friend-request.feed-item-scored.v1" },
+    { "from": "T78", "to": "T82", "event": "xiigen.friend-request.feed-delivered.v1" },
+    { "from": "T79", "to": "T82", "event": "xiigen.friend-request.notification-sent.v1" },
+    { "from": "T82", "to": "SocialConnectionsComplete", "event": "xiigen.friend-request.analytics-recorded.v1", "condition": "terminal" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": ["FriendRequestSent"],
+      "notQueueable": [],
+      "notQueueableReason": {}
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T77",
+        "runsWhileUserViews": "SocialFeedScreen",
+        "signalType": "new-content-available-banner",
+        "signalText": "New connections available — pull to refresh"
+      }
+    ]
+  }
+}

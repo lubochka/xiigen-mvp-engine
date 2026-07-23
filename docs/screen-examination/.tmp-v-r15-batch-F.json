@@ -1,0 +1,320 @@
+{
+  "batch": "F",
+  "run": "V-R15",
+  "subagent_role": "RESCORE verification after RUN-188 V-R15 fixes",
+  "rubric": "docs/screen-examination/PER-IMAGE-VALIDATION-TEMPLATE.md",
+  "viewport": "chromium-desktop",
+  "examined_utc": "2026-04-22",
+  "flows_examined": 8,
+  "summary": {
+    "pass": 2,
+    "concern": 4,
+    "block": 2,
+    "v_r14_blocks_resolved": 0,
+    "v_r14_blocks_persists": 1,
+    "v_r14_concerns_resolved": 1,
+    "v_r14_concerns_persists": 3
+  },
+  "flows": [
+    {
+      "flow": "FLOW-32",
+      "slug": "sharable-flows-marketplace",
+      "verdict": "CONCERN",
+      "v_r14_status": "CONCERN_PARTIAL",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png",
+        "populated-anonymous.png"
+      ],
+      "axes": {
+        "A_shell": "PASS (anonymous/public see kiosk; tenant-admin sees admin shell; correct)",
+        "B_role": "PASS (role-differentiated content: anon sees sign-in gate, platform-admin sees curation queue, tenant-user sees browse+install, tenant-admin sees installed+updates)",
+        "C_language": "PASS (en baseline, RTL not assessed)",
+        "D_state": "PARTIAL — populated-anonymous: 'state 6' raw-index subtitle is GONE (RESOLVED). State chip title-cased 'Listed' in header RESOLVED.",
+        "E_human": "CONCERN — 'Package LISTED' caps remain in body heading (consumer-facing card body still uses enum-caps); platform-admin card shows 'LISTED' all-caps chip",
+        "F_layer1": "PASS",
+        "F_layer2": "PASS (no 10-tell pattern; card grid differentiated by category + tier)",
+        "F_layer3": "PASS (H2 match-real-world limited by caps leakage — est 12/16)",
+        "F_layer4": "PASS (grammar = CARD_LIST across roles)",
+        "F_layer5": "CONCERN (token test partial: enum values bleed through as technical)"
+      },
+      "verdict_details": {
+        "block_resolved": false,
+        "concern_resolved_partial": true,
+        "concern_resolved_note": "The 'state 6' raw-state subtitle is RESOLVED (CONCERN_RESOLVED on that piece). The 'Package LISTED' all-caps heading in the consumer card body PERSISTS — raw enum still leaking. The small 'Listed' title-cased chip in the top-right was fixed correctly.",
+        "remaining_concerns": [
+          "populated-anonymous body heading 'Package LISTED — publicly discoverable in marketplace' retains all-caps enum value",
+          "primary-platform-admin shows 'LISTED' all-caps chip on package cards"
+        ]
+      }
+    },
+    {
+      "flow": "FLOW-12",
+      "slug": "subscription-billing",
+      "verdict": "BLOCK",
+      "v_r14_status": "CONCERN_PERSISTS",
+      "pngs_examined": [
+        "populated-tenant-admin.png",
+        "primary-business-partner.png",
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axes": {
+        "A_shell": "PASS (tenant-admin → admin shell; tenant-user → module; business-partner → module)",
+        "B_role": "PASS (role-branched: business-partner sees Partner Invoicing, platform-admin sees platform billing overview, tenant-admin sees Billing Dashboard + retry, tenant-user sees My Subscription + invoices)",
+        "C_language": "PASS",
+        "D_state": "BLOCK — populated-tenant-admin STILL shows 'state 1' as subtitle AND 'State 1' as block header. The Wave 4 humanization was NOT applied to this BusinessStateCard render.",
+        "E_human": "BLOCK — camelCase field labels STILL VISIBLE in populated-tenant-admin card: planCode, priceMonthly, currentPeriod, nextBillingDate, paymentMethod. No humanized labels. 'STARTER' value in caps. Other views: 'PAID'/'FAILED'/'VOIDED'/'MONTHLY'/'DUE' enum chips across billing dashboards also all-caps (additional CONCERN).",
+        "F_layer1": "PASS",
+        "F_layer2": "CONCERN (monospace-as-technical tell: camelCase keys and values in mono font block are a technical-grade 'design-for-ai' tell)",
+        "F_layer3": "BLOCK (H2=1: engineering jargon visible to admin end-user; est 10/16)",
+        "F_layer4": "PASS (progress strip / card layout)",
+        "F_layer5": "BLOCK (token test FAIL: camelCase identifiers are developer identifiers, not domain-native; non-tech-reviewer test fails)"
+      },
+      "verdict_details": {
+        "block_resolved": false,
+        "concern_resolved": false,
+        "concern_persists_note": "V-R14 CONCERN PERSISTS. Wave 4 humanizeKey overrides for Plan / Price per month / Current period / Next billing date / Payment method did NOT land in the captured PNG. Step label 'state 1' still visible for tenant-admin. BusinessStateCard fix is not reflected in the visual-audit snapshot for this flow.",
+        "blockers": [
+          "populated-tenant-admin.png: 'state 1' subtitle visible",
+          "populated-tenant-admin.png: 'State 1' block header visible",
+          "populated-tenant-admin.png: planCode/priceMonthly/currentPeriod/nextBillingDate/paymentMethod camelCase keys visible",
+          "populated-tenant-admin.png: 'STARTER' enum value all-caps",
+          "Other billing surfaces (primary-tenant-admin, primary-tenant-user): PAID/FAILED/VOIDED/MONTHLY chip enums all-caps"
+        ]
+      }
+    },
+    {
+      "flow": "FLOW-33",
+      "slug": "system-initiation-bootstrap",
+      "verdict": "BLOCK",
+      "v_r14_status": "CONCERN_PERSISTS",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "axes": {
+        "A_shell": "PASS (platform-admin/support see admin shell correctly; platform-support shows proper denial kiosk)",
+        "B_role": "PASS (platform-admin has Re-run bootstrap; platform-support sees deny message)",
+        "C_language": "PASS",
+        "D_state": "BLOCK — populated-platform-admin STILL shows 'state 5' raw subtitle + 'State 5' block header; BusinessStateCard humanization not applied",
+        "E_human": "BLOCK — camelCase fields still visible: bootId, warmedAt, uptime, requestsServed, healthScore; 'WARM' chip all-caps; 'Engine WARM — API accepting traffic' body heading with caps enum 'WARM' and acronym 'API'; 'COMPLETE' chip caps on progress rows; BOOT-2026-0419-001 identifier leaked; API acronym leaked.",
+        "F_layer1": "PASS",
+        "F_layer2": "CONCERN (monospace-as-technical tell on mono identifiers and camelCase)",
+        "F_layer3": "BLOCK (H2=1 engineering jargon visible — camelCase, BOOT-ID, API acronym to end user)",
+        "F_layer4": "PASS (progress-strip on primary; card on populated)",
+        "F_layer5": "BLOCK (swap/signature OK, but token + non-tech-reviewer FAIL due to camelCase + acronyms)"
+      },
+      "verdict_details": {
+        "block_resolved": false,
+        "concern_resolved": false,
+        "concern_persists_note": "V-R14 CONCERN PERSISTS on populated-platform-admin. Expected Wave 4 humanization (Boot ID / Warmed at / Uptime / Requests served / Health score, hide step label or 'State 5' label, Title-Case 'Warm' body copy) did NOT land in snapshot. Raw bootId/warmedAt/uptime/requestsServed/healthScore + 'state 5' + 'WARM' all persist.",
+        "blockers": [
+          "populated-platform-admin.png: 'state 5' subtitle + 'State 5' header visible",
+          "populated-platform-admin.png: camelCase field keys bootId/warmedAt/uptime/requestsServed/healthScore",
+          "populated-platform-admin.png: 'WARM' caps in Engine WARM heading",
+          "populated-platform-admin.png: 'API' acronym in body subtitle",
+          "primary-platform-admin.png: 'COMPLETE' caps chips on progress rows",
+          "Warm chip title-right caps 'Warm' is OK; 'Fabrics resolved / Indices confirmed / Smoke tests' labels are fine"
+        ]
+      }
+    },
+    {
+      "flow": "FLOW-30",
+      "slug": "tenant-lifecycle-manager",
+      "verdict": "BLOCK",
+      "v_r14_status": "CONCERN_PERSISTS",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "axes": {
+        "A_shell": "PASS",
+        "B_role": "PASS (platform-admin has Provision/Suspend/Offboard/Force controls; platform-support has read-only inspector with explicit 'disabled for support access' banner)",
+        "C_language": "PASS",
+        "D_state": "BLOCK — populated-platform-admin STILL shows 'state 1' raw subtitle + 'State 1' block header; BusinessStateCard humanization not applied",
+        "E_human": "BLOCK — camelCase fields tenantId/planId/createdBy/createdAt still visible; 'TNT-acme-corp' identifier prefix visible to admin (acceptable but borderline); plan 'plan-growth' slug visible in values. Tenant list surfaces are otherwise clean.",
+        "F_layer1": "PASS",
+        "F_layer2": "CONCERN (monospace-as-technical tell)",
+        "F_layer3": "BLOCK (H2=1 engineering jargon — camelCase visible to admin)",
+        "F_layer4": "PASS (card+table layout)",
+        "F_layer5": "BLOCK (token/non-tech-reviewer FAIL on populated)"
+      },
+      "verdict_details": {
+        "block_resolved": false,
+        "concern_resolved": false,
+        "concern_persists_note": "V-R14 CONCERN PERSISTS. Expected Wave 4 humanization (Tenant ID / Plan ID / Created by / Created at; hide 'state 1' label) did NOT land.",
+        "blockers": [
+          "populated-platform-admin.png: 'state 1' subtitle + 'State 1' header visible",
+          "populated-platform-admin.png: camelCase keys tenantId/planId/createdBy/createdAt",
+          "populated-platform-admin.png: plan-growth slug + signup-flow slug in values (could humanize)"
+        ]
+      }
+    },
+    {
+      "flow": "FLOW-09",
+      "slug": "transactional-event-participation",
+      "verdict": "CONCERN",
+      "v_r14_status": "N/A",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-event-organiser.png",
+        "primary-tenant-user.png",
+        "primary-platform-admin.png"
+      ],
+      "axes": {
+        "A_shell": "PASS (anonymous kiosk checkout; event-organiser admin shell with check-in kiosk; tenant-user kiosk with My event tickets; platform-admin admin shell with Ticket payments overview)",
+        "B_role": "PASS (role-differentiated: buy-flow for anon, check-in for organiser, wallet for attendee, refund queue for admin)",
+        "C_language": "PASS",
+        "D_state": "PASS (domain fields present: event name, date, venue, ticket tier, quantity, subtotal, tax, total, refund queue entries)",
+        "E_human": "CONCERN — minor caps leakage: 'ORDER SUMMARY' / 'PAYMENT DETAILS' / 'VIP TICKET' / 'GENERAL TICKET' / 'EARLY BIRD TICKET' / 'CHECKED IN' / 'REMAINING' / 'PROGRESS' / 'RECENT CHECK-INS' / 'TXN ID' / 'EVENT' / 'AMOUNT' / 'REASON' / 'STATUS' / 'ACTION' section headers / column headers visible in uppercase tracking-wide form; 'VIP' acronym and 'TXN-88421' identifier prefix leak",
+        "F_layer1": "PASS",
+        "F_layer2": "PASS (0 tells)",
+        "F_layer3": "PASS (H2=3 — caps section headers are typographic uppercase, domain content is plain-language)",
+        "F_layer4": "PASS (kiosk/card-list/dashboard grammars match roles)",
+        "F_layer5": "PASS (signature strong — progress strip, ticket cards, dispute table)"
+      },
+      "verdict_details": {
+        "note": "Solid role-branching and domain content. Minor CONCERN limited to uppercase section headers (tracking-wide typographic style) and TXN/VIP acronyms. Not a BLOCK — same typographic-uppercase is a house style that could be retained but should be evaluated globally."
+      }
+    },
+    {
+      "flow": "FLOW-06",
+      "slug": "user-groups-communities",
+      "verdict": "CONCERN",
+      "v_r14_status": "N/A",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axes": {
+        "A_shell": "PASS (anonymous kiosk; platform-support/tenant-admin/tenant-user all in admin shell — tenant-user should arguably be module/consumer shell)",
+        "B_role": "PASS (anon sees sign-in-to-join; tenant-admin sees admin data-grid; tenant-user sees discover cards with join CTA; platform-support sees thin search form)",
+        "C_language": "PASS",
+        "D_state": "PASS (groups with member counts, category, activity, tier chips)",
+        "E_human": "CONCERN — tenant-admin data grid has PUBLIC/PRIVATE/INVITE_ONLY column values all-caps; FREE/PREMIUM/STANDARD tier chips all-caps across roles; tenant-user cards show MATHEMATICS/DEVELOPMENT/BUSINESS/LANGUAGES caps category labels (heavy enum bleed); INVITE_ONLY uses snake_case all-caps — worst single token",
+        "F_layer1": "PASS",
+        "F_layer2": "CONCERN (monospace-adjacent tell on all-caps enum chips; identical-card-grid tell on tenant-user discover but differentiated by tier chip)",
+        "F_layer3": "CONCERN (H2=2 — INVITE_ONLY snake_case is raw database enum; 11/16)",
+        "F_layer4": "PASS (kiosk / card-list / data-grid appropriate per role)",
+        "F_layer5": "CONCERN (token partial — enum chips are raw database values)"
+      },
+      "verdict_details": {
+        "note": "CONCERN: all-caps enum chips (PUBLIC, PRIVATE, INVITE_ONLY, FREE, STANDARD, PREMIUM) + caps category labels are raw enum leakage. 'INVITE_ONLY' snake_case is the strongest offender — needs humanization to 'Invite-only'."
+      }
+    },
+    {
+      "flow": "FLOW-01",
+      "slug": "user-registration",
+      "verdict": "BLOCK",
+      "v_r14_status": "BLOCK_PERSISTS",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png",
+        "default-anonymous.png",
+        "pending-anonymous.png"
+      ],
+      "axes": {
+        "A_shell": "BLOCK — authenticated roles (platform-support, tenant-admin, tenant-user) STILL render the anonymous 'Create your account' signup form INSIDE the XIIGen admin shell with engine sidebar. V-R15 fix (signed-in kiosk with go-to-dashboard CTA) is NOT present. Only a small inline yellow banner 'You appear to be signed in already. Creating a new account will sign you out' is shown. No go-to-dashboard CTA. No kiosk. No replacement of the form.",
+        "B_role": "BLOCK — authenticated roles should NOT see a signup form. V-R14 block remains.",
+        "C_language": "PASS (en)",
+        "D_state": "PASS for anonymous (pending-anonymous shows proper 'Check your inbox' kiosk; default-anonymous and primary-anonymous show signup form inside kiosk for anon — correct for anon; incorrect for authenticated roles)",
+        "E_human": "PASS on copy itself",
+        "F_layer1": "PASS",
+        "F_layer2": "PASS",
+        "F_layer3": "BLOCK (H1/H2 fail for authenticated: wrong action surfaced to wrong user)",
+        "F_layer4": "BLOCK (wrong grammar: signup form grammar rendered inside admin shell for authenticated users)",
+        "F_layer5": "BLOCK (squint test FAIL: hierarchy/action inappropriate for role)"
+      },
+      "verdict_details": {
+        "block_resolved": false,
+        "block_persists_note": "V-R14 BLOCK PERSISTS. primary-platform-support.png, primary-tenant-admin.png, primary-tenant-user.png ALL still show the signup form with engine sidebar. The intended kiosk 'You're already signed in' with explicit 'Go to dashboard' CTA replacing the form is NOT RENDERED. The present signed-in advisory is a small inline banner ABOVE the still-active signup form — users could still complete the form and sign themselves out.",
+        "blockers": [
+          "primary-platform-support.png: signup form rendered inside admin shell",
+          "primary-tenant-admin.png: signup form rendered inside admin shell",
+          "primary-tenant-user.png: signup form rendered inside admin shell",
+          "Expected replacement kiosk (card with avatar + 'You're signed in as X' + primary 'Go to dashboard' CTA + secondary 'Sign out first' link) IS ABSENT across all 3 authenticated roles",
+          "Engine sidebar is visible for authenticated roles — acceptable if kiosk had replaced main content, but signup form is the main content so this compounds the BLOCK"
+        ]
+      }
+    },
+    {
+      "flow": "FLOW-18",
+      "slug": "visual-flow-engine",
+      "verdict": "PASS",
+      "v_r14_status": "N/A",
+      "pngs_examined": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png"
+      ],
+      "axes": {
+        "A_shell": "PASS (all admin-shell — all three roles are internal)",
+        "B_role": "PASS (platform-admin: cross-tenant audit with lock/unlock controls; platform-support: read-only canvas with escalate link + 'Save/publish/add-edge disabled' banner; tenant-admin: full flow builder with design assistant chat)",
+        "C_language": "PASS",
+        "D_state": "PASS (populated with realistic content: published flows list with tenant + version + date; node list with types; topology canvas preview with nodes)",
+        "E_human": "PASS (topology canvas is domain-native; 'Draft' / 'Unlocked' / 'Locked' chips Title-Cased; no acronym leakage; 'Input outputs string' / 'Transform outputs number' is appropriate for the visual-flow builder domain)",
+        "F_layer1": "PASS",
+        "F_layer2": "PASS (0 tells — differentiated by role; no hero-metric; no identical card grid)",
+        "F_layer3": "PASS (H1/H2/H8/H9 all strong — status visible, builder language matches domain, minimalist layout, explicit disabled-state explanation for support, readily recoverable from a locked-flow situation)",
+        "F_layer4": "PASS (declared TOPOLOGY_CANVAS matches implemented)",
+        "F_layer5": "PASS (swap/squint/signature/token/non-tech-reviewer all PASS — canvas + node-type chips + status banner are unique)"
+      },
+      "verdict_details": {
+        "note": "Clean across all three captured roles. Role-branching is exemplary — the platform-admin has cross-tenant audit, platform-support has read-only with escalation path, tenant-admin has full design assistant. No BLOCKs or CONCERNs."
+      }
+    }
+  ],
+  "rollup": {
+    "v_r14_items_tracked_in_batch_F": [
+      {
+        "flow": "sharable-flows-marketplace",
+        "concern": "state 6 + Package LISTED",
+        "status_now": "CONCERN_RESOLVED_PARTIAL (state-6 subtitle removed; Package LISTED caps STILL leaks)"
+      },
+      {
+        "flow": "subscription-billing",
+        "concern": "state 1 + camelCase planCode/priceMonthly/etc",
+        "status_now": "CONCERN_PERSISTS (Wave 4 humanization not applied; all original offenders still visible)"
+      },
+      {
+        "flow": "system-initiation-bootstrap",
+        "concern": "state 5 + camelCase bootId/warmedAt/uptime/requestsServed/healthScore",
+        "status_now": "CONCERN_PERSISTS"
+      },
+      {
+        "flow": "tenant-lifecycle-manager",
+        "concern": "state 1 + camelCase tenantId/planId/createdBy",
+        "status_now": "CONCERN_PERSISTS"
+      },
+      {
+        "flow": "user-registration",
+        "block": "authenticated roles render signup form in admin shell",
+        "status_now": "BLOCK_PERSISTS (signed-in kiosk with go-to-dashboard CTA not rendered; only inline yellow banner above the still-active form)"
+      }
+    ],
+    "new_concerns_surfaced_in_batch_F": [
+      "user-groups-communities: INVITE_ONLY snake_case chip + PUBLIC/PRIVATE/FREE/STANDARD/PREMIUM caps enum chips",
+      "subscription-billing (all role views): PAID/FAILED/VOIDED/MONTHLY chip enums all-caps",
+      "transactional-event-participation: section-header typographic uppercase (ORDER SUMMARY, PAYMENT DETAILS) + VIP acronym + TXN-88421 prefix — borderline house-style vs enum"
+    ],
+    "clean_flows": [
+      "visual-flow-engine (all 3 roles)"
+    ]
+  },
+  "final_verdicts": {
+    "PASS": ["visual-flow-engine"],
+    "CONCERN": ["sharable-flows-marketplace", "transactional-event-participation", "user-groups-communities"],
+    "BLOCK": ["subscription-billing", "system-initiation-bootstrap", "tenant-lifecycle-manager", "user-registration"]
+  }
+}

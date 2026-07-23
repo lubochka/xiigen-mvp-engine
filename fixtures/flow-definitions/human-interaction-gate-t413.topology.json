@@ -1,0 +1,101 @@
+{
+  "flowId": "FLOW-27",
+  "taskTypeId": "T413-T415",
+  "name": "flow-27-core-pipeline",
+  "description": "Core pipeline for human-interaction-gate",
+  "archetype": "PROCESSING",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation for human-interaction-gate"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve human-interaction-gate patterns",
+      "params": {
+        "archetype": "PROCESSING",
+        "taskTypeRef": "T413",
+        "topK": 4,
+        "patternIds": [
+          "PATTERN-1",
+          "PATTERN-2",
+          "PATTERN-3",
+          "PATTERN-4"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break down human-interaction-gate flow"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate human-interaction-gate services"
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Validate human-interaction-gate implementation"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score against iron rules for human-interaction-gate"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route based on score"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "Feedback loop for human-interaction-gate"
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2"
+    },
+    {
+      "from": "n2",
+      "to": "n3"
+    },
+    {
+      "from": "n3",
+      "to": "n4"
+    },
+    {
+      "from": "n4",
+      "to": "n5"
+    },
+    {
+      "from": "n5",
+      "to": "n6"
+    },
+    {
+      "from": "n6",
+      "to": "n7"
+    },
+    {
+      "from": "n7",
+      "to": "n8",
+      "condition": "score >= 0.85"
+    },
+    {
+      "from": "n7",
+      "to": "n3",
+      "condition": "score < 0.85 AND cycles_remaining > 0"
+    }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "RequestInitiated event",
+  "primaryFabric": "DATABASE"
+}

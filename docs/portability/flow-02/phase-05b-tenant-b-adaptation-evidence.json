@@ -1,0 +1,62 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "phase": "Phase 5b - Tenant B adapts",
+  "tenantId": "northwind",
+  "completedAt": "2026-04-29T11:28:00+03:00",
+  "originModuleName": "acme-pro-matching",
+  "adaptedModuleName": "northwind-partner-matching",
+  "repoBefore": "lubochka/northwind--acme-pro-matching",
+  "repoAfter": "lubochka/northwind--northwind-partner-matching",
+  "repoUrl": "https://github.com/lubochka/northwind--northwind-partner-matching",
+  "adaptedCommitSha": "21f4d81f25a029f50934bc4bc36b0d956817425a",
+  "ciEvidence": {
+    "workflowRunId": 25098309076,
+    "workflowRunUrl": "https://github.com/lubochka/northwind--northwind-partner-matching/actions/runs/25098309076",
+    "workflowConclusion": "success",
+    "workflowStatus": "completed",
+    "headSha": "21f4d81f25a029f50934bc4bc36b0d956817425a"
+  },
+  "repoConfigEvidence": {
+    "tenantId": "northwind",
+    "moduleName": "northwind-partner-matching",
+    "moduleVersion": "1.0.2",
+    "adaptationHistoryCount": 2,
+    "adaptationHistoryEntries": [
+      "acme-pro-matching",
+      "northwind-partner-matching"
+    ]
+  },
+  "localForkVerification": {
+    "clonePath": "C:/tmp/xiigen-phase5a/northwind--profile-enrichment",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "result": "package install completed, TypeScript passed, Jest passed: 1 suite, 2 tests, 0 failures"
+  },
+  "visualEvidence": {
+    "directory": "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-v1.0.2",
+    "roles": [
+      "tenant-user",
+      "tenant-admin",
+      "freelancer",
+      "business-partner",
+      "event-organiser"
+    ],
+    "screensPerRole": 3,
+    "pngCount": 15,
+    "marketplaceListing": "docs/portability/flow-02/visual-evidence/marketplace/profile-enrichment-v1.0.2-listing.png"
+  },
+  "repoEvidenceFiles": [
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-adapted-repo/northwind--northwind-partner-matching-repo-homepage.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-adapted-repo/northwind--northwind-partner-matching-github-listing.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-adapted-repo/northwind--northwind-partner-matching-github-actions-success.png"
+  ],
+  "playwrightEvidence": {
+    "command": "cd client && VITE_PORT=5178 npx playwright test e2e/profile-enrichment-portability-visual.spec.ts --project=chromium-desktop",
+    "result": "18 tests passed; Tenant B adapted captured 15 role screenshots and marketplace listing"
+  },
+  "nextPhase": "Phase 5c - Tenant C installs Tenant B adapted version"
+}

@@ -1,0 +1,97 @@
+{
+  "batch_id": "V-R14-A",
+  "captured_after": "RUN-181 through RUN-186 (V-R13 final)",
+  "flows_examined": 8,
+  "flows": [
+    {
+      "slug": "adaptive-rag-deep-research",
+      "pngs_read": ["primary-platform-admin.png", "primary-platform-support.png", "populated-platform-admin.png"],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Platform-only flow correctly gated. Platform-admin shows phases topology + canvas drill-down; platform-support has read-only banner ('Kill and Rebudget are platform-admin only'). Populated shows research state with researchId RES-2026-0419-001 (legitimate technical ID on admin surface)."
+    },
+    {
+      "slug": "admin-i18n",
+      "pngs_read": ["primary-platform-admin.png"],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Single-role flow (platform-admin only). Purpose-built Platform Translation Governance: enabled/disabled language toggles, translation dictionary with FR/HE/ES/DE/Missing badges. Clean humanized copy, no raw identifiers."
+    },
+    {
+      "slug": "ads-platform",
+      "pngs_read": ["primary-anonymous.png", "primary-platform-admin.png", "primary-platform-support.png", "primary-tenant-admin.png", "primary-tenant-user.png", "populated-anonymous.png", "populated-business-partner.png", "populated-he-platform-admin.png", "populated-platform-admin.png"],
+      "verdict": "BLOCK",
+      "role_differentiation_verified": false,
+      "role_leaks": ["anonymous sees identical campaign budgets/CTR/bids as platform-admin with 'bid editable inline' hint", "tenant-user sees same campaign data (no shell, but full content)", "tenant-admin sees identical page", "business-partner sees identical page"],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "CRITICAL: Anonymous and all non-platform roles see identical content to platform-admin — full running campaign budgets ($412/$800, bid 0.22), CTR, spend ledger, paused/ended states, 'bid editable inline' affordance. Only difference across roles is the sidebar/shell. No role-branching on content. Populated-anonymous shows 'Admin view of auctions, bids, consent gating, fraud checks, and spend ledger' — explicit admin copy leak."
+    },
+    {
+      "slug": "ai-safety-moderation",
+      "pngs_read": ["primary-anonymous.png", "primary-platform-admin.png", "primary-platform-support.png", "primary-tenant-admin.png", "primary-tenant-user.png", "populated-anonymous.png"],
+      "verdict": "BLOCK",
+      "role_differentiation_verified": true,
+      "role_leaks": ["tenant-user primary shows dev copy: 'AI safety moderation surfaces are available to content moderators. Use ?flagged=true with role=tenant-user to preview the appeal flow.'", "populated-anonymous shows 'Admin view of the content-moderation pipeline' header on anonymous surface"],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Strong role-branching: anon has 'Report Harmful Content' kiosk; tenant-admin has Trust & Safety queue with Approve/Reject/Escalate; platform-support has read-only inspector; platform-admin has cross-tenant moderator queue with AI safety checks + remove/warn actions. BUT: tenant-user primary leaks developer instructions (?flagged=true query-string docs) — internal engineering copy visible to end users. Also populated-anonymous has admin-view description."
+    },
+    {
+      "slug": "ai-self-modification",
+      "pngs_read": ["primary-platform-admin.png"],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Platform-admin only. Purpose-built AI Self-Modification Console with pending proposals, approve/reject, performance before/after panel, and explicit 'Platform-only' badge on raw index admin-debug accordion. Dates humanized ('Drafted 2026-04-18 07:30'). Good."
+    },
+    {
+      "slug": "bfa-cross-flow-governance",
+      "pngs_read": ["primary-platform-admin.png", "primary-platform-support.png", "populated-platform-admin.png"],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Platform-admin has Cross-Flow Policy Console with rule approval/deployment/conflict scan matrix. Platform-support has Rule Inspector (read-only) with 'Edit controls below are disabled for support access' + Escalate link. CF-841, CF-821 are legitimate rule identifiers on admin surface (like incident IDs). Strong role differentiation."
+    },
+    {
+      "slug": "blog-cms-modules",
+      "pngs_read": ["primary-anonymous.png", "primary-platform-admin.png", "primary-public-marketplace-visitor.png", "primary-tenant-admin.png", "primary-tenant-user.png", "populated-anonymous.png"],
+      "verdict": "BLOCK",
+      "role_differentiation_verified": true,
+      "role_leaks": ["populated-anonymous renders 'Blog/CMS Modules · state 7 · Admin view of blog drafts, AI enhancement, moderation gates, scheduling, publishing, and archival' to anonymous users"],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Primary views have good role branching: anon + public-marketplace-visitor + tenant-user see blog post 'Launch Week Preview' kiosk (tenant-user adds Save/Share); tenant-admin has Blog admin shell with manage posts + 'Raw index browser (admin debug)' (acceptable for tenant-admin role); platform-admin has cross-tenant Blog Module Platform Console with Uninstall/Install per tenant. BUT populated-anonymous leaks admin-facing state view."
+    },
+    {
+      "slug": "bundle-activation",
+      "pngs_read": ["primary-platform-admin.png", "primary-platform-support.png", "populated-platform-admin.png", "active-platform-admin.png", "failed-platform-admin.png"],
+      "verdict": "PASS",
+      "role_differentiation_verified": true,
+      "role_leaks": [],
+      "flow_nn_badge_leak": false,
+      "raw_index_leak_to_non_admin": false,
+      "notes": "Platform-admin has Bundle Activation console with Force-activate / Revoke per bundle; platform-support has read-only Bundle Activation inspector with disabled controls + 'Escalate to platform-admin' link. Active/Failed states show bundleId (BDL-core-platform-v2), activeVersion, requiredFlowCount, activatedAt / errorCode (EMPTY_REQUIRED_FLOWS). Legitimate technical bundle identifiers on admin surface. Clean role differentiation."
+    }
+  ],
+  "batch_summary": {
+    "pass": 5,
+    "concern": 0,
+    "block": 3
+  },
+  "blockers": [
+    "ads-platform: Anonymous/tenant-user/tenant-admin/business-partner ALL see identical content to platform-admin — campaign budgets, CTR, spend ledger, bid-edit affordance. No role-branching on content; only shell differs. Populated-anonymous shows 'Admin view of auctions, bids, consent gating, fraud checks, and spend ledger' header.",
+    "ai-safety-moderation: tenant-user primary view leaks developer instructions ('Use ?flagged=true with role=tenant-user to preview the appeal flow') — internal engineering copy visible to end users.",
+    "blog-cms-modules: populated-anonymous renders 'Admin view of blog drafts, AI enhancement, moderation gates, scheduling, publishing, and archival' header to anonymous surface — admin-facing state view leaking to public."
+  ]
+}

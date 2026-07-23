@@ -1,0 +1,62 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "status": "complete",
+  "completedAt": "2026-04-29T12:33:00+03:00",
+  "repoChecks": [
+    {
+      "tenantId": "acme-corp",
+      "repo": "lubochka/acme-corp--acme-pro-matching",
+      "url": "https://github.com/lubochka/acme-corp--acme-pro-matching",
+      "workflowRunId": 25096812478,
+      "workflowRunUrl": "https://github.com/lubochka/acme-corp--acme-pro-matching/actions/runs/25096812478",
+      "workflowConclusion": "success",
+      "headSha": "0d34216fba11b4d0d591bc623ee94dad13653fd6",
+      "requiredBundleFilesMissing": [],
+      "moduleName": "acme-pro-matching",
+      "adaptationHistoryCount": 1
+    },
+    {
+      "tenantId": "northwind",
+      "repo": "lubochka/northwind--northwind-partner-matching",
+      "url": "https://github.com/lubochka/northwind--northwind-partner-matching",
+      "workflowRunId": 25098309076,
+      "workflowRunUrl": "https://github.com/lubochka/northwind--northwind-partner-matching/actions/runs/25098309076",
+      "workflowConclusion": "success",
+      "headSha": "21f4d81f25a029f50934bc4bc36b0d956817425a",
+      "requiredBundleFilesMissing": [],
+      "moduleName": "northwind-partner-matching",
+      "adaptationHistoryCount": 2
+    },
+    {
+      "tenantId": "tessera-collective",
+      "repo": "lubochka/tessera-collective--tessera-community-matching",
+      "url": "https://github.com/lubochka/tessera-collective--tessera-community-matching",
+      "workflowRunId": 25099656229,
+      "workflowRunUrl": "https://github.com/lubochka/tessera-collective--tessera-community-matching/actions/runs/25099656229",
+      "workflowConclusion": "success",
+      "headSha": "ffa191e467f106ee9270c8ec28128d492e8882f5",
+      "requiredBundleFilesMissing": [],
+      "moduleName": "tessera-community-matching",
+      "adaptationHistoryCount": 3
+    }
+  ],
+  "visualEvidenceCounts": {
+    "tenantAAdaptedRoleScreens": 15,
+    "tenantBInstalledFromA": 15,
+    "tenantBAdaptedRoleScreens": 15,
+    "tenantCInstalledFromB": 15,
+    "tenantCAdaptedRoleScreens": 15,
+    "tenantARepoEvidence": 3,
+    "tenantBRepoEvidence": 3,
+    "tenantCRepoEvidence": 3
+  },
+  "verificationCommands": [
+    "npx tsc --noEmit (client)",
+    "VITE_PORT=5178 npx playwright test e2e/profile-enrichment-portability-visual.spec.ts --project=chromium-desktop: 29 passed",
+    "npx jest test/profile-enrichment/phase-02-auth.spec.ts --runInBand: 5 passed",
+    "scripts/pre-commit-check.sh: all 10 checks passed before phase commit",
+    "GitHub API bundle and adaptation-history check: all three repos passed"
+  ],
+  "openBlockers": []
+}

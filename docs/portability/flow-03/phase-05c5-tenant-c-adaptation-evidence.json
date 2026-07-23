@@ -1,0 +1,94 @@
+{
+  "phase": "Phase 5c-5 - Tenant C adapts and publishes",
+  "flowId": "FLOW-03",
+  "flowSlug": "event-management",
+  "tenantId": "tessera-collective",
+  "sourceModuleName": "event-management-northwind-sponsor-forums",
+  "adaptedModuleName": "event-management-tessera-residency-circles",
+  "packageName": "@xiigen-fork/event-management-tessera-residency-circles",
+  "packageVersion": "1.0.0",
+  "completedAt": "2026-05-01T03:38:16.373Z",
+  "aiAdaptation": {
+    "tenantId": "tessera-collective",
+    "originModuleName": "event-management-northwind-sponsor-forums",
+    "proposedModuleName": "event-management-tessera-residency-circles",
+    "changeType": "Type A (FREEDOM key value change)",
+    "freedomKeyChanged": "flow03_analytics_counter_ttl_days",
+    "previousValue": null,
+    "newValue": 45,
+    "rationale": "Tessera Collective needs residency circle retrospectives with a longer analytics review window while preserving inherited event capacity, promotion, and sponsor waitlist behavior.",
+    "nameChangeRationale": "The module now serves Tessera residency circle event operations, so the module name changes from Northwind sponsor forums to Tessera residency circles."
+  },
+  "inheritedTenantAValues": {
+    "flow03_max_events_per_organizer": 3,
+    "flow03_max_attendees": 10,
+    "flow03_promotion_channels": [
+      "in-app"
+    ],
+    "flow03_campaign_engagement_threshold": 5
+  },
+  "inheritedTenantBValues": {
+    "flow03_waitlist_max_size": 12
+  },
+  "tenantCValues": {
+    "flow03_analytics_counter_ttl_days": 45,
+    "flow_module_name": "event-management-tessera-residency-circles"
+  },
+  "tenantRepo": {
+    "repoName": "tessera-collective--event-management-tessera-residency-circles",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--event-management-tessera-residency-circles",
+    "tenantRepoCommitHash": "9876c179000bc772d2ac4748c0a9bb303516a447",
+    "workflowConclusion": "success",
+    "workflowRunUrl": "https://github.com/lubochka/tessera-collective--event-management-tessera-residency-circles/actions/runs/25200897272",
+    "localClonePath": "<WORKSPACE>/AppData/Local/Temp/xiigen-flow03-tenant-c-installed-from-b",
+    "localChecks": [
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ]
+  },
+  "registry": {
+    "publishCommand": "npm publish --registry http://localhost:4873",
+    "registryUrl": "http://localhost:4873",
+    "latestVerified": "1.0.0",
+    "packageUrl": "http://localhost:4873/@xiigen-fork%2fevent-management-tessera-residency-circles"
+  },
+  "authRegression": {
+    "status": "partial under authentication deferred deployment",
+    "harness": "JwtTokenProvider with per-tenant signing keys and CLS tenant context",
+    "noTokenVerify": 401,
+    "tenantCOwnTokenVerify": 200,
+    "acmeTokenAgainstTenantC": 401,
+    "northwindTokenAgainstTenantC": 401,
+    "roles": [
+      "tenant-admin"
+    ],
+    "crossTenantJwtIsolationPassed": true,
+    "writeRoleCheck": "deferred because no deployed Tenant C write-route/user-role provisioning path exists in this auth deployment"
+  },
+  "visualEvidence": {
+    "snapshotVariant": "tenant-c-v1.0.0",
+    "directory": "docs/e2e-snapshots/event-management/tenant-c-v1.0.0/",
+    "pngCount": 27,
+    "expectedPngCount": 27,
+    "playwrightCommand": "XIIGEN_EVENT_MANAGEMENT_SNAPSHOT_VARIANT=tenant-c-v1.0.0 VITE_PORT=5187 npx playwright test event-management-visual.spec.ts --project=chromium-desktop --reporter=list",
+    "playwrightResult": "27 passed",
+    "tenantAChangeVisible": true,
+    "tenantBChangeVisible": true,
+    "tenantCChangeVisible": true
+  },
+  "repoEvidence": {
+    "githubListingPng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-tessera-residency-circles-github-listing.png",
+    "repoHomepagePng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-tessera-residency-circles-repo-homepage.png",
+    "repoWasRestoredToPrivateAfterCapture": true
+  },
+  "cascadeAssertions": {
+    "adaptationHistoryEntries": 3,
+    "tenantAEntryPreserved": true,
+    "tenantBEntryPreserved": true,
+    "tenantCEntryAdded": true,
+    "moduleNameDiffersFromTenantA": true,
+    "moduleNameDiffersFromTenantB": true,
+    "repoNameDistinctFromTenantA": true,
+    "repoNameDistinctFromTenantB": true
+  }
+}

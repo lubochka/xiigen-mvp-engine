@@ -1,0 +1,316 @@
+{
+  "flowId": "FLOW-31",
+  "flowSlug": "design-intelligence-engine",
+  "implementationSlug": "design-system-governance",
+  "phase": "phase-5-tenant-c-install-adapt-auth",
+  "status": "completed",
+  "generatedAt": "2026-05-11T05:21:32.6952361Z",
+  "tenant": "tessera-collective",
+  "sourceTenant": "northwind",
+  "sourcePackage": {
+    "packageName": "@xiigen-fork/northwind-interface-control",
+    "packageVersion": "1.0.2",
+    "registry": "http://localhost:4873",
+    "viewReturned": "1.0.2",
+    "sourceRepoFullName": "lubochka/northwind--design-intelligence-engine"
+  },
+  "initialFork": {
+    "api": "POST /api/marketplace/packages/design-intelligence-engine/fork",
+    "forkId": "fork-design-intelligence-engine-tessera-collective",
+    "targetTenant": "tessera-collective",
+    "repoFullName": "lubochka/tessera-collective--design-intelligence-engine",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--design-intelligence-engine",
+    "initialCommitSha": "097d3c7278369cd65da80a50237c2f73fce131bb",
+    "installedFromRepoFullName": "lubochka/northwind--design-intelligence-engine",
+    "initialVersion": "1.0.2",
+    "createdByMarketplaceApi": true
+  },
+  "initialForkCiObservation": {
+    "runId": 25651664382,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "097d3c7278369cd65da80a50237c2f73fce131bb",
+    "displayTitle": "Initial fork: design-intelligence-engine v1.0.2",
+    "createdAt": "2026-05-11T05:14:34Z",
+    "updatedAt": "2026-05-11T05:15:21Z",
+    "url": "https://github.com/lubochka/tessera-collective--design-intelligence-engine/actions/runs/25651664382",
+    "rootCause": "The fork copied Tenant B's Northwind-specific adaptation test while the fork engine rewrote tenant.config.json for Tessera. The expected moduleName stayed northwind-interface-control in the inherited test.",
+    "resolution": "Tenant C adaptation replaced the Northwind adaptation test with a Tessera adaptation test and recorded Tessera as the third adaptation-history entry."
+  },
+  "adaptation": {
+    "changeType": "Type A (bounded FREEDOM key value change)",
+    "moduleName": "tessera-design-assurance-ledger",
+    "packageName": "@xiigen-fork/tessera-design-assurance-ledger",
+    "packageVersion": "1.0.3",
+    "sourceModuleName": "northwind-interface-control",
+    "sourcePackageName": "@xiigen-fork/northwind-interface-control",
+    "sourcePackageVersion": "1.0.2",
+    "plainLanguagePolicy": "Tessera design assurance ledger policy: strongest audit retention, reviewer-feedback weighting, deeper impact analysis, critical conflict blocking, and design-decision ledger publication.",
+    "freedomChanges": [
+      {
+        "key": "flow31_module_name",
+        "from": "design-intelligence-engine",
+        "to": "tessera-design-assurance-ledger"
+      },
+      {
+        "key": "flow31_quality_score_threshold",
+        "from": null,
+        "to": 0.9
+      },
+      {
+        "key": "flow31_token_consistency_threshold",
+        "from": null,
+        "to": 0.96
+      },
+      {
+        "key": "flow31_conflict_severity_threshold",
+        "from": null,
+        "to": "critical"
+      },
+      {
+        "key": "flow31_component_hierarchy_depth",
+        "from": null,
+        "to": 9
+      },
+      {
+        "key": "flow31_debt_score_weights",
+        "from": null,
+        "to": {
+          "complexity": 0.25,
+          "tokenDrift": 0.3,
+          "accessibility": 0.3,
+          "reuse": 0.15
+        }
+      },
+      {
+        "key": "flow31_health_score_thresholds",
+        "from": null,
+        "to": {
+          "healthy": 0.88,
+          "degraded": 0.64
+        }
+      },
+      {
+        "key": "flow31_feedback_signal_weights",
+        "from": null,
+        "to": {
+          "auditScore": 0.35,
+          "deploymentOutcome": 0.25,
+          "reviewerFeedback": 0.4
+        }
+      },
+      {
+        "key": "flow31_impact_analysis_depth",
+        "from": null,
+        "to": 5
+      },
+      {
+        "key": "flow31_decision_log_retention_days",
+        "from": null,
+        "to": 1095
+      },
+      {
+        "key": "flow31_publish_targets",
+        "from": null,
+        "to": [
+          "token-library",
+          "component-catalog",
+          "design-decision-ledger"
+        ]
+      },
+      {
+        "key": "flow31_required_deployment_phases",
+        "from": null,
+        "to": [
+          "ingested",
+          "analyzed",
+          "reviewed",
+          "quality_passed",
+          "schema_valid",
+          "tokens_consistent",
+          "published"
+        ]
+      },
+      {
+        "key": "flow31_deployment_approval_roles",
+        "from": null,
+        "to": [
+          "platform-admin"
+        ]
+      },
+      {
+        "key": "flow31_pipeline_timeout_ms",
+        "from": null,
+        "to": 480000
+      }
+    ],
+    "invariantsPreserved": [
+      "Design ingestion, scoring, governance, publication, and deployment reads remain tenant scoped.",
+      "Conflict, quality, schema, token consistency, and deployment gates remain hard-stop business outcomes.",
+      "Decision, version, and evolution history records remain insert-only.",
+      "Design feedback learning remains asynchronous and never runs on the live request path.",
+      "Impact analysis can read dependency context but cannot mutate component or token source records.",
+      "Publication and top-level orchestration remain idempotent.",
+      "Store-before-event ordering remains mandatory for design side effects."
+    ]
+  },
+  "tenantRepository": {
+    "repoFullName": "lubochka/tessera-collective--design-intelligence-engine",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--design-intelligence-engine",
+    "sourceCommitSha": "097d3c7278369cd65da80a50237c2f73fce131bb",
+    "adaptedCommitSha": "9e9d25bcf21b83d349cba62cac62f306622950e4",
+    "defaultBranch": "main",
+    "clonePath": "C:/Projects/xiigen-fork-clones/tessera-collective--design-intelligence-engine-phase5c-20260511-0815",
+    "workingTreeClean": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/design-intelligence-engine-tessera-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "adaptationHistoryEntries": 3
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - design-intelligence-engine",
+    "runId": 25651759247,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "9e9d25bcf21b83d349cba62cac62f306622950e4",
+    "displayTitle": "Adapt FLOW-31 for Tessera design assurance",
+    "createdAt": "2026-05-11T05:17:46Z",
+    "updatedAt": "2026-05-11T05:18:22Z",
+    "url": "https://github.com/lubochka/tessera-collective--design-intelligence-engine/actions/runs/25651759247",
+    "cleanInstallInActions": true
+  },
+  "tenantCloneVerification": {
+    "commands": [
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "dependencySetupNote": "Local validation used a junction to the already-installed server node_modules dependency tree because local Windows npm registry access timed out earlier; the clean install gate is the successful GitHub Actions run for commit 9e9d25bcf21b83d349cba62cac62f306622950e4.",
+    "results": {
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 2,
+      "jestSuitesTotal": 2,
+      "jestTestsPassed": 2,
+      "jestTestsTotal": 2,
+      "packDryRunExit": 0,
+      "packEntryCount": 136
+    }
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/tessera-design-assurance-ledger",
+    "publishedVersion": "1.0.3",
+    "viewCommand": "npm view @xiigen-fork/tessera-design-assurance-ledger version --registry http://localhost:4873",
+    "viewReturned": "1.0.3",
+    "verified": true
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-31",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-5-tenant-c-v1.0.3-actions-success.png",
+        "bytes": 78629
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-5-tenant-c-v1.0.3-github-listing.png",
+        "bytes": 135924
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-5-tenant-c-v1.0.3-package-json.png",
+        "bytes": 115547
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-11T05:20:19.3671469Z",
+    "serverBaseUrl": "http://localhost:3000",
+    "path": "/api/runs/phase5-flow31-tenant-c-adaptation-auth-probe/trace",
+    "passed": 12,
+    "total": 12,
+    "failed": 0,
+    "allPassed": true,
+    "checks": [
+      "valid own-tenant platform-admin token returns 200 for all three tenants",
+      "missing token returns 401 for all three tenants",
+      "platform-support wrong-role token returns 403 for all three tenants",
+      "acme token in northwind context returns 401",
+      "northwind token in tessera context returns 401",
+      "acme token in tessera context returns 401"
+    ]
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed",
+      "exitCode": 0
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=design-intelligence-engine --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 8,
+      "tests": 274
+    },
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "result": "passed",
+      "exitCode": 0
+    },
+    "flowScans": {
+      "source": {
+        "sourceFlowFileCount": 27,
+        "throwNew": 0,
+        "exportedServicesByPromptPattern": 0,
+        "servicesMissingMicroserviceBaseByPromptPattern": 0,
+        "clsImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "adapted": {
+        "sourceFlowFileCount": 27,
+        "throwNew": 0,
+        "exportedServicesByPromptPattern": 0,
+        "servicesMissingMicroserviceBaseByPromptPattern": 0,
+        "clsImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "failureLines": 0,
+      "note": "FLOW-31 runtime class names do not use the Service suffix; prompt-pattern class count is therefore zero."
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCForkedFromTenantB": true,
+    "tenantCAdaptedFlow": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForAuthDecorationAndCertification": true
+  },
+  "verdict": "PASS"
+}

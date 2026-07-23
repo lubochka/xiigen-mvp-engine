@@ -1,0 +1,41 @@
+{
+    "flowId":  "FLOW-46",
+    "flowSlug":  "platform-agent",
+    "phase":  "phase-close-scan",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T02:31:41.4750188Z",
+    "checks":  {
+                   "dockerVaultAuthFailures":  0,
+                   "serverTestSuitesPassed":  8,
+                   "serverTestsPassed":  75,
+                   "clientTestSuitesPassed":  1,
+                   "clientTestsPassed":  10,
+                   "serverTypecheckExitCode":  0,
+                   "clientTypecheckExitCode":  0,
+                   "dockerServerRebuildHealth":  "PASS",
+                   "playwrightTestsPassed":  25,
+                   "throwNewInFlowSource":  0,
+                   "nonMicroserviceServiceClassesInFlowSource":  0,
+                   "clsServiceImportsInFlowSource":  1,
+                   "expectedTenantScopeSpecialistCount":  1,
+                   "tenantScopeSpecialist":  "server/src/engine/flows/platform-agent/tenant-scope-gateway.service.ts",
+                   "superJudgeModelConfigCovered":  true,
+                   "seedDependencyManifestPresent":  true,
+                   "topologyManifestReferencesSeedManifest":  true,
+                   "localFlowPngCount":  34,
+                   "topologyPngCount":  1,
+                   "repoEvidencePngCount":  440,
+                   "jwtPatternHitsInChangedEvidence":  0,
+                   "githubTokenPatternHitsInChangedEvidence":  0
+               },
+    "informationalScanNotes":  [
+                                   "The one ClsService import is intentional: TenantScopeGateway is the audited tenant-scope specialist for FLOW-46.",
+                                   "AgentRunOrchestrator and AgentActionPublisher no longer import ClsService directly; both use TenantScopeGateway.requireMasterTenant()."
+                               ],
+    "failureLines":  0,
+    "limitations":  [
+                        "FLOW-46 is a platform-governance agent and not a tenant-forked marketplace package; full GitHub tenant package cascade is not applicable to this identity-critical platform flow.",
+                        "No tenant credentials, JWTs, signing keys, or GitHub token values are written to evidence."
+                    ],
+    "verdict":  "PASS"
+}

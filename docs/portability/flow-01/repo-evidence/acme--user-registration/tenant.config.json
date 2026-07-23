@@ -1,0 +1,76 @@
+{
+  "$schema": "xiigen-tenant-freedom-profile-v1",
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "tenantId": "acme-pro-members",
+  "profileVersion": "1.0.1",
+  "publisher": "acme-pro-members",
+  "adaptationCategory": "freedom-config",
+  "basedOnDefaultsVersion": "FLOW-01 v1.0.0 (XIIGEN_FREEDOM_DEFAULTS)",
+  "publishedAt": "2026-04-22",
+  "publishedBy": "architect-mode / FLOW-PORTABILITY-TEST-PROTOCOL-v2.0",
+  "repoSlug": "acme--user-registration",
+  "deploymentInstructions": {
+    "seedIndex": "xiigen-freedom-config",
+    "seedMethod": "IFreedomConfigService.set() per key, within tenant's AsyncLocalStorage context",
+    "idempotent": true,
+    "requiresRestart": false
+  },
+  "overrides": {
+    "flow01_invitation_inviter_name": {
+      "value": "The Acme Pro Team",
+      "default": "The XIIGen Team",
+      "rationale": "Tenant-specific branding in invitation email body. 'That an invitation exists' is MACHINE, the name is FREEDOM.",
+      "stakeholder": "product-growth",
+      "renderingSurface": "server-side-only (OnboardingDeliveryService.deliverInvitation)"
+    },
+    "flow01_invitation_community_name": {
+      "value": "Acme Pro Members",
+      "default": "XIIGen Community",
+      "rationale": "Tenant community name in invitation body.",
+      "stakeholder": "product-growth",
+      "renderingSurface": "server-side-only (OnboardingDeliveryService.deliverInvitation)"
+    },
+    "flow01_email_verification_ttl_seconds": {
+      "value": 3600,
+      "default": 86400,
+      "rationale": "Stricter abuse profile — 1h token TTL vs 24h default; 24× tighter.",
+      "stakeholder": "security-engineering",
+      "renderingSurface": "server-side-only (EmailVerificationService.getTokenExpiryMs)"
+    },
+    "flow01_resend_rate_limit_minutes": {
+      "value": 15,
+      "default": 60,
+      "rationale": "Reduce friction for legitimate resend attempts; 4× faster than default.",
+      "stakeholder": "product-growth",
+      "renderingSurface": "server-side-only (EmailVerificationService.getResendLimitMinutes)"
+    }
+  },
+  "verificationContract": {
+    "testFile": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts",
+    "testsRunForThisProfile": [
+      "FC-ADAPT-1",
+      "FC-ADAPT-2",
+      "FC-ADAPT-3",
+      "FC-ADAPT-4",
+      "FC-ADAPT-5"
+    ],
+    "allPassed": true,
+    "lastRun": "2026-04-22"
+  },
+  "machineInvariantsPreserved": [
+    "Event names: AccountCreated, VerificationEmailRequested, VerificationCompleted, OnboardingCompleted",
+    "Task-type IDs: T47, T48, T49",
+    "User record schema including onboarding_materials:[]",
+    "Material type literals: workspace_setup, flow_tutorial, community_invitation",
+    "Idempotency key format and outbox ordering (storeDocument before enqueue)",
+    "Token hashing algorithm (sha256)",
+    "Uniform VALIDATION_FAILURE shape (no field leakage)"
+  ],
+  "v15DriftContract": {
+    "expectedDrift": "0 px on every PNG (byte-identical to platform-source baseline)",
+    "rationale": "All 4 overrides are server-side-only; no FLOW-01 client kiosk page renders any of them",
+    "contractFile": "docs/portability/flow-01/V-15-DRIFT-PASS-CONTRACT.md",
+    "behaviouralSeparationProof": "server/test/user-registration/phase-01-adaptation-freedom-config.spec.ts (Layer 1)"
+  }
+}

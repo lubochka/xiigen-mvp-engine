@@ -1,0 +1,247 @@
+{
+  "batch": "C",
+  "subagent": "V-R14-RESCORE-BATCH-C",
+  "rubric": "docs/screen-examination/PER-IMAGE-VALIDATION-TEMPLATE.md",
+  "methodology": "fresh-no-extrapolation",
+  "png_read_discipline": "every PNG opened directly, no same-as shortcuts",
+  "flows": [
+    {
+      "flow": "dynamic-forms-workflows",
+      "pngs_examined": 8,
+      "pngs": [
+        "build-tenant-admin.png",
+        "populated-anonymous.png",
+        "populated-tenant-admin.png",
+        "populated-tenant-user.png",
+        "primary-anonymous.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png",
+        "respond-tenant-user.png"
+      ],
+      "axis_a_shell": "PASS — anon/tenant-user get kiosk, tenant-admin gets admin shell with sidebar",
+      "axis_b_role_branching": "PASS — every role has purpose-built view. Anonymous sees 2-field role-aware demo; tenant-user sees 3 fields; tenant-admin sees 4 fields + admin tip + admin console; tenant-admin build gets 3-column Form Builder (Field Types | Canvas | Live Preview role-switcher); tenant-user respond gets Typeform-style kiosk with letter-key (A/B/C/D) selectors + keyboard hint + 'PARTNERSHIP INTAKE' branding",
+      "axis_d_state": "PASS — populated-anonymous and populated-tenant-user both redacted (no schemaId leak, correct V-R13-B behavior); populated-tenant-admin shows schemaId/version/publishedAt/publicUrl (appropriate admin detail); build canvas shows Full name REQUIRED text/Email email/How did you hear select tenant-user/Budget number business-partner with audience metadata",
+      "role_leak_check": "PASS — no FLOW-NN visible, no destructive actions on consumer roles, populated redaction correct per V-R13-B",
+      "copy_humanization": "PASS mostly — 'Admin view of form schemas, submissions, validation, and workflow automations' acceptable for admin; 'Raw index browser (admin debug)' label in primary-tenant-admin is slight engineering leak but in admin context",
+      "concerns": [
+        "Raw 'ui-1776451844457' IDs visible in primary-tenant-admin Form Schemas — Admin Console (acceptable for admin debug but verbose)",
+        "'Tenant-facing' chip label and 'created via UI form' notes are admin-database-view language"
+      ],
+      "blocks": [],
+      "verdict": "PASS",
+      "rationale": "V-R13-B redaction + 3-column builder + Typeform kiosk + admin panel all verified. Role-branching is exemplary. Populated state correctly redacts schemaId on anon/tenant-user. Admin-only schema metadata (FRM-2026-0419-017, publicUrl) properly scoped to tenant-admin."
+    },
+    {
+      "flow": "etl-data-integration",
+      "pngs_examined": 4,
+      "pngs": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png"
+      ],
+      "axis_a_shell": "PASS — all roles get admin shell (appropriate since ETL is a platform-admin-facing domain per audience)",
+      "axis_b_role_branching": "CONCERN — platform-admin gets Platform ETL Ops dashboard + platform-support gets ETL Inspector (read-only) + tenant-admin gets 'Tenant connector console' — HOWEVER tenant-admin view falls through to a raw CRUD table titled 'ETL Data Integration — Raw index browser (admin debug) — reads /api/dynamic/xiigen-etl-data-integration' with ui-NNNNN IDs and Delete actions. This is a raw-index/admin-debug leak. Tenant-admin should see a purpose-built connector setup view, not a raw CRUD table",
+      "axis_d_state": "CONCERN — populated-platform-admin exposes technical field names (jobId, rowsTransformed, schemaVersion, durationMs) and 'State 5' + 'Transforming' enum; acceptable for platform-admin audience but format is dev-debug-y",
+      "role_leak_check": "BLOCK — 'Raw index browser (admin debug)' label visible on tenant-admin, '/api/dynamic/xiigen-etl-data-integration' API path visible, 'Admin-facing' chip visible — engineering/debug surface leaked to tenant-admin. Also tenant-admin exposed to Delete destructive action on rows they likely did not create",
+      "copy_humanization": "CONCERN — 'dead-letter queue 12 needs review' on primary-platform-admin uses DLQ engineering jargon; 'Active extraction jobs 47' is borderline jargon but readable",
+      "concerns": [
+        "DLQ ('dead-letter queue') jargon on platform-admin dashboard",
+        "Technical field names (jobId, rowsTransformed, schemaVersion, durationMs) in populated state"
+      ],
+      "blocks": [
+        "'Raw index browser (admin debug)' label leaked to tenant-admin primary view",
+        "API path '/api/dynamic/xiigen-etl-data-integration' rendered as user-facing copy",
+        "Raw ui-1776451851260 IDs shown instead of connector display names"
+      ],
+      "verdict": "BLOCK",
+      "rationale": "Tenant-admin view falls back to raw CRUD admin-debug table with API paths and ui- IDs — this is an engineering surface leak that fails the OP-2/human-friendliness bar. Platform-admin and support views are purpose-built and fine. Fix: render a connector setup card grid for tenant-admin, same pattern as dynamic-forms-workflows tenant-admin admin panel."
+    },
+    {
+      "flow": "event-attendance",
+      "pngs_examined": 5,
+      "pngs": [
+        "populated-tenant-user.png",
+        "primary-anonymous.png",
+        "primary-event-organiser.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axis_a_shell": "PASS — anon and tenant-user get kiosk (appropriate for consumer); event-organiser and tenant-admin get admin shell",
+      "axis_b_role_branching": "PASS — anonymous sees 'Sign in to RSVP' kiosk; tenant-user sees 'Your attendance' kiosk with RSVP status + QR link; event-organiser sees Attendance dashboard with check-in kiosk opener + 3/2/2 counts + RSVP list + waitlist promote; tenant-admin sees 'Attendance moderation' with refund Approve/Reject",
+      "axis_d_state": "CONCERN — populated-tenant-user renders as 404 Page Not Found. The primary-tenant-user works correctly as kiosk but the ?mock=populated route is unmapped for this role",
+      "role_leak_check": "PASS — no admin leaks to consumer; att-001/ref-001 raw IDs visible only in admin/organiser views (acceptable)",
+      "copy_humanization": "CONCERN — 'CONFIRMED', 'WAITLISTED', 'Checked in' all-caps enum styling; 'att-001' raw IDs visible in admin views; 'ref-001' visible. Labels readable but enum formatting leaks",
+      "concerns": [
+        "populated-tenant-user routes to 404 (mock state not wired for this role)",
+        "CONFIRMED/WAITLISTED all-caps pill enums (should be 'Confirmed', 'Waitlisted')",
+        "Raw att-001/ref-001 IDs in admin views"
+      ],
+      "blocks": [],
+      "verdict": "CONCERN",
+      "rationale": "Role-branching and shells are well-done. Only a populated-state routing gap (404) and minor enum-formatting concerns. Not a blocker since primary-tenant-user works — the populated mock simply falls through. Axis D for this role incomplete."
+    },
+    {
+      "flow": "event-management",
+      "pngs_examined": 4,
+      "pngs": [
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axis_a_shell": "PASS — anon and tenant-user get kiosk; platform-admin and tenant-admin get admin shell",
+      "axis_b_role_branching": "PASS — anon sees Upcoming Events with 'Sign in to register'; tenant-user sees 'You're viewing events as an attendee' with Register CTAs; tenant-admin sees 'Event Moderation' with Approve/Reject; platform-admin sees 'Platform Event Ops' cross-tenant dashboard with 284 active + 12 pending review",
+      "axis_d_state": "Not tested (no populated-*.png in folder)",
+      "role_leak_check": "PASS — no cross-tenant leaks to consumer",
+      "copy_humanization": "CONCERN — 'PENDING_REVIEW' all-caps enum on tenant-admin moderation view; 'org-001', 'org-002' raw organiser IDs visible",
+      "concerns": [
+        "PENDING_REVIEW enum leak (should be 'Pending review')",
+        "Raw org-001/002 IDs shown to tenant-admin (acceptable but not humanized)",
+        "No populated-*.png captures in this flow folder — Axis D coverage incomplete"
+      ],
+      "blocks": [],
+      "verdict": "CONCERN",
+      "rationale": "Shells and role-branching are strong. Only concerns are enum formatting and missing populated-state captures. Primary views deliver purpose-built surfaces per role."
+    },
+    {
+      "flow": "feature-registry",
+      "pngs_examined": 3,
+      "pngs": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "axis_a_shell": "PASS — platform roles only; admin shell with sidebar correct",
+      "axis_b_role_branching": "PASS — platform-admin sees Feature Matrix with Port/Initiate-porting CTAs + 'Engine-internal' lock badges on FT-047 and FT-063; platform-support sees same matrix with 'read-only for support access — Controls are disabled. Escalate to a platform-admin'",
+      "axis_d_state": "PASS — populated-platform-admin shows purpose-built detail (featureId FT-024, targetPlatform marketplace, adapterMode MODE_B, activatedAt timestamp). FT-XXX IDs are legitimate per D-FT-1 rule (platform admin consumes them)",
+      "role_leak_check": "PASS — flow intentionally platform-only (no tenant/anon renders captured), matching D-FT-1 scope",
+      "copy_humanization": "CONCERN — 'MODE_B' enum leak (adapterMode MODE_B); 'State 4' label is dev-state-language; 'Admin view of FT-XXX records — registration, porting decision, verification, activation, deprecation' is platform-admin-appropriate but technical",
+      "concerns": [
+        "MODE_B adapter-mode enum on populated view",
+        "'State 4' framing in populated state (should be human label like 'Active on target')",
+        "Platform-support controls look enabled in primary-platform-support despite warning saying 'Controls are disabled'"
+      ],
+      "blocks": [],
+      "verdict": "CONCERN",
+      "rationale": "Platform-admin-only flow, FT-XXX identifiers legitimate per D-FT-1. Role-branching between platform-admin (full edit) and platform-support (read-only) works. Minor concerns: MODE_B enum, State 4 dev label, support warning not visually enforced by disabled controls."
+    },
+    {
+      "flow": "form-builder-templates",
+      "pngs_examined": 3,
+      "pngs": [
+        "primary-anonymous.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axis_a_shell": "BLOCK — anonymous gets kiosk (correct) but rendered surface is full admin authoring panel (Validate template / Publish version / Create form / View analytics). tenant-user gets kiosk shell but also full admin authoring surface PLUS a Published Templates section at bottom",
+      "axis_b_role_branching": "BLOCK — anonymous and tenant-user both see admin authoring controls ('Validate template', 'Publish version' green CTA, 'View analytics' orange CTA, 'v1 · Draft' chip) that should be admin-only. tenant-admin view correctly includes Condition Builder with viewerRole variable + Role Preview dropdown (Tenant User) showing Visible:[full-name,email,company-name] / Hidden:[hourly-rate,budget,internal-notes]",
+      "axis_d_state": "Not tested (no populated-*.png)",
+      "role_leak_check": "BLOCK — admin authoring controls (Publish version, Validate template) leaked to anonymous and tenant-user. Publishing controls are administrative authoring actions, not consumer actions",
+      "copy_humanization": "PASS on authoring copy ('Check required fields, field types, and that constraints are consistent before you publish' is human-readable); 'v1 · Draft' chip is tokens-not-enum friendly",
+      "concerns": [
+        "No populated-*.png captures — Axis D incomplete"
+      ],
+      "blocks": [
+        "Anonymous sees admin authoring surface (Validate template, Publish version, Create form, View analytics buttons) — should be locked to tenant-admin",
+        "Tenant-user sees admin authoring surface — should only see Published Templates section for Use template",
+        "Missing role-branching: tenant-user needs a pure 'Use a template' consumer view separate from the authoring panel"
+      ],
+      "verdict": "BLOCK",
+      "rationale": "Serious role-branching failure: authoring controls (Validate / Publish / Create / Analytics) are rendered to anonymous and tenant-user roles. Tenant-admin view is correct (Condition Builder + Role Preview is purpose-built). Fix: gate the authoring panel on tenant-admin role; render only Published Templates list for tenant-user; render sign-in wall or published-templates-only for anonymous."
+    },
+    {
+      "flow": "freelancer-marketplace",
+      "pngs_examined": 7,
+      "pngs": [
+        "primary-anonymous.png",
+        "primary-business-partner.png",
+        "primary-freelancer.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axis_a_shell": "PASS — anon and tenant-user get kiosk (no sidebar); business-partner, freelancer, platform-admin, platform-support, tenant-admin get admin shell",
+      "axis_b_role_branching": "PASS — anon sees 'Freelancer Gigs' kiosk with Sign in / Create account + gig previews with $range + bids counts; business-partner sees 'Post a Gig' form with milestone validator ('Milestones sum 0 / Budget 0 valid'); freelancer sees 'Browse & Bid on Gigs' with 'You're browsing as a freelancer' banner + purple Submit Bid CTA (role-distinct color); platform-admin sees 'Gig Platform Overview' with 1,247 total active + 3 flagged; platform-support sees 'Gig Inspector (Read-Only)' search; tenant-admin sees 'Gig Moderation' table with Posted By raw IDs + Remove destructive action; tenant-user gets the business-partner 'Post a Gig' form (reasonable reuse)",
+      "axis_d_state": "Not tested (no populated-*.png)",
+      "role_leak_check": "CONCERN — tenant-admin moderation shows 'user-abc123', 'user-def456' raw user IDs in 'Posted By' column (admin-acceptable but not humanized); 'POSTED' all-caps enum",
+      "copy_humanization": "CONCERN — POSTED enum all-caps chip; 'user-abc123' raw IDs in admin views; 'Open Gig Ops Console' CTA uses 'Ops' which is engineering-adjacent",
+      "concerns": [
+        "POSTED enum styling (should be 'Posted')",
+        "Raw user-abc123/def456 IDs on tenant-admin Gig Moderation (could be 'Posted by Acme Corp' etc.)",
+        "'Gig Ops Console' terminology on platform-admin (Ops is fine as industry term)",
+        "No populated-*.png captures — Axis D incomplete"
+      ],
+      "blocks": [],
+      "verdict": "PASS",
+      "rationale": "All 7 roles have purpose-built surfaces with shell differentiation. Business-partner gets gig-posting + milestone validator; freelancer gets purple-accent bid browser; platform tiers get cross-tenant ops/inspector views; tenant-admin gets moderation with destructive Remove action (appropriate for admin). Only minor enum/raw-ID polish concerns."
+    },
+    {
+      "flow": "friend-request-social-feed",
+      "pngs_examined": 5,
+      "pngs": [
+        "populated-tenant-user.png",
+        "primary-anonymous.png",
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "axis_a_shell": "PASS — anon and tenant-user get kiosk; platform-admin and tenant-admin get admin shell",
+      "axis_b_role_branching": "PASS — anon sees 'Public Posts' with Sign-in prompts + read-only preview; tenant-user sees 'Social Feed' with compose box + feed of posts by Ada Lovelace, Grace Hopper, Margaret Hamilton, Katherine Johnson + like/comment/share; tenant-admin sees 'Post Moderation Queue' with Review/Dismiss actions on flagged posts (user-abc/def/ghi); platform-admin sees 'Platform Content Overview' with cross-tenant flagged counts + NLP POLICY VIOLATIONS + audit log link",
+      "axis_d_state": "CONCERN — populated-tenant-user renders 404 Page Not Found (same issue as event-attendance). Primary-tenant-user works correctly as consumer kiosk so the populated mock routing is the gap",
+      "role_leak_check": "CONCERN — 'NLP POLICY VIOLATIONS' label on platform-admin uses NLP (natural language processing) acronym leak; in tenant-user feed sample post content, 'adaptive-rag-deep-research topology canvas' appears as user-authored content which is acceptable but references engineering tokens",
+      "copy_humanization": "CONCERN — NLP acronym on platform-admin; 'Flagged' chip with triangle is OK; user-abc/def/ghi IDs visible to tenant-admin (acceptable for admin)",
+      "concerns": [
+        "populated-tenant-user returns 404 (mock state not wired for this role)",
+        "'NLP POLICY VIOLATIONS' acronym leak on platform-admin",
+        "Sample post 'adaptive-rag-deep-research topology canvas' uses engineering tokens as user content (borderline)"
+      ],
+      "blocks": [],
+      "verdict": "CONCERN",
+      "rationale": "Role-branching is strong and purpose-built for all 4 implemented roles. Two fixable concerns: 404 on populated-tenant-user mock routing, and NLP acronym leak on platform-admin. Neither rises to BLOCK since primary views all work."
+    }
+  ],
+  "summary": {
+    "total_flows": 8,
+    "total_pngs_read": 39,
+    "pass": 2,
+    "concern": 4,
+    "block": 2,
+    "by_flow": {
+      "PASS": [
+        "dynamic-forms-workflows",
+        "freelancer-marketplace"
+      ],
+      "CONCERN": [
+        "event-attendance",
+        "event-management",
+        "feature-registry",
+        "friend-request-social-feed"
+      ],
+      "BLOCK": [
+        "etl-data-integration",
+        "form-builder-templates"
+      ]
+    },
+    "key_blocks": [
+      "etl-data-integration: 'Raw index browser (admin debug)' + API path + ui-NNNN IDs leaked to tenant-admin primary view",
+      "form-builder-templates: admin authoring controls (Validate/Publish/Create/Analytics) leaked to anonymous and tenant-user roles"
+    ],
+    "key_concerns": [
+      "populated-tenant-user 404 on event-attendance and friend-request-social-feed (mock-state routing gap)",
+      "Enum styling: PENDING_REVIEW, CONFIRMED, WAITLISTED, POSTED, MODE_B",
+      "NLP acronym leak on friend-request-social-feed platform-admin",
+      "DLQ ('dead-letter queue') jargon on etl-data-integration platform-admin",
+      "Raw user-NNN IDs in admin moderation views (acceptable but not humanized)"
+    ],
+    "v_r13_b_verification": {
+      "populated_redaction_on_anon_tenant_user": "VERIFIED — both redacted, no schemaId leak",
+      "build_tenant_admin_3_column_builder": "VERIFIED — Field Types | Canvas | Live Preview with role-switcher",
+      "respond_tenant_user_typeform_kiosk": "VERIFIED — PARTNERSHIP INTAKE branding, letter-key A/B/C/D selectors, keyboard hint, progress indicator, 'Powered by XIIGen forms' footer",
+      "tenant_admin_admin_panel": "VERIFIED — schemaId, version, publishedAt, publicUrl on populated; admin tip banner + Form Schemas — Admin Console on primary",
+      "primary_demo_form_role_aware": "VERIFIED — 2 fields for anon (Full name + Email), 3 fields for tenant-user (+ Company Name), 4 fields for tenant-admin (+ Internal Notes admin-only)"
+    }
+  },
+  "audit_commit": "d8e3fc3d"
+}

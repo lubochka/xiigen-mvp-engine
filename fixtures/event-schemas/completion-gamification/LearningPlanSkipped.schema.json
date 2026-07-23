@@ -1,0 +1,11 @@
+{
+  "eventType": "LearningPlanSkipped",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "curriculum-adapter",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "planId", "reason", "skippedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T89 when recency guard fires (< 2 lessons since last adaptation). This is a DataProcessResult.success — not failure. reason = 'TOO_RECENT'. Time-decoupled from Branch A gate."
+}

@@ -1,0 +1,38 @@
+{
+    "flowId":  "FLOW-29",
+    "flowSlug":  "adaptive-rag-deep-research",
+    "implementationSlug":  "rag-optimization",
+    "phase":  "phase-3-visual-examination",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T21:24:31.6900903+00:00",
+    "plainLanguageScan":  {
+                              "command":  "rg -n \"plain-language block patterns\" client/src/pages/adaptive-rag-deep-research client/src/components/common/PlatformOpsPage.tsx",
+                              "tenantConsumerPage":  false,
+                              "rawSourceMatchesReviewed":  81,
+                              "classification":  "FLOW-29 is an engine-internal platform operations topology page. Matches are in comments or platform-operator copy, not tenant-consumer UI leakage.",
+                              "failureLines":  0
+                          },
+    "clientTypescript":  {
+                             "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                             "status":  "passed",
+                             "exitCode":  0
+                         },
+    "visualAudit":  {
+                        "command":  "$env:VITE_PORT=52929; Push-Location client; npx playwright test e2e/visual-audit-axis-d-full.spec.ts --grep \"adaptive-rag-deep-research\" --workers=1 --reporter=line; Pop-Location",
+                        "status":  "passed",
+                        "testsPassed":  9,
+                        "testsTotal":  9,
+                        "projects":  [
+                                         "chromium-desktop",
+                                         "chromium-tablet",
+                                         "chromium-mobile"
+                                     ]
+                    },
+    "screenshots":  {
+                        "visualPngCount":  9,
+                        "visualZeroByteCount":  0,
+                        "flowPngCount":  11,
+                        "flowZeroByteCount":  0
+                    },
+    "verdict":  "PASS"
+}

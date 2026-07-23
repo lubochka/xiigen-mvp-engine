@@ -1,0 +1,28 @@
+{
+  "index": "xiigen-decision-graph",
+  "mappings": {
+    "properties": {
+      "fromEntity":           { "type": "keyword" },
+      "relationship":         { "type": "keyword" },
+      "toEntity":             { "type": "keyword" },
+      "docType":              { "type": "keyword" },
+      "flowId":               { "type": "keyword" },
+      "archetype":            { "type": "keyword" },
+      "taskTypePlaceholder":  { "type": "keyword" },
+      "archetypeConfirmed":   { "type": "boolean" },
+      "twoPhasePrivacyRole":  { "type": "keyword" },
+      "confidence":           { "type": "float" },
+      "observationCount":     { "type": "integer" },
+      "immutable":            { "type": "boolean" },
+      "source":               { "type": "keyword" },
+      "reasoning":            { "type": "text" },
+      "tenantId":             { "type": "keyword" },
+      "knowledgeScope":       { "type": "keyword" },
+      "ownerId":              { "type": "keyword" },
+      "moduleId":             { "type": "keyword" },
+      "pricingModel":         { "type": "keyword" },
+      "recordedAt":           { "type": "date" },
+      "recordedBy":           { "type": "keyword" }
+    }
+  }
+}

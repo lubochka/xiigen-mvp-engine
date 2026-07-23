@@ -1,0 +1,199 @@
+{
+  "batch": "V-R15-D",
+  "examined_at": "2026-04-22",
+  "rubric": "PER-IMAGE-VALIDATION-TEMPLATE.md (7-axis)",
+  "flows_examined": 8,
+  "pngs_examined": 26,
+  "flows": [
+    {
+      "flow": "history-bootstrap",
+      "pngs": ["primary-platform-admin.png"],
+      "axes": {
+        "A_framing": "PASS (internal-platform, admin shell, matches role)",
+        "B_role": "PASS (platform-admin view of engine bootstrap seed; role-correct)",
+        "C_language": "PASS (en, ltr)",
+        "D_state": "PASS (populated — shows 6 ARCH-2026-00N patterns, 4 PHILOSOPHY SUMMARIES)",
+        "E_human": "CONCERN (engineer-speak like 'storeDocument', 'AsyncLocalStorage', 'enqueue', 'CloudEvents' in body text; acceptable for platform-admin audience but dense)",
+        "F_layers": "PASS (cards with ID + tag pills; clear hierarchy; no AI-tells)",
+        "G_followups": "PASS (platform-admin only; tenant/user views not in scope for this flow)"
+      },
+      "verdict": "PASS",
+      "notes": "Platform-admin bootstrap status dashboard. Engineering vocabulary (storeDocument, AsyncLocalStorage) is appropriate given the role views engine internals."
+    },
+    {
+      "flow": "human-interaction-gate",
+      "pngs": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png",
+        "populated-platform-admin.png"
+      ],
+      "axes": {
+        "A_framing": "PASS (tenant-user → kiosk, admin/support → admin shell)",
+        "B_role": "PASS — distinct grammars per role: platform-admin = cross-tenant oversight queue, tenant-admin = workflow config table, tenant-user = My Pending Approvals kiosk, support = read-only inspector",
+        "C_language": "PASS",
+        "D_state": "PASS — domain data rich: HIGH/CRITICAL/MEDIUM/LOW priority chips, confidence percentages, SLA remaining timers, escalation states, humanized flow refs ('Freelancer marketplace · milestone approval', 'AI safety moderation · moderation appeal', 'Durable sagas · GDPR compliance', 'Marketplace payments · refund review')",
+        "E_human": "CONCERN — platform-support primary-platform-support.png shows enabled Approve/Reject/Escalate buttons despite 'Controls are disabled' banner; should be visually greyed to match disabled state. Minor 'flow.milestone.released' event-name string leaks into proposed-output body (acceptable for admin)",
+        "F_layers": "PASS — Layer 1 (priority chips + text), Layer 2 (0 tells), Layer 3 (Nielsen H1 status strong via SLA timers), Layer 4 (PROGRESS_STRIP + VERDICT_GRID + CARD_LIST hybrid)",
+        "G_followups": "Grey out action buttons on platform-support view to match 'controls disabled' banner"
+      },
+      "verdict": "CONCERN",
+      "notes": "Strong role-branching, 5 role views with distinct grammars. Minor: platform-support buttons visually enabled conflicting with 'read-only' banner."
+    },
+    {
+      "flow": "i18n-translation",
+      "pngs": [
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png",
+        "primary-translator.png"
+      ],
+      "axes": {
+        "A_framing": "PASS (tenant-user kiosk, translator kiosk, admin shell for tenant-admin/platform-admin)",
+        "B_role": "PASS — 4 distinct role flows: platform-admin governance, tenant-admin locale config, tenant-user 'Choose your language' kiosk, translator workbench",
+        "C_language": "PASS — showcases EN/FR/HE/ES live translations; Hebrew text in RTL rendered correctly inside cards",
+        "D_state": "PASS — domain-meaningful: quality %, enabled/disabled toggle states, machine-vs-human translation tag, 'Missing' highlighting, translation-memory suggestions",
+        "E_human": "BLOCK on primary-tenant-admin.png — engineering leak: raw '/api/tenants/:id/config · freedom config keys: i18n.defaultLocale, i18n.enabledLocales' shown as subtitle. Word 'freedom' + API path + dot-key names = engineering leak to tenant-admin. Translation-key pattern (common.save_changes) in platform-admin and translator views is acceptable i18n convention for those personas",
+        "F_layers": "PASS (language cards with quality bars, translate CTAs; clean)",
+        "G_followups": "Remove raw API path and FREEDOM config key reference from tenant-admin view; replace with human-readable subtitle"
+      },
+      "verdict": "CONCERN",
+      "notes": "Strong overall; one BLOCK-level axis E leak on tenant-admin. Tenant-user kiosk + translator workbench are excellent."
+    },
+    {
+      "flow": "marketplace",
+      "v_r14_block_status": "BLOCK_PARTIALLY_RESOLVED",
+      "pngs": [
+        "primary-anonymous.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-tenant-user.png",
+        "primary-tenant-admin.png",
+        "primary-business-partner.png",
+        "populated-anonymous.png",
+        "populated-tenant-user.png"
+      ],
+      "axes": {
+        "A_framing": "PASS — anonymous/public-visitor = kiosk (no sidebar), tenant-user = kiosk, tenant-admin/business-partner = admin shell",
+        "B_role": "PASS on primary views: anonymous → 'Sign in to install', tenant-user → 'Request install from admin' + admin-warning banner, business-partner → 'Request install from admin', tenant-admin → 'Install'. Install CTA correctly gated.",
+        "C_language": "PASS",
+        "D_state": "BLOCK — populated-anonymous.png AND populated-tenant-user.png still show OLD TABLE LAYOUT with NODES column, raw publisher IDs (tenant-acme, tenant-payments-co, tenant-insights), and unconditional 'Install' button regardless of role. Primary render-path was rewritten; mock=populated render-path was NOT",
+        "E_human": "PASS on primary views (humanized 'Acme Corp', 'Payments Co', 'Insights Labs'); BLOCK on populated views (raw tenant-NN IDs + NODES engineering column)",
+        "F_layers": "PASS on primary (CARD_LIST grammar), BLOCK on populated (DynCrudTable grammar on external anonymous → Rule auto-BLOCK)",
+        "G_followups": "Route /marketplace?mock=populated through the new card component, not the legacy DynCrudTable. Verify tenant-plugins mock catalogue shares the new card renderer."
+      },
+      "verdict": "BLOCK",
+      "notes": "V-R14 BLOCK RESOLVED for primary views (cards + role-scoped CTAs + humanized publishers). V-R14 BLOCK PERSISTS for mock=populated views — the original table still renders on this code path. Two separate render paths were not both updated."
+    },
+    {
+      "flow": "marketplace-payments",
+      "pngs": [
+        "primary-anonymous.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-referral-user.png",
+        "primary-tenant-user.png",
+        "primary-business-partner.png",
+        "primary-freelancer.png",
+        "primary-event-organiser.png",
+        "primary-tenant-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "axes": {
+        "A_framing": "PASS — 5 kiosk-shell checkouts (anonymous/public/referral/tenant-user/business-partner), 4 admin-shell views (freelancer deflect, event-organiser deflect, tenant-admin, platform-admin/support)",
+        "B_role": "PASS — 10 distinct role-branched views. anonymous = 'Checking out as a guest · Sign in', referral-user = 'Referral credit will be applied', public-visitor = 'Registered members may qualify for tier discounts', business-partner = B2B PO+net-30 form, freelancer/event-organiser = deflection cards to role dashboards, tenant-admin = Refund/Dispute queues, platform-admin = cross-tenant PCI overview, support = read-only inspector",
+        "C_language": "PASS",
+        "D_state": "PASS — 'Annual Tech Summit 2026 · Apr 28 · San Francisco · digital delivery', Qty · price · subtotal/tax/total breakdown, 'Funds held in escrow until delivery' domain copy",
+        "E_human": "PASS — no acronym leaks, PCI-compliance shown as user-readable status; no T-IDs or factory names visible",
+        "F_layers": "PASS (split checkout layout, clear hierarchy, consistent pay button)",
+        "G_followups": "Minor: freelancer deflection view uses admin sidebar — consider module/kiosk shell for consumer-role freelancer"
+      },
+      "verdict": "PASS",
+      "notes": "Best-executed flow in this batch. All 10 roles correctly branched. Checkout form + role-specific banners reusable."
+    },
+    {
+      "flow": "marketplace-plugin-adapter",
+      "pngs": [
+        "primary-anonymous.png",
+        "primary-public-marketplace-visitor.png",
+        "primary-tenant-user.png",
+        "primary-tenant-admin.png",
+        "primary-business-partner.png",
+        "primary-freelancer.png",
+        "primary-event-organiser.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "populated-anonymous.png"
+      ],
+      "axes": {
+        "A_framing": "PASS — anonymous kiosk catalogue; tenant-admin admin-shell; platform-admin admin-shell with lifecycle canvas",
+        "B_role": "PASS — anonymous/public = kiosk with 'Sign in to install'; tenant-admin = Plugin Catalog + Installed Plugins + Disconnect + 'Configure plugin permissions for this tenant' note; platform-admin = ADAPTER LIFECYCLE state machine + pending security scan counters + curator queue; platform-support = read-only lifecycle canvas (no raw-index accordion)",
+        "C_language": "PASS",
+        "D_state": "PASS — state-machine grammar correct for platform-admin (NEEDS_PURPOSE_BUILT_UI). Domain: 'Adapter registered → Handshake pending → Plugin connected → Payload translating → Payload translated → Synced / Schema mismatch / Rate limited'. Click-to-inspect node detail panel",
+        "E_human": "CONCERN — 'CONNECTED' fully capitalised on populated-anonymous could be sentence-case ('Plugin connected — token exchange succeeded'); publisher names on tenant-admin are less humanized ('by payments-co', 'by content-tools') than marketplace flow's 'Acme Corp'",
+        "F_layers": "PASS — Layer 3 H1 strong (state colour + label), Layer 4 TOPOLOGY_CANVAS grammar on platform-admin, CARD_LIST on tenant-admin, both correct",
+        "G_followups": "Humanize publisher IDs (payments-co → 'Payments Co'); lowercase 'CONNECTED' narrative; consider shell for freelancer/event-organiser views"
+      },
+      "verdict": "CONCERN",
+      "notes": "Strong PURPOSE_BUILT_UI execution via state machine. Minor humanization gaps vs. marketplace flow."
+    },
+    {
+      "flow": "meta-arbitration-engine",
+      "v_r14_block_status": "BLOCK_RESOLVED",
+      "pngs": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "populated-platform-admin.png"
+      ],
+      "axes": {
+        "A_framing": "PASS — admin shell both roles",
+        "B_role": "PASS — platform-admin = full verdict grid + Approve/Override/Escalate/Defer + RAW POLICY-EVALUATION INDEX (PLATFORM-ADMIN DEBUG) accordion; platform-support = same grid but Approve disabled with lock icon, banner 'Meta Arbitration Engine — read-only for support access. Controls are disabled. Escalate to a platform-admin for any change', NO raw-index accordion",
+        "C_language": "PASS",
+        "D_state": "PASS — ROUND column shows HUMANIZED flow names: 'Event participation', 'Freelancer marketplace', 'Ads platform', 'Deep research', 'Feature registry', 'AI safety moderation'. Zero FLOW-NN strings. 5 policy columns (COST, SECURITY, QUALITY, DRIFT, IMPROVEMENT) with checkmark/cross/dash verdicts, CONSENSUS column with 'Approve all / Needs revision / Blocked / Pending' chips. Round-detail panel with rationale and per-policy Approved/Rejected chips",
+        "E_human": "PASS on both views — no engineering leaks",
+        "F_layers": "PASS — Layer 4 VERDICT_GRID grammar correctly declared and implemented. Layer 3 H2 (match real world) strong via humanized flow names",
+        "G_followups": "None for V-R14 fixes"
+      },
+      "verdict": "PASS",
+      "notes": "V-R14 BLOCK FULLY RESOLVED. flowHumanName util applied to ROUND column. Platform-support custom supportContent correctly excludes raw policy-evaluation index accordion. Both V-R14 fixes verified."
+    },
+    {
+      "flow": "meta-flow-engine",
+      "pngs": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "populated-platform-admin.png"
+      ],
+      "axes": {
+        "A_framing": "PASS — admin shell",
+        "B_role": "PASS — platform-admin full META-FLOW LIFECYCLE canvas + 24 processes/6 phases + Create meta-flow CTA + Registered meta-flows play/pause controls + Recent Executions; platform-support 'Meta-Flow Engine (read-only)' title qualifier, no lifecycle canvas, disabled play/pause, Escalate link",
+        "C_language": "PASS",
+        "D_state": "PASS — Node grid for platform-admin shows engine-native task types: Flow spec parser, Contract code writer, DNA compliance checker, Factory registrar, Flow deployment gate, Self-extension learner, Flow template resolver, Code scaffold generator, Cross-flow impact analyzer, BFA conflict scanner. Detail panel 'Test code generator · Running · Emits event flow.tests.generated'. Registered pipelines with Orchestrates chains using humanized flow names ('User registration → Tenant lifecycle → System bootstrap')",
+        "E_human": "CONCERN — platform-admin shows 'DNA compliance checker' and 'BFA conflict scanner' node labels. DNA and BFA are engine-internal acronyms. Role is platform-admin — acceptable but an engineer-speak leak for the flow's audience; consider tooltip. 'flow.tests.generated' event name visible in detail panel — acceptable for admin",
+        "F_layers": "PASS — Layer 4 TOPOLOGY_CANVAS + CARD_LIST hybrid, Layer 3 H1 strong via running/idle/complete chip",
+        "G_followups": "Tooltip-expand DNA/BFA acronyms (still acronym to a new platform-admin hire)"
+      },
+      "verdict": "PASS",
+      "notes": "Strong PURPOSE_BUILT_UI. Lifecycle canvas + Registered meta-flows + Recent Executions = three-layer information architecture."
+    }
+  ],
+  "v_r14_block_status_summary": {
+    "marketplace": "BLOCK_PARTIALLY_RESOLVED — primary render PASS but ?mock=populated still serves old table",
+    "meta-arbitration-engine": "BLOCK_RESOLVED — both fixes verified (humanized ROUND column + platform-support excludes raw-index accordion)"
+  },
+  "verdict_counts": {
+    "PASS": 4,
+    "CONCERN": 3,
+    "BLOCK": 1
+  },
+  "critical_blockers": [
+    "marketplace: populated-anonymous.png AND populated-tenant-user.png render the legacy DynCrud table with NODES engineering column, raw tenant-acme publisher IDs, and unconditional Install button. The primary render path was fixed in RUN-188 V-R15 but the mock=populated code path was not — they appear to be separate renderers.",
+    "i18n-translation primary-tenant-admin.png: engineering leak — subtitle shows raw '/api/tenants/:id/config · freedom config keys: i18n.defaultLocale, i18n.enabledLocales'. FREEDOM terminology + API path + dot-key names exposed to tenant-admin."
+  ],
+  "concerns": [
+    "human-interaction-gate primary-platform-support.png: Approve/Reject/Escalate buttons are visually enabled despite 'Controls are disabled' banner — visual state mismatches the semantic state.",
+    "marketplace-plugin-adapter tenant-admin: publisher IDs not humanized consistently with marketplace flow (payments-co vs Acme Corp).",
+    "marketplace-plugin-adapter populated-anonymous: 'Plugin CONNECTED' all-caps reads as log-level rather than human status.",
+    "meta-flow-engine: 'DNA compliance checker' and 'BFA conflict scanner' node labels use engine-internal acronyms with no tooltip expansion."
+  ]
+}

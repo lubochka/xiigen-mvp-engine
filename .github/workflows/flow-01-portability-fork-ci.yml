@@ -1,0 +1,66 @@
+# ═══════════════════════════════════════════════════════
+# FLOW-01 portability — fork-and-install CI
+# ═══════════════════════════════════════════════════════
+# Real R2 (Fork-with-code) + R4 (Independent test) proof. Runs the
+# fork-and-install harness on every push that touches the FLOW-01 module
+# or the harness itself, copying the module into a fresh temp directory
+# and running npm install + tsc --noEmit + jest against it. Proves the
+# module is genuinely fork-portable, with CI/CD really exercising the
+# copied module — not just the source-tree monolith.
+
+name: FLOW-01 portability fork-and-install
+
+on:
+  push:
+    branches: [main, "claude/**"]
+    paths:
+      - "server/src/engine/flows/user-registration/**"
+      - "server/src/kernel/**"
+      - "server/src/fabrics/interfaces/**"
+      - "server/src/freedom/**"
+      - "scripts/portability/flow-01-fork-and-install-test.py"
+      - ".github/workflows/flow-01-portability-fork-ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "server/src/engine/flows/user-registration/**"
+      - "server/src/kernel/**"
+      - "server/src/fabrics/interfaces/**"
+      - "server/src/freedom/**"
+      - "scripts/portability/flow-01-fork-and-install-test.py"
+      - ".github/workflows/flow-01-portability-fork-ci.yml"
+  workflow_dispatch:
+
+jobs:
+  fork-and-install:
+    name: Copy → npm install → tsc → jest (against fresh fork tmp dir)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Node 24
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: "24"
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Run fork-and-install harness
+        # Exits non-zero if npm install / tsc / jest fail — surfaces breakage
+        # in PR / push checks the moment FLOW-01 portability regresses.
+        run: |
+          python scripts/portability/flow-01-fork-and-install-test.py --label ci-${GITHUB_RUN_ID}
+
+      - name: Echo provenance on success
+        if: success()
+        run: |
+          echo "FLOW-01 fork-and-install harness PASS"
+          echo "Phase C11 — R2 (Fork-with-code) + R4 (Independent test) real proof"
+          echo "Source: server/src/engine/flows/user-registration/"
+          echo "Fork-tree closure: server/src/{kernel,fabrics/interfaces,freedom,engine/flows/user-registration}"
+          echo "Module manifest: @xiigen/user-registration v1.0.0 (requiredCoInstalls=[])"

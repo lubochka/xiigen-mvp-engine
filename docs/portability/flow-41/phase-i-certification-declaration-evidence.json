@@ -1,0 +1,27 @@
+{
+    "flowId":  "FLOW-41",
+    "flowSlug":  "canva-text-adapter",
+    "phase":  "phase-i-certification-declaration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T00:16:43.1519452Z",
+    "earnedTier":  "Tier 1 external-adapter Sprint A",
+    "basis":  [
+                  "ADAPTATION archetype is registered in engine contracts/validators.",
+                  "The Canva adapter package is publishable and includes STEP-1-INVARIANTS.md plus FUNCTIONAL-SPEC.md.",
+                  "Standalone adapter install, typecheck, 26-test suite, production webpack build, and named static checks passed.",
+                  "Local registry publish/readback returned @xiigen/canva-text-elements-adapter@1.0.1.",
+                  "Docker/Vault live auth matrix passed 8/8 against guarded marketplace routes.",
+                  "FLOW-41 adapter CI/CD bridge Playwright role evidence passed 3/3 and produced a non-empty PNG."
+              ],
+    "limitations":  [
+                        "Full three-tenant fork cascade is not declared complete for FLOW-41 because PER-FLOW-FIX-MAP-v2.9 marks it as Sprint B after package signing first pass/platform cascade infrastructure for external adapters."
+                    ],
+    "evidenceFiles":  [
+                          "docs/portability/flow-41/phase-0-docker-vault-auth-evidence.json",
+                          "docs/portability/flow-41/phase-1-adapter-package-evidence.json",
+                          "docs/portability/flow-41/phase-2-playwright-png-evidence.json",
+                          "docs/portability/flow-41/phase-3-external-adapter-publication-evidence.json",
+                          "docs/portability/flow-41/phase-close-scan-evidence.json"
+                      ],
+    "verdict":  "PASS"
+}

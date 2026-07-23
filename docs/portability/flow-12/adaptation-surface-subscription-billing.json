@@ -1,0 +1,269 @@
+{
+  "flowId": "FLOW-12",
+  "flowSlug": "subscription-billing",
+  "flowTitle": "Subscription & Recurring Billing",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-06",
+  "capturedBy": "Codex / FLOW-12 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/sessions/FLOW-12/FLOW-12-STEP-1-INVARIANTS.md",
+    "docs/business-flows/12-subscription-billing.md",
+    "server/src/engine-contracts/subscription-billing-contracts.ts",
+    "server/src/engine-contracts/subscription-billing-bfa-rules.ts",
+    "server/src/engine/flows/subscription-billing",
+    "server/src/bootstrap/history-seeds/subscription-billing-design-corpus.json"
+  ],
+  "services": [
+    {
+      "taskTypeId": "T209",
+      "className": "SubscriptionPlanOrchestratorService",
+      "file": "server/src/engine/flows/subscription-billing/subscription-plan-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "subscription_billing_plan_audit_retention"
+      ]
+    },
+    {
+      "taskTypeId": "T210",
+      "className": "SubscriptionLifecycleManagerService",
+      "file": "server/src/engine/flows/subscription-billing/subscription-lifecycle-manager.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "subscription_billing_default_trial_days"
+      ]
+    },
+    {
+      "taskTypeId": "T211",
+      "className": "RecurringBillingEngineService",
+      "file": "server/src/engine/flows/subscription-billing/recurring-billing-engine.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "subscription_billing_dunning_schedule"
+      ]
+    },
+    {
+      "taskTypeId": "T212",
+      "className": "SubscriptionAnalyticsAggregatorService",
+      "file": "server/src/engine/flows/subscription-billing/subscription-analytics-aggregator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "readsFreedomKeys": [
+        "subscription_billing_metrics_window_days"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "freedomConfigAdaptation": {
+      "description": "Tenant-safe billing policy values that can change without altering subscription state ordering, payment-token handling, invoice idempotency, MRR normalization, or tenant isolation.",
+      "total": 4,
+      "keys": [
+        {
+          "key": "subscription_billing_plan_audit_retention",
+          "type": "number",
+          "default": 365,
+          "unit": "days",
+          "semantic": "How long plan publication audit records remain queryable for tenant administrators.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T209.SubscriptionPlanOrchestratorService"
+          ],
+          "boundedRange": {
+            "min": 30,
+            "max": 2555,
+            "rationale": "Tenants may tune audit retention by policy while plan OCC and store-before-emit ordering remain fixed."
+          }
+        },
+        {
+          "key": "subscription_billing_default_trial_days",
+          "type": "number",
+          "default": 14,
+          "unit": "days",
+          "semantic": "Default trial duration when a plan does not specify one explicitly.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T210.SubscriptionLifecycleManagerService"
+          ],
+          "boundedRange": {
+            "min": 0,
+            "max": 90,
+            "rationale": "Tenants may adapt trial posture without changing payment validation, duplicate-subscription prevention, or initial state rules."
+          }
+        },
+        {
+          "key": "subscription_billing_dunning_schedule",
+          "type": "array",
+          "default": [
+            {
+              "attempt": 0,
+              "wait_hours": 24
+            },
+            {
+              "attempt": 1,
+              "wait_hours": 72
+            },
+            {
+              "attempt": 2,
+              "wait_hours": 168
+            }
+          ],
+          "unit": "attempt wait-hours",
+          "semantic": "Retry cadence after a failed recurring charge.",
+          "stakeholder": "billing-operations",
+          "consumedBy": [
+            "T211.RecurringBillingEngineService"
+          ],
+          "boundedRange": {
+            "minLength": 1,
+            "maxLength": 6,
+            "minWaitHours": 1,
+            "maxWaitHours": 720,
+            "rationale": "Tenants may choose a gentler or stricter retry cadence while max attempts still derive from schedule length."
+          }
+        },
+        {
+          "key": "subscription_billing_metrics_window_days",
+          "type": "number",
+          "default": 30,
+          "unit": "days",
+          "semantic": "Rolling window used by billing dashboards and analytics summaries.",
+          "stakeholder": "finance-operations",
+          "consumedBy": [
+            "T212.SubscriptionAnalyticsAggregatorService"
+          ],
+          "boundedRange": {
+            "min": 7,
+            "max": 365,
+            "rationale": "Tenants may tune reporting windows while the additive-subtractive MRR formula remains MACHINE."
+          }
+        }
+      ]
+    },
+    "grammarAdaptation": {
+      "description": "FLOW-12 has no tenant-editable grammar surface. Tenants may tune billing policy values and presentation copy without changing payment or invoice event contracts.",
+      "total": 0,
+      "keys": []
+    },
+    "roleScopeAdaptation": {
+      "description": "Tenant-user subscription actions, tenant-admin billing operations, platform-admin support, and public pricing visibility are fixed for certification. Tenant adaptation may not weaken role isolation or expose private billing records across tenants.",
+      "total": 0,
+      "keys": []
+    },
+    "businessDomainAdaptation": {
+      "description": "Tenant billing policies that can change while fixed plan publication, activation, recurring billing, and MRR invariants remain intact.",
+      "total": 4,
+      "edgeCases": [
+        {
+          "id": "longer-enterprise-trial",
+          "name": "Longer enterprise trial",
+          "semantic": "Tenant A can default plans to a longer trial for enterprise buyers.",
+          "extensionPoint": "subscription_billing_default_trial_days",
+          "currentImplementation": "T210 sets TRIALING when trialDays is greater than zero and ACTIVE when it is zero."
+        },
+        {
+          "id": "gentle-retry-cadence",
+          "name": "Gentle retry cadence",
+          "semantic": "Tenant A can wait longer between failed charge attempts.",
+          "extensionPoint": "subscription_billing_dunning_schedule",
+          "currentImplementation": "T211 reads the dunning schedule and derives maxAttempts from the schedule length."
+        },
+        {
+          "id": "strict-audit-retention",
+          "name": "Strict audit retention",
+          "semantic": "Tenant A can retain plan-publication audit records longer for finance review.",
+          "extensionPoint": "subscription_billing_plan_audit_retention",
+          "currentImplementation": "T209 writes plan audit records before publishing plan events."
+        },
+        {
+          "id": "quarterly-billing-dashboard",
+          "name": "Quarterly billing dashboard",
+          "semantic": "Tenant A can view billing metrics over a longer reporting window.",
+          "extensionPoint": "subscription_billing_metrics_window_days",
+          "currentImplementation": "T212 stores tenant-level MRR metrics after recalculating active and trialing subscriptions."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenants cannot change without breaking portability or authorization certification.",
+    "rules": [
+      "T209 rejects non-integer or non-positive priceCents before idempotency or writes.",
+      "T209 uses a tenant, plan, and version idempotency key before plan publication.",
+      "T209 stores plan audit records before enqueueing plan publication events.",
+      "T209 uses OCC for existing plan version writes.",
+      "T210 validates payment method before subscription state writes.",
+      "T210 stores paymentMethodId vault references only and never stores raw paymentMethodToken.",
+      "T210 prevents duplicate tenant, subscriber, and plan subscriptions with SETNX-style idempotency.",
+      "T211 checks subscription status before acquiring billing locks.",
+      "T211 acquires the billing lock before invoice generation and charge execution.",
+      "T211 derives invoiceId from tenant, subscription, and period key.",
+      "T211 stores billing audit records before enqueueing billing result events.",
+      "T211 derives maxAttempts from subscription_billing_dunning_schedule length.",
+      "T212 uses the fixed MRR normalization formula: MONTHLY equals priceCents, ANNUAL equals floor priceCents divided by 12, CUSTOM equals floor priceCents divided by intervalDays times 30.",
+      "T212 includes both SubscriptionActivated and SubscriptionCancelled paths.",
+      "T212 emits tenant-level metrics without subscriberId.",
+      "All FLOW-12 services remain FLOW_SCOPED and return DataProcessResult."
+    ]
+  },
+  "adaptationExamples": {
+    "tenant-a-enterprise-billing": {
+      "description": "Tenant A uses a longer trial and gentler retry schedule for enterprise subscription buyers.",
+      "change": {
+        "subscription_billing_default_trial_days": 30,
+        "subscription_billing_dunning_schedule": [
+          {
+            "attempt": 0,
+            "wait_hours": 48
+          },
+          {
+            "attempt": 1,
+            "wait_hours": 120
+          },
+          {
+            "attempt": 2,
+            "wait_hours": 240
+          }
+        ]
+      },
+      "impact": "Subscribers have more evaluation time and failed payments receive a slower recovery cadence while duplicate billing and payment-token privacy remain fixed.",
+      "testable": "Tenant A adaptation evidence shows the policy in tenant.config.json adaptationHistory and fork CI still passes."
+    },
+    "tenant-a-finance-review-mode": {
+      "description": "Tenant A extends audit retention and uses quarterly billing analytics.",
+      "change": {
+        "subscription_billing_plan_audit_retention": 730,
+        "subscription_billing_metrics_window_days": 90
+      },
+      "impact": "Finance teams retain plan audit evidence longer and view dashboard metrics over a broader reporting window without changing MRR math.",
+      "testable": "Tenant A before/after assertion shows the adapted values in FREEDOM defaults without changing MACHINE invariants."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "MACHINE elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task type IDs T209 through T212",
+      "Integer-cents price guard",
+      "Plan OCC write protection",
+      "Payment validation before subscription write",
+      "Raw payment token non-storage",
+      "Subscription status before billing lock",
+      "Lock before invoice and charge",
+      "Invoice idempotency key formula",
+      "Store-before-enqueue ordering",
+      "MRR normalization formula",
+      "Additive-subtractive MRR handlers",
+      "Tenant-level analytics without subscriberId",
+      "Tenant scope isolation",
+      "DataProcessResult return contract"
+    ]
+  },
+  "passCriteria": [
+    "Tenant A can apply a TYPE-A billing policy change without altering MACHINE constraints.",
+    "The adapted policy is present in tenant.config.json adaptationHistory.",
+    "At least one before/after behavior assertion proves the adapted policy changes trial, dunning, audit, or metric-window behavior.",
+    "Auth checks still return 401 for missing token, 401 for cross-tenant token, and 403 for wrong-role token after adaptation."
+  ]
+}

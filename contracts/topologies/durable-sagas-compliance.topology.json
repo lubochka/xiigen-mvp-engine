@@ -1,0 +1,69 @@
+{
+  "flowId": "FLOW-19",
+  "name": "Durable Sagas & Compliance",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T621",
+      "taskTypeId": "T621",
+      "name": "SagaOrchestrator",
+      "archetype": "orchestration",
+      "entry": "OCC versionPin:-1 + SETNX step-lock + checkpoint before enqueue"
+    },
+    {
+      "id": "T622",
+      "taskTypeId": "T622",
+      "name": "CompensationEngine",
+      "archetype": "orchestration",
+      "entry": "LIFO .reverse() serial + SETNX comp-lock + stop-on-first-failure"
+    },
+    {
+      "id": "T623",
+      "taskTypeId": "T623",
+      "name": "ComplianceAuditWriter",
+      "archetype": "governance",
+      "entry": "retentionExpiresAt + SHA-256 hash + PLATFORM_ONLY append-only"
+    },
+    {
+      "id": "T624",
+      "taskTypeId": "T624",
+      "name": "DataRetentionEnforcer",
+      "archetype": "governance",
+      "entry": "CRON from FREEDOM + dual-gate (expired AND !legalHold) + archive before tombstone"
+    }
+  ],
+  "edges": [
+    {
+      "from": "SagaStarted",
+      "to": "T621",
+      "event": "xiigen.durable-sagas-compliance.saga-started.v1"
+    },
+    {
+      "from": "T621",
+      "to": "T622",
+      "event": "xiigen.durable-sagas-compliance.step-failed.v1",
+      "condition": "failure"
+    },
+    {
+      "from": "T621",
+      "to": "T623",
+      "event": "xiigen.durable-sagas-compliance.step-executed.v1"
+    },
+    {
+      "from": "T622",
+      "to": "T623",
+      "event": "xiigen.durable-sagas-compliance.compensation-executed.v1"
+    },
+    {
+      "from": "T623",
+      "to": "T624",
+      "event": "xiigen.durable-sagas-compliance.compliance-recorded.v1"
+    },
+    {
+      "from": "T624",
+      "to": "SagaLifecycleComplete",
+      "event": "xiigen.durable-sagas-compliance.retention-enforced.v1",
+      "condition": "terminal"
+    }
+  ]
+}

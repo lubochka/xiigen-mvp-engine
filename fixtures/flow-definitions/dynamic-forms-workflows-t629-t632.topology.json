@@ -1,0 +1,47 @@
+{
+  "flowId": "FLOW-21",
+  "slug": "dynamic-forms-workflows",
+  "topology": {
+    "n1_entry": "SchemaPublishRequested",
+    "n2_task_t629": "T629 FormSchemaPublisher [VALIDATION]",
+    "n3_branch_t630": "FormSubmitted → T630 FormSubmissionProcessor [DATA_PIPELINE]",
+    "n4_decision": {
+      "condition": "valid submission?",
+      "true_path": "→ T631 AutomationDispatcher [ORCHESTRATION]",
+      "false_path": "→ emit SubmissionRejected"
+    },
+    "n5_orchestration": "T631 dispatch rules with SETNX locks + conditional branching",
+    "n6_analytics": "T632 SubmissionAnalyticsCollector [DATA_PIPELINE] append-only PII-excluded",
+    "n7_aggregates": "Aggregate metrics per tenantId/formId/dateWindow",
+    "n8_exit": "FlowComplete with schema published, submission processed, rules executed, analytics recorded"
+  },
+  "cycleConnections": {
+    "n1_to_n2": "entry → schema publish",
+    "n2_to_n3": "schema published → form submission processing",
+    "n3_to_n4": "submission data → validation branch",
+    "n4_true_to_n5": "valid submission → automation rules dispatch",
+    "n5_to_n6": "rules executed → analytics collection",
+    "n4_false_to_n6": "invalid submission → analytics only (no automation)",
+    "n6_to_n7": "analytics record → aggregate metrics",
+    "n7_to_n8": "metrics updated → flow complete"
+  },
+  "contractBindings": {
+    "T629": { "archetype": "VALIDATION", "factory": "F1569" },
+    "T630": { "archetype": "DATA_PIPELINE", "factory": "F1570" },
+    "T631": { "archetype": "ORCHESTRATION", "factory": "F1572" },
+    "T632": { "archetype": "DATA_PIPELINE", "factory": "F1574" }
+  },
+  "dnaGates": {
+    "DNA-1": "All business data uses Record<string, unknown>",
+    "DNA-3": "All methods return DataProcessResult<T>",
+    "DNA-4": "Validation errors as success response, never failure",
+    "DNA-5": "Tenant scope via ALS (TenantContext)",
+    "DNA-8": "Outbox pattern — store before queue"
+  },
+  "bfaRegistration": {
+    "CF-21-1": "T629 schema publish OCC",
+    "CF-21-2": "T630 BOLA + validation",
+    "CF-21-3": "T631 SETNX locks",
+    "CF-21-4": "T632 PII exclusion + append-only"
+  }
+}

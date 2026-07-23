@@ -1,0 +1,14 @@
+{
+  "eventType": "durable-sagas.compensation.failed",
+  "flowId": "FLOW-19",
+  "version": "1.0.0",
+  "properties": {
+    "sagaId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "sagaType": { "type": "string", "required": true },
+    "failedStep": { "type": "number", "required": true },
+    "failedStepName": { "type": "string", "required": false },
+    "reason": { "type": "string", "required": false },
+    "compensatedStepsSoFar": { "type": "number", "required": true }
+  }
+}

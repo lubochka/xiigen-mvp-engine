@@ -1,0 +1,10 @@
+{
+  "taskTypeId": "T374",
+  "flowId": "FLOW-24",
+  "name": "T374Service",
+  "archetype": "ORCHESTRATION",
+  "domainId": "ai-safety-moderation",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "bfaRules": ["CF-24-2", "CF-24-3", "CF-24-4"],
+  "tags": ["FLOW-24"]
+}

@@ -1,0 +1,23 @@
+{
+  "eventType": "marketplace.payout.completed",
+  "flowId": "FLOW-16",
+  "version": "1.0.0",
+  "description": "Emitted by T612 SellerPayoutWriter after payout record stored. MUST NOT include bankAccountNumber, IBAN, routingNumber, sortCode, or accountName — only payoutVaultRef is stored and referenced.",
+  "properties": {
+    "payoutId": { "type": "string", "required": true },
+    "orderId": { "type": "string", "required": true },
+    "sellerTenantId": { "type": "string", "required": true },
+    "payoutVaultRef": { "type": "string", "required": true },
+    "amountCents": { "type": "integer", "minimum": 0, "required": true },
+    "currency": { "type": "string", "required": true },
+    "completedAt": { "type": "string", "format": "date-time", "required": true }
+  },
+  "prohibitedFields": [
+    "bankAccountNumber",
+    "iban",
+    "routingNumber",
+    "sortCode",
+    "accountName",
+    "bsb"
+  ]
+}

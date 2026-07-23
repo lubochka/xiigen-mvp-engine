@@ -1,0 +1,238 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "phase": "phase4Point0TenantAOriginalFork",
+  "generatedAt": "2026-05-05T17:42:00+03:00",
+  "tenant": "acme-corp",
+  "marketplaceFork": {
+    "endpoint": "POST /api/marketplace/packages/transactional-event-participation/fork",
+    "status": "FORKED",
+    "forkId": "fork-transactional-event-participation-acme-corp",
+    "repoUrl": "https://github.com/lubochka/acme-corp--transactional-event-participation",
+    "repoFullName": "lubochka/acme-corp--transactional-event-participation",
+    "initialCommitSha": "923c8425b7b7d5c5338eb36a89f5678722aa8835",
+    "usedVaultSecrets": true,
+    "secretsPrinted": false,
+    "preflightNote": "The first real marketplace fork created the repo and pushed commit 50beb20a9b1de5173ffaafe45ef5db5071444d09, but GitHub Actions failed because the generated fork smoke test discovered only .service.ts files while FLOW-09 ships .handler.ts modules. BUG-ENGINE-01 fixed FlowFileAssemblerService to discover service or handler modules. The retry used the same marketplace API, updated the existing tenant repo through the fork provisioner, and produced green GitHub Actions on commit 923c8425b7b7d5c5338eb36a89f5678722aa8835."
+  },
+  "prerequisitesCreated": [
+    "docs/portability/flow-09/adaptation-surface-transactional-event-participation.json"
+  ],
+  "bugRegressionFix": {
+    "bugId": "BUG-ENGINE-01",
+    "class": "F",
+    "affected": "FlowFileAssemblerService generated tenant fork smoke test",
+    "rootCause": "The fork package smoke test assumed shipped flow modules always end with .service.ts, but handler-based flows such as FLOW-09 ship .handler.ts files.",
+    "wrongAssumption": "Tenant fork CI could prove package loadability by scanning only .service.ts files.",
+    "fix": "server/src/fabrics/implementations/flow-file-assembler.ts now generates a smoke test that discovers .service.ts or .handler.ts modules.",
+    "testsAdded": [
+      "server/src/fabrics/implementations/flow-file-assembler.spec.ts - generates a smoke test that includes handler modules at unit level",
+      "server/src/fabrics/implementations/flow-file-assembler.spec.ts - discovers the shipped Flow 09 handler modules in the assembled package",
+      "server/src/fabrics/implementations/flow-file-assembler.spec.ts - loads Flow 09 handler modules through the generated package contract"
+    ],
+    "beforeFix": {
+      "command": "Push-Location server; npx jest src/fabrics/implementations/flow-file-assembler.spec.ts --runInBand --verbose; Pop-Location",
+      "result": "failed",
+      "testsFailed": 3,
+      "reason": "Generated smoke test contained only entry.endsWith('.service.ts'), producing zero discoverable FLOW-09 modules."
+    },
+    "afterFix": {
+      "command": "Push-Location server; npx jest src/fabrics/implementations/flow-file-assembler.spec.ts --runInBand; Pop-Location",
+      "result": "passed",
+      "tests": 8
+    },
+    "status": "FIXED_AND_VERIFIED"
+  },
+  "vaultAndAuth": {
+    "dockerDesktopReady": true,
+    "vaultContainer": "xiigen-vault",
+    "vaultSealed": false,
+    "canonicalTenantPathsVerified": [
+      "secret/xiigen/tenants/acme-corp/github_token",
+      "secret/xiigen/tenants/acme-corp/github_org_name",
+      "secret/xiigen/tenants/acme-corp/auth/jwt_signing_key"
+    ],
+    "runtimeForkManagerPathsSeeded": [
+      "secret/acme-corp/github_token",
+      "secret/acme-corp/github_org_name",
+      "secret/acme-corp/docker_registry_url",
+      "secret/acme-corp/docker_registry_token"
+    ],
+    "tenantFreedomRuntimeConfig": [
+      "vault_address",
+      "vault_token"
+    ],
+    "githubCliUser": "lubochka",
+    "tokenValuesPrinted": false
+  },
+  "githubRepository": {
+    "created_at": "2026-05-05T14:20:41Z",
+    "default_branch": "main",
+    "full_name": "lubochka/acme-corp--transactional-event-participation",
+    "html_url": "https://github.com/lubochka/acme-corp--transactional-event-participation",
+    "id": "R_kgDOSU9aXA",
+    "owner": "lubochka",
+    "private": true,
+    "pushed_at": "2026-05-05T14:35:53Z",
+    "visibility": "PRIVATE"
+  },
+  "githubActions": {
+    "workflow": {
+      "id": 271415133,
+      "name": "XIIGen Flow CI - transactional-event-participation",
+      "path": ".github/workflows/flow-ci.yml",
+      "state": "active"
+    },
+    "run": {
+      "conclusion": "success",
+      "createdAt": "2026-05-05T14:35:57Z",
+      "databaseId": 25382918323,
+      "event": "push",
+      "headSha": "923c8425b7b7d5c5338eb36a89f5678722aa8835",
+      "jobs": [
+        {
+          "completedAt": "2026-05-05T14:36:53Z",
+          "conclusion": "success",
+          "databaseId": 74435894259,
+          "name": "Standalone flow test - transactional-event-participation",
+          "startedAt": "2026-05-05T14:36:10Z",
+          "status": "completed",
+          "steps": [
+            {
+              "name": "Install",
+              "conclusion": "success"
+            },
+            {
+              "name": "TypeScript check",
+              "conclusion": "success"
+            },
+            {
+              "name": "Test",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provenance",
+              "conclusion": "success"
+            }
+          ],
+          "url": "https://github.com/lubochka/acme-corp--transactional-event-participation/actions/runs/25382918323/job/74435894259"
+        }
+      ],
+      "status": "completed",
+      "updatedAt": "2026-05-05T14:36:54Z",
+      "url": "https://github.com/lubochka/acme-corp--transactional-event-participation/actions/runs/25382918323",
+      "workflowName": "XIIGen Flow CI - transactional-event-participation"
+    },
+    "green": true,
+    "warnings": []
+  },
+  "screenshotEvidence": {
+    "path": "docs/e2e-snapshots/repo-evidence/acme-corp--transactional-event-participation-github-listing.png",
+    "bytes": 93330,
+    "captureUrl": "https://github.com/lubochka/acme-corp--transactional-event-participation",
+    "visibilityDuringCapture": "public",
+    "visibilityAfterCapture": "private",
+    "verifiedVisual": true
+  },
+  "forkCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--transactional-event-participation-phase40",
+    "headSha": "923c8425b7b7d5c5338eb36a89f5678722aa8835",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed",
+        "notes": "422 packages added; npm deprecation warnings only."
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --forceExit",
+        "result": "passed",
+        "notes": "1 suite passed, 1 test passed."
+      }
+    ],
+    "workingTreeClean": true
+  },
+  "bundleManifest": {
+    "requiredBundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    },
+    "fileCount": 128,
+    "requiredFilesPresent": [
+      "package.json",
+      "tsconfig.json",
+      "jest.config.js",
+      ".github/workflows/flow-ci.yml",
+      "freedom-config.defaults.json",
+      "tenant.config.json",
+      "settings/module.settings.json",
+      "docs/adaptation-surface.json",
+      "docs/STEP-1-INVARIANTS.md",
+      "docs/FUNCTIONAL-SPEC.md",
+      "rag-seeds/transactional-event-participation-design-corpus.json",
+      "BUNDLE-MANIFEST.json"
+    ],
+    "tenantConfig": {
+      "tenantId": "acme-corp",
+      "flowId": "FLOW-09",
+      "flowSlug": "transactional-event-participation",
+      "moduleName": "transactional-event-participation",
+      "moduleVersion": "1.0.0-fork",
+      "adaptationHistoryCount": 0
+    },
+    "adaptationSurface": {
+      "flowId": "FLOW-09",
+      "flowSlug": "transactional-event-participation",
+      "surfaceVersion": "1.0.0",
+      "freedomKeyCount": 5,
+      "passCriteriaCount": 4
+    }
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "result": "passed",
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location"
+    },
+    "serverJest": {
+      "result": "passed",
+      "command": "Push-Location server; npx jest --testPathPatterns=transactional-event-participation --runInBand; Pop-Location",
+      "suites": 8,
+      "tests": 133
+    },
+    "assemblerRegressionJest": {
+      "result": "passed",
+      "command": "Push-Location server; npx jest src/fabrics/implementations/flow-file-assembler.spec.ts --runInBand; Pop-Location",
+      "tests": 8
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "flowScopedAnnotations": 20,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 0,
+      "directSdkImports": 0
+    },
+    "authDeclarationScan": {
+      "useGuardsPresent": true,
+      "routeCount": 4,
+      "rolesOrPublicDeclarations": 4
+    }
+  },
+  "phaseGate": {
+    "tenantAForkedOriginalPlatformSource": true,
+    "marketplaceApiUsed": true,
+    "realGitHubRepo": true,
+    "realGitHubActionsGreen": true,
+    "realGitHubScreenshot": true,
+    "localForkCloneTestsPassed": true,
+    "readyForStateTransition": true
+  }
+}

@@ -1,0 +1,142 @@
+{
+    "flowId":  "FLOW-37",
+    "flowSlug":  "design-system-governance",
+    "phase":  "phase-2-playwright-png",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T19:22:22Z",
+    "commands":  [
+                     "Push-Location client; npx playwright test e2e/design-system-governance.spec.ts e2e/design-system-governance-crud.spec.ts e2e/design-system-governance-mock-states.spec.ts --workers=1 --reporter=line; Pop-Location",
+                     "Push-Location client; npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts --grep \"C6-R37\" --workers=1 --reporter=line; Pop-Location",
+                     "Initial parallel refresh of run-65 and visual-audit produced artifact contention/navigation timeout under concurrent Playwright processes; reran each sequentially before closing the layer.",
+                     "Push-Location client; npx playwright test e2e/run-65-regen.spec.ts --grep \"FLOW-37\" --workers=1 --reporter=line; Pop-Location",
+                     "Push-Location client; npx playwright test e2e/visual-audit-all-flows.spec.ts --grep \"design-system-governance\" --workers=1 --reporter=line; Pop-Location"
+                 ],
+    "verification":  {
+                         "flow37PlaywrightSuites":  "45 passed across chromium-desktop, chromium-tablet, and chromium-mobile",
+                         "c6RoleCoverage":  "3 passed across chromium-desktop, chromium-tablet, and chromium-mobile",
+                         "run65Regen":  "3 passed across chromium-desktop, chromium-tablet, and chromium-mobile after sequential retry",
+                         "visualAudit":  "3 passed across chromium-desktop, chromium-tablet, and chromium-mobile after sequential retry",
+                         "sourcePngMinimum":  9,
+                         "observedDesignSystemGovernancePngs":  29,
+                         "viewportQualifiedPngs":  "design-system-governance mock/CRUD PNGs plus C6, run-65, and visual-audit captures present on disk"
+                     },
+    "screenshots":  [
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/01-hybrid-genesis-prompt-001-stack-aware-ge.png",
+                            "bytes":  258119
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/02-design-debt-analysis-001-design-complexi.png",
+                            "bytes":  258119
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/c-03-before.png",
+                            "bytes":  39046
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/crud-after-create.png",
+                            "bytes":  258119
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/crud-initial-load.png",
+                            "bytes":  282311
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/crud-list-with-test-row.png",
+                            "bytes":  258119
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/default.png",
+                            "bytes":  258119
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-1-design-system.png",
+                            "bytes":  36296
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-1-rule-draft.png",
+                            "bytes":  71957
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-2-hybrid-genesis.png",
+                            "bytes":  36485
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-2-validated.png",
+                            "bytes":  75389
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-3-design-debt.png",
+                            "bytes":  36465
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-3-published.png",
+                            "bytes":  77783
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-4-violation-detected.png",
+                            "bytes":  79572
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-5-enforced.png",
+                            "bytes":  74833
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-6-conflict-detected.png",
+                            "bytes":  78786
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-7-impact-critical.png",
+                            "bytes":  78372
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/design-system-governance/state-8-rule-deprecated.png",
+                            "bytes":  78984
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/c6-role-coverage/design-system-governance-role-platform-support.png",
+                            "bytes":  288458
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/run-65-regen/flow-37-design-system-governance-platform-admin.png",
+                            "bytes":  258119
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-desktop/design-system-governance/populated-platform-admin.png",
+                            "bytes":  49526
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-desktop/design-system-governance/primary-platform-admin.png",
+                            "bytes":  86768
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-desktop/design-system-governance/primary-platform-support.png",
+                            "bytes":  92420
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-mobile/design-system-governance/populated-platform-admin.png",
+                            "bytes":  241600
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-mobile/design-system-governance/primary-platform-admin.png",
+                            "bytes":  263816
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-mobile/design-system-governance/primary-platform-support.png",
+                            "bytes":  296226
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-tablet/design-system-governance/populated-platform-admin.png",
+                            "bytes":  50219
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-tablet/design-system-governance/primary-platform-admin.png",
+                            "bytes":  83695
+                        },
+                        {
+                            "path":  "docs/e2e-snapshots/visual-audit/chromium-tablet/design-system-governance/primary-platform-support.png",
+                            "bytes":  89506
+                        }
+                    ],
+    "verdict":  "PASS"
+}

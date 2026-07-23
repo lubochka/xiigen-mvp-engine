@@ -1,0 +1,245 @@
+{
+  "flowId": "FLOW-16",
+  "flowSlug": "marketplace-payments",
+  "phase": "phase5bTenantBAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-06T16:11:51.327Z",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "package": "@xiigen-fork/acme-enterprise-marketplace-payments",
+    "version": "1.0.1",
+    "repo": "lubochka/acme-corp--acme-enterprise-marketplace-payments"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change",
+    "packageName": "@xiigen-fork/northwind-controlled-marketplace-payments",
+    "packageVersion": "1.0.2",
+    "moduleName": "northwind-controlled-marketplace-payments",
+    "displayName": "Northwind Controlled Marketplace Payments",
+    "sourceModuleName": "acme-enterprise-marketplace-payments",
+    "sourcePackageVersion": "1.0.1",
+    "visiblePlainLanguage": "Northwind checkout risk policy: seven-minute checkout locks, 2.25 percent platform fee, and 21-day escrow auto-release.",
+    "freedomChanges": [
+      {
+        "key": "checkout_lock_ttl_ms",
+        "from": 600000,
+        "to": 420000
+      },
+      {
+        "key": "platformFeeBps",
+        "from": 300,
+        "to": 225
+      },
+      {
+        "key": "escrow_auto_release_days",
+        "from": 30,
+        "to": 21
+      }
+    ],
+    "inheritedValuesPreserved": [
+      {
+        "key": "paymentSensitive",
+        "value": true,
+        "source": "acme-corp"
+      },
+      {
+        "key": "requiredCoInstalls",
+        "value": [],
+        "source": "acme-corp"
+      }
+    ],
+    "invariantsPreserved": [
+      "Acme remains the first adaptation history entry and Northwind appends the second entry.",
+      "BOLA checkout identity verification still happens before cart lock or inventory reads.",
+      "Payment capture, escrow, and payout paths remain idempotency-gated before side effects.",
+      "Raw payment card and payout bank details remain absent from persisted records.",
+      "Escrow compensation order remains machine-fixed as REFUND_PAYMENT then RESTORE_INVENTORY."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/marketplace-payments-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--northwind-controlled-marketplace-payments",
+    "url": "https://github.com/lubochka/northwind--northwind-controlled-marketplace-payments",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "sourceRepoBeforeRename": "lubochka/northwind--acme-enterprise-marketplace-payments",
+    "previousInstallCommit": "aee8099820810b2941c85d382b12f2b563664f51",
+    "adaptedCommit": "eac68944d82ed6aac2bc6997afad920986d1ed63",
+    "adaptedCommitMessage": "Adapt marketplace payments for Northwind",
+    "cleanClonePath": "C:/Projects/xiigen-fork-clones/northwind--acme-enterprise-marketplace-payments-phase5a-20260506-183451",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/marketplace-payments-package.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 1,
+        "tests": 3
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 114,
+        "shasum": "5586bf1874f1fc0678231c2d442bc09aaf8e8502"
+      }
+    ],
+    "adaptationHistoryEntries": 2
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - marketplace-payments",
+    "runId": 25446394470,
+    "jobId": 74651567416,
+    "url": "https://github.com/lubochka/northwind--northwind-controlled-marketplace-payments/actions/runs/25446394470",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "eac68944d82ed6aac2bc6997afad920986d1ed63",
+    "createdAt": "2026-05-06T15:59:56Z",
+    "updatedAt": "2026-05-06T16:00:40Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "ping": "passed",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/northwind-controlled-marketplace-payments",
+    "publishedVersion": "1.0.2",
+    "viewCommand": "npm view @xiigen-fork/northwind-controlled-marketplace-payments@1.0.2 version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+    "npmViewVersion": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-controlled-marketplace-payments/-/northwind-controlled-marketplace-payments-1.0.2.tgz",
+    "shasum": "5586bf1874f1fc0678231c2d442bc09aaf8e8502",
+    "gitHead": "eac68944d82ed6aac2bc6997afad920986d1ed63",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/marketplace-payments-northwind-v1.0.2-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/marketplace-payments-northwind-v1.0.2-registry-listing.png",
+    "screenshotSource": "GET http://localhost:4873/@xiigen-fork%2Fnorthwind-controlled-marketplace-payments",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/marketplace-payments/tenant-b-v1.0.2",
+      "count": 18,
+      "zeroByteFiles": 0,
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "states": [
+        "installed package",
+        "buyer checkout",
+        "b2b checkout",
+        "platform reconciliation",
+        "support dispute view",
+        "payee escrow redirect"
+      ]
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-16/northwind--northwind-controlled-marketplace-payments-tenant-b-v1.0.2-github-listing.png",
+      "bytes": 93141,
+      "width": 1280,
+      "height": 720
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-16/northwind--northwind-controlled-marketplace-payments-tenant-b-v1.0.2-actions-success.png",
+      "bytes": 62884,
+      "width": 1280,
+      "height": 720
+    },
+    "registryScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/marketplace-payments-northwind-v1.0.2-registry-listing.png",
+      "bytes": 42043,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/marketplace-payments-tenant-b-adapted.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-16 Tenant B v1.0.2 cascade-point visual evidence under docs/e2e-snapshots/marketplace-payments/tenant-b-v1.0.2."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBAdaptedPlaywright": {
+      "command": "client: VITE_PORT=5174 npx playwright test e2e/marketplace-payments-tenant-b-adapted.spec.ts --reporter=list",
+      "result": "passed",
+      "tests": 18
+    },
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "server: npx jest --testPathPatterns=marketplace-payments --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 108
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantBAdaptedFlow": true,
+    "tenantBCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "cascadeScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstall": true
+  },
+  "verdict": "PASS"
+}

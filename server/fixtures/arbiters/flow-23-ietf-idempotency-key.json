@@ -1,0 +1,16 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-23-ietf_idempotency_key",
+  "checkId": "ietf_idempotency_key",
+  "flowId": "FLOW-23",
+  "bfaRule": "CF-449",
+  "dnaRule": "DNA-7",
+  "severity": "HIGH",
+  "description": "All queue consumers must use F970 IETF idempotency key before processing",
+  "taskTypeIds": ["T361", "T362", "T363", "T366"],
+  "requiredInjection": "IETF_IDEMPOTENCY_KEY_SERVICE",
+  "requiredMethodCall": "idempotency.check(",
+  "requiredSkipPattern": "if isDuplicate return DataProcessResult.success",
+  "violationCode": "CF-449_MISSING_IDEMPOTENCY",
+  "active": true
+}

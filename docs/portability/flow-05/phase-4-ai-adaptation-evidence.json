@@ -1,0 +1,135 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "phase": "4-ai-adaptation",
+  "completedAt": "2026-05-03T10:49:09.6099604+03:00",
+  "tenant": "acme-corp",
+  "adaptation": {
+    "type": "TYPE-A",
+    "key": "flow05_points_formula",
+    "previousValue": {
+      "base": 10,
+      "bonus_threshold": 80,
+      "bonus": 5
+    },
+    "newValue": {
+      "base": 15,
+      "bonus_threshold": 80,
+      "bonus": 10
+    },
+    "adaptedModuleName": "acme-learning-rewards",
+    "expectedVisibleChange": "Populated completion evidence shows +25 points."
+  },
+  "tenantRepo": {
+    "repoFullName": "lubochka/acme-corp--completion-gamification",
+    "commitSha": "2677ebb60d798f2c9f18d360446dfc422c9d3f49",
+    "commitMessage": "Apply Tenant A v1.0.1 points adaptation",
+    "filesChangedInTenantRepo": [
+      ".gitignore",
+      "freedom-config.defaults.json",
+      "package.json",
+      "package-lock.json",
+      "tenant.config.json",
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/completion-gamification-adaptation.spec.ts"
+    ],
+    "adaptationHistoryEntries": 1
+  },
+  "tenantRepoVerification": {
+    "localCommands": [
+      "npm install --package-lock-only --no-audit --no-fund",
+      "npm run build",
+      "npx jest --colors=false --forceExit"
+    ],
+    "localBuildPassed": true,
+    "localJestSuitesPassed": 2,
+    "localJestTestsPassed": 2,
+    "githubActions": {
+      "runId": 25273409482,
+      "status": "completed",
+      "conclusion": "success",
+      "runUrl": "https://github.com/lubochka/acme-corp--completion-gamification/actions/runs/25273409482"
+    }
+  },
+  "registry": {
+    "url": "http://localhost:4874",
+    "package": "@xiigen/acme-learning-rewards",
+    "version": "1.0.1",
+    "latestTagVerified": "1.0.1",
+    "published": true
+  },
+  "visualEvidence": {
+    "suite": "client/e2e/completion-gamification-visual.spec.ts",
+    "cascadePoint": "tenant-a-v1.0.1",
+    "roles": [
+      "tenant-user",
+      "referral-user",
+      "freelancer",
+      "event-organiser",
+      "tenant-admin"
+    ],
+    "cells": [
+      "C2 en populated desktop",
+      "C4 he RTL populated desktop",
+      "C6 en populated mobile"
+    ],
+    "testsPassed": 15,
+    "pngCount": 15,
+    "directory": "docs/e2e-snapshots/completion-gamification/tenant-a-v1.0.1",
+    "adaptedValueAssertion": "points-earned contains +25 for learner surfaces"
+  },
+  "marketplaceEvidence": {
+    "suite": "client/e2e/completion-gamification-marketplace-listing.spec.ts",
+    "testsPassed": 1,
+    "screenshot": "docs/e2e-snapshots/marketplace/completion-gamification-v1.0.1-listing.png",
+    "listingShows": [
+      "Acme Learning Rewards",
+      "v1.0.1",
+      "fifteen base points",
+      "ten bonus points",
+      "High-score bonus"
+    ],
+    "internalCopyHits": 0
+  },
+  "authRegression": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "own-tenant-acme-corp",
+        "expected": 200,
+        "actual": 200
+      },
+      {
+        "name": "missing-token-acme-corp",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-A-token-in-tenant-B",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "tenant-B-token-in-tenant-C",
+        "expected": 401,
+        "actual": 401
+      },
+      {
+        "name": "wrong-role-service-account-on-role-route",
+        "expected": 403,
+        "actual": 403
+      }
+    ]
+  },
+  "reviewScans": {
+    "throwNewInFlowServices": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImportsInFlowServices": 0,
+    "tenantConsumerInternalCopyHits": 0
+  },
+  "notes": [
+    "The adaptation was applied inside the Tenant A fork repo and pushed to GitHub.",
+    "The local registry publish used the hermetic FLOW-05 Verdaccio registry on port 4874.",
+    "The marketplace listing is an app-rendered listing card seeded for the adapted package because the live marketplace API does not yet ingest the local npm registry package."
+  ]
+}

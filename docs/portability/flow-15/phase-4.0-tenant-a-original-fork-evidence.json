@@ -1,0 +1,191 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "phase": "phase-4.0-tenant-a-original-fork",
+  "phaseStatus": "completed",
+  "generatedAt": "2026-05-06T14:25:09.9459494+03:00",
+  "branch": "Skills_Creation_Claude",
+  "protocol": "FLOW-MOBILITY-AUTH phase-4.0 tenant A original marketplace fork",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "githubOrg": "lubochka",
+    "credentialHandling": {
+      "tenantCredentialsSeededInVault": true,
+      "secretsPrinted": false,
+      "secretsCommitted": false,
+      "sessionTokenUsedAsTenantEvidence": false
+    }
+  },
+  "initialFailedAttempt": {
+    "includedForRegressionEvidence": true,
+    "repoFullName": "lubochka/acme-corp--saas-multi-tenancy",
+    "repoUrl": "https://github.com/lubochka/acme-corp--saas-multi-tenancy",
+    "initialCommitSha": "47806d0ae0d3574fd13d444e1a6e5da45dab9518",
+    "actionsRunId": 25431550482,
+    "actionsConclusion": "failure",
+    "failureLayer": "standalone TypeScript check",
+    "failureReason": "Generated standalone fork imported server/src/bootstrap/bootstrap-seeder.service.ts, a source file that is not part of the assembled fork package."
+  },
+  "sourceCorrection": {
+    "filesChanged": [
+      {
+        "path": "server/src/engine/flows/saas-multi-tenancy/tenant-provisioning-orchestrator.service.ts",
+        "change": "Replaced the bootstrap seeder import with a local standalone-safe default master tenant identifier fallback."
+      },
+      {
+        "path": "server/src/fabrics/implementations/flow-file-assembler.spec.ts",
+        "change": "Added a FLOW-15 assembler regression assertion that the tenant provisioning service bundle does not import the bootstrap seeder source file."
+      }
+    ],
+    "verification": [
+      {
+        "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+        "status": "PASS"
+      },
+      {
+        "command": "server: npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false",
+        "status": "PASS",
+        "result": "1 suite, 12 tests"
+      },
+      {
+        "command": "server: npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false",
+        "status": "PASS",
+        "result": "8 suites, 111 tests"
+      }
+    ]
+  },
+  "correctedFork": {
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "repoFullName": "lubochka/acme-corp--saas-multi-tenancy-r2",
+    "repoUrl": "https://github.com/lubochka/acme-corp--saas-multi-tenancy-r2",
+    "visibilityAfterEvidence": "PRIVATE",
+    "publicDuringScreenshotCapture": true,
+    "defaultBranch": "main",
+    "forkId": "fork-saas-multi-tenancy-acme-corp",
+    "initialVersion": "1.0.1",
+    "initialCommitSha": "ada41da761ac8e578b779e09e8350b144a2213ed"
+  },
+  "githubActions": {
+    "workflowId": 271961616,
+    "workflowName": "XIIGen Flow CI - saas-multi-tenancy",
+    "workflowPath": ".github/workflows/flow-ci.yml",
+    "workflowState": "active",
+    "workflowUrl": "https://github.com/lubochka/acme-corp--saas-multi-tenancy-r2/blob/main/.github/workflows/flow-ci.yml",
+    "run": {
+      "databaseId": 25431977026,
+      "url": "https://github.com/lubochka/acme-corp--saas-multi-tenancy-r2/actions/runs/25431977026",
+      "event": "push",
+      "headSha": "ada41da761ac8e578b779e09e8350b144a2213ed",
+      "displayTitle": "Initial fork: saas-multi-tenancy v1.0.1",
+      "createdAt": "2026-05-06T11:15:42Z",
+      "updatedAt": "2026-05-06T11:16:27Z",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "job": {
+      "databaseId": 74600250472,
+      "url": "https://github.com/lubochka/acme-corp--saas-multi-tenancy-r2/actions/runs/25431977026/job/74600250472",
+      "name": "Standalone flow test - saas-multi-tenancy",
+      "status": "completed",
+      "conclusion": "success",
+      "successfulSteps": [
+        "Set up job",
+        "Run actions/checkout@v4.2.2",
+        "Run actions/setup-node@v4.4.0",
+        "Install",
+        "TypeScript check",
+        "Test",
+        "Provenance",
+        "Post Run actions/setup-node@v4.4.0",
+        "Post Run actions/checkout@v4.2.2",
+        "Complete job"
+      ]
+    }
+  },
+  "localCloneValidation": {
+    "clonePath": "C:/Projects/xiigen-fork-clones/acme-corp--saas-multi-tenancy-r2-phase40-20260506-141720",
+    "commands": [
+      "gh repo clone lubochka/acme-corp--saas-multi-tenancy-r2 C:/Projects/xiigen-fork-clones/acme-corp--saas-multi-tenancy-r2-phase40-20260506-141720",
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "status": "PASS",
+    "jestResult": "1 suite, 1 test",
+    "packageName": "@xiigen-fork/saas-multi-tenancy",
+    "packageVersion": "1.0.0-fork",
+    "tenantId": "acme-corp",
+    "tenantConfigRepoFullName": null,
+    "manifestFileCount": 112,
+    "requiredCoInstalls": [
+      "FLOW-12",
+      "FLOW-13",
+      "FLOW-11",
+      "FLOW-09",
+      "FLOW-04",
+      "FLOW-03",
+      "FLOW-10"
+    ],
+    "requiredCoInstallPackages": [
+      "@xiigen/subscription-billing",
+      "@xiigen/data-warehouse-analytics",
+      "@xiigen/schema-registry-dag",
+      "@xiigen/transactional-event-participation",
+      "@xiigen/event-attendance",
+      "@xiigen/event-management",
+      "@xiigen/reviews-reputation"
+    ],
+    "bundleChecks": {
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    }
+  },
+  "repoScreenshots": {
+    "root": "docs/e2e-snapshots/repo-evidence/flow-15",
+    "count": 3,
+    "images": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-15/phase-4.0-tenant-a-repo.png",
+        "bytes": 118562,
+        "width": 1280,
+        "height": 1116,
+        "verifiedSurface": "GitHub repository file list for lubochka/acme-corp--saas-multi-tenancy-r2"
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-15/phase-4.0-tenant-a-actions-run.png",
+        "bytes": 70328,
+        "width": 1280,
+        "height": 872,
+        "verifiedSurface": "GitHub Actions run summary with success status"
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-15/phase-4.0-tenant-a-bundle-manifest.png",
+        "bytes": 342734,
+        "width": 1280,
+        "height": 2939,
+        "verifiedSurface": "GitHub BUNDLE-MANIFEST.json file view"
+      }
+    ]
+  },
+  "phaseGate": {
+    "tenantAOriginalForkPassed": true,
+    "marketplaceApiUsed": true,
+    "greenGithubActions": true,
+    "fullBundleEvidence": true,
+    "realGithubScreenshots": true,
+    "localForkCloneTestsPassed": true,
+    "secretsSafe": true,
+    "readyForNextPhase": "phase4AiAdaptation"
+  },
+  "commands": [
+    "docker compose server rebuild with Vault-backed secrets provider and FLOW-47 Vault bootstrap - PASS",
+    "POST /api/marketplace/packages/saas-multi-tenancy/fork for acme-corp corrected r2 fork - PASS",
+    "gh run view 25431977026 --repo lubochka/acme-corp--saas-multi-tenancy-r2 - success",
+    "Playwright GitHub screenshots captured for repo, Actions run, and bundle manifest",
+    "gh repo view confirmed corrected fork visibility restored to PRIVATE"
+  ]
+}

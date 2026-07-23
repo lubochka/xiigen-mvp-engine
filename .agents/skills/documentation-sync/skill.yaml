@@ -1,0 +1,21 @@
+name: documentation-sync
+sk_number: SK-422
+version: "1.0.0"
+load_order: null
+priority: OPTIONAL
+status: APPROVED
+description: |
+  Session-end canonical documentation sync for the XIIGen engine. Maps TypeScript
+  file changes to the canonical docs that must be updated. Prevents the failure mode
+  where code changes are committed but ENGINE_ARCHITECTURE_MERGED, TASK_TYPES_CATALOG_MERGED,
+  or CLAUDE.md are left stale. Invoked at session end — not at session start.
+triggers:
+  - "session end"
+  - "documentation sync"
+  - "canonical docs"
+  - "update docs"
+  - "doc sync"
+  - "ENGINE_ARCHITECTURE_MERGED"
+  - "TASK_TYPES_CATALOG_MERGED"
+trigger_timing: session-end-only
+phase_created: 10

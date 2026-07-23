@@ -1,0 +1,32 @@
+name: xiigen-engine
+version: "2.1.0"
+load_order: null
+priority: RECOMMENDED
+status: APPROVED
+description: |
+  Core development skill for the XIIGen self-building AI code generation engine
+  (NestJS + React). Use when modifying fabric providers, editing AF stations, working
+  with DNA patterns, touching the kernel or multi-tenant system, adding providers,
+  editing guardrails, working with the learning system, or making any change to the
+  engine codebase.
+triggers:
+  - "fabric"
+  - "provider"
+  - "DNA"
+  - "MicroserviceBase"
+  - "tenant"
+  - "AF station"
+  - "engine contract"
+  - "guardrail"
+  - "BFA"
+  - "promotion ladder"
+  - "freedom config"
+  - "factory"
+  - "createAsync"
+  - "DataProcessResult"
+  - "BuildSearchFilter"
+  - "DynamicController"
+  - "xiigen"
+  - "engine"
+  - "NestJS server"
+phase_created: "pre-migration"

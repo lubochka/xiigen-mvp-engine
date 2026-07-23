@@ -1,0 +1,11 @@
+{
+  "eventType": "ConnectionStrengthUpdated",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "connection-strength-service",
+  "consumers": ["T77", "T79"],
+  "piiFields": [],
+  "allowedPayloadFields": ["connectionId", "userIdA", "userIdB", "strengthScore", "tenantId", "updatedAt"],
+  "forbiddenFields": ["interactionHistory", "messageContent", "sharedActivity"],
+  "notes": "Emitted when connection strength score is recalculated. strengthScore [0,1] used by T77 FeedScorer as a weighting input. interactionHistory and messageContent are FORBIDDEN — only the aggregate score is shared."
+}

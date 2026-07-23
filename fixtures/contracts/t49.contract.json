@@ -1,0 +1,102 @@
+{
+  "taskTypeId": "T49",
+  "flowId": "FLOW-01",
+  "name": "OnboardingDelivery",
+  "archetype": "ORCHESTRATION",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "stackCoupling": {
+    "mechanism": "multi-step-sequential-orchestration",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "ITenantRegistry",
+    "freedomConfigKey": "flow01_onboarding_steps_required",
+    "neutralConcepts": [
+      "completedSteps[] tracking for app-reopen resume",
+      "Workspace idempotency via IScopedMemoryService.setIfAbsent()",
+      "Step list from FREEDOM config \u2014 never hardcode",
+      "DNA-8: storeDocument() before advancing each step"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F174",
+      "interface": "IUserRepository",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F178",
+      "interface": "IOnboardingTemplateStore",
+      "fabric": "RAG"
+    },
+    {
+      "factoryId": "F179",
+      "interface": "IWorkspaceProvisionService",
+      "fabric": "FLOW_ENGINE"
+    },
+    {
+      "factoryId": "F180",
+      "interface": "IProfileService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F181",
+      "interface": "IQueueNotificationService",
+      "fabric": "QUEUE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-1",
+      "rule": "completedSteps[] tracked per step \u2014 app-reopen resumes from last incomplete step",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-2",
+      "rule": "Workspace provision idempotent: key=workspace:<userId>:<tenantId> via IScopedMemoryService",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-3",
+      "rule": "UserOnboardingCompleted emitted ONLY after ALL steps complete (CF-4)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-4",
+      "rule": "Step list from FREEDOM config (flow01_onboarding_steps_required) \u2014 never hardcode",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-5",
+      "rule": "DNA-8: storeDocument() BEFORE proceeding to next step",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-6",
+      "rule": "No PII in UserOnboardingCompleted event (CF-8)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-7",
+      "rule": "Workspace creation via ITenantRegistry.createTenant() \u2014 not raw database insert",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "bfaRules": [
+    "CF-4",
+    "CF-8"
+  ],
+  "handlers": [
+    "provision_workspace",
+    "build_profile",
+    "deliver_questionnaire",
+    "emit_onboarding_completed"
+  ],
+  "tags": [
+    "onboarding",
+    "orchestration",
+    "multi-step",
+    "workspace",
+    "resume"
+  ],
+  "keywords": "onboarding delivery orchestration workspace provision multi-step resume completedSteps"
+}

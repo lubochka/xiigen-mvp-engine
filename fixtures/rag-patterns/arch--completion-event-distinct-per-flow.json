@@ -1,0 +1,24 @@
+{
+  "patternId": "arch--completion-event-distinct-per-flow",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-02",
+  "domainId": "generic",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "archetype": "ROUTING",
+  "tags": [
+    "completion-event",
+    "cross-flow",
+    "distinct-event-name",
+    "machine-constant",
+    "collision-prevention",
+    "consumer-contract"
+  ],
+  "keywords": "completion event distinct cross-flow collision machine constant consumer contract duplicate feed silent error",
+  "codeSnippet": "// Each flow that completes a distinct user state emits a DISTINCT event.\n// Reusing a completion event name = cross-flow collision with no local error.\n\n// WRONG: FLOW-02 emits 'OnboardingCompleted'\n// → FLOW-08 (ListingDiscoveryEngine) receives a second event for same userId\n// → creates a DUPLICATE listing feed for the user\n// → no error anywhere in the system — observable only as duplicate data in FLOW-08\n\n// CORRECT:\nconst PERSONALIZATION_COMPLETED_EVENT = 'PersonalizationCompleted' as const;\n// ↑ MACHINE — string literal, never computed, never from config\n\nawait this.queue.enqueue(\n  PERSONALIZATION_COMPLETED_EVENT,\n  createCloudEvent({\n    eventType: PERSONALIZATION_COMPLETED_EVENT,  // exact literal\n    source:    'personalization-completion-service',\n    tenantId:  input.tenantId,\n    data: { tenantId, userId, feedId, profileId, personalizationCompletedAt },\n    // Payload: NO PII — no questionnaire answers\n  })\n);\n\n// FLOW-01 owns 'OnboardingCompleted' → FLOW-08 consumers\n// FLOW-02 owns 'PersonalizationCompleted' → FLOW-03/04/05 consumers\n// Two flows, two distinct events, two consumer sets — zero collision",
+  "ironRules": [
+    "completion event names are MACHINE constants — exact string literals, never computed",
+    "each flow owns exactly one completion event name across all flows",
+    "cross-flow consumers must be identified before the event name is finalized",
+    "acceptanceThreshold: 0.95 on any node emitting a cross-flow event"
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "flowId": "FLOW-13",
+  "flowSlug": "data-warehouse-analytics",
+  "phase": "phase5aTenantBInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-06T08:43:19.9737887+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "repo": "lubochka/acme-corp--acme-enterprise-warehouse-analytics",
+    "package": "@xiigen-fork/acme-enterprise-warehouse-analytics",
+    "version": "1.0.1"
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/data-warehouse-analytics/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "sourceRepoFullName": "lubochka/acme-corp--acme-enterprise-warehouse-analytics",
+    "repoFullName": "lubochka/northwind--acme-enterprise-warehouse-analytics",
+    "repoUrl": "https://github.com/lubochka/northwind--acme-enterprise-warehouse-analytics",
+    "initialCommitSha": "11f05e4ebe9ed0b33b6906e53f7e4a7a79bda531",
+    "initialVersion": "1.0.1",
+    "forkId": "fork-data-warehouse-analytics-northwind"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--acme-enterprise-warehouse-analytics",
+    "url": "https://github.com/lubochka/northwind--acme-enterprise-warehouse-analytics",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialInstallCommit": "11f05e4ebe9ed0b33b6906e53f7e4a7a79bda531",
+    "initialActionsRun": {
+      "runId": 25418343418,
+      "conclusion": "failure",
+      "reason": "Inherited Acme adaptation test asserted tenantConfig.tenantId was acme-corp after the marketplace fork correctly rewrote tenant.config.json to northwind."
+    },
+    "repairCommit": "c768b707352e6bc423233db3fa54750543107ab3",
+    "repairCommitMessage": "Repair Northwind install proof for Acme analytics",
+    "repairActionsRun": {
+      "runId": 25418437773,
+      "jobId": 74554816490,
+      "url": "https://github.com/lubochka/northwind--acme-enterprise-warehouse-analytics/actions/runs/25418437773",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "c768b707352e6bc423233db3fa54750543107ab3",
+      "createdAt": "2026-05-06T05:37:16Z",
+      "updatedAt": "2026-05-06T05:38:06Z"
+    },
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-warehouse-analytics-phase5a-20260506-083502",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "BUNDLE-MANIFEST.json",
+      "__tests__/data-warehouse-analytics-acme-adaptation.spec.ts",
+      "settings/module.settings.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 5
+      }
+    ],
+    "installProof": {
+      "tenantConfigTenantId": "northwind",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-enterprise-warehouse-analytics",
+      "adaptationHistoryEntries": 1,
+      "firstAdaptationTenantId": "acme-corp",
+      "settingsTenantIdRepairedTo": "northwind"
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/acme-enterprise-warehouse-analytics",
+    "version": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-enterprise-warehouse-analytics/-/acme-enterprise-warehouse-analytics-1.0.1.tgz",
+    "shasum": "939524b045c192ddd0885655f1d20e0f6b68e6aa",
+    "gitHead": "27c3e9a519a516d2e6f571a568e74a4891182575",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/data-warehouse-analytics-acme-v1.0.1-registry-api-evidence-phase5a.json",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-installed-from-a",
+      "count": 9,
+      "zeroByteFiles": 0,
+      "roles": [
+        "tenant-admin",
+        "business-partner",
+        "platform-admin"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-13/northwind--acme-enterprise-warehouse-analytics-tenant-b-installed-from-a-github-listing.png",
+      "bytes": 136488
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-13/northwind--acme-enterprise-warehouse-analytics-tenant-b-installed-from-a-actions-success.png",
+      "bytes": 80472
+    }
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/src/pages/data-warehouse-analytics/DataWarehouseAnalyticsPage.tsx",
+      "client/e2e/data-warehouse-analytics-tenant-b-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-13 cascade-point visual evidence under docs/e2e-snapshots/data-warehouse-analytics/tenant-b-installed-from-a."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "result": "passed"
+    },
+    "tenantBInstalledPlaywright": {
+      "command": "Push-Location client; npx playwright test e2e/data-warehouse-analytics-tenant-b-installed.spec.ts --project=chromium-desktop; Pop-Location",
+      "result": "passed",
+      "tests": 9
+    },
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 2,
+      "tests": 63
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBForkedTenantAAdaptedSource": true,
+    "tenantBInstalledPackagePreservedTenantAValues": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryStillReturnsTenantAPackage": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBAdaptation": true
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,84 @@
+{
+  "flowId": "FLOW-28",
+  "flowSlug": "blog-cms-modules",
+  "implementationSlug": "blog-cms-modules",
+  "phase": "pre-existing-defect-check",
+  "status": "completed",
+  "generatedAt": "2026-05-10T17:44:23.806Z",
+  "branch": "Skills_Creation_Claude",
+  "protocolSources": [
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FLOW-MOBILITY-AND-AUTH-MASTER-GUIDE.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/TENANT-CICD-CONNECTION-GUIDANCE-v1.0.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/FORK-FLOW-ENGINE-PLAN-v1.2.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/XIIGEN-AUTH-ROLES-GROUPS-PLAN-v3.0.md",
+    "<WORKSPACE>/Documents/xiigen/authorization/auth-pkg-extracted/PER-FLOW-FIX-MAP-v2.9.md"
+  ],
+  "roleMap": {
+    "primaryRoles": [
+      "tenant-admin",
+      "tenant-user",
+      "platform-admin"
+    ],
+    "publicRoles": [
+      "anonymous",
+      "public-marketplace-visitor"
+    ],
+    "partialRoles": [
+      "freelancer",
+      "business-partner",
+      "event-organiser",
+      "platform-support"
+    ],
+    "readOnlyRole": "platform-support",
+    "wrongRoleForProtectedRoute": "platform-support",
+    "source": "docs/design-reviews/ROLE-ANALYSIS-BATCH-06.md",
+    "note": "FLOW-28 follows the FLOW-22 CMS density pattern. Auth probes use tenant-admin, tenant-user, and platform-admin; platform-support is read-only/wrong-role evidence."
+  },
+  "implementationReality": {
+    "canonicalSlug": "blog-cms-modules",
+    "implementationSlug": "blog-cms-modules",
+    "stateSource": "docs/sessions/FLOW-28/FLOW-28-CURRENT-STATE.json and FLOW-28-IMPL-STATE.json",
+    "serviceFiles": 18,
+    "unitAndE2eSuitesDiscovered": 5
+  },
+  "preExistingDefectRepair": {
+    "repaired": true,
+    "issue": "FLOW-28 services directly imported ClsService and did not extend MicroserviceBase.",
+    "filesRepaired": 18,
+    "repairPattern": "TenantContextResolver injection plus MicroserviceBase ServiceDescriptor, matching existing compliant FLOW-20/FLOW-22 service pattern.",
+    "contractTestUpdated": "server/test/e2e/blog-cms-modules/blog-cms-modules-proper-flow.e2e.spec.ts now asserts TenantContextResolver usage."
+  },
+  "tests": {
+    "command": "Push-Location server; npx jest --testPathPatterns=blog-cms-modules --runInBand --colors=false; Pop-Location",
+    "status": "passed",
+    "testSuitesPassed": 5,
+    "testSuitesTotal": 5,
+    "testsPassed": 124,
+    "testsTotal": 124,
+    "exitCode": 0
+  },
+  "typescript": {
+    "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+    "status": "passed",
+    "exitCode": 0
+  },
+  "scans": {
+    "command": "Get-ChildItem server/src/engine/flows/blog-cms-modules -Filter *.ts -Recurse; Select-String for throw new, exported services missing MicroserviceBase, ClsService/nestjs-cls, direct SDK imports, and any types",
+    "failureLines": 0,
+    "throwNew": 0,
+    "servicesMissingMicroserviceBaseByPromptPattern": 0,
+    "clsImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0
+  },
+  "closeGate": {
+    "jestZeroFailures": true,
+    "typescriptZeroErrors": true,
+    "promptStaticScansZeroFailureLines": true,
+    "stateFileInitialized": true,
+    "secretsPrintedOrCommitted": false,
+    "canProceedToPhase0": true
+  },
+  "verdict": "PASS"
+}

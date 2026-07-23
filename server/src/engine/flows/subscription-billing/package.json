@@ -1,0 +1,85 @@
+{
+  "name": "@xiigen/subscription-billing",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-12 subscription-billing - recurring plan publication, subscription lifecycle, invoice charging, and billing analytics lifecycle (T209-T212). Portability artifact declaring the four-hop billing co-install chain.",
+  "flowId": "FLOW-12",
+  "flowSlug": "subscription-billing",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "services": [
+      "SubscriptionPlanOrchestratorService",
+      "SubscriptionLifecycleManagerService",
+      "RecurringBillingEngineService",
+      "SubscriptionAnalyticsAggregatorService"
+    ],
+    "taskTypeIds": [
+      "T209",
+      "T210",
+      "T211",
+      "T212"
+    ],
+    "freedomKeys": [
+      "subscription_billing_plan_audit_retention",
+      "subscription_billing_default_trial_days",
+      "subscription_billing_dunning_schedule",
+      "subscription_billing_metrics_window_days"
+    ],
+    "emitsEventsConsumedBy": [
+      "FLOW-12 tenant billing dashboard and analytics consumers"
+    ],
+    "readsFromOtherFlows": [
+      "FLOW-09 (IPaymentFabricService and transactional payment records)",
+      "FLOW-04 (event-attendance records required by FLOW-09)",
+      "FLOW-03 (event-management records required by FLOW-04)"
+    ],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_CANDIDATE_IN_GENERATION"
+  },
+  "xiigen": {
+    "requiredCoInstalls": [
+      "FLOW-09",
+      "FLOW-04",
+      "FLOW-03"
+    ],
+    "requiredCoInstallPackages": [
+      "@xiigen/transactional-event-participation",
+      "@xiigen/event-attendance",
+      "@xiigen/event-management"
+    ],
+    "pluginSdk": "@xiigen/plugin-sdk@^1.0.0"
+  },
+  "requiredCoInstalls": [
+    "@xiigen/transactional-event-participation",
+    "@xiigen/event-attendance",
+    "@xiigen/event-management"
+  ],
+  "coInstallNotes": "FLOW-12 reuses FLOW-09 payment fabric behavior and must declare the full FLOW-09 -> FLOW-04 -> FLOW-03 chain. FLOW-03 is a required upstream hop for the chain but remains standalone; it is declared once and not bundled or double-installed inside the FLOW-12 package.",
+  "peerDependencies": {
+    "xiigen-server": "^1.0.0",
+    "@xiigen/transactional-event-participation": "^1.0.0",
+    "@xiigen/event-attendance": "^1.0.0",
+    "@xiigen/event-management": "^1.0.0"
+  },
+  "dna": {
+    "compliance": [
+      "DNA-1",
+      "DNA-2",
+      "DNA-3",
+      "DNA-4",
+      "DNA-5",
+      "DNA-6",
+      "DNA-7",
+      "DNA-8",
+      "DNA-9"
+    ],
+    "portabilityInvariants": [
+      "P-1",
+      "P-2",
+      "P-3",
+      "P-4",
+      "P-5"
+    ]
+  },
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED-v3.0"
+}

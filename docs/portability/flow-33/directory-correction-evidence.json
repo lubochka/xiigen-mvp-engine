@@ -1,0 +1,53 @@
+{
+  "flowId": "FLOW-33",
+  "flowSlug": "system-initiation-bootstrap",
+  "phase": "directoryNameCorrection",
+  "generatedAt": "2026-05-11T09:10:50.3153409Z",
+  "protocolGate": "The canonical flow source directory must exist, FLOW-33 tests must import through the canonical slug path, compatibility shims must preserve old imports, and targeted verification must pass.",
+  "fixesApplied": [
+    "Moved the 8 FLOW-33 implementation files from server/src/engine/flows/meta-arbitration to server/src/engine/flows/system-initiation-bootstrap.",
+    "Left compatibility re-export files in server/src/engine/flows/meta-arbitration for downstream imports that have not moved yet.",
+    "Corrected FLOW-33 implementation-file header comments and the integration escalation text from the old T516-T522 range to T536-T542.",
+    "Updated FLOW-33 unit tests to import services from server/src/engine/flows/system-initiation-bootstrap.",
+    "Added system-initiation-bootstrap contract and seed-prompt compatibility modules that alias the canonical generation-loop contracts.",
+    "Updated FLOW-33 UI reflection, QA coverage, and reconciliation ledgers to mark the directory ownership conflict as corrected."
+  ],
+  "directoryAssertions": {
+    "targetExists": true,
+    "targetDir": "server/src/engine/flows/system-initiation-bootstrap",
+    "targetFileCount": 8,
+    "compatDir": "server/src/engine/flows/meta-arbitration",
+    "compatReexportFileCount": 8,
+    "contractCompatExists": true,
+    "seedPromptCompatExists": true
+  },
+  "verification": {
+    "flow33Jest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=system-initiation-bootstrap --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "testSuites": "8 passed, 8 total",
+      "tests": "139 passed, 139 total"
+    },
+    "typescript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0
+    },
+    "oldTaskRangeScan": {
+      "scope": "canonical FLOW-33 service dir, FLOW-33 tests, slug-named contract compatibility files",
+      "result": "no T516-T522 references"
+    },
+    "oldImportPathScan": {
+      "scope": "FLOW-33 unit and e2e tests",
+      "result": "no flows/meta-arbitration imports"
+    },
+    "staticScan": {
+      "root": "server/src/engine/flows/system-initiation-bootstrap",
+      "fileCount": 8,
+      "throwNew": 0,
+      "clsImports": 0,
+      "failureLines": 0
+    }
+  },
+  "result": "PASS",
+  "nextPhase": "sharedInterfaceDedupDetection"
+}

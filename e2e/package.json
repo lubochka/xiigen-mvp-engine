@@ -1,0 +1,19 @@
+{
+  "name": "xiigen-e2e",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "XIIGen Engine — Playwright browser E2E tests",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:list": "playwright test --list",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}

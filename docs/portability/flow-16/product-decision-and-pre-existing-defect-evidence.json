@@ -1,0 +1,146 @@
+﻿{
+    "flowId":  "FLOW-16",
+    "flowSlug":  "marketplace-payments",
+    "recordedAt":  "2026-05-06T17:03:31.3264133+03:00",
+    "phase":  "preExistingDefectCheck",
+    "productDecisionGate":  {
+                                "status":  "no-flow-specific-tier-blocker-found",
+                                "source":  [
+                                               "docs/business-flows/functional-specs/FLOW-16-marketplace-payments-functional-spec.md",
+                                               "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md",
+                                               "server/test/e2e/marketplace-payments"
+                                           ],
+                                "decision":  "FLOW-16 marketplace-payments is payment-sensitive and must preserve outbox, idempotency, escrow, vault-reference, and tenant-scope guarantees. The baseline test and static scan layer is clean, so the session can continue into Docker/Vault auth and fork cascade certification."
+                            },
+    "baseline":  {
+                     "jest":  {
+                                  "command":  "server: npx jest --testPathPatterns=marketplace-payments --runInBand --colors=false",
+                                  "result":  "PASS",
+                                  "testSuites":  "8 passed, 8 total",
+                                  "tests":  "108 passed, 108 total"
+                              },
+                     "typescript":  {
+                                        "command":  "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+                                        "result":  "PASS"
+                                    },
+                     "staticScanFindings":  {
+                                                "throwNew":  [
+
+                                                             ],
+                                                "servicesMissingMicroserviceBase":  [
+
+                                                                                    ],
+                                                "clsImports":  [
+
+                                                               ],
+                                                "directTenantContextImports":  [
+
+                                                                               ],
+                                                "anyTypes":  [
+
+                                                             ]
+                                            }
+                 },
+    "remediation":  {
+                        "required":  false,
+                        "notes":  [
+                                      "No pre-existing FLOW-16 service-layer defect was found by the initial protocol scan. Existing tests already assert checkout outbox ordering, idempotency key registration, LIFO compensation, escrow non-delete behavior, vault refs for payout PII, and tenant isolation."
+                                  ]
+                    },
+    "roleMap":  {
+                    "status":  "defined",
+                    "source":  [
+                                   "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md FLOW-16 Marketplace Payments section",
+                                   "server/src/api/flow-http.controller.ts @Roles on GET /api/runs/:runId/trace"
+                               ],
+                    "roles":  [
+                                  {
+                                      "role":  "anonymous",
+                                      "coverage":  "full",
+                                      "use":  "guest checkout",
+                                      "authProbeExpected":  null,
+                                      "note":  "public checkout role; protected server probe verifies missing-token 401 instead"
+                                  },
+                                  {
+                                      "role":  "public-marketplace-visitor",
+                                      "coverage":  "full",
+                                      "use":  "permalink checkout landing",
+                                      "authProbeExpected":  null,
+                                      "note":  "public marketplace role; not represented by JWT on protected probe"
+                                  },
+                                  {
+                                      "role":  "tenant-user",
+                                      "coverage":  "full",
+                                      "use":  "authenticated buyer checkout and order status",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "tenant-admin",
+                                      "coverage":  "full",
+                                      "use":  "payment gateway config, refund approval, dispute response",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "referral-user",
+                                      "coverage":  "partial",
+                                      "use":  "referral credit at checkout",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "freelancer",
+                                      "coverage":  "full",
+                                      "use":  "escrow payee milestone dashboard",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "business-partner",
+                                      "coverage":  "full",
+                                      "use":  "B2B invoice checkout and escrow funding",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "event-organiser",
+                                      "coverage":  "partial",
+                                      "use":  "split-payout dashboard for ticketed events",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "platform-admin",
+                                      "coverage":  "full",
+                                      "use":  "platform fee reconciliation and cross-tenant payment ops",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "platform-support",
+                                      "coverage":  "full",
+                                      "use":  "read-only payment dispute inspection",
+                                      "authProbeExpected":  403,
+                                      "note":  "wrong-role case for run trace probe because probe permits tenant-user/tenant-admin/platform-admin"
+                                  }
+                              ],
+                    "notes":  [
+                                  "FLOW-16 has the broadest role coverage in the fleet: 8 full plus 2 partial role cells in ROLE-ANALYSIS-BATCH-04, consolidated as 10 active cells in later fleet synthesis.",
+                                  "CheckoutPage is the densest role-aware page: guest, public visitor, tenant-user, referral-user, business-partner, and tenant-admin variants.",
+                                  "EscrowDashboardPage covers freelancer, business-partner, and event-organiser payee/payer variants.",
+                                  "No separate flow-specific auth route exists; phase 0 uses GET /api/runs/:runId/trace as the live protected probe."
+                              ]
+                },
+    "verification":  {
+                         "testsPassed":  true,
+                         "staticScanPassed":  true,
+                         "filesScanned":  4,
+                         "sourceFiles":  [
+                                             "server/src/engine/flows/marketplace-payments/marketplace-checkout-gateway.service.ts",
+                                             "server/src/engine/flows/marketplace-payments/marketplace-payment-splitter.service.ts",
+                                             "server/src/engine/flows/marketplace-payments/marketplace-escrow-controller.service.ts",
+                                             "server/src/engine/flows/marketplace-payments/seller-payout-writer.service.ts"
+                                         ]
+                     },
+    "closedFixMapItems":  [
+
+                          ],
+    "remainingFixMapItems":  [
+
+                             ],
+    "verdict":  "PASS"
+}

@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-04",
+  "taskTypeId": "T63",
+  "name": "flow-04-rsvp-orchestrator",
+  "description": "T63 RSVPOrchestrator — ORCHESTRATION archetype. Capacity decrement + RSVP create in ONE atomic op. Idempotent by (attendeeId, eventId).",
+  "archetype": "ORCHESTRATION",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: atomic-decrement-create, idempotency by (attendeeId, eventId)"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ORCHESTRATION arch pattern for T63: atomic capacity decrement + RSVP create, composite idempotency key",
+      "params": {
+        "archetype": "ORCHESTRATION",
+        "taskTypeRef": "T63",
+        "topK": 5,
+        "patternIds": [
+          "arch--atomic-decrement-create",
+          "arch--idempotent-create-by-composite-key",
+          "arch--capacity-guard-before-rsvp"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T63 into: idempotency check (attendeeId+eventId) → atomic capacity decrement + RSVP write → emit RSVPConfirmed"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate rsvp-orchestrator.service.ts — capacity decrement + RSVP create in ONE atomic op. Idempotent by (attendeeId, eventId)."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: atomic_decrement_create, composite_key_idempotency, dna8_ordering"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T63 iron rules: atomic operation, composite idempotency key, DNA-8"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=atomic-decrement-create, rejected=separate-check-decrement-create. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "RSVPRequested command",
+  "primaryFabric": "DATABASE"
+}

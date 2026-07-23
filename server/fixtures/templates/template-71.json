@@ -1,0 +1,13 @@
+{
+  "_id": "template-71",
+  "templateId": 71,
+  "name": "layout-solve-workflow",
+  "flow": "FLOW-23",
+  "nodes": [
+    { "position": 0, "taskTypeId": "T360", "name": "TenantIsolationEnforcer", "required": true, "note": "CF-447: MUST be position 0" },
+    { "position": 1, "taskTypeId": "T349", "name": "LayoutSolverInvoke", "required": true },
+    { "position": 2, "taskTypeId": "T354", "name": "GridColumnReflow" },
+    { "position": 3, "taskTypeId": "T352", "name": "BreakpointRuleApply" }
+  ],
+  "bfaRules": ["CF-447", "CF-445", "CF-433", "CF-443"]
+}

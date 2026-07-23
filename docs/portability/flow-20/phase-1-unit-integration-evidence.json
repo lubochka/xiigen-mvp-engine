@@ -1,0 +1,48 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "phase1UnitTests",
+  "status": "completed",
+  "generatedAt": "2026-05-07T07:04:35.6038296+03:00",
+  "commands": [
+    {
+      "cwd": "server",
+      "command": "npx tsc --noEmit -p tsconfig.json --pretty false",
+      "status": "passed"
+    },
+    {
+      "cwd": "server",
+      "command": "npx jest --testPathPatterns=ads-platform --runInBand --colors=false",
+      "status": "passed",
+      "testSuites": {
+        "passed": 8,
+        "total": 8
+      },
+      "tests": {
+        "passed": 104,
+        "total": 104
+      }
+    },
+    {
+      "cwd": ".",
+      "command": "FLOW-20 portability source scans",
+      "status": "passed",
+      "scanResults": {
+        "throwNew": 0,
+        "servicesMissingMicroserviceBase": 0,
+        "clsImports": 0
+      }
+    }
+  ],
+  "coveredSuites": [
+    "test/e2e/ads-platform/ads-platform.e2e.spec.ts",
+    "test/e2e/ads-platform/phase-a.spec.ts",
+    "test/e2e/ads-platform/phase-b.spec.ts",
+    "test/e2e/ads-platform/phase-c.spec.ts",
+    "test/e2e/ads-platform/phase-d.spec.ts",
+    "test/e2e/ads-platform/ads-platform-integration.spec.ts",
+    "test/e2e/ads-platform/ads-platform-proper-flow.e2e.spec.ts",
+    "src/engine-contracts/__tests__/ads-platform-bfa-rules.spec.ts"
+  ],
+  "verdict": "PASS"
+}

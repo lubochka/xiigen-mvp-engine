@@ -1,0 +1,73 @@
+{
+  "topologyId": "flow-prereq-03b-overlap-decision-received",
+  "flowId": "FLOW-PREREQ-03",
+  "taskTypeId": "T584",
+  "version": "1.0.0",
+  "archetype": "DATA_PIPELINE",
+  "purpose": "Handle Luba's overlap decision (SEPARATE_DOMAIN or SHARED_INFRA). Store as ARCHITECTURE_DECISION RAG pattern (fulfills CF-796). Emit prereq.overlap.resolved to unblock downstream MISSING_FABRIC_INTERFACE gaps.",
+  "trigger": "event prereq.overlap.decision_received with { specId, gapId, decision: SEPARATE_DOMAIN | SHARED_INFRA }",
+
+  "nodes": {
+    "n1": {
+      "handler": "feedback.handler",
+      "description": "Store decision as ARCHITECTURE_DECISION RAG pattern (CF-796) + update proposals index + emit resolved event. Store before emit (DNA-8).",
+      "actions": [
+        {
+          "type": "store",
+          "index": "xiigen-rag-patterns",
+          "document": {
+            "patternId": "architecture-decision::${input.gapId}",
+            "patternType": "ARCHITECTURE_DECISION",
+            "tier": "SEED",
+            "content": "Overlap decision for ${input.gapId}: ${input.decision}. Proposed: ${input.proposedService}. Existing: ${input.existingInterface}. Decision: keep separate or share infrastructure.",
+            "qualityScore": 0.90,
+            "createdBy": "T584-decision-received"
+          }
+        },
+        {
+          "type": "store",
+          "index": "xiigen-capability-gap-proposals",
+          "document": {
+            "gapId": "${input.gapId}",
+            "status": "RESOLVED",
+            "lubaDecision": "${input.decision}",
+            "decisionTimestamp": "${now}"
+          }
+        },
+        {
+          "type": "emit",
+          "event": "prereq.overlap.resolved",
+          "payload": {
+            "specId": "${input.specId}",
+            "gapId": "${input.gapId}",
+            "decision": "${input.decision}"
+          }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "DESIGN_REASONING",
+          "index": "xiigen-training-data",
+          "data": {
+            "category": "ARCHITECTURE_DECISION",
+            "curriculumTier": 1,
+            "teachingPoint": "Overlap decision: ${input.proposedService} vs ${input.existingInterface} → ${input.decision}"
+          }
+        }
+      ]
+    }
+  },
+
+  "edges": [],
+
+  "ironRules": [
+    "CF-796: Decision MUST be stored as ARCHITECTURE_DECISION RAG pattern before emitting prereq.overlap.resolved",
+    "DNA-8: Both store actions (RAG pattern + proposals update) MUST precede the emit action"
+  ],
+
+  "qualityGates": [
+    "RAG pattern stored with patternType=ARCHITECTURE_DECISION",
+    "Proposals index updated with lubaDecision + decisionTimestamp",
+    "prereq.overlap.resolved event carries specId for T586 completion tracking"
+  ]
+}

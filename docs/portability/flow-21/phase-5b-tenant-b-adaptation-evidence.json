@@ -1,0 +1,189 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "phase5bTenantBAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-07T13:04:29.7036800+03:00",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "repo": "lubochka/acme-corp--acme-community-intake-workflows",
+    "package": "@xiigen-fork/acme-community-intake-workflows",
+    "version": "1.0.1"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--northwind-intake-automation-workflows",
+    "url": "https://github.com/lubochka/northwind--northwind-intake-automation-workflows",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "adaptedCommit": "b6be62b50b8fee05298bec8b215c288df1d201f5",
+    "adaptedCommitMessage": "Adapt dynamic forms workflows for Northwind",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-community-intake-workflows-phase5a-20260507-124115",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/dynamic-forms-workflows-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "githubActionsRun": {
+      "runId": 25488956274,
+      "jobId": 74791720119,
+      "url": "https://github.com/lubochka/northwind--northwind-intake-automation-workflows/actions/runs/25488956274",
+      "jobUrl": "https://github.com/lubochka/northwind--northwind-intake-automation-workflows/actions/runs/25488956274/job/74791720119",
+      "status": "completed",
+      "conclusion": "success",
+      "workflowName": "XIIGen Flow CI — dynamic-forms-workflows",
+      "headSha": "b6be62b50b8fee05298bec8b215c288df1d201f5",
+      "createdAt": "2026-05-07T09:57:24Z",
+      "updatedAt": "2026-05-07T09:58:06Z",
+      "successfulJobs": [
+        "Standalone flow test — dynamic-forms-workflows"
+      ]
+    },
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 114,
+        "shasum": "497871d09040663eaf7d4fc147706f8315ccdd80"
+      }
+    ],
+    "adaptationProof": {
+      "tenantConfigTenantId": "northwind",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-community-intake-workflows",
+      "adaptationHistoryEntries": 2,
+      "lastAdaptationTenantId": "northwind",
+      "packageName": "@xiigen-fork/northwind-intake-automation-workflows",
+      "packageVersion": "1.0.2",
+      "moduleName": "northwind-intake-automation-workflows",
+      "displayName": "Northwind Intake Automation Workflows",
+      "requiredCoInstalls": [],
+      "requiredCoInstallPackages": [],
+      "freedomDefaults": {
+        "flow21_schema_publish_timeout_ms": 600,
+        "flow21_schema_validation_rule_required": true,
+        "flow21_submission_validation_timeout_ms": 2000,
+        "flow21_submission_max_field_count": 120,
+        "flow21_rule_lock_ttl_ms": 20000,
+        "flow21_rule_condition_timeout_ms": 600,
+        "flow21_analytics_pii_fields": "email,phone,ssn,password,creditCard,dateOfBirth,address,loyaltyId,customerId",
+        "flow21_analytics_aggregation_window": "day",
+        "flow21_analytics_storage_retention_days": 365
+      }
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/northwind-intake-automation-workflows",
+    "version": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-intake-automation-workflows/-/northwind-intake-automation-workflows-1.0.2.tgz",
+    "shasum": "497871d09040663eaf7d4fc147706f8315ccdd80",
+    "integrity": "sha512-SuiS1UX4d3KRGaldLDf0BgdnwTdNhzG3QptyfqXD2Mw1nL9uhn3sL4+lzYC8MlevFunU1Lh90vE5+Q/A0Bk2Gg==",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/dynamic-forms-workflows-northwind-v1.0.2-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/dynamic-forms-workflows-northwind-v1.0.2-registry-listing.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/dynamic-forms-workflows/tenant-b-v1.0.2",
+      "count": 15,
+      "zeroByteFiles": 0,
+      "totalBytes": 2083126,
+      "playwrightExecutions": 45,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "freelancer",
+        "business-partner"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-21/northwind--northwind-intake-automation-workflows-tenant-b-v1.0.2-github-listing.png",
+        "bytes": 138679
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-21/northwind--northwind-intake-automation-workflows-tenant-b-v1.0.2-actions-success.png",
+        "bytes": 79968
+      },
+      {
+        "path": "docs/e2e-snapshots/marketplace/dynamic-forms-workflows-northwind-v1.0.2-registry-listing.png",
+        "bytes": 50358
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/dynamic-forms-workflows-tenant-b-adapted.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-21 Tenant B adapted package cascade-point visual evidence under docs/e2e-snapshots/dynamic-forms-workflows/tenant-b-v1.0.2."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBAdaptedPlaywright": {
+      "command": "client: VITE_PORT=52024 npx playwright test e2e/dynamic-forms-workflows-tenant-b-adapted.spec.ts --reporter=line",
+      "result": "passed",
+      "tests": 45,
+      "distinctPngCount": 15,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBAdaptedTenantAAdaptedSource": true,
+    "tenantBPublishedAdaptedPackage": true,
+    "localRegistryReturnsTenantBAdaptedVersion": true,
+    "coInstallDependenciesDeclared": true,
+    "realGitHubActionsGreen": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstall": true
+  },
+  "verdict": "PASS"
+}

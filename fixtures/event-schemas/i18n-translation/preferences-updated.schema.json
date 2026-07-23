@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.preferences-updated.v1",
+  "description": "Terminal event emitted by T670 UserPreferencesManager after PUT /api/users/:userId/preferences has written a xiigen-user-preferences record. userOverride=true blocks subsequent tenant-default propagation (Decision 7 priority contract).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenantId", "eventId", "emittedAt", "userId", "locale", "userOverride", "updatedAt"],
+  "properties": {
+    "tenantId":  { "type": "string", "description": "Tenant owning the user record (ALS — CF-810)." },
+    "eventId":   { "type": "string" },
+    "emittedAt": { "type": "string", "format": "date-time" },
+    "userId":    { "type": "string", "description": "Document id — authenticated user whose preferences were written." },
+    "locale":    { "type": "string", "description": "BCP-47 locale the user selected, e.g. 'he', 'fr-FR'." },
+    "userOverride": {
+      "type": "boolean",
+      "description": "true = user explicitly set this locale (blocks tenant-default propagation). false = 'use tenant default' reset path."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 write timestamp persisted on the xiigen-user-preferences document."
+    }
+  }
+}

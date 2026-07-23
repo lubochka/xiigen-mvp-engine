@@ -1,0 +1,93 @@
+{
+  "taskTypeId": "T51",
+  "flowId": "FLOW-02",
+  "name": "CompatibilityScoringConvergence",
+  "archetype": "CONVERGENCE",
+  "domainId": "business-onboarding",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "stackCoupling": {
+    "mechanism": "timeout-as-success-mode-convergence",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow02_match_weight_industry",
+    "neutralConcepts": [
+      "TIMEOUT-AS-SUCCESS-MODE: 30s timeout → partialResults:true → DataProcessResult.success",
+      "B1 reads from xiigen-matching-profiles (GLOBAL) ONLY — never xiigen-business-profiles",
+      "Weight sum validation: 4 weights must sum to 1.0 — CONFIG_ERROR if not",
+      "B2 tier thresholds (STRONG/MEDIUM/WEAK) from FREEDOM config — never hardcoded",
+      "partialResults flag forwarded through entire chain B1→B2→T52"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F186",
+      "interface": "ICompatibilityScoringService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F187",
+      "interface": "IConnectionSuggestionService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T51-1",
+      "rule": "B1 30s timeout → partialResults:true MUST be placed in quality.successModes — NOT failureModes. Timeout produces output = success. DataProcessResult.failure is reserved for infrastructure errors only.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T51-2",
+      "rule": "B1 reads from xiigen-matching-profiles (GLOBAL scope) ONLY. Reading from xiigen-business-profiles = PRIVATE data leak. NEVER searchDocuments('xiigen-business-profiles', ...).",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T51-3",
+      "rule": "Weight sum validation: industry + stage + location + team MUST equal 1.0. Return DataProcessResult.failure('CONFIG_ERROR', ...) if abs(sum - 1.0) > 0.001.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T51-4",
+      "rule": "B2 tier thresholds (STRONG >= 0.7, MEDIUM >= 0.4, WEAK < 0.4) come from FREEDOM config keys flow02_tier_threshold_strong/medium. Never hardcoded numeric values.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T51-5",
+      "rule": "partialResults flag from B1 must be forwarded to B2 output and ultimately to T52 input. Never swallowed or reset to false by intermediate nodes.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T51-6",
+      "rule": "DNA-8: store scoring result (xiigen-business-matches) BEFORE BusinessMatchesFound enqueue. B2 suggestion result BEFORE ConnectionSuggestionsReady enqueue.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "timeout_as_success_mode",
+    "global_index_read_only",
+    "weight_sum_validation"
+  ],
+  "bfaRules": [
+    "CF-797",
+    "CF-800",
+    "CF-801"
+  ],
+  "handlers": [
+    "validate_scoring_input",
+    "read_global_matching_profiles",
+    "apply_weighted_scoring",
+    "classify_tier",
+    "store_match_result",
+    "emit_business_matches_found",
+    "generate_connection_suggestions",
+    "emit_connection_suggestions_ready"
+  ],
+  "tags": [
+    "convergence",
+    "timeout-as-success-mode",
+    "global-index-only",
+    "weight-sum-validation",
+    "partial-results"
+  ],
+  "keywords": "compatibility scoring convergence timeout success mode global index weight sum partial results connection suggestions"
+}

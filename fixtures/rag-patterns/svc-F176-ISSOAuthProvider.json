@@ -1,0 +1,26 @@
+{
+  "patternId": "svc-F176-ISSOAuthProvider",
+  "patternType": "SERVICE_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "factoryId": "F176",
+  "interfaceName": "ISSOAuthProvider",
+  "archetype": "EXTERNAL_CALL",
+  "fabric": "AI_ENGINE",
+  "fabricProvider": "GoogleOAuth",
+  "skillRefs": [
+    "SK-06"
+  ],
+  "taskTypeRefs": [
+    "T47"
+  ],
+  "tags": [
+    "sso",
+    "oauth",
+    "auth-provider",
+    "external"
+  ],
+  "keywords": "SSO OAuth Google Facebook provider token validation external auth",
+  "codeSnippet": "// Never import OAuth library directly \u2014 use ISSOAuthProvider\nconst ssoResult = await this.ssoProvider.validateToken(provider, token);\nif (!ssoResult.isSuccess) return DataProcessResult.failure('SSO_INVALID');\nreturn DataProcessResult.success({ userId: ssoResult.data.userId });"
+}

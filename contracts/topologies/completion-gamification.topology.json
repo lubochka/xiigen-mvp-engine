@@ -1,0 +1,92 @@
+{
+  "flowId": "FLOW-05",
+  "name": "Lesson Completion and Gamification",
+  "status": "NOT_STARTED",
+  "nodes": [
+    {
+      "id": "T83",
+      "taskTypeId": "T83",
+      "name": "CompletionRecorder",
+      "archetype": "orchestration",
+      "entry": "LessonCompletionSubmitted event"
+    },
+    {
+      "id": "T84",
+      "taskTypeId": "T84",
+      "name": "PointsCalculator",
+      "archetype": "processing",
+      "entry": "CompletionRecorded event (server-side points — CF-05-1)"
+    },
+    {
+      "id": "T85",
+      "taskTypeId": "T85",
+      "name": "LedgerUpdater",
+      "archetype": "processing",
+      "entry": "PointsAwarded event"
+    },
+    {
+      "id": "T86",
+      "taskTypeId": "T86",
+      "name": "LevelUpChecker",
+      "archetype": "processing",
+      "entry": "LedgerUpdated event"
+    },
+    {
+      "id": "T87",
+      "taskTypeId": "T87",
+      "name": "AchievementGate",
+      "archetype": "processing",
+      "entry": "LevelUpChecked event"
+    },
+    {
+      "id": "T90",
+      "taskTypeId": "T90",
+      "name": "SocialShareGate",
+      "archetype": "processing",
+      "entry": "AchievementUnlocked event (privacy gate — CF-05-3)"
+    },
+    {
+      "id": "T96",
+      "taskTypeId": "T96",
+      "name": "StreakManager",
+      "archetype": "processing",
+      "entry": "CompletionRecorded event (timezone-aware — CF-05-2)"
+    },
+    {
+      "id": "T98",
+      "taskTypeId": "T98",
+      "name": "LearningFlowCompleted",
+      "archetype": "orchestration",
+      "entry": "AllGamificationComplete event"
+    }
+  ],
+  "edges": [
+    { "from": "LessonCompletionSubmitted", "to": "T83", "event": "xiigen.completion-gamification.lesson-completion-submitted.v1" },
+    { "from": "T83", "to": "T84", "event": "xiigen.completion-gamification.completion-recorded.v1" },
+    { "from": "T83", "to": "T96", "event": "xiigen.completion-gamification.completion-recorded.v1", "condition": "streak branch" },
+    { "from": "T84", "to": "T85", "event": "xiigen.completion-gamification.points-awarded.v1" },
+    { "from": "T85", "to": "T86", "event": "xiigen.completion-gamification.ledger-updated.v1" },
+    { "from": "T86", "to": "T87", "event": "xiigen.completion-gamification.level-up-checked.v1" },
+    { "from": "T87", "to": "T90", "event": "xiigen.completion-gamification.achievement-unlocked.v1", "condition": "achievement unlocked" },
+    { "from": "T90", "to": "T98", "event": "xiigen.completion-gamification.social-gate-passed.v1" },
+    { "from": "T96", "to": "T98", "event": "xiigen.completion-gamification.streak-updated.v1" },
+    { "from": "T98", "to": "LearningFlowCompleted", "event": "xiigen.completion-gamification.flow-completed.v1", "condition": "terminal" }
+  ],
+  "clientArchitecture": {
+    "requiresDraftState": false,
+    "draftSteps": null,
+    "offlineQueue": {
+      "queueable": ["LessonCompletionSubmitted"],
+      "notQueueable": [],
+      "notQueueableReason": {}
+    },
+    "backgroundSteps": [
+      {
+        "serverTask": "T46",
+        "runsWhileUserViews": "Any screen (user may have navigated away)",
+        "signalType": "celebration",
+        "signalText": null
+      }
+    ]
+  }
+}

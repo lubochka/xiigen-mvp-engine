@@ -1,0 +1,39 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "phase": "Phase 4.5 - Tenant A repo rename and evidence",
+  "tenantId": "acme-corp",
+  "completedAt": "2026-04-29T10:49:00+03:00",
+  "repoBefore": "lubochka/acme-corp--profile-enrichment",
+  "repoAfter": "lubochka/acme-corp--acme-pro-matching",
+  "repoUrl": "https://github.com/lubochka/acme-corp--acme-pro-matching",
+  "adaptedCommitSha": "0d34216fba11b4d0d591bc623ee94dad13653fd6",
+  "ciEvidence": {
+    "workflowRunId": 25096812478,
+    "workflowRunUrl": "https://github.com/lubochka/acme-corp--acme-pro-matching/actions/runs/25096812478",
+    "workflowConclusion": "success",
+    "workflowStatus": "completed",
+    "headSha": "0d34216fba11b4d0d591bc623ee94dad13653fd6"
+  },
+  "repoConfigEvidence": {
+    "moduleName": "acme-pro-matching",
+    "moduleVersion": "1.0.1",
+    "adaptationHistoryCount": 1,
+    "adaptationHistoryFirstModule": "acme-pro-matching"
+  },
+  "localForkVerification": {
+    "clonePath": "C:/tmp/xiigen-phase45/acme-corp--profile-enrichment",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "result": "package install completed, TypeScript passed, Jest passed: 1 suite, 2 tests, 0 failures"
+  },
+  "evidenceFiles": [
+    "docs/portability/flow-02/visual-evidence/phase-04-tenant-a-post-adaptation-repo/acme-corp--acme-pro-matching-repo-homepage.png",
+    "docs/portability/flow-02/visual-evidence/phase-04-tenant-a-post-adaptation-repo/acme-corp--acme-pro-matching-github-listing.png",
+    "docs/portability/flow-02/visual-evidence/phase-04-tenant-a-post-adaptation-repo/acme-corp--acme-pro-matching-github-actions-success.png"
+  ],
+  "nextPhase": "Phase 5a - Tenant B installs Tenant A adapted version"
+}

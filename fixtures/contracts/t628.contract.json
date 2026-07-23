@@ -1,0 +1,28 @@
+{
+  "taskTypeId": "T628",
+  "name": "PoliticalContentReviewer",
+  "flowId": "FLOW-20",
+  "archetype": "analysis",
+  "purpose": "Dual-model political content detection with human escalation. Uses Math.min convergence for conservative consensus. Human review mandatory on divergence.",
+  "entry": "AdContentSubmitted event",
+  "ironRules": [
+    "IR-1: Dual-model isPolitical detection at ORDER 1. At least 2 independent models required.",
+    "IR-2: Converge via Math.min(modelA.score, modelB.score) — conservative consensus.",
+    "IR-3: If minScore > threshold AND (Math.max - Math.min) > divergence_threshold: escalate to human review queue. Emit PoliticalContentReviewPending.",
+    "IR-4: Human decision stored in final status field (updateDocument only allowed on final_status transition).",
+    "IR-5: No auto-block on ambiguous cases — human review mandatory if divergence detected.",
+    "IR-6: tenantId from ALS only — never from event payload."
+  ],
+  "machineComponents": [
+    "Dual-model isPolitical detection at ORDER 1",
+    "Math.min convergence — conservative consensus",
+    "Divergence-triggered human review escalation",
+    "No auto-block on ambiguous cases",
+    "Human decision immutable — updateDocument only on final status transition"
+  ],
+  "freedomComponents": [
+    "political_score_threshold — minScore to trigger political classification (0.0-1.0)",
+    "political_divergence_threshold — max allowed divergence between models (0.0-1.0)",
+    "political_human_review_sla_hours — SLA for human review completion"
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "flowId": "FLOW-08",
+  "flowSlug": "marketplace",
+  "phase": "phase4Point5TenantARepoAndEvidence",
+  "status": "completed",
+  "generatedAt": "2026-05-05T14:04:46.9620754+03:00",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "role": "Tenant A",
+    "adaptedModuleName": "acme-curated-marketplace",
+    "packageName": "@xiigen-fork/acme-curated-marketplace",
+    "packageVersion": "1.0.1"
+  },
+  "repositoryRename": {
+    "oldFullName": "lubochka/acme-corp--marketplace",
+    "newFullName": "lubochka/acme-corp--acme-curated-marketplace",
+    "newRepoName": "acme-corp--acme-curated-marketplace",
+    "htmlUrl": "https://github.com/lubochka/acme-corp--acme-curated-marketplace",
+    "defaultBranch": "main",
+    "privateAfterEvidenceCapture": true,
+    "visibilityAfterEvidenceCapture": "private",
+    "renamedVia": "GitHub REST API PATCH /repos/lubochka/acme-corp--marketplace",
+    "localClonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--marketplace-phase40",
+    "localRemote": "https://github.com/lubochka/acme-corp--acme-curated-marketplace.git"
+  },
+  "tenantRepoCommit": {
+    "sha": "d3a7172e6dc57eb42e80b80d2218c2659cdb943c",
+    "message": "chore: record renamed Tenant A marketplace repo",
+    "filesChanged": [
+      "tenant.config.json"
+    ],
+    "tenantConfigUpdated": true,
+    "tenantConfigFields": {
+      "tenantId": "acme-corp",
+      "moduleName": "acme-curated-marketplace",
+      "moduleVersion": "1.0.1",
+      "repoName": "acme-corp--acme-curated-marketplace",
+      "repoFullName": "lubochka/acme-corp--acme-curated-marketplace",
+      "adaptationHistoryEntries": 1
+    }
+  },
+  "githubActions": {
+    "runId": 25372557486,
+    "jobId": 74399455886,
+    "workflowName": "XIIGen Flow CI - marketplace",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "d3a7172e6dc57eb42e80b80d2218c2659cdb943c",
+    "url": "https://github.com/lubochka/acme-corp--acme-curated-marketplace/actions/runs/25372557486",
+    "createdAt": "2026-05-05T11:02:50Z",
+    "updatedAt": "2026-05-05T11:03:42Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "package": "@xiigen-fork/acme-curated-marketplace",
+    "version": "1.0.1",
+    "verificationCommand": "npm view @xiigen-fork/acme-curated-marketplace version --registry http://localhost:4873",
+    "verificationResult": "1.0.1",
+    "registryApiEvidence": "docs/e2e-snapshots/marketplace/marketplace-v1.0.1-registry-api-evidence.json"
+  },
+  "forkRepoVerification": {
+    "path": "C:\\Projects\\xiigen-fork-clones\\acme-corp--marketplace-phase40",
+    "commands": [
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 5 tests passed"
+      }
+    ]
+  },
+  "screenshots": {
+    "repoHomepage": {
+      "path": "docs/e2e-snapshots/repo-evidence/acme-corp--acme-curated-marketplace-repo-homepage.png",
+      "bytes": 131980
+    },
+    "actionsSuccess": {
+      "path": "docs/e2e-snapshots/repo-evidence/acme-corp--acme-curated-marketplace-actions-success.png",
+      "bytes": 63885
+    },
+    "marketplaceListing": {
+      "path": "docs/e2e-snapshots/marketplace/marketplace-v1.0.1-listing.png",
+      "bytes": 12883
+    }
+  },
+  "commands": [
+    "gh api -X PATCH repos/lubochka/acme-corp--marketplace -f name=acme-corp--acme-curated-marketplace",
+    "git remote set-url origin https://github.com/lubochka/acme-corp--acme-curated-marketplace.git",
+    "fork repo npx tsc --noEmit: passed",
+    "fork repo npx jest --colors=false --forceExit: 2 suites, 5 tests passed",
+    "fork repo git commit/push metadata commit d3a7172e6dc57eb42e80b80d2218c2659cdb943c",
+    "GitHub Actions run 25372557486: completed success",
+    "captured real GitHub repo homepage and Actions success screenshots, then restored repo visibility to private",
+    "npm view @xiigen-fork/acme-curated-marketplace version --registry http://localhost:4873: 1.0.1"
+  ],
+  "secretHandling": {
+    "githubTokenPrinted": false,
+    "tenantJwtPrinted": false,
+    "vaultSigningKeyPrinted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "verdict": "PASS"
+}

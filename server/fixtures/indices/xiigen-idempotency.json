@@ -1,0 +1,11 @@
+{
+  "index": "xiigen-idempotency",
+  "mappings": {
+    "properties": {
+      "tenantId":   { "type": "keyword" },
+      "key":        { "type": "keyword" },
+      "expiresAt":  { "type": "date" },
+      "createdAt":  { "type": "date" }
+    }
+  }
+}

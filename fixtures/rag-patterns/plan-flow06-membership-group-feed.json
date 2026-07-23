@@ -1,0 +1,18 @@
+{
+  "patternId": "PLAN-FLOW06-001",
+  "patternType": "PLAN_EXEMPLAR",
+  "flowId": "FLOW-06",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ORCHESTRATION",
+  "tags": ["membership", "group-feed", "parallel-branches", "FLOW-06"],
+  "keywords": "membership group feed access control tier assignment idempotency approval parallel branches time-decoupled",
+  "ironRules": [
+    "GroupMembershipCompleted gates on Branch A only (T101+T102+T103) — Branches B and C time-decoupled",
+    "T100 server-side tier assignment — no requestedTier from client",
+    "T102 reads group.type from DB — PRIVATE→PENDING, PUBLIC→ACTIVE",
+    "T104 triggers on MembershipActivated only — access control before content",
+    "T105 tier filter at query layer — content_access_level IN accessLevels[]"
+  ],
+  "codeSnippet": "// taskSequence: T99→T100→T101→T102→T103→T104→T105→T106→T107→T108→T109→T110→T111→T112→T113→T114→T115→T116→T117→T118\n// Branch A (activation): T99, T100, T101, T102, T103 — GroupMembershipCompleted\n// Branch B (feed): T104, T105, T106, T107 — FeedSeeded (time-decoupled)\n// Branch C (notifications): T108, T109, T110, T111 — MemberWelcomeNotified (time-decoupled)\n// SUBFLOW-06P (private approval): T112, T113, T114, T115\n// SUBFLOW-06T (tier change): T116, T117, T118"
+}

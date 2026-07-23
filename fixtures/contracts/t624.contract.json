@@ -1,0 +1,91 @@
+{
+  "taskTypeId": "T624",
+  "flowId": "FLOW-19",
+  "name": "DataRetentionEnforcer",
+  "archetype": "data_pipeline",
+  "domainId": "durable-sagas-compliance",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T624-1",
+      "rule": "Dual gate — BOTH retentionExpiresAt < now AND legalHoldActive === false required before any deleteDocument. legalHold supersedes expiry. CF-19-4.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T624-2",
+      "rule": "On legalHoldActive = true, emit RetentionHoldActive and skip record entirely — no purge under legal hold. CF-19-4.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T624-3",
+      "rule": "archive-before-delete: storeDocument(xiigen-retention-archive, archivedRecord, archiveRef) MUST complete before deleteDocument/tombstone write. Data permanently lost if delete-before-archive on crash. CF-19-4.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T624-4",
+      "rule": "PurgeCompleted includes archiveRef for audit trail. CF-19-4.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T624-5",
+      "rule": "CRON schedule MUST come from FREEDOM config key flow19_retention_cron_schedule — no hardcoded cron expressions. CF-19-4.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1558",
+      "token": "IRetentionArchiveService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1559",
+      "token": "ILegalHoldService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1560",
+      "token": "IRetentionCronConfig",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "DUAL_GATE_EXPIRY_AND_LEGAL_HOLD",
+    "ARCHIVE_BEFORE_DELETE_SAFETY",
+    "DYNAMIC_CRON_FROM_FREEDOM_CONFIG"
+  ],
+  "freedomComponents": [
+    "flow19_retention_cron_schedule",
+    "flow19_retention_batch_size",
+    "flow19_legal_hold_check_enabled"
+  ],
+  "stackCoupling": {
+    "queue": ["PurgeCompleted", "RetentionHoldActive", "PurgeFailed"],
+    "database": ["xiigen-retention-archive", "xiigen-compliance-records-tombstones"]
+  },
+  "handlers": [
+    "load_retention_config",
+    "gate_one_expiry_check",
+    "gate_two_legal_hold_check",
+    "archive_record",
+    "delete_original",
+    "emit_purge_completed"
+  ],
+  "namedChecks": [
+    "dual_gate_expiry_and_legal_hold",
+    "archive_before_delete",
+    "cron_from_freedom_config",
+    "legal_hold_active_skip"
+  ],
+  "tags": [
+    "retention",
+    "purge",
+    "dual-gate",
+    "legal-hold",
+    "archive-before-delete",
+    "cf-19-4",
+    "cron",
+    "freedom"
+  ],
+  "keywords": "DataRetentionEnforcer dual gate retentionExpiresAt legalHold archive before delete CRON FREEDOM config PurgeCompleted archiveRef T624 CF-19-4"
+}

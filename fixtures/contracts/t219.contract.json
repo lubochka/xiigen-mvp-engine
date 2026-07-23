@@ -1,0 +1,40 @@
+{
+  "taskTypeId": "T219",
+  "flowId": "FLOW-14",
+  "name": "DimensionalModelBuilder",
+  "archetype": "modeling",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "scd2-close-old-open-new-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_scd2_max_versions",
+    "neutralConcepts": [
+      "DR-62: SCD-2 version-only — close_old (write closure record) + open_new (new storeDocument)",
+      "NEVER use updateDocument for SCD-2 — always storeDocument for both close and open",
+      "effectiveFrom/effectiveTo on all dimension version records",
+      "Fact records via appendFact() — append-only, no updates",
+      "storeDocument(dimension_version) BEFORE enqueue(DimensionVersionApplied) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T219-1", "rule": "DR-62: SCD-2 MUST use close_old + open_new via storeDocument — never updateDocument.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T219-2", "rule": "All dimension version records MUST have effectiveFrom and effectiveTo.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T219-3", "rule": "Fact records are append-only — never update fact records.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T219-4", "rule": "storeDocument BEFORE enqueue(DimensionVersionApplied) — DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "scd2_no_update_document",
+    "effective_dates_on_versions",
+    "fact_append_only",
+    "store_before_enqueue"
+  ],
+  "bfaRules": ["DR-62"],
+  "tags": ["scd2", "dimensional", "modeling", "append-only", "version"],
+  "keywords": "dimensional model builder SCD-2 close old open new effectiveFrom effectiveTo fact append-only DR-62 DimensionVersionApplied no updateDocument"
+}

@@ -1,0 +1,98 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "phase": "phase2E2ETests",
+  "generatedAt": "2026-05-07T04:08:07.5253355+03:00",
+  "status": "completed",
+  "server": {
+    "provider": "vault",
+    "hostPort": 3000,
+    "healthLiveStatus": 200,
+    "note": "Docker server was rebuilt and restarted on port 3000 because the FLOW-19 Playwright spec checks http://localhost:3000/health/live before running."
+  },
+  "commands": [
+    {
+      "command": "Push-Location client; npx playwright test durable-sagas-compliance.spec.ts --reporter=list; Pop-Location",
+      "status": "passed",
+      "summary": {
+        "testsPassed": 18,
+        "testsTotal": 18,
+        "projects": [
+          "chromium-desktop",
+          "chromium-tablet",
+          "chromium-mobile"
+        ]
+      }
+    },
+    {
+      "command": "Push-Location client; npx playwright test visual-audit-axis-d-full.spec.ts -g \"durable-sagas-compliance\" --reporter=list; Pop-Location",
+      "status": "passed",
+      "summary": {
+        "testsPassed": 12,
+        "testsTotal": 12,
+        "projects": [
+          "chromium-desktop",
+          "chromium-tablet",
+          "chromium-mobile"
+        ]
+      }
+    }
+  ],
+  "pngEvidence": {
+    "p1StateCoverage": {
+      "path": "docs/e2e-snapshots/durable-sagas-compliance",
+      "expectedMinimum": 6,
+      "actual": 6,
+      "totalBytes": 512280,
+      "files": [
+        "01-every-task-type-in-t287-t306-has-at-leas.png",
+        "02-every-plan-step-is-scoped-to-a-single-re.png",
+        "03-no-step-imports-provider-sdks-directly-f.png",
+        "04-no-step-creates-entity-specific-controll.png",
+        "05-all-steps-return-dataprocessresult-t.png",
+        "06-focus-areas-covered-9-named-check-evalua.png"
+      ]
+    },
+    "roleMatrix": {
+      "path": "docs/e2e-snapshots/visual-audit/{viewport}/durable-sagas-compliance",
+      "roles": [
+        "tenant-admin",
+        "tenant-user",
+        "platform-admin",
+        "platform-support"
+      ],
+      "viewports": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "states": [
+        "primary"
+      ],
+      "expectedMinimum": 12,
+      "actual": 12,
+      "totalBytes": 656031
+    },
+    "repoEvidence": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-19",
+      "actual": 0,
+      "status": "not_applicable_until_fork_cascade",
+      "note": "No FLOW-19 tenant cascade point has been closed yet; real GitHub repo screenshots remain required during the fork cascade phases."
+    }
+  },
+  "sourceScan": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0,
+    "secretPatternHits": 0
+  },
+  "secretHandling": {
+    "tokenValuesWrittenToEvidence": false,
+    "signingMaterialWrittenToEvidence": false,
+    "envFilesCommitted": false
+  },
+  "verdict": "PASS"
+}

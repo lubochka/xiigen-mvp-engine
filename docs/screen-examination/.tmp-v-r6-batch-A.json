@@ -1,0 +1,21 @@
+{
+  "batch_id": "V-R6-A",
+  "flows": [
+    {"slug":"meta-flow-engine","role":"platform-admin","grammar":"G4","verdict":"pass","weighted_score":0,"prior_v_r5_score":2,"delta":-2,"offences":[],"notes":"Status casing Active/Paused/Draft sentence-case; no SCREAMING_SNAKE"},
+    {"slug":"tenant-lifecycle-manager","role":"platform-admin","grammar":"G6","verdict":"pass","weighted_score":1,"prior_v_r5_score":5,"delta":-4,"offences":[{"severity":"MINOR","axis":"H","viewport":"all","description":"Plan labels lowercase taxonomy (enterprise/growth/starter) could be title-cased"}],"notes":"Status badges now sentence-case; tenant row display names clean"},
+    {"slug":"design-intelligence-engine","role":"platform-admin","grammar":"G6","verdict":"pass","weighted_score":1,"prior_v_r5_score":5,"delta":-4,"offences":[{"severity":"MINOR","axis":"H","viewport":"all","description":"Category values hyphenated (contrast/pattern-drift/token-mismatch) — controlled vocab, borderline"}],"notes":"Severity High/Medium + status Approved/Deprecated all sentence-case"},
+    {"slug":"design-system-governance","role":"platform-admin","grammar":"G2","verdict":"pass","weighted_score":2,"prior_v_r5_score":5,"delta":-3,"offences":[{"severity":"MINOR","axis":"H","viewport":"all","description":"Task-type names in monospace code-pill styling — copy humanized but stylistic carryover"},{"severity":"MINOR","axis":"H","viewport":"all","description":"Stack slugs hyphen-case in monospace (node-express, python-fastapi)"}],"notes":"T-NN removed; dep-slug dimensions humanized (Async runtime model, Test framework, Event bus, Tenant isolation, etc.)"},
+    {"slug":"platform-agent","role":"platform-admin","grammar":"G3","verdict":"partial","weighted_score":3,"prior_v_r5_score":4,"delta":-1,"offences":[{"severity":"MAJOR","axis":"H","viewport":"all","description":"TNT-acme-corp/TNT-bluebird/TNT-castle still leak in Recent Agent Actions 'Affected:' rows"},{"severity":"MINOR","axis":"H","viewport":"all","description":"Action log IDs PA-LOG-* in monospace"}],"notes":"Tenant Scope subtitle fixed. 'Affected:' row is a separate render path that wasn't covered in S6 fix"},
+    {"slug":"visual-flow-engine","role":"platform-admin","grammar":"G4","verdict":"pass","weighted_score":1,"prior_v_r5_score":3,"delta":-2,"offences":[{"severity":"MINOR","axis":"H","viewport":"all","description":"'MASTER CANVAS (PLATFORM-ADMIN EDIT)' section header uppercase"}],"notes":"Status Unlocked/Locked/Draft sentence-case; flow titles humanized"},
+    {"slug":"marketplace","role":"tenant-user","grammar":"G3","verdict":"pass","weighted_score":1,"prior_v_r5_score":4,"delta":-3,"offences":[{"severity":"MINOR","axis":"H","viewport":"all","description":"Publisher handles tenant-acme/tenant-payments-co/tenant-insights in monospace — handle display, borderline"}],"notes":"REGRESSION FIXED: SEED_PACKAGES fallback works; no red error banner; 3 package rows render cleanly"}
+  ],
+  "batch_total_score": 9,
+  "batch_total_delta_vs_V_R5": -19,
+  "improvement_pct": "68%",
+  "systemic_patterns_still_present": [
+    "Slug identifiers in monospace code-pill (tenant-acme, node-express, flow-my-workflow) — stylistic carryover, not harmful but borderline",
+    "Uppercase section-labels (TENANTS, PUBLISHED FLOWS, MASTER CANVAS) — admin convention",
+    "TNT- leak in platform-agent action log 'Affected:' rows (S6 missed this render path)"
+  ],
+  "new_regressions": []
+}

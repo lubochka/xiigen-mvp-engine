@@ -1,0 +1,238 @@
+{
+  "flowId": "FLOW-27",
+  "flowSlug": "human-interaction-gate",
+  "phase": "phase-5-tenant-b-install-adapt-publish",
+  "status": "completed",
+  "generatedAt": "2026-05-10T17:02:27.927Z",
+  "tenant": "northwind",
+  "sourceTenant": "acme-corp",
+  "sourceRepoFullName": "lubochka/acme-corp--human-interaction-gate",
+  "fork": {
+    "forkId": "fork-acme-approval-ops-northwind",
+    "repoFullName": "lubochka/northwind--acme-approval-ops",
+    "repoUrl": "https://github.com/lubochka/northwind--acme-approval-ops",
+    "initialCommitSha": "a1299fc3451b72ccfabc26c35b4d0008ea3654df",
+    "method": "POST",
+    "url": "http://localhost:3000/api/marketplace/packages/acme-approval-ops/fork",
+    "repoNameOverride": "northwind--acme-approval-ops",
+    "usedMarketplaceApi": true,
+    "manualRepoCreation": false,
+    "syntheticRepo": false
+  },
+  "initialForkCi": {
+    "runId": 25634385527,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "a1299fc3451b72ccfabc26c35b4d0008ea3654df",
+    "failureCause": "Inherited Acme adaptation test hard-coded tenantId acme-corp after the fork engine correctly rewrote tenant.config.json to northwind.",
+    "repair": "Updated the inherited Acme test to validate preserved cascade history instead of hard-coding the current tenant, then added the Northwind adaptation test."
+  },
+  "adaptation": {
+    "changeType": "Type A (bounded FREEDOM key value change)",
+    "moduleName": "northwind-review-router",
+    "packageName": "@xiigen-fork/northwind-review-router",
+    "packageVersion": "1.0.2",
+    "sourcePackageName": "@xiigen-fork/acme-approval-ops",
+    "sourcePackageVersion": "1.0.1",
+    "plainLanguagePolicy": "Northwind review router policy: longer approval lifetime, 16-hour timeout escalation, five-reviewer parallel threshold, deeper delegation, wider scheduling horizon, 12-hour SLA display, Northwind operations queue naming, and Northwind-specific notification topics.",
+    "freedomChanges": [
+      {
+        "key": "flow27_approval_request_ttl_hours",
+        "from": 48,
+        "to": 96
+      },
+      {
+        "key": "flow27_timeout_threshold_hours",
+        "from": 8,
+        "to": 16
+      },
+      {
+        "key": "flow27_parallel_threshold",
+        "from": 2,
+        "to": 5
+      },
+      {
+        "key": "flow27_max_delegation_depth",
+        "from": 1,
+        "to": 3
+      },
+      {
+        "key": "flow27_max_schedule_horizon_days",
+        "from": 45,
+        "to": 120
+      },
+      {
+        "key": "flow27_sla_threshold_hours",
+        "from": 4,
+        "to": 12
+      },
+      {
+        "key": "flow27_reviewer_notification_topic",
+        "from": "acme.approval.requested",
+        "to": "northwind.review.requested"
+      },
+      {
+        "key": "flow27_escalation_group",
+        "from": "acme-senior-reviewers",
+        "to": "northwind-ops-escalation"
+      },
+      {
+        "key": "flow27_review_queue_label",
+        "from": "Acme approval queue",
+        "to": "Northwind operations review"
+      },
+      {
+        "key": "flow27_module_name",
+        "from": "acme-approval-ops",
+        "to": "northwind-review-router"
+      }
+    ],
+    "adaptationHistoryEntries": 2,
+    "adaptationHistory": [
+      {
+        "adaptedBy": "acme-corp",
+        "version": "1.0.1",
+        "moduleName": "acme-approval-ops"
+      },
+      {
+        "adaptedBy": "northwind",
+        "version": "1.0.2",
+        "moduleName": "northwind-review-router"
+      }
+    ]
+  },
+  "tenantRepository": {
+    "repoFullName": "lubochka/northwind--acme-approval-ops",
+    "repoUrl": "https://github.com/lubochka/northwind--acme-approval-ops",
+    "adaptedCommitSha": "cccb806f87d3b8e523cdef8f490ac486d9654f17",
+    "defaultBranch": "main",
+    "clonePath": "C:/Projects/xiigen-fork-clones/northwind--acme-approval-ops-phase5-20260510-195345",
+    "workingTreeClean": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/human-interaction-gate-acme-adaptation.spec.ts",
+      "__tests__/human-interaction-gate-northwind-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - human-interaction-gate",
+    "runId": 25634474563,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "cccb806f87d3b8e523cdef8f490ac486d9654f17",
+    "createdAt": "2026-05-10T16:57:53Z",
+    "updatedAt": "2026-05-10T16:58:34Z",
+    "url": "https://github.com/lubochka/northwind--acme-approval-ops/actions/runs/25634474563"
+  },
+  "tenantCloneVerification": {
+    "commands": [
+      "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "installExit": 0,
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 3,
+      "jestSuitesTotal": 3,
+      "jestTestsPassed": 6,
+      "jestTestsTotal": 6,
+      "packDryRunExit": 0,
+      "packEntryCount": 120
+    }
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/northwind-review-router",
+    "publishedVersion": "1.0.2",
+    "viewCommand": "npm view @xiigen-fork/northwind-review-router version --registry http://localhost:4873",
+    "viewReturned": "1.0.2",
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-review-router/-/northwind-review-router-1.0.2.tgz",
+    "verified": true
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-27",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-b-v1.0.2-github-listing.png",
+        "bytes": 133298
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-b-v1.0.2-actions-success.png",
+        "bytes": 77014
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-27/phase-5-tenant-b-v1.0.2-package-json.png",
+        "bytes": 113961
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-10T16:59:18.8120738Z",
+    "serverBaseUrl": "http://localhost:3000",
+    "path": "/api/runs/phase5-tenant-b-adaptation-auth-probe/trace",
+    "passed": 12,
+    "total": 12,
+    "failed": 0,
+    "allPassed": true
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "result": "passed",
+      "exitCode": 0
+    },
+    "serverJest": {
+      "result": "passed",
+      "suites": 14,
+      "tests": 207
+    },
+    "clientTypeScript": {
+      "result": "passed",
+      "exitCode": 0
+    },
+    "flowScans": {
+      "sourceFlowFileCount": 10,
+      "adaptedFlowFileCount": 10,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "failureLines": 0
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeysPrinted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBInstalledFromTenantA": true,
+    "tenantBAdaptedFlow": true,
+    "tenantBCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstallAdaptAuth": true
+  },
+  "verdict": "PASS"
+}

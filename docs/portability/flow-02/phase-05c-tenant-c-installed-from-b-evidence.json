@@ -1,0 +1,65 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "phase": "Phase 5c - Tenant C installs Tenant B adapted version",
+  "tenantId": "tessera-collective",
+  "completedAt": "2026-04-29T11:48:00+03:00",
+  "sourceTenantId": "northwind",
+  "sourceModuleName": "northwind-partner-matching",
+  "repoBefore": "lubochka/tessera-collective--profile-enrichment",
+  "repoAfter": "lubochka/tessera-collective--northwind-partner-matching",
+  "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-partner-matching",
+  "adaptedCommitSha": "80abc593988703a3f239620d908e5c1b7ada73a4",
+  "ciEvidence": {
+    "workflowRunId": 25098905673,
+    "workflowRunUrl": "https://github.com/lubochka/tessera-collective--northwind-partner-matching/actions/runs/25098905673",
+    "workflowConclusion": "success",
+    "workflowStatus": "completed",
+    "headSha": "80abc593988703a3f239620d908e5c1b7ada73a4"
+  },
+  "repoConfigEvidence": {
+    "tenantId": "tessera-collective",
+    "moduleName": "northwind-partner-matching",
+    "moduleVersion": "1.0.2",
+    "adaptationHistoryCount": 2,
+    "adaptationHistoryEntries": [
+      "acme-pro-matching",
+      "northwind-partner-matching"
+    ]
+  },
+  "authEvidence": {
+    "command": "cd server && npx jest test/profile-enrichment/phase-02-auth.spec.ts --runInBand",
+    "result": "1 suite passed, 5 tests passed, including cross-tenant JWT rejection"
+  },
+  "localForkVerification": {
+    "clonePath": "C:/tmp/xiigen-phase5c/tessera-collective--profile-enrichment",
+    "commands": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ],
+    "result": "package install completed, TypeScript passed, Jest passed: 1 suite, 2 tests, 0 failures"
+  },
+  "visualEvidence": {
+    "directory": "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-installed-from-b",
+    "roles": [
+      "tenant-user",
+      "tenant-admin",
+      "freelancer",
+      "business-partner",
+      "event-organiser"
+    ],
+    "screensPerRole": 3,
+    "pngCount": 15
+  },
+  "repoEvidenceFiles": [
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-installed-from-b-repo/tessera-collective--northwind-partner-matching-repo-homepage.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-installed-from-b-repo/tessera-collective--northwind-partner-matching-github-listing.png",
+    "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-installed-from-b-repo/tessera-collective--northwind-partner-matching-github-actions-success.png"
+  ],
+  "playwrightEvidence": {
+    "command": "cd client && VITE_PORT=5178 npx playwright test e2e/profile-enrichment-portability-visual.spec.ts --project=chromium-desktop",
+    "result": "23 tests passed; Tenant C installed-from-B captured 15 role screenshots"
+  },
+  "nextPhase": "Phase 5c-5 - Tenant C adapts"
+}

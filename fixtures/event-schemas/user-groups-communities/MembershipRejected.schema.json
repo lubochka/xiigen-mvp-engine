@@ -1,0 +1,11 @@
+{
+  "eventType": "MembershipRejected",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "approval-result-handler",
+  "consumers": ["T108"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "membershipId", "rejectedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T114 when admin rejects a PENDING membership. T108 sends rejection notification."
+}

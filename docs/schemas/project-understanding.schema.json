@@ -1,0 +1,192 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "PROJECT_UNDERSTANDING",
+  "description": "Structured understanding of a user's existing codebase, produced by the 6-stage intake pipeline. Drives project-specific generation in AF-1.",
+  "type": "object",
+  "required": ["projectId", "intakeVersion", "intakeDate", "architecture",
+               "conventions", "existingCapabilities", "qualityStandards",
+               "derivedIronRules", "domainModel"],
+  "properties": {
+
+    "projectId": {
+      "type": "string",
+      "description": "Unique identifier for this project. Used as RAG retrieval key."
+    },
+    "intakeVersion": {
+      "type": "string",
+      "description": "Version of the intake pipeline that produced this document (e.g. '1.0')"
+    },
+    "intakeDate": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date when intake was run"
+    },
+    "intakeConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Overall confidence in the intake output. Below 0.70 = flag for human review."
+    },
+
+    "architecture": {
+      "type": "object",
+      "description": "Structural facts about the codebase. Derived by ARCHITECTURE_SCAN.",
+      "required": ["language", "framework", "dependencyPattern"],
+      "properties": {
+        "language":          { "type": "string", "examples": ["PHP", "TypeScript", "C#", "Python"] },
+        "languageVersion":   { "type": "string", "examples": ["8.2+", "5.0", "3.11"] },
+        "framework":         { "type": "string", "examples": ["wordpress-plugin", "nestjs", "aspnet-core"] },
+        "frameworkVersion":  { "type": "string" },
+        "entryPoint":        { "type": "string", "description": "Main entry file, e.g. 'xiigen-dynamic-forms.php'" },
+        "dependencyPattern": { "type": "string", "examples": ["wordpress-hooks", "nestjs-di", "aspnet-di"] },
+        "database":          { "type": "string", "examples": ["$wpdb via DatabaseService", "IDatabaseService + ES"] },
+        "auth":              { "type": "string", "examples": ["nonces + capabilities", "JWT", "Azure AD"] },
+        "api":               { "type": "string", "examples": ["register_rest_route via RestApiRegistrar", "NestJS controllers"] },
+        "frontend":          { "type": "string", "examples": ["@wordpress/scripts React", "React Native", "Angular"] },
+        "testing":           { "type": "array", "items": { "type": "string" },
+                               "examples": [["PHPUnit", "WP_UnitTestCase", "Jest", "Playwright"]] },
+        "deployment":        { "type": "string", "examples": ["WordPress.org plugin ZIP", "Docker", "Azure App Service"] }
+      }
+    },
+
+    "conventions": {
+      "type": "array",
+      "description": "Patterns found consistently across the codebase. Derived by CONVENTION_EXTRACT.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "evidence", "confidence", "enforcement"],
+        "properties": {
+          "rule":        { "type": "string", "description": "One-sentence statement of the convention" },
+          "evidence":    { "type": "string", "description": "e.g. '23/23 database query files'" },
+          "confidence":  { "type": "number", "minimum": 0, "maximum": 1 },
+          "enforcement": { "type": "string", "enum": ["IRON_RULE", "GUIDANCE", "EXCLUDED"],
+                           "description": "IRON_RULE >= 0.80 | GUIDANCE 0.50-0.79 | EXCLUDED < 0.50" },
+          "example":     { "type": "string", "description": "Representative code snippet (optional)" }
+        }
+      }
+    },
+
+    "existingCapabilities": {
+      "type": "array",
+      "description": "Services and classes that already exist. Derived by CAPABILITY_INVENTORY.",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "category", "purpose", "doNotDuplicate"],
+        "properties": {
+          "name":           { "type": "string" },
+          "path":           { "type": "string", "description": "Relative path from project root" },
+          "category":       { "type": "string", "enum": ["INFRASTRUCTURE", "DOMAIN", "INTEGRATION", "UTILITY"] },
+          "purpose":        { "type": "string" },
+          "doNotDuplicate": { "type": "boolean",
+                              "description": "true = new code must USE this, never rebuild it" },
+          "methods":        { "type": "array", "items": { "type": "string" },
+                              "description": "Key public methods available for reuse" }
+        }
+      }
+    },
+
+    "qualityStandards": {
+      "type": "object",
+      "description": "How quality is measured in this project. Derived by ARCHITECTURE_SCAN.",
+      "required": ["testLevels"],
+      "properties": {
+        "testLevels":    { "type": "array", "items": { "type": "string" },
+                           "examples": [["unit-phpunit", "integration-wp", "jest-react", "e2e-playwright", "docker-pcp"]] },
+        "testCommand":   { "type": "string", "examples": ["composer test && npm test"] },
+        "coverageGate":  { "type": "string", "examples": ["all levels must pass"] },
+        "compliance":    { "type": "array", "items": { "type": "string" },
+                           "examples": [["wp plugin check", "phpcs --standard=WordPress"]] }
+      }
+    },
+
+    "derivedIronRules": {
+      "type": "array",
+      "description": "Project-specific iron rules derived from high-confidence conventions. Used directly in generation.",
+      "items": {
+        "type": "object",
+        "required": ["ruleId", "text", "evidence"],
+        "properties": {
+          "ruleId":   { "type": "string", "pattern": "^IR-PROJ-[0-9]+$" },
+          "text":     { "type": "string", "description": "Actionable rule statement" },
+          "evidence": { "type": "string", "description": "Convention this rule was derived from" }
+        }
+      }
+    },
+
+    "domainModel": {
+      "type": "object",
+      "description": "Business entities and events in this project.",
+      "properties": {
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "storagePattern"],
+            "properties": {
+              "name":           { "type": "string" },
+              "storagePattern": { "type": "string", "examples": ["Custom Post Type + wp_postmeta",
+                                                                  "Custom table via DatabaseService"] },
+              "managedBy":      { "type": "string", "description": "Which service manages this entity" }
+            }
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name":    { "type": "string" },
+              "trigger": { "type": "string" },
+              "handler": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "integrationAnalysis": {
+      "type": "object",
+      "description": "For a specific capability request: what to REUSE, EXTEND, or CREATE. Request-scoped — re-derived per new capability, not stored permanently.",
+      "properties": {
+        "forCapability": { "type": "string" },
+        "reuse": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["service", "for", "how"],
+            "properties": {
+              "service": { "type": "string" },
+              "for":     { "type": "string" },
+              "how":     { "type": "string" }
+            }
+          }
+        },
+        "extend": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["service", "change", "pattern"],
+            "properties": {
+              "service": { "type": "string" },
+              "change":  { "type": "string" },
+              "pattern": { "type": "string", "description": "Existing pattern to follow" }
+            }
+          }
+        },
+        "create": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "reason"],
+            "properties": {
+              "name":           { "type": "string" },
+              "reason":         { "type": "string" },
+              "nearestPattern": { "type": "string", "description": "Most similar existing class/pattern" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

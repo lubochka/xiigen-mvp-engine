@@ -1,0 +1,104 @@
+{
+  "taskTypeId": "T610",
+  "flowId": "FLOW-16",
+  "name": "MarketplacePaymentSplitter",
+  "archetype": "TRANSACTION",
+  "domainId": "marketplace-payments",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T610-1",
+      "rule": "SETNX idempotency key MUST be hash(tenantId+cartId+totalAmountCents) — NOT cartId alone. cartId-only allows retry with different totalAmountCents to double-charge.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T610-2",
+      "rule": "platformFeeBps MUST come from FREEDOM config key 'platform_fee_bps'. Hardcoded fee = BUILD_FAILURE.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T610-3",
+      "rule": "PII MUST be scrubbed from all audit records before storeDocument. No card numbers, CVVs, or full PAN fields in nonRepudiationAudit records.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T610-4",
+      "rule": "nonRepudiationAudit index MUST be append-only. No deleteDocument or updateDocument calls on xiigen-nra-audit. prevHash MUST be included to form a cryptographic chain.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T610-5",
+      "rule": "escrow record MUST be stored BEFORE MarketplaceOrderConfirmed is emitted (DNA-8). Downstream consumers depend on escrow existence.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1532",
+      "token": "IPaymentCaptureService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1533",
+      "token": "IEscrowHoldService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1534",
+      "token": "INonRepudiationAuditService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1535",
+      "token": "IFreedomConfigService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "SETNX_HASH_IDEMPOTENCY_KEY",
+    "PAYMENT_SPLIT_PLATFORM_FEE",
+    "PII_SCRUB_BEFORE_AUDIT",
+    "APPEND_ONLY_NRA_HASH_CHAIN",
+    "ESCROW_BEFORE_ORDER_CONFIRMED"
+  ],
+  "freedomComponents": [
+    "platform_fee_bps",
+    "payment_capture_timeout_ms",
+    "escrow_hold_days"
+  ],
+  "stackCoupling": {
+    "queue": ["MarketplaceOrderConfirmed", "CheckoutReserved"],
+    "database": [
+      "xiigen-escrow-records",
+      "xiigen-nra-audit",
+      "xiigen-payment-splits",
+      "xiigen-freedom-config"
+    ]
+  },
+  "handlers": [
+    "check_setnx_idempotency",
+    "capture_payment",
+    "split_platform_fee",
+    "pii_scrub_audit_record",
+    "store_nra_audit_append_only",
+    "store_escrow_record",
+    "emit_marketplace_order_confirmed"
+  ],
+  "namedChecks": [
+    "setnx_hash_tenantId_cartId_total",
+    "platform_fee_from_freedom",
+    "pii_scrub_before_nra_write",
+    "append_only_nra_no_delete_update",
+    "escrow_before_order_confirmed"
+  ],
+  "tags": [
+    "marketplace",
+    "payment-split",
+    "idempotency",
+    "non-repudiation",
+    "escrow",
+    "pii-scrub",
+    "transaction"
+  ],
+  "keywords": "MarketplacePaymentSplitter T610 SETNX hash tenantId cartId totalAmountCents platformFeeBps PII scrub nonRepudiationAudit append-only escrow MarketplaceOrderConfirmed FLOW-16"
+}

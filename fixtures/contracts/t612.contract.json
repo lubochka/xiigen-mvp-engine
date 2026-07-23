@@ -1,0 +1,77 @@
+{
+  "taskTypeId": "T612",
+  "flowId": "FLOW-16",
+  "name": "SellerPayoutWriter",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "marketplace-payments",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T612-1",
+      "rule": "SETNX(payout-lock:{orderId}) MUST be ORDER 1 before any payout record write. Missing lock allows double payout on concurrent EscrowReleased events.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T612-2",
+      "rule": "Only payoutVaultRef MUST be stored in payout records. bankAccountNumber, IBAN, routingNumber, sortCode, and accountName are PROHIBITED in any storeDocument call.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T612-3",
+      "rule": "DNA-8: storeDocument(payoutRecord) MUST occur BEFORE enqueue(PayoutCompleted). PayoutCompleted event must reference an existing payout record.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T612-4",
+      "rule": "tenantId MUST be resolved from AsyncLocalStorage only. Seller payout records must be scoped to the correct tenant — accepting tenantId from payload enables cross-tenant payout.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1528",
+      "token": "IPayoutLockService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1529",
+      "token": "ISellerVaultService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "SETNX_PAYOUT_LOCK_ORDER_1",
+    "VAULT_REF_ONLY_PAYOUT",
+    "STORE_BEFORE_PAYOUT_COMPLETED"
+  ],
+  "freedomComponents": [
+    "payout_processing_delay_ms",
+    "payout_lock_ttl_ms"
+  ],
+  "stackCoupling": {
+    "queue": ["PayoutCompleted", "EscrowReleased"],
+    "database": [
+      "xiigen-payout-records",
+      "xiigen-payout-locks",
+      "xiigen-payout-audit",
+      "xiigen-freedom-config"
+    ]
+  },
+  "handlers": [
+    "handleEscrowReleased"
+  ],
+  "namedChecks": [
+    "setnx_payout_lock_order1",
+    "vault_ref_only_no_bank_details",
+    "store_before_payout_completed"
+  ],
+  "tags": [
+    "marketplace",
+    "payout",
+    "vault-ref",
+    "setnx",
+    "pii-prohibition",
+    "data-pipeline"
+  ],
+  "keywords": "SellerPayoutWriter T612 SETNX payout-lock payoutVaultRef only bankAccountNumber IBAN routingNumber sortCode prohibited storeDocument PayoutCompleted EscrowReleased FLOW-16"
+}

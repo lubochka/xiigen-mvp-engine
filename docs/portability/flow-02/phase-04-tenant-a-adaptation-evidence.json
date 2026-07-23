@@ -1,0 +1,62 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "phase": "Phase 4 - adaptation evidence",
+  "tenantId": "acme-corp",
+  "adaptedProfile": "Acme Pro Matching",
+  "completedAt": "2026-04-29T10:13:00+03:00",
+  "tenantProfile": "docs/portability/flow-02/tenant-profile-acme-corp-v1.0.1.json",
+  "adaptationValues": {
+    "industryWeight": 0.55,
+    "stageWeight": 0.25,
+    "locationWeight": 0.1,
+    "teamWeight": 0.1,
+    "matchTargetSeconds": 15,
+    "debounceWindowSeconds": 60
+  },
+  "implementationFiles": [
+    "client/src/hooks/useProfileEnrichmentAdaptation.ts",
+    "client/src/pages/profile-enrichment/ProfileEnrichmentAdaptationBanner.tsx",
+    "client/src/pages/profile-enrichment/QuestionnairePage.tsx",
+    "client/src/pages/profile-enrichment/MatchingPage.tsx",
+    "client/src/pages/profile-enrichment/PersonalizationPage.tsx",
+    "client/src/pages/MarketplacePage.tsx",
+    "client/e2e/profile-enrichment-portability-visual.spec.ts"
+  ],
+  "visualEvidence": {
+    "adaptedScreensDirectory": "docs/portability/flow-02/visual-evidence/phase-03-visual-examination/tenant-a-v1.0.1",
+    "adaptedScreenPngs": [
+      "business-partner-01-questionnaire.png",
+      "business-partner-02-matching-complete.png",
+      "business-partner-03-personalization-feed.png",
+      "event-organiser-01-questionnaire.png",
+      "event-organiser-02-matching-complete.png",
+      "event-organiser-03-personalization-feed.png",
+      "freelancer-01-questionnaire.png",
+      "freelancer-02-matching-complete.png",
+      "freelancer-03-personalization-feed.png",
+      "tenant-admin-01-questionnaire.png",
+      "tenant-admin-02-matching-complete.png",
+      "tenant-admin-03-personalization-feed.png",
+      "tenant-user-01-questionnaire.png",
+      "tenant-user-02-matching-complete.png",
+      "tenant-user-03-personalization-feed.png"
+    ],
+    "marketplaceListingPng": "docs/portability/flow-02/visual-evidence/marketplace/profile-enrichment-v1.0.1-listing.png"
+  },
+  "verification": {
+    "clientTypeScript": {
+      "command": "cd client && npx tsc --noEmit",
+      "result": "passed"
+    },
+    "serverProfileEnrichmentTests": {
+      "command": "cd server && npx jest --testPathPatterns=profile-enrichment --runInBand",
+      "result": "10 suites passed, 142 tests passed, 0 failed"
+    },
+    "playwrightEvidence": {
+      "command": "cd client && VITE_PORT=5178 npx playwright test e2e/profile-enrichment-portability-visual.spec.ts --project=chromium-desktop",
+      "result": "7 tests passed; 15 adapted role screenshots and 1 marketplace screenshot captured"
+    }
+  },
+  "nextPhase": "Phase 4.5 - Tenant A post-adaptation repo evidence"
+}

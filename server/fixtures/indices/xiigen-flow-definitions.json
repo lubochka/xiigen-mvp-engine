@@ -1,0 +1,13 @@
+{
+  "index": "xiigen-flow-definitions",
+  "mappings": {
+    "properties": {
+      "flowId": { "type": "keyword" },
+      "taskTypeId": { "type": "keyword" },
+      "nodes": { "type": "object", "dynamic": true },
+      "edges": { "type": "object", "dynamic": true },
+      "version": { "type": "keyword" },
+      "createdAt": { "type": "date" }
+    }
+  }
+}

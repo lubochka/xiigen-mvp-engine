@@ -1,0 +1,9 @@
+# XIIGen RAG Benchmark — Python dependencies
+# Install: pip install -r requirements.txt
+
+numpy>=1.24.0
+aiohttp>=3.9.0
+
+# Optional — needed only if using the elasticsearch-py SDK
+# (parse_xiigen_patterns.py uses urllib by default)
+# elasticsearch>=8.11.0

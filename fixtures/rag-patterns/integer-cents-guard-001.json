@@ -1,0 +1,24 @@
+{
+  "patternId": "INTEGER-CENTS-GUARD-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-12",
+  "domainId": "subscription-billing",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "TRANSACTION",
+  "tags": ["integer-cents", "financial-guard", "order-constraint", "billing", "price-validation"],
+  "keywords": "integer cents guard float price rejected ORDER 1 before SETNX financial validation OCC write priceCents Number.isInteger subscription billing",
+  "ironRules": [
+    "Number.isInteger(priceCents) && priceCents > 0 at ORDER 1 — before SETNX, before any write",
+    "Float prices (9.99) rejected immediately at ORDER 1 with BUILD_FAILURE",
+    "SETNX at ORDER 2 — after integer guard passes",
+    "storeDocumentWithOCC at ORDER 6 — NOT plain storeDocument()",
+    "Named check: integer_cents_guard"
+  ],
+  "codeSnippet": "// T209 SubscriptionPlanOrchestrator — integer cents guard at ORDER 1\nasync orchestratePlanPublish(event: Record<string, unknown>): Promise<DataProcessResult<void>> {\n  // ORDER 1: Integer cents guard — MUST be first\n  const priceCents = event['priceCents'] as number;\n  if (!Number.isInteger(priceCents) || priceCents <= 0) {\n    return DataProcessResult.failure('FLOAT_PRICE_REJECTED', 'priceCents must be a positive integer');\n  }\n\n  // ORDER 2: SETNX idempotency (only after guard passes)\n  const key = hash(tenantId + planId + version);\n  const acquired = await this.setnx(key);\n  if (!acquired) return DataProcessResult.failure('DUPLICATE', 'Plan already published');\n\n  // ORDER 3-5: OCC read, interval validation, audit store\n  // ...\n\n  // ORDER 6: OCC write — NOT plain storeDocument\n  const result = await this.db.storeDocumentWithOCC('xiigen-subscription-plans', plan, versionPin);\n  if (!result.isSuccess && result.errorCode === 'OCC_CONFLICT') {\n    await this.queue.enqueue('SubscriptionPlanPublicationFailed', { planId });\n    return DataProcessResult.failure('OCC_CONFLICT', 'Version changed — retry with fresh read');\n  }\n\n  // ORDER 7: enqueue AFTER store (DNA-8)\n  await this.queue.enqueue('SubscriptionPlanPublished', { planId });\n  return DataProcessResult.success(undefined);\n\n// ❌ WRONG: float price not guarded at ORDER 1 = BUILD_FAILURE\n// ❌ WRONG: plain storeDocument() at ORDER 6 = BUILD_FAILURE\n}",
+  "appliesTo": ["FLOW-16", "FLOW-17"],
+  "curriculumTier": 2,
+  "qualityScore": 0.93,
+  "sourceDocument": "FLOW-12-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

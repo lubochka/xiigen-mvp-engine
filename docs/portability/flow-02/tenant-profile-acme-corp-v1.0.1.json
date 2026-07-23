@@ -1,0 +1,66 @@
+{
+  "$schema": "xiigen-tenant-freedom-profile-v1",
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "tenantId": "acme-corp",
+  "profileVersion": "1.0.1",
+  "profileName": "Acme Pro Matching",
+  "adaptationCategory": "freedom-config-and-visible-client-surface",
+  "basedOnDefaultsVersion": "FLOW-02 complete module bundle refork",
+  "publishedAt": "2026-04-29",
+  "targetRepo": "lubochka/acme-corp--profile-enrichment",
+  "overrides": {
+    "flow02_match_weight_industry": {
+      "value": 0.55,
+      "rationale": "Acme Corp prioritizes same-industry peer matching for professional communities."
+    },
+    "flow02_match_weight_stage": {
+      "value": 0.25,
+      "rationale": "Stage remains relevant but is secondary to industry alignment."
+    },
+    "flow02_match_weight_location": {
+      "value": 0.1,
+      "rationale": "The community is remote-friendly, so location is a lighter signal."
+    },
+    "flow02_match_weight_team": {
+      "value": 0.1,
+      "rationale": "Team size remains a minor supporting signal."
+    },
+    "flow02_match_timeout_seconds": {
+      "value": 15,
+      "rationale": "Acme Corp expects a faster matching target than the platform default."
+    },
+    "flow02_debounce_window_seconds": {
+      "value": 60,
+      "rationale": "Profile edits should refresh matching sooner for this smaller professional community."
+    }
+  },
+  "weightSumInvariant": {
+    "industry": 0.55,
+    "stage": 0.25,
+    "location": 0.1,
+    "team": 0.1,
+    "sum": 1
+  },
+  "visibleEvidence": {
+    "adaptedScreensDirectory": "docs/portability/flow-02/visual-evidence/phase-03-visual-examination/tenant-a-v1.0.1",
+    "marketplaceListing": "docs/portability/flow-02/visual-evidence/marketplace/profile-enrichment-v1.0.1-listing.png",
+    "roles": [
+      "tenant-user",
+      "tenant-admin",
+      "freelancer",
+      "business-partner",
+      "event-organiser"
+    ],
+    "screensPerRole": 3,
+    "pngCount": 15
+  },
+  "adaptationHistory": [
+    {
+      "version": "1.0.1",
+      "createdAt": "2026-04-29T10:13:00+03:00",
+      "summary": "Added Acme Pro Matching settings to questionnaire, matching, personalization, and marketplace surfaces.",
+      "evidenceFile": "docs/portability/flow-02/phase-04-tenant-a-adaptation-evidence.json"
+    }
+  ]
+}

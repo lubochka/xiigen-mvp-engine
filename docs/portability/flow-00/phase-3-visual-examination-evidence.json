@@ -1,0 +1,64 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "generatedAt":  "2026-05-04T22:50:36.5078797+03:00",
+    "phase":  "phase3VisualExamination",
+    "visualAudit":  {
+                        "auditFile":  "docs/screen-examination/bundle-activation-phase3-visual-audit-2026-05-04.md",
+                        "coverageMatrix":  "docs/screen-examination/ROUND-2-COVERAGE-MATRIX.json",
+                        "cellsExamined":  25,
+                        "blockedFindings":  0,
+                        "concerns":  0,
+                        "result":  "PASS"
+                    },
+    "correctionApplied":  {
+                              "issue":  "P1 and mock-state screenshots were captured without platform-admin role, redacting admin state fields or showing fallback role content.",
+                              "fix":  "bundle-activation.spec.ts and bundle-activation-mock-states.spec.ts now capture internal FLOW-00 state screenshots with role=platform-admin.",
+                              "verification":  "FLOW-00 Playwright suite rerun after correction: 23 passed, 0 failed, 0 skipped."
+                          },
+    "screenshots":  {
+                        "flowDirectory":  "docs/e2e-snapshots/bundle-activation",
+                        "flowPngCount":  32,
+                        "roleDirectory":  "docs/e2e-snapshots/c6-role-coverage",
+                        "rolePngCount":  3,
+                        "rolePngs":  [
+                                         {
+                                             "name":  "bundle-activation-role-platform-admin.png",
+                                             "relativePath":  "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-platform-admin.png",
+                                             "bytes":  89908
+                                         },
+                                         {
+                                             "name":  "bundle-activation-role-platform-support.png",
+                                             "relativePath":  "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-platform-support.png",
+                                             "bytes":  71106
+                                         },
+                                         {
+                                             "name":  "bundle-activation-role-tenant-admin.png",
+                                             "relativePath":  "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-tenant-admin.png",
+                                             "bytes":  40366
+                                         }
+                                     ],
+                        "representativeExaminedPngs":  [
+                                                           "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-tenant-admin.png",
+                                                           "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-platform-admin.png",
+                                                           "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-platform-support.png",
+                                                           "docs/e2e-snapshots/bundle-activation/01-bundlevalidator-processing-step-entered.png",
+                                                           "docs/e2e-snapshots/bundle-activation/state-2-dry-run-running.png",
+                                                           "docs/e2e-snapshots/bundle-activation/state-3-active.png",
+                                                           "docs/e2e-snapshots/bundle-activation/state-6-validation-failed.png",
+                                                           "docs/e2e-snapshots/bundle-activation/operations-panel-with-api-roundtrip.png"
+                                                       ]
+                    },
+    "scans":  {
+                  "blockedTerminologyPattern":  "BFA|DNA-[1-9]|AF[- ]station|arbiter|FREEDOM config|MACHINE code|DataProcessResult|ENGINE_INTERNAL|T[0-9]{3}|CF-[0-9]{3}",
+                  "bundleActivationPageBlockedTerminologyHits":  0,
+                  "physicalDirectionClassHits":  0
+              },
+    "commands":  [
+                     "Select-String BundleActivationPage blocked terminology and physical-direction scan: 0 hits",
+                     "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5176 npx playwright test e2e/bundle-activation.spec.ts e2e/bundle-activation-mock-states.spec.ts e2e/bundle-activation-crud.spec.ts --project=chromium-desktop --workers=1: 23 passed",
+                     "Visual inspection of representative role and state PNGs: 0 blocked findings",
+                     "ROUND-2-COVERAGE-MATRIX.json updated with FLOW-00 phase 3 cells"
+                 ],
+    "conclusion":  "FLOW-00 phase 3 visual examination passed with zero blocked findings."
+}

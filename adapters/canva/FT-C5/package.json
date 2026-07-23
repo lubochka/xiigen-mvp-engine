@@ -1,0 +1,62 @@
+{
+  "name": "@xiigen/canva-text-elements-adapter",
+  "version": "1.0.1",
+  "license": "AGPL-3.0-only",
+  "description": "C5 Canva Text Elements Adapter (FLOW-41). Adapts the XIIGen CSS generation pipeline for Canva Apps SDK. FT-C5. 90% shared code with the Figma plugin; only canva-adapter.ts differs.",
+  "private": false,
+  "main": "dist/bundle.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "__tests__",
+    "docs",
+    "dist",
+    "tsconfig.json",
+    "webpack.config.js"
+  ],
+  "publishConfig": {
+    "registry": "http://localhost:4873",
+    "access": "public"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@canva/design": "^2.0.0",
+    "@canva/app-ui-kit": "^3.0.0",
+    "@canva/app-storage": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@canva/design": {
+      "optional": true
+    },
+    "@canva/app-ui-kit": {
+      "optional": true
+    },
+    "@canva/app-storage": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/jest": "^29.0.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.0.0",
+    "ts-loader": "^9.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.spec.ts"
+    ]
+  }
+}

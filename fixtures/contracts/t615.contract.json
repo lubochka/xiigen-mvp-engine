@@ -1,0 +1,94 @@
+{
+  "taskTypeId": "T615",
+  "flowId": "FLOW-17",
+  "name": "DeliveryGateEscrowController",
+  "archetype": "ORCHESTRATION",
+  "domainId": "freelancer-marketplace",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T615-1",
+      "rule": "Delivery gate validation BEFORE any funds movement. delivery.status === SUBMITTED required before release. DELIVERY_NOT_SUBMITTED returned if no deliverable.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T615-2",
+      "rule": "Release path: storeDocument(milestone, status:RELEASED) ONLY — never deleteDocument on any path.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T615-3",
+      "rule": "Dispute path: updateDocument(status:DISPUTED) ONLY — no funds movement on dispute path.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T615-4",
+      "rule": "LIFO compensation registered as [REFUND_MILESTONE, RESTORE_GIG_STATUS] forward. Executor runs RESTORE_GIG_STATUS → REFUND_MILESTONE (reversed). CF-17-3.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T615-5",
+      "rule": "storeDocument(audit) BEFORE every event emit on both release and dispute paths. DNA-8.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T615-6",
+      "rule": "Timer gate-opener reads milestone_auto_release_days from FREEDOM config — never hardcoded.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1542",
+      "token": "IDeliveryGateService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1543",
+      "token": "IEscrowMilestoneService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1544",
+      "token": "IEscrowAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "DELIVERY_GATE_VALIDATION",
+    "LIFO_MILESTONE_COMPENSATION",
+    "ESCROW_AUDIT_OUTBOX"
+  ],
+  "freedomComponents": [
+    "milestone_auto_release_days",
+    "escrow_dispute_window_days"
+  ],
+  "stackCoupling": {
+    "queue": ["MilestoneReleased", "MilestoneDisputed", "EscrowCompensationStarted"],
+    "database": ["xiigen-deliveries", "xiigen-milestones", "xiigen-escrow-audit"]
+  },
+  "handlers": [
+    "validate_delivery_gate",
+    "release_milestone_funds",
+    "update_disputed_status",
+    "write_escrow_audit",
+    "emit_milestone_event",
+    "start_lifo_compensation"
+  ],
+  "namedChecks": [
+    "delivery_gate_before_release",
+    "no_delete_on_dispute",
+    "lifo_compensation_order",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "freelancer",
+    "escrow",
+    "delivery-gate",
+    "LIFO-compensation",
+    "milestone-release",
+    "no-delete",
+    "orchestration"
+  ],
+  "keywords": "delivery gate escrow controller LIFO REFUND_MILESTONE RESTORE_GIG_STATUS MilestoneReleased MilestoneDisputed EscrowCompensationStarted no delete T615 freelancer marketplace"
+}

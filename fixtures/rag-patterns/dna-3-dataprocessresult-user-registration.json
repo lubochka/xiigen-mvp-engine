@@ -1,0 +1,18 @@
+{
+  "patternId": "dna-3-dataprocessresult-user-registration",
+  "patternType": "DNA_PATTERN_EXAMPLE",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "dnaId": "DNA-3",
+  "dnaName": "DataProcessResult",
+  "tags": [
+    "dna-3",
+    "DataProcessResult",
+    "no-throw",
+    "error-handling"
+  ],
+  "keywords": "DataProcessResult no throw failure success error handling DNA-3",
+  "codeSnippet": "// DNA-3: return DataProcessResult \u2014 never throw\nif (!input.email) return DataProcessResult.failure('MISSING_EMAIL');\nconst result = await this.db.storeDocument(tenantId, 'users', user, userId);\nif (!result.isSuccess) return result;  // propagate, don't throw\nreturn DataProcessResult.success({ userId });",
+  "antiPattern": "throw new Error('Email required')  // WRONG: use DataProcessResult.failure()"
+}

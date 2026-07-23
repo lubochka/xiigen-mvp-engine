@@ -1,0 +1,265 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "phase": "phase4AiAdaptation",
+  "generatedAt": "2026-05-05T18:25:51+03:00",
+  "tenant": "acme-corp",
+  "adaptation": {
+    "changeType": "Type A (FREEDOM key value change)",
+    "moduleName": "acme-fast-release-ticketing",
+    "packageName": "@xiigen-fork/acme-fast-release-ticketing",
+    "packageVersion": "1.0.1",
+    "sourceModuleName": "transactional-event-participation",
+    "sourcePackageVersion": "1.0.0-fork",
+    "plainLanguagePolicy": "Acme fast-release ticketing policy: 3-minute seat holds, 48-hour refunds, 4% platform fee, 3.1% processing fee, and same-day capacity updates without manual approval.",
+    "freedomChanges": [
+      {
+        "key": "flow09_seat_ttl_seconds",
+        "from": 300,
+        "to": 180
+      },
+      {
+        "key": "flow09_refund_window_hours",
+        "from": 24,
+        "to": 48
+      },
+      {
+        "key": "flow09_platform_fee_rate",
+        "from": 0.05,
+        "to": 0.04
+      },
+      {
+        "key": "flow09_processing_fee_rate",
+        "from": 0.029,
+        "to": 0.031
+      },
+      {
+        "key": "flow09_capacity_change_requires_approval",
+        "from": true,
+        "to": false
+      }
+    ],
+    "invariantsPreserved": [
+      "seat hold remains stored before payment is requested",
+      "payment records remain stored before ticket issuance events",
+      "refund records remain stored before refund events",
+      "ticket issuance and QR validation remain tenant-scoped",
+      "role access remains unchanged"
+    ]
+  },
+  "tenantRepository": {
+    "repoFullName": "lubochka/acme-corp--transactional-event-participation",
+    "repoUrl": "https://github.com/lubochka/acme-corp--transactional-event-participation",
+    "sourceCommitSha": "923c8425b7b7d5c5338eb36a89f5678722aa8835",
+    "adaptedCommitSha": "1ec9a06835a61d5ba026cbe463b78fc35f3eaa31",
+    "defaultBranch": "main",
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--transactional-event-participation-phase40",
+    "workingTreeClean": true,
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/transactional-event-participation-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npx tsc --noEmit",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      }
+    ],
+    "adaptationHistoryEntries": 1
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - transactional-event-participation",
+    "runId": 25384466517,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "1ec9a06835a61d5ba026cbe463b78fc35f3eaa31",
+    "url": "https://github.com/lubochka/acme-corp--transactional-event-participation/actions/runs/25384466517",
+    "verifiedAt": "2026-05-05T18:25:51+03:00"
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/acme-fast-release-ticketing",
+    "publishedVersion": "1.0.1",
+    "viewCommand": "npm view @xiigen-fork/acme-fast-release-ticketing version --registry http://localhost:4873",
+    "viewReturned": "1.0.1",
+    "verified": true
+  },
+  "applicationEvidence": {
+    "filesChangedInMainRepo": [
+      "client/e2e/transactional-event-participation-tenant-a-adaptation.spec.ts",
+      "client/src/pages/MarketplacePage.tsx",
+      "client/src/pages/transactional-event-participation/TicketPurchasePage.tsx"
+    ],
+    "visibleAdaptationSummary": "3-minute seat holds, 48-hour refunds, 4% platform fee, 3.1% processing fee, and same-day capacity updates.",
+    "playwright": {
+      "command": "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/transactional-event-participation-tenant-a-adaptation.spec.ts --project=chromium-desktop --workers=1",
+      "result": "passed",
+      "tests": 13
+    },
+    "screenshots": {
+      "tenantCascadeDirectory": "docs/e2e-snapshots/transactional-event-participation/tenant-a-v1.0.1",
+      "tenantCascadeCount": 12,
+      "tenantCascadeZeroByte": 0,
+      "tenantCascadeMinBytes": 38056,
+      "tenantCascadeMaxBytes": 72901,
+      "marketplaceListingPath": "docs/e2e-snapshots/marketplace/transactional-event-participation-v1.0.1-listing.png",
+      "marketplaceListingBytes": 242528,
+      "repoListingPath": "docs/e2e-snapshots/repo-evidence/acme-corp--transactional-event-participation-tenant-a-v1.0.1-github-listing.png",
+      "repoListingBytes": 93492
+    }
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-05T18:25:14.7606879+03:00",
+    "method": "POST",
+    "path": "/api/flow/execute",
+    "serverBaseUrl": "http://localhost:33001",
+    "passed": 8,
+    "total": 8,
+    "allPassed": true,
+    "matrix": [
+      {
+        "name": "valid acme token in acme tenant",
+        "contextTenant": "acme-corp",
+        "tokenTenant": "acme-corp",
+        "roles": [
+          "tenant-user"
+        ],
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "valid northwind token in northwind tenant",
+        "contextTenant": "northwind",
+        "tokenTenant": "northwind",
+        "roles": [
+          "tenant-user"
+        ],
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "valid tessera token in tessera tenant",
+        "contextTenant": "tessera-collective",
+        "tokenTenant": "tessera-collective",
+        "roles": [
+          "tenant-user"
+        ],
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "missing token denied",
+        "contextTenant": "acme-corp",
+        "tokenTenant": null,
+        "roles": [],
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "acme token in northwind tenant denied",
+        "contextTenant": "northwind",
+        "tokenTenant": "acme-corp",
+        "roles": [
+          "tenant-user"
+        ],
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "northwind token in tessera tenant denied",
+        "contextTenant": "tessera-collective",
+        "tokenTenant": "northwind",
+        "roles": [
+          "tenant-user"
+        ],
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "acme token in tessera tenant denied",
+        "contextTenant": "tessera-collective",
+        "tokenTenant": "acme-corp",
+        "roles": [
+          "tenant-user"
+        ],
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "wrong referral-user role denied on flow execute",
+        "contextTenant": "acme-corp",
+        "tokenTenant": "acme-corp",
+        "roles": [
+          "referral-user"
+        ],
+        "expectedStatus": 403,
+        "actualStatus": 403,
+        "pass": true
+      }
+    ]
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=transactional-event-participation --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 8,
+      "tests": 133
+    },
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "result": "passed"
+    },
+    "flowScans": {
+      "flowFileCount": 20,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "flowScopedAnnotations": 42,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 0,
+      "directSdkImports": 0
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenMaterialPrinted": false,
+    "signingKeysPrinted": false,
+    "githubTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantAAdaptedFlow": true,
+    "tenantACommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBInstall": true
+  },
+  "verdict": "PASS"
+}

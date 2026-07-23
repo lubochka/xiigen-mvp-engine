@@ -1,0 +1,91 @@
+﻿{
+    "flowId":  "FLOW-11",
+    "flowSlug":  "schema-registry-dag",
+    "phase":  "preExistingDefectCheck",
+    "generatedAt":  "2026-05-05T23:45:30.1045613+03:00",
+    "status":  "passed",
+    "userOverride":  "Pre-commit gate intentionally skipped per Luba instruction in current conversation.",
+    "baseline":  {
+                     "jest":  {
+                                  "command":  "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location",
+                                  "exitCode":  0,
+                                  "result":  "12 test suites passed; 105 tests passed"
+                              },
+                     "staticScan":  {
+                                        "flowFileCount":  20,
+                                        "throwNew":  0,
+                                        "servicesMissingMicroserviceBase":  20,
+                                        "clsImports":  13,
+                                        "serviceDeclarations":  20
+                                    }
+                 },
+    "remediation":  {
+                        "summary":  "Removed direct nestjs-cls dependencies from FLOW-11 services, introduced MicroserviceBase descriptors for all FLOW-11 services, and decoupled tenant lookup through a small TenantContextLookup adapter compatible with current TenantContextResolver and existing tests.",
+                        "filesChanged":  [
+                                             "server/src/engine/flows/schema-registry-dag/dag-conflict-detector.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/dag-cycle-detector.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/dag-dependency-tracker.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/dag-render-gateway.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/dag-topology-builder.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/dag-visualization-gateway.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-approval-workflow.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-compatibility-checker.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-deprecation-manager.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-export.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-history-tracker.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-index-manager.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-migration-orchestrator.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-publisher.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-quality-analyzer.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-registration-gateway.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-search.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-validation.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-version-manager.service.ts",
+                                             "server/src/engine/flows/schema-registry-dag/schema-version-reader.service.ts"
+                                         ]
+                    },
+    "verification":  {
+                         "typescript":  {
+                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                            "exitCode":  0,
+                                            "result":  "passed"
+                                        },
+                         "jest":  {
+                                      "command":  "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location",
+                                      "exitCode":  0,
+                                      "result":  "12 test suites passed; 105 tests passed"
+                                  },
+                         "staticScan":  {
+                                            "command":  "FLOW-11 throw new / MicroserviceBase / nestjs-cls static scan",
+                                            "result":  {
+                                                           "flowFileCount":  20,
+                                                           "throwNew":  0,
+                                                           "servicesMissingMicroserviceBase":  0,
+                                                           "clsImports":  0,
+                                                           "serviceDeclarations":  20
+                                                       }
+                                        }
+                     },
+    "remainingFlowFixMapItems":  [
+                                     {
+                                         "id":  "FLOW-11-FIXMAP-001",
+                                         "status":  "partially_completed",
+                                         "note":  "Tenant context service decoupling completed; ISchemaRegistry under-specification remains tracked for the combined FLOW-11 fix-map item."
+                                     },
+                                     {
+                                         "id":  "FLOW-11-FIXMAP-002",
+                                         "status":  "pending",
+                                         "note":  "Placeholder screen replacement remains pending."
+                                     },
+                                     {
+                                         "id":  "FLOW-11-FIXMAP-003",
+                                         "status":  "pending",
+                                         "note":  "Governance rule generation evaluator-side check remains pending."
+                                     },
+                                     {
+                                         "id":  "FLOW-11-FIXMAP-005",
+                                         "status":  "pending",
+                                         "note":  "Cascade requirement remains pending for later package distribution phases."
+                                     }
+                                 ]
+}

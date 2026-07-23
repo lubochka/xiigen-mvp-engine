@@ -1,0 +1,136 @@
+{
+  "batch_id": "C",
+  "axis": "D",
+  "scale": "0-3",
+  "flows": [
+    {
+      "slug": "etl-data-integration",
+      "populated": "transform-applied",
+      "needs_purpose_built_ui": true,
+      "cells": {
+        "desktop": {
+          "primary-platform-admin": {"score": 3, "findings": "Strong dashboard layout: left nav, banner alert, three inline KPIs (active jobs, dead-letter, connectors) with coloured status dots, card of recent pipeline runs with pipe-IDs + rows/duration + status pills. Hierarchy clean."},
+          "populated-platform-admin": {"score": 2, "findings": "Transform-applied single card with Transforming pill, State 5 label, normalization heading, four-row key-value grid. Correct but sparse — no pipeline stages, no progress bar."},
+          "primary-tenant-admin": {"score": 2, "findings": "Tenant admin lands on raw index browser showing ui-XXX placeholder names with created via UI form notes and Delete action — a debug grid, not a tenant-facing connector console. DynamicController fallback, not purpose-built."}
+        },
+        "tablet": {
+          "primary-platform-admin": {"score": 3, "findings": "KPIs collapse into stacked list with dots preserved. Pipeline cards stack vertically cleanly."},
+          "primary-platform-support": {"score": 2, "findings": "ETL Inspector read-only panel: caption, tenant/connector search input, empty-state hint, Escalate link. Minimalist; no saved-search or recent-issues affordance."}
+        },
+        "mobile": {
+          "primary-platform-admin": {"score": 3, "findings": "Hamburger toggle, banner wraps, KPIs stack, pipeline cards truncate pipe-IDs cleanly."}
+        }
+      }
+    },
+    {
+      "slug": "event-attendance",
+      "populated": null,
+      "needs_purpose_built_ui": false,
+      "cells": {
+        "desktop": {
+          "primary-anonymous": {"score": 3, "findings": "Centred card with event icon + title + sub-line + sign-in CTA. Balanced weight, clear hierarchy."},
+          "primary-tenant-user": {"score": 3, "findings": "Attendance card with CONFIRMED + Checked-in pills, reference code, View-QR link. On-brand, communicates state cleanly."},
+          "primary-event-organiser": {"score": 3, "findings": "Best view in this flow: left nav, Open-check-in-kiosk CTA, three big KPI cards (Confirmed/Waitlisted/Checked-in), RSVP table with status pills, waitlist Promote-next-in-line action. Strong purpose-built UI."},
+          "primary-tenant-admin": {"score": 3, "findings": "Attendance moderation with shield icon, KPI trio, RSVPs list, refund-requests section with amber heading + Approve/Reject."},
+          "populated-tenant-user": {"score": 0, "findings": "Populated view is a 404 — routing/capture failure, no UI to evaluate."}
+        },
+        "tablet": {"primary-tenant-user": {"score": 3, "findings": "Tablet keeps centred attendance card, pills legible."}},
+        "mobile": {"primary-tenant-user": {"score": 3, "findings": "Mobile centres card, pills crisp, typography scales, QR link visible."}}
+      }
+    },
+    {
+      "slug": "event-management",
+      "populated": null,
+      "needs_purpose_built_ui": false,
+      "cells": {
+        "desktop": {
+          "primary-anonymous": {"score": 3, "findings": "Upcoming Events: title, sign-in banner, three event cards with Sign-in-to-register CTA, Browse-all link. Good card rhythm."},
+          "primary-tenant-user": {"score": 3, "findings": "Blue informational banner, Browse-events button, three event cards with Register buttons. CTA hierarchy correct."},
+          "primary-tenant-admin": {"score": 2, "findings": "Event Moderation with amber caption, table of pending events with PENDING_REVIEW pill + Approve/Reject. 2 rows only, no filters, no date column — under-specified."},
+          "primary-platform-admin": {"score": 2, "findings": "Single card: title, caption, two KPIs (Active events 284, Pending moderation 12), Open-console link. Thin."}
+        },
+        "tablet": {"primary-tenant-user": {"score": 3, "findings": "Event cards stack well, CTAs remain wide and tappable."}},
+        "mobile": {"primary-anonymous": {"score": 3, "findings": "Cards stack vertically with sign-in buttons spanning width."}}
+      }
+    },
+    {
+      "slug": "feature-registry",
+      "populated": "feature-active",
+      "needs_purpose_built_ui": true,
+      "cells": {
+        "desktop": {
+          "primary-platform-admin": {"score": 3, "findings": "Feature Matrix: 6 registered / 4 portable / 2 engine-internal. Six FT rows with FT-ID pill + feature name + platform-fitness pills + action buttons. Well structured."},
+          "populated-platform-admin": {"score": 3, "findings": "Single Feature Registry detail card for FT-024 with Active pill, state 4, platform-adapter-installed heading, four-row key-value grid. Clean state rendering."},
+          "primary-platform-support": {"score": 3, "findings": "Read-only variant: lock icon + read-only-for-support banner, same matrix with dimmed Port-to-another-platform buttons. Good role differentiation."}
+        },
+        "tablet": {"primary-platform-admin": {"score": 3, "findings": "Matrix rows reflow, pills wrap inside cards. Action buttons right-aligned. No truncation."}},
+        "mobile": {"primary-platform-admin": {"score": 1, "findings": "LAYOUT DEFECT: FT-024 row — web-0.84 fitness pill overlaps feature name 'Event capacity overflow', truncating to 'Eve...cap...'. Same pattern on FT-031. Primary content unreadable on mobile."}}
+      }
+    },
+    {
+      "slug": "form-builder-templates",
+      "populated": null,
+      "needs_purpose_built_ui": false,
+      "cells": {
+        "desktop": {
+          "primary-anonymous": {"score": 2, "findings": "Shows full admin authoring UI (Validate, Publish, Create-form disabled, Usage-analytics). Create-form correctly disabled but 2x2 admin grid exposes authoring controls anonymous cannot use — weak role tailoring."},
+          "primary-tenant-admin": {"score": 3, "findings": "Full admin authoring: Validate, Publish-draft, Create-form, Usage-and-popularity cards, Condition-builder with variable/operator/value selects, Role-Preview panel showing visible/hidden fields per role. Strongest designed screen in this batch — purpose-built authoring tool."},
+          "primary-tenant-user": {"score": 2, "findings": "Tenant user sees same authoring controls (no role-appropriate trimming) minus Published-templates picker. Role mismatch dents design quality."}
+        },
+        "tablet": {"primary-tenant-admin": {"score": 3, "findings": "Four cards reflow 2x2 to single column, condition builder stacks appropriately, role preview intact."}},
+        "mobile": {"primary-tenant-admin": {"score": 3, "findings": "Cards stack, condition-builder selects full width, preview fits. Good mobile behaviour."}}
+      }
+    },
+    {
+      "slug": "freelancer-marketplace",
+      "populated": null,
+      "needs_purpose_built_ui": true,
+      "cells": {
+        "desktop": {
+          "primary-anonymous": {"score": 3, "findings": "Public Freelancer-Gigs landing: Sign-in/Create-account CTAs, four gig cards with category chip + title + price + bids + sign-in-to-bid. Colour dots on bid counts give semantic weight."},
+          "primary-freelancer": {"score": 3, "findings": "Browse-and-bid: pink role banner, Open-gigs list with status pills, Submit-a-Bid panel with amount/proposal/purple Submit button. Role-specific purple accent."},
+          "primary-business-partner": {"score": 3, "findings": "Post-a-Gig: validation banner green, form card with Gig-title, Total-budget, Milestones section, blue Post-Gig CTA. Live validation summary nice."},
+          "primary-tenant-user": {"score": 3, "findings": "Same Post-a-Gig form without left nav (client-side posting role). Clean layout."},
+          "primary-tenant-admin": {"score": 3, "findings": "Gig Moderation: table with Title/Posted-by/Bids/Status/Action, POSTED pills, Remove actions."},
+          "primary-platform-admin": {"score": 2, "findings": "Gig Platform Overview: title + amber banner, two fact lines (active 1247, flagged 3), Open-Gig-Ops-Console button. Single-card page feels thin; flagged rows not previewed."},
+          "primary-platform-support": {"score": 2, "findings": "Gig Inspector (read-only): caption + Gig-ID search input + Search + empty-state hint + Escalate. No saved-search or recent-inspections."}
+        },
+        "tablet": {"primary-anonymous": {"score": 3, "findings": "Gig cards reflow cleanly with category chip + price right-aligned."}},
+        "mobile": {"primary-freelancer": {"score": 3, "findings": "Open-Gigs stack vertically, Open pill on right, submit-bid inputs span width, full-width purple Submit-Bid. Strong mobile-first feel."}}
+      }
+    },
+    {
+      "slug": "friend-request-social-feed",
+      "populated": null,
+      "needs_purpose_built_ui": false,
+      "cells": {
+        "desktop": {
+          "primary-anonymous": {"score": 2, "findings": "Sign-in banner + three post cards (text + likes + sign-in-to-like-or-comment placeholder). No avatars, no author names — sparse for a social feed."},
+          "primary-tenant-user": {"score": 3, "findings": "Authed: composer + four post cards with avatar initials + handle + timestamp + body + heart/comment/share with counts. Purpose-built social UI; avatars give life."},
+          "primary-tenant-admin": {"score": 3, "findings": "Post Moderation Queue: amber caption + three flagged rows with title/user/pill/timestamp + Review/Dismiss actions."},
+          "primary-platform-admin": {"score": 2, "findings": "Platform Content Overview: amber banner + two KPIs (flagged 24h = 47, NLP violations = 3) + console links. Single-card thinness."},
+          "populated-tenant-user": {"score": 0, "findings": "Populated view is 404 — capture failure, no design to score."}
+        },
+        "tablet": {"primary-tenant-user": {"score": 3, "findings": "Feed stacks with avatars preserved, action icons keep spacing."}},
+        "mobile": {"primary-tenant-user": {"score": 3, "findings": "Composer textarea full width, post cards stack with avatar + handle + timestamp, action row remains legible at thumb reach."}}
+      }
+    }
+  ],
+  "aggregate_findings": {
+    "strengths": [
+      "Consistent left-nav + locale-toggle shell across authed pages",
+      "Strong pill/badge system (status/role/fitness) with coherent colour semantics (green=ok, amber=warn, red=fail, blue=action, purple=freelancer-role)",
+      "Purpose-built screens for organiser (event-attendance), freelancer (marketplace bid), business-partner (post-a-gig), tenant-admin (moderation queues)",
+      "Mobile/tablet reflow generally well-behaved",
+      "form-builder-templates tenant-admin is the batch's best purpose-built composition (four-quadrant + condition builder + role preview)"
+    ],
+    "weaknesses": [
+      "Two populated captures (event-attendance tenant-user, friend-request-social-feed tenant-user) resolved to 404 — populated slug/route mismatch",
+      "Platform-admin overview pages across multiple flows collapse to single thin card with 1-2 KPIs",
+      "Platform-support read-only screens are empty-state only (etl, freelancer-marketplace) — no recent-searches affordance",
+      "feature-registry mobile layout defect: fitness pills overlap feature-name text",
+      "form-builder-templates for anonymous + tenant-user exposes admin authoring controls — weak role tailoring",
+      "etl-data-integration tenant-admin view is a raw DynamicController grid, not purpose-built connector console"
+    ]
+  }
+}

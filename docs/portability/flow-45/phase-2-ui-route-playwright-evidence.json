@@ -1,0 +1,27 @@
+{
+    "flowId":  "FLOW-45",
+    "flowSlug":  "history-bootstrap",
+    "phase":  "phase-2-ui-route-playwright-evidence",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:46:33.5909757Z",
+    "route":  "/history-bootstrap",
+    "legacyRoute":  "/admin/history-bootstrap",
+    "command":  "Push-Location client; SERVER_BASE_URL=http://localhost:33001 CLIENT_BASE_URL=http://localhost:5173 npx playwright test e2e/history-bootstrap.spec.ts --project=chromium-desktop; Pop-Location",
+    "exitCode":  0,
+    "browser":  "chromium-desktop",
+    "testsPassed":  5,
+    "testsFailed":  0,
+    "pngEvidence":  {
+                        "flowPngCount":  0,
+                        "exemption":  "FLOW-45 is an internal provisioning bootstrap screen; Playwright verifies render/API behavior, while GitHub repo screenshot evidence is inherited from cascade-level repo-evidence directory.",
+                        "repoEvidencePngCount":  440
+                    },
+    "checks":  [
+                   "P-1 history bootstrap public route renders without JS errors",
+                   "P-2 architecture philosophy API returns acceptable non-500 status",
+                   "P-3 philosophy summaries API returns acceptable non-500 status",
+                   "P-4 bootstrap completions API returns acceptable non-500 status",
+                   "P-5 GLOBAL scope filter is accepted without 500"
+               ],
+    "verdict":  "PASS"
+}

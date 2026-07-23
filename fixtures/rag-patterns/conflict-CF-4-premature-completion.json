@@ -1,0 +1,23 @@
+{
+  "patternId": "conflict-CF-4-premature-completion",
+  "patternType": "CONFLICT_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "cfId": "CF-4",
+  "trigger": "T49 emits UserOnboardingCompleted before all required steps finish",
+  "conflictDesc": "FLOW-02 triggered with incomplete user profile. Enrichment sources have no data to enrich. Downstream matching fails.",
+  "resolution": "Check completedSteps.length === requiredSteps.length before emitting. requiredSteps from FREEDOM config flow01_onboarding_steps_required.",
+  "flowScope": [
+    "FLOW-01",
+    "FLOW-02"
+  ],
+  "severity": "CRITICAL",
+  "tags": [
+    "completion-gate",
+    "premature-emit",
+    "orchestration",
+    "cf-4"
+  ],
+  "keywords": "onboarding completion gate premature emit UserOnboardingCompleted CF-4"
+}

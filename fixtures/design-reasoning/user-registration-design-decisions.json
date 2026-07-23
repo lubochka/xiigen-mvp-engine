@@ -1,0 +1,137 @@
+[
+  {
+    "patternId": "FLOW-01-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "Name the completion event before designing any step. It is a permanent cross-flow contract.",
+    "positiveExample": "Round 1: name 'OnboardingCompleted' before any node expansion begins",
+    "negativeExample": "Round 10: emit 'UserRegistrationComplete' after all steps designed — event name reflects steps not contracts",
+    "discriminatingConstraint": "The last event is the first decision — completion event names are permanent",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-09",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R4.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "cross-flow",
+      "registration"
+    ],
+    "keywords": "Name completion designing step permanent cross-flow contract"
+  },
+  {
+    "patternId": "FLOW-01-DR-02",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "N independent deliveries = N separate node types. Never parameterise independent deliverables.",
+    "positiveExample": "Three separate nodes C1/C2/C3 — each independently failable, independently retryable",
+    "negativeExample": "One SendOnboardingMaterial node with materialType parameter — failure in one blocks all three",
+    "discriminatingConstraint": "Independent deliverables = independent nodes — a materialType parameter is a loop; a loop creates a dependency",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-15",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R2.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "retry"
+    ],
+    "keywords": "independent deliveries separate types parameterise deliverables"
+  },
+  {
+    "patternId": "FLOW-01-DR-03",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "Trace all downstream reads before writing the schema. Schema gaps discovered at NODE D are silent production failures.",
+    "positiveExample": "NODE A3 schema includes onboardingMaterials: [] — NODE D reads this field 7 steps later",
+    "negativeExample": "NODE A3 creates { userId, email, status } minimal record — NODE D reads absent onboardingMaterials, fails silently",
+    "discriminatingConstraint": "Read contracts are satisfied at write time, not at read time",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-09"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R4.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "downstream-coupling"
+    ],
+    "keywords": "Trace downstream reads writing schema gaps discovered silent production failures"
+  },
+  {
+    "patternId": "FLOW-01-DR-04",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "When external verification is available, do not re-verify. SSO collapses the identity zone.",
+    "positiveExample": "SSO path arrives at NODE B directly — Google already verified the email",
+    "negativeExample": "SSO user goes through email verification as well — redundant, degrades UX",
+    "discriminatingConstraint": "The verification zone is a means to proving identity. SSO provides that proof externally.",
+    "appliesTo": [
+      "FLOW-02",
+      "FLOW-07",
+      "FLOW-20"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.88,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R2.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design"
+    ],
+    "keywords": "external verification available re-verify collapses identity zone"
+  },
+  {
+    "patternId": "FLOW-01-DR-05",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "teachingPoint": "The completion gate checks presence, not success. A recorded failed delivery satisfies the gate.",
+    "positiveExample": "NODE D: all three materialTypes present (even all failed) → emit OnboardingCompleted",
+    "negativeExample": "NODE D: requires status='delivered' for all three — transient email failure blocks user permanently",
+    "discriminatingConstraint": "The gate is 'did we try' not 'did we succeed'. An absent record is a crash; a failed record is information.",
+    "appliesTo": [
+      "FLOW-05",
+      "FLOW-15",
+      "FLOW-18"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "sourceDocument": "FLOW-01-DESIGN-SIMULATION-R4.md",
+    "flowId": "FLOW-01",
+    "domainId": "user-registration",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design"
+    ],
+    "keywords": "completion gate checks presence success recorded failed delivery satisfies"
+  }
+]

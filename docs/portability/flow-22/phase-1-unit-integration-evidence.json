@@ -1,0 +1,35 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "phase": "phase1UnitTests",
+  "generatedAt": "2026-05-10T08:53:43.3340313+03:00",
+  "status": "completed",
+  "serverTypeScript": {
+    "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+    "result": "passed"
+  },
+  "jest": {
+    "command": "server: npx jest --testPathPatterns=cms-publishing --runInBand --colors=false",
+    "result": "passed",
+    "suites": 4,
+    "tests": 133,
+    "snapshots": 0
+  },
+  "sourceScan": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0,
+    "changedEvidenceSecretHits": 0
+  },
+  "phaseGate": {
+    "serverTypeScriptPassed": true,
+    "flowJestPassed": true,
+    "sourceScansClean": true,
+    "secretsScanClean": true,
+    "readyForPhase2E2E": true
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,150 @@
+{
+  "flowId": "FLOW-12",
+  "flowSlug": "subscription-billing",
+  "generatedAt": "2026-05-06T02:14:33.048Z",
+  "certification": {
+    "status": "PASS",
+    "earnedTier": "Tier 3",
+    "protocolTier": "Tier D",
+    "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED v3.0",
+    "rationale": "FLOW-12 completed Docker/Vault auth, full A-to-B-to-C marketplace cascade, per-role visual evidence at every cascade point, green tenant CI, registry publication, and co-install metadata patch publication."
+  },
+  "sourceMetadataFix": {
+    "sourceManifest": "server/src/engine/flows/subscription-billing/package.json",
+    "assembler": "server/src/fabrics/implementations/flow-file-assembler.ts",
+    "regressionTest": "server/src/fabrics/implementations/flow-file-assembler.spec.ts",
+    "verification": [
+      "server npx tsc --noEmit -p tsconfig.json --pretty false passed",
+      "server npx jest --testPathPatterns=flow-file-assembler --runInBand --colors=false passed: 10/10 tests",
+      "server npx jest --testPathPatterns=subscription-billing --runInBand --colors=false passed: 7 suites / 78 tests",
+      "phase-close static scans for throw new, services missing MicroserviceBase, and nestjs-cls imports returned zero lines"
+    ]
+  },
+  "coInstallDeclaration": {
+    "status": "PASS",
+    "requiredFlowIds": [
+      "FLOW-09",
+      "FLOW-04",
+      "FLOW-03"
+    ],
+    "requiredPackages": [
+      "@xiigen/transactional-event-participation",
+      "@xiigen/event-attendance",
+      "@xiigen/event-management"
+    ],
+    "flow03DoubleInstallCheck": "PASS: package metadata declares FLOW-03 once as an upstream hop; package notes state it is not bundled or double-installed inside FLOW-12. Tenant package tarballs include no FLOW-03 service bundle."
+  },
+  "tenantPackages": [
+    {
+      "tenant": "acme-corp",
+      "repo": "lubochka/acme-corp--subscription-billing",
+      "packageName": "@xiigen-fork/acme-enterprise-billing",
+      "version": "1.0.2",
+      "gitHead": "1d6b5e4053461b190e4a24d9c5a90f4e11e72050",
+      "ciRunId": 25412724632,
+      "ciConclusion": "success",
+      "visualEvidencePath": "docs/e2e-snapshots/subscription-billing/tenant-a-v1.0.1",
+      "visualPngCount": 30,
+      "registry": "http://localhost:4873",
+      "registryMetadataVerified": true,
+      "requiredCoInstalls": [
+        "@xiigen/transactional-event-participation",
+        "@xiigen/event-attendance",
+        "@xiigen/event-management"
+      ],
+      "xiigenRequiredCoInstalls": [
+        "FLOW-09",
+        "FLOW-04",
+        "FLOW-03"
+      ],
+      "localVerification": [
+        "npx tsc --noEmit --pretty false passed",
+        "npx jest --colors=false --forceExit passed: 2 suites / 3 tests"
+      ]
+    },
+    {
+      "tenant": "northwind",
+      "repo": "lubochka/northwind--northwind-revenue-recovery-billing",
+      "packageName": "@xiigen-fork/northwind-revenue-recovery-billing",
+      "version": "1.0.3",
+      "gitHead": "b4eb40774484c05a91d03760c055f45326faca8e",
+      "ciRunId": 25412724531,
+      "ciConclusion": "success",
+      "visualEvidencePath": "docs/e2e-snapshots/subscription-billing/tenant-b-v1.0.2",
+      "visualPngCount": 30,
+      "registry": "http://localhost:4873",
+      "registryMetadataVerified": true,
+      "requiredCoInstalls": [
+        "@xiigen/transactional-event-participation",
+        "@xiigen/event-attendance",
+        "@xiigen/event-management"
+      ],
+      "xiigenRequiredCoInstalls": [
+        "FLOW-09",
+        "FLOW-04",
+        "FLOW-03"
+      ],
+      "localVerification": [
+        "npx tsc --noEmit --pretty false passed",
+        "npx jest --colors=false --forceExit passed: 2 suites / 3 tests"
+      ]
+    },
+    {
+      "tenant": "tessera-collective",
+      "repo": "lubochka/tessera-collective--tessera-community-billing",
+      "packageName": "@xiigen-fork/tessera-community-billing",
+      "version": "1.0.4",
+      "gitHead": "ebf7a7fef6ea3dc7d454085c500e6b514d9a8fe5",
+      "ciRunId": 25412724697,
+      "ciConclusion": "success",
+      "visualEvidencePath": "docs/e2e-snapshots/subscription-billing/tenant-c-v1.0.3",
+      "visualPngCount": 30,
+      "registry": "http://localhost:4873",
+      "registryMetadataVerified": true,
+      "requiredCoInstalls": [
+        "@xiigen/transactional-event-participation",
+        "@xiigen/event-attendance",
+        "@xiigen/event-management"
+      ],
+      "xiigenRequiredCoInstalls": [
+        "FLOW-09",
+        "FLOW-04",
+        "FLOW-03"
+      ],
+      "localVerification": [
+        "npx tsc --noEmit --pretty false passed",
+        "npx jest --colors=false --forceExit passed: 2 suites / 3 tests"
+      ]
+    }
+  ],
+  "cascadeEvidence": {
+    "tenantAOriginalFork": "docs/portability/flow-12/phase-4.0-tenant-a-original-fork-evidence.json",
+    "tenantAAdaptation": "docs/portability/flow-12/phase-4-tenant-a-ai-adaptation-evidence.json",
+    "tenantBInstall": "docs/portability/flow-12/phase-5a-tenant-b-installed-from-a-evidence.json",
+    "tenantBAdaptation": "docs/portability/flow-12/phase-5b-tenant-b-adaptation-evidence.json",
+    "tenantCInstall": "docs/portability/flow-12/phase-5c-tenant-c-installed-from-b-evidence.json",
+    "tenantCAdaptation": "docs/portability/flow-12/phase-5c5-tenant-c-adaptation-evidence.json",
+    "authDecoration": "docs/portability/flow-12/phase-h-auth-decoration-evidence.json",
+    "roleMatrixPngCounts": {
+      "tenantAAdapted": 30,
+      "tenantBInstalled": 30,
+      "tenantBAdapted": 30,
+      "tenantCInstalled": 30,
+      "tenantCAdapted": 30,
+      "repoEvidencePngs": 12
+    }
+  },
+  "authEvidence": {
+    "status": "PASS",
+    "dockerVaultAuthMatrix": "8/8 passed",
+    "validOwnTenant": "200 for acme-corp, northwind, and tessera-collective tenant-admin tokens",
+    "missingToken": "401",
+    "crossTenantTokens": "401 for A-in-B, B-in-C, and A-in-C",
+    "wrongRole": "403 for platform-support on role-protected route",
+    "secretsPrintedOrCommitted": false
+  },
+  "fixMapClosure": {
+    "FLOW-12-FIXMAP-004": "completed: co-install declarations published in all three tenant packages and generated by the source assembler for future forks; FLOW-03 is declared once and not bundled/double-installed.",
+    "FLOW-12-FIXMAP-005": "completed: full A-to-B-to-C cascade, package publication, green CI, visual evidence, and live auth isolation passed."
+  }
+}

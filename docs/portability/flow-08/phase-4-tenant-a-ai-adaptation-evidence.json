@@ -1,0 +1,153 @@
+{
+  "flowId": "FLOW-08",
+  "flowSlug": "marketplace",
+  "phase": "phase4AiAdaptation",
+  "status": "completed",
+  "generatedAt": "2026-05-05T13:53:11.8935898+03:00",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "tenantName": "Acme Corp"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "packageName": "@xiigen-fork/acme-curated-marketplace",
+    "packageVersion": "1.0.1",
+    "moduleName": "acme-curated-marketplace",
+    "displayName": "Acme Curated Marketplace",
+    "visiblePlainLanguage": "Acme curated marketplace: service-first listings, partner-friendly presentation, and launch-stage price cap of 5000.",
+    "freedomOverrides": {
+      "flow08_marketplace_max_price_cap.acme-corp": 5000
+    },
+    "adaptedFiles": [
+      "package.json",
+      "tenant.config.json",
+      "freedom-config.defaults.json",
+      "settings/module.settings.json",
+      "BUNDLE-MANIFEST.json",
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/marketplace-acme-adaptation.spec.ts"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/acme-corp--marketplace",
+    "url": "https://github.com/lubochka/acme-corp--marketplace",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "initialForkCommit": "eda7c0efb624d8ee48b90726fcf1ee8eea8dd994",
+    "adaptedCommit": "224196c081d29a5cf0a622de84480717dbd9b08b",
+    "adaptedCommitMessage": "Adapt marketplace for Acme curated launch",
+    "pushedAt": "2026-05-05T10:42:35Z",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--marketplace-phase40",
+    "cleanCloneStatus": "clean"
+  },
+  "githubActions": {
+    "runId": 25371685197,
+    "jobId": 74396523887,
+    "url": "https://github.com/lubochka/acme-corp--marketplace/actions/runs/25371685197",
+    "workflowName": "XIIGen Flow CI - marketplace",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "224196c081d29a5cf0a622de84480717dbd9b08b",
+    "createdAt": "2026-05-05T10:42:37Z",
+    "updatedAt": "2026-05-05T10:43:27Z",
+    "jobConclusion": "success",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "bundleManifest": {
+    "flowId": "FLOW-08",
+    "flowSlug": "marketplace",
+    "manifestFileCount": 120,
+    "requiredBundleChecks": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "container": "xiigen-verdaccio-flow06-4873",
+    "pingStatusCode": 200,
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "npmViewVersion": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "gitHead": "224196c081d29a5cf0a622de84480717dbd9b08b",
+    "shasum": "ad3c55d2732453a35a51c27a9213ac0643e0c391",
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-curated-marketplace/-/acme-curated-marketplace-1.0.1.tgz",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/marketplace-v1.0.1-registry-api-evidence.json"
+  },
+  "localPackageVerification": {
+    "npmInstallPackageLockOnly": "passed before publish",
+    "npxTscNoEmit": "passed",
+    "npxJestForceExit": {
+      "status": "passed",
+      "testSuites": 2,
+      "tests": 5
+    }
+  },
+  "visualEvidence": {
+    "marketplaceListingScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/marketplace-v1.0.1-listing.png",
+      "bytes": 12883,
+      "verifiedText": [
+        "Acme Curated Marketplace",
+        "service-first listings",
+        "partner-friendly presentation",
+        "price cap of 5000",
+        "v1.0.1"
+      ]
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/acme-corp--marketplace-adapted-repo-homepage.png",
+      "bytes": 129927
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/acme-corp--marketplace-adapted-actions-success.png",
+      "bytes": 63195
+    },
+    "repoVisibilityRestored": true
+  },
+  "mainRepoVerification": {
+    "clientNpxTscNoEmit": "passed",
+    "clientPlaywright": {
+      "command": "VITE_PORT=5188 npx playwright test e2e/marketplace-phase4-marketplace.spec.ts --project=chromium-desktop",
+      "status": "passed",
+      "tests": 1
+    },
+    "serverNpxTscNoEmit": "passed",
+    "serverJestMarketplace": {
+      "command": "npx jest --testPathPatterns=marketplace --runInBand",
+      "status": "passed",
+      "testSuites": 60,
+      "tests": 1146
+    },
+    "phaseCloseScans": {
+      "throwNew": 0,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 0,
+      "directSdkImports": 0,
+      "controllerUseGuards": true,
+      "controllerRouteCount": 4,
+      "controllerRolesOrPublicDeclarations": 4,
+      "controllerPublicRoutes": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tenantSecretsStoredInVault": true,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  }
+}

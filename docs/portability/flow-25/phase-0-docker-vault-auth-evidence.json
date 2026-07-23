@@ -1,0 +1,229 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase0AuthPreflight",
+  "status": "completed",
+  "generatedAt": "2026-05-10T12:33:08.344Z",
+  "protocolVersion": "3.0",
+  "server": {
+    "serverUrl": "http://localhost:3000",
+    "healthEndpoint": "/health/live",
+    "protectedProbeRoute": "/api/runs/phase0-auth-probe/trace",
+    "serverHealthy": true,
+    "healthStatusCode": 200
+  },
+  "vault": {
+    "initialized": true,
+    "sealed": false,
+    "tokenReadFromCompose": true,
+    "secretValuesInEvidence": false,
+    "tenantSigningKeysPresent": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ],
+    "tenantCredentialsSeeded": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    }
+  },
+  "github": {
+    "authenticated": true,
+    "login": "lubochka",
+    "tokenValuesInEvidence": false
+  },
+  "roleMap": {
+    "authProbeRoles": [
+      "platform-admin",
+      "tenant-admin"
+    ],
+    "wrongRoleProbe": "platform-support",
+    "uiPersonaRolesForLaterEvidence": [
+      "platform-admin",
+      "platform-support",
+      "tenant-admin"
+    ]
+  },
+  "tokenHandling": "HS256 tenant JWTs generated in-memory from Vault signing keys; tokens and secret values were not printed or written.",
+  "expectedChecks": [
+    "valid token in its own tenant returns 200",
+    "missing token returns 401",
+    "tenant A token in tenant B context returns 401",
+    "tenant B token in tenant C context returns 401",
+    "tenant A token in tenant C context returns 401",
+    "wrong-role token on a role-protected route returns 403"
+  ],
+  "authMatrixSummary": {
+    "total": 15,
+    "passed": 15,
+    "failed": 0
+  },
+  "authMatrix": [
+    {
+      "name": "valid acme-corp platform-admin token in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid acme-corp tenant-admin token in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "missing token denied in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "",
+      "tokenRole": "",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong platform-support role denied in acme-corp tenant",
+      "requestTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "platform-support",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid northwind platform-admin token in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid northwind tenant-admin token in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "missing token denied in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "",
+      "tokenRole": "",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong platform-support role denied in northwind tenant",
+      "requestTenant": "northwind",
+      "tokenTenant": "northwind",
+      "tokenRole": "platform-support",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid tessera-collective platform-admin token in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "valid tessera-collective tenant-admin token in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "tenant-admin",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "missing token denied in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "",
+      "tokenRole": "",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "wrong platform-support role denied in tessera-collective tenant",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "tokenRole": "platform-support",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "requestTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "requestTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "tokenRole": "platform-admin",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyCode": null,
+      "passed": true
+    }
+  ],
+  "commands": [
+    "docker info",
+    "docker start xiigen-vault when existing container is present",
+    "vault kv put tenant GitHub, registry, and signing material without printing values",
+    "GET http://localhost:3000/health/live",
+    "generate short-lived HS256 JWT probes in memory only",
+    "auth matrix against http://localhost:3000/api/runs/phase0-auth-probe/trace"
+  ],
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false
+  },
+  "verdict": "PASS"
+}

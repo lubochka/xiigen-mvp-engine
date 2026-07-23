@@ -1,0 +1,274 @@
+{
+  "flowId": "FLOW-24",
+  "flowSlug": "ai-safety-moderation",
+  "phase": "phaseICertificationDeclaration",
+  "generatedAt": "2026-05-10T12:16:24.772Z",
+  "protocolVersion": "3.0",
+  "certification": {
+    "earnedTier": "Tier 2+",
+    "tier3Declared": false,
+    "tier3BlockedBy": "package-signing first pass remains pending",
+    "verdict": "PASS_TIER_2_PLUS"
+  },
+  "completionGate": {
+    "noTechnicalDebt": true,
+    "dockerVaultAuth": true,
+    "threeTenantRepos": true,
+    "greenGitHubActions": true,
+    "registryPackagesPublished": true,
+    "coInstallDependenciesDeclared": true,
+    "fullCascade": true,
+    "perRoleVisualEvidence": true,
+    "noSecretsCommitted": true,
+    "packageSigningFirstPass": false,
+    "tier3Eligible": false
+  },
+  "freshVerification": {
+    "registryPackages": [
+      {
+        "package": "@xiigen-fork/acme-safety-console",
+        "version": "1.0.1",
+        "shasum": "1be1919dd9f3edd2b44e2c73569f6bc5b9c3b490",
+        "registry": "http://localhost:4873",
+        "tarball": "http://localhost:4873/@xiigen-fork/acme-safety-console/-/acme-safety-console-1.0.1.tgz",
+        "gitHead": "eb4970cdcdfccefbb06de27a7e2a5d2eb7aae754",
+        "verified": true
+      },
+      {
+        "package": "@xiigen-fork/northwind-trust-review",
+        "version": "1.0.2",
+        "shasum": "88ef2bc5ea639a7e812e8be4e22dc97bf0819274",
+        "registry": "http://localhost:4873",
+        "tarball": "http://localhost:4873/@xiigen-fork/northwind-trust-review/-/northwind-trust-review-1.0.2.tgz",
+        "gitHead": "119d011cfab7a5e854f87312bf992f77bf6c1218",
+        "verified": true
+      },
+      {
+        "package": "@xiigen-fork/tessera-moderation-studio",
+        "version": "1.0.3",
+        "shasum": "96d1e0f745e1f285b3c06fe5154cbd4478164a0e",
+        "registry": "http://localhost:4873",
+        "tarball": "http://localhost:4873/@xiigen-fork/tessera-moderation-studio/-/tessera-moderation-studio-1.0.3.tgz",
+        "gitHead": "04a949bc0fe4546bd5b06dc8603fdac521f61297",
+        "verified": true
+      }
+    ],
+    "githubActions": [
+      {
+        "repo": "lubochka/acme-corp--ai-safety-moderation",
+        "runId": 25626975353,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "6404e2c8d632dace0ba8bb5469aba6e242a92a29",
+        "url": "https://github.com/lubochka/acme-corp--acme-safety-console/actions/runs/25626975353"
+      },
+      {
+        "repo": "lubochka/acme-corp--acme-safety-console",
+        "runId": 25627207238,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "eb4970cdcdfccefbb06de27a7e2a5d2eb7aae754",
+        "url": "https://github.com/lubochka/acme-corp--acme-safety-console/actions/runs/25627207238"
+      },
+      {
+        "repo": "lubochka/northwind--acme-safety-console",
+        "runId": 25627444202,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "495ed516fe2e5a8ff87187c78e868da610a1d948",
+        "url": "https://github.com/lubochka/northwind--northwind-trust-review/actions/runs/25627444202"
+      },
+      {
+        "repo": "lubochka/northwind--northwind-trust-review",
+        "runId": 25627601726,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "119d011cfab7a5e854f87312bf992f77bf6c1218",
+        "url": "https://github.com/lubochka/northwind--northwind-trust-review/actions/runs/25627601726"
+      },
+      {
+        "repo": "lubochka/tessera-collective--tessera-moderation-studio",
+        "runId": 25627813285,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "e31892e0c151e7007b0d8ef03c08bae08fdf6b9e",
+        "url": "https://github.com/lubochka/tessera-collective--tessera-moderation-studio/actions/runs/25627813285"
+      },
+      {
+        "repo": "lubochka/tessera-collective--tessera-moderation-studio",
+        "runId": 25628133796,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "04a949bc0fe4546bd5b06dc8603fdac521f61297",
+        "url": "https://github.com/lubochka/tessera-collective--tessera-moderation-studio/actions/runs/25628133796"
+      }
+    ],
+    "pngEvidence": [
+      {
+        "path": "docs/e2e-snapshots/ai-safety-moderation",
+        "pngCount": 19,
+        "emptyCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/ai-safety-moderation/tenant-b-installed-from-a",
+        "pngCount": 15,
+        "emptyCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/ai-safety-moderation/tenant-b-v1.0.2",
+        "pngCount": 15,
+        "emptyCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/ai-safety-moderation/tenant-c-installed-from-b",
+        "pngCount": 15,
+        "emptyCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/ai-safety-moderation/tenant-c-v1.0.3",
+        "pngCount": 15,
+        "emptyCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-24",
+        "pngCount": 13,
+        "emptyCount": 0
+      }
+    ],
+    "highRiskSecretPatternHits": 0,
+    "postCascadeAuthEvidence": "docs/portability/flow-24/phase-h-auth-decoration-evidence.json"
+  },
+  "tenantCascade": {
+    "tenantAOriginalFork": {
+      "tenantId": "acme-corp",
+      "repoFullName": "lubochka/acme-corp--ai-safety-moderation",
+      "repoUrl": "https://github.com/lubochka/acme-corp--ai-safety-moderation",
+      "visibility": "PRIVATE",
+      "initialCommitSha": "6404e2c8d632dace0ba8bb5469aba6e242a92a29",
+      "actionsRunId": 25626975353,
+      "actionsConclusion": "success",
+      "cloneValidation": "passed"
+    },
+    "tenantAAdaptation": {
+      "repoFullName": "lubochka/acme-corp--acme-safety-console",
+      "repoUrl": "https://github.com/lubochka/acme-corp--acme-safety-console",
+      "visibilityAfterEvidence": "PRIVATE",
+      "packageName": "@xiigen-fork/acme-safety-console",
+      "packageVersion": "1.0.1",
+      "moduleName": "acme-safety-console",
+      "adaptedCommit": "eb4970cdcdfccefbb06de27a7e2a5d2eb7aae754",
+      "adaptedCommitMessage": "Adapt AI safety moderation for Acme safety console",
+      "githubActionsRunId": 25627207238,
+      "githubActionsRunUrl": "https://github.com/lubochka/acme-corp--acme-safety-console/actions/runs/25627207238",
+      "githubActionsConclusion": "success",
+      "registryPackage": "@xiigen-fork/acme-safety-console",
+      "registryVersion": "1.0.1",
+      "registryTarball": "http://localhost:4873/@xiigen-fork/acme-safety-console/-/acme-safety-console-1.0.1.tgz",
+      "registryShasum": "1be1919dd9f3edd2b44e2c73569f6bc5b9c3b490",
+      "localClonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--ai-safety-moderation-phase40-20260510-140103",
+      "screenshots": [
+        "docs/e2e-snapshots/marketplace/ai-safety-moderation-acme-v1.0.1-registry-listing.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/acme-corp--acme-safety-console-tenant-a-v1.0.1-github-listing.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/acme-corp--acme-safety-console-tenant-a-v1.0.1-actions-success.png"
+      ]
+    },
+    "tenantBInstalledFromA": {
+      "repoFullName": "lubochka/northwind--acme-safety-console",
+      "repoUrl": "https://github.com/lubochka/northwind--acme-safety-console",
+      "sourceRepoFullName": "lubochka/acme-corp--acme-safety-console",
+      "packageName": "@xiigen-fork/acme-safety-console",
+      "packageVersion": "1.0.1",
+      "initialInstallCommit": "6f6449d4e0e2b3cda1026bc6831d42f7448744a2",
+      "initialActionsRunId": 25627379365,
+      "initialActionsConclusion": "failure",
+      "repairCommit": "495ed516fe2e5a8ff87187c78e868da610a1d948",
+      "githubActionsRunId": 25627444202,
+      "githubActionsConclusion": "success",
+      "registryVersion": "1.0.1",
+      "localClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-safety-console-phase5a-20260510-142132",
+      "screenshots": [
+        "docs/e2e-snapshots/marketplace/ai-safety-moderation-acme-v1.0.1-registry-listing-phase5a.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/northwind--acme-safety-console-tenant-b-installed-from-a-github-listing.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/northwind--acme-safety-console-tenant-b-installed-from-a-actions-success.png",
+        "docs/e2e-snapshots/ai-safety-moderation/tenant-b-installed-from-a"
+      ]
+    },
+    "tenantBAdaptation": {
+      "repoFullName": "lubochka/northwind--northwind-trust-review",
+      "repoUrl": "https://github.com/lubochka/northwind--northwind-trust-review",
+      "sourceRepoFullName": "lubochka/acme-corp--acme-safety-console",
+      "packageName": "@xiigen-fork/northwind-trust-review",
+      "packageVersion": "1.0.2",
+      "adaptedCommit": "119d011cfab7a5e854f87312bf992f77bf6c1218",
+      "githubActionsRunId": 25627601726,
+      "githubActionsConclusion": "success",
+      "registryVersion": "1.0.2",
+      "registryTarball": "http://localhost:4873/@xiigen-fork/northwind-trust-review/-/northwind-trust-review-1.0.2.tgz",
+      "registryShasum": "88ef2bc5ea639a7e812e8be4e22dc97bf0819274",
+      "localClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-safety-console-phase5a-20260510-142132",
+      "screenshots": [
+        "docs/e2e-snapshots/marketplace/ai-safety-moderation-northwind-v1.0.2-registry-listing.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/northwind--northwind-trust-review-tenant-b-v1.0.2-github-listing.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/northwind--northwind-trust-review-tenant-b-v1.0.2-actions-success.png",
+        "docs/e2e-snapshots/ai-safety-moderation/tenant-b-v1.0.2"
+      ]
+    },
+    "tenantCInstalledFromB": {
+      "repoFullName": "lubochka/tessera-collective--northwind-trust-review",
+      "currentRepoFullNameAfterAdaptation": "lubochka/tessera-collective--tessera-moderation-studio",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-trust-review",
+      "sourceRepoFullName": "lubochka/northwind--northwind-trust-review",
+      "packageName": "@xiigen-fork/northwind-trust-review",
+      "packageVersion": "1.0.2",
+      "initialInstallCommit": "7c01fad14008d9fe686f1b845b25177afa7a7576",
+      "initialActionsRunId": 25627751395,
+      "initialActionsConclusion": "failure",
+      "repairCommit": "e31892e0c151e7007b0d8ef03c08bae08fdf6b9e",
+      "githubActionsRunId": 25627813285,
+      "githubActionsConclusion": "success",
+      "registryVersion": "1.0.2",
+      "localClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-trust-review-phase5c-20260510-144023",
+      "screenshots": [
+        "docs/e2e-snapshots/marketplace/ai-safety-moderation-northwind-v1.0.2-registry-listing-phase5c.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/tessera-collective--northwind-trust-review-tenant-c-installed-from-b-github-listing.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/tessera-collective--northwind-trust-review-tenant-c-installed-from-b-actions-success.png",
+        "docs/e2e-snapshots/ai-safety-moderation/tenant-c-installed-from-b"
+      ]
+    },
+    "tenantCAdaptation": {
+      "repoFullName": "lubochka/tessera-collective--tessera-moderation-studio",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--tessera-moderation-studio",
+      "packageName": "@xiigen-fork/tessera-moderation-studio",
+      "packageVersion": "1.0.3",
+      "adaptedCommit": "04a949bc0fe4546bd5b06dc8603fdac521f61297",
+      "githubActionsRunId": 25628133796,
+      "githubActionsConclusion": "success",
+      "registryVersion": "1.0.3",
+      "registryShasum": "96d1e0f745e1f285b3c06fe5154cbd4478164a0e",
+      "localClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-trust-review-phase5c-20260510-144023",
+      "screenshots": [
+        "docs/e2e-snapshots/marketplace/ai-safety-moderation-tessera-v1.0.3-registry-listing.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/tessera-collective--tessera-moderation-studio-tenant-c-v1.0.3-github-listing.png",
+        "docs/e2e-snapshots/repo-evidence/flow-24/tessera-collective--tessera-moderation-studio-tenant-c-v1.0.3-actions-success.png",
+        "docs/e2e-snapshots/ai-safety-moderation/tenant-c-v1.0.3"
+      ]
+    }
+  },
+  "evidenceFiles": {
+    "phase0Auth": "docs/portability/flow-24/phase-0-docker-vault-auth-evidence.json",
+    "phase1UnitIntegration": "docs/portability/flow-24/phase-1-unit-integration-evidence.json",
+    "phase2Playwright": "docs/portability/flow-24/phase-2-playwright-png-evidence.json",
+    "phase3Visual": "docs/portability/flow-24/phase-3-visual-examination-evidence.json",
+    "phase40TenantAOriginalFork": "docs/portability/flow-24/phase-4.0-tenant-a-original-fork-evidence.json",
+    "phase4TenantAAdaptation": "docs/portability/flow-24/phase-4-tenant-a-ai-adaptation-evidence.json",
+    "phase5aTenantBInstall": "docs/portability/flow-24/phase-5a-tenant-b-installed-from-a-evidence.json",
+    "phase5bTenantBAdaptation": "docs/portability/flow-24/phase-5b-tenant-b-adaptation-evidence.json",
+    "phase5cTenantCInstall": "docs/portability/flow-24/phase-5c-tenant-c-installed-from-b-evidence.json",
+    "phase5c5TenantCAdaptation": "docs/portability/flow-24/phase-5c5-tenant-c-adaptation-evidence.json",
+    "phaseHAuthDecoration": "docs/portability/flow-24/phase-h-auth-decoration-evidence.json"
+  },
+  "notes": [
+    "FLOW-24 completed the full tenant A to tenant B to tenant C cascade using real marketplace API forks, real GitHub repositories, real GitHub Actions runs, local registry publishes, and captured PNG evidence.",
+    "Tier 3 is not declared because package signing first pass is still pending by protocol."
+  ]
+}

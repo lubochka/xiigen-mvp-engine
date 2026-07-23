@@ -1,0 +1,180 @@
+[
+  {
+    "patternId": "FLOW-08-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-08",
+    "teachingPoint": "T70 PurchaseOverlapAnalyzer pre-computes purchase overlap at connection formation (SocialConnectionEstablished) and stores overlapScore for O(1) lookup. T76 computes connection strength on every social action — potentially many times per day. If T76 computed purchase overlap inline, it would read O(N) purchase history records per invocation. Pre-computing at connection formation (a rare event: once per pair) and storing as a lookup record makes T76 O(1) for the purchase component. The computation is moved to where it is cheapest. The null-read fallback applies when T70 has not yet run: T76 treats a missing overlapScore record as 0.0 and continues — not as an error.",
+    "positiveExample": "T70 runs on SocialConnectionEstablished, reads full purchase history for both users, intersects by category, stores overlapScore in xiigen-purchase-overlaps by connectionId. T76 reads overlapScore by connectionId — returns 0.0 on null/missing record.",
+    "negativeExample": "T76 reads full purchase history for both users on every connection strength update call. O(purchases × connections) reads per active user per day.",
+    "discriminatingConstraint": "T70 triggers on SocialConnectionEstablished — never on PurchaseRecorded. T76 reads a pre-computed score. Missing pre-computed score returns 0.0, not DataProcessResult.failure.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-10",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-08-DESIGN-SIMULATION-R1.md (DR-08-A)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-08",
+    "domainId": "marketplace",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "social-feed"
+    ],
+    "keywords": "PurchaseOverlapAnalyzer pre-computes purchase overlap connection formation SocialConnectionEstablished overlapScore lookup computes strength social"
+  },
+  {
+    "patternId": "FLOW-08-DR-02",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-08",
+    "teachingPoint": "T67 ParticipationInviter emits InvitationBatchQueued after broker ACK — not after end-user notification delivery confirmation. Delivery confirmation is probabilistic: users with disabled notifications, invalid contact info, or full inboxes may never produce a delivery ACK. Waiting for delivery means the bootstrap completion gate (T72) blocks indefinitely for any event with a single unreachable user. Broker ACK is definite: the message is durably stored and will be delivered when possible. Completion gates must be on definite states. Delivery tracking belongs to the analytics node (T71) — best-effort, never in the critical path.",
+    "positiveExample": "T67 calls queue.send(invitationBatch) and receives broker ACK. On ACK: storeDocument(batchRecord), emit InvitationBatchQueued. Delivery outcome not tracked in T67.",
+    "negativeExample": "T67 waits for T68/T69/T70 delivery confirmation before emitting InvitationBatchQueued. Bootstrap gate blocks for any unreachable user.",
+    "discriminatingConstraint": "InvitationBatchQueued emitted after broker ACK — not after delivery confirmation. Delivery confirmation is never in the T67 critical path.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-10",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-08-DESIGN-SIMULATION-R1.md (DR-08-B)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-08",
+    "domainId": "marketplace",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "dna-8",
+      "queue",
+      "analytics"
+    ],
+    "keywords": "ParticipationInviter InvitationBatchQueued broker end-user notification delivery confirmation probabilistic users disabled notifications invalid"
+  },
+  {
+    "patternId": "FLOW-08-DR-03",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-08",
+    "teachingPoint": "T68 RegistrationProcessor idempotency key must be hash(userId + eventId + tenantId) — not requestId. requestId changes on every page refresh, network retry, or client reconnect. Two clicks create two requestIds. Idempotency on requestId allows both to create separate registration records, double-counting capacity and inflating purchase history. The correct key encodes the business constraint: one user may register for one event exactly once. (userId, eventId, tenantId) encodes that rule. The idempotency key must be the business identity — the request identity is an implementation detail irrelevant to the business constraint.",
+    "positiveExample": "T68: idempotencyKey = hash([userId, eventId, tenantId].join(':')). Duplicate business-key request returns existing registration record as DataProcessResult.success.",
+    "negativeExample": "T68: idempotencyKey = registrationRequestId. Page refresh creates new requestId, creating a second registration record, decrementing capacity twice, and emitting two PaidRegistrationInitiated events.",
+    "discriminatingConstraint": "Idempotency key = hash(userId + eventId + tenantId). requestId or registrationRequestId as idempotency key is a BUILD_FAILURE per CF-08-2.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-10",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "sourceDocument": "FLOW-08-DESIGN-SIMULATION-R1.md (DR-08-C), FLOW-08-DESIGN-SIMULATION-R2.md (Gap 1)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-08",
+    "domainId": "marketplace",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "idempotency",
+      "multi-tenant",
+      "retry",
+      "registration"
+    ],
+    "keywords": "RegistrationProcessor idempotency hash userId eventId tenantId requestId changes page refresh network retry"
+  },
+  {
+    "patternId": "FLOW-08-DR-04",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-08",
+    "teachingPoint": "T70 PurchaseOverlapAnalyzer triggers on SocialConnectionEstablished — not on PurchaseRecorded. PurchaseRecorded trigger requires T70 to recompute overlap against ALL existing connections of the purchasing user — O(connections) analyses per purchase. At platform scale (10 purchases/day per user × 200 avg connections), this produces 2,000 overlap analyses per active user per day. The correct trigger is the event that creates a NEW overlap relationship: a new social connection. The analysis runs exactly once per connection pair at formation time. Trigger selection determines whether the service is O(1) or O(connections×purchases).",
+    "positiveExample": "T70 has @EventPattern('SocialConnectionEstablished'). Runs once per connection pair. Overlap computed once, stored once.",
+    "negativeExample": "T70 has @EventPattern('PurchaseRecorded'). Runs for every purchase, recomputing overlap against all existing connections. Collapses at scale.",
+    "discriminatingConstraint": "T70 @EventPattern is SocialConnectionEstablished. @EventPattern('PurchaseRecorded') or any per-purchase event on T70 is a BUILD_FAILURE.",
+    "appliesTo": [
+      "FLOW-10",
+      "FLOW-12",
+      "FLOW-13"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "sourceDocument": "FLOW-08-DESIGN-SIMULATION-R1.md (DR-08-D)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-08",
+    "domainId": "marketplace",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "social-feed"
+    ],
+    "keywords": "PurchaseOverlapAnalyzer triggers SocialConnectionEstablished PurchaseRecorded trigger recompute overlap against existing connections purchasing user"
+  },
+  {
+    "patternId": "FLOW-08-DR-05",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-08",
+    "teachingPoint": "T67 ParticipationInviter fans out invitations to large audiences using batched queue messages — not one message per user. Enqueuing 10,000 individual messages in a single T67 invocation creates a queue depth spike that degrades all consumers sharing that queue infrastructure. The enqueue loop itself may take 10–20 seconds, blocking the T67 handler thread. Batching reduces message count by the batch size factor (100x for batch size 100). The batch size is FREEDOM-configurable because optimal batch size depends on the tenant's queue infrastructure capacity — a MACHINE constant would force all tenants to share one batch size regardless of their infrastructure.",
+    "positiveExample": "T67: batchSize from FREEDOM config. userIds chunked into batches of batchSize. One queue message per batch. N/batchSize messages total for N users.",
+    "negativeExample": "T67: one queue message per audience member. N queue messages for N users. Queue depth spikes by N on every bootstrap invocation.",
+    "discriminatingConstraint": "Fan-out creates ceil(N / FREEDOM_batch_size) queue messages — not N individual messages. Batch size is FREEDOM-configurable — never a hardcoded literal.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-10",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "sourceDocument": "FLOW-08-DESIGN-SIMULATION-R1.md (DR-08-E)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-08",
+    "domainId": "marketplace",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "multi-tenant",
+      "freedom-config",
+      "config-over-code",
+      "queue",
+      "machine-constant"
+    ],
+    "keywords": "ParticipationInviter fans invitations large audiences using batched queue messages message user Enqueuing"
+  },
+  {
+    "patternId": "FLOW-08-DR-06",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-08",
+    "teachingPoint": "audienceSize=0 is a valid bootstrap completion state — zero batches produced, T72 receives totalBatches=0, gate condition 0===0 satisfies immediately, ParticipationBootstrapCompleted emits. An event with no current audience matches is not a failed event: it exists for direct-URL access and future matching when new users onboard. The RSVP window must open even when zero users are currently invited. Returning DataProcessResult.failure('NO_AUDIENCE') for audienceSize=0 prevents the organizer from operating the event. Inherits DR-03-F (FLOW-03): empty audience is a valid promotion outcome.",
+    "positiveExample": "T67: audienceSize=0 → totalBatches=0. T72 receives InvitationBatchQueued with totalBatches=0. Gate: count=0 === totalBatches=0 → emit ParticipationBootstrapCompleted.",
+    "negativeExample": "T67: audienceSize=0 → return DataProcessResult.failure('NO_AUDIENCE'). ParticipationBootstrapCompleted never fires. RSVP window never opens. Organizer cannot operate the event.",
+    "discriminatingConstraint": "audienceSize=0 produces totalBatches=0. T72 gate with totalBatches=0 satisfies immediately. DataProcessResult.failure for zero audience is a BUILD_FAILURE.",
+    "appliesTo": [
+      "FLOW-09",
+      "FLOW-10",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.9,
+    "sourceDocument": "FLOW-08-DESIGN-SIMULATION-R1.md (DR-08-F)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-08",
+    "domainId": "marketplace",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "queue",
+      "promotion"
+    ],
+    "keywords": "audienceSize valid bootstrap completion state zero batches produced receives totalBatches gate condition"
+  }
+]

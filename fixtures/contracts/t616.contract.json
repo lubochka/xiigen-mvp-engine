@@ -1,0 +1,85 @@
+{
+  "taskTypeId": "T616",
+  "flowId": "FLOW-17",
+  "name": "FreelancerReviewWriter",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "freelancer-marketplace",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T616-1",
+      "rule": "Direction check (CLIENT_TO_FREELANCER or FREELANCER_TO_CLIENT) at ORDER 1 — compile-time constant VALID_REVIEW_DIRECTIONS. Invalid direction rejected immediately.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T616-2",
+      "rule": "Duplicate direction check at ORDER 2 — one review per direction per engagement. DuplicateReviewRejected emitted on duplicate.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T616-3",
+      "rule": "Write review at ORDER 3 — storeDocument only, never updateDocument. Append-only: no modification after submission.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T616-4",
+      "rule": "storeDocument(audit) at ORDER 4 — comment field EXCLUDED from audit record. PLATFORM_ONLY must not contain comment text. DNA-8.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T616-5",
+      "rule": "FreelancerReviewSubmitted emitted at ORDER 5 — only after audit confirmed. Comment excluded from event payload.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1545",
+      "token": "IReviewStoreService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1546",
+      "token": "IReviewAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "VALID_REVIEW_DIRECTIONS_GUARD",
+    "SINGLE_DIRECTION_DUPLICATE_CHECK",
+    "APPEND_ONLY_REVIEW_WRITE",
+    "COMMENT_EXCLUDED_AUDIT"
+  ],
+  "freedomComponents": [
+    "review_comment_max_length",
+    "review_submission_window_days"
+  ],
+  "stackCoupling": {
+    "queue": ["FreelancerReviewSubmitted", "DuplicateReviewRejected"],
+    "database": ["xiigen-freelancer-reviews", "xiigen-review-audit"]
+  },
+  "handlers": [
+    "validate_review_direction",
+    "check_duplicate_direction",
+    "write_review_record",
+    "write_review_audit_no_comment",
+    "emit_review_submitted"
+  ],
+  "namedChecks": [
+    "direction_check_order1",
+    "duplicate_direction_check_order2",
+    "append_only_no_update",
+    "comment_excluded_from_audit",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "freelancer",
+    "review",
+    "single-direction",
+    "append-only",
+    "PLATFORM_ONLY-excluded",
+    "PII",
+    "data-pipeline"
+  ],
+  "keywords": "freelancer review writer CLIENT_TO_FREELANCER FREELANCER_TO_CLIENT direction duplicate append-only comment excluded PLATFORM_ONLY FreelancerReviewSubmitted DuplicateReviewRejected T616"
+}

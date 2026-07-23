@@ -1,0 +1,11 @@
+{
+  "eventType": "subscription.plan.publication.failed",
+  "flowId": "FLOW-12",
+  "version": "1.0.0",
+  "properties": {
+    "planId": { "type": "string", "required": true },
+    "errorCode": { "type": "string", "enum": ["FLOAT_PRICE_REJECTED", "OCC_CONFLICT", "INVALID_INTERVAL", "DUPLICATE_PLAN"], "required": true },
+    "errorMessage": { "type": "string", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "flowId": "FLOW-22",
+  "flowSlug": "cms-publishing",
+  "phase": "phase5bTenantBAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-10T08:04:41.311Z",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "repo": "lubochka/acme-corp--acme-help-center-cms",
+    "package": "@xiigen-fork/acme-help-center-cms",
+    "version": "1.0.1"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "packageName": "@xiigen-fork/northwind-editorial-ops-cms",
+    "packageVersion": "1.0.2",
+    "moduleName": "northwind-editorial-ops-cms",
+    "displayName": "Northwind Editorial Ops CMS",
+    "sourceModuleName": "acme-help-center-cms",
+    "visiblePlainLanguage": "Northwind editorial operations policy: member audience by default, compliance review added, longer scheduling window, day-level analytics, and restored one-year analytics retention while publication immutability, approval gates, scheduling idempotency, audit store-before-event, append-only analytics, and tenant isolation remain unchanged.",
+    "freedomChanges": [
+      {
+        "key": "flow22_publish_conflict_retry_limit",
+        "from": 1,
+        "to": 3
+      },
+      {
+        "key": "flow22_default_audience_mode",
+        "from": "public",
+        "to": "member"
+      },
+      {
+        "key": "flow22_approval_required_stages",
+        "from": "EDITOR_REVIEW,LEGAL_REVIEW,FINAL_APPROVAL",
+        "to": "EDITOR_REVIEW,LEGAL_REVIEW,COMPLIANCE_REVIEW,FINAL_APPROVAL"
+      },
+      {
+        "key": "flow22_approval_sla_hours",
+        "from": 8,
+        "to": 12
+      },
+      {
+        "key": "content_publish_schedule_window_ms",
+        "from": 172800000,
+        "to": 604800000
+      },
+      {
+        "key": "flow22_schedule_timezone_policy",
+        "from": "tenant-local",
+        "to": "tenant-local"
+      },
+      {
+        "key": "flow22_analytics_retention_days",
+        "from": 180,
+        "to": 365
+      },
+      {
+        "key": "flow22_analytics_rollup_window",
+        "from": "week",
+        "to": "day"
+      }
+    ],
+    "invariantsPreserved": [
+      "Content tenant ownership remains mandatory before publication.",
+      "Published content versions remain immutable.",
+      "OCC remains mandatory for publish state transitions.",
+      "Approval stage validation remains mandatory.",
+      "Scheduled publishing keeps content and timestamp specific idempotency locks.",
+      "Audit records remain stored before downstream events.",
+      "Analytics records remain append-only.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/cms-publishing-northwind-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--northwind-editorial-ops-cms",
+    "url": "https://github.com/lubochka/northwind--northwind-editorial-ops-cms",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "renamedFromInstalledRepo": "lubochka/northwind--acme-help-center-cms",
+    "sourceRepoFullName": "lubochka/acme-corp--acme-help-center-cms",
+    "adaptedCommit": "d92b61bd18433c3bf3aefd6e7831216711f18a86",
+    "adaptedCommitMessage": "Adapt CMS publishing for Northwind editorial ops",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\northwind--acme-help-center-cms-phase5a-20260510-103649",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/cms-publishing-northwind-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 121,
+        "shasum": "1a262e0f167742179443f037aa613dd6b4a92233"
+      }
+    ],
+    "adaptationHistoryEntries": 2,
+    "bundleManifestItemCount": 120
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - cms-publishing",
+    "runId": 25623476291,
+    "jobId": 75214235689,
+    "url": "https://github.com/lubochka/northwind--northwind-editorial-ops-cms/actions/runs/25623476291",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "d92b61bd18433c3bf3aefd6e7831216711f18a86",
+    "createdAt": "2026-05-10T07:58:23Z",
+    "updatedAt": "2026-05-10T07:59:11Z",
+    "successfulJobs": [
+      "Standalone flow test - cms-publishing"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/northwind-editorial-ops-cms",
+    "version": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-editorial-ops-cms/-/northwind-editorial-ops-cms-1.0.2.tgz",
+    "shasum": "1a262e0f167742179443f037aa613dd6b4a92233",
+    "gitHead": "d92b61bd18433c3bf3aefd6e7831216711f18a86",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/cms-publishing-northwind-v1.0.2-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/cms-publishing-northwind-v1.0.2-registry-listing.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/cms-publishing/tenant-b-v1.0.2",
+      "count": 27,
+      "zeroByteFiles": 0,
+      "totalBytes": 758156,
+      "playwrightExecutions": 27,
+      "roles": [
+        "anonymous",
+        "public-marketplace-visitor",
+        "tenant-user",
+        "freelancer",
+        "business-partner",
+        "event-organiser",
+        "tenant-admin",
+        "platform-admin",
+        "platform-support"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/marketplace/cms-publishing-northwind-v1.0.2-registry-listing.png",
+        "bytes": 48176
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-22/northwind--northwind-editorial-ops-cms-tenant-b-v1.0.2-github-listing.png",
+        "bytes": 135114
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-22/northwind--northwind-editorial-ops-cms-tenant-b-v1.0.2-actions-success.png",
+        "bytes": 78574
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/cms-publishing-tenant-b-adapted.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-22 Tenant B adapted cascade-point visual evidence under docs/e2e-snapshots/cms-publishing/tenant-b-v1.0.2."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBAdaptedPlaywright": {
+      "command": "client: VITE_PORT=52028 npx playwright test e2e/cms-publishing-tenant-b-adapted.spec.ts --project=chromium-desktop --reporter=dot --workers=4",
+      "result": "passed",
+      "tests": 27,
+      "distinctPngCount": 27,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantBAdaptedFlow": true,
+    "tenantBCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstall": true
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,281 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "phase": "phase5c5TenantCAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-05T20:04:56+03:00",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "role": "Tenant C",
+    "adaptedFromTenant": "northwind",
+    "sourceRepoFullName": "lubochka/northwind--northwind-exchange-ticketing",
+    "sourcePackageName": "@xiigen-fork/northwind-exchange-ticketing",
+    "sourcePackageVersion": "1.0.2",
+    "adaptedPackageName": "@xiigen-fork/tessera-community-ticketing",
+    "adaptedPackageVersion": "1.0.3",
+    "localRegistry": "http://localhost:4873"
+  },
+  "adaptation": {
+    "changeType": "Type A (FREEDOM key value change)",
+    "moduleName": "tessera-community-ticketing",
+    "repoName": "tessera-collective--tessera-community-ticketing",
+    "repoFullName": "lubochka/tessera-collective--tessera-community-ticketing",
+    "plainLanguagePolicy": "Tessera community ticketing policy: 5-minute seat holds, 96-hour refunds, 3.2% platform fee, 2.5% processing fee, and steward-led same-day capacity updates.",
+    "freedomChanges": [
+      {
+        "key": "flow09_seat_ttl_seconds",
+        "from": 240,
+        "to": 300
+      },
+      {
+        "key": "flow09_refund_window_hours",
+        "from": 72,
+        "to": 96
+      },
+      {
+        "key": "flow09_platform_fee_rate",
+        "from": 0.035,
+        "to": 0.032
+      },
+      {
+        "key": "flow09_processing_fee_rate",
+        "from": 0.028,
+        "to": 0.025
+      },
+      {
+        "key": "flow09_capacity_change_requires_approval",
+        "from": true,
+        "to": false
+      }
+    ],
+    "invariantsPreserved": [
+      "seat holds remain tenant-scoped and stored before payment is requested",
+      "payment records remain stored before ticket issuance events",
+      "refund records remain stored before refund events",
+      "ticket issuance and QR validation remain tenant-scoped",
+      "role access remains unchanged"
+    ],
+    "adaptationHistory": {
+      "entries": 3,
+      "history0": "Acme v1.0.1 adaptation preserved",
+      "history1": "Northwind v1.0.2 adaptation preserved",
+      "history2": "Tessera v1.0.3 adaptation added"
+    }
+  },
+  "tenantRepository": {
+    "initialRepoFullName": "lubochka/tessera-collective--northwind-exchange-ticketing",
+    "renamedRepoFullName": "lubochka/tessera-collective--tessera-community-ticketing",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--tessera-community-ticketing",
+    "defaultBranch": "main",
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-exchange-ticketing",
+    "localRemote": "https://github.com/lubochka/tessera-collective--tessera-community-ticketing.git",
+    "adaptedCommitSha": "4c5632679f5a2d9da9de4a78fad6d60ae394723a",
+    "commitMessage": "Adapt Tessera community ticketing policy",
+    "workingTreeCleanAfterPublish": true,
+    "privateAfterEvidenceCapture": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/transactional-event-participation-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantCloneVerification": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-exchange-ticketing",
+    "headSha": "4c5632679f5a2d9da9de4a78fad6d60ae394723a",
+    "commands": [
+      {
+        "command": "Get-Content package.json,tenant.config.json,freedom-config.defaults.json,settings/module.settings.json | ConvertFrom-Json",
+        "exitCode": 0,
+        "result": "json-ok"
+      },
+      {
+        "command": "npm install --no-audit --no-fund",
+        "exitCode": 0,
+        "result": "up to date"
+      },
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0,
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      }
+    ]
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - transactional-event-participation",
+    "runId": 25390276485,
+    "jobId": 74462588713,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "4c5632679f5a2d9da9de4a78fad6d60ae394723a",
+    "url": "https://github.com/lubochka/tessera-collective--tessera-community-ticketing/actions/runs/25390276485",
+    "createdAt": "2026-05-05T16:57:19Z",
+    "updatedAt": "2026-05-05T16:58:06Z",
+    "successfulSteps": [
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance"
+    ],
+    "knownInheritedWarning": "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/tessera-community-ticketing",
+    "publishedVersion": "1.0.3",
+    "viewCommand": "npm view @xiigen-fork/tessera-community-ticketing version --registry http://localhost:4873",
+    "viewReturned": "1.0.3",
+    "verified": true
+  },
+  "applicationEvidence": {
+    "filesChangedInMainRepo": [
+      "client/e2e/transactional-event-participation-tenant-c-adaptation.spec.ts",
+      "client/src/pages/MarketplacePage.tsx",
+      "client/src/pages/transactional-event-participation/TicketPurchasePage.tsx"
+    ],
+    "visibleAdaptationSummary": "5-minute seat holds, 96-hour refunds, 3.2% platform fee, 2.5% processing fee, and steward-led same-day capacity updates.",
+    "playwright": {
+      "command": "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/transactional-event-participation-tenant-c-adaptation.spec.ts --project=chromium-desktop --workers=1",
+      "result": "passed",
+      "tests": 13
+    },
+    "screenshots": {
+      "tenantCascadeDirectory": "docs/e2e-snapshots/transactional-event-participation/tenant-c-v1.0.3",
+      "tenantCascadeCount": 12,
+      "tenantCascadeZeroByte": 0,
+      "tenantCascadeMinBytes": 38639,
+      "tenantCascadeMaxBytes": 73231,
+      "marketplaceListingPath": "docs/e2e-snapshots/marketplace/transactional-event-participation-v1.0.3-listing.png",
+      "marketplaceListingBytes": 281835,
+      "repoListingPath": "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-community-ticketing-github-listing.png",
+      "repoListingBytes": 135723,
+      "repoActionsSuccessPath": "docs/e2e-snapshots/repo-evidence/tessera-collective--tessera-community-ticketing-actions-success.png",
+      "repoActionsSuccessBytes": 76284
+    }
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-05T20:04:05.9371647+03:00",
+    "serverBaseUrl": "http://localhost:33001",
+    "passed": 8,
+    "total": 8,
+    "allPassed": true,
+    "matrix": [
+      {
+        "name": "valid acme token in acme tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "valid northwind token in northwind tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "valid tessera token in tessera tenant",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "missing token denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token in northwind tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "northwind token in tessera tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token in tessera tenant denied",
+        "method": "POST",
+        "path": "/api/flow/execute",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "wrong referral-user role denied on Tessera adapted fork endpoint",
+        "method": "POST",
+        "path": "/api/marketplace/packages/tessera-community-ticketing/fork",
+        "expectedStatus": 403,
+        "actualStatus": 403
+      }
+    ]
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "result": "passed"
+    },
+    "clientPlaywright": {
+      "command": "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5189 npx playwright test e2e/transactional-event-participation-tenant-c-adaptation.spec.ts --project=chromium-desktop --workers=1",
+      "result": "passed",
+      "tests": 13
+    },
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=transactional-event-participation --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 8,
+      "tests": 133
+    },
+    "flowScans": {
+      "flowFileCount": 20,
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "flowScopedAnnotations": 40,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 0,
+      "directSdkImports": 0
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCAdaptedTenantBPackage": true,
+    "tenantCCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForAuthDecorationCheck": true
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,70 @@
+{
+  "taskTypeId": "T169",
+  "flowId": "FLOW-10",
+  "name": "ReviewSubmissionGateway",
+  "archetype": "TRANSACTION",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "eligibility-first-then-setnx-then-audit",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow10_review_eligibility_enabled",
+    "neutralConcepts": [
+      "executionOrder: eligibility=1, validation=2, SETNX=3, audit=4, storeDocument+emit=5",
+      "reviewId = SHA-256 hash(tenantId+':'+reviewerId+':'+targetEntityId+':'+targetEntityType) — server-derived",
+      "rating must be integer in [1,5] — validated before SETNX",
+      "ineligible submissions do not create audit records",
+      "DPO conflict: conflictsWith FLOW-08-T79-audit-first-pattern"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F220",
+      "interface": "IReviewSubmissionGatewayService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T169-1",
+      "rule": "eligibilityService.check() MUST be called at executionOrder=1 — before any write, before SETNX, before validation.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T169-2",
+      "rule": "Rating validation (range [1,5]) at executionOrder=2 — before SETNX. Invalid rating emits ReviewRejected(invalid_rating) without consuming idempotency slot.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T169-3",
+      "rule": "SETNX at executionOrder=3 — idempotency key is the server-derived reviewId hash. Duplicate returns ReviewRejected(duplicate_review).",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T169-4",
+      "rule": "auditService.storeDocument() at executionOrder=4 — ONLY for eligible, valid, non-duplicate submissions.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T169-5",
+      "rule": "storeDocument() BEFORE enqueue() — DNA-8 outbox pattern. ReviewAccepted + ReviewSubmissionCompleted emitted together at executionOrder=5.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T169-6",
+      "rule": "reviewId is a server-derived deterministic hash — never read from event.reviewId payload.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "eligibility_before_setnx",
+    "validation_before_setnx",
+    "audit_after_eligibility",
+    "server_derived_review_id",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": ["CF-10-1"],
+  "tags": ["eligibility-gate", "submission-gateway", "TRANSACTION", "server-derived-id"],
+  "keywords": "review submission eligibility first audit order SETNX idempotency server-derived reviewId hash rating validation"
+}

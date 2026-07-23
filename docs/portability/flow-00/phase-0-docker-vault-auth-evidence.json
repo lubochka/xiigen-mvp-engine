@@ -1,0 +1,411 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "generatedAt":  "2026-05-04T22:18:53.6700936+03:00",
+    "server":  {
+                   "baseUrl":  "http://localhost:33001",
+                   "serverPort":  33001,
+                   "secretsProvider":  "vault"
+               },
+    "roleMap":  {
+                    "flowActiveViewerRoles":  [
+                                                  "tenant-admin",
+                                                  "platform-admin",
+                                                  "platform-support"
+                                              ],
+                    "authExecutableRoles":  [
+                                                "tenant-admin",
+                                                "platform-admin"
+                                            ],
+                    "canonicalRouteProbeRoles":  [
+                                                     "tenant-user",
+                                                     "tenant-admin",
+                                                     "platform-admin"
+                                                 ],
+                    "uiOnlyOrConditionalRoles":  [
+                                                     "platform-support"
+                                                 ],
+                    "wrongRoleControl":  "service-account",
+                    "sources":  [
+                                    "docs/design-reviews/ROLE-COVERAGE-MATRIX.md line 45: FLOW-00 tenant-admin and platform-admin cells",
+                                    "docs/design-reviews/FLEET-ROLE-SYNTHESIS.md line 143: FLOW-00 bundle-activation has 3 setup role templates",
+                                    "client/src/pages/bundle-activation/BundleActivationPage.tsx role branches: tenant-admin, platform-admin, platform-support, fallback",
+                                    "server/src/kernel/role-strings.ts canonical auth roles: platform-admin, tenant-admin, tenant-user, service-account, anonymous",
+                                    "server/src/api/flow-http.controller.ts role-protected trace route allows tenant-user, tenant-admin, platform-admin"
+                                ]
+                },
+    "tenantCredentialSource":  "Vault KV under secret/xiigen/tenants/{tenant}",
+    "tokenEvidence":  "Per-tenant JWTs signed from tenant Vault jwt_signing_key values; token strings and signing keys were not printed or persisted.",
+    "tenantsSeeded":  [
+                          {
+                              "tenant":  "acme-corp",
+                              "tenantRegistryPresent":  true,
+                              "runtimeRegistryPresent":  true,
+                              "vaultSigningKeyPresent":  true
+                          },
+                          {
+                              "tenant":  "northwind",
+                              "tenantRegistryPresent":  true,
+                              "runtimeRegistryPresent":  true,
+                              "vaultSigningKeyPresent":  true
+                          },
+                          {
+                              "tenant":  "tessera-collective",
+                              "tenantRegistryPresent":  true,
+                              "runtimeRegistryPresent":  true,
+                              "vaultSigningKeyPresent":  true
+                          }
+                      ],
+    "testPrincipals":  [
+                           {
+                               "tenant":  "acme-corp",
+                               "role":  "tenant-user",
+                               "subject":  "flow00-acme-corp-tenant-user",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "acme-corp",
+                               "role":  "tenant-admin",
+                               "subject":  "flow00-acme-corp-tenant-admin",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "acme-corp",
+                               "role":  "platform-admin",
+                               "subject":  "flow00-acme-corp-platform-admin",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "acme-corp",
+                               "role":  "service-account",
+                               "subject":  "flow00-acme-corp-wrong-role",
+                               "seededAs":  "vault-signed-negative-principal"
+                           },
+                           {
+                               "tenant":  "northwind",
+                               "role":  "tenant-user",
+                               "subject":  "flow00-northwind-tenant-user",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "northwind",
+                               "role":  "tenant-admin",
+                               "subject":  "flow00-northwind-tenant-admin",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "northwind",
+                               "role":  "platform-admin",
+                               "subject":  "flow00-northwind-platform-admin",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "northwind",
+                               "role":  "service-account",
+                               "subject":  "flow00-northwind-wrong-role",
+                               "seededAs":  "vault-signed-negative-principal"
+                           },
+                           {
+                               "tenant":  "tessera-collective",
+                               "role":  "tenant-user",
+                               "subject":  "flow00-tessera-collective-tenant-user",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "tessera-collective",
+                               "role":  "tenant-admin",
+                               "subject":  "flow00-tessera-collective-tenant-admin",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "tessera-collective",
+                               "role":  "platform-admin",
+                               "subject":  "flow00-tessera-collective-platform-admin",
+                               "seededAs":  "vault-signed-test-principal"
+                           },
+                           {
+                               "tenant":  "tessera-collective",
+                               "role":  "service-account",
+                               "subject":  "flow00-tessera-collective-wrong-role",
+                               "seededAs":  "vault-signed-negative-principal"
+                           }
+                       ],
+    "checks":  [
+                   {
+                       "name":  "valid tenant-user token in own tenant returns 200 on auth/me",
+                       "tenant":  "acme-corp",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid tenant-user token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "acme-corp",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "valid tenant-admin token in own tenant returns 200 on auth/me",
+                       "tenant":  "acme-corp",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid tenant-admin token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "acme-corp",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "valid platform-admin token in own tenant returns 200 on auth/me",
+                       "tenant":  "acme-corp",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid platform-admin token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "acme-corp",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "missing token returns 401 on role-protected trace",
+                       "tenant":  "acme-corp",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  401,
+                       "actualStatus":  401,
+                       "passed":  true,
+                       "bodySummary":  null
+                   },
+                   {
+                       "name":  "wrong-role token returns 403 on role-protected trace",
+                       "tenant":  "acme-corp",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  403,
+                       "actualStatus":  403,
+                       "passed":  true,
+                       "bodySummary":  null
+                   },
+                   {
+                       "name":  "valid tenant-user token in own tenant returns 200 on auth/me",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid tenant-user token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "valid tenant-admin token in own tenant returns 200 on auth/me",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid tenant-admin token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "valid platform-admin token in own tenant returns 200 on auth/me",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid platform-admin token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "missing token returns 401 on role-protected trace",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  401,
+                       "actualStatus":  401,
+                       "passed":  true,
+                       "bodySummary":  null
+                   },
+                   {
+                       "name":  "wrong-role token returns 403 on role-protected trace",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  403,
+                       "actualStatus":  403,
+                       "passed":  true,
+                       "bodySummary":  null
+                   },
+                   {
+                       "name":  "valid tenant-user token in own tenant returns 200 on auth/me",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid tenant-user token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "valid tenant-admin token in own tenant returns 200 on auth/me",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid tenant-admin token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "valid platform-admin token in own tenant returns 200 on auth/me",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=True"
+                   },
+                   {
+                       "name":  "valid platform-admin token in own tenant returns 200 on role-protected trace",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  200,
+                       "actualStatus":  200,
+                       "passed":  true,
+                       "bodySummary":  "isSuccess=False"
+                   },
+                   {
+                       "name":  "missing token returns 401 on role-protected trace",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  401,
+                       "actualStatus":  401,
+                       "passed":  true,
+                       "bodySummary":  null
+                   },
+                   {
+                       "name":  "wrong-role token returns 403 on role-protected trace",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/runs/flow00-auth-probe/trace",
+                       "expectedStatus":  403,
+                       "actualStatus":  403,
+                       "passed":  true,
+                       "bodySummary":  null
+                   },
+                   {
+                       "name":  "tenant A token in tenant B context returns 401",
+                       "tenant":  "northwind",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  401,
+                       "actualStatus":  401,
+                       "passed":  true,
+                       "bodySummary":  null
+                   },
+                   {
+                       "name":  "tenant B token in tenant C context returns 401",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  401,
+                       "actualStatus":  401,
+                       "passed":  true,
+                       "bodySummary":  null
+                   },
+                   {
+                       "name":  "tenant A token in tenant C context returns 401",
+                       "tenant":  "tessera-collective",
+                       "method":  "GET",
+                       "path":  "/api/auth/me",
+                       "expectedStatus":  401,
+                       "actualStatus":  401,
+                       "passed":  true,
+                       "bodySummary":  null
+                   }
+               ],
+    "summary":  {
+                    "status":  "passed",
+                    "failed":  0,
+                    "total":  27,
+                    "passed":  27
+                }
+}

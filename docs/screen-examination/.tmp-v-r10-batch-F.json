@@ -1,0 +1,19 @@
+{
+  "batch_id": "V-R10-F",
+  "captured_after": "RUN-173 (cdcf739d)",
+  "flows": [
+    {"slug":"sharable-flows-marketplace","prior":"CONCERN","new":"PASS","delta":"+3 (CONCERN→PASS)","fixes":["P0-3","P4-5","P4-6"],"notes":"Curator Review Queue with Pending(12)+Fraud flags(3)+Approve/Reject — RUN-172 admin curator gap CLOSED. 5 distinct role views"},
+    {"slug":"subscription-billing","prior":"CONCERN","new":"PASS_WITH_ONE_DEFECT","delta":"+2","fixes":["P0-3","P4-5"],"notes":"4 distinct purpose-built role views (business-partner Partner Invoicing $600 outstanding + Net-30; tenant-admin Billing Dashboard with FAILED dunning + Retry Now; tenant-user My Subscription; platform-admin $142,650 MRR + Stripe webhook audit). business-partner gap CLOSED","residual":"populated-tenant-admin renders 404 (route-wiring miss, P3)"},
+    {"slug":"system-initiation-bootstrap","prior":"BLOCK","new":"PASS","delta":"+5 (BLOCK→PASS)","fixes":["P0-3","P4-5","P4-6"],"notes":"Phase=Warm + 6/6 Fabrics + 47/47 Indices + 12/12 Smoke Tests + 5 per-component progress bars (Kernel/Fabric/Seed/Schema/Smoke) + Re-run bootstrap CTA. Anonymous route correctly N/A (internal admin surface)"},
+    {"slug":"tenant-lifecycle-manager","prior":"PASS","new":"PASS","delta":"0","fixes":["P0-2","P0-3","P4-5"],"notes":"EXEMPLARY support-read-only — Suspend/Offboard buttons disabled, no Force-offboard, View support tickets + Escalate to platform-admin"},
+    {"slug":"transactional-event-participation","prior":"CONCERN","new":"CONCERN","delta":"0","fixes":["P4-5"],"residual":"P3 deferred — 4 roles render identical Checkout form. No organiser scan-check-in surface, no platform-admin settlement, no tenant-user ticket wallet"},
+    {"slug":"user-groups-communities","prior":"PASS","new":"PASS","delta":"0","fixes":["P0-3","P4-5"],"notes":"4 genuinely distinct views: anon Discover w/ Sign-in CTA + 4 public groups; tenant-user 6 group cards w/ INVITE_ONLY + Join/Request/By-invitation; tenant-admin admin table w/ Type/Members/Tier/Status; platform-support search-only skeleton"},
+    {"slug":"user-registration","prior":"PASS","new":"PASS","delta":"0","fixes":["P0-3","P4-5"],"notes":"Anonymous Create-account + SSO + pending verification + 3 auth roles get 'You appear to be signed in already' guard"},
+    {"slug":"visual-flow-engine","prior":"PASS","new":"PASS","delta":"+1 (banner cleared)","fixes":["P0-2","P0-3","P4-5","P4-6"],"notes":"Topology-error banner (R172 noted in every view) is GONE. Full 3-role differentiation: tenant-admin Design Assistant canvas + platform-admin Cross-tenant Lock/Unlock + platform-support read-only with Escalate"}
+  ],
+  "batch_summary": {"pass":6,"pass_with_defect":1,"concern":1,"block":0,"upgrades":4,"held":3,"unchanged_concern":1},
+  "residual_backlog": [
+    {"id":"TEP-ROLE-SAMENESS","flow":"transactional-event-participation","severity":"MAJOR","fix":"Split into 4 role-specific surfaces (anon/user buyer; organiser scanner; platform-admin settlement)"},
+    {"id":"SB-404-POPULATED","flow":"subscription-billing","severity":"MINOR","fix":"Wire populated=<state> on BillingDashboardPage to render BusinessStateCard"}
+  ]
+}

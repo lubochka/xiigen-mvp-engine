@@ -1,0 +1,17 @@
+{
+  "patternId": "SERVER-SIDE-CALCULATION-ONLY-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-05",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "ROUTING",
+  "tags": ["server-side-calculation", "anti-farming", "trust-boundary", "points"],
+  "keywords": "server side calculation points anti-farming trust boundary earned points client payload forbidden field",
+  "ironRules": [
+    "Input to PointsCalculator = answers[] + timeTaken only — no earnedPoints field",
+    "All bonus thresholds from FREEDOM config — never hardcoded number literals",
+    "Output is pointBreakdown{} object — never a single total (audit requires breakdown)",
+    "streakBonus NOT included — computed by StreakManager separately"
+  ],
+  "codeSnippet": "// CORRECT: calculate from raw answers — no pre-computed score accepted\nconst base = await this.freedom.get(tenantId, 'flow05_base_completion_points') ?? 10;\nconst perCorrect = await this.freedom.get(tenantId, 'flow05_correct_answer_points') ?? 5;\nconst correctCount = answers.filter(a => a.isCorrect).length;\nreturn DataProcessResult.success({ pointBreakdown: { base, correctAnswers: correctCount * perCorrect, subtotal: base + correctCount * perCorrect } });\n// WRONG: reads client-submitted earnedPoints from payload\n// const { earnedPoints, answers } = payload;\n// await this.ledger.add(userId, earnedPoints); // earnedPoints from client = untrusted"
+}

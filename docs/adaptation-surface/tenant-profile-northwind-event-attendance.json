@@ -1,0 +1,49 @@
+{
+  "tenantId": "northwind",
+  "tenantLabel": "Northwind",
+  "flowId": "FLOW-04",
+  "flowSlug": "event-attendance",
+  "sourceModuleName": "event-attendance-acme-onsite-check-in",
+  "moduleName": "event-attendance-northwind-sponsor-check-in",
+  "moduleVersion": "1.0.2",
+  "adaptationType": "Type A (FREEDOM key value change)",
+  "freedomOverrides": [
+    {
+      "configKey": "flow04_rsvp_cancellation_window_hours",
+      "taskType": "xiigen-engine",
+      "configValue": 6,
+      "defaultValue": 24,
+      "reason": "Northwind preserves the inherited Acme onsite cancellation cutoff for sponsor check-in operations."
+    },
+    {
+      "configKey": "flow04_feedback_window_hours",
+      "taskType": "xiigen-engine",
+      "configValue": 8,
+      "defaultValue": 24,
+      "reason": "Northwind sponsor forums collect feedback during the same business day, so the feedback window is eight hours."
+    }
+  ],
+  "visualEvidence": {
+    "roleMatrixDirectory": "docs/e2e-snapshots/event-attendance/tenant-b-v1.0.2/",
+    "organiserPolicyPng": "docs/e2e-snapshots/event-attendance/tenant-b-v1.0.2/01-northwind-sponsor-policy.png",
+    "feedbackWindowPng": "docs/e2e-snapshots/event-attendance/tenant-b-v1.0.2/02-northwind-feedback-window.png"
+  },
+  "adaptationHistory": [
+    {
+      "version": "1.0.1",
+      "adaptedBy": "acme-corp",
+      "changeType": "Type A (FREEDOM key value change)",
+      "previousModuleName": "event-attendance",
+      "newModuleName": "event-attendance-acme-onsite-check-in",
+      "summary": "Onsite attendance policy: six-hour attendee cancellation window and twelve-hour feedback collection window."
+    },
+    {
+      "version": "1.0.2",
+      "adaptedBy": "northwind",
+      "changeType": "Type A (FREEDOM key value change)",
+      "previousModuleName": "event-attendance-acme-onsite-check-in",
+      "newModuleName": "event-attendance-northwind-sponsor-check-in",
+      "summary": "Sponsor check-in policy: preserves the six-hour cancellation cutoff and shortens feedback collection to eight hours."
+    }
+  ]
+}

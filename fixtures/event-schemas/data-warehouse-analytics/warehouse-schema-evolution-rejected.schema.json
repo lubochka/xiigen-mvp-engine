@@ -1,0 +1,12 @@
+{
+  "eventType": "warehouse.schema.evolution.rejected",
+  "flowId": "FLOW-13",
+  "version": "1.0.0",
+  "properties": {
+    "schemaId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "changeType": { "type": "string", "enum": ["BREAKING"], "required": true },
+    "rejectionReason": { "type": "string", "required": true },
+    "rejectedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

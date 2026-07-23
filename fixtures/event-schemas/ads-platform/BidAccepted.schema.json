@@ -1,0 +1,16 @@
+{
+  "eventType": "ads.auction.bid-accepted",
+  "flowId": "FLOW-20",
+  "version": "1.0.0",
+  "description": "Emitted by T626 AuctionBidProcessor after successful SETNX bid-lock acquisition and ATOMIC budget DECRBY. Triggers billing and settlement processes.",
+  "properties": {
+    "bidId": { "type": "string", "required": true },
+    "auctionId": { "type": "string", "required": true },
+    "winnerAdvertiserId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "bidAmountCents": { "type": "integer", "minimum": 1, "required": true },
+    "settlement": { "type": "object", "required": true },
+    "bidAuditId": { "type": "string", "required": true },
+    "acceptedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

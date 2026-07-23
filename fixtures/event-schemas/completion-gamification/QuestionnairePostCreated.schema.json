@@ -1,0 +1,11 @@
+{
+  "eventType": "QuestionnairePostCreated",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "questionnaire-post-builder",
+  "consumers": ["T92", "T93"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "postId", "questionnaireId", "postContent", "createdAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T91 after post built from SocialShareApproved answers. Branch C continuation."
+}

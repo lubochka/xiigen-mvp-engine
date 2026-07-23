@@ -1,0 +1,1 @@
+{"type":"object","properties":{"projectId":{"type":"string"},"frameId":{"type":"string"},"ownershipValidated":{"type":"boolean"},"validatedAt":{"type":"string"},"validationMethod":{"type":"string","enum":["OAUTH_TOKEN_MATCH","FABRIC_LAYER","CACHE"]},"processingAllowed":{"type":"boolean"}},"required":["projectId","frameId","ownershipValidated","validatedAt"]}

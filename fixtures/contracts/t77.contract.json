@@ -1,0 +1,69 @@
+{
+  "taskTypeId": "T77",
+  "flowId": "FLOW-07",
+  "name": "FeedScorer",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "social-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "executionModel": "async",
+  "knowledgeScope": "PRIVATE",
+  "stackCoupling": {
+    "mechanism": "zero-score-passthrough-no-filter",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow07_score_recency_weight",
+    "neutralConcepts": [
+      "score=0 passes through — zero score is lowest relevance NOT a drop condition",
+      "All scoring weights from FREEDOM config — no hardcoded 0.x constants",
+      "Output { feedItemId, score } for EVERY input item regardless of score",
+      "DNA-8: storeDocument BEFORE FeedScored enqueue",
+      "T78 applies delivery thresholds from FREEDOM config — not T77"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F-T77-1",
+      "interface": "IFeedScoringService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F-T77-2",
+      "interface": "IFeedScoredQueue",
+      "fabric": "QUEUE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T77-1",
+      "rule": "score=0 passes through to T78 — zero score is lowest relevance, not a filtered item. Any code path that drops or skips score=0 items = BUILD_FAILURE",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T77-2",
+      "rule": "All scoring weights come from FREEDOM config — no hardcoded numeric constants (0.x weights = BUILD_FAILURE)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T77-3",
+      "rule": "Output { feedItemId, score } for EVERY input item — T77 is a scorer, not a gate",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T77-4",
+      "rule": "DNA-8: storeDocument('xiigen-feed-scores', ...) BEFORE queue.enqueue('FeedScored', ...)",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "feed_score_zero_passthrough",
+    "config_over_hardcode",
+    "store_before_enqueue"
+  ],
+  "freedomComponents": [
+    "flow07_score_recency_weight",
+    "flow07_score_engagement_weight",
+    "flow07_score_connection_strength_weight"
+  ],
+  "tags": ["T77", "score-zero", "passthrough", "feed-scoring", "FREEDOM-config"],
+  "keywords": "feed scorer T77 zero score passthrough no filter FREEDOM config weights DATA_PIPELINE"
+}

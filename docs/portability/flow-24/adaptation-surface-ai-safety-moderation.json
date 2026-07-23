@@ -1,0 +1,394 @@
+{
+  "flowId": "FLOW-24",
+  "flowSlug": "ai-safety-moderation",
+  "flowTitle": "AI Safety & Content Moderation",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-10",
+  "capturedBy": "Codex / FLOW-24 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/functional-specs/FLOW-24-ai-safety-moderation-functional-spec.md",
+    "server/src/engine-contracts/ai-safety-moderation-learning-contracts.ts",
+    "server/src/engine-contracts/ai-safety-moderation-bfa-rules.ts",
+    "server/src/engine-contracts/checks/ai-safety-moderation-checks.ts",
+    "server/src/engine/flows/ai-safety-moderation",
+    "docs/flow-coverage/ai-safety-moderation/P1-business-logic-inventory.md",
+    "docs/flow-coverage/ai-safety-moderation/P5-ui-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T367-T374",
+    "taskTypeIds": [
+      "T367",
+      "T368",
+      "T369",
+      "T370",
+      "T371",
+      "T372",
+      "T373",
+      "T374"
+    ],
+    "factoryIdRange": "F982-F1027",
+    "freedomKeyCount": 10,
+    "securityClassification": "tenant-scoped consent, content safety gate, server-side grading, appeal, audit, calendar, and gamification controls",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "The current implementation and engine contracts use T367-T374. Older planning state mentions T421-T460; tenant fork evidence uses the implemented contract range.",
+    "coreGuarantees": [
+      "Consent gate records are written for every consent outcome before downstream events.",
+      "Missing consent remains fail-closed for downstream moderation and learning actions.",
+      "Compose, safety review, and publish order remains fixed by saga evidence.",
+      "SafetyGateToken approval is mandatory before publish-facing actions.",
+      "Client-submitted score fields remain rejected before server-side grading.",
+      "Gamification ledger changes remain append-only and asynchronous after response.",
+      "Timezone is read from the tenant/user profile, not from client-supplied request fields.",
+      "Domain pack and advanced tracking feature gaps skip safely rather than failing the flow.",
+      "Calendar sync remains behind fabric connectors with no direct provider SDK imports.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ],
+    "packageSigningConstraint": {
+      "tier3EligibleBeforeSigningFirstPass": false,
+      "reason": "FLOW-24 governs safety decisions and publish-facing moderation outcomes, so Tier 3 requires package-signing first pass."
+    }
+  },
+  "services": [
+    {
+      "taskTypeId": "T367",
+      "className": "ConsentAndEnrollmentGateService",
+      "file": "server/src/engine/flows/ai-safety-moderation/consent-and-enrollment-gate.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow24_consent_default_outcome",
+        "flow24_consent_review_sla_hours"
+      ],
+      "machineLockedRules": [
+        "CONSENT_GATE entry is stored for every outcome",
+        "missing consent fails closed",
+        "consent audit is stored before ConsentGranted or ConsentDenied is emitted"
+      ]
+    },
+    {
+      "taskTypeId": "T368",
+      "className": "LessonCompositionEngine",
+      "file": "server/src/engine-contracts/ai-safety-moderation-learning-contracts.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "GLOBAL",
+      "adaptableFreedomKeys": [
+        "flow24_safety_score_threshold",
+        "flow24_safety_rejected_categories"
+      ],
+      "machineLockedRules": [
+        "compose, safety gate, and publish sequence is fixed",
+        "SafetyGateToken approval is required before publish",
+        "content safety scan cannot be skipped"
+      ]
+    },
+    {
+      "taskTypeId": "T369",
+      "className": "QuizGradingGate",
+      "file": "server/src/engine-contracts/ai-safety-moderation-learning-contracts.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow24_grading_timeout_ms",
+        "flow24_gamification_dispatch_mode"
+      ],
+      "machineLockedRules": [
+        "client score fields are rejected first",
+        "server-side grading is authoritative",
+        "gamification ledger appends after the synchronous response"
+      ]
+    },
+    {
+      "taskTypeId": "T370-T374",
+      "className": "Learning calendar and progress gates",
+      "file": "server/src/engine-contracts/ai-safety-moderation-learning-contracts.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow24_timezone_missing_policy",
+        "flow24_domain_pack_mode",
+        "flow24_calendar_sync_mode",
+        "flow24_advanced_progress_enabled"
+      ],
+      "machineLockedRules": [
+        "timezone comes from profile only",
+        "missing optional domain pack config returns skipped success",
+        "calendar sync uses fabric connectors only",
+        "advanced progress tracking preserves compose-safety-publish ordering"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-24 safety moderation operating values. Tenants may tune consent review posture, safety score thresholds, category labels, grading timeouts, gamification dispatch posture, timezone policy messaging, domain pack mode, calendar sync mode, and advanced progress enablement without changing fail-closed consent, safety token enforcement, ordering, server-side grading, append-only ledger, provider boundaries, or tenant isolation.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow24_consent_default_outcome",
+          "type": "enum",
+          "default": "PENDING",
+          "semantic": "Initial outcome used when consent state is inconclusive.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T367.ConsentAndEnrollmentGateService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "PENDING",
+              "DENIED"
+            ],
+            "rationale": "Tenants may choose the user-facing default while runtime authorization remains fail-closed."
+          }
+        },
+        {
+          "key": "flow24_consent_review_sla_hours",
+          "type": "number",
+          "default": 24,
+          "unit": "hours",
+          "semantic": "Target review time for pending consent or appeal cases.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T367.ConsentAndEnrollmentGateService",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 168,
+            "rationale": "Tenants may tune operating expectations without bypassing consent gates."
+          }
+        },
+        {
+          "key": "flow24_safety_score_threshold",
+          "type": "number",
+          "default": 0.86,
+          "unit": "fraction",
+          "semantic": "Minimum safety score recommended before an item can be marked approved.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T368.LessonCompositionEngine",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "min": 0.5,
+            "max": 0.99,
+            "rationale": "Thresholds may vary by tenant risk posture while the safety gate remains mandatory."
+          }
+        },
+        {
+          "key": "flow24_safety_rejected_categories",
+          "type": "string-list",
+          "default": "self-harm,sexual-minors,violent-extremism,private-data",
+          "semantic": "Tenant-visible category labels highlighted for moderation rejection.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T368.LessonCompositionEngine",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "minimumRequiredValues": [
+              "self-harm",
+              "sexual-minors",
+              "violent-extremism"
+            ],
+            "rationale": "Tenants may add labels, but required high-risk categories stay present."
+          }
+        },
+        {
+          "key": "flow24_grading_timeout_ms",
+          "type": "number",
+          "default": 30000,
+          "unit": "milliseconds",
+          "semantic": "Maximum synchronous grading window before retry guidance is shown.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T369.QuizGradingGate",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "min": 1000,
+            "max": 120000,
+            "rationale": "Tenants may tune operational timeout expectations while grading remains server-side."
+          }
+        },
+        {
+          "key": "flow24_gamification_dispatch_mode",
+          "type": "enum",
+          "default": "async-after-response",
+          "semantic": "Dispatch posture for gamification ledger updates.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T369.QuizGradingGate",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "async-after-response"
+            ],
+            "rationale": "The setting is visible for tenant documentation, but synchronous blocking is not allowed."
+          }
+        },
+        {
+          "key": "flow24_timezone_missing_policy",
+          "type": "enum",
+          "default": "require-profile-timezone",
+          "semantic": "Tenant-facing message policy when a profile lacks timezone.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T370.LearningStreakEvaluationGate",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "require-profile-timezone"
+            ],
+            "rationale": "Tenants may change copy around the policy, not the source of truth."
+          }
+        },
+        {
+          "key": "flow24_domain_pack_mode",
+          "type": "enum",
+          "default": "skip-when-missing",
+          "semantic": "Behavior when optional domain pack configuration is absent.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T372.DomainPackDeliveryGate",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "skip-when-missing"
+            ],
+            "rationale": "Missing optional pack configuration remains a safe skip, not a hard failure."
+          }
+        },
+        {
+          "key": "flow24_calendar_sync_mode",
+          "type": "enum",
+          "default": "fabric-connector-only",
+          "semantic": "Calendar integration posture shown in tenant package settings.",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T373.CalendarSyncConnectorGate",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              "fabric-connector-only"
+            ],
+            "rationale": "Direct provider SDK access remains outside the adaptation surface."
+          }
+        },
+        {
+          "key": "flow24_advanced_progress_enabled",
+          "type": "boolean",
+          "default": true,
+          "semantic": "Default display and package-setting posture for advanced progress tracking.",
+          "stakeholder": "tenant-admin",
+          "consumedBy": [
+            "T374.AdvancedProgressTracker",
+            "tenant package settings"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              true,
+              false
+            ],
+            "rationale": "Tenants may disable optional progress views while ledger and safety ordering remain fixed."
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to consent review posture, safety threshold defaults, rejection label display, grading timeout guidance, optional learning-calendar posture, and customer-facing module naming.",
+      "total": 3,
+      "edgeCases": [
+        {
+          "id": "acme-safety-console",
+          "name": "Acme safety console",
+          "semantic": "Tenant A tunes safety moderation for stricter review and quicker consent escalation.",
+          "extensionPoint": "consent SLA + safety score threshold + category labels",
+          "currentImplementation": "Consent gate, safety token requirement, and audit-before-event ordering remain fixed."
+        },
+        {
+          "id": "northwind-trust-review",
+          "name": "Northwind trust review",
+          "semantic": "Tenant B tunes moderation for customer-support content with clear appeal timing and conservative rejection labels.",
+          "extensionPoint": "review SLA + rejected category display + grading timeout guidance",
+          "currentImplementation": "Client scores remain rejected and server-side grading remains authoritative."
+        },
+        {
+          "id": "tessera-moderation-studio",
+          "name": "Tessera moderation studio",
+          "semantic": "Tenant C tunes moderation for collection-submission review with optional progress views disabled.",
+          "extensionPoint": "advanced progress setting + domain pack posture + calendar sync display",
+          "currentImplementation": "Timezone source, calendar fabric boundary, and safe-skip behavior remain fixed."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T367 through T374 remain fixed.",
+      "Factory IDs F982 through F1027 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Consent gate records are written for every consent outcome.",
+      "Missing consent remains fail-closed.",
+      "SafetyGateToken approval remains mandatory before publish-facing actions.",
+      "Compose, safety review, and publish order remains fixed.",
+      "Client-submitted score fields remain rejected before processing.",
+      "Server-side grading remains authoritative.",
+      "Gamification ledger operations remain append-only and asynchronous after response.",
+      "Timezone remains profile-sourced only.",
+      "Calendar sync remains fabric-connector-only.",
+      "Tenant context resolution remains automatic through TenantContextResolver."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantASafetyConsole": {
+      "description": "Tenant A tunes AI Safety & Content Moderation for stricter content review and faster consent escalation.",
+      "change": {
+        "flow24_consent_default_outcome": "PENDING",
+        "flow24_consent_review_sla_hours": 8,
+        "flow24_safety_score_threshold": 0.92,
+        "flow24_safety_rejected_categories": "self-harm,sexual-minors,violent-extremism,private-data,financial-scam",
+        "flow24_grading_timeout_ms": 20000,
+        "flow24_gamification_dispatch_mode": "async-after-response",
+        "flow24_timezone_missing_policy": "require-profile-timezone",
+        "flow24_domain_pack_mode": "skip-when-missing",
+        "flow24_calendar_sync_mode": "fabric-connector-only",
+        "flow24_advanced_progress_enabled": true
+      },
+      "impact": "Tenant A gets a stricter safety-console posture while consent fail-closed behavior, safety-token enforcement, server-side grading, append-only ledger, provider boundaries, audit ordering, and tenant isolation stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T367-T374",
+      "Factory IDs F982-F1027",
+      "Provider SDK boundary",
+      "Vault credential paths",
+      "consent audit before event",
+      "fail-closed consent gate",
+      "SafetyGateToken requirement",
+      "compose-safety-publish order",
+      "server-side grading authority",
+      "client score rejection",
+      "append-only gamification ledger",
+      "timezone-from-profile rule",
+      "calendar fabric connector rule",
+      "tenant-scoped records",
+      "TenantContextResolver usage"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-24 configuration values or display/module metadata.",
+    "FLOW-24 services remain MicroserviceBase subclasses and use TenantContextResolver for tenant scope.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

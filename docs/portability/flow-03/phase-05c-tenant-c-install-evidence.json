@@ -1,0 +1,73 @@
+{
+  "phase": "Phase 5c - Tenant C installs Tenant B version",
+  "flowId": "FLOW-03",
+  "flowSlug": "event-management",
+  "tenantId": "tessera-collective",
+  "sourceRepoFullName": "lubochka/northwind--event-management-northwind-sponsor-forums",
+  "installedModuleName": "event-management-northwind-sponsor-forums",
+  "packageName": "@xiigen-fork/event-management-northwind-sponsor-forums",
+  "packageVersion": "1.0.2",
+  "completedAt": "2026-05-01T03:09:57.739Z",
+  "fork": {
+    "forkId": "fork-event-management-tessera-collective",
+    "initialCommitSha": "060e1d52ebedf15b6d23b500f2a354ae0b8b0151",
+    "createdThrough": "MarketplacePackageController POST /api/marketplace/packages/event-management/fork",
+    "repoName": "tessera-collective--event-management-northwind-sponsor-forums",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--event-management-northwind-sponsor-forums"
+  },
+  "tenantRepo": {
+    "repoName": "tessera-collective--event-management-northwind-sponsor-forums",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--event-management-northwind-sponsor-forums",
+    "tenantRepoCommitHash": "a7b804c3bece9140a3a876e1adabf92b16264288",
+    "workflowConclusion": "success",
+    "workflowRunUrl": "https://github.com/lubochka/tessera-collective--event-management-northwind-sponsor-forums/actions/runs/25200057235",
+    "workflowHeadSha": "a7b804c3bece9140a3a876e1adabf92b16264288",
+    "workflowName": "XIIGen Flow CI - event-management",
+    "repoVisibilityAfterCapture": "PRIVATE",
+    "localClonePath": "<WORKSPACE>/AppData/Local/Temp/xiigen-flow03-tenant-c-installed-from-b",
+    "localChecks": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ]
+  },
+  "authVerification": {
+    "status": "partial under authentication deferred deployment",
+    "harness": "JwtTokenProvider with per-tenant signing keys and CLS tenant context",
+    "noTokenVerify": 401,
+    "tenantCOwnTokenVerify": 200,
+    "acmeTokenAgainstTenantC": 401,
+    "northwindTokenAgainstTenantC": 401,
+    "roles": [
+      "tenant-admin"
+    ],
+    "crossTenantJwtIsolationPassed": true,
+    "writeRoleCheck": "deferred because no deployed Tenant C write-route/user-role provisioning path exists in this auth deployment"
+  },
+  "visualEvidence": {
+    "snapshotVariant": "tenant-c-installed-from-b",
+    "directory": "docs/e2e-snapshots/event-management/tenant-c-installed-from-b/",
+    "pngCount": 27,
+    "expectedPngCount": 27,
+    "playwrightCommand": "XIIGEN_EVENT_MANAGEMENT_SNAPSHOT_VARIANT=tenant-c-installed-from-b VITE_PORT=5186 npx playwright test event-management-visual.spec.ts --project=chromium-desktop --reporter=list",
+    "playwrightResult": "27 passed",
+    "tenantAChangeVisible": true,
+    "tenantBChangeVisible": true,
+    "tenantCInstalledModuleNameVisible": true
+  },
+  "repoEvidence": {
+    "githubListingPng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-northwind-sponsor-forums-github-listing.png",
+    "repoHomepagePng": "docs/e2e-snapshots/repo-evidence/tessera-collective--event-management-northwind-sponsor-forums-repo-homepage.png",
+    "repoWasRestoredToPrivateAfterCapture": true
+  },
+  "cascadeAssertions": {
+    "adaptationHistoryEntries": 2,
+    "tenantAEntryPreserved": true,
+    "tenantBEntryPreserved": true,
+    "tenantCInstalledWithoutNewAdaptation": true,
+    "sourceRepoIsTenantBAdaptedRepo": true,
+    "repoNameDistinctFromTenantA": true,
+    "repoNameDistinctFromTenantB": true,
+    "moduleNameMatchesTenantBPublishedVersion": true
+  }
+}

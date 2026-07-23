@@ -1,0 +1,37 @@
+{
+  "title": "meta-arbitration-engine-Published-event-schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "entityId": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "meta-arbitration-engine.Published"
+      ]
+    },
+    "data": {
+      "type": "object"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "timestamp",
+    "entityId",
+    "eventType"
+  ]
+}

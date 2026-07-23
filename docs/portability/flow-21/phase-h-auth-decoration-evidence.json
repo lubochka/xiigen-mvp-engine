@@ -1,0 +1,327 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "phaseHAuthDecorationCheck",
+  "generatedAt": "2026-05-10T05:32:34.281Z",
+  "status": "completed",
+  "server": {
+    "url": "http://localhost:3000",
+    "health": "passed",
+    "healthPayloadStatus": "OK",
+    "route": "/api/runs/phase0-auth-probe/trace"
+  },
+  "vault": {
+    "container": "xiigen-vault",
+    "sealed": false,
+    "tenantSigningMaterialReadFromVault": {
+      "acme-corp": true,
+      "northwind": true,
+      "tessera-collective": true
+    }
+  },
+  "authDecoration": {
+    "authAfterFullCascade": true,
+    "routeProtected": true,
+    "probeRolesClaimShape": "array",
+    "rolesCovered": [
+      "tenant-admin",
+      "tenant-user",
+      "platform-admin",
+      "service-account"
+    ],
+    "tenantContextsCovered": [
+      "acme-corp",
+      "northwind",
+      "tessera-collective"
+    ],
+    "cascadePackagesCovered": [
+      "@xiigen-fork/acme-community-intake-workflows@1.0.1",
+      "@xiigen-fork/northwind-intake-automation-workflows@1.0.2",
+      "@xiigen-fork/tessera-collective-intake-workflows@1.0.3"
+    ]
+  },
+  "liveAuthMatrix": [
+    {
+      "name": "valid acme-corp tenant-admin token in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "valid acme-corp tenant-user token in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "valid acme-corp platform-admin token in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "missing token denied in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyKind": "Unauthorized",
+      "pass": true
+    },
+    {
+      "name": "wrong service-account role denied in acme-corp tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "service-account"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyKind": "INSUFFICIENT_ROLE",
+      "pass": true
+    },
+    {
+      "name": "valid northwind tenant-admin token in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "valid northwind tenant-user token in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "valid northwind platform-admin token in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "missing token denied in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyKind": "Unauthorized",
+      "pass": true
+    },
+    {
+      "name": "wrong service-account role denied in northwind tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "service-account"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyKind": "INSUFFICIENT_ROLE",
+      "pass": true
+    },
+    {
+      "name": "valid tessera-collective tenant-admin token in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "valid tessera-collective tenant-user token in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "valid tessera-collective platform-admin token in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "platform-admin"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "bodyKind": "TRACE_NOT_FOUND",
+      "pass": true
+    },
+    {
+      "name": "missing token denied in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyKind": "Unauthorized",
+      "pass": true
+    },
+    {
+      "name": "wrong service-account role denied in tessera-collective tenant",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "service-account"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "bodyKind": "INSUFFICIENT_ROLE",
+      "pass": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyKind": "Unauthorized",
+      "pass": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyKind": "Unauthorized",
+      "pass": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "method": "GET",
+      "path": "/api/runs/phase0-auth-probe/trace",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-admin"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "bodyKind": "Unauthorized",
+      "pass": true
+    }
+  ],
+  "summary": {
+    "passed": 18,
+    "total": 18,
+    "allPassed": true
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+    "serverJest": "passed: npx jest --testPathPatterns=dynamic-forms-workflows --runInBand --colors=false (8 suites / 84 tests)",
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokenMaterialPrinted": false,
+    "signingMaterialWrittenToEvidence": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "shortLivedTenantJwtTtlSeconds": 900
+  },
+  "commands": [
+    "GET http://localhost:3000/health/live",
+    "Read tenant signing material from Vault without printing values.",
+    "Generated short-lived HS256 JWT probes in memory only, with roles claim forced to an array.",
+    "fetch status-code auth matrix against http://localhost:3000/api/runs/phase0-auth-probe/trace",
+    "server npx tsc --noEmit -p tsconfig.json --pretty false",
+    "server npx jest --testPathPatterns=dynamic-forms-workflows --runInBand --colors=false",
+    "FLOW-21 phase-close scan: throwNew=0, clsImports=0, servicesMissingMicroserviceBase=0, directTenantContextImports=0, directSdkImports=0, anyTypes=0, secretPatternHits=0"
+  ],
+  "verdict": "PASS"
+}

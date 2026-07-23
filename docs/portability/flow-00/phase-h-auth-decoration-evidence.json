@@ -1,0 +1,121 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phaseHAuthDecorationCheck",
+    "status":  "completed",
+    "generatedAt":  "2026-05-05T07:59:42.3444710+03:00",
+    "cascadePackages":  [
+                            "@xiigen-fork/acme-launch-bundles@1.0.1",
+                            "@xiigen-fork/northwind-launch-bundles@1.0.2",
+                            "@xiigen-fork/tessera-community-bundles@1.0.3"
+                        ],
+    "tenantRepos":  [
+                        "lubochka/acme-corp--acme-launch-bundles",
+                        "lubochka/northwind--northwind-launch-bundles",
+                        "lubochka/tessera-collective--tessera-community-bundles"
+                    ],
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-05T07:59:02.3488060+03:00",
+                           "passed":  9,
+                           "failed":  0,
+                           "checks":  [
+                                          {
+                                              "name":  "acme own tenant identity",
+                                              "tenantHeader":  "acme-corp",
+                                              "path":  "/api/auth/me",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "northwind own tenant identity",
+                                              "tenantHeader":  "northwind",
+                                              "path":  "/api/auth/me",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tessera own tenant identity",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/auth/me",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tessera protected route",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/runs/flow00-phaseH-auth/trace",
+                                              "expectedStatus":  200,
+                                              "actualStatus":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "missing token on tessera route",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/runs/flow00-phaseH-auth/trace",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tenant A token in tenant B context",
+                                              "tenantHeader":  "northwind",
+                                              "path":  "/api/runs/flow00-phaseH-auth/trace",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tenant B token in tenant C context",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/runs/flow00-phaseH-auth/trace",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "tenant A token in tenant C context",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/runs/flow00-phaseH-auth/trace",
+                                              "expectedStatus":  401,
+                                              "actualStatus":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "wrong role token on tessera route",
+                                              "tenantHeader":  "tessera-collective",
+                                              "path":  "/api/runs/flow00-phaseH-auth/trace",
+                                              "expectedStatus":  403,
+                                              "actualStatus":  403,
+                                              "passed":  true
+                                          }
+                                      ]
+                       },
+    "authDecoration":  {
+                           "routeProbe":  "/api/runs/:runId/trace",
+                           "executableRoles":  [
+                                                   "tenant-admin",
+                                                   "platform-admin"
+                                               ],
+                           "wrongRole":  "platform-support",
+                           "tenantScopeHeader":  "x-tenant-id",
+                           "secretsProvider":  "vault",
+                           "serverPort":  33001
+                       },
+    "verification":  [
+                         "Vault tenant signing keys were read only for JWT signing and not printed.",
+                         "Own-tenant identity checks returned 200 for all three tenants.",
+                         "Missing token returned 401.",
+                         "Cross-tenant token reuse returned 401 for A-in-B, B-in-C, and A-in-C.",
+                         "Wrong role returned 403 on the protected route.",
+                         "No auth deferral used; server was live with SECRETS_PROVIDER=vault."
+                     ],
+    "secretHandling":  {
+                           "printedTenantTokens":  false,
+                           "printedVaultSigningKeys":  false,
+                           "committedEnvFiles":  false
+                       },
+    "verdict":  "PASS"
+}

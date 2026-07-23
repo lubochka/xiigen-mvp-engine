@@ -1,0 +1,71 @@
+name: screen-craft-audit
+version: "1.0.0"
+sk_number: SK-541
+priority: MANDATORY
+load_order: phase-7-step-5
+updated: "2026-04-20"
+author: luba
+entry: planning--screen-craft-audit-SKILL.md
+
+description: >
+  Four-layer design quality audit of captured Playwright PNGs. Fires at
+  Phase 7 Step 5, after PNGs are captured and before FC-18 Audit Trail is
+  authored. Replaces the ZIP-14-only P1-P10 approach with a comprehensive
+  four-layer audit: Layer 1 accessibility (ui-ux-pro-max P1/P2 CRITICAL),
+  Layer 2 AI slop detection (design-for-ai 10-tell checklist with explicit
+  thresholds), Layer 3 Nielsen heuristics H1/H2/H8/H9 (0-4 scoring, <8
+  total = BLOCK), Layer 4 grammar verification vs .impeccable.md declared
+  type (UX-30 enforcement). Defers to REPAIR-GUIDANCE.md Parts 2/3 as the
+  authoritative classification protocol. Produces one SK-541 AUDIT record
+  per page, pasted into the FC-18 Audit Trail at Step 6.
+
+triggers:
+  - "Phase 7"
+  - "UX audit"
+  - "PNG audit"
+  - "FC-18 Audit Trail"
+  - "AI slop"
+  - "Nielsen heuristics"
+  - "grammar verification"
+  - "UX-30"
+  - "screen craft audit"
+
+load_order: "phase-7-step-5"
+
+fires_for: "any session that produced React pages"
+fires_at: "Phase 7 Step 5 — after PNGs captured, before FC-18 Audit Trail"
+
+layers:
+  layer_1:
+    name: "Accessibility and interaction"
+    source: "ui-ux-pro-max P1/P2"
+    critical: [P1, P2]
+    block_on_any_p1_fail: true
+  layer_2:
+    name: "AI slop detection"
+    source: "design-for-ai CHECKER mode"
+    tells_count: 10
+    thresholds: {pass: "0-2", concern: "3-5", block: "6+"}
+  layer_3:
+    name: "Nielsen heuristics spot check"
+    source: "impeccable critique"
+    heuristics: [H1, H2, H8, H9]
+    scoring: "0-4 per heuristic"
+    thresholds: {pass: ">=12", concern: "8-11", block: "<8"}
+    block_conditions: ["H1<=1", "H2<=1", "H9=0"]
+  layer_4:
+    name: "Grammar verification"
+    source: ".impeccable.md declared type"
+    enforcement: "UX-30"
+    block_condition: "CRUD table on TENANT_CONSUMER/PUBLIC"
+
+authoritative_protocol: "docs/screen-examination/REPAIR-GUIDANCE.md Parts 2/3"
+one_finding_per_run: true
+reference_implementation: "FLOW-29 role PNGs at docs/e2e-snapshots/c6-role-coverage/flow-29-*.png"
+
+output: "SK-541 AUDIT record → FC-18-AUDIT-TRAIL.md"
+
+integration:
+  runs_after: [SK-542, SK-540, SK-539]
+  feeds: FC-18-Audit-Trail
+  sequence: "SK-541 → FC-18 Audit Trail → session STOP"

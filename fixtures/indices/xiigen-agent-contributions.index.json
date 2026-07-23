@@ -1,0 +1,17 @@
+{
+  "index": "xiigen-agent-contributions",
+  "mappings": {
+    "properties": {
+      "contributionId":  { "type": "keyword" },
+      "sessionId":       { "type": "keyword" },
+      "patternId":       { "type": "keyword" },
+      "path":            { "type": "keyword" },
+      "status":          { "type": "keyword" },
+      "tenantId":        { "type": "keyword" },
+      "strippedCount":   { "type": "integer" },
+      "timestamp":       { "type": "date" },
+      "connectionType":  { "type": "keyword" },
+      "knowledgeScope":  { "type": "keyword" }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "taskTypeId": "T665",
+  "flowId": "FLOW-48",
+  "name": "TranslationRequestRegistrar",
+  "archetype": "VALIDATION",
+  "domainId": "i18n-translation",
+  "seededAt": "2026-04-19T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "event-consumer-AccountCreated",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "i18n.autoDetectFromRegistrations",
+    "neutralConcepts": [
+      "subscribes to AccountCreated with optional acceptLanguage (cross-flow from FLOW-01)",
+      "BCP-47 normaliser rejects malformed tags → no-op (CF-814)",
+      "DNA-8 outbox: storeDocument(xiigen-translation-requests) BEFORE freedom_config['i18n.enabledLocales'] mutation",
+      "enabledLocales mutation uses Set semantics — no duplicate entries",
+      "tenantId from ALS only (CF-810)"
+    ]
+  },
+  "factories": [],
+  "ironRules": [
+    {
+      "id": "CF-810",
+      "rule": "tenantId on every write reads from ALS.tenantContext — never from event payload.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "CF-814",
+      "rule": "If parseLocale(acceptLanguage) returns null, the service writes nothing and emits no event. No-op is correct.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": ["tenant_id_on_writes", "dna_8_outbox_ordering"],
+  "bfaRules": ["CF-810", "CF-814"],
+  "tags": ["validation", "event-consumer", "bcp-47", "cross-flow", "FLOW-48"],
+  "keywords": "translation request registrar AccountCreated acceptLanguage BCP-47 normalisation enabledLocales union i18n-translation FLOW-48"
+}

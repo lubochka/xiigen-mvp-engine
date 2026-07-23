@@ -1,0 +1,49 @@
+{
+  "taskTypeId": "T100",
+  "flowId": "FLOW-06",
+  "name": "MembershipTierAssigner",
+  "archetype": "ROUTING",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "server-side-tier-from-subscription",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow06_tier_access_map",
+    "neutralConcepts": [
+      "requestedTier NOT in input shape — client-submitted tier ignored",
+      "tier from xiigen-subscriptions (GLOBAL) lookup",
+      "output: {assignedTier, accessLevels[], subscriptionId}"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F197",
+      "interface": "IMembershipTierService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T100-1",
+      "rule": "requestedTier must NOT appear in T100 input shape. Client-submitted tier values are untrusted and enable privilege escalation.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T100-2",
+      "rule": "assignedTier derived from xiigen-subscriptions (GLOBAL scope) lookup — not from request payload.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T100-3",
+      "rule": "Output must be { assignedTier, accessLevels[], subscriptionId } — not just a tier string. accessLevels[] drives T105 query filter.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["tier-assigner", "server-side", "subscription-authority", "ROUTING"],
+  "keywords": "membership tier assigner server side subscription authority requestedTier forbidden accessLevels"
+}

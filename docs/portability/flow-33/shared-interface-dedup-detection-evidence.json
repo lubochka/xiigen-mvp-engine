@@ -1,0 +1,70 @@
+{
+  "flowId": "FLOW-33",
+  "flowSlug": "system-initiation-bootstrap",
+  "phase": "sharedInterfaceDedupDetection",
+  "generatedAt": "2026-05-11T09:13:07.6881721Z",
+  "protocolGate": "Run shared-interface duplicate detection after directory correction and record whether extraction is required before governance rule generation.",
+  "scanScope": [
+    "server/src/engine/flows/system-initiation-bootstrap",
+    "server/src/engine/flows/generation-loop"
+  ],
+  "duplicateInterfaceNames": [
+    {
+      "name": "IDb",
+      "count": 8,
+      "classification": "fabric-shape-duplicate"
+    },
+    {
+      "name": "IQueue",
+      "count": 7,
+      "classification": "fabric-shape-duplicate"
+    },
+    {
+      "name": "ContextPack",
+      "count": 2,
+      "classification": "flow-domain-shape-duplicate"
+    },
+    {
+      "name": "IRag",
+      "count": 2,
+      "classification": "fabric-shape-duplicate"
+    },
+    {
+      "name": "IFreedomConfig",
+      "count": 3,
+      "classification": "fabric-shape-duplicate"
+    },
+    {
+      "name": "ConsensusResult",
+      "count": 2,
+      "classification": "flow-domain-shape-duplicate"
+    },
+    {
+      "name": "IAi",
+      "count": 3,
+      "classification": "fabric-shape-duplicate"
+    },
+    {
+      "name": "EscalationBriefing",
+      "count": 2,
+      "classification": "cross-flow-domain-shape-duplicate"
+    },
+    {
+      "name": "BlastRadiusReport",
+      "count": 2,
+      "classification": "flow-domain-shape-duplicate"
+    }
+  ],
+  "decision": {
+    "result": "EXTRACTION_REQUIRED_BEFORE_GOVERNANCE_RULE_GENERATION",
+    "recommendedNextStep": "Extract common FLOW-33 local interfaces into a slug-local shared interface module, then rerun FLOW-33 Jest and server TypeScript.",
+    "reason": "The detection step found repeated interface names and fabric-like local stubs across FLOW-33 services. Governance rule generation should not canonize duplicated local shapes."
+  },
+  "verification": {
+    "command": "PowerShell Select-String duplicate interface scan across system-initiation-bootstrap and generation-loop flow directories",
+    "exitCode": 0,
+    "duplicateGroupsFound": 9
+  },
+  "result": "PASS_WITH_EXTRACTION_REQUIRED",
+  "nextPhase": "sharedInterfaceExtraction"
+}

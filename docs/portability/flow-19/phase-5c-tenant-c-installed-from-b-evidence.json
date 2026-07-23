@@ -1,0 +1,193 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "phase": "phase5cTenantCInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-07T06:07:24.5682111+03:00",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "tenantName": "Tessera Collective"
+  },
+  "sourceTenant": {
+    "tenantId": "northwind",
+    "repo": "lubochka/northwind--northwind-durable-sagas-governance",
+    "package": "@xiigen-fork/northwind-durable-sagas-governance",
+    "version": "1.0.2"
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/durable-sagas-compliance/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "sourceRepoFullName": "lubochka/northwind--northwind-durable-sagas-governance",
+    "repoFullName": "lubochka/tessera-collective--northwind-durable-sagas-governance",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-durable-sagas-governance",
+    "initialCommitSha": "460b2d00d19c6163b2327f4fadb81b3d3438082f",
+    "initialVersion": "1.0.2",
+    "forkId": "fork-durable-sagas-compliance-tessera-collective"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/tessera-collective--northwind-durable-sagas-governance",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-durable-sagas-governance",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialInstallCommit": "460b2d00d19c6163b2327f4fadb81b3d3438082f",
+    "initialActionsRun": {
+      "runId": 25473567070,
+      "jobId": 74742142894,
+      "url": "https://github.com/lubochka/tessera-collective--northwind-durable-sagas-governance/actions/runs/25473567070",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "460b2d00d19c6163b2327f4fadb81b3d3438082f",
+      "failureReason": "Inherited Northwind adaptation test asserted the Northwind repo name after the fork engine correctly rewrote tenant.config.json to Tessera."
+    },
+    "repairCommit": "11c7d2346c1e8f684be645acc244b6c7a6cab6e9",
+    "repairCommitMessage": "Repair Tessera install proof for Northwind durable sagas governance",
+    "repairActionsRun": {
+      "runId": 25473674901,
+      "jobId": 74742475728,
+      "url": "https://github.com/lubochka/tessera-collective--northwind-durable-sagas-governance/actions/runs/25473674901",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "11c7d2346c1e8f684be645acc244b6c7a6cab6e9",
+      "createdAt": "2026-05-07T03:02:51Z",
+      "updatedAt": "2026-05-07T03:03:35Z",
+      "successfulSteps": [
+        "Set up job",
+        "Run actions/checkout@v4.2.2",
+        "Run actions/setup-node@v4.4.0",
+        "Install",
+        "TypeScript check",
+        "Test",
+        "Provenance",
+        "Post Run actions/setup-node@v4.4.0",
+        "Post Run actions/checkout@v4.2.2",
+        "Complete job"
+      ]
+    },
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-durable-sagas-governance-phase5c-20260507-055939",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "__tests__/durable-sagas-compliance-acme-adaptation.spec.ts"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      }
+    ],
+    "installProof": {
+      "tenantConfigTenantId": "tessera-collective",
+      "installedFromRepoFullName": "lubochka/northwind--northwind-durable-sagas-governance",
+      "adaptationHistoryEntries": 2,
+      "firstAdaptationTenantId": "acme-corp",
+      "secondAdaptationTenantId": "northwind",
+      "manifestContainsStandalonePackage": true,
+      "manifestContainsAdaptationSurface": true,
+      "manifestItemCount": 114
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/northwind-durable-sagas-governance",
+    "version": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-durable-sagas-governance/-/northwind-durable-sagas-governance-1.0.2.tgz",
+    "shasum": "fbf703328e1a279ca69d7e7a7f6ab0862ef2cb1b",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/durable-sagas-compliance-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/durable-sagas-compliance-northwind-v1.0.2-registry-listing-phase5c.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/durable-sagas-compliance/tenant-c-installed-from-b",
+      "count": 15,
+      "zeroByteFiles": 0,
+      "playwrightExecutions": 45,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin",
+        "platform-support"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-19/tessera-collective--northwind-durable-sagas-governance-tenant-c-installed-from-b-github-listing.png",
+        "bytes": 134344
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-19/tessera-collective--northwind-durable-sagas-governance-tenant-c-installed-from-b-actions-success.png",
+        "bytes": 78470
+      },
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/durable-sagas-compliance-northwind-v1.0.2-registry-listing-phase5c.png",
+        "bytes": 55952
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/durable-sagas-compliance-tenant-c-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-19 Tenant C installed-from-B cascade-point visual evidence under docs/e2e-snapshots/durable-sagas-compliance/tenant-c-installed-from-b."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantCInstalledPlaywright": {
+      "command": "client: VITE_PORT=5174 npx playwright test e2e/durable-sagas-compliance-tenant-c-installed.spec.ts --reporter=line",
+      "result": "passed",
+      "tests": 45,
+      "distinctPngCount": 15,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCForkedTenantBAdaptedSource": true,
+    "tenantCInstalledPackagePreservedTenantBValues": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryStillReturnsTenantBPackage": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCAdaptation": true
+  },
+  "verdict": "PASS"
+}

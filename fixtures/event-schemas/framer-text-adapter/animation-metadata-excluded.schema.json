@@ -1,0 +1,1 @@
+{"type":"object","properties":{"componentName":{"type":"string"},"workspaceId":{"type":"string"},"animationPresent":{"type":"boolean"},"animationType":{"type":"string"},"reason":{"type":"string","enum":["NOT_PORTABLE","ANIMATION_STATE_DYNAMIC","UNSUPPORTED_FORMAT"]},"auditedAt":{"type":"string"}},"required":["componentName","workspaceId","animationPresent"]}

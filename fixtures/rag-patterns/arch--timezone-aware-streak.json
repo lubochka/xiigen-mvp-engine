@@ -1,0 +1,18 @@
+{
+  "patternId": "TIMEZONE-AWARE-STREAK-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-05",
+  "domainId": "learning-completion-gamification",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "archetype": "PROCESSING",
+  "tags": ["timezone-aware", "streak", "UTC-offset", "local-date"],
+  "keywords": "timezone streak UTC offset local date user perspective boundary userTimezoneOffset",
+  "ironRules": [
+    "userTimezoneOffset is a REQUIRED input field — never default to UTC",
+    "localDate = UTC timestamp + offset — computed at comparison time",
+    "Streak boundary = midnight in user's local timezone, not server UTC midnight",
+    "streakBonus passed to LedgerUpdater — not applied by StreakManager itself",
+    "Idempotency: (userId, localDate) — same local day does not re-increment"
+  ],
+  "codeSnippet": "// CORRECT: compute local date from UTC + offset\nconst utcMs = Date.now();\nconst offsetMs = parseOffset(userTimezoneOffset); // e.g., '+12:00' → 12 * 3600000\nconst localMs = utcMs + offsetMs;\nconst localDate = new Date(localMs).toISOString().slice(0, 10); // 'YYYY-MM-DD'\n// Compare localDate against stored last completion localDate\n// WRONG: compare UTC dates — breaks for UTC+ users\n// const today = new Date().toISOString().slice(0, 10); // server UTC date — WRONG"
+}

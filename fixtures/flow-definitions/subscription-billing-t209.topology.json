@@ -1,0 +1,77 @@
+{
+  "flowId": "FLOW-12",
+  "taskTypeId": "T209",
+  "name": "subscription-billing-plan-orchestrator",
+  "description": "T209 SubscriptionPlanOrchestrator — BILLING archetype. Integer-cents guard at ORDER 1, OCC write at ORDER 6. DPO: OCC_CONFLICT emits SubscriptionPlanPublicationFailed.",
+  "archetype": "BILLING",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: integer-cents guard at ORDER 1, OCC write (not plain storeDocument), DNA-8 audit-before-enqueue"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve BILLING arch pattern + integer-cents guard + OCC write + outbox patterns for T209",
+      "params": {
+        "archetype": "BILLING",
+        "taskTypeRef": "T209",
+        "topK": 5,
+        "patternIds": [
+          "arch--integer-cents-guard",
+          "arch--occ-write-concurrency",
+          "arch--outbox-audit-before-enqueue",
+          "arch--setnx-idempotency"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T209 into: IntegerCentsGuard(1) → SETNX(2) → OccRead(3) → IntervalValidation(4) → AuditWrite(5) → OccWrite(6) → Enqueue(7)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate subscription-plan-orchestrator.service.ts with: Number.isInteger(priceCents) at ORDER 1, storeDocumentWithOCC at ORDER 6 (not plain storeDocument), storeDocument(audit) BEFORE enqueue(SubscriptionPlanPublished). billingInterval validation at ORDER 4."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: financial_op_idempotency, setnx_before_operation, store_before_enqueue, integer_cents_guard, occ_write_not_plain_store"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T209 iron rules: integer-cents at ORDER 1, OCC write not plain storeDocument, audit before enqueue"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=integer-cents-guard-first + storeDocumentWithOCC + audit-before-enqueue, rejected=float-price-accepted OR plain-storeDocument OR enqueue-before-audit.",
+      "discriminatingConstraint": "float-price-accepted OR plain-storeDocument(not OCC) OR enqueue-before-audit receives score=0 and triggers n3 re-iteration. Correct implementation requires: Number.isInteger(priceCents) at ORDER 1 + storeDocumentWithOCC at ORDER 6 + storeDocument(audit) BEFORE enqueue(SubscriptionPlanPublished).",
+      "curriculumTier": 2
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "PlanPublishRequested event (admin action)",
+  "primaryFabric": "DATABASE"
+}

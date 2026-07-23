@@ -1,0 +1,51 @@
+{
+  "taskTypeId": "T103",
+  "flowId": "FLOW-06",
+  "name": "GroupMembershipCompleted",
+  "archetype": "ORCHESTRATION",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "branch-a-only-completion-gate",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IQueueService",
+    "freedomConfigKey": "flow06_completion_event_name",
+    "neutralConcepts": [
+      "'GroupMembershipCompleted' is a MACHINE literal string constant",
+      "gates on Branch A only: T101+T102+T103",
+      "PENDING state does NOT trigger GroupMembershipCompleted",
+      "Branch B (FeedSeeded) and Branch C (notifications) NOT in gate"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F200",
+      "interface": "IMembershipCompletionGateService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T103-1",
+      "rule": "'GroupMembershipCompleted' must be declared as a MACHINE string literal constant — never dynamic.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T103-2",
+      "rule": "Completion gate condition = Branch A: T101 (access provisioned) + T102 (record stored, ACTIVE). PENDING state does NOT trigger this gate.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T103-3",
+      "rule": "Branch B (FeedSeeded) and Branch C (MemberWelcomeNotified) are NOT in the GroupMembershipCompleted gate condition.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["completion-gate", "branch-a", "machine-literal", "ORCHESTRATION"],
+  "keywords": "group membership completed completion gate branch A machine literal PENDING not trigger"
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EmailVerificationTokenIssued",
+  "description": "CloudEvent: EmailVerificationTokenIssued",
+  "type": "object",
+  "source": "server",
+  "required": [
+    "specversion",
+    "id",
+    "source",
+    "type",
+    "datacontenttype",
+    "time",
+    "traceparent",
+    "tenantId"
+  ],
+  "properties": {
+    "specversion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "id": {
+      "type": "string",
+      "description": "UUID \u2014 unique per event instance"
+    },
+    "source": {
+      "type": "string",
+      "const": "xiigen/email-verification"
+    },
+    "type": {
+      "type": "string",
+      "const": "xiigen.user-registration.emailverificationtokenissued.v1"
+    },
+    "datacontenttype": {
+      "type": "string",
+      "const": "application/json"
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "traceparent": {
+      "type": "string"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant scope \u2014 required on every event (DNA-5)"
+    },
+    "data": {
+      "type": "object",
+      "description": "Event data \u2014 no PII (CF-8). userId as reference only.",
+      "required": [
+        "userId",
+        "tokenId",
+        "expiresAt",
+        "correlationId"
+      ],
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "tokenId": {
+          "type": "string",
+          "description": "Token reference \u2014 NOT the raw token value"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "correlationId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "flowId": "FLOW-01"
+}

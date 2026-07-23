@@ -1,0 +1,16 @@
+{
+  "index": "xiigen-shadow-runs",
+  "mappings": {
+    "properties": {
+      "taskTypeId": { "type": "keyword" },
+      "flowId": { "type": "keyword" },
+      "status": { "type": "keyword" },
+      "paidModelScore": { "type": "float" },
+      "ossScore": { "type": "float" },
+      "gapScore": { "type": "float" },
+      "flowsInPending": { "type": "integer" },
+      "stalledAfterFlows": { "type": "integer" },
+      "recordedAt": { "type": "date" }
+    }
+  }
+}

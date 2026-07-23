@@ -1,0 +1,22 @@
+{
+  "patternId": "conflict-CF-2-idempotency-dedup",
+  "patternType": "CONFLICT_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "cfId": "CF-2",
+  "trigger": "Duplicate registration request with same email + correlationId",
+  "conflictDesc": "Network retry creates two user records for one registration attempt. Downstream flows process duplicate users.",
+  "resolution": "IScopedMemoryService.setIfAbsent('auth_attempt:<userId>:<correlationId>', '1', 3600). Return existing record if key already set.",
+  "flowScope": [
+    "FLOW-01"
+  ],
+  "severity": "HIGH",
+  "tags": [
+    "idempotency",
+    "deduplication",
+    "setIfAbsent",
+    "cf-2"
+  ],
+  "keywords": "idempotency duplicate registration correlationId setIfAbsent dedup CF-2"
+}

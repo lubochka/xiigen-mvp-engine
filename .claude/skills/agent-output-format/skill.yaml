@@ -1,0 +1,25 @@
+name: agent-output-format
+sk_number: SK-411
+version: "2.0.0"
+load_order: 9
+priority: RECOMMENDED
+description: >
+  Web session (claude.ai) skill that enforces deliverables are formatted for their
+  stated consumer (Claude Code), not for the human in the chat. Prevents analysis
+  drift where deep investigation replaces agent-executable instructions with
+  human-readable reports. Separates reference docs from execution files.
+  v2.0: adds SESSION-0 plan review gate, three-file rule, test count vs file count
+  distinction, project-agnostic gate commands, and plan-review-skill integration.
+triggers:
+  - "plan for Claude Code"
+  - "instructions for autonomous"
+  - "Claude Code with Opus"
+  - "self-implementing"
+  - "make plans which will help claude code"
+  - "capable to implement and test itself"
+  - "handoff to Claude Code"
+  - "prepare for execution"
+environment: "Web sessions (claude.ai) — Opus and Sonnet"
+position: before-all-other-skills
+dependencies:
+  - plan-review-skill (validates content after this skill validates format)

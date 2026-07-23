@@ -1,0 +1,17 @@
+{
+  "eventId": "schema-publish-failed",
+  "eventName": "SchemaPublishFailed",
+  "flowId": "FLOW-21",
+  "taskTypeId": "T629",
+  "description": "Emitted when schema publish fails (OCC conflict or validation error)",
+  "properties": {
+    "schemaId": { "type": "string", "description": "The ID of the schema" },
+    "version": { "type": "integer", "description": "The version that failed to publish" },
+    "reason": { "type": "string", "description": "Failure reason (OCC_CONFLICT, VALIDATION_FAILED, etc)" },
+    "errors": { "type": "array", "items": { "type": "object" }, "description": "Validation errors if applicable" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "tenantId": { "type": "string" }
+  },
+  "required": ["schemaId", "reason"],
+  "version": "1.0"
+}

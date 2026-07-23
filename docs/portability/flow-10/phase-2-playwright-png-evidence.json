@@ -1,0 +1,129 @@
+{
+  "flowId": "FLOW-10",
+  "flowSlug": "reviews-reputation",
+  "phase": "phase-2-playwright-and-png-count",
+  "generatedAt": "2026-05-05T21:18:28.2514548+03:00",
+  "playwrightRuns": [
+    {
+      "command": "npx playwright test e2e/reviews-reputation.spec.ts --project=chromium-desktop --workers=1 --reporter=line",
+      "workingDirectory": "client",
+      "serverBridge": "localhost:3000 bridged to Docker server localhost:33001",
+      "firstRun": {
+        "passed": 10,
+        "failed": 4,
+        "total": 14,
+        "rootCause": "The submit tests were still written for the pre-RUN-153 visible numeric rating input and did not select the tenant-user role. The current FLOW-10 UI uses ?role=tenant-user plus a star selector and hidden rating-input form value."
+      },
+      "rerun": {
+        "passed": 14,
+        "total": 14
+      },
+      "notes": [
+        "Updated the FLOW-10 Playwright spec to exercise the current role-aware star-selector contract instead of the removed visible numeric input.",
+        "The source-state suite passed and refreshed all expected reviews-reputation PNG evidence."
+      ]
+    },
+    {
+      "command": "npx playwright test e2e/visual-audit-axis-d-full.spec.ts -g \"reviews-reputation\" --workers=1 --reporter=line",
+      "workingDirectory": "client",
+      "serverBridge": "localhost:3000 bridged to Docker server localhost:33001",
+      "result": {
+        "passed": 9,
+        "total": 9
+      },
+      "notes": [
+        "The generated Axis D matrix for FLOW-10 contains tenant-user, tenant-admin, and anonymous primary-role captures across desktop, tablet, and mobile.",
+        "The run refreshed the role/viewport PNG evidence under docs/e2e-snapshots/visual-audit/{viewport}/reviews-reputation."
+      ]
+    }
+  ],
+  "clientVerification": [
+    {
+      "command": "npx tsc --noEmit",
+      "workingDirectory": "client",
+      "exitCode": 0
+    }
+  ],
+  "serverVerification": [
+    {
+      "command": "npx tsc --noEmit -p tsconfig.json",
+      "workingDirectory": "server",
+      "exitCode": 0
+    },
+    {
+      "command": "npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false",
+      "workingDirectory": "server",
+      "result": {
+        "testSuitesPassed": 8,
+        "testSuitesTotal": 8,
+        "testsPassed": 113,
+        "testsTotal": 113
+      }
+    }
+  ],
+  "pngEvidence": {
+    "p1StateCoverage": {
+      "directory": "docs/e2e-snapshots/reviews-reputation",
+      "expectedPngCount": 10,
+      "actualPngCount": 10,
+      "zeroBytePngCount": 0,
+      "minimumBytes": 19514,
+      "maximumBytes": 51724,
+      "totalBytes": 313940,
+      "status": "present"
+    },
+    "roleMatrix": {
+      "directoryPattern": "docs/e2e-snapshots/visual-audit/{viewport}/reviews-reputation",
+      "roles": [
+        "tenant-user",
+        "tenant-admin",
+        "anonymous"
+      ],
+      "viewports": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "expectedPngCount": 9,
+      "actualPngCount": 9,
+      "zeroBytePngCount": 0,
+      "minimumBytes": 21387,
+      "maximumBytes": 126602,
+      "totalBytes": 492757,
+      "status": "present"
+    },
+    "repoEvidence": {
+      "directory": "docs/e2e-snapshots/repo-evidence",
+      "totalPngCount": 97,
+      "tenantCounts": {
+        "acme-corp": 26,
+        "northwind": 35,
+        "tessera-collective": 36
+      },
+      "status": "all-three-tenants-present",
+      "phaseScope": "pre-fork-phase-2"
+    },
+    "tenantCascadeScreenshots": {
+      "phaseScope": "pre-fork-phase-2",
+      "status": "source-role-matrix-present; fork-cascade-specific screenshots remain phase-4-through-phase-5 deliverables"
+    }
+  },
+  "phaseCloseScans": {
+    "flowFileCount": 4,
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "flowScopedAnnotations": 4,
+    "flowIdAnnotations": 4,
+    "localConfigClones": 0,
+    "canonicalFreedomGets": 3,
+    "unscopedFreedomReads": 0,
+    "directSdkImports": 0,
+    "productionAnyTypes": 0
+  },
+  "port3000Note": {
+    "dockerBindAttempted": false,
+    "workaround": "A temporary local Node HTTP bridge exposed localhost:3000 and proxied to the healthy Docker server on localhost:33001 for Playwright readiness and API requests."
+  },
+  "tokenMaterialWrittenToEvidence": false
+}

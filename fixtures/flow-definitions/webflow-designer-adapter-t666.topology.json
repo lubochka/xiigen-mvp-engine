@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-43",
+  "flowName": "webflow-designer-adapter",
+  "topology": {
+    "nodes": [
+      {
+        "nodeId": "n1",
+        "taskTypeId": "T666",
+        "name": "WebflowDesignFetcher",
+        "order": 1,
+        "description": "Obtain OAuth token via secrets fabric, fetch design from Webflow API, validate frame ownership"
+      },
+      {
+        "nodeId": "n2",
+        "taskTypeId": "T667",
+        "name": "ComponentHierarchyTraverser",
+        "order": 2,
+        "description": "Recursively traverse component hierarchy with cycle detection (max depth 50)"
+      },
+      {
+        "nodeId": "n3",
+        "taskTypeId": "T668",
+        "name": "CyclicHierarchyValidator",
+        "order": 3,
+        "description": "Validate cycle-free structure, detect infinite parent-child chains, return error if cyclic"
+      },
+      {
+        "nodeId": "n4",
+        "taskTypeId": "T669",
+        "name": "ComponentNormalizer",
+        "order": 4,
+        "description": "Normalize nested components to flat list with parentId references"
+      },
+      {
+        "nodeId": "n5",
+        "taskTypeId": "T670",
+        "name": "CssSelectorParser",
+        "order": 5,
+        "description": "Parse CSS selectors, extract classes, canonicalize to class list format"
+      },
+      {
+        "nodeId": "n6",
+        "taskTypeId": "T671",
+        "name": "FrameScopedAggregator",
+        "order": 6,
+        "description": "Aggregate all components and styles with frameId context, ensure frame isolation"
+      },
+      {
+        "nodeId": "n7",
+        "taskTypeId": "T672",
+        "name": "DesignValidationGate",
+        "order": 7,
+        "description": "Validate all transformations complete, frame ownership confirmed, emit DesignFetched"
+      },
+      {
+        "nodeId": "n8",
+        "taskTypeId": "T673",
+        "name": "OutboxPublisher",
+        "order": 8,
+        "description": "Emit CloudEvents to queue fabric after all storage (DNA-8 outbox pattern)"
+      }
+    ]
+  }
+}

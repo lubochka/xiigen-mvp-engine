@@ -1,0 +1,45 @@
+{
+  "taskTypeId": "T667",
+  "flowId": "FLOW-48",
+  "name": "MarketplaceTranslationCacheJob",
+  "archetype": "TRANSACTION",
+  "domainId": "i18n-translation",
+  "seededAt": "2026-04-19T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "async-queue-job-under-master-cls-context",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IQueueService + IAiProvider + IPackageContentStoreService + ITranslationLookup (F1523)",
+    "freedomConfigKey": "N/A_master_context",
+    "neutralConcepts": [
+      "async queue consumer — runs under MASTER_TENANT_ID CLS context",
+      "SETNX at ORDER 1 with key idem:translate:master:${moduleId}:${locale} (DNA-7 + CF-816)",
+      "uses master-tenant AI keys (tenant cost attribution preserved)",
+      "writes CAS blob + F1523.storeRef with tenantId=MASTER_TENANT_ID + connectionType=FLOW_SCOPED",
+      "ONLY service permitted to switch CLS to master for translation (CF-811)",
+      "duplicate invocation returns { skipped: true } — no second AI call"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F1523",
+      "interface": "ITranslationLookup",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "CF-811",
+      "rule": "ONLY MarketplaceTranslationCacheJob may switch CLS context to MASTER_TENANT_ID for translation. All other translation calls use current ALS context unchanged.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "CF-816",
+      "rule": "SETNX idempotency at ORDER 1 with key idem:translate:master:${moduleId}:${locale}. Concurrent jobs for same moduleId/locale produce exactly one master CAS blob.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": ["setnx_idempotency_order_1", "master_cls_switch_only"],
+  "bfaRules": ["CF-811", "CF-816"],
+  "tags": ["transaction", "async-queue", "master-cls", "setnx-idempotency", "marketplace", "FLOW-48"],
+  "keywords": "marketplace translation cache job async master tenant CLS context setnx idempotency ORDER 1 FLOW-48"
+}

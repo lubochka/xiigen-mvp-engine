@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.user-registration.email-verified.v1",
+  "taskTypeId": "T48",
+  "flowId": "FLOW-01",
+  "description": "Emitted by T48 EmailVerificationWaitState when a user successfully verifies their email address. Triggers T49 OnboardingDelivery.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.user-registration.email-verified.v1",
+    "source": "xiigen/flows/user-registration-onboarding/t48",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "userId": { "type": "string", "description": "Opaque user identifier — no PII (CF-8)" },
+    "verifiedAt": { "type": "string", "format": "date-time" },
+    "correlationId": { "type": "string", "description": "Idempotency key for this verification" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "No email address or token value in payload. userId is an opaque reference only (CF-8).",
+  "requiredByFlows": ["FLOW-01"]
+}

@@ -1,0 +1,84 @@
+{
+  "taskTypeId": "T620",
+  "flowId": "FLOW-18",
+  "name": "CodeInjectionProcessor",
+  "archetype": "CODE_INJECTION",
+  "domainId": "visual-flow-engine",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "ironRules": [
+    {
+      "id": "IR-T620-1",
+      "rule": "Version lock (injection-version-lock:{nodeId}:{version}) at ORDER 1 — InjectionConflict on concurrent injection of same version.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T620-2",
+      "rule": "Pre-write audit storeDocument(phase:PRE_WRITE) at ORDER 2 BEFORE injection code runs — serves as rollback pointer. Audit exists even if injection fails.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T620-3",
+      "rule": "Inject code at ORDER 3 — after lock and pre-write audit confirmed.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T620-4",
+      "rule": "Append-only audit — never updateDocument on any injection audit record. Each phase (PRE_WRITE, COMPLETE, FAILED) creates a new storeDocument.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T620-5",
+      "rule": "storeDocument(result audit, phase:COMPLETE) at ORDER 4 BEFORE enqueue(CodeInjected). DNA-8. Extends NON-REPUDIATION-AUDIT-001.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "factories": [
+    {
+      "factoryId": "F1552",
+      "token": "ICodeInjectionService",
+      "fabricType": "DATABASE"
+    },
+    {
+      "factoryId": "F1553",
+      "token": "IInjectionAuditService",
+      "fabricType": "DATABASE"
+    }
+  ],
+  "machineComponents": [
+    "INJECTION_VERSION_LOCK",
+    "PRE_WRITE_AUDIT_ROLLBACK_POINTER",
+    "APPEND_ONLY_AUDIT_NON_REPUDIATION"
+  ],
+  "freedomComponents": [
+    "injection_lock_ttl_ms",
+    "injection_max_payload_size_kb"
+  ],
+  "stackCoupling": {
+    "queue": ["CodeInjected", "InjectionConflict", "InjectionFailed"],
+    "database": ["xiigen-injection-locks", "xiigen-injection-audit", "xiigen-injection-results"]
+  },
+  "handlers": [
+    "acquire_version_lock",
+    "write_pre_write_audit",
+    "inject_code_payload",
+    "write_result_audit",
+    "emit_code_injected"
+  ],
+  "namedChecks": [
+    "version_lock_before_write",
+    "pre_write_audit_before_injection",
+    "append_only_audit",
+    "store_before_enqueue"
+  ],
+  "tags": [
+    "visual-flow",
+    "code-injection",
+    "version-lock",
+    "pre-write-audit",
+    "rollback-pointer",
+    "append-only",
+    "NON-REPUDIATION",
+    "data-pipeline"
+  ],
+  "keywords": "code injection processor version lock pre-write audit rollback pointer append-only NON-REPUDIATION PRE_WRITE COMPLETE FAILED CodeInjected InjectionConflict T620 visual flow engine"
+}

@@ -1,0 +1,67 @@
+{
+  "flowId": "FLOW-37",
+  "topologyId": "phase-capability-gate",
+  "version": "1.0",
+  "description": "Phase A topology contract — defines the PhaseCapabilityGateService structure that Phase B will generate via cycle-chain/run. Gate reads FT records from xiigen-feature-registry, evaluates portingCandidate flags, and guards phase transitions.",
+  "nodes": [
+    {
+      "id": "FlowActiveGuard",
+      "name": "FlowActiveGuard",
+      "type": "VALIDATION",
+      "description": "Verifies FLOW-36 is ACTIVE before evaluating FT records. Returns BLOCKED if FLOW-36 has not run."
+    },
+    {
+      "id": "PhaseRecordReader",
+      "name": "PhaseRecordReader",
+      "type": "ANALYSIS",
+      "description": "Reads phase requirement documents from xiigen-phase-requirements. Distinguishes NOT_FOUND (first-run) from FAILED (requires diagnosis)."
+    },
+    {
+      "id": "FeatureRecordReader",
+      "name": "FeatureRecordReader",
+      "type": "ANALYSIS",
+      "description": "Reads FT records from xiigen-feature-registry. Evaluates portingCandidate flags across all registered task types."
+    },
+    {
+      "id": "PortingCandidateEvaluator",
+      "name": "PortingCandidateEvaluator",
+      "type": "GOVERNANCE",
+      "description": "Aggregates portingCandidate signals. Counts candidates vs. bootstrap-internal. Returns CAPABILITY_SUMMARY."
+    },
+    {
+      "id": "CapabilityGapSignalEmitter",
+      "name": "CapabilityGapSignalEmitter",
+      "type": "EMIT",
+      "description": "Stores GAP_SIGNAL records to xiigen-capability-gap-signals (DNA-8: store before emit). Emits capability.gap.detected queue event."
+    }
+  ],
+  "edges": [
+    { "from": "PhaseGateRequested", "to": "FlowActiveGuard" },
+    { "from": "FlowActiveGuard", "to": "GateBlocked", "condition": "FLOW-36 not ACTIVE", "type": "terminal" },
+    { "from": "FlowActiveGuard", "to": "PhaseRecordReader", "condition": "FLOW-36 ACTIVE" },
+    { "from": "PhaseRecordReader", "to": "BootstrapRequired", "condition": "NOT_FOUND", "type": "terminal" },
+    { "from": "PhaseRecordReader", "to": "PhaseFailed", "condition": "status=FAILED", "type": "terminal" },
+    { "from": "PhaseRecordReader", "to": "FeatureRecordReader", "condition": "status=COMPLETE" },
+    { "from": "FeatureRecordReader", "to": "PortingCandidateEvaluator" },
+    { "from": "PortingCandidateEvaluator", "to": "GatePass", "condition": "candidates > 0", "type": "terminal-success" },
+    { "from": "PortingCandidateEvaluator", "to": "CapabilityGapSignalEmitter", "condition": "gap detected" },
+    { "from": "CapabilityGapSignalEmitter", "to": "GapSignalRecorded", "type": "terminal" }
+  ],
+  "arbiterConfig": {
+    "required": ["scope_isolation", "IronRules"],
+    "note": "scope_isolation required per FC-32 (FK-526); IronRules per safe-default protocol. Phase B generation must include both arbiters on the panel."
+  },
+  "phaseAContract": {
+    "generatedBy": "PHASE-A manual bootstrap (PhaseRequirementsSeeder)",
+    "targetPhase": "PHASE-B",
+    "targetService": "PhaseCapabilityGateService",
+    "prerequisiteChecks": [
+      "FLOW-36 ACTIVE (FT records exist in xiigen-feature-registry)",
+      "xiigen-phase-requirements index seeded (PHASE-A complete)"
+    ],
+    "indices": {
+      "reads": ["xiigen-phase-requirements", "xiigen-feature-registry"],
+      "writes": ["xiigen-capability-gap-signals"]
+    }
+  }
+}

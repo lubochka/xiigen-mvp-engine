@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-09",
+  "taskTypeId": "T113-T118",
+  "name": "flow-09-fraud-compliance-analytics",
+  "description": "T113 FraudDetectionGate + T114 ComplianceReporter + T115 SalesAnalyticsAggregator + T116 AttendanceRevenueCorrelator + T117 TransactionNotificationBroadcaster + T118 EventRevenueReporter — VALIDATION archetype. Fail OPEN: catch block allows purchase AND emits FraudCheckFailed(service_unavailable). Three conditions simultaneously.",
+  "archetype": "VALIDATION",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: fail-open-emit-audit, three-conditions-simultaneously, T114/T115/T116 scheduled"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve VALIDATION arch pattern for T113-T118: fail-open fraud gate, scheduled compliance/analytics",
+      "params": {
+        "archetype": "VALIDATION",
+        "taskTypeRef": "T113-T118",
+        "topK": 5,
+        "patternIds": [
+          "arch--fail-open-on-outage",
+          "arch--fail-open-emit-audit",
+          "arch--scheduled-compliance-reporting"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T113-T118 into: T113 fraud gate (fail open, emit FraudCheckFailed on catch) → T117 notify → T114/T115/T116/T118 scheduled analytics"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate fraud-detection-gate.service.ts — fail OPEN: catch block allows purchase AND emits FraudCheckFailed(service_unavailable). Three conditions simultaneously."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: fail_open_on_catch, emit_fraud_check_failed, allow_purchase_on_service_unavailable"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T113-T118 iron rules: fail-open pattern, audit emit, three simultaneous conditions"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=fail-open-emit-audit, rejected=fail-closed-on-catch. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "TicketPurchaseInitiated → fraud gate inline",
+  "primaryFabric": "DATABASE"
+}

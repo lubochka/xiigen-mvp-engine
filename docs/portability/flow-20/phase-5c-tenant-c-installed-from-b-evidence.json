@@ -1,0 +1,194 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "phase5cTenantCInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-07T11:19:56.1983791+03:00",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "tenantName": "Tessera Collective"
+  },
+  "sourceTenant": {
+    "tenantId": "northwind",
+    "repo": "lubochka/northwind--northwind-retail-ads-optimization",
+    "package": "@xiigen-fork/northwind-retail-ads-optimization",
+    "version": "1.0.2"
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/ads-platform/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "sourceRepoFullName": "lubochka/northwind--northwind-retail-ads-optimization",
+    "repoFullName": "lubochka/tessera-collective--northwind-retail-ads-optimization",
+    "repoUrl": "https://github.com/lubochka/tessera-collective--northwind-retail-ads-optimization",
+    "initialCommitSha": "c98083b3a2576757f0a8aa896287c8f1eeeb18fb",
+    "initialVersion": "1.0.2",
+    "forkId": "fork-ads-platform-tessera-collective"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/tessera-collective--northwind-retail-ads-optimization",
+    "url": "https://github.com/lubochka/tessera-collective--northwind-retail-ads-optimization",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialInstallCommit": "c98083b3a2576757f0a8aa896287c8f1eeeb18fb",
+    "initialActionsRun": {
+      "runId": 25480715748,
+      "jobId": 74763981962,
+      "url": "https://github.com/lubochka/tessera-collective--northwind-retail-ads-optimization/actions/runs/25480715748",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "c98083b3a2576757f0a8aa896287c8f1eeeb18fb",
+      "failureReason": "Inherited Northwind adaptation test asserted the Northwind repo name after the fork engine correctly rewrote tenant.config.json to Tessera."
+    },
+    "repairCommit": "cb926b87bb22d1d8907e4214e03bc972eef5a575",
+    "repairCommitMessage": "Repair Tessera install proof for Northwind ads platform",
+    "repairActionsRun": {
+      "runId": 25481095158,
+      "jobId": 74765188478,
+      "url": "https://github.com/lubochka/tessera-collective--northwind-retail-ads-optimization/actions/runs/25481095158",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "cb926b87bb22d1d8907e4214e03bc972eef5a575",
+      "createdAt": "2026-05-07T07:00:57Z",
+      "updatedAt": "2026-05-07T07:01:45Z",
+      "successfulSteps": [
+        "Set up job",
+        "Run actions/checkout@v4.2.2",
+        "Run actions/setup-node@v4.4.0",
+        "Install",
+        "TypeScript check",
+        "Test",
+        "Provenance",
+        "Post Run actions/setup-node@v4.4.0",
+        "Post Run actions/checkout@v4.2.2",
+        "Complete job"
+      ]
+    },
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-retail-ads-optimization-phase5c-20260507-095300",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "__tests__/ads-platform-acme-adaptation.spec.ts"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      }
+    ],
+    "installProof": {
+      "tenantConfigTenantId": "tessera-collective",
+      "installedFromRepoFullName": "lubochka/northwind--northwind-retail-ads-optimization",
+      "adaptationHistoryEntries": 2,
+      "lastAdaptationTenantId": "northwind",
+      "manifestContainsStandalonePackage": true,
+      "manifestContainsAdaptationSurface": true,
+      "manifestItemCount": 114
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/northwind-retail-ads-optimization",
+    "version": "1.0.2",
+    "distTags": {
+      "latest": "1.0.2"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/northwind-retail-ads-optimization/-/northwind-retail-ads-optimization-1.0.2.tgz",
+    "shasum": "20fd78fd5ce5b1f984b0961c103dbe03ede5c088",
+    "gitHead": "a2b99d2362f7cb48e822802c5c760ff82d0149f8",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/ads-platform-northwind-v1.0.2-registry-api-evidence-phase5c.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/ads-platform-northwind-v1.0.2-registry-listing-phase5c.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/ads-platform/tenant-c-installed-from-b",
+      "count": 15,
+      "zeroByteFiles": 0,
+      "totalBytes": 2219337,
+      "playwrightExecutions": 45,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "business-partner",
+        "platform-admin"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-20/tessera-collective--northwind-retail-ads-optimization-tenant-c-installed-from-b-github-listing.png",
+        "bytes": 128509
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-20/tessera-collective--northwind-retail-ads-optimization-tenant-c-installed-from-b-actions-success.png",
+        "bytes": 78104
+      },
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/ads-platform-northwind-v1.0.2-registry-listing-phase5c.png",
+        "bytes": 49326
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/ads-platform-tenant-c-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-20 Tenant C installed-from-B cascade-point visual evidence under docs/e2e-snapshots/ads-platform/tenant-c-installed-from-b."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantCInstalledPlaywright": {
+      "command": "client: VITE_PORT=52026 npx playwright test e2e/ads-platform-tenant-c-installed.spec.ts --reporter=line",
+      "result": "passed",
+      "tests": 45,
+      "distinctPngCount": 15,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCForkedTenantBAdaptedSource": true,
+    "tenantCInstalledPackagePreservedTenantBValues": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryStillReturnsTenantBPackage": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCAdaptation": true
+  },
+  "verdict": "PASS"
+}

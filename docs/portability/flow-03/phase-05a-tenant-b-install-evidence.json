@@ -1,0 +1,65 @@
+{
+  "phase": "Phase 5a - Tenant B installs Tenant A version",
+  "flowId": "FLOW-03",
+  "flowSlug": "event-management",
+  "tenantId": "northwind",
+  "installedModuleName": "event-management-acme-curated-events",
+  "sourceRepoFullName": "lubochka/acme-corp--event-management-acme-curated-events",
+  "targetRepoFullName": "lubochka/northwind--event-management-acme-curated-events",
+  "targetRepoUrl": "https://github.com/lubochka/northwind--event-management-acme-curated-events",
+  "forkApi": {
+    "method": "POST",
+    "route": "/api/marketplace/packages/event-management/fork",
+    "tenantHeader": "northwind",
+    "body": {
+      "flowId": "FLOW-03",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.1",
+      "repoNameOverride": "northwind--event-management-acme-curated-events",
+      "sourceRepoFullName": "lubochka/acme-corp--event-management-acme-curated-events"
+    }
+  },
+  "forkResult": {
+    "status": "FORKED",
+    "forkId": "fork-event-management-northwind",
+    "initialCommitSha": "fc0c1b04add15fa31c075c65318649b36fc482fb"
+  },
+  "tenantRepo": {
+    "latestCommit": "fc9304bcaadf2697e816dfe7c23e3e40605ae947",
+    "latestCommitShort": "fc9304b",
+    "readmeCorrectionCommit": "fc9304b",
+    "workflowRunUrl": "https://github.com/lubochka/northwind--event-management-acme-curated-events/actions/runs/25198731329",
+    "workflowConclusion": "success",
+    "localClonePath": "<WORKSPACE>/AppData/Local/Temp/xiigen-flow03-tenant-b-installed-from-a",
+    "localChecks": [
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit",
+      "npx jest --colors=false --forceExit"
+    ]
+  },
+  "repoEvidence": {
+    "githubListingPng": "docs/e2e-snapshots/repo-evidence/northwind--event-management-acme-curated-events-github-listing.png",
+    "repoHomepagePng": "docs/e2e-snapshots/repo-evidence/northwind--event-management-acme-curated-events-repo-homepage.png",
+    "repoWasRestoredToPrivateAfterCapture": true
+  },
+  "authPreflight": {
+    "noTokenGetAuthMe": 401,
+    "northwindTenantAdminGetAuthMe": 200,
+    "acmeTokenAgainstNorthwindGetAuthMe": 401,
+    "writeRoleCheck": "deferred because no deployed Tenant B write-route/user-role provisioning path exists in this auth deployment"
+  },
+  "visualEvidence": {
+    "snapshotVariant": "tenant-b-installed-from-a",
+    "directory": "docs/e2e-snapshots/event-management/tenant-b-installed-from-a/",
+    "pngCount": 27,
+    "expectedPngCount": 27,
+    "playwrightCommand": "XIIGEN_EVENT_MANAGEMENT_SNAPSHOT_VARIANT=tenant-b-installed-from-a VITE_PORT=5184 npx playwright test event-management-visual.spec.ts --project=chromium-desktop --reporter=list",
+    "playwrightResult": "27 passed"
+  },
+  "cascadeAssertions": {
+    "tenantConfigTenantId": "northwind",
+    "tenantConfigInstalledFromRepoFullName": "lubochka/acme-corp--event-management-acme-curated-events",
+    "adaptationHistoryEntries": 1,
+    "inheritedTenantAChangeVisible": true
+  }
+}

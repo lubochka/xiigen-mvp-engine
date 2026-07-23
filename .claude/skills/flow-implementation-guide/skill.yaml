@@ -1,0 +1,21 @@
+name: flow-implementation-guide
+version: "1.0.0"
+load_order: null
+priority: SUPREME
+status: APPROVED
+description: |
+  Master skill for implementing any new flow through the XIIGen AF pipeline.
+  7-step protocol: verify prerequisites → claim artifact numbers → classify data →
+  create engine contracts → define AF prompts → submit to pipeline → validate 8
+  dimensions. Covers autonomy gradient, flow planning template, and anti-patterns.
+triggers:
+  - "implement flow"
+  - "new flow"
+  - "plan implementation"
+  - "execute flow"
+  - "7-step protocol"
+  - "V1 V2 V3 V4 V5 V6 V7 V8"
+  - "validation dimensions"
+  - "autonomy gradient"
+  - "flow planning template"
+phase_created: "FLOW-0-TIER1-S1"

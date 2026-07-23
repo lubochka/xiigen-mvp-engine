@@ -1,0 +1,61 @@
+{
+  "taskTypeId": "T80",
+  "flowId": "FLOW-07",
+  "name": "MutualConnectionCounter",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "social-connections",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "executionModel": "async",
+  "knowledgeScope": "PRIVATE",
+  "stackCoupling": {
+    "mechanism": "full-recompute-never-delta",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "neutralConcepts": [
+      "Full recompute from adjacency lists on every invocation — NEVER delta (++/--)",
+      "Same inputs always produce same count — idempotent by algorithm",
+      "Output: mutualCount (number only) — no list of shared user IDs",
+      "DNA-8: storeDocument BEFORE MutualCountUpdated enqueue"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F-T80-1",
+      "interface": "IConnectionGraphReader",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F-T80-2",
+      "interface": "IMutualCountQueue",
+      "fabric": "QUEUE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T80-1",
+      "rule": "Full recompute from adjacency lists on every invocation — NEVER read stored mutualCount and increment/decrement. Delta increment drifts under queue retries = BUILD_FAILURE",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T80-2",
+      "rule": "Output is mutualCount (number) only — no array of shared user IDs (data retention violation)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T80-3",
+      "rule": "Idempotent by algorithm: same adjacency lists always produce same count regardless of retry count",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T80-4",
+      "rule": "DNA-8: storeDocument('xiigen-mutual-counts', ...) BEFORE queue.enqueue('MutualCountUpdated', ...)",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "mutual_count_full_recompute",
+    "store_before_enqueue"
+  ],
+  "tags": ["T80", "full-recompute", "delta-forbidden", "idempotent", "mutual-count"],
+  "keywords": "mutual connection counter T80 full recompute never delta idempotent adjacency intersection"
+}

@@ -1,0 +1,9 @@
+{"arbiterId":"FLOW-46-T650-goal_delivery","arbiterType":"goal_delivery","flowId":"FLOW-46","taskTypeId":"T650","runsFirst":true,"isolated":true,"model":"AI_GOAL_DELIVERY_ARBITER","governedBy":"SK-534"}
+{"arbiterId":"FLOW-46-T650-panel","arbiterType":"panel","flowId":"FLOW-46","taskTypeId":"T650","roles":["business_logic","security","skills_patterns","prompts_compliance","key_principles","iron_rules","completeness","super_judge_meta"]}
+{"arbiterId":"FLOW-46-T651-panel","arbiterType":"panel","flowId":"FLOW-46","taskTypeId":"T651","roles":["goal_delivery","business_logic","key_principles","iron_rules"]}
+{"arbiterId":"FLOW-46-T652-panel","arbiterType":"panel","flowId":"FLOW-46","taskTypeId":"T652","roles":["goal_delivery","business_logic","security","key_principles","iron_rules"]}
+{"arbiterId":"FLOW-46-T653-panel","arbiterType":"panel","flowId":"FLOW-46","taskTypeId":"T653","roles":["goal_delivery","business_logic","completeness","iron_rules","super_judge_meta"]}
+{"arbiterId":"FLOW-46-T654-panel","arbiterType":"panel","flowId":"FLOW-46","taskTypeId":"T654","roles":["goal_delivery","business_logic","security","skills_patterns","prompts_compliance","key_principles","iron_rules","completeness"]}
+{"arbiterId":"FLOW-46-T655-panel","arbiterType":"panel","flowId":"FLOW-46","taskTypeId":"T655","roles":["goal_delivery","business_logic","security","key_principles","iron_rules"]}
+{"arbiterId":"FLOW-46-T656-panel","arbiterType":"panel","flowId":"FLOW-46","taskTypeId":"T656","roles":["goal_delivery","business_logic","key_principles","iron_rules"]}
+{"arbiterId":"FLOW-46-scope_isolation","arbiterType":"scope_isolation","flowId":"FLOW-46","governedBy":"SK-526","fc":"FC-32","runsAlongsideGoalDelivery":true,"appliesToAllNodes":true}

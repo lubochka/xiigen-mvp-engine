@@ -1,0 +1,90 @@
+{
+  "$schema": "../flow-01/tenant-profile.schema.json",
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v1.2",
+  "tenantId": "acme-pro-members",
+  "tenantLabel": "Acme Pro Members",
+  "createdForFlow": "FLOW-03",
+  "flowSlug": "event-management",
+  "portabilityTier": "TIER-D",
+  "adaptationType": "TYPE-A",
+  "reusesTenantFromFlows": ["FLOW-01", "FLOW-02"],
+  "reuseRationale": "FLOW-03 is the third consecutive portability run for acme-pro-members. FLOW-01 (user-registration) established identity bounds; FLOW-02 (profile-enrichment) added enrichment knobs; FLOW-03 layers event organisation caps on top. A single tenant document carries the combined FREEDOM configuration — no per-flow re-seeding.",
+  "freedomOverrides": [
+    {
+      "configKey": "flow03_max_events_per_organizer",
+      "taskType": "xiigen-engine",
+      "configValue": 3,
+      "defaultValue": 100,
+      "reason": "acme-pro-members is a small premium tier — three events per organizer/week is the observed usage ceiling. Tightening the cap surfaces the RATE_LIMIT_EXCEEDED path on the 4th attempt and gives the portability probe a deterministic failure boundary.",
+      "boundService": "EventCreationOrchestrator (T59)",
+      "proof": "server/test/event-management/phase-03-adaptation-freedom-config.spec.ts :: FC-ADAPT-1"
+    },
+    {
+      "configKey": "flow03_max_attendees",
+      "taskType": "xiigen-engine",
+      "configValue": 10,
+      "defaultValue": 500,
+      "reason": "Pro member events are curated small-group sessions. Dropping the per-event attendee ceiling to 10 proves the registration router honours the FREEDOM cap (Math.min(capacity, freedomMax)) and routes the 11th attendee to WAITLIST without code change.",
+      "boundService": "EventRegistrationManager (T60)",
+      "proof": "server/test/event-management/phase-03-adaptation-freedom-config.spec.ts :: FC-ADAPT-2"
+    },
+    {
+      "configKey": "flow03_waitlist_max_size",
+      "taskType": "xiigen-engine",
+      "configValue": 5,
+      "defaultValue": null,
+      "reason": "Reserved waitlist ceiling for future waitlist-length enforcement. The current EventRegistrationManager does not yet gate on waitlist_max_size — this override is seeded to unblock the Sprint-B extension (WAITLIST_FULL code path) and to document the intended acme contour. Not exercised by the v1.0 adaptation spec.",
+      "boundService": "EventRegistrationManager (T60) — Sprint B scope",
+      "proof": "Reserved — not asserted in v1.0. Tracked in docs/portability/flow-03/FLOW-03-PORTABILITY-STATE.json § sprintBBacklog."
+    },
+    {
+      "configKey": "flow03_promotion_channels",
+      "taskType": "xiigen-engine",
+      "configValue": "[\"in-app\"]",
+      "defaultValue": "[\"in-app\", \"push\"]",
+      "reason": "Acme Pro Members has a policy of no push notifications for organiser-driven promotion. Narrowing the channel list to in-app only proves the promotion engine reads channels from FREEDOM rather than from hardcoded defaults, and that the EventPromoted payload reflects the tenant override.",
+      "boundService": "EventPromotionEngine (T61)",
+      "proof": "server/test/event-management/phase-03-adaptation-freedom-config.spec.ts :: FC-ADAPT-3"
+    },
+    {
+      "configKey": "flow03_analytics_counter_ttl",
+      "taskType": "xiigen-engine",
+      "configValue": 86400,
+      "defaultValue": 86400,
+      "reason": "Kept at default (24h window) — included in the profile so FC-ADAPT-4 has a deterministic window-start epoch to pre-compute the counter_key. Not an override; a pinned value.",
+      "boundService": "EventAnalyticsTracker (T62)",
+      "proof": "server/test/event-management/phase-03-adaptation-freedom-config.spec.ts :: FC-ADAPT-4 (referenced, not overridden)"
+    },
+    {
+      "configKey": "flow03_campaign_engagement_threshold",
+      "taskType": "xiigen-engine",
+      "configValue": 5,
+      "defaultValue": 1000,
+      "reason": "Threshold slashed by 200x to make the PromotionCampaignCompleted emit reachable inside a single test — proves the threshold is FREEDOM-read and that the correct event name is emitted (NEVER EventPromotionCompleted, per IR-62-4).",
+      "boundService": "EventAnalyticsTracker (T62)",
+      "proof": "server/test/event-management/phase-03-adaptation-freedom-config.spec.ts :: FC-ADAPT-4"
+    }
+  ],
+  "expectedBehaviouralDelta": {
+    "summary": "Organiser with >=3 events → 4th create RATE_LIMIT_EXCEEDED. Event with capacity>10 → 11th attendee WAITLISTED. Promotion emits via in-app channel only. 5th campaign_engagement emits PromotionCampaignCompleted.",
+    "visualDelta": [
+      "CreateEventPage: attempting the 4th event shows an acme-toned 'Event Limit Reached' toast (anchor AE-04)",
+      "EventDetailPage: capacity slider clamps to 10 when the acme tenant is active (anchor AE-05)",
+      "EventListPage: 'Promote' CTA, when clicked, shows 'Promoted to in-app feed' with no push option (anchor AE-06)"
+    ]
+  },
+  "crossFlowPointers": {
+    "FLOW-01": "docs/portability/flow-01/tenant-profile-acme-pro-members.json",
+    "FLOW-02": "docs/portability/flow-02/tenant-profile-acme-pro-members.json"
+  },
+  "invariantMapping": {
+    "P-1": "No ClsService dependency — every FREEDOM read uses db.searchDocuments with explicit filter (verified in STEP-1-INVARIANTS grep sweep).",
+    "P-2": "@connectionType FLOW_SCOPED JSDoc present on all 4 services (committed v1.0.1).",
+    "P-3": "All override keys carry the flow03_ prefix — no cross-flow collision with flow01_, flow02_, flow04_.",
+    "P-4": "Services import IDatabaseService + IQueueService only — no local fabric clones (STEP-1 grep confirmed).",
+    "P-5": "requiredCoInstalls=[] declared in package.json (committed v1.0.3) AND behaviourally verified in phase-03-circular-install.spec.ts (committed v1.0.4)."
+  },
+  "validFrom": "2026-04-23",
+  "authoredBy": "Claude Opus 4.7 — FLOW-03 portability session",
+  "supersedes": null
+}

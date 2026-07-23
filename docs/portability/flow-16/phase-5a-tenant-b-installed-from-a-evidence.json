@@ -1,0 +1,194 @@
+{
+  "flowId": "FLOW-16",
+  "flowSlug": "marketplace-payments",
+  "phase": "phase5aTenantBInstalls",
+  "status": "completed",
+  "generatedAt": "2026-05-06T15:49:37.942Z",
+  "tenant": {
+    "tenantId": "northwind",
+    "tenantName": "Northwind"
+  },
+  "sourceTenant": {
+    "tenantId": "acme-corp",
+    "repo": "lubochka/acme-corp--acme-enterprise-marketplace-payments",
+    "package": "@xiigen-fork/acme-enterprise-marketplace-payments",
+    "version": "1.0.1"
+  },
+  "marketplaceFork": {
+    "method": "POST /api/marketplace/packages/marketplace-payments/fork",
+    "createdByMarketplaceApi": true,
+    "manualRepoCreationUsed": false,
+    "sourceRepoFullName": "lubochka/acme-corp--acme-enterprise-marketplace-payments",
+    "repoFullName": "lubochka/northwind--acme-enterprise-marketplace-payments",
+    "repoUrl": "https://github.com/lubochka/northwind--acme-enterprise-marketplace-payments",
+    "initialCommitSha": "f4895bee72c9ec6dfa6a176075cabf2e6c9b701e",
+    "initialVersion": "1.0.1",
+    "forkId": "fork-marketplace-payments-northwind"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/northwind--acme-enterprise-marketplace-payments",
+    "url": "https://github.com/lubochka/northwind--acme-enterprise-marketplace-payments",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "initialInstallCommit": "f4895bee72c9ec6dfa6a176075cabf2e6c9b701e",
+    "initialActionsRun": {
+      "runId": 25445056022,
+      "jobId": 74646748657,
+      "url": "https://github.com/lubochka/northwind--acme-enterprise-marketplace-payments/actions/runs/25445056022",
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "f4895bee72c9ec6dfa6a176075cabf2e6c9b701e",
+      "failureReason": "Inherited Acme adaptation test asserted the Acme repo name after the fork engine correctly rewrote tenant.config.json to Northwind."
+    },
+    "repairCommit": "aee8099820810b2941c85d382b12f2b563664f51",
+    "repairCommitMessage": "Repair Northwind install proof for Acme marketplace payments",
+    "repairActionsRun": {
+      "runId": 25445304269,
+      "jobId": 74647634940,
+      "url": "https://github.com/lubochka/northwind--acme-enterprise-marketplace-payments/actions/runs/25445304269",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "aee8099820810b2941c85d382b12f2b563664f51",
+      "createdAt": "2026-05-06T15:38:08Z",
+      "updatedAt": "2026-05-06T15:39:01Z"
+    },
+    "cleanClonePath": "C:/Projects/xiigen-fork-clones/northwind--acme-enterprise-marketplace-payments-phase5a-20260506-183451",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "__tests__/marketplace-payments-package.spec.ts"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 1,
+        "tests": 3
+      }
+    ],
+    "installProof": {
+      "tenantConfigTenantId": "northwind",
+      "installedFromRepoFullName": "lubochka/acme-corp--acme-enterprise-marketplace-payments",
+      "adaptationHistoryEntries": 1,
+      "firstAdaptationTenantId": "acme-corp",
+      "firstAdaptationPublisher": "acme-corp",
+      "settingsTenantId": "northwind",
+      "settingsAdaptationTenantId": "northwind",
+      "manifestContainsStandalonePackage": true,
+      "manifestContainsAdaptationSurface": true
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/acme-enterprise-marketplace-payments",
+    "version": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-enterprise-marketplace-payments/-/acme-enterprise-marketplace-payments-1.0.1.tgz",
+    "shasum": "0eead079c296ac61052fb6a135f315c874335ad1",
+    "gitHead": "8f457b39d2de6e2607a4764ce1bd12471c97d76e",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/marketplace-payments-acme-v1.0.1-registry-api-evidence-phase5a.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/marketplace-payments-acme-v1.0.1-registry-listing-phase5a.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/marketplace-payments/tenant-b-installed-from-a",
+      "count": 18,
+      "zeroByteFiles": 0,
+      "projects": [
+        "chromium-desktop",
+        "chromium-tablet",
+        "chromium-mobile"
+      ],
+      "states": [
+        "installed package",
+        "buyer checkout",
+        "b2b checkout",
+        "platform reconciliation",
+        "support dispute view",
+        "payee escrow redirect"
+      ]
+    },
+    "repoHomepageScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-16/northwind--acme-enterprise-marketplace-payments-tenant-b-installed-from-a-github-listing.png",
+      "bytes": 93222,
+      "width": 1280,
+      "height": 720
+    },
+    "actionsSuccessScreenshot": {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-16/northwind--acme-enterprise-marketplace-payments-tenant-b-installed-from-a-actions-success.png",
+      "bytes": 67380,
+      "width": 1280,
+      "height": 720
+    },
+    "registryScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/marketplace-payments-acme-v1.0.1-registry-listing-phase5a.png",
+      "bytes": 46524,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/marketplace-payments-tenant-b-installed.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-16 Tenant B installed-from-A cascade-point visual evidence under docs/e2e-snapshots/marketplace-payments/tenant-b-installed-from-a."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantBInstalledPlaywright": {
+      "command": "client: VITE_PORT=5174 npx playwright test e2e/marketplace-payments-tenant-b-installed.spec.ts --reporter=list",
+      "result": "passed",
+      "tests": 18
+    },
+    "serverTypeScript": {
+      "command": "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+      "result": "passed"
+    },
+    "serverJest": {
+      "command": "server: npx jest --testPathPatterns=marketplace-payments --runInBand --colors=false",
+      "result": "passed",
+      "suites": 8,
+      "tests": 108
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBForkedTenantAAdaptedSource": true,
+    "tenantBInstalledPackagePreservedTenantAValues": true,
+    "realGitHubActionsGreen": true,
+    "localRegistryStillReturnsTenantAPackage": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBAdaptation": true
+  },
+  "verdict": "PASS"
+}

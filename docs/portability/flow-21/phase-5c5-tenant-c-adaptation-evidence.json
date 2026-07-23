@@ -1,0 +1,195 @@
+{
+  "flowId": "FLOW-21",
+  "flowSlug": "dynamic-forms-workflows",
+  "phase": "phase5c5TenantCAdapts",
+  "status": "completed",
+  "generatedAt": "2026-05-07T10:32:58.953Z",
+  "tenant": {
+    "tenantId": "tessera-collective",
+    "tenantName": "Tessera Collective"
+  },
+  "sourceTenant": {
+    "tenantId": "northwind",
+    "repo": "lubochka/northwind--northwind-intake-automation-workflows",
+    "package": "@xiigen-fork/northwind-intake-automation-workflows",
+    "version": "1.0.2"
+  },
+  "tenantRepository": {
+    "repo": "lubochka/tessera-collective--tessera-collective-intake-workflows",
+    "url": "https://github.com/lubochka/tessera-collective--tessera-collective-intake-workflows",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "adaptedCommit": "5fd874c9a3f461e3fdf6fcff788b0c431c87209b",
+    "adaptedCommitMessage": "Adapt dynamic forms workflows for Tessera Collective",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-intake-automation-workflows-phase5c-20260507-131028",
+    "cleanCloneStatus": "clean",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "__tests__/dynamic-forms-workflows-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "githubActionsRun": {
+      "runId": 25490259111,
+      "jobId": 74796190181,
+      "url": "https://github.com/lubochka/tessera-collective--tessera-collective-intake-workflows/actions/runs/25490259111",
+      "jobUrl": "https://github.com/lubochka/tessera-collective--tessera-collective-intake-workflows/actions/runs/25490259111/job/74796190181",
+      "status": "completed",
+      "conclusion": "success",
+      "workflowName": "XIIGen Flow CI - dynamic-forms-workflows",
+      "headSha": "5fd874c9a3f461e3fdf6fcff788b0c431c87209b",
+      "createdAt": "2026-05-07T10:26:15Z",
+      "updatedAt": "2026-05-07T10:26:52Z",
+      "successfulJobs": [
+        "Standalone flow test - dynamic-forms-workflows"
+      ]
+    },
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 114,
+        "shasum": "e312faff5a2fe9a3d7e81936d9870f51ec61e9da"
+      }
+    ],
+    "adaptationProof": {
+      "tenantConfigTenantId": "tessera-collective",
+      "installedFromRepoFullName": "lubochka/northwind--northwind-intake-automation-workflows",
+      "adaptationHistoryEntries": 3,
+      "lastAdaptationTenantId": "tessera-collective",
+      "packageName": "@xiigen-fork/tessera-collective-intake-workflows",
+      "packageVersion": "1.0.3",
+      "moduleName": "tessera-collective-intake-workflows",
+      "displayName": "Tessera Collective Intake Workflows",
+      "requiredCoInstalls": [],
+      "requiredCoInstallPackages": [],
+      "freedomDefaults": {
+        "flow21_schema_publish_timeout_ms": 900,
+        "flow21_schema_validation_rule_required": true,
+        "flow21_submission_validation_timeout_ms": 3000,
+        "flow21_submission_max_field_count": 220,
+        "flow21_rule_lock_ttl_ms": 30000,
+        "flow21_rule_condition_timeout_ms": 900,
+        "flow21_analytics_pii_fields": "email,phone,ssn,password,creditCard,dateOfBirth,address,loyaltyId,customerId,memberId,studioName,artistName",
+        "flow21_analytics_aggregation_window": "week",
+        "flow21_analytics_storage_retention_days": 730
+      },
+      "settingsPackageName": "@xiigen-fork/tessera-collective-intake-workflows",
+      "settingsModuleName": "tessera-collective-intake-workflows"
+    }
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "packageName": "@xiigen-fork/tessera-collective-intake-workflows",
+    "version": "1.0.3",
+    "distTags": {
+      "latest": "1.0.3"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/tessera-collective-intake-workflows/-/tessera-collective-intake-workflows-1.0.3.tgz",
+    "shasum": "e312faff5a2fe9a3d7e81936d9870f51ec61e9da",
+    "integrity": "sha512-GWjYucSBQgxfLwrwdcBBYcctKp3YJF1etf1DRuuZPSLVoCVwusgBbMj/jszqbwIfqr9c/Se+ytrxakDGk0Ae1g==",
+    "gitHead": "5fd874c9a3f461e3fdf6fcff788b0c431c87209b",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/dynamic-forms-workflows-tessera-v1.0.3-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/dynamic-forms-workflows-tessera-v1.0.3-registry-listing.png",
+    "verified": true
+  },
+  "visualEvidence": {
+    "cascadeScreenshots": {
+      "directory": "docs/e2e-snapshots/dynamic-forms-workflows/tenant-c-v1.0.3",
+      "count": 15,
+      "zeroByteFiles": 0,
+      "totalBytes": 2083126,
+      "playwrightExecutions": 45,
+      "roles": [
+        "anonymous",
+        "tenant-user",
+        "tenant-admin",
+        "freelancer",
+        "business-partner"
+      ],
+      "cells": [
+        "C2-en-populated",
+        "C4-he-rtl-populated",
+        "C6-en-mobile"
+      ]
+    },
+    "screenshots": [
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-21/tessera-collective--tessera-collective-intake-workflows-tenant-c-v1.0.3-github-listing.png",
+        "bytes": 140697
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-21/tessera-collective--tessera-collective-intake-workflows-tenant-c-v1.0.3-actions-success.png",
+        "bytes": 80988
+      },
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/dynamic-forms-workflows-tessera-v1.0.3-registry-listing.png",
+        "bytes": 49255
+      }
+    ]
+  },
+  "mainRepoChangesForCascadeEvidence": {
+    "files": [
+      "client/e2e/dynamic-forms-workflows-tenant-c-adapted.spec.ts"
+    ],
+    "purpose": "Render and verify FLOW-21 Tenant C adapted package cascade-point visual evidence under docs/e2e-snapshots/dynamic-forms-workflows/tenant-c-v1.0.3."
+  },
+  "phaseCloseVerification": {
+    "clientTypeScript": {
+      "command": "client: npx tsc --noEmit --pretty false",
+      "result": "passed"
+    },
+    "tenantCAdaptedPlaywright": {
+      "command": "client: VITE_PORT=52026 npx playwright test e2e/dynamic-forms-workflows-tenant-c-adapted.spec.ts --reporter=line",
+      "result": "passed",
+      "tests": 45,
+      "distinctPngCount": 15,
+      "zeroByteFiles": 0
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantCAdaptedTenantBAdaptedSource": true,
+    "tenantCPublishedAdaptedPackage": true,
+    "localRegistryReturnsTenantCAdaptedVersion": true,
+    "coInstallDependenciesDeclared": true,
+    "realGitHubActionsGreen": true,
+    "cascadeScreenshotsPresent": true,
+    "githubRepoScreenshotsPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForAuthDecorationCheck": true
+  },
+  "verdict": "PASS"
+}

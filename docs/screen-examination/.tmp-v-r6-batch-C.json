@@ -1,0 +1,25 @@
+{
+  "batch_id": "V-R6-C",
+  "flows": [
+    {"slug":"marketplace-plugin-adapter","role":"platform-admin","grammar":"G4","verdict":"BLOCKER","weighted_score":5,"prior_v_r5_score":5,"delta":0,"offences":[{"severity":"BLOCKER","axis":"UX-P5","viewport":"tablet","description":"Canvas clips left nodes"},{"severity":"BLOCKER","axis":"UX-P5","viewport":"mobile","description":"Canvas truncates to single column"},{"severity":"MAJOR","axis":"UX-P6","viewport":"desktop","description":"9 node cards consume ~40% of canvas area (sparse)"}],"notes":"No fix applied since V-R5; S5 in-flight by topology subagent"},
+    {"slug":"adaptive-rag-deep-research","role":"platform-admin","grammar":"G4","verdict":"MAJOR","weighted_score":4,"prior_v_r5_score":0,"delta":4,"offences":[{"severity":"BLOCKER","axis":"G","viewport":"all","description":"27 nodes across 6 phases all at once; DIRECTIVE VIOLATION"},{"severity":"MAJOR","axis":"UX-P6","viewport":"all","description":"Node labels unreadable at default zoom"}],"notes":"DIRECTIVE VIOLATION — now scored explicitly for progressive disclosure; S7 in-flight"},
+    {"slug":"bundle-activation","role":"platform-admin","grammar":"G1","verdict":"pass","weighted_score":0,"prior_v_r5_score":1,"delta":-1,"offences":[],"notes":"StatusBadge Pascal case confirmed"},
+    {"slug":"module-lifecycle","role":"platform-admin","grammar":"G1","verdict":"pass","weighted_score":0,"prior_v_r5_score":3,"delta":-3,"offences":[],"notes":"StatusBadge Active/Deprecated/Retired Pascal case"},
+    {"slug":"sharable-flows-marketplace","role":"platform-admin","grammar":"G3","verdict":"pass","weighted_score":0,"prior_v_r5_score":0,"delta":0,"offences":[],"notes":"Curator grid clean; no regressions"},
+    {"slug":"freelancer-marketplace","role":"freelancer","grammar":"G3","verdict":"pass","weighted_score":0,"prior_v_r5_score":0,"delta":0,"offences":[],"notes":"Browse & Bid list clean; Open badges Pascal case"},
+    {"slug":"system-initiation-bootstrap","role":"platform-admin","grammar":"G1","verdict":"pass","weighted_score":0,"prior_v_r5_score":0,"delta":0,"offences":[],"notes":"Bootstrap phase strip clean; Complete Pascal case"}
+  ],
+  "batch_total_score": 9,
+  "batch_total_delta_vs_V_R5": 0,
+  "directive_recheck": {
+    "adaptive_rag_progressive_disclosure": false,
+    "mpa_canvas_responsive_fixed": false,
+    "evidence": "Both still unfixed at V-R6 scoring time; topology drill-down subagent is in-flight"
+  },
+  "systemic_patterns_still_present": [
+    "G4 canvas-backed flows render entire graph at once with no viewport-adaptive layout",
+    "canvas container width not bound to available viewport width on tablet/mobile",
+    "node labels shrink below legibility at full DAG default zoom"
+  ],
+  "new_regressions": []
+}

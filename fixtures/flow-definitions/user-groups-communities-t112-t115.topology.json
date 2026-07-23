@@ -1,0 +1,72 @@
+{
+  "flowId": "FLOW-06",
+  "taskTypeId": "T112-T115",
+  "name": "flow-06-subflow-06p-approval",
+  "description": "SUBFLOW-06P: T112 ApprovalRequestStore → T113 AdminNotifier → T114 ApprovalResultHandler → T115 ActivationGate. Conditional update (not SETNX) for approval.",
+  "archetype": "ROUTING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: T114 conditional update WHERE status=PENDING (not SETNX), second APPROVE idempotent success"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve access-control-before-content and group-join-idempotency patterns for SUBFLOW-06P",
+      "params": {
+        "archetype": "ROUTING",
+        "taskTypeRef": "T112-T115",
+        "topK": 3,
+        "patternIds": [
+          "GROUP-JOIN-IDEMPOTENCY-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break into: T112 (store approval request) + T113 (notify admin) + T114 (conditional update APPROVE|REJECT) + T115 (activation gate)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate approval-result-handler.service.ts (T114). Conditional update WHERE status=PENDING. Second APPROVE on ACTIVE = idempotent success."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check: store_before_enqueue (T112+T114), tenant_id_on_writes"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score against iron rules: conditional update (not SETNX), idempotent second approval"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=conditional-update-WHERE-PENDING, rejected=setnx-on-approval. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "MembershipPending event (private group — SUBFLOW-06P trigger)",
+  "primaryFabric": "DATABASE"
+}

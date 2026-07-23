@@ -1,0 +1,37 @@
+{
+  "flowId": "FLOW-28",
+  "flowSlug": "blog-cms-modules",
+  "implementationSlug": "blog-cms-modules",
+  "phase": "phase1UnitIntegration",
+  "status": "completed",
+  "generatedAt": "2026-05-10T17:59:15.011Z",
+  "typescript": {
+    "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+    "status": "passed",
+    "exitCode": 0
+  },
+  "jest": {
+    "command": "Push-Location server; npx jest --testPathPatterns=blog-cms-modules --runInBand --colors=false; Pop-Location",
+    "status": "passed",
+    "testPathPattern": "blog-cms-modules",
+    "testSuitesPassed": 5,
+    "testSuitesTotal": 5,
+    "testsPassed": 124,
+    "testsTotal": 124
+  },
+  "staticScans": {
+    "files": 18,
+    "failureLines": 0,
+    "throwNew": 0,
+    "servicesMissingMicroserviceBaseByPromptPattern": 0,
+    "clsImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0
+  },
+  "repairsCarriedFromPreCheck": [
+    "18 services extend MicroserviceBase.",
+    "18 services resolve tenant id through TenantContextResolver instead of direct ClsService imports.",
+    "Injected fabrics are named dbFabric/queueFabric to avoid base-class accessor collisions."
+  ],
+  "verdict": "PASS"
+}

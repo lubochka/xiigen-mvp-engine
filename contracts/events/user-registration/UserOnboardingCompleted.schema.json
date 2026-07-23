@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.user-registration.onboarding-completed.v1",
+  "taskTypeId": "T49",
+  "flowId": "FLOW-01",
+  "description": "Emitted by T49 OnboardingDelivery when all onboarding steps are complete. Triggers FLOW-02 (next wave flow).",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.user-registration.onboarding-completed.v1",
+    "source": "xiigen/flows/user-registration-onboarding/t49",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "userId": { "type": "string", "description": "Opaque user identifier — no PII (CF-8)" },
+    "workspaceId": { "type": "string", "description": "Provisioned workspace reference" },
+    "completedSteps": { "type": "array", "items": { "type": "string" }, "description": "Ordered list of completed onboarding step IDs" },
+    "completedAt": { "type": "string", "format": "date-time" },
+    "bundleId": { "type": "string", "description": "The solution bundle this tenant activated (e.g. B-001)" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "piiGuard": "No name, email, or business data in payload. userId and workspaceId are opaque references (CF-8).",
+  "requiredByFlows": ["FLOW-01"],
+  "triggersFlow": "FLOW-02"
+}

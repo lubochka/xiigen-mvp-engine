@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.policy-check-inline.v1",
+  "description": "Internal edge emitted when T666 TranslationResolverService calls T669 TranslationPolicyGate inline at pipeline Step 2. Captures the PERMITTED/DENIED verdict used to route between Step 3 (marketplace probe) and the policy-denied fallback path (CF-812).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenantId", "eventId", "emittedAt", "moduleId", "locale", "verdict"],
+  "properties": {
+    "tenantId":  { "type": "string", "description": "Tenant whose policy is being evaluated (ALS)." },
+    "eventId":   { "type": "string" },
+    "emittedAt": { "type": "string", "format": "date-time" },
+    "moduleId":  { "type": "string", "description": "Module slug the translation is requested for." },
+    "locale":    { "type": "string", "description": "BCP-47 locale being checked against i18n.enabledLocales and xiigen-translation-requests." },
+    "verdict": {
+      "type": "string",
+      "enum": ["PERMITTED", "DENIED"],
+      "description": "PERMITTED = locale in enabledLocales or translation-requests; DENIED triggers CF-812 fallback."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Human-readable reason when verdict=DENIED (e.g. 'locale_not_enabled', 'no_pending_request')."
+    }
+  }
+}

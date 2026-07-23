@@ -1,0 +1,71 @@
+{
+  "flowId": "FLOW-08",
+  "flowSlug": "marketplace",
+  "phase": "phase-3-visual-examination",
+  "generatedAt": "2026-05-05T12:55:17.2375722+03:00",
+  "visualEvidenceReviewed": {
+    "roleMatrixDirectoryPattern": "docs/e2e-snapshots/visual-audit/{viewport}/marketplace",
+    "roles": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "tenant-user",
+      "tenant-admin",
+      "business-partner"
+    ],
+    "viewports": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ],
+    "expectedPngCount": 15,
+    "missingPngCount": 0,
+    "byteSizeCheck": {
+      "chromium-desktop": {
+        "count": 5,
+        "minBytes": 198172,
+        "maxBytes": 215368
+      },
+      "chromium-tablet": {
+        "count": 5,
+        "minBytes": 200727,
+        "maxBytes": 209785
+      },
+      "chromium-mobile": {
+        "count": 5,
+        "minBytes": 938885,
+        "maxBytes": 1034962
+      }
+    },
+    "manualSpotCheck": {
+      "file": "docs/e2e-snapshots/visual-audit/chromium-desktop/marketplace/primary-tenant-user.png",
+      "result": "PASS",
+      "notes": [
+        "Marketplace heading and package count are visible.",
+        "Tessera, Northwind, and Acme package cards are visible.",
+        "Buttons and card text fit their containers.",
+        "No engine-internal terms are visible in the inspected screenshot."
+      ]
+    }
+  },
+  "plainLanguageGate": {
+    "scopedPath": "client/src/pages/marketplace",
+    "patterns": [
+      "\\bBFA\\b",
+      "\\bDNA-[1-9]\\b",
+      "\\bAF[- ]station\\b",
+      "\\barbiter\\b",
+      "FREEDOM config",
+      "MACHINE code",
+      "DataProcessResult",
+      "ENGINE_INTERNAL",
+      "\\bT[0-9]{3}\\b",
+      "\\bCF-[0-9]{3}\\b"
+    ],
+    "matches": 0,
+    "status": "PASS"
+  },
+  "notes": [
+    "A broader scan found admin/comment matches outside client/src/pages/marketplace; those were not treated as FLOW-08 consumer-page failures.",
+    "Phase 3 did not modify client source."
+  ]
+}

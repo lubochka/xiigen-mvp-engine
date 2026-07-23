@@ -1,0 +1,158 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "phase": "phaseHAuthDecorationCheck",
+  "status": "PASS",
+  "generatedAt": "2026-05-05T20:15:30.8651307+03:00",
+  "controllerAuthDecoration": {
+    "marketplaceControllerPath": "server/src/api/marketplace-package.controller.ts",
+    "marketplaceController": "MarketplacePackageController",
+    "guardDeclaration": "@UseGuards(GlobalJwtAuthGuard, RolesGuard)",
+    "marketplaceControllerUseGuards": true,
+    "marketplaceRouteCount": 4,
+    "marketplaceRolesOrPublicDeclarations": 4,
+    "marketplacePublicRoutes": 0,
+    "forkRoute": {
+      "route": "POST /api/marketplace/packages/:flowSlug/fork",
+      "roles": [
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "forkRouteHasRoles": true
+    },
+    "marketplaceViewRoles": [
+      "public-marketplace-visitor",
+      "tenant-user",
+      "referral-user",
+      "freelancer",
+      "business-partner",
+      "event-organiser",
+      "tenant-admin",
+      "platform-admin"
+    ],
+    "marketplaceAdminRoles": [
+      "tenant-admin",
+      "platform-admin"
+    ],
+    "flowHttpControllerPath": "server/src/api/flow-http.controller.ts",
+    "flowExecuteRoute": {
+      "route": "POST /api/flow/execute",
+      "roles": [
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "flowExecuteHasRoles": true
+    }
+  },
+  "decorationScan": {
+    "generatedAt": "2026-05-05T20:14:15.0528446+03:00",
+    "marketplaceControllerUseGuards": true,
+    "marketplaceRouteCount": 4,
+    "marketplaceRolesOrPublicDeclarations": 4,
+    "marketplacePublicRoutes": 0,
+    "marketplaceForkRouteHasRoles": true,
+    "marketplaceAdminRolesDeclared": true,
+    "flowExecuteHasRoles": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-05T20:15:20.5427008+03:00",
+    "server": "http://localhost:33001",
+    "passed": 8,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "acme own marketplace browse",
+        "tenantHeader": "acme-corp",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "northwind own marketplace browse",
+        "tenantHeader": "northwind",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "tessera own marketplace browse",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "pass": true
+      },
+      {
+        "name": "missing token denied",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "acme token in northwind context denied",
+        "tenantHeader": "northwind",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "northwind token in tessera context denied",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "acme token in tessera context denied",
+        "tenantHeader": "tessera-collective",
+        "method": "GET",
+        "path": "/api/marketplace/packages",
+        "expectedStatus": 401,
+        "actualStatus": 401,
+        "pass": true
+      },
+      {
+        "name": "wrong role cannot fork Tessera adapted package",
+        "tenantHeader": "tessera-collective",
+        "method": "POST",
+        "path": "/api/marketplace/packages/tessera-community-ticketing/fork",
+        "expectedStatus": 403,
+        "actualStatus": 403,
+        "pass": true
+      }
+    ]
+  },
+  "verification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location",
+      "status": "passed"
+    },
+    "marketplaceControllerJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=marketplace-package.controller --runInBand --colors=false; Pop-Location",
+      "status": "passed",
+      "testSuites": 1,
+      "tests": 13
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeyValuesWrittenToEvidence": false,
+    "envFilesCommitted": false
+  },
+  "verdict": "Phase H auth decoration check passed and is ready for Phase I certification declaration."
+}

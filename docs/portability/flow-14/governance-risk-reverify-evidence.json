@@ -1,0 +1,57 @@
+﻿{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "governance-risk-reverify-and-rule-generation",
+    "generatedAt":  "2026-05-06T09:47:55.8277737+03:00",
+    "sourceFixMap":  [
+                         "FLOW-14-FIXMAP-003: governance risk level re-verify cross-flow governance rules first unblocking step1.",
+                         "FLOW-14-FIXMAP-005: governance rule generation HID and UD warnings must be resolved."
+                     ],
+    "filesChanged":  [
+                         "server/src/bootstrap/engine-bootstrapper.ts",
+                         "docs/flow-coverage/etl-data-integration/P1-business-logic-inventory.md"
+                     ],
+    "gapFixed":  [
+                     "FLOW14_CONTRACTS was absent from ENGINE_CONTRACTS seeding; added import and spread so T213-T224 are visible to flow registry, marketplace, and fork machinery.",
+                     "ETL_DATA_INTEGRATION_BFA_RULES was absent from seedBfaRules; added import and spread so CF-940..CF-944 are seeded into the decision graph.",
+                     "P1 business logic inventory task range was stale; updated from T189-T200 to T213-T224 to match the current FLOW-14 contracts and STEP-1 invariants."
+                 ],
+    "staticGovernanceScan":  {
+                                 "command":  "Check engine-bootstrapper imports/spreads FLOW14_CONTRACTS and ETL_DATA_INTEGRATION_BFA_RULES; check BFA rules CF-940..CF-944 are FLOW-14, FLOW_SCOPED, BUILD_FAILURE.",
+                                 "importsFlow14Contracts":  true,
+                                 "spreadsFlow14Contracts":  true,
+                                 "importsFlow14BfaRules":  true,
+                                 "seedsFlow14BfaRules":  true,
+                                 "bfaRuleCount":  5,
+                                 "allRulesFlow14":  true,
+                                 "allRulesFlowScoped":  true,
+                                 "allRulesBuildFailure":  true,
+                                 "exitCode":  0
+                             },
+    "verification":  {
+                         "serverTypeScript":  {
+                                                  "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                  "exitCode":  0
+                                              },
+                         "flow14Jest":  {
+                                            "command":  "Push-Location server; npx jest --testPathPatterns=etl-data-integration --runInBand --colors=false; Pop-Location",
+                                            "exitCode":  0,
+                                            "passedSuites":  15,
+                                            "passedTests":  220
+                                        },
+                         "bootstrapperJest":  {
+                                                  "command":  "Push-Location server; npx jest --testPathPatterns=engine-bootstrapper --runInBand --colors=false; Pop-Location",
+                                                  "exitCode":  0,
+                                                  "passedSuites":  3,
+                                                  "passedTests":  40
+                                              }
+                     },
+    "summary":  {
+                    "status":  "PASS",
+                    "hidUdWarningsResolvedForFlow14":  true,
+                    "readyForPhase0AuthPreflight":  true,
+                    "productDecisionStillPendingBeforeCoInstall":  true,
+                    "secretsPrintedOrCommitted":  false,
+                    "technicalDebtIntroduced":  false
+                }
+}

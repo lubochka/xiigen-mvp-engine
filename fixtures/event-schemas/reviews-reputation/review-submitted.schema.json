@@ -1,0 +1,13 @@
+{
+  "eventType": "review.submitted",
+  "flowId": "FLOW-10",
+  "version": "1.0.0",
+  "properties": {
+    "reviewerId": { "type": "string", "required": true },
+    "targetEntityId": { "type": "string", "required": true },
+    "targetEntityType": { "type": "string", "required": true },
+    "rating": { "type": "integer", "minimum": 1, "maximum": 5, "required": true },
+    "reviewText": { "type": "string", "required": false },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

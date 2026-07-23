@@ -1,0 +1,11 @@
+{
+  "eventType": "SocialActivityRecorded",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "social-activity-recorder",
+  "consumers": ["T82"],
+  "piiFields": [],
+  "allowedPayloadFields": ["activityId", "activityType", "tenantId", "recordedAt"],
+  "forbiddenFields": ["userId", "userProfile", "contentDetails"],
+  "notes": "Aggregate social activity record. userId is FORBIDDEN — social activity records are aggregate only. activityType: 'friend_request' | 'connection' | 'feed_delivery'. T82 uses this for aggregate analytics."
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.marketplace.listing-published.v1",
+  "taskTypeId": "T83",
+  "flowId": "FLOW-08",
+  "description": "Emitted by T83 ListingPublisher after audit record (ORDER 1), content safety check (ORDER 2), and storeDocument (ORDER 3) succeed. price >= 0 required; price === 0 valid (free listing).",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.marketplace.listing-published.v1",
+    "source": "xiigen/flows/marketplace/t83",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "listingId": {
+      "type": "string",
+      "description": "Opaque listing identifier"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant identifier from AsyncLocalStorage"
+    },
+    "version": {
+      "type": "integer",
+      "description": "Listing version — used in T84 version-keyed idempotency key"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "No seller name, email, or pricing data in event payload. listingId and tenantId are opaque references.",
+  "arbiterRef": "arb-flow08-audit-before-moderation: audit at ORDER 1. arb-flow08-zero-price-accepted: price === 0 is valid.",
+  "requiredByFlows": ["FLOW-08"],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

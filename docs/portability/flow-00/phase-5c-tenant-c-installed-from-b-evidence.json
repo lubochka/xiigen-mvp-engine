@@ -1,0 +1,149 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phase5cTenantCInstalls",
+    "status":  "completed",
+    "generatedAt":  "2026-05-05T07:25:50.7890206+03:00",
+    "tenant":  {
+                   "tenantId":  "tessera-collective",
+                   "role":  "Tenant C",
+                   "installedFromTenant":  "northwind",
+                   "installedPackage":  "@xiigen-fork/northwind-launch-bundles@1.0.2"
+               },
+    "marketplaceForkApi":  {
+                               "method":  "POST",
+                               "path":  "/api/marketplace/packages/northwind-launch-bundles/fork",
+                               "targetTenant":  "tessera-collective",
+                               "targetGitHubUsername":  "lubochka",
+                               "repoNameOverride":  "tessera-collective--northwind-launch-bundles",
+                               "sourceRepoFullName":  "lubochka/northwind--northwind-launch-bundles",
+                               "responseStatus":  "FORKED",
+                               "forkId":  "fork-northwind-launch-bundles-tessera-collective",
+                               "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-launch-bundles",
+                               "repoFullName":  "lubochka/tessera-collective--northwind-launch-bundles",
+                               "initialCommitSha":  "1620ca414f0bf80a627619e61d881c3e6edadea7"
+                           },
+    "localRegistryVerification":  {
+                                      "command":  "npm view @xiigen-fork/northwind-launch-bundles version --registry http://localhost:4873",
+                                      "expectedVersion":  "1.0.2",
+                                      "actualVersion":  "1.0.2"
+                                  },
+    "initialCi":  {
+                      "runId":  25357035283,
+                      "status":  "completed",
+                      "conclusion":  "failure",
+                      "rootCause":  "Inherited Tenant B adaptation test asserted tenantId northwind after cascade fork rewrote tenant.config.json for tessera-collective."
+                  },
+    "repairCommit":  {
+                         "sha":  "3e3601f091a659aa9fa3e18279d68512ce6bcbbe",
+                         "message":  "Make Tenant C install test cascade-safe",
+                         "changedFile":  "__tests__/bundle-activation-acme-adaptation.spec.ts",
+                         "localVerification":  [
+                                                   "npm install --no-audit --no-fund --prefer-online --registry=https://registry.npmjs.org/ --cache <WORKSPACE>\\AppData\\Local\\Temp\\npm-cache-flow00-tessera-clean: added 422 packages in 9m",
+                                                   "npx tsc --noEmit: passed",
+                                                   "npx jest --colors=false --forceExit: 2 suites passed, 3 tests passed"
+                                               ]
+                     },
+    "githubActions":  {
+                          "runId":  25357582803,
+                          "workflowName":  "XIIGen Flow CI - bundle-activation",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "3e3601f091a659aa9fa3e18279d68512ce6bcbbe",
+                          "htmlUrl":  "https://github.com/lubochka/tessera-collective--northwind-launch-bundles/actions/runs/25357582803"
+                      },
+    "visualEvidence":  {
+                           "tenantInstalledMatrix":  {
+                                                         "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b",
+                                                         "expected":  9,
+                                                         "actual":  9,
+                                                         "minBytes":  36943,
+                                                         "maxBytes":  97219,
+                                                         "roles":  [
+                                                                       "tenant-admin",
+                                                                       "platform-admin",
+                                                                       "platform-support"
+                                                                   ],
+                                                         "cells":  [
+                                                                       "C2-en-populated",
+                                                                       "C4-he-rtl-populated",
+                                                                       "C6-en-mobile"
+                                                                   ],
+                                                         "files":  [
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/platform-admin-C2-en-populated.png",
+                                                                           "bytes":  97219
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/platform-admin-C4-he-rtl-populated.png",
+                                                                           "bytes":  91744
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/platform-admin-C6-en-mobile.png",
+                                                                           "bytes":  82140
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/platform-support-C2-en-populated.png",
+                                                                           "bytes":  77736
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/platform-support-C4-he-rtl-populated.png",
+                                                                           "bytes":  71881
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/platform-support-C6-en-mobile.png",
+                                                                           "bytes":  61834
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/tenant-admin-C2-en-populated.png",
+                                                                           "bytes":  47638
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/tenant-admin-C4-he-rtl-populated.png",
+                                                                           "bytes":  44813
+                                                                       },
+                                                                       {
+                                                                           "path":  "docs/e2e-snapshots/bundle-activation/tenant-c-installed-from-b/tenant-admin-C6-en-mobile.png",
+                                                                           "bytes":  36943
+                                                                       }
+                                                                   ]
+                                                     },
+                           "repoScreenshots":  {
+                                                   "repoListing":  {
+                                                                       "path":  "docs/e2e-snapshots/repo-evidence/tessera-collective--northwind-launch-bundles-github-listing.png",
+                                                                       "bytes":  172633,
+                                                                       "captureMode":  "GitHub web UI while temporarily public"
+                                                                   },
+                                                   "repoHomepage":  {
+                                                                        "path":  "docs/e2e-snapshots/repo-evidence/tessera-collective--northwind-launch-bundles-repo-homepage.png",
+                                                                        "bytes":  135193,
+                                                                        "captureMode":  "GitHub web UI while temporarily public"
+                                                                    },
+                                                   "actionsSuccess":  {
+                                                                          "path":  "docs/e2e-snapshots/repo-evidence/tessera-collective--northwind-launch-bundles-actions-success.png",
+                                                                          "bytes":  76835,
+                                                                          "captureMode":  "GitHub web UI while temporarily public"
+                                                                      }
+                                               }
+                       },
+    "applicationEvidence":  {
+                                "clientTypecheck":  "npx tsc --noEmit: passed",
+                                "playwright":  "npx playwright test e2e/bundle-activation-tenant-c-installed.spec.ts --project=chromium-desktop --workers=1: 9 passed",
+                                "repoScreenshotSecretScan":  "0 token-pattern hits in Tessera repo evidence PNGs"
+                            },
+    "repository":  {
+                       "fullName":  "lubochka/tessera-collective--northwind-launch-bundles",
+                       "htmlUrl":  "https://github.com/lubochka/tessera-collective--northwind-launch-bundles",
+                       "defaultBranch":  "main",
+                       "privateAfterEvidenceCapture":  true,
+                       "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-launch-bundles",
+                       "localRemote":  "https://github.com/lubochka/tessera-collective--northwind-launch-bundles.git"
+                   },
+    "secretHandling":  {
+                           "printedTenantTokens":  false,
+                           "printedVaultSigningKeys":  false,
+                           "committedEnvFiles":  false,
+                           "repoScreenshotsContainApiDownloadTokens":  false
+                       },
+    "verdict":  "PASS"
+}

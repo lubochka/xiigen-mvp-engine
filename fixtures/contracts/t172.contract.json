@@ -1,0 +1,64 @@
+{
+  "taskTypeId": "T172",
+  "flowId": "FLOW-10",
+  "name": "ReviewResponseOrchestrator",
+  "archetype": "ORCHESTRATION",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "ownership-check-before-setnx-conditional-revision",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow10_response_moderation_enabled",
+    "neutralConcepts": [
+      "Ownership check at executionOrder=1 — reviewerId must match review.ownerId",
+      "SETNX at executionOrder=2 — key = hash(tenantId+':'+reviewId+':response')",
+      "revision_allowed:true ONLY for content_policy rejection reason",
+      "NEW_KEY_VARIANT revision strategy: second SETNX key = hash(tenantId+':'+reviewId+':response-revision-1')",
+      "Does NOT emit reputation.updated — aggregation handled by T171"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F223",
+      "interface": "IReviewResponseOrchestratorService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T172-1",
+      "rule": "Ownership check (reviewerId === review.ownerId) at executionOrder=1 — before any write. Emits ReviewResponseRejected(not_owner, revision_allowed:false).",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T172-2",
+      "rule": "SETNX deduplication at executionOrder=2 — key = hash(tenantId+reviewId+'response'). Already-responded emits ReviewResponseRejected(already_responded, revision_allowed:false).",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T172-3",
+      "rule": "revision_allowed:true ONLY for content_policy rejection reason. not_owner and already_responded must carry revision_allowed:false.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T172-4",
+      "rule": "DNA-8: storeDocument(response record) BEFORE enqueue(ReviewResponsePublished or ReviewResponseRejected).",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T172-5",
+      "rule": "T172 does NOT emit reputation.updated. Reputation aggregation is owned by T171 via T171's event subscription.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "revision_allowed_content_policy_only",
+    "ownership_check_before_setnx",
+    "response_store_before_enqueue",
+    "no_reputation_update_from_response"
+  ],
+  "bfaRules": ["CF-10-3"],
+  "tags": ["ownership-check", "conditional-revision", "new-key-variant", "ORCHESTRATION"],
+  "keywords": "review response ownership content policy revision allowed not_owner already_responded SETNX NEW_KEY_VARIANT"
+}

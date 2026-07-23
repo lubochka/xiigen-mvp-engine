@@ -1,0 +1,121 @@
+{
+  "flowId": "FLOW-19",
+  "flowSlug": "durable-sagas-compliance",
+  "phase": "phase4Point0TenantAOriginalFork",
+  "capturedAt": "2026-05-07T04:44:39.3334523+03:00",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "githubOrg": "lubochka"
+  },
+  "marketplaceFork": {
+    "endpoint": "POST http://localhost:3000/api/marketplace/packages/durable-sagas-compliance/fork",
+    "requestShape": {
+      "flowId": "FLOW-19",
+      "targetGitHubUsername": "lubochka",
+      "initialVersion": "1.0.0"
+    },
+    "result": "FORKED",
+    "forkId": "fork-durable-sagas-compliance-acme-corp",
+    "repoFullName": "lubochka/acme-corp--durable-sagas-compliance",
+    "repoUrl": "https://github.com/lubochka/acme-corp--durable-sagas-compliance",
+    "initialCommitSha": "8bc11346ecd70473a9f805b9fb8e775e201719f7"
+  },
+  "githubActions": {
+    "runId": 25471118702,
+    "runUrl": "https://github.com/lubochka/acme-corp--durable-sagas-compliance/actions/runs/25471118702",
+    "workflowName": "XIIGen Flow CI - durable-sagas-compliance",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "8bc11346ecd70473a9f805b9fb8e775e201719f7",
+    "createdAt": "2026-05-07T01:39:59Z",
+    "updatedAt": "2026-05-07T01:40:35Z",
+    "job": {
+      "databaseId": 74735015513,
+      "name": "Standalone flow test - durable-sagas-compliance",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-05-07T01:40:02Z",
+      "completedAt": "2026-05-07T01:40:34Z",
+      "stepsPassed": [
+        "checkout",
+        "setup-node",
+        "npm install",
+        "npx tsc --noEmit",
+        "npx jest --colors=false --forceExit",
+        "provenance"
+      ]
+    }
+  },
+  "localBundleValidation": {
+    "clonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--durable-sagas-compliance-phase40-20260507-044145",
+    "headSha": "8bc11346ecd70473a9f805b9fb8e775e201719f7",
+    "commands": [
+      "gh repo clone lubochka/acme-corp--durable-sagas-compliance C:\\Projects\\xiigen-fork-clones\\acme-corp--durable-sagas-compliance-phase40-20260507-044145 -- --depth 1",
+      "npm install --no-audit --no-fund",
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "npmInstall": "passed",
+      "typescript": "passed",
+      "jest": "passed",
+      "npmPackDryRun": "passed",
+      "testSuites": 1,
+      "tests": 1
+    },
+    "bundleManifest": {
+      "completeModuleBundle": true,
+      "adaptationSurface": true,
+      "freedomDefaults": true,
+      "tenantConfig": true,
+      "ragSeeds": true,
+      "standalonePackage": true,
+      "manifestCount": 112,
+      "packFileCount": 113
+    }
+  },
+  "screenshots": [
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-19/phase-4.0-tenant-a-repo.png",
+      "url": "https://github.com/lubochka/acme-corp--durable-sagas-compliance",
+      "bytes": 130744,
+      "verifiedNonBlank": true
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-19/phase-4.0-tenant-a-actions-run.png",
+      "url": "https://github.com/lubochka/acme-corp--durable-sagas-compliance/actions/runs/25471118702",
+      "bytes": 79286,
+      "verifiedNonBlank": true
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/flow-19/phase-4.0-tenant-a-bundle-manifest.png",
+      "url": "https://github.com/lubochka/acme-corp--durable-sagas-compliance/blob/main/BUNDLE-MANIFEST.json",
+      "bytes": 358140,
+      "verifiedNonBlank": true
+    }
+  ],
+  "repoVisibility": {
+    "temporarilyPublicForScreenshotCapture": true,
+    "restoredPrivate": true,
+    "verifiedPrivateAfterEvidence": true
+  },
+  "vaultAndSecrets": {
+    "githubCredentialsSeededInTenantVaultPaths": true,
+    "forkManagerCredentialPayloadShapeVerified": true,
+    "jwtSigningKeyReadWithoutPrinting": true,
+    "noSecretValuesWrittenToEvidence": true,
+    "noSecretValuesCommitted": true
+  },
+  "phaseGate": {
+    "tenantAForkedOriginalPlatformSource": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "localCloneValidated": true,
+    "bundleManifestValidated": true,
+    "repoScreenshotsCaptured": true,
+    "repoRestoredPrivate": true,
+    "noPersistentSecretsPrintedOrCommitted": true
+  }
+}

@@ -1,0 +1,34 @@
+name: test-integrity-skill
+sk_number: SK-414
+version: "2.0.0"
+load_order: 12
+priority: MANDATORY
+author: luba
+updated: "2026-03-18"
+description: >
+  Catches four failure modes that all produce green tests while making the
+  codebase worse: (1) fixing a failing test by changing the mock instead of
+  the code, (2) making a downstream branch unreachable by stacking guards,
+  (3) increasing test count while decreasing actual coverage via fabric bypass,
+  (4) DNA guard present in one AF station but missing in its sibling.
+  Adapted and extended for the XIIGen engine (Phase 4).
+entry: SKILL.md
+rules:
+  - rules/test-fix-or-code-fix.md
+  - rules/branch-reachability.md
+  - rules/coverage-vs-execution.md
+  - rules/pipeline-function-coverage.md
+  - rules/contract-driven-testing.md
+triggers:
+  - "test fails after guard change"
+  - "mock changed to make test pass"
+  - "branch unreachable"
+  - "all tests pass but tests were modified"
+  - "DNA check skipped in mock"
+  - "coverage inflation"
+  - "test assertion changed"
+  - "integration test added"
+integrates_with:
+  - planning-skill (Gate 5 — test coverage matrix)
+  - three-level-verification (Level 2 uses contract-driven-testing)
+  - mental-debug-skill (FM-2 uses branch-reachability pattern)

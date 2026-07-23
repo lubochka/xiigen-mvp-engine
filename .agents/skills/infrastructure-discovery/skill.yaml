@@ -1,0 +1,27 @@
+name: infrastructure-discovery
+version: "1.0.0"
+sk_number: SK-407
+priority: MANDATORY
+load_order: 5
+description: >
+  10-step codebase discovery protocol that grounds every plan in live
+  facts before any spec is written. Step 0 captures pre-existing failures
+  (zero-regression baseline). Steps 1–9 verify factory IDs, fabric layers,
+  AF stations, artifact numbers, and DNA compliance status against actual
+  files. Prevents planning from memory.
+author: luba
+updated: "2026-03-18"
+triggers:
+  - "infrastructure discovery"
+  - "discover codebase"
+  - "verify codebase"
+  - "before planning"
+  - "Gate 0"
+  - "what exists in the codebase"
+  - "factory IDs"
+  - "artifact numbers"
+entry: SKILL.md
+dependencies:
+  - agent-constitution
+  - dev-safety
+position: after-governance-before-planning

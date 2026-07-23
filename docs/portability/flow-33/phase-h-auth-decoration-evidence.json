@@ -1,0 +1,70 @@
+﻿{
+    "flowId":  "FLOW-33",
+    "flowSlug":  "system-initiation-bootstrap",
+    "phase":  "phaseHAuthDecoration",
+    "generatedAt":  "2026-05-11T10:36:16.3516179Z",
+    "server":  "http://localhost:33001",
+    "secretsProvider":  "vault",
+    "tokenHandling":  "Tenant JWTs minted from per-tenant Vault signing keys; token values not printed or written.",
+    "checks":  [
+                   {
+                       "name":  "valid acme tenant-admin marketplace browse",
+                       "tenantHeader":  "acme-corp",
+                       "expected":  200,
+                       "observed":  200,
+                       "passed":  true
+                   },
+                   {
+                       "name":  "valid northwind tenant-admin marketplace browse",
+                       "tenantHeader":  "northwind",
+                       "expected":  200,
+                       "observed":  200,
+                       "passed":  true
+                   },
+                   {
+                       "name":  "valid tessera tenant-admin marketplace browse",
+                       "tenantHeader":  "tessera-collective",
+                       "expected":  200,
+                       "observed":  200,
+                       "passed":  true
+                   },
+                   {
+                       "name":  "missing token denied",
+                       "tenantHeader":  "acme-corp",
+                       "expected":  401,
+                       "observed":  401,
+                       "passed":  true
+                   },
+                   {
+                       "name":  "acme token in northwind context denied",
+                       "tenantHeader":  "northwind",
+                       "expected":  401,
+                       "observed":  401,
+                       "passed":  true
+                   },
+                   {
+                       "name":  "northwind token in tessera context denied",
+                       "tenantHeader":  "tessera-collective",
+                       "expected":  401,
+                       "observed":  401,
+                       "passed":  true
+                   },
+                   {
+                       "name":  "acme token in tessera context denied",
+                       "tenantHeader":  "tessera-collective",
+                       "expected":  401,
+                       "observed":  401,
+                       "passed":  true
+                   },
+                   {
+                       "name":  "wrong role denied on fork route",
+                       "tenantHeader":  "tessera-collective",
+                       "expected":  403,
+                       "observed":  403,
+                       "passed":  true
+                   }
+               ],
+    "passed":  8,
+    "failed":  0,
+    "conclusion":  "post-cascade live auth matrix passed"
+}

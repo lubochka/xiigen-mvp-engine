@@ -1,0 +1,140 @@
+[
+  {
+    "patternId": "DR-30-A",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern A for tenant-lifecycle-manager: key architectural constraint",
+    "positiveExample": "Correct implementation shows A properly applied",
+    "negativeExample": "Incorrect implementation misses A",
+    "discriminatingConstraint": "Rule for A: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9,
+    "sourceDocument": "tenant-lifecycle-manager-phase-1a-design",
+    "tags": [
+      "tenant-lifecycle-manager",
+      "architecture",
+      "pattern-a"
+    ],
+    "keywords": "tenant-lifecycle-manager pattern A rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-B",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern B for tenant-lifecycle-manager: key architectural constraint",
+    "positiveExample": "Correct implementation shows B properly applied",
+    "negativeExample": "Incorrect implementation misses B",
+    "discriminatingConstraint": "Rule for B: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.91,
+    "sourceDocument": "tenant-lifecycle-manager-phase-1a-design",
+    "tags": [
+      "tenant-lifecycle-manager",
+      "architecture",
+      "pattern-b"
+    ],
+    "keywords": "tenant-lifecycle-manager pattern B rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-C",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern C for tenant-lifecycle-manager: key architectural constraint",
+    "positiveExample": "Correct implementation shows C properly applied",
+    "negativeExample": "Incorrect implementation misses C",
+    "discriminatingConstraint": "Rule for C: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.92,
+    "sourceDocument": "tenant-lifecycle-manager-phase-1a-design",
+    "tags": [
+      "tenant-lifecycle-manager",
+      "architecture",
+      "pattern-c"
+    ],
+    "keywords": "tenant-lifecycle-manager pattern C rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-D",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern D for tenant-lifecycle-manager: key architectural constraint",
+    "positiveExample": "Correct implementation shows D properly applied",
+    "negativeExample": "Incorrect implementation misses D",
+    "discriminatingConstraint": "Rule for D: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.93,
+    "sourceDocument": "tenant-lifecycle-manager-phase-1a-design",
+    "tags": [
+      "tenant-lifecycle-manager",
+      "architecture",
+      "pattern-d"
+    ],
+    "keywords": "tenant-lifecycle-manager pattern D rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-E",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern E for tenant-lifecycle-manager: key architectural constraint",
+    "positiveExample": "Correct implementation shows E properly applied",
+    "negativeExample": "Incorrect implementation misses E",
+    "discriminatingConstraint": "Rule for E: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9400000000000001,
+    "sourceDocument": "tenant-lifecycle-manager-phase-1a-design",
+    "tags": [
+      "tenant-lifecycle-manager",
+      "architecture",
+      "pattern-e"
+    ],
+    "keywords": "tenant-lifecycle-manager pattern E rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  },
+  {
+    "patternId": "DR-30-F",
+    "patternType": "DESIGN_REASONING",
+    "flowId": "FLOW-30",
+    "domainId": "tenant-lifecycle-manager",
+    "seededAt": "2026-04-14T00:00:00Z",
+    "teachingPoint": "Pattern F for tenant-lifecycle-manager: key architectural constraint",
+    "positiveExample": "Correct implementation shows F properly applied",
+    "negativeExample": "Incorrect implementation misses F",
+    "discriminatingConstraint": "Rule for F: must be enforced",
+    "appliesTo": [],
+    "curriculumTier": 2,
+    "qualityScore": 0.9500000000000001,
+    "sourceDocument": "tenant-lifecycle-manager-phase-1a-design",
+    "tags": [
+      "tenant-lifecycle-manager",
+      "architecture",
+      "pattern-f"
+    ],
+    "keywords": "tenant-lifecycle-manager pattern F rule constraint",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL"
+  }
+]

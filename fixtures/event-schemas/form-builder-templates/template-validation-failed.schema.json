@@ -1,0 +1,12 @@
+{
+  "eventType": "form-builder-templates.template.validation-failed",
+  "flowId": "FLOW-23",
+  "version": "1.0.0",
+  "properties": {
+    "templateId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "errorCode": { "type": "string", "required": true },
+    "errorMessage": { "type": "string", "required": true },
+    "failedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-32-bfa_revalidation_all_consumers",
+  "checkId": "bfa_revalidation_all_consumers",
+  "flowId": "FLOW-32",
+  "bfaRule": "CF-729",
+  "severity": "score-zero",
+  "description": "T526 must iterate ALL consumer flows for BFA revalidation. Sampling or limiting consumer iteration means some flows are not validated — violations ship undetected to production.",
+  "taskTypeIds": ["T526"],
+  "scanFor": {
+    "banned": [
+      "sample(",
+      ".sample(",
+      "subset(",
+      ".subset(",
+      ".limit(",
+      "LIMIT ",
+      ".take(",
+      "take(",
+      ".slice(",
+      ".first(",
+      "TOP ",
+      "FETCH FIRST",
+      "getConsumers({ limit",
+      "getConsumers({limit",
+      "paginate(",
+      "page(",
+      "perPage:"
+    ],
+    "anyPresent": "FAIL",
+    "caseSensitive": false
+  },
+  "required": {
+    "atLeastOne": [
+      "allConsumers",
+      "ALL_CONSUMERS",
+      "DEGRADED_LOCAL_FALLBACK",
+      "getAll(",
+      "getAllFlows(",
+      "getAllConsumers("
+    ]
+  },
+  "onFailure": "score-0",
+  "failureMessage": "CF-729: BFA coverage violation in T526 — consumer iteration sampling detected. All-consumer iteration required. If FLOW-25 absent, use DEGRADED_LOCAL_FALLBACK — never skip.",
+  "active": true
+}

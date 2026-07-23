@@ -1,0 +1,241 @@
+{
+  "flowId": "FLOW-10",
+  "flowSlug": "reviews-reputation",
+  "phase": "phase-0-docker-vault-auth-preflight",
+  "generatedAt": "2026-05-05T21:00:37.9896783+03:00",
+  "environment": {
+    "serverPort": 33001,
+    "secretsProvider": "vault",
+    "vaultAddressInContainer": "http://vault:8200",
+    "vaultContainer": "xiigen-vault",
+    "vaultSealed": false,
+    "githubLogin": "lubochka",
+    "githubTokenSource": "<WORKSPACE>\\Documents\\keys.txt or gh auth fallback",
+    "tokenMaterialWrittenToEvidence": false
+  },
+  "serverHealth": {
+    "dockerComposeBuildServer": "completed",
+    "container": "xiigen-server",
+    "dockerHealth": "healthy",
+    "liveHealthEndpoint": "http://localhost:33001/health/live",
+    "liveHealthStatus": "passed"
+  },
+  "tenantCredentialSeeding": [
+    {
+      "tenantId": "acme-corp",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "active"
+    },
+    {
+      "tenantId": "northwind",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "active"
+    },
+    {
+      "tenantId": "tessera-collective",
+      "githubTokenPresentInVault": true,
+      "githubOrgNamePresentInVault": true,
+      "dockerRegistryUrlPresentInVault": true,
+      "dockerRegistryTokenPresentInVault": true,
+      "jwtSigningKeyPresentInVault": true,
+      "tenantRegistryStatus": "active"
+    }
+  ],
+  "roleMap": {
+    "source": [
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-02.md FLOW-10 Reviews & Reputation",
+      "server/src/api/flow-http.controller.ts"
+    ],
+    "architectureGuidePath": "docs/design-reviews/XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md",
+    "architectureGuidePresent": false,
+    "roles": [
+      "anonymous",
+      "public-marketplace-visitor",
+      "tenant-user",
+      "freelancer",
+      "business-partner",
+      "tenant-admin",
+      "platform-admin",
+      "platform-support"
+    ],
+    "nonAnonymousRoles": [
+      "public-marketplace-visitor",
+      "tenant-user",
+      "freelancer",
+      "business-partner",
+      "tenant-admin",
+      "platform-admin",
+      "platform-support"
+    ],
+    "notes": [
+      "ROLE-ANALYSIS-BATCH-02 marks referral-user and event-organiser as not differentiated for FLOW-10; they merge into tenant-user for visual/business behavior.",
+      "Runtime auth probe route is POST /api/flow/execute with declared roles tenant-user, tenant-admin, and platform-admin.",
+      "Wrong-role probe used referral-user and returned 403.",
+      "Prompt-named docs/design-reviews/XIIGEN-ROLE-SCREEN-ARCHITECTURE-GUIDE.md is absent in this repo."
+    ],
+    "primaryAuthProbeRoute": {
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "declaredRoles": [
+        "tenant-user",
+        "tenant-admin",
+        "platform-admin"
+      ],
+      "validRoleProbe": "tenant-user",
+      "wrongRoleProbe": "referral-user"
+    }
+  },
+  "liveAuthMatrix": [
+    {
+      "name": "valid acme token in acme tenant",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid northwind token in northwind tenant",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "northwind",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "valid tessera token in tessera tenant",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "tessera-collective",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "pass": true
+    },
+    {
+      "name": "missing token denied",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "acme-corp",
+      "tokenTenant": null,
+      "roles": [],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in northwind tenant denied",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "northwind",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "northwind token in tessera tenant denied",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "northwind",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "acme token in tessera tenant denied",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "tessera-collective",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "tenant-user"
+      ],
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "pass": true
+    },
+    {
+      "name": "wrong referral-user role denied on flow execute",
+      "method": "POST",
+      "path": "/api/flow/execute",
+      "contextTenant": "acme-corp",
+      "tokenTenant": "acme-corp",
+      "roles": [
+        "referral-user"
+      ],
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "total": 8,
+    "allPassed": true
+  },
+  "phaseCloseScan": {
+    "flowFileCount": 4,
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "flowScopedAnnotations": 4,
+    "flowIdAnnotations": 4,
+    "unscopedFreedomReads": 0,
+    "localConfigClones": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0
+  },
+  "verification": {
+    "serverTypecheck": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location: exit 0.",
+    "serverJest": "Push-Location server; npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false; Pop-Location: 8 suites passed, 113 tests passed."
+  },
+  "commands": [
+    "docker restart xiigen-vault",
+    "docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=<redacted> xiigen-vault vault status -format=json",
+    "docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=<redacted> xiigen-vault vault kv put secret/xiigen/tenants/{tenant}/github_token value=<redacted>",
+    "docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=<redacted> xiigen-vault vault kv put secret/xiigen/tenants/{tenant}/auth/jwt_signing_key value=<redacted> algorithm=HS256",
+    "gh api user --jq '.login'",
+    "docker compose -f docker-compose.yml up -d --build server",
+    "GET http://localhost:33001/health/live",
+    "POST http://localhost:33001/api/tenants for acme-corp, northwind, tessera-collective",
+    "Live HTTP auth matrix against http://localhost:33001/api/flow/execute",
+    "server npx tsc --noEmit -p tsconfig.json",
+    "server npx jest --testPathPatterns=reviews-reputation --runInBand --colors=false"
+  ],
+  "notes": [
+    "The first Vault readiness attempt found the dev Vault container sealed/unhealthy; restarting the dev container recovered sealed=false and credentials were reseeded.",
+    "Acme tenant create returned a duplicate-style 500 during the final tenant setup pass because it had already been created by an earlier setup attempt; the tenant registry list confirmed acme-corp, northwind, and tessera-collective are active.",
+    "Tokens were minted in memory from tenant-specific Vault signing keys for HTTP verification and were not written to evidence, docs, or env files.",
+    "Cross-tenant failures are structural JWT failures because the server verifies with the context tenant key before checking the token tenant claim.",
+    "The role architecture guide path named by the prompt is absent in this repo; FLOW-10 role map was defined from ROLE-ANALYSIS-BATCH-02.md and runtime route declarations."
+  ]
+}

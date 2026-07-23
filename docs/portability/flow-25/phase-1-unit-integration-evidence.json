@@ -1,0 +1,42 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase1UnitTests",
+  "status": "completed",
+  "generatedAt": "2026-05-10T12:37:05.6398326Z",
+  "protocolVersion": "3.0",
+  "commands": [
+    "Push-Location server",
+    "npx tsc --noEmit -p tsconfig.json --pretty false",
+    "npx jest --testPathPatterns=bfa-cross-flow-governance --runInBand --colors=false",
+    "Get-ChildItem server/src/engine/flows/bfa-conflict-arbitration -Recurse -Filter *.ts | source-contract scans"
+  ],
+  "typescript": {
+    "command": "npx tsc --noEmit -p tsconfig.json --pretty false",
+    "workingDirectory": "server",
+    "exitCode": 0
+  },
+  "jest": {
+    "command": "npx jest --testPathPatterns=bfa-cross-flow-governance --runInBand --colors=false",
+    "workingDirectory": "server",
+    "exitCode": 0,
+    "testSuitesPassed": 32,
+    "testSuitesTotal": 32,
+    "testsPassed": 353,
+    "testsTotal": 353,
+    "snapshotsTotal": 0
+  },
+  "sourceScans": {
+    "implementationPath": "server/src/engine/flows/bfa-conflict-arbitration",
+    "filesScanned": 14,
+    "throwNew": 0,
+    "exportedServices": 14,
+    "exportedClassesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "anyTypes": 0
+  },
+  "verdict": "PASS"
+}

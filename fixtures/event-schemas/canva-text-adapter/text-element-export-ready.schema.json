@@ -1,0 +1,1 @@
+{"type":"object","properties":{"elementId":{"type":"string"},"canvasId":{"type":"string"},"exportFormat":{"type":"string","enum":["HTML","PDF","FIGMA","SVG","JSON"]},"normalizedData":{"type":"object"},"targetPlatform":{"type":"string"},"readyAt":{"type":"string"}},"required":["elementId","canvasId","exportFormat","normalizedData"]}

@@ -1,0 +1,43 @@
+{
+  "taskTypeId": "T209",
+  "flowId": "FLOW-12",
+  "name": "SubscriptionPlanOrchestrator",
+  "archetype": "BILLING",
+  "domainId": "subscription-billing",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "integer-cents-guard-then-setnx-then-occ-write",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "subscription_billing_plan_audit_retention",
+    "neutralConcepts": [
+      "executionOrder: IntegerCentsGuard=1, SETNX=2, OccRead=3, IntervalValidation=4, AuditWrite=5, OccWrite=6, Enqueue=7",
+      "priceCents must pass Number.isInteger() AND > 0 at ORDER 1 — float prices rejected before any write",
+      "storeDocumentWithOCC(plan, versionPin) at ORDER 6 — not plain storeDocument",
+      "OCC_CONFLICT → emit SubscriptionPlanPublicationFailed, return failure",
+      "billingInterval must be MONTHLY | ANNUAL | CUSTOM — checked at ORDER 4",
+      "storeDocument(audit) at ORDER 5 BEFORE enqueue(SubscriptionPlanPublished) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T209-1", "rule": "Number.isInteger(priceCents) && priceCents > 0 at ORDER 1 — float prices rejected immediately. CF-12-2.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T209-2", "rule": "SETNX at ORDER 2 — key=hash(tenantId+planId+version). Duplicate returns SubscriptionPlanPublicationFailed.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T209-3", "rule": "storeDocumentWithOCC(plan, versionPin) at ORDER 6 — NEVER plain storeDocument(). OCC_CONFLICT → SubscriptionPlanPublicationFailed. CF-12-2.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T209-4", "rule": "storeDocument(audit) at ORDER 5 BEFORE enqueue(SubscriptionPlanPublished). DNA-8.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T209-5", "rule": "billingInterval must be MONTHLY | ANNUAL | CUSTOM — validated at ORDER 4 before any write.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "financial_op_idempotency",
+    "setnx_before_operation",
+    "store_before_enqueue",
+    "integer_cents_guard",
+    "occ_write_not_plain_store"
+  ],
+  "bfaRules": ["CF-12-2"],
+  "tags": ["billing", "occ", "integer-cents", "plan-catalog", "BILLING"],
+  "keywords": "subscription plan orchestrator integer cents guard OCC write SETNX audit before enqueue billingInterval MONTHLY ANNUAL CUSTOM"
+}

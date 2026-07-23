@@ -1,0 +1,235 @@
+﻿{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "generatedAt":  "2026-05-04T22:38:26.4835429+03:00",
+    "phase":  "phase2E2ETests",
+    "server":  {
+                   "port":  33001,
+                   "healthUrl":  "http://localhost:33001/health/live",
+                   "viteApiUrl":  "http://localhost:33001"
+               },
+    "roleMap":  {
+                    "roles":  [
+                                  "tenant-admin",
+                                  "platform-admin",
+                                  "platform-support"
+                              ],
+                    "expectedRolePngCount":  3,
+                    "actualRolePngCount":  3,
+                    "rolePngDirectory":  "docs/e2e-snapshots/c6-role-coverage"
+                },
+    "playwrightRuns":  [
+                           {
+                               "command":  "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5174 npx playwright test e2e/bundle-activation.spec.ts e2e/bundle-activation-mock-states.spec.ts e2e/bundle-activation-crud.spec.ts --project=chromium-desktop --workers=1",
+                               "passed":  23,
+                               "failed":  0,
+                               "skipped":  0,
+                               "screenshotDirectory":  "docs/e2e-snapshots/bundle-activation"
+                           },
+                           {
+                               "command":  "SERVER_PORT=33001 VITE_API_URL=http://localhost:33001 VITE_PORT=5175 npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts --project=chromium-desktop --workers=1 -g \"bundle-activation\"",
+                               "passed":  3,
+                               "failed":  0,
+                               "skipped":  0,
+                               "screenshotDirectory":  "docs/e2e-snapshots/c6-role-coverage"
+                           }
+                       ],
+    "pngEvidence":  {
+                        "requiredFreshFlowPngCount":  22,
+                        "actualFlowPngCountOnDisk":  32,
+                        "missingRequiredFlowPngs":  [
+
+                                                    ],
+                        "requiredRolePngCount":  3,
+                        "actualRolePngCountOnDisk":  3,
+                        "missingRequiredRolePngs":  [
+
+                                                    ],
+                        "flowPngs":  [
+                                         {
+                                             "name":  "01-bundlevalidator-processing-step-entered.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/01-bundlevalidator-processing-step-entered.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "02-bundleactivationorchestrator-processing.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/02-bundleactivationorchestrator-processing.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "03-bundlestatustracker-processing-step-ente.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/03-bundlestatustracker-processing-step-ente.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "04-bundleactivationrequested-bundlevalidato.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/04-bundleactivationrequested-bundlevalidato.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "05-bundlevalidator-bundleactivationorchestr.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/05-bundlevalidator-bundleactivationorchestr.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "06-bundlevalidator-bundlevalidationcomplete.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/06-bundlevalidator-bundlevalidationcomplete.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "07-bundleactivationorchestrator-bundleactiv.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/07-bundleactivationorchestrator-bundleactiv.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "08-flow-lifecycle-regenerated-bundlestatust.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/08-flow-lifecycle-regenerated-bundlestatust.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "09-bundlestatustracker-bundledegraded-when.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/09-bundlestatustracker-bundledegraded-when.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "10-bundlestatustracker-bundlerestored-when.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/10-bundlestatustracker-bundlerestored-when.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "default.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/default.png",
+                                             "bytes":  19381
+                                         },
+                                         {
+                                             "name":  "operations-initial-load.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/operations-initial-load.png",
+                                             "bytes":  89908
+                                         },
+                                         {
+                                             "name":  "operations-panel-checkpoints.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/operations-panel-checkpoints.png",
+                                             "bytes":  89908
+                                         },
+                                         {
+                                             "name":  "operations-panel-with-api-roundtrip.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/operations-panel-with-api-roundtrip.png",
+                                             "bytes":  89908
+                                         },
+                                         {
+                                             "name":  "state-10-bundlestatustracker-bundlerestored.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-10-bundlestatustracker-bundlerestored.png",
+                                             "bytes":  33766
+                                         },
+                                         {
+                                             "name":  "state-1-bundlevalidator-processing.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-1-bundlevalidator-processing.png",
+                                             "bytes":  33143
+                                         },
+                                         {
+                                             "name":  "state-1-validation-pending.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-1-validation-pending.png",
+                                             "bytes":  20900
+                                         },
+                                         {
+                                             "name":  "state-2-bundleactivationorchestrator-processing.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-2-bundleactivationorchestrator-processing.png",
+                                             "bytes":  33778
+                                         },
+                                         {
+                                             "name":  "state-2-dry-run-running.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-2-dry-run-running.png",
+                                             "bytes":  22066
+                                         },
+                                         {
+                                             "name":  "state-3-active.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-3-active.png",
+                                             "bytes":  21202
+                                         },
+                                         {
+                                             "name":  "state-3-bundlestatustracker-processing.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-3-bundlestatustracker-processing.png",
+                                             "bytes":  33321
+                                         },
+                                         {
+                                             "name":  "state-4-bundleactivationrequested-bundlevalidator.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-4-bundleactivationrequested-bundlevalidator.png",
+                                             "bytes":  33521
+                                         },
+                                         {
+                                             "name":  "state-4-degraded.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-4-degraded.png",
+                                             "bytes":  21840
+                                         },
+                                         {
+                                             "name":  "state-5-bundlevalidator-bundleactivationorchestrator.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-5-bundlevalidator-bundleactivationorchestrator.png",
+                                             "bytes":  33820
+                                         },
+                                         {
+                                             "name":  "state-5-restored.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-5-restored.png",
+                                             "bytes":  21845
+                                         },
+                                         {
+                                             "name":  "state-6-bundlevalidator-bundlevalidationcompleted.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-6-bundlevalidator-bundlevalidationcompleted.png",
+                                             "bytes":  33431
+                                         },
+                                         {
+                                             "name":  "state-6-validation-failed.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-6-validation-failed.png",
+                                             "bytes":  20549
+                                         },
+                                         {
+                                             "name":  "state-7-activation-failed.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-7-activation-failed.png",
+                                             "bytes":  20329
+                                         },
+                                         {
+                                             "name":  "state-7-bundleactivationorchestrator-bundleactivated.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-7-bundleactivationorchestrator-bundleactivated.png",
+                                             "bytes":  33852
+                                         },
+                                         {
+                                             "name":  "state-8-bundle-not-found.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-8-bundle-not-found.png",
+                                             "bytes":  20561
+                                         },
+                                         {
+                                             "name":  "state-8-flow-lifecycle.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-8-flow-lifecycle.png",
+                                             "bytes":  33748
+                                         },
+                                         {
+                                             "name":  "state-9-bundlestatustracker-bundledegraded.png",
+                                             "relativePath":  "docs/e2e-snapshots/bundle-activation/state-9-bundlestatustracker-bundledegraded.png",
+                                             "bytes":  33814
+                                         }
+                                     ],
+                        "rolePngs":  [
+                                         {
+                                             "name":  "bundle-activation-role-platform-admin.png",
+                                             "relativePath":  "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-platform-admin.png",
+                                             "bytes":  89908
+                                         },
+                                         {
+                                             "name":  "bundle-activation-role-platform-support.png",
+                                             "relativePath":  "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-platform-support.png",
+                                             "bytes":  71106
+                                         },
+                                         {
+                                             "name":  "bundle-activation-role-tenant-admin.png",
+                                             "relativePath":  "docs/e2e-snapshots/c6-role-coverage/bundle-activation-role-tenant-admin.png",
+                                             "bytes":  40366
+                                         }
+                                     ]
+                    },
+    "statesCovered":  [
+                          "P1 generated state coverage: 10 states",
+                          "Mock UX states: default plus validation-pending, dry-run-running, active, degraded, restored, validation-failed, activation-failed, bundle-not-found",
+                          "Operations states: API round trip, checkpoint panel, initial load",
+                          "Role branches: tenant-admin, platform-admin, platform-support"
+                      ],
+    "conclusion":  "FLOW-00 phase 2 Playwright and PNG evidence passed."
+}

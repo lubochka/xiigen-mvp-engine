@@ -1,0 +1,41 @@
+{
+  "flowId": "FLOW-31",
+  "flowSlug": "design-intelligence-engine",
+  "implementationSlug": "design-system-governance",
+  "phase": "phase1UnitIntegration",
+  "recordedAt": "2026-05-11T01:39:29.8971442Z",
+  "commands": [
+    {
+      "name": "server TypeScript",
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-31 Jest pattern",
+      "command": "Push-Location server; npx jest --testPathPatterns=design-intelligence-engine --runInBand --colors=false; Pop-Location",
+      "exitCode": 0,
+      "testSuitesPassed": 8,
+      "testSuitesTotal": 8,
+      "testsPassed": 274,
+      "testsTotal": 274,
+      "result": "passed"
+    }
+  ],
+  "staticScans": {
+    "scanRoot": "server/src/engine/flows/design-system-governance",
+    "sourceFlowFileCount": 27,
+    "throwNew": 0,
+    "exportedServicesByPromptPattern": 0,
+    "servicesMissingMicroserviceBaseByPromptPattern": 0,
+    "clsImports": 0,
+    "failureLines": 0,
+    "note": "The prompt-pattern service scan is intentionally literal: FLOW-31 runtime classes in design-system-governance do not use the Service suffix, so the service-pattern count is zero. The inherited broader MicroserviceBase drift remains tracked in the state file and does not block this protocol run."
+  },
+  "secretHandling": {
+    "containsCredentials": false,
+    "containsSigningKeys": false,
+    "containsBearerTokens": false
+  },
+  "verdict": "PASS"
+}

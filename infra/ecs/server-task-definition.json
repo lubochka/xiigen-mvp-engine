@@ -1,0 +1,42 @@
+{
+  "family": "xiigen-server",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole",
+  "taskRoleArn":      "arn:aws:iam::${AWS_ACCOUNT_ID}:role/xiigenTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "xiigen-server",
+      "image": "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/xiigen-server:${IMAGE_TAG}",
+      "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
+      "environment": [
+        { "name": "NODE_ENV",              "value": "production" },
+        { "name": "PORT",                  "value": "3000" },
+        { "name": "DATABASE_PROVIDER",     "value": "elasticsearch" },
+        { "name": "QUEUE_PROVIDER",        "value": "sqs" },
+        { "name": "SUBDOMAIN_BASE_DOMAIN", "value": "xiigen.com" }
+      ],
+      "secrets": [
+        { "name": "ELASTICSEARCH_URL",            "valueFrom": "arn:aws:secretsmanager:${AWS_REGION}:${AWS_ACCOUNT_ID}:secret:xiigen/elasticsearch-url" },
+        { "name": "TENANT_KEY_ENCRYPTION_SECRET", "valueFrom": "arn:aws:secretsmanager:${AWS_REGION}:${AWS_ACCOUNT_ID}:secret:xiigen/tenant-key-encryption-secret" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group":         "/ecs/xiigen-server",
+          "awslogs-region":        "${AWS_REGION}",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "wget -qO- http://localhost:3000/health/live || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 10
+      }
+    }
+  ]
+}

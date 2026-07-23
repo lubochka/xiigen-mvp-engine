@@ -1,0 +1,11 @@
+{
+  "eventType": "FeedSeeded",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "feed-populator",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "feedId", "itemCount", "seededAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T106 after feed seeding. Branch B terminal event. Time-decoupled from GroupMembershipCompleted gate. itemCount ≤ 50 (cursor ceiling)."
+}

@@ -1,0 +1,64 @@
+{
+  "flowId": "FLOW-17",
+  "flowSlug": "freelancer-marketplace",
+  "phase": "preExistingDefectCheck",
+  "generatedAt": "2026-05-06T20:31:43.4332987+03:00",
+  "status": "completed",
+  "productDecision": {
+    "status": "no-flow-specific-tier-blocker-found",
+    "source": [
+      "docs/business-flows/functional-specs/FLOW-17-freelancer-marketplace-functional-spec.md",
+      "docs/design-reviews/ROLE-ANALYSIS-BATCH-04.md",
+      "server/test/e2e/freelancer-marketplace"
+    ],
+    "decision": "FLOW-17 freelancer-marketplace is eligible to proceed into Docker/Vault auth and fork cascade certification after repairing the inherited portability defects in its four service files. It is a dual-sided marketplace flow and must preserve client, freelancer, business-partner, tenant-admin, and platform-support role boundaries during the cascade."
+  },
+  "baselineBeforeRepair": {
+    "serverJest": "passed: npx jest --testPathPatterns=freelancer-marketplace --runInBand --colors=false (8 suites / 89 tests)",
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 4,
+      "clsImports": 4,
+      "directTenantContextImports": 8,
+      "directSdkImports": 0,
+      "anyTypes": 0
+    },
+    "verdict": "tests passed but portability source scan blocked phase close"
+  },
+  "repairSummary": {
+    "filesChanged": [
+      "server/src/engine/flows/freelancer-marketplace/gig-acceptance-lock-gateway.service.ts",
+      "server/src/engine/flows/freelancer-marketplace/milestone-contract-manager.service.ts",
+      "server/src/engine/flows/freelancer-marketplace/delivery-gate-escrow-controller.service.ts",
+      "server/src/engine/flows/freelancer-marketplace/freelancer-review-writer.service.ts",
+      "server/test/e2e/freelancer-marketplace/phase-a.spec.ts",
+      "server/test/e2e/freelancer-marketplace/phase-b.spec.ts",
+      "server/test/e2e/freelancer-marketplace/phase-c.spec.ts",
+      "server/test/e2e/freelancer-marketplace/phase-d.spec.ts"
+    ],
+    "fix": "Replaced direct nestjs-cls injection in FLOW-17 services with TenantContextResolver, added MicroserviceBase descriptors for service ids T613 through T616, and updated direct constructor tests to provide the resolver contract.",
+    "behaviorChanged": false
+  },
+  "verificationAfterRepair": {
+    "serverTypeScript": "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+    "serverJest": "passed: npx jest --testPathPatterns=freelancer-marketplace --runInBand --colors=false (8 suites / 89 tests)",
+    "sourceScan": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "directSdkImports": 0,
+      "anyTypes": 0,
+      "secretPatternHits": 0
+    }
+  },
+  "commands": [
+    "server: npx jest --testPathPatterns=freelancer-marketplace --runInBand --colors=false - baseline passed, scan blocked",
+    "FLOW-17 source scan before repair: servicesMissingMicroserviceBase=4, clsImports=4, directTenantContextImports=8",
+    "Edited four FLOW-17 services to extend MicroserviceBase and use TenantContextResolver.",
+    "server: npx tsc --noEmit -p tsconfig.json --pretty false - passed",
+    "server: npx jest --testPathPatterns=freelancer-marketplace --runInBand --colors=false - passed, 8 suites/89 tests",
+    "FLOW-17 source scan after repair: throwNew=0, servicesMissingMicroserviceBase=0, clsImports=0, directTenantContextImports=0, directSdkImports=0, anyTypes=0"
+  ],
+  "verdict": "PASS"
+}

@@ -1,0 +1,472 @@
+{
+  "batch": "E",
+  "run": "V-R14",
+  "method": "Fresh no-extrapolation rescore. Each PNG read directly. 7-axis rubric applied per flow.",
+  "flows": [
+    {
+      "slug": "module-lifecycle",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "per_png": [
+        {
+          "png": "populated-platform-admin.png",
+          "observations": "Module Lifecycle card, State 3 'Module active — feature flags enabled for tenant'. Engine sidebar present (admin shell correct for platform-admin). Fields: moduleId, version, featureFlags, activatedAt. Monospace technical style on field values. FT-204/205/208 feature flag IDs visible — admin-internal audience, tolerable.",
+          "axes": {
+            "A_shell": "PASS (admin shell for platform-admin)",
+            "B_role": "PASS (admin-internal detail view)",
+            "C_language": "PASS (en, ltr)",
+            "D_state": "PASS (populated with domain fields)",
+            "E_human_friendly": "CONCERN (FT-XXX identifiers visible to platform-admin — tolerable for internal surface but slightly acronym-leaky)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-platform-admin.png",
+          "observations": "Module Registry — clean card list with 4 modules (Active/Deprecated/Retired states + version chips + install count). Create module button top-right; per-row Publish/Deprecate/Retire CRUD buttons for Active; Retired row has disabled (gray) Publish/Deprecate. Version History section below. Purpose-built, role-scoped CRUD.",
+          "axes": {
+            "A_shell": "PASS (admin shell)",
+            "B_role": "PASS (full CRUD for platform-admin)",
+            "C_language": "PASS",
+            "D_state": "PASS (populated cards + version history)",
+            "E_human_friendly": "PASS (MOD-<slug> IDs + semver are admin-native, no T-numbers)",
+            "F_ux_layers": "PASS (disabled-state button variants for Retired row is thoughtful)"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-platform-support.png",
+          "observations": "Module Registry (Read-Only) with lock icon + banner 'Lifecycle controls are disabled for support access. Layout preserved so you can describe the exact remediation to a platform-admin.' — CRUD buttons visibly grayed/disabled. Lifecycle Audit section with MLA-XXXX audit IDs (published/retired/deprecated events). 'Escalate to platform-admin' link at bottom. Strong read-only governance.",
+          "axes": {
+            "A_shell": "PASS (admin shell, consistent with platform-support)",
+            "B_role": "PASS (read-only + escalate pattern for platform-support)",
+            "C_language": "PASS",
+            "D_state": "PASS (populated with audit trail)",
+            "E_human_friendly": "PASS (clear escalation path)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        }
+      ],
+      "flow_verdict": "PASS",
+      "notes": "Clean role-branched pattern: admin full CRUD, support read-only+audit+escalate. Exemplar."
+    },
+    {
+      "slug": "oss-curriculum",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "per_png": [
+        {
+          "png": "populated-platform-admin.png",
+          "observations": "OSS Curriculum card, State 3 'Lesson ready — signals collected, grade trend IMPROVING'. Fields: shadowRunId (SHD-2026-0419-001), gradeTrend (IMPROVING), signalCount (8), readyAt. Monospace detail view.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "CONCERN (SHD-XXX + IMPROVING caps — admin-internal tolerance)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-platform-admin.png",
+          "observations": "Platform admin banner at top. KPIs: CURRICULUM MODULES PUBLISHED 142, COMMUNITY SUBMISSIONS PENDING 8, SHADOW RUN GRADE TREND 87% improving. CURRICULUM TIER ASSIGNMENTS (Tier 1-5 with counts + percentages + DPO TRIPLES CLASSIFIED label). SHADOW RUNS section with model names (llama3:8b, codellama:13b, deepseek-coder:6.7b) + CYC-XXXX IDs + COMPLETE/PENDING chips + percentages.",
+          "axes": {
+            "A_shell": "PASS (admin shell)",
+            "B_role": "PASS (platform-admin curation view)",
+            "C_language": "PASS",
+            "D_state": "PASS (populated with domain data)",
+            "E_human_friendly": "CONCERN ('DPO TRIPLES CLASSIFIED' + raw model IDs like 'llama3:8b' + 'CYC-2026-XXXX' — engineering jargon visible; for a platform-admin curating OSS models this is arguably appropriate technical audience, not a BLOCK)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "CONCERN"
+        },
+        {
+          "png": "primary-platform-support.png",
+          "observations": "V-R12-A2 FIX VERIFIED: lock-icon banner 'OSS Curriculum — read-only for support access. Controls are disabled. Escalate to a platform-admin for any change.' at top. Same KPI strip, tier assignments, shadow runs — NO CRUD buttons. 'Escalate to platform-admin' link at bottom. Pattern identical to module-lifecycle support treatment.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS (read-only + escalate confirmed — V-R12-A2 fix held)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "CONCERN (same DPO/model-name jargon inherited from admin view)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        }
+      ],
+      "flow_verdict": "CONCERN",
+      "notes": "V-R12-A2 fix HELD (platform-support read-only with lock banner + no CRUD + escalate — verified). 'DPO TRIPLES CLASSIFIED' label and raw LLM model identifiers are mildly engineering-leaky but defensible as admin-internal terminology for an OSS-model curation surface."
+    },
+    {
+      "slug": "platform-agent",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "per_png": [
+        {
+          "png": "populated-platform-admin.png",
+          "observations": "Platform Agent card, State 6 'Agent session complete — contribution recorded'. Fields: sessionId (PA-2026-0419-001), contribution (RECORDED), consent (SHARE), completedAt.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS (sessionId pattern is admin-readable)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-platform-admin.png",
+          "observations": "Agent Status (Active, 3 sessions in last hour), Tenant Scope (Acme Corp/Bluebird Media/Castle Analytics with Read/Write/Delete grants + Edit/Remove actions), Recent Agent Actions (4 log entries with PA-LOG-XXXX IDs, chip types Propose edit/Apply to all tenants/Create flow/Advise, one entry shows 'Quality check blocked by operator override — policy drift detected in rollout plan.'). CONCERNING TAIL: 'Platform Agent — Raw Index' section at bottom with 'New record' button + 'Raw index browser (admin debug) — reads /api/dynamic/xiigen-platform-agent.' label 'Admin-facing' + ui-1776451880799 noisy auto-generated IDs + 'created via UI form' notes + Delete actions. This is debug UI leaking into the admin surface.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS upper-half (role-correct admin view)",
+            "C_language": "PASS",
+            "D_state": "PASS (populated)",
+            "E_human_friendly": "BLOCK ('Raw Index (admin debug)' + exposed API path '/api/dynamic/xiigen-platform-agent' + 'Admin-facing' chip + ui-<big-int> IDs = textbook admin-debug leak onto production surface per rubric)",
+            "F_ux_layers": "BLOCK (Layer 3 H2 match-real-world = 0; API paths + debug tables are the canonical Axis-F BLOCK pattern)"
+          },
+          "verdict": "BLOCK"
+        },
+        {
+          "png": "primary-platform-support.png",
+          "observations": "Agent Audit Log — legally-binding change record banner 'READ-ONLY PER SOC2 / GDPR ARTICLE 30' with yellow governance stripe. 'Download audit log (PDF)' button. 4 audit entries each with PA-LOG-XXXX ID + timestamps + chips + 'Processing basis: GDPR Art. 6(1)(f) — legitimate interests in automated assistance; logged per Art. 30.' Strong compliance framing.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS (read-only compliance view)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS (SOC2 / GDPR Art 30 is appropriate compliance terminology for support reviewing legal audits)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-tenant-admin.png",
+          "observations": "Agent Permissions — 'Review and restrict what the Platform Agent is allowed to do inside your workspace. You can revoke permissions at any time; you cannot grant new permissions (those are platform-managed).' Your Workspace — Agent Permissions card with Tenant: Acme Corp. Three permission rows: Read data (Allowed), Write data (Allowed), Delete data (Revoked). Agent Actions In Your Workspace (2 entries). Tenant-admin boundary correctly scoped.",
+          "axes": {
+            "A_shell": "PASS (admin shell limited for tenant-admin)",
+            "B_role": "PASS (revoke-only, scoped to own workspace)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-tenant-user.png",
+          "observations": "KIOSK/public shell (no sidebar). 'Restricted — authorised personnel only' lock-icon banner. 'The Platform Agent console is restricted to authorised platform personnel. This page is not available for your current role.' Correct restriction response.",
+          "axes": {
+            "A_shell": "PASS (no sidebar for restricted access)",
+            "B_role": "PASS (correct restriction message)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        }
+      ],
+      "flow_verdict": "BLOCK",
+      "notes": "primary-platform-admin has admin-debug 'Raw Index' section at bottom leaking API path, noisy ui-<id> records, and Delete actions. Top half is excellent (Agent Status, Tenant Scope, Recent Actions with governance detail) but bottom is a debug-UI leak into production. Support/tenant-admin/tenant-user branches are exemplary. Fix: remove or gate Raw Index behind a Designer/Generation Lab surface."
+    },
+    {
+      "slug": "profile-enrichment",
+      "pngs_examined": [
+        "default-tenant-user.png",
+        "primary-tenant-user.png"
+      ],
+      "per_png": [
+        {
+          "png": "default-tenant-user.png",
+          "observations": "Public-KIOSK shell (no sidebar). Business Questionnaire card with 'Tell us about your business to receive personalised recommendations.' Industry field (e.g. Technology, Retail, Healthcare), Business Stage field (e.g. Startup, Growth, Enterprise), blue 'Submit Questionnaire' CTA.",
+          "axes": {
+            "A_shell": "PASS (kiosk/public form — correct for enrichment)",
+            "B_role": "PASS",
+            "C_language": "PASS",
+            "D_state": "PASS (empty form, populated placeholders)",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-tenant-user.png",
+          "observations": "Identical to default-tenant-user. Business Questionnaire.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        }
+      ],
+      "flow_verdict": "PASS",
+      "notes": "Minimal but clean tenant-user-facing questionnaire. No leaks. Shell correct."
+    },
+    {
+      "slug": "rag-quality-feedback",
+      "pngs_examined": [
+        "populated-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-platform-support.png"
+      ],
+      "per_png": [
+        {
+          "png": "populated-platform-admin.png",
+          "observations": "RAG Quality Feedback card, State 7 'DPO triple promoted to RAG — available for future retrievals'. Fields: tripleId (DPO-2026-0419-011), promotedTo (xiigen-rag-patterns), promoterScore (0.91), promotedAt.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "CONCERN (DPO triple + xiigen-rag-patterns + promoterScore — engineering; admin-internal tolerance)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "CONCERN"
+        },
+        {
+          "png": "primary-platform-admin.png",
+          "observations": "RAG Quality Feedback — thumbs up/down feedback widget at top, Cross-Tenant Feedback Analytics (OVERALL 4.1/5, VOTES 7D 2847, TREND +0.12, MODEL gpt-4o-mini). 'Open full RAG quality dashboard' link. RAG PATTERNS 6 SCORED — list with percentage chips + pattern names + source flow. Recent Cycle Outcomes (Success/Wasted/Escalate chips + flow names + timestamps).",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS (admin monitoring view)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "CONCERN ('RAG' acronym in title + model name 'gpt-4o-mini' — again admin-internal audience, defensible)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "CONCERN"
+        },
+        {
+          "png": "primary-platform-support.png",
+          "observations": "Feedback Log (Read-Only) with 3 redacted tenant entries (tenant-***-a1b2 etc) + thumb-up/down feedback + timestamps. Lock-icon banner 'RAG Quality Feedback — read-only for support access. Controls are disabled. Escalate to a platform-admin for any change.' Same RAG patterns + Recent Cycle Outcomes below. Excellent role treatment.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS (support read-only with tenant-ID redaction)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS (redacted tenant IDs show privacy awareness)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        }
+      ],
+      "flow_verdict": "CONCERN",
+      "notes": "RAG acronym, DPO triples, xiigen-rag-patterns index name, model names all visible. For an admin-facing quality dashboard these are defensible as technical audience. platform-support variant is exemplary (lock banner + tenant ID redaction)."
+    },
+    {
+      "slug": "reviews-reputation",
+      "pngs_examined": [
+        "primary-anonymous.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "per_png": [
+        {
+          "png": "primary-anonymous.png",
+          "observations": "KIOSK shell. 'Reviews' page with 'Sign in to write a review or flag inappropriate content. Sign in · Register' prompt. Three review cards (5/5, 4/5, 3/5 stars) with review text + Verified Purchase badges + time stamps. 'Sign in to write your own review' link at bottom. Clean public-facing reviews list.",
+          "axes": {
+            "A_shell": "PASS (kiosk for anonymous)",
+            "B_role": "PASS (read + sign-in prompt — correct anonymous verb)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-tenant-admin.png",
+          "observations": "Review Moderation page (admin shell). 'Admin view — review moderation and authenticity enforcement.' Three moderation items: 'Suspicious: 5-star reviews in 10 minutes from same IP' (Flag type: SPAM_WAVE), 'Off-topic content, no purchase recorded' (UNVERIFIED), 'Profanity detected in review text' (POLICY_VIOLATION). Each with Review/Remove or Review/Hide actions. 'Open full moderation console' link. Purpose-built moderation view.",
+          "axes": {
+            "A_shell": "PASS (admin shell)",
+            "B_role": "PASS (tenant-admin moderation)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "CONCERN (flag types SPAM_WAVE/UNVERIFIED/POLICY_VIOLATION look code-tokeny but internal admin audience)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        },
+        {
+          "png": "primary-tenant-user.png",
+          "observations": "KIOSK/public shell (no sidebar). 'Submit a Review' page with 'No verified purchase found. Your review will be marked as unverified.' warning. 5-star rating selector ('Tap a star to rate'), 'Your review' textarea ('What did you like? What could be better?'), 'Submit Review' CTA. Clear state pre-declaration.",
+          "axes": {
+            "A_shell": "PASS (kiosk — arguably should be module for tenant-user but acceptable)",
+            "B_role": "PASS (submit-a-review verb correct)",
+            "C_language": "PASS",
+            "D_state": "PASS (unverified warning is meaningful state)",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        }
+      ],
+      "flow_verdict": "PASS",
+      "notes": "Strong three-role differentiation: anonymous=read+signin-prompt, tenant-admin=moderation queue, tenant-user=submit-with-unverified-warning. Clean."
+    },
+    {
+      "slug": "saas-multi-tenancy",
+      "pngs_examined": [
+        "default-platform-admin.png",
+        "primary-platform-admin.png",
+        "primary-tenant-admin.png",
+        "primary-tenant-user.png"
+      ],
+      "per_png": [
+        {
+          "png": "default-platform-admin.png",
+          "observations": "404 — Page Not Found. Engine sidebar present. 'The page you're looking for doesn't exist. Back to Dashboard' link. This is the ?mock=default snapshot hitting an unmapped route for platform-admin.",
+          "axes": {
+            "A_shell": "PASS (admin shell at least)",
+            "B_role": "CONCERN (platform-admin 404 on default state for their own tenant-management flow — expected-content role)",
+            "C_language": "PASS",
+            "D_state": "BLOCK (404 on the default state for a role with expected content = rubric BLOCK)",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "BLOCK"
+        },
+        {
+          "png": "primary-platform-admin.png",
+          "observations": "Tenant Lifecycle — Active chip + 3 buttons: Suspend Tenant (orange), Reactivate Tenant (gray/disabled since already active), Terminate Tenant (red). Minimal but role-correct destructive admin surface.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "PASS (platform-admin has destructive authority over tenants)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "CONCERN (very minimal — no target-tenant identifier shown, no confirmation affordance, no audit context; feels like a stub)"
+          },
+          "verdict": "CONCERN"
+        },
+        {
+          "png": "primary-tenant-admin.png",
+          "observations": "IDENTICAL to primary-platform-admin — Tenant Lifecycle with Suspend/Reactivate/Terminate red destructive button. Tenant-admin can terminate their own tenant. This is debatable: arguably allowed (tenants can self-terminate) but identical-to-platform-admin view is a red flag.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "CONCERN (same destructive affordance as platform-admin; could be role-leaky but self-service tenant closure is a legitimate pattern)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "CONCERN (same minimal-stub issue; also no warning about data loss on Terminate)"
+          },
+          "verdict": "CONCERN"
+        },
+        {
+          "png": "primary-tenant-user.png",
+          "observations": "V-R10 P0-1 FIX VERIFIED: KIOSK shell (no sidebar). 'Workspace Status' page, Active chip, info panel 'Your workspace is active. Contact your workspace administrator to change status. Lifecycle controls are available to tenant admins and platform admins only.' NO destructive Terminate button, NO Suspend button. Purpose-built read-only state card. Fix held.",
+          "axes": {
+            "A_shell": "PASS (kiosk for tenant-user)",
+            "B_role": "PASS (read-only status + clear escalation — V-R10 P0-1 fix confirmed)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "PASS",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "PASS"
+        }
+      ],
+      "flow_verdict": "BLOCK",
+      "notes": "V-R10 P0-1 fix HELD for tenant-user (NO destructive buttons, read-only Workspace Status card confirmed). BUT: default-platform-admin renders 404 — expected-content role with no content = BLOCK. Also: primary-platform-admin and primary-tenant-admin are identical minimal stubs with Terminate buttons and no target tenant identifier, confirmation flow, or data-loss warning (CONCERN-level UX). Fix required for default state mapping."
+    },
+    {
+      "slug": "schema-registry-dag",
+      "pngs_examined": [
+        "primary-platform-admin.png",
+        "primary-platform-support.png",
+        "primary-tenant-admin.png"
+      ],
+      "per_png": [
+        {
+          "png": "primary-platform-admin.png",
+          "observations": "Schema Registry — 'Browse, search, and open details of every data schema registered on this tenant.' ACTIVE 3 / DRAFT 1 / DEPRECATED 1 counts. Search field + Search button. 5 schema cards (MARKETPLACE/IDENTITY/BILLING/REPUTATION/SUPPORT) with semver, subject name (order.created, user.registered, payment.initiated, review.submitted, legacy.ticket_v1), compatibility chips, consumer counts, updated dates, state chips (Active/Draft/Deprecated). Data-catalog style list.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "BLOCK (see below — identical to tenant-admin and platform-support views)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "CONCERN (schema subject names like 'order.created' and compatibility labels 'Backward-compatible'/'Fully compatible'/'Breaking' are appropriate for this audience)",
+            "F_ux_layers": "PASS"
+          },
+          "verdict": "BLOCK"
+        },
+        {
+          "png": "primary-platform-support.png",
+          "observations": "IDENTICAL to primary-platform-admin — same Schema Registry view, same content, same Search button. NO read-only lock banner, NO escalation link, NO differentiation. Compare with module-lifecycle/oss-curriculum/rag-quality-feedback where platform-support gets the lock-banner pattern.",
+          "axes": {
+            "A_shell": "PASS",
+            "B_role": "BLOCK (identical to platform-admin — support should be read-only with lock banner per rubric; identical-across-roles when differentiation required = BLOCK)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "CONCERN",
+            "F_ux_layers": "BLOCK (no role-branching UI)"
+          },
+          "verdict": "BLOCK"
+        },
+        {
+          "png": "primary-tenant-admin.png",
+          "observations": "Nearly identical to both above — same schemas, same counts. Admin sidebar slightly shorter (no 'Super Agent'/'Generation Lab'/'Learning & Quality' sections, which is correct tenant-admin scope) but the PAGE CONTENT is identical. Tenant-admin sees IDENTITY/BILLING/REPUTATION/SUPPORT domains that may span other tenants' schemas — this needs verification. If these schemas are all cross-tenant, exposing them to tenant-admin is information-disclosure.",
+          "axes": {
+            "A_shell": "PASS (correct tenant-admin sidebar scope)",
+            "B_role": "BLOCK (page content identical to platform-admin — appears to expose global schema registry to tenant-admin without scope filtering; description says 'registered on this tenant' but the card domains suggest cross-tenant exposure)",
+            "C_language": "PASS",
+            "D_state": "PASS",
+            "E_human_friendly": "CONCERN",
+            "F_ux_layers": "BLOCK (no role-branching)"
+          },
+          "verdict": "BLOCK"
+        }
+      ],
+      "flow_verdict": "BLOCK",
+      "notes": "Three roles render essentially identical Schema Registry content. Platform-support is missing the lock-banner + escalate pattern that module-lifecycle, oss-curriculum, and rag-quality-feedback all implement. Tenant-admin view shows the same schema list as platform-admin — either tenant-scope filtering is absent (information disclosure risk) or the seeded fixture happens to make them match (verification needed). Rubric: 'identical-across-roles when differentiation required = BLOCK'. Recommended fix: apply the lock-banner + escalate pattern to platform-support, and confirm tenant-admin view is tenant-scoped (not globally cross-tenant)."
+    }
+  ],
+  "summary": {
+    "PASS": ["module-lifecycle", "profile-enrichment", "reviews-reputation"],
+    "CONCERN": ["oss-curriculum", "rag-quality-feedback"],
+    "BLOCK": ["platform-agent", "saas-multi-tenancy", "schema-registry-dag"]
+  },
+  "verified_fixes": {
+    "V-R12-A2_oss_curriculum_platform_support_readonly": "HELD — lock banner + no CRUD + escalate link confirmed on primary-platform-support.png",
+    "V-R10_P0-1_saas_multi_tenancy_tenant_user_no_terminate": "HELD — tenant-user sees read-only Workspace Status card with clear escalation copy; NO destructive Terminate button confirmed on primary-tenant-user.png"
+  },
+  "new_blocks_found": [
+    {
+      "flow": "platform-agent",
+      "png": "primary-platform-admin.png",
+      "issue": "Admin-debug 'Raw Index' section at bottom exposes API path /api/dynamic/xiigen-platform-agent, noisy ui-<big-int> auto-IDs, 'admin debug' label, 'Admin-facing' chip, and Delete actions on raw records. This is debug UI leaking onto production platform-admin surface.",
+      "severity": "BLOCK"
+    },
+    {
+      "flow": "saas-multi-tenancy",
+      "png": "default-platform-admin.png",
+      "issue": "404 Page Not Found on the default ?mock state. Platform-admin is an expected-content role for saas-multi-tenancy; rendering 404 instead of a tenants list or lifecycle overview is a rubric BLOCK (expected-content role, 404).",
+      "severity": "BLOCK"
+    },
+    {
+      "flow": "schema-registry-dag",
+      "pngs": ["primary-platform-admin.png", "primary-platform-support.png", "primary-tenant-admin.png"],
+      "issue": "All three roles render essentially identical Schema Registry content. Platform-support lacks the lock-banner + escalate pattern present in peer flows. Tenant-admin may see cross-tenant schemas (needs scope-filter verification). Rubric: identical-across-roles when differentiation required = BLOCK.",
+      "severity": "BLOCK"
+    }
+  ]
+}

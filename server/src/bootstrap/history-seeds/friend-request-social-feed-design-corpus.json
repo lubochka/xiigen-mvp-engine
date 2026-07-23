@@ -1,0 +1,347 @@
+[
+  {
+    "patternId": "FLOW-07-DR-01",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-07",
+    "teachingPoint": "T81 PrivacyGatekeeper MUST be @Injectable() only — no @EventPattern, no @MessagePattern. T73, T76, and T78 inject T81 via constructor and call check() synchronously. A queue-driven privacy check reads settings at an unknown time after the request and produces a stale result. Privacy settings can change between the check request and the result arrival. Additionally, three callers need synchronous enforcement within their request path — queue round-trips make this impractical and introduce latency. T81 INLINE_ONLY is the only design that satisfies both freshness and latency requirements.",
+    "positiveExample": "T81 class body contains only check() method. T73 constructor injects T81 and calls this.privacyGatekeeper.check(senderUserId, recipientUserId) before storeDocument.",
+    "negativeExample": "T73 emits 'privacy.check.requested'. T81 uses @EventPattern('privacy.check.requested') and emits 'privacy.check.result'. T73 waits for the result event.",
+    "discriminatingConstraint": "T81 class body has no @EventPattern or @MessagePattern decorator. It is injected and called inline. Any queue entry point on T81 is a BUILD_FAILURE per CF-07-1.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-10",
+      "FLOW-11"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md (DR-07-A, SF-CHECK-1)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "dna-8",
+      "privacy",
+      "queue"
+    ],
+    "keywords": "PrivacyGatekeeper Injectable EventPattern MessagePattern inject constructor call check synchronously queue-driven privacy reads"
+  },
+  {
+    "patternId": "FLOW-07-DR-02",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-07",
+    "teachingPoint": "T75 ConnectionGraphWriter MUST write both A→B and B→A adjacency entries in ONE ORM transaction. Two separate storeDocument calls create a partial-write window: a crash between the two writes leaves the social graph asymmetric — User A sees User B in their connections but User B does not see User A. Feed integration runs for one direction only. No error is surfaced. The partial state persists until a retry occurs. One ORM transaction eliminates the inconsistency window — both edges are present or absent. connectionId = hash(sorted([userIdA, userIdB]) + tenantId) — direction-independent.",
+    "positiveExample": "T75 uses orm.transaction(() => [storeDocument(A→B edge), storeDocument(B→A edge)]). connectionId is hash(sorted([userIdA, userIdB]).join(':') + ':' + tenantId).",
+    "negativeExample": "T75 calls storeDocument(A→B) then storeDocument(B→A) as two separate operations. If the service crashes between the two calls, the graph is permanently asymmetric.",
+    "discriminatingConstraint": "Both adjacency entries are written in ONE ORM transaction. Two separate storeDocument calls for the same connection pair is a BUILD_FAILURE per CF-07-2.",
+    "appliesTo": [
+      "FLOW-10",
+      "FLOW-11"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md (DR-07-B, SF-CHECK-2)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "partial-results",
+      "multi-tenant",
+      "dna-8",
+      "retry",
+      "social-feed"
+    ],
+    "keywords": "ConnectionGraphWriter write adjacency entries transaction separate storeDocument calls create partial-write window crash"
+  },
+  {
+    "patternId": "FLOW-07-DR-03",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-07",
+    "teachingPoint": "T77 FeedScorer is a scoring node — not a gate node. score=0 means lowest relevance, not suppress. T78 FeedDeliveryOrchestrator applies delivery thresholds and volume rules from FREEDOM config. When T77 filters items with score=0 or score below a threshold, it merges two responsibilities into one node. Weak connections generate low scores. If T77 filters them, weak connections produce empty feeds — a silent correctness failure with no error surfaced. The fix is structural: T77 scores, T78 decides.",
+    "positiveExample": "T77 returns DataProcessResult.success({ item, score }) for every input regardless of score value. score=0 items arrive at T78 identically to score=0.9 items.",
+    "negativeExample": "T77 filters items where score <= minimum_threshold before passing to T78. Weak connections see empty feeds with no error.",
+    "discriminatingConstraint": "T77 has no filtering logic. All items pass through. Any code path that drops, filters, or skips items based on score in T77 is a BUILD_FAILURE per CF-07-3.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-10"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md (DR-07-C, SF-CHECK-3)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "freedom-config",
+      "config-over-code"
+    ],
+    "keywords": "FeedScorer scoring gate score lowest relevance suppress FeedDeliveryOrchestrator applies delivery thresholds volume"
+  },
+  {
+    "patternId": "FLOW-07-DR-04",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-07",
+    "teachingPoint": "T78 FeedDeliveryOrchestrator must call T81 PrivacyGatekeeper independently — it cannot trust T76's privacy check result. Privacy settings can change between generation (T76) and delivery (T78). A user who blocked User A after T76 ran will still receive User A's content if T78 reads a stale privacyCheckPassedAtGeneration flag. Two-phase gate: each phase enforces privacy at the moment it runs. Generation pass does not imply delivery pass. Both phases are required.",
+    "positiveExample": "T78 calls this.privacyGatekeeper.check(userA, userB) unconditionally before emitting FeedDelivered — regardless of any flag on the feed item.",
+    "negativeExample": "T78 reads feedItem.privacyCheckPassedAtGeneration. If true, T78 skips T81. A user who blocked the content source after T76 ran still receives the content.",
+    "discriminatingConstraint": "T78 always calls T81.check() before emitting FeedDelivered. No reference to T76's privacy outcome. Any code path where T78 skips T81 based on a stale flag is a BUILD_FAILURE per CF-07-1.",
+    "appliesTo": [
+      "FLOW-10",
+      "FLOW-11",
+      "FLOW-12"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.94,
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md (DR-07-D, SF-CHECK-4)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "privacy"
+    ],
+    "keywords": "FeedDeliveryOrchestrator call PrivacyGatekeeper independently trust privacy check settings change between generation delivery"
+  },
+  {
+    "patternId": "FLOW-07-DR-05",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-07",
+    "teachingPoint": "T80 MutualConnectionCounter must perform a full graph recompute on every invocation — never a delta increment. Delta increments are not idempotent: queue message redelivery causes T80 to process the same ConnectionEstablished event twice. Each execution reads count=N and stores N+1. Second execution reads N+1 and stores N+2. True count is N+1. Stored count is N+2. The error is silent and accumulates. Full recompute from graph intersection produces the same result regardless of retry count — idempotency through the algorithm, not through dedup logic.",
+    "positiveExample": "T80 reads adjacency lists for both users, intersects them, counts the intersection length, stores the computed mutualCount. Same inputs always produce same output.",
+    "negativeExample": "T80 reads stored mutualCount, adds 1, stores mutualCount+1. Under queue retry, the count inflates by 1 per retry with no error.",
+    "discriminatingConstraint": "T80 computes mutualCount from graph intersection on every call. Any read-then-increment pattern is a BUILD_FAILURE per CF-07-3.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-10",
+      "FLOW-13"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md (DR-07-E, SF-CHECK-5)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "idempotency",
+      "retry",
+      "queue"
+    ],
+    "keywords": "MutualConnectionCounter perform full graph recompute invocation delta increment increments idempotent queue message"
+  },
+  {
+    "patternId": "FLOW-07-DR-06",
+    "patternType": "DESIGN_REASONING",
+    "category": "PLANNING_FLOW_DESIGN",
+    "sourceFlow": "FLOW-07",
+    "teachingPoint": "SocialConnectionEstablished fires when T75 completes the bidirectional graph write — not when T76→T77→T78 feed integration completes. T76-T78 involve AI generation (up to 10s), scoring, and feed writes. Waiting for all three means the user does not see 'You are now connected' for 10+ seconds after acceptance. T75 completes in <1s. The connection is established when the graph is written. Feed integration is independently observable via FeedIntegrationCompleted. Completion event gates on the fastest path that satisfies the user's SLA.",
+    "positiveExample": "T75 emits SocialConnectionEstablished after writing bidirectional graph entries. T76, T77, T78, T79, T80, T82 all consume SocialConnectionEstablished asynchronously — none block the completion event.",
+    "negativeExample": "SocialConnectionEstablished fires after T78 FeedDeliveryOrchestrator completes. User waits 10+ seconds to see connection confirmation.",
+    "discriminatingConstraint": "SocialConnectionEstablished is emitted by T75. No downstream node (T76-T82) is in the critical path to SocialConnectionEstablished. Inherits DR-03-B.",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-09",
+      "FLOW-10"
+    ],
+    "curriculumTier": 1,
+    "qualityScore": 0.9,
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md (DR-07-F)",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z",
+    "tags": [
+      "flow-design",
+      "social-feed"
+    ],
+    "keywords": "SocialConnectionEstablished fires completes bidirectional graph write feed integration T76-T78 involve generation scoring"
+  },
+  {
+    "patternId": "FLOW-07-RAG-01",
+    "patternType": "ARCH_PATTERN",
+    "category": "PRIVACY_GATEKEEPER_INLINE_INVOCATION",
+    "sourceFlow": "FLOW-07",
+    "archetype": "GUARD",
+    "tags": [
+      "privacy-gatekeeper-inline-invocation",
+      "privacy",
+      "queue"
+    ],
+    "keywords": "Privacy enforcement services Injectable queue entry points Callers inject gatekeeper constructor call",
+    "teachingPoint": "Privacy enforcement services must be @Injectable() only with no queue entry points. Callers (T73, T76, T78) inject the gatekeeper via constructor and call check() synchronously within their own handler. This ensures privacy settings are read fresh at the moment of the check — not at some unknown future time when a queue message is processed. Three callers sharing one injectable service is architecturally superior to three queue round-trips. CF-07-1 enforces INLINE_ONLY — any @EventPattern or @MessagePattern on a privacy gatekeeper is a BUILD_FAILURE.",
+    "ironRules": [
+      "T81 PrivacyGatekeeper is @Injectable() with no @EventPattern or @MessagePattern",
+      "Callers inject T81 via constructor and call check() synchronously within their own handler",
+      "CF-07-1: any @EventPattern or @MessagePattern on PrivacyGatekeeper is a BUILD_FAILURE"
+    ],
+    "codeSnippet": "// CORRECT: inline injection\n@Injectable() class PrivacyGatekeeper { check(senderId, recipientId) { ... } }\n// T73 constructor: @Inject(PrivacyGatekeeper) private readonly privacyGatekeeper: PrivacyGatekeeper\n// Not: @EventPattern('privacy.check.requested') — async check introduces stale result risk",
+    "curriculumTier": 1,
+    "qualityScore": 0.95,
+    "observedIn": "FLOW-07 (T81 PrivacyGatekeeper — injected by T73, T76, T78)",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-10",
+      "FLOW-11"
+    ],
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z"
+  },
+  {
+    "patternId": "FLOW-07-RAG-02",
+    "patternType": "ARCH_PATTERN",
+    "category": "BIDIRECTIONAL_ATOMIC_GRAPH_WRITE",
+    "sourceFlow": "FLOW-07",
+    "archetype": "TRANSACTION",
+    "tags": [
+      "bidirectional-atomic-graph-write",
+      "atomic-operation",
+      "multi-tenant",
+      "dna-8",
+      "retry",
+      "social-feed"
+    ],
+    "keywords": "Bidirectional graph relationships written atomically social connection adjacency entries created transaction crash",
+    "teachingPoint": "Bidirectional graph relationships must be written atomically. For a social connection A↔B, both A→B and B→A adjacency entries must be created in ONE ORM transaction. A crash between two separate writes leaves the graph permanently asymmetric until a retry. The direction-independent connectionId (hash of sorted userIds + tenantId) enables idempotent upserts in the same transaction on retry. CF-07-2 enforces atomic bidirectional write — two separate storeDocument calls for the same connection pair is a BUILD_FAILURE.",
+    "ironRules": [
+      "Both A→B and B→A adjacency entries written in ONE ORM transaction — never two separate storeDocument calls",
+      "connectionId = hash(sorted([userIdA, userIdB]).join(':') + ':' + tenantId) — direction-independent",
+      "CF-07-2: two separate storeDocument calls for same connection pair is a BUILD_FAILURE"
+    ],
+    "codeSnippet": "// CORRECT: atomic bidirectional write\nawait orm.transaction(() => [\n  db.storeDocument('connections', { from: userA, to: userB, connectionId }),\n  db.storeDocument('connections', { from: userB, to: userA, connectionId }),\n]);\n// WRONG: separate calls create asymmetric graph on crash",
+    "curriculumTier": 1,
+    "qualityScore": 0.92,
+    "observedIn": "FLOW-07 (T75 ConnectionGraphWriter)",
+    "appliesTo": [
+      "FLOW-10",
+      "FLOW-11"
+    ],
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z"
+  },
+  {
+    "patternId": "FLOW-07-RAG-03",
+    "patternType": "ARCH_PATTERN",
+    "category": "TWO_PHASE_PRIVACY_GATE",
+    "sourceFlow": "FLOW-07",
+    "archetype": "VALIDATION",
+    "tags": [
+      "two-phase-privacy-gate",
+      "privacy"
+    ],
+    "keywords": "Feed pipelines generation phase delivery require independent privacy checks settings change between",
+    "teachingPoint": "Feed pipelines with a generation phase and a delivery phase require independent privacy checks at each phase. Privacy settings change between generation and delivery. A check at generation time can be stale by the time delivery occurs. The two-phase gate pattern: T76 calls T81 at generation time (phase 1), T78 calls T81 again at delivery time (phase 2). Phase 1 pass does not imply phase 2 pass. Both are required. Trusting a stale phase-1 flag in phase 2 is a BUILD_FAILURE per CF-07-1.",
+    "ironRules": [
+      "T78 calls T81.check() unconditionally before emitting FeedDelivered — regardless of T76 result",
+      "Phase 1 (generation) pass does NOT imply phase 2 (delivery) pass",
+      "Any code path where T78 skips T81 based on a stale phase-1 flag is a BUILD_FAILURE per CF-07-1"
+    ],
+    "codeSnippet": "// T78 FeedDeliveryOrchestrator: always re-check at delivery\nconst allowed = await this.privacyGatekeeper.check(userA, userB);\nif (!allowed) return; // T81 called fresh, not relying on T76's check\n// Never: if (feedItem.privacyCheckPassedAtGeneration) { skip check } // stale flag",
+    "curriculumTier": 1,
+    "qualityScore": 0.94,
+    "observedIn": "FLOW-07 (T76 FeedItemGenerator + T78 FeedDeliveryOrchestrator, both calling T81)",
+    "appliesTo": [
+      "FLOW-10",
+      "FLOW-11",
+      "FLOW-12"
+    ],
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z"
+  },
+  {
+    "patternId": "FLOW-07-RAG-04",
+    "patternType": "ARCH_PATTERN",
+    "category": "ZERO_SCORE_PASSTHROUGH",
+    "sourceFlow": "FLOW-07",
+    "archetype": "PROCESSING",
+    "tags": [
+      "zero-score-passthrough",
+      "freedom-config",
+      "config-over-code"
+    ],
+    "keywords": "Scoring nodes delivery decision merged assigns relevance items passes next stage including",
+    "teachingPoint": "Scoring nodes and delivery decision nodes must not be merged. A scoring node assigns relevance values to items and passes all items to the next stage — including score=0 items. A delivery decision node reads thresholds from FREEDOM config and determines what to deliver. When a scoring node filters by score, it merges two responsibilities, removes the delivery node's ability to apply its own rules, and creates silent empty-feed failures for weak connections. CF-07-3 enforces that T77 passes all items regardless of score.",
+    "ironRules": [
+      "T77 FeedScorer passes ALL items to T78 — including score=0 items",
+      "No filtering, dropping, or skipping items based on score value in T77",
+      "CF-07-3: any code path that drops items based on score in T77 is a BUILD_FAILURE"
+    ],
+    "codeSnippet": "// CORRECT: T77 scores and passes all items\nreturn DataProcessResult.success({ item, score }); // score=0 items also passed\n// WRONG: if (score <= threshold) return; — drops items, causes silent empty-feed failures",
+    "curriculumTier": 1,
+    "qualityScore": 0.93,
+    "observedIn": "FLOW-07 (T77 FeedScorer — passes all items; T78 FeedDeliveryOrchestrator — applies FREEDOM thresholds)",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-10"
+    ],
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z"
+  },
+  {
+    "patternId": "FLOW-07-RAG-05",
+    "patternType": "ARCH_PATTERN",
+    "category": "FULL_RECOMPUTE_PATTERN",
+    "sourceFlow": "FLOW-07",
+    "archetype": "PROCESSING",
+    "tags": [
+      "full-recompute-pattern",
+      "retry",
+      "queue"
+    ],
+    "keywords": "Aggregate counts subject queue message redelivery full recompute delta increments idempotent retry",
+    "teachingPoint": "Aggregate counts subject to queue message redelivery must use full recompute, not delta increments. Delta increments are not idempotent: each retry inflates the count by 1 with no error surfaced. Full recompute reads the current authoritative data, computes the aggregate from scratch, and stores the result — same inputs always produce the same output regardless of how many times the handler runs. This pattern applies to any counter updated by queue-driven events where exactly-once delivery is not guaranteed.",
+    "ironRules": [
+      "T80 reads adjacency lists for both users, intersects, counts — same result regardless of retry count",
+      "No read-then-increment pattern: delta increments inflate on queue redelivery with no error",
+      "CF-07-3: any read-increment-store pattern in T80 is a BUILD_FAILURE"
+    ],
+    "codeSnippet": "// CORRECT: full recompute from graph\nconst listA = await db.getAdjacency(userA);\nconst listB = await db.getAdjacency(userB);\nconst mutualCount = listA.filter(id => listB.includes(id)).length;\nawait db.storeDocument('mutual-counts', { userA, userB, mutualCount });\n// WRONG: const prev = await db.get(mutualCount); await db.store(prev + 1);",
+    "curriculumTier": 1,
+    "qualityScore": 0.91,
+    "observedIn": "FLOW-07 (T80 MutualConnectionCounter — full graph intersection recompute on every SocialConnectionEstablished)",
+    "appliesTo": [
+      "FLOW-08",
+      "FLOW-10",
+      "FLOW-13"
+    ],
+    "sourceDocument": "FLOW-07-DESIGN-SIMULATION-R1.md",
+    "connectionType": "FLOW_SCOPED",
+    "knowledgeScope": "GLOBAL",
+    "flowId": "FLOW-07",
+    "domainId": "friend-request-social-feed",
+    "seededAt": "2026-04-13T00:00:00Z"
+  }
+]

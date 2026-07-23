@@ -1,0 +1,72 @@
+name: flow-ui-examination-protocol
+version: "1.1.0"
+sk_number: SK-542
+priority: MANDATORY
+load_order: 5.3
+updated: "2026-04-20"
+author: luba
+entry: flow-ui-examination-protocol-SKILL.md
+
+changelog_v1_1_0: >
+  RUN-87 design-skills refresh. Step 0 added (mandatory /.impeccable.md read).
+  Step 2c added (pre-JSX checkpoint: Intent/Palette/Depth/Surfaces/Typography/
+  Spacing/Signature/Rejects with a why each). Step 3 extended with
+  NEEDS_SIGNATURE, NEEDS_DOMINANCE, AI_SLOP_DEFAULT classifications.
+  Step 6 extended with six mandate checks (swap/squint/signature/AI-slop/
+  token/non-technical-reviewer). Absolute bans enumerated (side-stripe
+  borders, gradient text, emoji-as-icons, Inter-without-rationale,
+  provider-keys banner on non-admin, native select/date, CRUD table for
+  tenant/public). Triggered by Luba's RUN-83..86 craft-regression feedback.
+
+description: >
+  Session orchestrator for any screen examination, repair, or rebuild session.
+  Loads four companion documents (REPAIR-GUIDANCE, SPEC-LOCATION-MAP,
+  MARKET-REFERENCE-CATALOG, business-flows-registry), reads the flow's spec
+  files in priority order, classifies the work against the REPAIR-GUIDANCE
+  decision tree (NEEDS_PURPOSE_BUILT_UI / CFI-05 PAGE_REWRITE / PASSES etc.),
+  routes to SK-540 (design context) or SK-541 (audit), and enforces
+  one-finding-per-run discipline. Must run before SK-540 and SK-539 for any
+  examination session.
+
+triggers:
+  - "examine screen"
+  - "repair page"
+  - "rebuild page"
+  - "screen examination"
+  - "UX review"
+  - "examine FLOW-"
+  - "fix PNG"
+  - "NEEDS_PURPOSE_BUILT_UI"
+  - "CFI-05"
+  - "AdminCrudPanel"
+  - "examination record"
+
+load_order: 5.3
+
+dependencies:
+  - planning--business-flows-registry
+
+companion_documents:
+  - docs/screen-examination/REPAIR-GUIDANCE.md
+  - docs/screen-examination/SPEC-LOCATION-MAP.md
+  - docs/screen-examination/MARKET-REFERENCE-CATALOG.md
+  - planning--business-flows-registry.md
+
+gates:
+  cfi_12_halt:
+    flows: [FLOW-04, FLOW-09, FLOW-34]
+    reason: "F1 contradicts slug/pages/PNGs — await Luba spec resolution"
+
+cfi_05_template:
+  pattern: "FLOW-45 RUN-52 HistoryBootstrapPage"
+  applies_to:
+    - FLOW-36: FeatureMatrixScreen (G3 CARD_LIST)
+    - FLOW-37: StackPortingScreen (G2 VERDICT_GRID)
+    - FLOW-38: RagQualityScreen (G6 DASHBOARD)
+    - FLOW-39: OssCurriculumScreen (G1 PROGRESS_STRIP)
+    - FLOW-40: ClientPushScreen (G3 CARD_LIST)
+
+integration:
+  routes_to: [SK-540, SK-541]
+  runs_before: [SK-540, SK-539]
+  sequence: "SK-542 (5.3) → SK-540 (5.4) → SK-539 (5.5)"

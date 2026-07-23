@@ -1,0 +1,32 @@
+{
+  "flowId": "FLOW-19",
+  "slug": "durable-sagas-compliance",
+  "primaryTaskType": "T621",
+  "primaryTaskName": "SagaOrchestrator",
+  "description": "Durable saga orchestration pipeline with persist-before-dispatch, SETNX step locks, LIFO compensation, compliance audit writing with tamper-detection hash, and dual-gate retention enforcement. T621 SagaOrchestrator initializes with storeDocumentWithOCC(versionPin:-1) for idempotent saga start; SETNX step-lock at ORDER 2 prevents concurrent duplicate step execution.",
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "SagaExecutionRequested event (saga coordinator initiates multi-step transaction)",
+  "primaryFabric": "DATABASE",
+  "nodes": {
+    "n1": { "id": "n1", "type": "validate", "label": "ValidateSagaRequest", "description": "Validate sagaId, sagaType, steps array. Check tenantId from ALS. Verify compensationStack registrations." },
+    "n2": { "id": "n2", "type": "rag-retrieve", "label": "RetrieveSagaPatterns", "description": "RAG retrieval of SAGA-PERSIST-BEFORE-DISPATCH-001, COMPENSATION-LIFO-SERIAL-001, COMPLIANCE-APPEND-ONLY-001, RETENTION-DUAL-GATE-001 patterns" },
+    "n3": { "id": "n3", "type": "decompose", "label": "DecomposeSagaPlan", "description": "Decompose into ordered steps: OCC init → step lock → compensation registration → step body → checkpoint persist → emit" },
+    "n4": { "id": "n4", "type": "ai-generate", "label": "GenerateSagaServices", "description": "AI generates T621-T624. T621: storeDocumentWithOCC(versionPin:-1) ORDER 1; SETNX(step-lock:{sagaId}:{stepIndex}) ORDER 2 before body; registerCompensation ORDER 3; storeDocument(checkpoint) BEFORE enqueue DNA-8. T622: LIFO .reverse() ORDER 1; serial for..of (no Promise.all) ORDER 2; SETNX(comp-lock) per step ORDER 3; stop-on-first-failure ORDER 4; storeDocument BEFORE enqueue. T623: retentionExpiresAt=writtenAt+FREEDOM(retention_days) ORDER 1; auditHash=SHA-256([tenantId,sagaId,eventType,writtenAt].join(':')) ORDER 2; storeDocument(PLATFORM_ONLY,append-only) ORDER 3. T624: dual-gate(retentionExpired AND !legalHold) ORDER 2+3; legalHold→RetentionHoldActive+skip; archive ORDER 4 BEFORE tombstone ORDER 5; CRON from FREEDOM." },
+    "n5": { "id": "n5", "type": "validate", "label": "ValidateSagaServices", "description": "Validate: OCC versionPin:-1 at ORDER 1, SETNX before body, LIFO reverse, serial no-parallel, stop-on-first-failure, SHA-256 hash, PLATFORM_ONLY, no updateDocument, dual gate, archive-before-tombstone, CRON from FREEDOM" },
+    "n6": { "id": "n6", "type": "score", "label": "ScoreSagaServices", "description": "Score: OCC init order, step-lock order, LIFO compliance, serial execution, SHA-256 hash correctness, PLATFORM_ONLY store, dual-gate completeness, archive ordering, CRON source" },
+    "n7": { "id": "n7", "type": "route", "label": "RouteOnScore", "description": "Route to feedback (score >= 0.85) or iterate (score < 0.85)" },
+    "n8": { "id": "n8", "type": "feedback", "label": "StoreFeedback", "description": "DPO triple: chosen=storeDocumentWithOCC-versionPin:-1+SETNX-step-lock-ORDER2+compensation-before-body+checkpoint-before-enqueue+LIFO-reverse+serial-no-Promise.all+SETNX-comp-lock+stop-on-first-failure+retentionExpiresAt-at-write-time+auditHash-SHA256+PLATFORM_ONLY-append-only+dual-gate-expiry-AND-legalHold+archive-before-tombstone+CRON-from-FREEDOM. rejected=plain-storeDocument-for-saga-init OR SETNX-after-step-body OR compensation-after-body OR enqueue-before-checkpoint OR FIFO-compensation OR parallel-compensation OR continue-after-failure OR hardcoded-retentionDays OR uuid-audit-id OR updateDocument-on-compliance OR legalHold-bypass OR delete-before-archive OR hardcoded-cron. discriminatingConstraint: CF-19-1 (OCC+SETNX+compensation-before-body+DNA-8), CF-19-2 (LIFO+serial+stop-on-failure+SETNX-comp-lock), CF-19-3 (retentionExpiresAt-at-write+SHA256+PLATFORM_ONLY+append-only), CF-19-4 (dual-gate+archive-before-delete+FREEDOM-CRON). curriculumTier=2", "discriminatingConstraint": "storeDocumentWithOCC versionPin:-1 at ORDER 1 OR plain storeDocument receives score=0. LIFO compensation via .reverse() required. No Promise.all in compensation. SHA-256 hash required (not uuid). PLATFORM_ONLY on compliance. Both retentionExpired AND !legalHold gates required. archiveRecord() before tombstone storeDocument. CRON from FREEDOM config.", "curriculumTier": 2 }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85" }
+  ],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

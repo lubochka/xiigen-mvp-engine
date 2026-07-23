@@ -1,0 +1,15 @@
+{
+  "promptId": "t49-judge-v1.1.0",
+  "taskTypeId": "T49",
+  "flowId": "FLOW-01",
+  "promptType": "judge",
+  "version": "1.1.0",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "content": "Judge the T49 OnboardingDelivery implementation. Score 0-100. Iron rules (70 points): completedSteps tracking (20), ITenantRegistry for workspace (20), workspace idempotency (15), CF-4 completion gate (15). DNA compliance (20 points): DNA-8 per step (10), DNA-5 tenant scope (10). Quality (10 points): FREEDOM config for step list, resume logic correct. Score-0 violations: raw workspace INSERT, missing idempotency, early UserOnboardingCompleted emission, hardcoded step list.",
+  "tags": [
+    "flow-01",
+    "t49",
+    "judge",
+    "xiigen-community"
+  ]
+}

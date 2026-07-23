@@ -1,0 +1,193 @@
+{
+    "flowId":  "FLOW-22",
+    "flowSlug":  "cms-publishing",
+    "phase":  "phaseICertificationDeclaration",
+    "generatedAt":  "2026-05-10T08:37:29.2776786Z",
+    "status":  "completed",
+    "earnedTier":  "Tier 2+ (Tier 3 not declared)",
+    "tier3Eligibility":  {
+                             "eligible":  false,
+                             "blockerId":  "FLOW-22-PACKAGE-SIGNING-FIRST-PASS",
+                             "blocker":  "Tier 3 ineligible until package signing first pass is completed for the adapted marketplace packages.",
+                             "reason":  "FLOW-22 completed the full three-tenant fork cascade, local registry publication/readback, green GitHub Actions evidence, viewport screenshots, and post-cascade live Docker/Vault auth checks. Package signing first pass remains pending, so the earned certification is capped at Tier 2+."
+                         },
+    "productDecisionClosure":  {
+                                   "status":  "completed-with-tier3-blocker",
+                                   "decision":  "FLOW-22 cms-publishing completes the mobility/auth protocol evidence through three tenant repos, three adapted packages, green GitHub Actions, Verdaccio readbacks, screenshots, and post-cascade live auth. Certification is capped at Tier 2+ until package-signing first pass is implemented.",
+                                   "evidence":  [
+                                                    "Tenant A adapted and published @xiigen-fork/acme-help-center-cms@1.0.1.",
+                                                    "Tenant B installed from Tenant A, adapted, and published @xiigen-fork/northwind-editorial-ops-cms@1.0.2.",
+                                                    "Tenant C installed from Tenant B, adapted, and published @xiigen-fork/tessera-editorial-atelier-cms@1.0.3.",
+                                                    "Post-cascade live Docker/Vault auth matrix passed 18/18.",
+                                                    "Package-signing first pass remains pending and prevents Tier 3 declaration."
+                                                ]
+                               },
+    "tierBasis":  [
+                      "Docker/Vault auth completed with tenant credentials and tenant signing material under all three tenant Vault paths.",
+                      "Tenant A forked original FLOW-22 source through the marketplace API, adapted, published v1.0.1, and passed real GitHub Actions.",
+                      "Tenant B forked Tenant A through the marketplace API, adapted, published v1.0.2, and passed real GitHub Actions.",
+                      "Tenant C forked Tenant B through the marketplace API, adapted, published v1.0.3, and passed real GitHub Actions.",
+                      "Local registry readbacks match each adapted package version, git head, and package shasum.",
+                      "Real repo, Actions, registry, and viewport screenshots exist for each cascade point.",
+                      "Post-cascade auth matrix passed 18/18 with Vault-backed JWTs and no secret material committed.",
+                      "Tier 3 is withheld because package signing first pass is still pending."
+                  ],
+    "tenantPackages":  [
+                           {
+                               "tenant":  "acme-corp",
+                               "package":  "@xiigen-fork/acme-help-center-cms",
+                               "version":  "1.0.1",
+                               "gitHead":  "9bb976868074fa3e3fe5fb70ca286b05a7689219",
+                               "shasum":  "0c779ed08804dd10fd5de599934660cdb9737067",
+                               "repo":  "lubochka/acme-corp--acme-help-center-cms",
+                               "actionsRunId":  25622788635,
+                               "requiredCoInstalls":  [
+
+                                                      ],
+                               "requiredCoInstallPackages":  [
+
+                                                             ]
+                           },
+                           {
+                               "tenant":  "northwind",
+                               "package":  "@xiigen-fork/northwind-editorial-ops-cms",
+                               "version":  "1.0.2",
+                               "gitHead":  "d92b61bd18433c3bf3aefd6e7831216711f18a86",
+                               "shasum":  "1a262e0f167742179443f037aa613dd6b4a92233",
+                               "repo":  "lubochka/northwind--northwind-editorial-ops-cms",
+                               "actionsRunId":  25623476291,
+                               "requiredCoInstalls":  [
+
+                                                      ],
+                               "requiredCoInstallPackages":  [
+
+                                                             ]
+                           },
+                           {
+                               "tenant":  "tessera-collective",
+                               "package":  "@xiigen-fork/tessera-editorial-atelier-cms",
+                               "version":  "1.0.3",
+                               "gitHead":  "43fe27e2e80ae140d52f6b408043028bcbe9e970",
+                               "shasum":  "88840df842f6201550c9b95450013b29030b4087",
+                               "repo":  "lubochka/tessera-collective--tessera-editorial-atelier-cms",
+                               "actionsRunId":  25623865666,
+                               "requiredCoInstalls":  [
+
+                                                      ],
+                               "requiredCoInstallPackages":  [
+
+                                                             ]
+                           }
+                       ],
+    "visualCascade":  [
+                          {
+                              "directory":  "docs/e2e-snapshots/cms-publishing/tenant-b-installed-from-a",
+                              "pngCount":  27,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "directory":  "docs/e2e-snapshots/cms-publishing/tenant-b-v1.0.2",
+                              "pngCount":  27,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "directory":  "docs/e2e-snapshots/cms-publishing/tenant-c-installed-from-b",
+                              "pngCount":  27,
+                              "zeroByteFiles":  0
+                          },
+                          {
+                              "directory":  "docs/e2e-snapshots/cms-publishing/tenant-c-v1.0.3",
+                              "pngCount":  27,
+                              "zeroByteFiles":  0
+                          }
+                      ],
+    "repoEvidence":  {
+                         "repoEvidencePngsChecked":  13,
+                         "missingRepoEvidencePngs":  0,
+                         "zeroByteRepoEvidencePngs":  0
+                     },
+    "githubActions":  {
+                          "tenantAOriginalFork":  {
+                                                      "repo":  "lubochka/acme-corp--cms-publishing",
+                                                      "runId":  25622341980,
+                                                      "conclusion":  "success"
+                                                  },
+                          "tenantAAdapted":  {
+                                                 "repo":  "lubochka/acme-corp--acme-help-center-cms",
+                                                 "runId":  25622788635,
+                                                 "conclusion":  "success"
+                                             },
+                          "tenantBInstalled":  {
+                                                   "repo":  "lubochka/northwind--acme-help-center-cms",
+                                                   "runId":  25623053669,
+                                                   "conclusion":  "success"
+                                               },
+                          "tenantBAdapted":  {
+                                                 "repo":  "lubochka/northwind--northwind-editorial-ops-cms",
+                                                 "runId":  25623476291,
+                                                 "conclusion":  "success"
+                                             },
+                          "tenantCInstalled":  {
+                                                   "repo":  "lubochka/tessera-collective--northwind-editorial-ops-cms",
+                                                   "runId":  25623662964,
+                                                   "conclusion":  "success"
+                                               },
+                          "tenantCAdapted":  {
+                                                 "repo":  "lubochka/tessera-collective--tessera-editorial-atelier-cms",
+                                                 "runId":  25623865666,
+                                                 "conclusion":  "success"
+                                             }
+                      },
+    "authSummary":  {
+                        "evidence":  "docs/portability/flow-22/phase-h-auth-decoration-evidence.json",
+                        "postCascadeMatrix":  "passed 18/18",
+                        "route":  "/api/runs/phase0-auth-probe/trace",
+                        "validRoles":  [
+                                           "tenant-admin",
+                                           "tenant-user",
+                                           "platform-admin"
+                                       ],
+                        "wrongRole":  "service-account",
+                        "tenants":  [
+                                        "acme-corp",
+                                        "northwind",
+                                        "tessera-collective"
+                                    ]
+                    },
+    "protocolCompletionGate":  {
+                                   "noTechnicalDebt":  true,
+                                   "dockerVaultAuth":  true,
+                                   "threeTenantRepos":  true,
+                                   "greenGitHubActions":  true,
+                                   "registryPackagesPublished":  true,
+                                   "coInstallDependenciesDeclared":  true,
+                                   "fullCascade":  true,
+                                   "perRoleVisualEvidence":  true,
+                                   "noSecretsCommitted":  true,
+                                   "packageSigningFirstPass":  false,
+                                   "tier3Eligible":  false
+                               },
+    "evidenceFiles":  [
+                          "docs/portability/flow-22/product-decision-and-pre-existing-defect-evidence.json",
+                          "docs/portability/flow-22/phase-0-docker-vault-auth-evidence.json",
+                          "docs/portability/flow-22/phase-1-unit-integration-evidence.json",
+                          "docs/portability/flow-22/phase-2-playwright-png-evidence.json",
+                          "docs/portability/flow-22/phase-3-visual-examination-evidence.json",
+                          "docs/portability/flow-22/phase-4.0-tenant-a-original-fork-evidence.json",
+                          "docs/portability/flow-22/phase-4-tenant-a-ai-adaptation-evidence.json",
+                          "docs/portability/flow-22/phase-5a-tenant-b-installed-from-a-evidence.json",
+                          "docs/portability/flow-22/phase-5b-tenant-b-adaptation-evidence.json",
+                          "docs/portability/flow-22/phase-5c-tenant-c-installed-from-b-evidence.json",
+                          "docs/portability/flow-22/phase-5c5-tenant-c-adaptation-evidence.json",
+                          "docs/portability/flow-22/phase-h-auth-decoration-evidence.json"
+                      ],
+    "verification":  {
+                         "registryReadbacks":  "passed for Acme v1.0.1, Northwind v1.0.2, and Tessera v1.0.3; all returned expected versions, git heads, and package shasums.",
+                         "githubActions":  "passed for original Tenant A fork plus adapted Tenant A, Tenant B, and Tenant C repos; Tenant B/C install repos also passed.",
+                         "cascadePngs":  "108 cascade PNGs across four cascade points, 0 zero-byte files; 13 repo-evidence PNG files present for FLOW-22.",
+                         "auth":  "post-cascade live auth matrix passed 18/18.",
+                         "behavioralAssertion":  "FLOW-22 cms publishing safeguards preserved: content tenant ownership, immutable published content versions, OCC publish transitions, approval stage validation, scheduled publish idempotency locks, audit store-before-event ordering, append-only analytics, and TenantContextResolver-based tenant resolution.",
+                         "blocker":  "Package-signing first pass remains pending; Tier 3 not declared."
+                     },
+    "verdict":  "PASS_WITH_TIER3_BLOCKER"
+}

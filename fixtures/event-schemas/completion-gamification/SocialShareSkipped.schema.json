@@ -1,0 +1,11 @@
+{
+  "eventType": "SocialShareSkipped",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "social-share-gate",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "questionnaireId", "skippedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T90 when privacy=private. This is DataProcessResult.success({ skipped: true }) — not failure. Branch C does not continue when this is emitted."
+}

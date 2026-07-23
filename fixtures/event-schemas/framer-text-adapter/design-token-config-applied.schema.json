@@ -1,0 +1,1 @@
+{"type":"object","properties":{"variantName":{"type":"string"},"workspaceId":{"type":"string"},"configSource":{"type":"string","enum":["FREEDOM_CONFIG","CACHE","DEFAULTS"]},"tokenMapping":{"type":"object"},"appliedAt":{"type":"string"}},"required":["variantName","workspaceId","configSource","tokenMapping"]}

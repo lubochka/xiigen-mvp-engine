@@ -1,0 +1,151 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phase5c5TenantCAdapts",
+  "tenant": "tessera-collective",
+  "generatedAt": "2026-05-03T22:33:59.3958064+03:00",
+  "sourcePackage": {
+    "tenant": "northwind",
+    "packageName": "@xiigen-fork/northwind-fresh-trust-feed",
+    "version": "1.0.2",
+    "repoFullName": "lubochka/northwind--fresh-trust-feed"
+  },
+  "adaptedPackage": {
+    "packageName": "@xiigen-fork/tessera-community-bridge-feed",
+    "version": "1.0.0",
+    "moduleName": "community-bridge-feed",
+    "registry": "http://localhost:4873",
+    "registryVerifiedVersion": "1.0.0"
+  },
+  "adaptation": {
+    "name": "community-bridge-feed",
+    "preservedTenantAValues": {
+      "flow07_delivery_score_threshold": 0.35,
+      "flow07_max_feed_inserts_per_connection": 12
+    },
+    "preservedTenantBValues": {
+      "flow07_feed_scoring_weights": {
+        "recencyWeight": 0.65,
+        "relationshipStrengthWeight": 0.25,
+        "activityTypeWeight": 0.1
+      }
+    },
+    "tenantCChanges": {
+      "flow07_notification_channels": {
+        "from": [
+          "push"
+        ],
+        "to": [
+          "push",
+          "email"
+        ]
+      }
+    },
+    "adaptationHistoryEntries": 3
+  },
+  "github": {
+    "repoRename": {
+      "from": "lubochka/tessera-collective--fresh-trust-feed",
+      "to": "lubochka/tessera-collective--community-bridge-feed"
+    },
+    "commitSha": "6cd3a099880769ee938b05d4ddfa2609cada4639",
+    "commitMessage": "Tenant C adaptation: community bridge feed",
+    "actionsRun": {
+      "databaseId": 25288575833,
+      "workflowName": "XIIGen Flow CI - friend-request-social-feed",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "6cd3a099880769ee938b05d4ddfa2609cada4639",
+      "url": "https://github.com/lubochka/tessera-collective--community-bridge-feed/actions/runs/25288575833"
+    }
+  },
+  "localForkVerification": {
+    "path": "<WORKSPACE>\\AppData\\Local\\Temp\\flow07-tessera-installed-verification",
+    "commands": [
+      {
+        "command": "npx tsc --noEmit",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "1 suite passed, 1 test passed"
+      }
+    ]
+  },
+  "liveAuth": {
+    "server": "http://localhost:33001",
+    "secretsProvider": "vault",
+    "passed": 6,
+    "total": 6,
+    "checks": [
+      {
+        "name": "tessera tenant-user /api/auth/me after adaptation",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "tessera tenant-admin /api/runs/flow07-auth-probe/trace after adaptation",
+        "expectedStatus": 200,
+        "actualStatus": 200
+      },
+      {
+        "name": "missing token /api/runs/flow07-auth-probe/trace after adaptation",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "wrong-role token /api/runs/flow07-auth-probe/trace after adaptation",
+        "expectedStatus": 403,
+        "actualStatus": 403
+      },
+      {
+        "name": "northwind token rejected in tessera context after adaptation",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      },
+      {
+        "name": "acme token rejected in tessera context after adaptation",
+        "expectedStatus": 401,
+        "actualStatus": 401
+      }
+    ]
+  },
+  "visualEvidence": {
+    "playwrightCommand": "client npx playwright test e2e/friend-request-social-feed-tenant-c-adapted.spec.ts --project=chromium-desktop --workers=1",
+    "playwrightResult": "22 passed",
+    "snapshotDirectory": "docs/e2e-snapshots/friend-request-social-feed/tenant-c-v1.0.0",
+    "snapshotPngCount": 21,
+    "smallPngCount": 0,
+    "minimumPngBytes": 31234,
+    "marketplaceListingScreenshot": {
+      "path": "docs/e2e-snapshots/marketplace/friend-request-social-feed-tenant-c-v1.0.0-listing.png",
+      "bytes": 165154
+    }
+  },
+  "repoEvidence": {
+    "screenshots": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/tessera-collective--community-bridge-feed-github-listing.png",
+        "bytes": 142211
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/tessera-collective--community-bridge-feed-repo-homepage.png",
+        "bytes": 107180
+      }
+    ],
+    "assertions": [
+      "GitHub API listing full_name is lubochka/tessera-collective--community-bridge-feed",
+      "tenant.config.json has tenantId tessera-collective",
+      "tenant.config.json has moduleName community-bridge-feed",
+      "tenant.config.json has moduleVersion 1.0.0",
+      "tenant.config.json has repoFullName lubochka/tessera-collective--community-bridge-feed",
+      "tenant.config.json adaptationHistory has exactly three entries for Tenant A, Tenant B, and Tenant C"
+    ]
+  },
+  "secretHandling": {
+    "printedTenantTokens": false,
+    "printedVaultSecrets": false,
+    "storedSecretsInDocs": false,
+    "usedClaudeSessionTokenAsEvidence": false
+  }
+}

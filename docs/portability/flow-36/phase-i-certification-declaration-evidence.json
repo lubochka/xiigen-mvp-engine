@@ -1,0 +1,35 @@
+{
+  "flowId": "FLOW-36",
+  "flowSlug": "feature-registry",
+  "phase": "phase-i-certification-declaration",
+  "status": "completed",
+  "generatedAt": "2026-05-11T12:36:00Z",
+  "earnedTier": "Tier 2+ (Tier 3 not declared)",
+  "tier3BlockedBy": "Package signing first pass remains pending.",
+  "declaration": [
+    "FLOW-36 completed Docker/Vault authorization with tenant-scoped credentials and live auth checks.",
+    "FLOW-36 completed unit, integration, Playwright, PNG, and visual audit evidence.",
+    "FLOW-36 completed the three-tenant fork cascade through marketplace APIs with real GitHub repos, green GitHub Actions, local registry publish/readback, and GitHub evidence screenshots.",
+    "FLOW-36 completed post-cascade auth decoration checks with 8/8 live HTTP checks passing."
+  ],
+  "evidence": {
+    "preExistingDefects": "docs/portability/flow-36/product-decision-and-pre-existing-defect-evidence.json",
+    "dockerVaultAuth": "docs/portability/flow-36/phase-0-docker-vault-auth-evidence.json",
+    "unitIntegration": "docs/portability/flow-36/phase-1-unit-integration-evidence.json",
+    "playwrightPng": "docs/portability/flow-36/phase-2-playwright-png-evidence.json",
+    "forkCascade": "docs/portability/flow-36/phase-3-fork-cascade-evidence.json",
+    "authDecoration": "docs/portability/flow-36/phase-h-auth-decoration-evidence.json",
+    "closeScans": "docs/portability/flow-36/phase-close-scan-evidence.json"
+  },
+  "protocolGate": {
+    "preExistingDefectsClosed": true,
+    "dockerVaultAuthEvidence": true,
+    "unitIntegrationEvidence": true,
+    "playwrightPngEvidence": true,
+    "forkCascadeEvidence": true,
+    "authDecorationEvidence": true,
+    "certificationDeclared": true
+  },
+  "openIssues": [],
+  "verdict": "PASS"
+}

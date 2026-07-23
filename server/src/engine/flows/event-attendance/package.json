@@ -1,0 +1,67 @@
+{
+  "name": "@xiigen/event-attendance",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "description": "FLOW-04 event-attendance - attendee RSVP, waitlist promotion, check-in, cancellation, and feedback-window lifecycle (T63-T67). Portability artifact declaring cross-flow co-install relationships.",
+  "flowId": "FLOW-04",
+  "flowSlug": "event-attendance",
+  "xiigenFlowMeta": {
+    "connectionType": "FLOW_SCOPED",
+    "services": [
+      "RsvpOrchestrator",
+      "WaitlistManager",
+      "CheckInProcessor",
+      "FeedbackWindowController",
+      "CancellationProcessor"
+    ],
+    "taskTypeIds": [
+      "T63",
+      "T64",
+      "T65",
+      "T66",
+      "T67"
+    ],
+    "freedomKeys": [
+      "flow04_rsvp_cancellation_window_hours",
+      "flow04_feedback_window_hours"
+    ],
+    "emitsEventsConsumedBy": [
+      "FLOW-09 (RsvpConfirmed and RsvpCancelled -> transactional event participation)",
+      "FLOW-10 (FeedbackWindowOpened -> review request lifecycle)"
+    ],
+    "readsFromOtherFlows": [
+      "FLOW-03 (EventCreated and event records -> RSVP, waitlist, and check-in lifecycle)"
+    ],
+    "portabilityTier": "TIER-D",
+    "portabilityStatus": "MOBILE_CANDIDATE_IN_GENERATION"
+  },
+  "requiredCoInstalls": [
+    "@xiigen/event-management"
+  ],
+  "coInstallNotes": "FLOW-04 depends on FLOW-03 event-management for event source records and event lifecycle signals. FLOW-03 remains bootable without FLOW-04; FLOW-04 must declare FLOW-03 as a co-install before tenant fork certification.",
+  "peerDependencies": {
+    "xiigen-server": "^1.0.0",
+    "@xiigen/event-management": "^1.0.0"
+  },
+  "dna": {
+    "compliance": [
+      "DNA-1",
+      "DNA-2",
+      "DNA-3",
+      "DNA-4",
+      "DNA-5",
+      "DNA-6",
+      "DNA-7",
+      "DNA-8",
+      "DNA-9"
+    ],
+    "portabilityInvariants": [
+      "P-1",
+      "P-2",
+      "P-3",
+      "P-4",
+      "P-5"
+    ]
+  },
+  "protocol": "FLOW-PORTABILITY-TEST-PROTOCOL-v2.0"
+}

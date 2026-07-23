@@ -1,0 +1,72 @@
+{
+  "flowId": "FLOW-06",
+  "taskTypeId": "T105-T106",
+  "name": "flow-06-branch-b-tier-content-feed",
+  "description": "Branch B: T105 TierContentSelector (query-layer tier filter) → T106 FeedPopulator. T105 triggers on MembershipActivated. Time-decoupled from Branch A gate.",
+  "archetype": "PROCESSING",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation: T105 query-layer tier filter (content_access_level IN accessLevels[]), cursor ceiling 50"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve tier-gated-content-query pattern for FLOW-06 Branch B",
+      "params": {
+        "archetype": "PROCESSING",
+        "taskTypeRef": "T105-T106",
+        "topK": 3,
+        "patternIds": [
+          "TIER-GATED-CONTENT-QUERY-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break into: T105 (BuildSearchFilter with tier filter + cursor 50) + T106 (feed population store)"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate tier-content-selector.service.ts (T105) and feed-populator.service.ts (T106). T105 query includes content_access_level IN accessLevels[]."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check: config_over_hardcode (cursor ceiling from FREEDOM), store_before_enqueue, tenant_id_on_writes"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score against iron rules: query-layer filter, cursor ceiling"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=query-layer-tier-filter, rejected=retrieve-all-then-filter. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "MembershipActivated event (time-decoupled from Branch A gate)",
+  "primaryFabric": "DATABASE"
+}

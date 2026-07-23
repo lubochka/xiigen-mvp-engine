@@ -1,0 +1,199 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phaseICertificationDeclaration",
+  "generatedAt": "2026-05-10T17:14:00.0000000+03:00",
+  "protocolVersion": "3.0",
+  "certification": {
+    "earnedTier": "Tier 2+",
+    "tier3Declared": false,
+    "tier3BlockedBy": "package-signing first pass remains pending",
+    "verdict": "PASS_TIER_2_PLUS"
+  },
+  "completionGate": {
+    "noTechnicalDebt": true,
+    "dockerVaultAuth": true,
+    "threeTenantRepos": true,
+    "greenGitHubActions": true,
+    "registryPackagesPublished": true,
+    "coInstallDependenciesDeclared": true,
+    "fullCascade": true,
+    "perRoleVisualEvidence": true,
+    "noSecretsCommitted": true,
+    "packageSigningFirstPass": false,
+    "tier3Eligible": false
+  },
+  "freshVerification": {
+    "registryPackages": [
+      {
+        "package": "@xiigen-fork/acme-policy-gate-console",
+        "version": "1.0.1",
+        "registry": "http://localhost:4873",
+        "tarball": "http://localhost:4873/@xiigen-fork/acme-policy-gate-console/-/acme-policy-gate-console-1.0.1.tgz",
+        "shasum": "44c6e6e1ded4b073128699aaccf48e2d4b9bbc64",
+        "gitHead": "34ba775e9fdc8b872e4642b4b672d5220c422477",
+        "verified": true
+      },
+      {
+        "package": "@xiigen-fork/northwind-risk-sentinel-console",
+        "version": "1.0.2",
+        "registry": "http://localhost:4873",
+        "tarball": "http://localhost:4873/@xiigen-fork/northwind-risk-sentinel-console/-/northwind-risk-sentinel-console-1.0.2.tgz",
+        "shasum": "e6c75f91d9a63078634311f93dabd9d008d61633",
+        "gitHead": "a4178a5d85ba50883433d2c5b3e7cefd98b43652",
+        "verified": true
+      },
+      {
+        "package": "@xiigen-fork/tessera-cascade-ledger-console",
+        "version": "1.0.3",
+        "registry": "http://localhost:4873",
+        "tarball": "http://localhost:4873/@xiigen-fork/tessera-cascade-ledger-console/-/tessera-cascade-ledger-console-1.0.3.tgz",
+        "shasum": "0d65cb4355cf409e20f63b03cf1ca4538438efc0",
+        "gitHead": "8db36b5679cff88f19d122accfe5a83011a7b6c6",
+        "verified": true
+      }
+    ],
+    "githubActions": [
+      {
+        "repo": "lubochka/acme-corp--bfa-cross-flow-governance",
+        "currentRepoAfterRename": "lubochka/acme-corp--acme-policy-gate-console",
+        "runId": 25629456205,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "a2bd4eda1bdd8efdda62f2ed6a0677d4507b7a76"
+      },
+      {
+        "repo": "lubochka/acme-corp--acme-policy-gate-console",
+        "runId": 25629622393,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "34ba775e9fdc8b872e4642b4b672d5220c422477"
+      },
+      {
+        "repo": "lubochka/northwind--acme-policy-gate-console",
+        "currentRepoAfterRename": "lubochka/northwind--risk-sentinel-console",
+        "runId": 25629823653,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "81b94a8fafa0e4256d4d65ba38b90ced347fea5e"
+      },
+      {
+        "repo": "lubochka/northwind--risk-sentinel-console",
+        "runId": 25630103913,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "a4178a5d85ba50883433d2c5b3e7cefd98b43652"
+      },
+      {
+        "repo": "lubochka/tessera-collective--northwind-risk-sentinel-console",
+        "currentRepoAfterRename": "lubochka/tessera-collective--cascade-ledger-console",
+        "runId": 25630422643,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "e5f24fa1e30f887db879682afd5ab60d698ef64c"
+      },
+      {
+        "repo": "lubochka/tessera-collective--cascade-ledger-console",
+        "runId": 25630649355,
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "8db36b5679cff88f19d122accfe5a83011a7b6c6"
+      }
+    ],
+    "pngEvidence": [
+      {
+        "path": "docs/e2e-snapshots/bfa-cross-flow-governance",
+        "pngCount": 20,
+        "emptyCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/visual-audit",
+        "pngCountForFlow25": 9,
+        "emptyCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-25",
+        "pngCount": 13,
+        "emptyCount": 0
+      },
+      {
+        "path": "docs/e2e-snapshots/marketplace",
+        "flow25RegistryPngCount": 3,
+        "emptyCount": 0
+      }
+    ],
+    "highRiskSecretPatternHits": 0,
+    "postCascadeAuthEvidence": "docs/portability/flow-25/phase-h-auth-decoration-evidence.json"
+  },
+  "tenantCascade": {
+    "tenantAOriginalFork": {
+      "tenantId": "acme-corp",
+      "repoFullName": "lubochka/acme-corp--bfa-cross-flow-governance",
+      "currentRepoFullNameAfterAdaptation": "lubochka/acme-corp--acme-policy-gate-console",
+      "initialCommitSha": "a2bd4eda1bdd8efdda62f2ed6a0677d4507b7a76",
+      "actionsRunId": 25629456205,
+      "actionsConclusion": "success"
+    },
+    "tenantAAdaptation": {
+      "repoFullName": "lubochka/acme-corp--acme-policy-gate-console",
+      "packageName": "@xiigen-fork/acme-policy-gate-console",
+      "packageVersion": "1.0.1",
+      "adaptedCommit": "34ba775e9fdc8b872e4642b4b672d5220c422477",
+      "githubActionsRunId": 25629622393,
+      "githubActionsConclusion": "success",
+      "registryShasum": "44c6e6e1ded4b073128699aaccf48e2d4b9bbc64"
+    },
+    "tenantBInstalledFromA": {
+      "repoFullName": "lubochka/northwind--acme-policy-gate-console",
+      "currentRepoFullNameAfterAdaptation": "lubochka/northwind--risk-sentinel-console",
+      "sourceRepoFullName": "lubochka/acme-corp--acme-policy-gate-console",
+      "initialCommitSha": "81b94a8fafa0e4256d4d65ba38b90ced347fea5e",
+      "githubActionsRunId": 25629823653,
+      "githubActionsConclusion": "success"
+    },
+    "tenantBAdaptation": {
+      "repoFullName": "lubochka/northwind--risk-sentinel-console",
+      "packageName": "@xiigen-fork/northwind-risk-sentinel-console",
+      "packageVersion": "1.0.2",
+      "adaptedCommit": "a4178a5d85ba50883433d2c5b3e7cefd98b43652",
+      "githubActionsRunId": 25630103913,
+      "githubActionsConclusion": "success",
+      "registryShasum": "e6c75f91d9a63078634311f93dabd9d008d61633"
+    },
+    "tenantCInstalledFromB": {
+      "repoFullName": "lubochka/tessera-collective--northwind-risk-sentinel-console",
+      "currentRepoFullNameAfterAdaptation": "lubochka/tessera-collective--cascade-ledger-console",
+      "sourceRepoFullName": "lubochka/northwind--risk-sentinel-console",
+      "initialCommitSha": "e5f24fa1e30f887db879682afd5ab60d698ef64c",
+      "githubActionsRunId": 25630422643,
+      "githubActionsConclusion": "success"
+    },
+    "tenantCAdaptation": {
+      "repoFullName": "lubochka/tessera-collective--cascade-ledger-console",
+      "packageName": "@xiigen-fork/tessera-cascade-ledger-console",
+      "packageVersion": "1.0.3",
+      "adaptedCommit": "8db36b5679cff88f19d122accfe5a83011a7b6c6",
+      "githubActionsRunId": 25630649355,
+      "githubActionsConclusion": "success",
+      "registryShasum": "0d65cb4355cf409e20f63b03cf1ca4538438efc0"
+    }
+  },
+  "evidenceFiles": {
+    "phase0Auth": "docs/portability/flow-25/phase-0-docker-vault-auth-evidence.json",
+    "phase1UnitIntegration": "docs/portability/flow-25/phase-1-unit-integration-evidence.json",
+    "phase2Playwright": "docs/portability/flow-25/phase-2-e2e-playwright-evidence.json",
+    "phase3Visual": "docs/portability/flow-25/phase-3-visual-examination-evidence.json",
+    "phase40TenantAOriginalFork": "docs/portability/flow-25/phase-4.0-tenant-a-original-fork-evidence.json",
+    "phase4TenantAAdaptation": "docs/portability/flow-25/phase-4-tenant-a-ai-adaptation-evidence.json",
+    "phase5aTenantBInstall": "docs/portability/flow-25/phase-5a-tenant-b-installs-evidence.json",
+    "phase5bTenantBAdaptation": "docs/portability/flow-25/phase-5b-tenant-b-adapts-evidence.json",
+    "phase5cTenantCInstall": "docs/portability/flow-25/phase-5c-tenant-c-installs-evidence.json",
+    "phase5c5TenantCAdaptation": "docs/portability/flow-25/phase-5c5-tenant-c-adapts-evidence.json",
+    "phaseHAuthDecoration": "docs/portability/flow-25/phase-h-auth-decoration-evidence.json"
+  },
+  "notes": [
+    "FLOW-25 completed the full tenant A to tenant B to tenant C cascade using real marketplace API forks, real GitHub repositories, real GitHub Actions runs, local registry publishes, and captured PNG evidence.",
+    "Tier 3 is not declared because package signing first pass is still pending by protocol."
+  ]
+}

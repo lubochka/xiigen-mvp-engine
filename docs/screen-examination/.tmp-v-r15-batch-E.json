@@ -1,0 +1,140 @@
+{
+  "batch": "E",
+  "run": "V-R15",
+  "subagent": "RESCORE",
+  "flows_examined": 8,
+  "pngs_read": 31,
+  "viewports_covered": ["chromium-desktop", "chromium-tablet", "chromium-mobile"],
+  "rubric": "docs/screen-examination/PER-IMAGE-VALIDATION-TEMPLATE.md (7-axis: A shell / B role / C lang / D phase+state / E human-friendly / F 5-layer UX / G follow-ups)",
+  "flows": [
+    {
+      "slug": "module-lifecycle",
+      "v_r14_block": null,
+      "pngs": ["primary-platform-admin", "primary-platform-support", "populated-platform-admin", "(x3 viewports)"],
+      "axis_A_shell": "PASS — platform-admin + support render admin shell (sidebar) correctly",
+      "axis_B_role": "PASS — admin has Create module + Publish/Deprecate/Retire enabled; support has (Read-Only) title + disabled buttons + Lifecycle Audit + Escalate link",
+      "axis_C_language": "PASS (en)",
+      "axis_D_state": "PASS — populated shows Step 3 'Module active — feature flags enabled for tenant' with MOD-analytics-dashboard, 2.3.1, FT-204/205/208, activated-at",
+      "axis_E_human_friendly": "CONCERN — module identifiers (MOD-analytics-dashboard, FT-204, MLA-2026-0410-001) in monospace appear on admin surface; acceptable for platform-admin role but 'FT' code chips are not human-readable names",
+      "axis_F_5layer": "PASS — tri-state chips (Active/Deprecated/Retired/Draft) use color + text; 3-action layout clear; no icon-only buttons",
+      "axis_G_followups": "Consider prose labels for FT flags (e.g. 'Funnel analytics' instead of FT-204) in a future iteration",
+      "verdict": "PASS"
+    },
+    {
+      "slug": "oss-curriculum",
+      "v_r14_block": null,
+      "pngs": ["primary-platform-admin", "primary-platform-support", "populated-platform-admin", "(x3 viewports)"],
+      "axis_A_shell": "PASS — admin shell both roles",
+      "axis_B_role": "PASS — admin surface differs from support: admin has 'Platform admin — OSS curriculum publishing and quality curation' header banner; support has lock banner + Escalate link + no controls",
+      "axis_C_language": "PASS (en)",
+      "axis_D_state": "PASS — populated shows Step 7 'DPO triple promoted to RAG — available for future retrievals' with DPO-2026-0419-011 id, xiigen-rag-patterns target, 0.91 score, promoted-at timestamp",
+      "axis_E_human_friendly": "CONCERN — acronyms 'DPO', 'OSS', 'RAG', 'SHADOW RUN GRADE TREND' visible on admin page with no expansion/tooltip; model IDs 'llama3:8b', 'codellama:13b', 'deepseek-coder:6.7b' in monospace; 'CYC-2026-0420-002' IDs leak engineering-style identifiers to admin surface",
+      "axis_F_5layer": "PASS — Tier 1-5 card grid is domain-meaningful; score % chips use colour + text; shadow run rows have success/pending/wasted colours; 5-card tier grid could risk 'identical card grid' tell but the tier count differentiates each",
+      "axis_G_followups": "Consider glossary or tooltip expansion for DPO/RAG/OSS even on admin surface; model IDs could move to hover-only detail",
+      "verdict": "CONCERN"
+    },
+    {
+      "slug": "platform-agent",
+      "v_r14_block": {
+        "prior": "primary-platform-admin had Raw Index admin-debug at bottom exposing /api/dynamic path + ui-NNN IDs + Delete actions inline",
+        "resolution_verified": true,
+        "block_status": "BLOCK_RESOLVED",
+        "evidence": "On primary-platform-admin (desktop + tablet + mobile), the raw-index region is collapsed behind a <details> summary '▶ OPEN RAW PLATFORM-AGENT INDEX (ADMIN DEBUG)' at the very bottom of the page. No /api/dynamic paths, no ui-NNN IDs, no Delete buttons are rendered visibly. The page shows clean admin content: Agent Status, Tenant Scope with Edit/Remove per tenant, Recent Agent Actions (4 rows with Propose edit / Apply to all tenants / Create flow / Advise badges)."
+      },
+      "pngs": ["primary-platform-admin", "primary-platform-support", "primary-tenant-admin", "primary-tenant-user", "populated-platform-admin", "(x3 viewports)"],
+      "axis_A_shell": "PASS — platform-admin/support/tenant-admin use admin sidebars (correct); tenant-user uses kiosk shell (correct)",
+      "axis_B_role": "PASS — strong role branching. platform-admin: operational 'Platform Agent' console with Tenant Scope + Recent Actions. platform-support: 'Agent Audit Log' with SOC2/GDPR Article 30 compliance framing + Download audit log PDF + Art. 6(1)(f) processing basis per entry (regulatory framing — different from admin ops). tenant-admin: 'Agent Permissions' scoped to their own workspace with Allowed/Revoked toggles for Read/Write/Delete + filtered agent actions (only 2 of 4 shown: those that affected their tenant). tenant-user: 'Restricted — authorised personnel only' lock.",
+      "axis_C_language": "PASS (en)",
+      "axis_D_state": "PASS — populated shows Step 6 'Agent session complete — contribution recorded' with PA-2026-0419-001 session id, Recorded, Share consent, completed-at",
+      "axis_E_human_friendly": "CONCERN — 'PA-LOG-2026-0419-0087' style log IDs are visible to platform-admin/support; acceptable for admin/compliance but long; 'GDPR Art. 6(1)(f)' is appropriately compliance-register-style on support surface (legal requirement). No engineering leaks.",
+      "axis_F_5layer": "PASS — each role surface has a signature element (Tenant Scope card grid on admin; legally-binding SOC2 banner on support; Allowed/Revoked pill toggles on tenant-admin; locked kiosk message on tenant-user). Squint test passes: role-distinct immediately.",
+      "axis_G_followups": "none — BLOCK fully resolved",
+      "verdict": "PASS"
+    },
+    {
+      "slug": "profile-enrichment",
+      "v_r14_block": null,
+      "pngs": ["default-tenant-user", "primary-tenant-user", "(x3 viewports)"],
+      "axis_A_shell": "PASS — kiosk shell (external-tenant-module) correct for tenant-user questionnaire; no sidebar",
+      "axis_B_role": "PASS — tenant-user is onboarding/enriching their own business profile; Industry + Business Stage fields + Submit Questionnaire CTA",
+      "axis_C_language": "PASS (en)",
+      "axis_D_state": "PASS — empty form state (default) identical to primary is acceptable; populated not required for this surface per role",
+      "axis_E_human_friendly": "PASS — plain labels (Industry, Business Stage), natural placeholders (Technology, Retail, Healthcare / Startup, Growth, Enterprise), friendly prompt text, no acronyms, no engineering leaks",
+      "axis_F_5layer": "PASS — minimal clean card, Submit CTA is primary, hierarchy h1 + label + input + button",
+      "axis_G_followups": "Loading and success states not captured (would require mock=loading / mock=success urls)",
+      "verdict": "PASS"
+    },
+    {
+      "slug": "rag-quality-feedback",
+      "v_r14_block": null,
+      "pngs": ["primary-platform-admin", "primary-platform-support", "populated-platform-admin", "(x3 viewports)"],
+      "axis_A_shell": "PASS",
+      "axis_B_role": "PASS — platform-admin has active thumbs-up/down feedback widget + Cross-tenant Feedback Analytics cards (Overall 4.1/5, Votes 7d 2,847, Trend +0.12, Model gpt-4o-mini); platform-support has 'FEEDBACK LOG (READ-ONLY)' with tenant-hashed IDs (tenant-***-a1b2) + no feedback buttons + read-only banner",
+      "axis_C_language": "PASS (en)",
+      "axis_D_state": "PASS — populated shows Step 7 'DPO triple promoted to RAG — available for future retrievals' with triple id, promoted-to target, promoter score 0.91",
+      "axis_E_human_friendly": "CONCERN — 'RAG', 'DPO' acronyms shown unexpanded; internal admin terms visible ('RAG PATTERNS 6 SCORED', 'Retrieval context', 'Distilled rule', 'Node template', 'Archetype hint', 'Cross-flow rule'). These are legitimate domain terms for the learning-quality owner role (platform-admin) but are engineering-flavoured vocabulary.",
+      "axis_F_5layer": "PASS — score chips (93%, 88%, 76%, 62%, 41%, 28%) use colour gradient by threshold; Success/Wasted/Escalate chips on recent outcomes are distinct; good hierarchy; tenant-hashed IDs on support are privacy-safe",
+      "axis_G_followups": "Consider glossary expansion for DPO and archetype/distilled/cross-flow terminology",
+      "verdict": "CONCERN"
+    },
+    {
+      "slug": "reviews-reputation",
+      "v_r14_block": null,
+      "pngs": ["primary-anonymous", "primary-tenant-admin", "primary-tenant-user", "(x3 viewports)"],
+      "axis_A_shell": "PASS — anonymous and tenant-user use kiosk shell (external-public and external-tenant-module respectively); tenant-admin uses admin shell (reduced sidebar)",
+      "axis_B_role": "PASS — three distinct role surfaces. anonymous: read-only 'Reviews' listing with sign-in CTAs on both banner and footer. tenant-admin: 'Review Moderation' with admin banner + Review/Remove/Hide actions per flagged item. tenant-user: 'Submit a Review' form with star rating + textarea + unverified-purchase warning banner.",
+      "axis_C_language": "PASS (en)",
+      "axis_D_state": "PASS — anonymous shows 3 reviews with stars + verified purchase green chips + dates; tenant-admin shows 3 moderation cases with flag-type chips; tenant-user shows empty/populated form",
+      "axis_E_human_friendly": "CONCERN — tenant-admin surface shows UPPER_SNAKE_CASE flag type chips ('SPAM_WAVE', 'UNVERIFIED', 'POLICY_VIOLATION') which are enum values leaked as user-visible labels; would read better as sentence-case 'Spam wave', 'Unverified', 'Policy violation'. No acronym leaks on anonymous or tenant-user.",
+      "axis_F_5layer": "PASS — star ratings visible; verified purchase chips colour + text; flagged card layout with reason → flag type → actions; Submit Review form minimal",
+      "axis_G_followups": "Convert SPAM_WAVE/UNVERIFIED/POLICY_VIOLATION chip labels to sentence-case human-readable strings",
+      "verdict": "CONCERN"
+    },
+    {
+      "slug": "saas-multi-tenancy",
+      "v_r14_block": {
+        "prior": "default-platform-admin rendered 404 (stale snapshot)",
+        "resolution_verified": true,
+        "block_status": "BLOCK_RESOLVED",
+        "evidence": "Directory listing confirmed 3 PNGs per viewport (primary-platform-admin, primary-tenant-admin, primary-tenant-user); NO default-*.png files present in any of the 3 viewports (chromium-desktop, chromium-tablet, chromium-mobile). All 3 remaining PNGs render correctly with role-distinct content."
+      },
+      "pngs": ["primary-platform-admin", "primary-tenant-admin", "primary-tenant-user", "(x3 viewports)"],
+      "axis_A_shell": "PASS — platform-admin full sidebar; tenant-admin reduced sidebar; tenant-user kiosk",
+      "axis_B_role": "PASS — platform-admin: 'Tenant Lifecycle' + Suspend/Reactivate/Terminate action buttons. tenant-admin: same action set but different sidebar scope. tenant-user: read-only 'Workspace Status' with blue info banner 'Your workspace is active. Contact your workspace administrator to change status. Lifecycle controls are available to tenant admins and platform admins only.' — proper role-scoped lock.",
+      "axis_C_language": "PASS (en)",
+      "axis_D_state": "PASS — Active chip visible, lifecycle ACTIVE state has Reactivate dimmed (correct) while Suspend (amber) and Terminate (red) are available",
+      "axis_E_human_friendly": "PASS — 'Tenant Lifecycle' / 'Workspace Status' / 'Active' / 'Suspend Tenant' / 'Reactivate Tenant' / 'Terminate Tenant' all plain English; no acronyms, no engineering leaks; tenant-user message explains role boundary cleanly",
+      "axis_F_5layer": "PASS — colour-coded action buttons (amber/grey-disabled/red) communicate destructiveness; tenant-user surface uses blue info-banner grammar appropriate to read-only status",
+      "axis_G_followups": "none",
+      "verdict": "PASS"
+    },
+    {
+      "slug": "schema-registry-dag",
+      "v_r14_block": {
+        "prior": "3 roles (platform-admin, platform-support, tenant-admin) rendered identical content; platform-support missing lock pattern; tenant-admin not filtered to ACTIVE-only",
+        "resolution_verified": true,
+        "block_status": "BLOCK_RESOLVED",
+        "evidence": "Three distinct role renderings confirmed across desktop/tablet/mobile: (1) platform-admin: full 'Schema Registry' with 'Browse, search, and open details of every data schema registered on the platform' subtitle + Active 3 / Draft 1 / Deprecated 1 tabs + search input + green '+ Register schema' primary button + all 5 schemas (3 Active, 1 Draft, 1 Deprecated). (2) platform-support: same layout MINUS Register button PLUS lock banner '🔒 Schema Registry — read-only for support access. Controls are disabled. Escalate to platform-admin →' above the tabs. (3) tenant-admin: different subtitle 'Browse the shared event-schema catalog. New registrations and deprecations are managed by platform administrators.' + no Register button + ACTIVE-only records rendered (3 schemas, no Draft or Deprecated cards) despite tabs being visible. useViewerRole branching is visibly working."
+      },
+      "pngs": ["primary-platform-admin", "primary-platform-support", "primary-tenant-admin", "(x3 viewports)"],
+      "axis_A_shell": "PASS — all three admin shell (sidebar visible); sidebar scope differs per role (tenant-admin sees reduced sidebar: Dashboard/Marketplace/Monitor/Events/Administration/Tenants only)",
+      "axis_B_role": "PASS — role branching strongly visible (see BLOCK evidence above)",
+      "axis_C_language": "PASS (en)",
+      "axis_D_state": "PASS — schemas show subject (order.created/user.registered/payment.initiated/review.submitted/legacy.ticket_v1), semver version chip, compatibility mode (Backward-compatible/Fully compatible/Breaking), consumer count, last-updated date, status chip",
+      "axis_E_human_friendly": "CONCERN — schema subjects in monospace (order.created, user.registered, payment.initiated, review.submitted, legacy.ticket_v1) are technical dotted identifiers; 'MARKETPLACE', 'IDENTITY', 'BILLING', 'REPUTATION', 'SUPPORT' are subject-domain ALL-CAPS tags. These are legitimate domain identifiers on a schema registry admin page (the schema subject IS the identifier), but feel engineering-flavoured.",
+      "axis_F_5layer": "PASS — status chips (Active green / Draft blue / Deprecated grey) use colour + text; compatibility labels use colour (green for compatible, red for breaking) + text; count tab chips (Active 3 / Draft 1 / Deprecated 1) give visual scanning; support role's lock-banner with inline escalate link is a signature Layer 5 pattern",
+      "axis_G_followups": "none; schema registry domain inherently uses schema-subject identifiers",
+      "verdict": "PASS"
+    }
+  ],
+  "summary": {
+    "block_flows": [],
+    "block_resolved": ["platform-agent", "saas-multi-tenancy", "schema-registry-dag"],
+    "concern_flows": ["oss-curriculum", "rag-quality-feedback", "reviews-reputation"],
+    "pass_flows": ["module-lifecycle", "platform-agent", "profile-enrichment", "saas-multi-tenancy", "schema-registry-dag"],
+    "total_pass": 5,
+    "total_concern": 3,
+    "total_block": 0
+  },
+  "one_line_verdict": "All 3 V-R14 BLOCKs resolved; 5 PASS + 3 CONCERN (acronym leaks: DPO/RAG/OSS on admin surfaces, UPPER_SNAKE_CASE enum chips on reviews moderation). No BLOCKs remain."
+}

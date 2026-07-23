@@ -1,0 +1,94 @@
+{
+  "flowId": "FLOW-04",
+  "flowSlug": "event-attendance",
+  "tenant": "acme-corp",
+  "phase": "phase4Point5TenantARepoAndEvidence",
+  "generatedAt": "2026-05-01T16:02:42.058Z",
+  "repo": {
+    "nameWithOwner": "lubochka/acme-corp--event-attendance-acme-onsite-check-in",
+    "url": "https://github.com/lubochka/acme-corp--event-attendance-acme-onsite-check-in",
+    "visibility": "PRIVATE",
+    "private": true,
+    "defaultBranch": "main",
+    "createdAt": "2026-05-01T15:17:30Z",
+    "pushedAt": "2026-05-01T15:39:18Z"
+  },
+  "fork": {
+    "forkId": "fork-event-attendance-acme-corp",
+    "initialCommitSha": "24c17ea16a1faaa8abd57ef4e3e07404bdd3fcde",
+    "status": "FORKED",
+    "sourceRepoFullName": null
+  },
+  "ci": {
+    "workflowName": "XIIGen Flow CI - event-attendance",
+    "runId": 25220778967,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/lubochka/acme-corp--event-attendance-acme-onsite-check-in/actions/runs/25220778967",
+    "headSha": "2ad4e70c6e4a136f4608fa501e673331f8a5aeb3",
+    "createdAt": "2026-05-01T15:39:20Z",
+    "updatedAt": "2026-05-01T15:39:52Z"
+  },
+  "package": {
+    "name": "@xiigen-fork/event-attendance-acme-onsite-check-in",
+    "version": "1.0.1",
+    "private": false
+  },
+  "tenantConfig": {
+    "tenantId": "acme-corp",
+    "moduleName": "event-attendance-acme-onsite-check-in",
+    "moduleVersion": "1.0.1",
+    "repoName": "acme-corp--event-attendance-acme-onsite-check-in",
+    "repoUrl": "https://github.com/lubochka/acme-corp--event-attendance-acme-onsite-check-in",
+    "installedFromRepoFullName": null,
+    "adaptationHistoryEntries": 1,
+    "freedomOverrides": [
+      {
+        "configKey": "flow04_rsvp_cancellation_window_hours",
+        "taskType": "xiigen-engine",
+        "configValue": 6,
+        "defaultValue": 24,
+        "reason": "Acme Corp onsite events close attendee cancellation six hours before event start."
+      },
+      {
+        "configKey": "flow04_feedback_window_hours",
+        "taskType": "xiigen-engine",
+        "configValue": 12,
+        "defaultValue": 24,
+        "reason": "Acme Corp collects immediate post-event feedback during the first twelve hours."
+      }
+    ]
+  },
+  "freedomDefaults": {
+    "flowId": "FLOW-04",
+    "flowSlug": "event-attendance",
+    "defaults": {
+      "flow04_rsvp_cancellation_window_hours": 6,
+      "flow04_feedback_window_hours": 12
+    }
+  },
+  "registry": {
+    "packageName": "@xiigen-fork/event-attendance-acme-onsite-check-in",
+    "registryUrl": "http://localhost:4873",
+    "latestVersion": "1.0.1",
+    "versionPresent": true
+  },
+  "localStandaloneVerification": {
+    "githubActions": "passed",
+    "registryPublish": "passed",
+    "manifestCount": null,
+    "includesAdaptationSurface": true,
+    "includesTenantCiWorkflow": true
+  },
+  "authEvidence": null,
+  "screenshots": {
+    "githubListing": "docs/e2e-snapshots/repo-evidence/acme-corp--event-attendance-acme-onsite-check-in-github-listing.png",
+    "repoHomepage": "docs/e2e-snapshots/repo-evidence/acme-corp--event-attendance-acme-onsite-check-in-repo-homepage.png",
+    "actionsSuccess": "docs/e2e-snapshots/repo-evidence/acme-corp--event-attendance-acme-onsite-check-in-actions-success.png"
+  },
+  "note": "Evidence is rendered from authenticated live GitHub CLI/API data and local registry API data; no secrets are printed or stored.",
+  "freedomDefaultValues": {
+    "cancellationWindowHours": 6,
+    "feedbackWindowHours": 12
+  }
+}

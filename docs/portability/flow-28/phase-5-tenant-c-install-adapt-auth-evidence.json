@@ -1,0 +1,333 @@
+{
+    "flowId":  "FLOW-28",
+    "flowSlug":  "blog-cms-modules",
+    "phase":  "phase-5-tenant-c-install-adapt-auth",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T20:36:26.1638907+00:00",
+    "tenant":  "tessera-collective",
+    "sourceTenant":  "northwind",
+    "sourceRepoFullName":  "lubochka/northwind--acme-blog-studio",
+    "fork":  {
+                 "forkId":  "fork-northwind-content-hub-tessera-collective",
+                 "repoFullName":  "lubochka/tessera-collective--northwind-content-hub",
+                 "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-content-hub",
+                 "initialCommitSha":  "cf2b54881748d9977e7ce1efb2112c7df65c6132",
+                 "method":  "POST",
+                 "url":  "http://localhost:3000/api/marketplace/packages/northwind-content-hub/fork",
+                 "repoNameOverride":  "tessera-collective--northwind-content-hub",
+                 "usedMarketplaceApi":  true,
+                 "manualRepoCreation":  false,
+                 "syntheticRepo":  false
+             },
+    "initialForkCi":  {
+                          "runId":  25638721082,
+                          "status":  "completed",
+                          "conclusion":  "failure",
+                          "headSha":  "cf2b54881748d9977e7ce1efb2112c7df65c6132",
+                          "createdAt":  "2026-05-10T20:16:40Z",
+                          "updatedAt":  "2026-05-10T20:17:20Z",
+                          "url":  "https://github.com/lubochka/tessera-collective--northwind-content-hub/actions/runs/25638721082",
+                          "failureCause":  "Inherited Acme adaptation test expected cascade source flowSlug acme-blog-studio after the fork engine correctly rewrote tenant.config.json flowSlug to northwind-content-hub for the Tenant B source package.",
+                          "repair":  "Updated inherited Acme and Northwind tests to validate preserved cascade history and origin/source slugs separately, then added the Tessera adaptation test."
+                      },
+    "adaptation":  {
+                       "changeType":  "Type A (bounded FREEDOM key value change)",
+                       "moduleName":  "tessera-editorial-suite",
+                       "packageName":  "@xiigen-fork/tessera-editorial-suite",
+                       "packageVersion":  "1.0.3",
+                       "sourcePackageName":  "@xiigen-fork/northwind-content-hub",
+                       "sourcePackageVersion":  "1.0.2",
+                       "plainLanguagePolicy":  "Tessera editorial suite policy: collaborative publishing with higher moderation confidence, three AI enhancement attempts, studio queue naming, and balanced cache/search batch settings.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow28_max_content_per_author",
+                                                  "from":  500,
+                                                  "to":  220
+                                              },
+                                              {
+                                                  "key":  "flow28_autosave_interval_seconds",
+                                                  "from":  10,
+                                                  "to":  15
+                                              },
+                                              {
+                                                  "key":  "flow28_min_publish_quality_score",
+                                                  "from":  0.84,
+                                                  "to":  0.88
+                                              },
+                                              {
+                                                  "key":  "flow28_page_cache_ttl_seconds",
+                                                  "from":  600,
+                                                  "to":  240
+                                              },
+                                              {
+                                                  "key":  "flow28_cache_invalidation_batch_size",
+                                                  "from":  300,
+                                                  "to":  120
+                                              },
+                                              {
+                                                  "key":  "flow28_spam_probability_threshold",
+                                                  "from":  0.82,
+                                                  "to":  0.75
+                                              },
+                                              {
+                                                  "key":  "flow28_moderation_auto_approve_threshold",
+                                                  "from":  0.9,
+                                                  "to":  0.97
+                                              },
+                                              {
+                                                  "key":  "flow28_taxonomy_propagation_batch_size",
+                                                  "from":  750,
+                                                  "to":  400
+                                              },
+                                              {
+                                                  "key":  "flow28_ai_enhancement_retry_count",
+                                                  "from":  2,
+                                                  "to":  3
+                                              },
+                                              {
+                                                  "key":  "flow28_sitemap_rebuild_debounce_ms",
+                                                  "from":  30000,
+                                                  "to":  20000
+                                              },
+                                              {
+                                                  "key":  "flow28_review_queue_label",
+                                                  "from":  "Northwind operations content review",
+                                                  "to":  "Tessera editorial studio"
+                                              },
+                                              {
+                                                  "key":  "flow28_module_name",
+                                                  "from":  "northwind-content-hub",
+                                                  "to":  "tessera-editorial-suite"
+                                              }
+                                          ],
+                       "adaptationHistoryEntries":  3,
+                       "adaptationHistory":  [
+                                                 {
+                                                     "adaptedBy":  "acme-corp",
+                                                     "version":  "1.0.1",
+                                                     "moduleName":  "acme-blog-studio",
+                                                     "packageName":  "@xiigen-fork/acme-blog-studio"
+                                                 },
+                                                 {
+                                                     "adaptedBy":  "northwind",
+                                                     "version":  "1.0.2",
+                                                     "moduleName":  "northwind-content-hub",
+                                                     "packageName":  "@xiigen-fork/northwind-content-hub"
+                                                 },
+                                                 {
+                                                     "adaptedBy":  "tessera-collective",
+                                                     "version":  "1.0.3",
+                                                     "moduleName":  "tessera-editorial-suite",
+                                                     "packageName":  "@xiigen-fork/tessera-editorial-suite"
+                                                 }
+                                             ]
+                   },
+    "tenantRepository":  {
+                             "repoFullName":  "lubochka/tessera-collective--northwind-content-hub",
+                             "repoUrl":  "https://github.com/lubochka/tessera-collective--northwind-content-hub",
+                             "adaptedCommitSha":  "b2f0385d79e63d7612a3b16639d18002f323361a",
+                             "defaultBranch":  "main",
+                             "clonePath":  "C:/Projects/xiigen-fork-clones/tessera-collective--northwind-content-hub-phase5-20260510-231828",
+                             "workingTreeClean":  true,
+                             "visibilityAfterEvidenceCapture":  "PRIVATE",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/blog-cms-modules-acme-adaptation.spec.ts",
+                                                              "__tests__/blog-cms-modules-northwind-adaptation.spec.ts",
+                                                              "__tests__/blog-cms-modules-tessera-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ]
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI - blog-cms-modules",
+                          "runId":  25638858792,
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "b2f0385d79e63d7612a3b16639d18002f323361a",
+                          "createdAt":  "2026-05-10T20:23:03Z",
+                          "updatedAt":  "2026-05-10T20:23:47Z",
+                          "url":  "https://github.com/lubochka/tessera-collective--northwind-content-hub/actions/runs/25638858792"
+                      },
+    "tenantCloneVerification":  {
+                                    "commands":  [
+                                                     "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                                     "npx tsc --noEmit --pretty false",
+                                                     "npx jest --colors=false --forceExit",
+                                                     "npm pack --dry-run --json"
+                                                 ],
+                                    "results":  {
+                                                    "installExit":  0,
+                                                    "tscExit":  0,
+                                                    "jestExit":  0,
+                                                    "jestSuitesPassed":  4,
+                                                    "jestSuitesTotal":  4,
+                                                    "jestTestsPassed":  8,
+                                                    "jestTestsTotal":  8,
+                                                    "packDryRunExit":  0,
+                                                    "packEntryCount":  130
+                                                }
+                                },
+    "localRegistry":  {
+                          "registry":  "http://localhost:4873",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/tessera-editorial-suite",
+                          "publishedVersion":  "1.0.3",
+                          "viewCommand":  "npm view @xiigen-fork/tessera-editorial-suite version --registry http://localhost:4873",
+                          "viewReturned":  "1.0.3",
+                          "verified":  true
+                      },
+    "screenshots":  {
+                        "directory":  "docs/e2e-snapshots/repo-evidence/flow-28",
+                        "files":  [
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-28\\phase-5-tenant-c-v1.0.3-actions-success.png",
+                                          "bytes":  79149
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-28\\phase-5-tenant-c-v1.0.3-github-listing.png",
+                                          "bytes":  135169
+                                      },
+                                      {
+                                          "path":  "docs\\e2e-snapshots\\repo-evidence\\flow-28\\phase-5-tenant-c-v1.0.3-package-json.png",
+                                          "bytes":  122014
+                                      }
+                                  ],
+                        "pngCount":  3,
+                        "zeroByteCount":  0,
+                        "realGitHubPages":  true,
+                        "repoTemporarilyPublicForScreenshots":  true,
+                        "repoRestoredPrivate":  true
+                    },
+    "liveAuthMatrix":  {
+                           "generatedAt":  "2026-05-10T20:32:16.7658060+00:00",
+                           "serverBaseUrl":  "http://localhost:3000",
+                           "path":  "/api/runs/phase5-tenant-c-adaptation-auth-probe/trace",
+                           "passed":  12,
+                           "total":  12,
+                           "failed":  0,
+                           "allPassed":  true,
+                           "checks":  [
+                                          {
+                                              "name":  "valid acme-corp tenant-admin token in own tenant",
+                                              "expected":  200,
+                                              "actual":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "valid northwind tenant-admin token in own tenant",
+                                              "expected":  200,
+                                              "actual":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "valid tessera-collective tenant-admin token in own tenant",
+                                              "expected":  200,
+                                              "actual":  200,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "missing token in acme-corp context",
+                                              "expected":  401,
+                                              "actual":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "missing token in northwind context",
+                                              "expected":  401,
+                                              "actual":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "missing token in tessera-collective context",
+                                              "expected":  401,
+                                              "actual":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "wrong-role platform-support token in acme-corp context",
+                                              "expected":  403,
+                                              "actual":  403,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "wrong-role platform-support token in northwind context",
+                                              "expected":  403,
+                                              "actual":  403,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "wrong-role platform-support token in tessera-collective context",
+                                              "expected":  403,
+                                              "actual":  403,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "acme token in northwind context",
+                                              "expected":  401,
+                                              "actual":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "northwind token in tessera context",
+                                              "expected":  401,
+                                              "actual":  401,
+                                              "passed":  true
+                                          },
+                                          {
+                                              "name":  "acme token in tessera context",
+                                              "expected":  401,
+                                              "actual":  401,
+                                              "passed":  true
+                                          }
+                                      ]
+                       },
+    "phaseCloseVerification":  {
+                                   "serverTypeScript":  {
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "serverJest":  {
+                                                      "result":  "passed",
+                                                      "suites":  5,
+                                                      "tests":  124
+                                                  },
+                                   "clientTypeScript":  {
+                                                            "result":  "passed",
+                                                            "exitCode":  0
+                                                        },
+                                   "flowScans":  {
+                                                     "sourceFlowFileCount":  18,
+                                                     "adaptedFlowFileCount":  18,
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0,
+                                                     "failureLines":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tenantCredentialsVaultBacked":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "signingKeysPrinted":  false,
+                           "repoVisibilityRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCInstalledFromTenantB":  true,
+                      "tenantCAdaptedFlow":  true,
+                      "tenantCCommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "liveAuthMatrixPassed":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForAuthDecoration":  true
+                  },
+    "verdict":  "PASS"
+}

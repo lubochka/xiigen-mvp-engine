@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.ref-stored.v1",
+  "description": "Terminal event emitted by T668 TenantTranslationWriter after both the CAS blob (IPackageContentStoreService.store) and the lookup ref (F1523.storeRef) have been written. Ref docId follows the deterministic shape `${tenantId}::${moduleId}::${locale}` and is subject to CF-810 (tenantId = ALS at write time).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenantId", "eventId", "emittedAt", "moduleId", "locale", "refDocId", "contentHash"],
+  "properties": {
+    "tenantId":  { "type": "string", "description": "Tenant that now owns the stored ref (ALS at write time — CF-810)." },
+    "eventId":   { "type": "string" },
+    "emittedAt": { "type": "string", "format": "date-time" },
+    "moduleId":  { "type": "string", "description": "Module slug the ref points at." },
+    "locale":    { "type": "string", "description": "BCP-47 locale of the stored translation." },
+    "refDocId": {
+      "type": "string",
+      "description": "Deterministic xiigen-translation-refs document id — literal `${tenantId}::${moduleId}::${locale}`."
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 (64 lowercase hex) of the stored translation blob — retrieval key for IPackageContentStoreService."
+    }
+  }
+}

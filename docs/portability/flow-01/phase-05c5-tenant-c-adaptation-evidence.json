@@ -1,0 +1,82 @@
+{
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "phase": "Tenant C adapts and publishes",
+  "recordedAt": "2026-04-30T19:25:14.3399147+03:00",
+  "tenantId": "tessera-collective",
+  "repoRenamed": true,
+  "repoName": "tessera-collective--user-registration-tessera-welcome-circle",
+  "repoUrl": "https://github.com/lubochka/tessera-collective--user-registration-tessera-welcome-circle",
+  "repoFullName": "lubochka/tessera-collective--user-registration-tessera-welcome-circle",
+  "sourceRepoFullName": "lubochka/northwind--user-registration-northwind-guild",
+  "forkAdaptationCommit": "a7bf3e0f0467a0e45e6c80393009fc97f2cbcb41",
+  "repoEvidenceType": "GitHub API JSON evidence approved by Luba for private repo data",
+  "githubListingEvidencePath": "docs/e2e-snapshots/repo-evidence/tessera-collective--user-registration-tessera-welcome-circle-github-listing-api-evidence.json",
+  "repoHomepageEvidencePath": "docs/e2e-snapshots/repo-evidence/tessera-collective--user-registration-tessera-welcome-circle-repo-homepage-api-evidence.json",
+  "githubActionsEvidencePath": "docs/e2e-snapshots/repo-evidence/tessera-collective--user-registration-tessera-welcome-circle-actions-api-evidence.json",
+  "ciRunPassed": true,
+  "workflowConclusion": "success",
+  "workflowRunUrl": "https://github.com/lubochka/tessera-collective--user-registration-tessera-welcome-circle/actions/runs/25176422695",
+  "workflowHeadSha": "a7bf3e0f0467a0e45e6c80393009fc97f2cbcb41",
+  "localRegistry": {
+    "packageName": "@xiigen-fork/user-registration-tessera-welcome-circle",
+    "latest": "1.0.3",
+    "publishedVersion": "1.0.3",
+    "registryEvidencePath": "docs/e2e-snapshots/marketplace/user-registration-v1.0.3-registry-api-evidence.json"
+  },
+  "adaptation": {
+    "originModuleName": "user-registration-northwind-guild",
+    "proposedModuleName": "user-registration-tessera-welcome-circle",
+    "freedomKeyChanged": "flow01_onboarding_reminder_days",
+    "previousValue": 3,
+    "newValue": 1,
+    "tenantAInvitationInviterNamePreserved": "The Acme Pro Team",
+    "tenantAInvitationCommunityNamePreserved": "Acme Pro Members",
+    "tenantBResendRateLimitPreserved": 5,
+    "adaptationHistoryEntries": 3
+  },
+  "forkLocalChecks": {
+    "clonePath": "C:\\Projects\\xiigen mvp\\tmp\\phase-05c5-tenant-c-repo",
+    "npmInstall": "passed: npm install --no-audit --no-fund --no-package-lock",
+    "typeScript": "passed: npm run tsc",
+    "jest": "passed: npm test; 2 suites, 3 tests"
+  },
+  "monorepoChecks": {
+    "clientTypeScript": "passed: npx tsc --noEmit from client package",
+    "crossTenantJwtJest": "passed: npx jest --testPathPatterns=auth/cross-tenant-jwt.spec.ts --runInBand --forceExit; 12 tests",
+    "tenantInstallJest": "passed: npx jest --testPathPatterns=user-registration/phase-01-third-tenant-install.spec.ts --runInBand --forceExit; 7 tests"
+  },
+  "visualEvidence": {
+    "directory": "docs/e2e-snapshots/user-registration/tenant-c-v1.0.0",
+    "pngCount": 288,
+    "expectedPngCount": 288,
+    "zeroBytePngs": 0,
+    "rolesCovered": 8,
+    "pagesCovered": 6,
+    "cellsPerPageRole": 6,
+    "allThreeAdaptationsAsserted": true,
+    "playwrightCommand": "XIIGEN_VISUAL_TARGET=tenant-c-v1.0.0 VITE_PORT=52945 npx playwright test e2e/flow-01-visual.spec.ts --project=chromium-desktop --workers=8 --reporter=line; 288 passed"
+  },
+  "cascadeEvidence": {
+    "tenantASourcePngs": 288,
+    "tenantAAdaptedPngsOnDisk": 360,
+    "tenantBInstalledPngs": 288,
+    "tenantBAdaptedPngs": 288,
+    "tenantCInstalledPngs": 288,
+    "tenantCAdaptedPngs": 288,
+    "tenantRepoEvidencePairsPresent": true
+  },
+  "completionGate": {
+    "tenantCModuleNameDistinctFromAAndB": true,
+    "differentFreedomKeyChangeFromTenantAAndTenantB": true,
+    "tenantAValuesPreserved": true,
+    "tenantBValuePreserved": true,
+    "tenantCValueApplied": true,
+    "adaptationHistoryHasThreeEntries": true,
+    "repoRenamedToTenantCNewName": true,
+    "workflowConclusionIsSuccess": true,
+    "localRegistryLatestIsTenantCVersion": true,
+    "visualEvidenceExists": true,
+    "authRegressionPassed": true
+  }
+}

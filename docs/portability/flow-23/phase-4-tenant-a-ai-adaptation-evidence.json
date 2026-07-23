@@ -1,0 +1,231 @@
+﻿{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phase4AiAdaptation",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T09:31:42.4808897Z",
+    "branch":  "Skills_Creation_Claude",
+    "tenant":  {
+                   "tenantId":  "acme-corp",
+                   "tenantName":  "Acme Corp"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "FREEDOM key value change plus tenant package metadata",
+                       "packageName":  "@xiigen-fork/acme-intake-template-studio",
+                       "packageVersion":  "1.0.1",
+                       "moduleName":  "acme-intake-template-studio",
+                       "displayName":  "Acme Intake Template Studio",
+                       "sourceModuleName":  "form-builder-templates",
+                       "sourcePackageVersion":  "1.0.0-fork",
+                       "visiblePlainLanguage":  "Acme intake-template defaults: stricter required-field validation, lower field ceiling, faster publication and instantiation timeouts, tighter unresolved-variable tolerance, faster popularity recalculation, lower analytics sample threshold, higher recency weighting, stronger export quality threshold, and fewer webhook retries while validation order, immutability, OCC, idempotency, audit ordering, PII exclusion, permission source, and tenant isolation remain unchanged.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow23_template_max_fields",
+                                                  "from":  null,
+                                                  "to":  35
+                                              },
+                                              {
+                                                  "key":  "flow23_template_schema_version",
+                                                  "from":  null,
+                                                  "to":  "draft-2020-12"
+                                              },
+                                              {
+                                                  "key":  "flow23_required_field_min_count",
+                                                  "from":  null,
+                                                  "to":  2
+                                              },
+                                              {
+                                                  "key":  "flow23_evolution_check_enabled",
+                                                  "from":  null,
+                                                  "to":  true
+                                              },
+                                              {
+                                                  "key":  "flow23_publication_timeout_ms",
+                                                  "from":  null,
+                                                  "to":  20000
+                                              },
+                                              {
+                                                  "key":  "flow23_instantiation_timeout_ms",
+                                                  "from":  null,
+                                                  "to":  25000
+                                              },
+                                              {
+                                                  "key":  "flow23_max_unresolved_variables",
+                                                  "from":  null,
+                                                  "to":  0
+                                              },
+                                              {
+                                                  "key":  "flow23_popularity_recompute_interval_hours",
+                                                  "from":  null,
+                                                  "to":  12
+                                              },
+                                              {
+                                                  "key":  "flow23_min_instantiations_for_analytics",
+                                                  "from":  null,
+                                                  "to":  2
+                                              },
+                                              {
+                                                  "key":  "flow23_age_weighting_factor",
+                                                  "from":  null,
+                                                  "to":  1.5
+                                              },
+                                              {
+                                                  "key":  "flow23_export_quality_threshold",
+                                                  "from":  null,
+                                                  "to":  0.85
+                                              },
+                                              {
+                                                  "key":  "flow23_webhook_retry_limit",
+                                                  "from":  null,
+                                                  "to":  2
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "Template schema validation remains mandatory before publication.",
+                                                   "Published template versions remain immutable.",
+                                                   "Optimistic concurrency still protects draft-to-published transitions.",
+                                                   "Template instantiation keeps its idempotency lock before variable binding.",
+                                                   "Usage analytics remain append-only and exclude user form input values.",
+                                                   "Layout solving and data-slot binding remain pure/validated computations.",
+                                                   "Role decisions still read from the verified auth context only."
+                                               ],
+                       "adaptedFiles":  [
+                                            "ADAPTATION-CHANGELOG.md",
+                                            "BUNDLE-MANIFEST.json",
+                                            "__tests__/form-builder-templates-acme-adaptation.spec.ts",
+                                            "freedom-config.defaults.json",
+                                            "package.json",
+                                            "settings/module.settings.json",
+                                            "tenant.config.json"
+                                        ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/acme-corp--acme-intake-template-studio",
+                             "url":  "https://github.com/lubochka/acme-corp--acme-intake-template-studio",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "originalForkRepo":  "lubochka/acme-corp--form-builder-templates",
+                             "renamedFromOriginalForkRepo":  true,
+                             "originalForkCommit":  "8867148cb52f6d4c498182ddf4aab2f1df2cf596",
+                             "adaptedCommit":  "97a041ba34b2f9dad43aeec5aea19eecc94b6cee",
+                             "adaptedCommitMessage":  "Adapt form builder templates for Acme intake studio",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--form-builder-templates-phase40-20260510-121758",
+                             "cleanCloneStatus":  "clean against adapted/main",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/form-builder-templates-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  4
+                                                             },
+                                                             {
+                                                                 "command":  "npm pack --dry-run --json",
+                                                                 "result":  "passed",
+                                                                 "entryCount":  130,
+                                                                 "shasum":  "0ec8138aa517c20720948b2871051c9d01b53b9e"
+                                                             }
+                                                         ],
+                             "adaptationHistoryEntries":  1,
+                             "bundleManifestItemCount":  129
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI — form-builder-templates",
+                          "runId":  25625176972,
+                          "url":  "https://github.com/lubochka/acme-corp--acme-intake-template-studio/actions/runs/25625176972",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "97a041ba34b2f9dad43aeec5aea19eecc94b6cee",
+                          "createdAt":  "2026-05-10T09:26:49Z",
+                          "updatedAt":  "2026-05-10T09:27:38Z"
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "ping":  "passed",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public --loglevel=notice",
+                          "publishedPackage":  "@xiigen-fork/acme-intake-template-studio",
+                          "publishedVersion":  "1.0.1",
+                          "viewCommand":  "npm view @xiigen-fork/acme-intake-template-studio version dist-tags dist.tarball dist.shasum gitHead --registry http://localhost:4873 --json",
+                          "npmViewVersion":  "1.0.1",
+                          "distTags":  {
+                                           "latest":  "1.0.1"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/acme-intake-template-studio/-/acme-intake-template-studio-1.0.1.tgz",
+                          "shasum":  "0ec8138aa517c20720948b2871051c9d01b53b9e",
+                          "gitHead":  "97a041ba34b2f9dad43aeec5aea19eecc94b6cee",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/form-builder-templates-acme-v1.0.1-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "screenshots":  [
+                                               {
+                                                   "path":  "docs/e2e-snapshots/marketplace/form-builder-templates-acme-v1.0.1-registry-listing.png",
+                                                   "sizeBytes":  47993
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-23/acme-corp--acme-intake-template-studio-tenant-a-v1.0.1-github-listing.png",
+                                                   "sizeBytes":  134856
+                                               },
+                                               {
+                                                   "path":  "docs/e2e-snapshots/repo-evidence/flow-23/acme-corp--acme-intake-template-studio-tenant-a-v1.0.1-actions-success.png",
+                                                   "sizeBytes":  78641
+                                               }
+                                           ],
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "tenantValidation":  {
+                                                            "typescript":  "passed",
+                                                            "jest":  "passed: 2 suites, 4 tests",
+                                                            "packDryRun":  "passed"
+                                                        },
+                                   "flowScans":  {
+                                                     "throwNew":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "clsImports":  0,
+                                                     "directTenantContextImports":  0,
+                                                     "tenantContextResolverReferences":  0,
+                                                     "passed":  true
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tenantSecretsStoredInVault":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true,
+                           "registryTokenPrinted":  false
+                       },
+    "phaseGate":  {
+                      "tenantAAdaptedFlow":  true,
+                      "tenantACommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "registryScreenshotPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBInstall":  true
+                  },
+    "verdict":  "PASS"
+}

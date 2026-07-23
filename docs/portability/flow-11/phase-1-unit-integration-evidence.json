@@ -1,0 +1,36 @@
+﻿{
+    "flowId":  "FLOW-11",
+    "flowSlug":  "schema-registry-dag",
+    "phase":  "phase-1-unit-integration-tests",
+    "generatedAt":  "2026-05-05T23:58:05.4775662+03:00",
+    "status":  "passed",
+    "verification":  {
+                         "serverTypecheck":  {
+                                                 "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                 "exitCode":  0,
+                                                 "result":  "passed"
+                                             },
+                         "serverJest":  {
+                                            "command":  "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location",
+                                            "exitCode":  0,
+                                            "result":  "12 test suites passed; 105 tests passed"
+                                        }
+                     },
+    "phaseCloseScan":  {
+                           "flowFileCount":  20,
+                           "throwNew":  0,
+                           "clsImports":  0,
+                           "servicesMissingMicroserviceBase":  0,
+                           "flowScopedAnnotations":  14,
+                           "flowIdAnnotations":  41,
+                           "unscopedFreedomReads":  0,
+                           "localConfigClones":  0,
+                           "directSdkImports":  0,
+                           "anyTypes":  0
+                       },
+    "notes":  [
+                  "Phase 1 was rerun after phase 0 tenant-scope fixes and after the phase 0 commit was pushed.",
+                  "No token material or tenant secrets are included in this evidence.",
+                  "Pre-commit gate intentionally skipped per Luba instruction in current conversation."
+              ]
+}

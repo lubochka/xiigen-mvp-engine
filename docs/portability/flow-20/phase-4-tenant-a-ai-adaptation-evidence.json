@@ -1,0 +1,230 @@
+{
+  "flowId": "FLOW-20",
+  "flowSlug": "ads-platform",
+  "phase": "phase4AiAdaptation",
+  "status": "completed",
+  "generatedAt": "2026-05-07T08:34:57.0168855+03:00",
+  "branch": "Skills_Creation_Claude",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "tenantName": "Acme Corp"
+  },
+  "adaptation": {
+    "type": "TYPE-A",
+    "changeType": "FREEDOM key value change plus tenant package metadata",
+    "packageName": "@xiigen-fork/acme-strict-privacy-ads-platform",
+    "packageVersion": "1.0.1",
+    "moduleName": "acme-strict-privacy-ads-platform",
+    "displayName": "Acme Strict Privacy Ads Platform",
+    "sourceModuleName": "ads-platform",
+    "sourcePackageVersion": "1.0.0-fork",
+    "visiblePlainLanguage": "Acme strict privacy ads policy: faster consent failure, longer auction lock tolerance, stricter fraud and political review thresholds, longer fraud audit retention, and faster human review SLA while consent-first delivery, Redis bid atomicity, budget restoration, PCI zero-PAN evidence, dual-model political review, and tenant isolation remain unchanged.",
+    "freedomChanges": [
+      {
+        "key": "flow20_consent_check_timeout_ms",
+        "from": 500,
+        "to": 300
+      },
+      {
+        "key": "flow20_auction_bid_lock_ttl_ms",
+        "from": 10000,
+        "to": 15000
+      },
+      {
+        "key": "flow20_auction_response_timeout_ms",
+        "from": 100,
+        "to": 150
+      },
+      {
+        "key": "flow20_fraud_score_threshold",
+        "from": 0.82,
+        "to": 0.7
+      },
+      {
+        "key": "flow20_fraud_audit_retention_days",
+        "from": 365,
+        "to": 730
+      },
+      {
+        "key": "flow20_political_score_threshold",
+        "from": 0.65,
+        "to": 0.55
+      },
+      {
+        "key": "flow20_political_divergence_threshold",
+        "from": 0.2,
+        "to": 0.12
+      },
+      {
+        "key": "flow20_political_human_review_sla_hours",
+        "from": 24,
+        "to": 12
+      }
+    ],
+    "invariantsPreserved": [
+      "Consent check still runs before auction processing.",
+      "Missing, revoked, or expired consent still blocks ad delivery.",
+      "Auction duplicate prevention still uses SETNX before bid processing.",
+      "Advertiser budget deduction and restoration remain atomic.",
+      "Fraud evaluation still runs before billing and restores budget on rejection.",
+      "Payment evidence remains tokenized; raw card number and CVV are not stored.",
+      "Political review still uses two independent scores and Math.min convergence.",
+      "Divergent political scores still require human review.",
+      "State events still store evidence before queue dispatch.",
+      "TenantContextResolver remains the tenant-context dependency in FLOW-20 services."
+    ],
+    "adaptedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/ads-platform-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ]
+  },
+  "tenantRepository": {
+    "repo": "lubochka/acme-corp--acme-strict-privacy-ads-platform",
+    "url": "https://github.com/lubochka/acme-corp--acme-strict-privacy-ads-platform",
+    "defaultBranch": "main",
+    "visibilityAfterEvidence": "PRIVATE",
+    "privateAfterEvidenceCapture": true,
+    "originalForkRepo": "lubochka/acme-corp--ads-platform",
+    "originalForkCommit": "f6217a03073e5831059039864cc6615355088d3e",
+    "adaptedCommit": "3b7f57f4eda87f1dff2b5d449911d9f19ad12bb8",
+    "adaptedCommitMessage": "Adapt ads platform for Acme",
+    "cleanClonePath": "C:\\Projects\\xiigen-fork-clones\\acme-corp--ads-platform-phase40-20260507-080117",
+    "cleanCloneStatus": "clean against adapted/main",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/ads-platform-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "tenantCloneVerification": [
+      {
+        "command": "npm install --package-lock-only --no-audit --no-fund",
+        "result": "passed"
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "result": "passed"
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "result": "passed",
+        "suites": 2,
+        "tests": 4
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "result": "passed",
+        "entryCount": 115,
+        "shasum": "90dea3e3ce501f1237d3bfcf132737e65deb55b1"
+      }
+    ],
+    "adaptationHistoryEntries": 1,
+    "bundleManifestItemCount": 114,
+    "pushRepair": "The first push from the depth-1 source clone was rejected by GitHub unpack because the base history was shallow. The clone was unshallowed from origin and the same adapted commit pushed successfully."
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - ads-platform",
+    "runId": 25477702955,
+    "jobId": 74754698685,
+    "url": "https://github.com/lubochka/acme-corp--acme-strict-privacy-ads-platform/actions/runs/25477702955",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "3b7f57f4eda87f1dff2b5d449911d9f19ad12bb8",
+    "createdAt": "2026-05-07T05:27:19Z",
+    "updatedAt": "2026-05-07T05:27:57Z",
+    "successfulSteps": [
+      "Set up job",
+      "Run actions/checkout@v4.2.2",
+      "Run actions/setup-node@v4.4.0",
+      "Install",
+      "TypeScript check",
+      "Test",
+      "Provenance",
+      "Post Run actions/setup-node@v4.4.0",
+      "Post Run actions/checkout@v4.2.2",
+      "Complete job"
+    ]
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "ping": "passed",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/acme-strict-privacy-ads-platform",
+    "publishedVersion": "1.0.1",
+    "viewCommand": "npm view @xiigen-fork/acme-strict-privacy-ads-platform version --registry http://localhost:4873",
+    "npmViewVersion": "1.0.1",
+    "distTags": {
+      "latest": "1.0.1"
+    },
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-strict-privacy-ads-platform/-/acme-strict-privacy-ads-platform-1.0.1.tgz",
+    "shasum": "90dea3e3ce501f1237d3bfcf132737e65deb55b1",
+    "gitHead": "3b7f57f4eda87f1dff2b5d449911d9f19ad12bb8",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/ads-platform-acme-v1.0.1-registry-api-evidence.json",
+    "verified": true
+  },
+  "visualEvidence": {
+    "screenshots": [
+      {
+        "kind": "registry-listing",
+        "path": "docs/e2e-snapshots/marketplace/ads-platform-acme-v1.0.1-registry-listing.png",
+        "sizeBytes": 49130
+      },
+      {
+        "kind": "repo-homepage",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-20/acme-corp--acme-strict-privacy-ads-platform-tenant-a-v1.0.1-github-listing.png",
+        "sizeBytes": 131313
+      },
+      {
+        "kind": "actions-success",
+        "path": "docs/e2e-snapshots/repo-evidence/flow-20/acme-corp--acme-strict-privacy-ads-platform-tenant-a-v1.0.1-actions-success.png",
+        "sizeBytes": 75701
+      }
+    ],
+    "repoVisibilityRestored": true
+  },
+  "phaseCloseVerification": {
+    "tenantValidation": {
+      "typescript": "passed",
+      "jest": "passed: 2 suites, 4 tests",
+      "packDryRun": "passed"
+    },
+    "flowScans": {
+      "throwNew": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "clsImports": 0,
+      "directTenantContextImports": 0,
+      "tenantContextResolverReferences": 8,
+      "passed": true
+    }
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tenantSecretsStoredInVault": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "envFilesCommitted": false,
+    "repoScreenshotVisibilityWindowRestoredToPrivate": true,
+    "registryTokenPrinted": false
+  },
+  "phaseGate": {
+    "tenantAAdaptedFlow": true,
+    "tenantACommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "registryScreenshotPresent": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBInstall": true
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,53 @@
+{
+  "flowId": "FLOW-05",
+  "flowSlug": "completion-gamification",
+  "phase": "4.5-tenant-a-repo-rename",
+  "completedAt": "2026-05-03T10:55:57.6349572+03:00",
+  "tenant": "acme-corp",
+  "repoRename": {
+    "from": "lubochka/acme-corp--completion-gamification",
+    "to": "lubochka/acme-corp--acme-learning-rewards",
+    "confirmedViaGitHubApi": true,
+    "renamedRepoUrl": "https://github.com/lubochka/acme-corp--acme-learning-rewards"
+  },
+  "verificationCommit": {
+    "sha": "355faa50da5ccb0222a92aff68aabf9c0cc92c61",
+    "message": "Verify Tenant A adapted repo rename"
+  },
+  "githubActions": {
+    "runId": 25273632542,
+    "status": "completed",
+    "conclusion": "success",
+    "runUrl": "https://github.com/lubochka/acme-corp--acme-learning-rewards/actions/runs/25273632542"
+  },
+  "repoEvidence": {
+    "captureMode": "github-api-endpoint-png",
+    "screenshots": [
+      "docs/e2e-snapshots/repo-evidence/acme-corp--acme-learning-rewards-github-listing.png",
+      "docs/e2e-snapshots/repo-evidence/acme-corp--acme-learning-rewards-repo-homepage.png",
+      "docs/e2e-snapshots/repo-evidence/acme-corp--acme-learning-rewards-actions-success.png"
+    ]
+  },
+  "visualEvidence": {
+    "directory": "docs/e2e-snapshots/completion-gamification/tenant-a-v1.0.1",
+    "pngCount": 15,
+    "expectedPngCount": 15,
+    "rolesTimesCells": "5 roles x 3 cells"
+  },
+  "adaptationHistory": {
+    "tenantConfigPath": "tenant.config.json in lubochka/acme-corp--acme-learning-rewards",
+    "entries": 1,
+    "moduleName": "acme-learning-rewards",
+    "repoName": "acme-corp--acme-learning-rewards"
+  },
+  "reviewScans": {
+    "throwNewInFlowServices": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImportsInFlowServices": 0,
+    "tenantConsumerInternalCopyHits": 0
+  },
+  "notes": [
+    "The renamed repo remains private; evidence PNGs capture authenticated GitHub API endpoints without printing tokens.",
+    "A fresh empty commit was pushed after the rename so CI evidence belongs to the adapted repo name."
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "batch_id": "A",
+  "flows": [
+    {
+      "slug": "blog-cms-modules",
+      "role": "anonymous",
+      "grammar": "G5",
+      "verdict": "pass",
+      "weighted_score": 0,
+      "offences": [],
+      "notes": "Clean Kiosk blog reader; correctly no AppShell; good typography; Typeform/Medium-like reference parity."
+    },
+    {
+      "slug": "dynamic-forms-workflows",
+      "role": "tenant-user",
+      "grammar": "G7",
+      "verdict": "BLOCKER",
+      "weighted_score": 10,
+      "offences": [
+        {"severity":"BLOCKER","axis":"G","viewport":"all","description":"G7 Settings Tabs grammar not rendered — single form instead of tabbed settings layout"},
+        {"severity":"MAJOR","axis":"H","viewport":"all","description":"viewerRole camelCase + condition expression + [full-name,email,company-name] leak to tenant UI"},
+        {"severity":"MAJOR","axis":"UX-P9","viewport":"all","description":"No AppShell chrome for internal tenant-user role"},
+        {"severity":"MINOR","axis":"R","viewport":"all","description":"Does not resemble Notion/Linear settings reference"}
+      ],
+      "notes": "Grammar mismatch + raw condition DSL exposed to tenant users; no AppShell."
+    },
+    {
+      "slug": "freelancer-marketplace",
+      "role": "tenant-user",
+      "grammar": "G3",
+      "verdict": "MAJOR",
+      "weighted_score": 3,
+      "offences": [
+        {"severity":"MAJOR","axis":"G","viewport":"all","description":"Route is /gigs/post (create form), not G3 Card List browse layout"},
+        {"severity":"MAJOR","axis":"UX-P9","viewport":"all","description":"No AppShell chrome for internal tenant-user role on marketplace flow"}
+      ],
+      "notes": "Functional post-gig form; lacks AppShell; route tests form not Upwork-style card list browse."
+    },
+    {
+      "slug": "human-interaction-gate",
+      "role": "platform-admin",
+      "grammar": "G2",
+      "verdict": "MAJOR",
+      "weighted_score": 4,
+      "offences": [
+        {"severity":"MAJOR","axis":"S","viewport":"mobile","description":"Dev error banner 'Missing provider keys: openai, gemini' leaks to admin UI"},
+        {"severity":"MINOR","axis":"H","viewport":"all","description":"FLOW-17/19/24/16/41 prefix leaks in queue item subtitles"},
+        {"severity":"MINOR","axis":"H","viewport":"all","description":"HIG-2026-0420-0217 opaque ID shown without label context"}
+      ],
+      "notes": "Solid G2 verdict grid with AI suggest panel; good GitHub PR-review reference parity; provider-keys banner should be hidden in prod UI."
+    },
+    {
+      "slug": "marketplace-plugin-adapter",
+      "role": "platform-admin",
+      "grammar": "G4",
+      "verdict": "BLOCKER",
+      "weighted_score": 7,
+      "offences": [
+        {"severity":"BLOCKER","axis":"UX-P5","viewport":"tablet","description":"Canvas nodes severely clipped/truncated at tablet viewport — topology unreadable"},
+        {"severity":"MAJOR","axis":"UX-P5","viewport":"mobile","description":"Canvas reduced to narrow vertical strip with labels cut off ('translatir', 'translate')"},
+        {"severity":"MINOR","axis":"UX-P2","viewport":"desktop","description":"Zoom +/- controls lack aria-labels (icon-only buttons)"},
+        {"severity":"MINOR","axis":"H","viewport":"all","description":"Event name adapter.payload.translated dotted-id shown raw to admin"}
+      ],
+      "notes": "Good n8n-style canvas on desktop; responsive breaks badly on tablet/mobile — canvas not mobile-adapted."
+    }
+  ],
+  "batch_total_score": 24,
+  "systemic_patterns": [
+    "Internal tenant roles lack AppShell chrome (dynamic-forms-workflows, freelancer-marketplace)",
+    "Technical DSL/field-IDs leak to end-user UI (camelCase viewerRole, FLOW-NN prefixes, dotted event IDs)",
+    "Canvas/topology grammar (G4) does not adapt responsively below desktop viewport",
+    "Dev-infra error banners (provider keys) leak into admin production UI"
+  ]
+}

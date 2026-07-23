@@ -1,0 +1,24 @@
+{
+  "index": "xiigen-cycle-visibility",
+  "mappings": {
+    "properties": {
+      "id":          { "type": "keyword" },
+      "cycleType":   { "type": "keyword" },
+      "flowId":      { "type": "keyword" },
+      "tenantId":    { "type": "keyword" },
+      "runId":       { "type": "keyword" },
+      "sent":        { "type": "object", "dynamic": true },
+      "received":    { "type": "object", "dynamic": true },
+      "decided":     { "type": "object", "dynamic": true },
+      "changed":     { "type": "text" },
+      "createdAt":   { "type": "date" },
+      "trigger_cycle": { "type": "keyword" },
+      "bad_grade":     { "type": "float" },
+      "prior_grades":  { "type": "float" }
+    }
+  },
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  }
+}

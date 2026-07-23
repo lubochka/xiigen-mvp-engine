@@ -1,0 +1,43 @@
+{
+  "taskTypeId": "T212",
+  "flowId": "FLOW-12",
+  "name": "SubscriptionAnalyticsAggregator",
+  "archetype": "DATA_PIPELINE",
+  "domainId": "subscription-billing",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "additive-subtractive-mrr-dual-handler",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "subscription_billing_metrics_window_days",
+    "neutralConcepts": [
+      "Both SubscriptionActivated (add) AND SubscriptionCancelled (subtract) handlers required — additive-only = score-0. CF-12-3.",
+      "normalizeMrr() is MACHINE: MONTHLY=priceCents, ANNUAL=Math.floor(priceCents/12), CUSTOM=Math.floor(priceCents/intervalDays*30). CF-12-3.",
+      "SubscriptionMetricsUpdated output has NO subscriberId field — tenant-level aggregates only",
+      "IProrationService (F211) is SHARED — not re-registered in T212",
+      "storeDocument(mrrMetric) BEFORE enqueue(SubscriptionMetricsUpdated) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T212-1", "rule": "Both SubscriptionActivated AND SubscriptionCancelled handlers required — additive-only aggregation = score-0. CF-12-3.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T212-2", "rule": "normalizeMrr() is MACHINE: ANNUAL=Math.floor(priceCents/12), CUSTOM=Math.floor(priceCents/intervalDays*30). Not configurable. CF-12-3.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T212-3", "rule": "SubscriptionMetricsUpdated has NO subscriberId field — tenant-level aggregates only.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T212-4", "rule": "IProrationService (F211) is SHARED — not re-registered in this service.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T212-5", "rule": "storeDocument(mrrMetric) BEFORE enqueue(SubscriptionMetricsUpdated). DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "retracted_review_excluded_from_aggregate",
+    "financial_op_idempotency",
+    "pci_scope_isolation",
+    "store_before_enqueue",
+    "dual_event_handler",
+    "normalize_mrr_machine"
+  ],
+  "bfaRules": ["CF-12-3"],
+  "tags": ["data-pipeline", "mrr", "additive-subtractive", "dual-handler", "analytics", "DATA_PIPELINE"],
+  "keywords": "subscription analytics aggregator MRR additive subtractive dual handler SubscriptionCancelled normalizeMrr ANNUAL CUSTOM formula no subscriberId"
+}

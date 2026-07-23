@@ -1,0 +1,13 @@
+{
+  "_index": "xiigen-arbiters",
+  "_id": "FLOW-23-step1_tenant_isolation",
+  "checkId": "step1_tenant_isolation",
+  "flowId": "FLOW-23",
+  "bfaRule": "CF-447",
+  "severity": "BUILD_FAILURE",
+  "description": "T360 must be nodes[0] in all 6 DAG templates (70–75)",
+  "taskTypeId": "T360",
+  "templates": [70, 71, 72, 73, 74, 75],
+  "violationCode": "CF-447_BUILD_FAILURE",
+  "active": true
+}

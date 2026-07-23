@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T196",
+  "name": "schema-registry-dag-schema-version-reader",
+  "description": "T196 SchemaVersionReader — VALIDATION archetype. Reads versioned schema by schemaId+version. Returns pinned version. Never returns 'current' — always pinned.",
+  "archetype": "VALIDATION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: schemaId+version required params, always returns pinned version, never returns current/latest, read-only operation"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve VALIDATION arch pattern + schema-version-pin + read-only-query + pinned-version-read patterns for T196",
+      "params": {
+        "archetype": "VALIDATION",
+        "taskTypeRef": "T196",
+        "topK": 5,
+        "patternIds": [
+          "schema-version-pin-001",
+          "pinned-version-read-001",
+          "read-only-query-001",
+          "version-lookup-001",
+          "dynamic-controller-get-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T196 into: validate schemaId+version params → query DATABASE for exact version match → return SchemaVersionRecord with pinned version field → never resolve to latest"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-version-reader.service.ts — HTTP GET via DynamicController, requires both schemaId AND version query params. Queries DATABASE by exact schemaId+version key. NEVER accepts 'latest' or 'current' as version value — reject with VERSION_REQUIRED error. Returns pinned SchemaVersionRecord. Read-only — no mutations."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: schema_id_and_version_required, rejects_latest_current_version, returns_pinned_record, read_only_no_mutations, version_required_error_on_missing"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T196 iron rules: pinned version enforcement, rejection of current/latest, read-only compliance, correct param validation"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=exact-version-lookup+pinned-return+reject-latest, rejected=accepts-latest-string OR returns-current-schema OR missing-version-param-accepted. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "HTTP GET via DynamicController",
+  "primaryFabric": "DATABASE"
+}

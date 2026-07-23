@@ -1,0 +1,114 @@
+{
+  "flowId": "FLOW-25",
+  "flowSlug": "bfa-cross-flow-governance",
+  "implementationSlug": "bfa-conflict-arbitration",
+  "phase": "phase-4-tenant-a-ai-adaptation",
+  "status": "passed",
+  "checkedAt": "2026-05-10T16:15:52.6150767+03:00",
+  "tenant": "acme-corp",
+  "source": {
+    "originalPlatformPackage": "bfa-cross-flow-governance",
+    "originalForkRepo": "lubochka/acme-corp--bfa-cross-flow-governance",
+    "originalForkHead": "a2bd4eda1bdd8efdda62f2ed6a0677d4507b7a76",
+    "renamedAdaptedRepo": "lubochka/acme-corp--acme-policy-gate-console"
+  },
+  "adaptation": {
+    "packageName": "@xiigen-fork/acme-policy-gate-console",
+    "moduleName": "acme-policy-gate-console",
+    "displayName": "Acme Policy Gate Console",
+    "version": "1.0.1",
+    "head": "34ba775e9fdc8b872e4642b4b672d5220c422477",
+    "commitMessage": "Adapt FLOW-25 for Acme policy gate console",
+    "changedFiles": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/bfa-cross-flow-governance-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "freedomOverrides": {
+      "flow25_allowed_change_types": "SCHEMA_CHANGE,API_BREAK,FLOW_MODIFICATION,DEPENDENCY_UPDATE",
+      "flow25_duplicate_window_hours": 12,
+      "flow25_static_critical_override_enabled": true,
+      "flow25_ai_evidence_required_for_high": true,
+      "flow25_advisory_timeout_ms": 20000,
+      "flow25_max_blast_radius_depth": 6,
+      "flow25_impact_report_channels": "web,cli,chat",
+      "flow25_precedent_minimum_count": 4,
+      "flow25_force_proceed_rationale_min_chars": 80,
+      "flow25_arbitration_timeout_minutes": 30
+    }
+  },
+  "githubActions": {
+    "repo": "lubochka/acme-corp--acme-policy-gate-console",
+    "runId": 25629622393,
+    "workflow": "XIIGen Flow CI - bfa-cross-flow-governance",
+    "headSha": "34ba775e9fdc8b872e4642b4b672d5220c422477",
+    "conclusion": "success",
+    "createdAt": "2026-05-10T13:11:41Z",
+    "updatedAt": "2026-05-10T13:12:19Z"
+  },
+  "localValidation": {
+    "clonePath": "C:/Projects/xiigen-fork-clones/acme-corp--bfa-cross-flow-governance-phase40-20260510-160439",
+    "commands": [
+      {
+        "command": "npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=1 --fetch-timeout=60000 --loglevel=error",
+        "exitCode": 0
+      },
+      {
+        "command": "npx tsc --noEmit --pretty false",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "2 suites passed, 4 tests passed"
+      },
+      {
+        "command": "npm pack --dry-run --json",
+        "exitCode": 0,
+        "result": "123 files, shasum 44c6e6e1ded4b073128699aaccf48e2d4b9bbc64"
+      }
+    ]
+  },
+  "registry": {
+    "registry": "http://localhost:4873",
+    "package": "@xiigen-fork/acme-policy-gate-console",
+    "version": "1.0.1",
+    "distTagLatest": "1.0.1",
+    "gitHead": "34ba775e9fdc8b872e4642b4b672d5220c422477",
+    "tarball": "http://localhost:4873/@xiigen-fork/acme-policy-gate-console/-/acme-policy-gate-console-1.0.1.tgz",
+    "shasum": "44c6e6e1ded4b073128699aaccf48e2d4b9bbc64",
+    "apiEvidence": "docs/e2e-snapshots/marketplace/bfa-cross-flow-governance-acme-v1.0.1-registry-api-evidence.json",
+    "screenshot": "docs/e2e-snapshots/marketplace/bfa-cross-flow-governance-acme-v1.0.1-registry-listing.png"
+  },
+  "repoEvidence": {
+    "listingScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/acme-corp--acme-policy-gate-console-tenant-a-v1.0.1-github-listing.png",
+    "actionsScreenshot": "docs/e2e-snapshots/repo-evidence/flow-25/acme-corp--acme-policy-gate-console-tenant-a-v1.0.1-actions-success.png",
+    "repoRestoredPrivate": true
+  },
+  "closeScans": {
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "directTenantContextImports": 0,
+    "directSdkImports": 0,
+    "highRiskSecretPatternHits": 0
+  },
+  "secretHandling": {
+    "tokensPrinted": false,
+    "tokensCommitted": false,
+    "envFilesCommitted": false,
+    "highRiskSecretPatternHits": 0
+  },
+  "phaseGate": {
+    "tenantAAdapted": true,
+    "realGitHubRepo": true,
+    "greenGitHubActions": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "repoScreenshotsCaptured": true,
+    "phaseCloseScansPassed": true
+  }
+}

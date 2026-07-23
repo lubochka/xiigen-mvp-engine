@@ -1,0 +1,17 @@
+name: code-examination-skill
+sk_number: SK-423
+version: "1.0.0"
+load_order: 15
+priority: RECOMMENDED
+status: APPROVED
+description: |
+  Pre-change analysis discipline. Before modifying any AF station, fabric provider,
+  DNA guard, or skill block: read the code, understand what it does, map its
+  dependencies, and form a hypothesis. Prevents "fix by guess".
+triggers:
+  - "before modifying"
+  - "read the code first"
+  - "understand dependencies"
+  - "pre-change analysis"
+  - "code examination"
+phase_created: 6

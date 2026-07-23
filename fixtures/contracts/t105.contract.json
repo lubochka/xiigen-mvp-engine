@@ -1,0 +1,57 @@
+{
+  "taskTypeId": "T105",
+  "flowId": "FLOW-06",
+  "name": "TierContentSelector",
+  "archetype": "PROCESSING",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "query-layer-tier-filter",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow06_feed_cursor_size",
+    "neutralConcepts": [
+      "content_access_level IN accessLevels[] at query layer (BuildSearchFilter)",
+      "cursor ceiling = 50 — never unlimited retrieval",
+      "accessLevels[] from MembershipActivated payload — not re-computed",
+      "feed records stored PRIVATE (per-user feed)"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F201",
+      "interface": "IContentSelectorService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T105-1",
+      "rule": "content_access_level IN accessLevels[] must be passed to BuildSearchFilter — not post-filtered in application code.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T105-2",
+      "rule": "Cursor ceiling = 50 — never retrieve more than 50 documents per feed seed operation.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T105-3",
+      "rule": "accessLevels[] sourced from T100 MembershipActivated payload — T105 must not re-query subscriptions.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T105-4",
+      "rule": "Feed records stored with knowledgeScope=PRIVATE — per-user feed, not shared.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "config_over_hardcode",
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["content-selector", "tier-gated", "query-layer", "PROCESSING"],
+  "keywords": "tier content selector query layer filter content access level BuildSearchFilter cursor ceiling 50"
+}

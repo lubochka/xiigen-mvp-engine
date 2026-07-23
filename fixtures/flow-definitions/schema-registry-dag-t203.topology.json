@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T203",
+  "name": "schema-registry-dag-schema-migration-orchestrator",
+  "description": "T203 SchemaMigrationOrchestrator — ORCHESTRATION archetype. Orchestrates schema migration across dependent documents. DNA-8 at every step. Validates compatibility before migrating.",
+  "archetype": "ORCHESTRATION",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: compatibility check before migrate, DNA-8 at every migration step, dependent document enumeration, rollback on failure"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ORCHESTRATION arch pattern + migration-orchestration + compatibility-before-migrate + dna8-every-step + dependent-document-walk patterns for T203",
+      "params": {
+        "archetype": "ORCHESTRATION",
+        "taskTypeRef": "T203",
+        "topK": 5,
+        "patternIds": [
+          "migration-orchestration-001",
+          "compatibility-before-migrate-001",
+          "dna8-every-step-001",
+          "dependent-document-walk-001",
+          "rollback-on-failure-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T203 into: consume SchemaMigrationRequested → T193 compatibility check → enumerate dependent documents → for each: storeDocument(migrationAudit) → migrate document → storeDocument(migratedRecord) → emit SchemaMigrationCompleted or SchemaMigrationFailed"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-migration-orchestrator.service.ts — triggered by SchemaMigrationRequested event, calls T193 compatibility check FIRST (reject if incompatible), loads all dependent documents from DAG, migrates each with DNA-8 at every step (audit before update), emits SchemaMigrationCompleted on success or SchemaMigrationFailed with rollback context on error."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: compatibility_check_first, dna8_at_every_migration_step, all_dependents_migrated, migration_completed_or_failed_emitted, no_migrate_without_audit"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T203 iron rules: compatibility gate first, DNA-8 at every step, complete dependent coverage, failure emission"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=compatibility-first+dna8-per-step+complete-dependent-coverage, rejected=migrate-without-compatibility-check OR skip-audit-on-step OR partial-dependent-migration. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "Triggered by SchemaMigrationRequested event",
+  "primaryFabric": "DATABASE"
+}

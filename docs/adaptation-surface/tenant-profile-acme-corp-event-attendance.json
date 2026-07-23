@@ -1,0 +1,40 @@
+{
+  "tenantId": "acme-corp",
+  "tenantLabel": "Acme Corp",
+  "flowId": "FLOW-04",
+  "flowSlug": "event-attendance",
+  "moduleName": "event-attendance-acme-onsite-check-in",
+  "moduleVersion": "1.0.1",
+  "adaptationType": "Type A (FREEDOM key value change)",
+  "freedomOverrides": [
+    {
+      "configKey": "flow04_rsvp_cancellation_window_hours",
+      "taskType": "xiigen-engine",
+      "configValue": 6,
+      "defaultValue": 24,
+      "reason": "Acme Corp onsite events use a same-day staffing model and close attendee cancellation six hours before event start."
+    },
+    {
+      "configKey": "flow04_feedback_window_hours",
+      "taskType": "xiigen-engine",
+      "configValue": 12,
+      "defaultValue": 24,
+      "reason": "Acme Corp collects immediate post-event feedback during the first twelve hours after attendance."
+    }
+  ],
+  "visualEvidence": {
+    "roleMatrixDirectory": "docs/e2e-snapshots/event-attendance/tenant-a-v1.0.1/",
+    "organiserPolicyPng": "docs/e2e-snapshots/event-attendance/tenant-a-v1.0.1/01-acme-organiser-policy.png",
+    "feedbackWindowPng": "docs/e2e-snapshots/event-attendance/tenant-a-v1.0.1/02-acme-feedback-window.png"
+  },
+  "adaptationHistory": [
+    {
+      "version": "1.0.1",
+      "adaptedBy": "acme-corp",
+      "changeType": "Type A (FREEDOM key value change)",
+      "previousModuleName": "event-attendance",
+      "newModuleName": "event-attendance-acme-onsite-check-in",
+      "summary": "Onsite attendance policy: six-hour attendee cancellation window and twelve-hour feedback collection window."
+    }
+  ]
+}

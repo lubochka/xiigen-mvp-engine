@@ -1,0 +1,17 @@
+{
+  "eventType": "DataValidated",
+  "flowId": "FLOW-30",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "source": "tenant_lifecycle_manager",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": [
+    "userId",
+    "tenantId",
+    "recordId",
+    "status",
+    "timestamp"
+  ],
+  "forbiddenFields": [],
+  "notes": "Event DataValidated for tenant-lifecycle-manager"
+}

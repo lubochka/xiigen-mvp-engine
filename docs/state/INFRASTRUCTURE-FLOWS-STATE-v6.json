@@ -1,0 +1,236 @@
+{
+  "version": "v6",
+  "description": "XIIGen Infrastructure Flows State — tracks execution order, flow status, and addenda",
+  "lastUpdated": "2026-04-27",
+  "authPlatformPhase": "A4 — GlobalJwtAuthGuard registered as APP_GUARD; RolesGuard registered as APP_GUARD; @Public() on auth login+refresh; FLOW-02 auth tests (phase-02-auth.spec.ts) added; DEV-115",
+  "previousVersion": "INFRASTRUCTURE-FLOWS-STATE-v5.json",
+  "executionOrder": [
+    "FLOW-25",
+    "FLOW-27",
+    "FLOW-29",
+    "FLOW-30",
+    "FLOW-26",
+    "FLOW-31",
+    "FEATURE-REGISTRY-S1",
+    "FLOW-33",
+    "FLOW-35",
+    "FLOW-36",
+    "FLOW-34",
+    "FLOW-01 through FLOW-24 (any order)",
+    "SKILL-GRAPH-S1 (graph intelligence bootstrap — before any graph-gated planning)",
+    "FLOW-PREREQ-01 (pre-generation gate — runs before any domain flow Phase A)",
+    "FLOW-PREREQ-02 (autonomous prerequisite resolution)",
+    "FLOW-PREREQ-03 (human-escalated architectural decisions)"
+  ],
+  "flows": {
+    "FLOW-25": { "status": "COMPLETE" },
+    "FLOW-27": { "status": "COMPLETE" },
+    "FLOW-29": { "status": "COMPLETE" },
+    "FLOW-30": { "status": "COMPLETE" },
+    "FLOW-26": { "status": "COMPLETE" },
+    "FLOW-31": { "status": "COMPLETE", "tests_added": 227, "task_types": "T489-T515", "families": "191-199", "factories": "F1271-F1338" },
+    "FLOW-33": { "status": "COMPLETE", "task_types": "T516-T522", "factories": "F1339-F1347", "families": "200-201" },
+    "FLOW-35": { "status": "COMPLETE", "note": "Meta-arbitration engine" },
+    "FLOW-36": { "status": "COMPLETE", "note": "Feature Registry — FT-XXX artifacts" },
+    "FLOW-34": { "status": "COMPLETE", "note": "Feature-aware via FEATURE-REGISTRY-S1" },
+    "FLOW-01": { "status": "COMPLETE", "authStatus": "auth-deployed", "portabilityTier": "TIER-D" },
+    "FLOW-02": { "status": "COMPLETE", "authStatus": "auth-deployed", "portabilityTier": "TIER-D", "authTestFile": "server/test/profile-enrichment/phase-02-auth.spec.ts" },
+    "FLOW-03": { "status": "COMPLETE" },
+    "FLOW-04": { "status": "COMPLETE" },
+    "FLOW-05": { "status": "COMPLETE" },
+    "FLOW-06": { "status": "COMPLETE" },
+    "FLOW-07": { "status": "COMPLETE" },
+    "FLOW-08": { "status": "COMPLETE" },
+    "FLOW-09": { "status": "COMPLETE" },
+    "FLOW-10": { "status": "COMPLETE" },
+    "FLOW-11": { "status": "COMPLETE" },
+    "FLOW-12": { "status": "COMPLETE" },
+    "FLOW-13": { "status": "COMPLETE" },
+    "FLOW-14": { "status": "COMPLETE" },
+    "FLOW-15": { "status": "COMPLETE" },
+    "FLOW-16": { "status": "COMPLETE" },
+    "FLOW-17": { "status": "COMPLETE" },
+    "FLOW-18": { "status": "COMPLETE" },
+    "FLOW-19": { "status": "COMPLETE" },
+    "FLOW-20": { "status": "COMPLETE" },
+    "FLOW-21": { "status": "COMPLETE" },
+    "FLOW-22": { "status": "COMPLETE" },
+    "FLOW-23": { "status": "COMPLETE" },
+    "FLOW-24": { "status": "COMPLETE" },
+    "FLOW-28": { "status": "NOT_STARTED", "note": "Blog/CMS Modules — namespace reserved F1129-F1175, T423-T440; not yet implemented" },
+    "SKILL-GRAPH-S1": {
+      "status": "COMPLETE",
+      "note": "Graph Intelligence bootstrap — ElasticsearchGraphLearningProvider + graph module wiring",
+      "branch": "Skills_Creation_Claude",
+      "commits": ["DEV-94", "DEV-95"],
+      "services": [
+        "IGraphRagService (interface)",
+        "IEmbeddingService (interface)",
+        "IGraphLearningService (interface)",
+        "IGraphConfigReader (interface)",
+        "ElasticsearchGraphLearningProvider"
+      ],
+      "es_indices": ["xiigen-graph-edges"]
+    },
+    "FLOW-PREREQ-01": {
+      "status": "PHASE_A_COMPLETE",
+      "note": "Phase B activates when convergence.handler (C-2) + multi-generate.handler (A-4) complete",
+      "task_types": "T580, T581, T586",
+      "factories": "F1508-F1510",
+      "families": "206",
+      "bfa_rules": "CF-789, CF-790, CF-791",
+      "services": [
+        "SpecAuditService (SS-04)",
+        "PrerequisiteCompletionGateService (SS-09)"
+      ],
+      "es_indices": ["xiigen-spec-audit-reports"]
+    },
+    "FLOW-PREREQ-02": {
+      "status": "PHASE_A_COMPLETE",
+      "note": "T582 FabricInterfaceGenerator — Phase B BLOCKED on convergence.handler (C-2) + multi-generate.handler (A-4). T583 FreedomConfigRegistrar — Phase B ready.",
+      "task_types": "T582, T583",
+      "factories": "F1511-F1514",
+      "families": "207",
+      "bfa_rules": "CF-792, CF-793, CF-794"
+    },
+    "FLOW-PREREQ-03": {
+      "status": "PHASE_A_COMPLETE",
+      "note": "CapabilityGapFlowProposer is bootstrap boundary — all proposals require PENDING_LUBA_REVIEW approval",
+      "task_types": "T584, T585",
+      "factories": "F1515-F1517",
+      "families": "208",
+      "bfa_rules": "CF-795, CF-796",
+      "services": [
+        "CapabilityGapFlowProposerService (SS-09)"
+      ],
+      "es_indices": ["xiigen-capability-gap-proposals"]
+    }
+  },
+  "artifactBoundaries": {
+    "nextTaskType": "T657",
+    "nextFactory": "F1606",
+    "nextFamily": 211,
+    "nextBfaRule": "CF-842",
+    "nextSkill": "SK-529",
+    "testBaseline": 10114,
+    "lastUpdated": "2026-04-17",
+    "updatedBy": "FLOW-46 platform-agent implementation (T650-T656, F1601-F1605, family 210, CF-839/840/841)"
+  },
+  "selfSufficiencyRounds": {
+    "Round1": {
+      "sessions": "SS-01, SS-02, SS-03",
+      "capability": "Self-knowledge: xiigen-capability-manifest + fabric registry + drift detection",
+      "status": "COMPLETE"
+    },
+    "Round2": {
+      "sessions": "SS-04, SS-05, SS-06",
+      "capability": "Detection: SpecAuditService + SPEC-001/002/003 + RAG patterns + CLI",
+      "status": "COMPLETE"
+    },
+    "Round3": {
+      "sessions": "SS-07, SS-08, SS-09",
+      "capability": "Resolution: FLOW-PREREQ-01/02/03 Phase A contracts + CompletionGate + FlowProposer",
+      "status": "PHASE_A_COMPLETE",
+      "phaseB": "Blocked on Feature Plan C-2 (convergence.handler) + A-4 (multi-generate.handler)"
+    }
+  },
+  "dynamicAIDecisionArchitecture": {
+    "status": "COMPLETE",
+    "branch": "Skills_Creation_Claude",
+    "jiraTickets": ["DEV-96", "DEV-97", "DEV-98"],
+    "commits": {
+      "phase3": "05bb9f1",
+      "phase4": "2cd56ae",
+      "phase5": "1154ead"
+    },
+    "testCounts": {
+      "phase3_added": 44,
+      "phase4_added": 44,
+      "phase5_added": 46,
+      "totalAdded": 134,
+      "baselineBefore": 5666,
+      "baselineAfter": 5800
+    },
+    "pattern": "confidence >= threshold → graph (bootstrap path); below → IAIDecisionPipeline (4-role AI protocol)",
+    "modeSwitch": "process.env.ENGINE_DECISION_MODE: 'bootstrap' (default) | 'ai-driven'",
+    "components": {
+      "phase3_ai_pipeline": [
+        "IAIDecisionPipeline",
+        "AIDecisionPipelineService",
+        "GraphCrossLayerRouter",
+        "AIDrivenNodeCompletenessValidator",
+        "AIDrivenScopeClassifier",
+        "AIDrivenSchemaChainValidator",
+        "AIDrivenAssumptionRegistryLinter",
+        "AIDrivenBlastRadiusCalculator"
+      ],
+      "phase4_learning": [
+        "AIDrivenRetrospectiveService (runR1: classify outcomes + updateEdge ± 0.05 + upgrade DPO triples)"
+      ],
+      "phase5_governance": [
+        "TopManagerGapDetectorService",
+        "MutationScreenerService",
+        "CrossModelSimulatorService (V9-002)",
+        "RejectionReasonService",
+        "EdgeVersioningService (decay window + snapshot)"
+      ]
+    },
+    "esIndices": [
+      "xiigen-graph-edges",
+      "xiigen-graph-proposals",
+      "xiigen-graph-rejections",
+      "xiigen-edge-snapshots"
+    ],
+    "v9002Compliance": "simulatorModel !== proposerModel required; same-model → SKIPPED"
+  },
+  "skillsLibrary": {
+    "version": "v2.8.0",
+    "jiraTicket": "DEV-99",
+    "commit": "2f5bbcb",
+    "totalSkillFiles": 130,
+    "newSkillsAdded": 28,
+    "skillRange": "SK-492..SK-519",
+    "nextSkill": "SK-520",
+    "layers": {
+      "Layer1": "SK-430..SK-447 (engine internals)",
+      "Layer2": "SK-448..SK-491 (engine lifecycle)",
+      "Layer3": "SK-492..SK-504 (product lifecycle — v3.1.0)",
+      "Layer4": "SK-505..SK-509 (self-awareness — v3.1.0)",
+      "Layer5": "SK-510..SK-519 (graph intelligence — v2.8.0)"
+    }
+  },
+  "addenda": {
+    "FEATURE-REGISTRY-S1": {
+      "status": "COMPLETE",
+      "runs_after": "FLOW-31",
+      "runs_before": "FLOW-33",
+      "description": "Groundwork for Feature-as-First-Class-Entity. No code changes. No task types. No factories.",
+      "ft_namespace": {
+        "reserved_from": "FT-001",
+        "provisional_range": "FT-001 through FT-099 (Figma plugin migration)",
+        "last_assigned": "FT-010",
+        "confirmed_by": "FLOW-36 Phase A"
+      },
+      "schema_location": "contracts/features/feature-manifest.schema.json",
+      "schema_version": "1.0",
+      "phases": {
+        "S1-A": {
+          "status": "COMPLETE",
+          "deliverables": [
+            "DECISIONS-LOCKED.md (D-FT-1)",
+            "contracts/features/feature-manifest.schema.json",
+            "INFRASTRUCTURE-FLOWS-STATE-v4.json (previous version)",
+            "STATE-S1-A.json"
+          ]
+        },
+        "S1-B": {
+          "status": "COMPLETE",
+          "deliverables": [
+            "contracts/features/feature-manifest-figma-plugin-v1.json (FT-001 through FT-010)",
+            "STATE-S1-B.json"
+          ]
+        }
+      }
+    }
+  }
+}

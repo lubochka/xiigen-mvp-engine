@@ -1,0 +1,107 @@
+{
+  "planId": "XIIGEN-EXTENSION-PLAN",
+  "sessionDate": "2026-03-24",
+  "patternType": "DESIGN_REASONING",
+  "seededToRag": false,
+  "ragIndex": "xiigen-rag-patterns",
+  "seedingNote": "Seed each decision with patternType: ARCHITECTURE_DECISION. Run seeding script when Elasticsearch is available.",
+  "decisions": [
+
+    {
+      "decisionId": "D-EXT-001",
+      "type": "INTERFACE_NAMING",
+      "capability": "IScopedMemoryService (formerly IRedisService)",
+      "context": "Analytics task types need Redis-style atomic counters and idempotency locks.",
+      "proposed": "IRedisService — name the interface after the provider",
+      "challenge": "IRedisService leaks provider identity into the interface name. Same mistake as 'php-wordpress' in stackCoupling keys. Callers would be coupled to a specific technology by name, even though Memcached and Valkey implement identical semantics.",
+      "resolution": "IScopedMemoryService — named for capability (scoped, ephemeral, fast key-value with TTL) not provider. Provider resolved via FREEDOM config.",
+      "principleApplied": "Fabric interfaces named for capability, never for provider. The same principle that eliminated 'php-wordpress' keys.",
+      "teachingPoint": "Before naming a fabric interface: can the name survive provider replacement? If renaming the provider would require renaming the interface, the interface name is wrong."
+    },
+
+    {
+      "decisionId": "D-EXT-002",
+      "type": "INFRASTRUCTURE_CHOICE",
+      "capability": "ICodeRepositoryService vs GitHub MCP",
+      "context": "System intake pipeline needs to read codebases. GitHub MCP was the initial proposal.",
+      "proposed": "GitHub MCP — connect via Claude settings, use community skill",
+      "challenge": "GitHub MCP hardcodes one provider and bypasses the fabric. The AF pipeline cannot know or care whether the user's codebase is on GitHub, GitLab, Azure DevOps, or uploaded as a ZIP. GitHub MCP is appropriate for web analysis sessions where a human and Claude collaborate — not for topology node execution.",
+      "resolution": "ICodeRepositoryService with providers: GitHub, GitLab, AzureDevOps, Gitea, LocalGit, ZipArchive. ZipArchiveProvider is the minimum — unblocks intake of uploaded codebases without remote credentials.",
+      "principleApplied": "Solution scope gate: ADAPTATION (GitHub MCP) vs EXTENSION (fabric interface). When the adaptation hardcodes a specific provider the user might not use, EXTENSION is the correct choice.",
+      "teachingPoint": "GitHub MCP is the right tool for Claude web sessions. ICodeRepositoryService is the right tool for AF pipeline execution. They serve different contexts."
+    },
+
+    {
+      "decisionId": "D-EXT-003",
+      "type": "API_DESIGN",
+      "capability": "Execute API runtime context (projectId + runtimeHints vs stack label)",
+      "context": "The execute API needed a way to specify the target runtime for generation.",
+      "proposed": "Add 'stack' parameter with values like 'php-wordpress', 'node-nestjs'",
+      "challenge": "Stack labels pre-author knowledge XIIGen doesn't have. 'php-wordpress' implies a known stack profile. The reframe established that runtime context comes from PROJECT_UNDERSTANDING (what the system IS) or from explicit provider selections — not from a label the caller guesses at. The label approach reintroduces the stack-profile model through the API.",
+      "resolution": "projectId (links to PROJECT_UNDERSTANDING for known codebases) + runtimeHints (explicit provider overrides, values are provider names not stack labels). No stack-label string accepted.",
+      "principleApplied": "Derive from system state, never from pre-authored labels. runtimeContext.fabricProviders captures what actually ran, which is more useful training signal than a guessed stack label.",
+      "teachingPoint": "Any time a string parameter could be 'php-wordpress' or 'node-nestjs', it is the wrong abstraction. Replace with either a projectId (for known systems) or explicit provider names."
+    },
+
+    {
+      "decisionId": "D-EXT-004",
+      "type": "INCOMPATIBILITY_RECLASSIFICATION",
+      "capability": "T48 EmailVerificationWait — WordPress scheduling",
+      "context": "T48 had stackCoupling with 'php-wordpress': { tier: 'INCOMPATIBLE' }.",
+      "proposed": "INCOMPATIBLE for WordPress — no native scheduler equivalent to Bull",
+      "challenge": "24h TTL is a concept: schedule a callback that fires after N milliseconds. Bull implements this via delayed jobs. Action Scheduler implements this via as_schedule_single_action(). Both implement the same concept. The incompatibility was at the mechanism level, not the design level.",
+      "resolution": "IMPL_VARIES_WITH_PROVIDER + ISchedulerService. Mechanism-first stackCoupling with no stack keys. Provider resolved at runtime from FREEDOM config scheduler_provider.",
+      "principleApplied": "Before declaring INCOMPATIBLE: is this mechanism-level or design-level? Mechanism-level → introduce fabric interface → IMPL_VARIES_WITH_PROVIDER. Design-level → document why concept cannot be expressed in target runtime.",
+      "teachingPoint": "INCOMPATIBLE should be rare after mechanism-first rethinking. Most apparent incompatibilities are mechanism-level mismatches, not design-level impossibilities."
+    },
+
+    {
+      "decisionId": "D-EXT-005",
+      "type": "ARCHITECTURE_DECISION",
+      "capability": "stackCoupling structure — mechanism-first vs stack-keyed",
+      "context": "All existing contracts used 'php-wordpress', 'node-nestjs' as keys in stackCoupling.",
+      "proposed": "Per-stack keyed entries: stackCoupling['php-wordpress'] = { ... }",
+      "challenge": "Stack-keyed entries assume XIIGen knows in advance what system it's targeting. The system intake reframe established that runtime context is derived from PROJECT_UNDERSTANDING or FREEDOM config — not pre-authored. Stack keys are the old stack-profile model leaking into contract structure.",
+      "resolution": "Mechanism-first stackCoupling: { mechanism, tier, fabricInterface, freedomConfigKey, concept, neutralConcepts, degradedNote }. No stack names anywhere in the contract.",
+      "principleApplied": "Contracts are stack-neutral by construction. Runtime context resolves at execution time, not at plan time.",
+      "teachingPoint": "If a string in a contract could be a stack name, it is wrong. Replace with a concept, a fabric interface, or a FREEDOM config key."
+    },
+
+    {
+      "decisionId": "D-EXT-006",
+      "type": "ARCHITECTURE_DECISION",
+      "capability": "System intake pipeline vs per-stack content authoring",
+      "context": "The original Tier 2 was 'maintain WordPress stack profile' — 550 lines per stack.",
+      "proposed": "Per-stack content packages: XIIGen's team authors WordPress genesis prompts, .NET prompts, etc.",
+      "challenge": "The WordPress plugin is one instance of the general problem. Users bring existing systems — Laravel, .NET, Go, Python. XIIGen cannot pre-author profiles for every combination. Each project within a stack has different conventions. The library of stack profiles is unbounded manual work.",
+      "resolution": "System intake pipeline: 6 genesis prompts written once, run against any codebase. ARCHITECTURE_SCAN, CONVENTION_EXTRACT, CAPABILITY_INVENTORY, INTEGRATION_ANALYSIS, IRON_RULE_DERIVATION, DERIVED_CONTEXT_ASSEMBLY. Produces project-specific PROJECT_UNDERSTANDING.",
+      "principleApplied": "Solution scope gate: derive from system state (user's actual codebase) rather than pre-author stack profiles. The 6 genesis prompts are EXTENSION (add to existing infrastructure). Per-stack profiles would be NEW INFRA that never scales.",
+      "teachingPoint": "When asked to support a new technology: does the user's codebase contain the answer? If yes, build intake capability, not a content library."
+    },
+
+    {
+      "decisionId": "D-EXT-007",
+      "type": "VALIDATION_DESIGN",
+      "capability": "Named checks — provider-keyed vs concept-based",
+      "context": "17 named checks used NestJS-specific regex that failed on other providers.",
+      "proposed": "Immediate AI concept checks replacing all regex",
+      "challenge": "AI concept checks require sub-calls, which benefit from loop.handler for iterative patterns. loop.handler is Phase Two (P-3). Implementing concept checks before loop.handler exists is premature.",
+      "resolution": "Two stages: Stage 1 (Phase Zero, now) — provider-keyed regex variants. Stage 2 (after P-3) — AI concept checks. Stage 1 keys on runtimeContext.fabricProviders not on stack labels.",
+      "principleApplied": "Prerequisite order matters. Implement what is useful now without creating dead-end dependencies on infrastructure that doesn't exist yet.",
+      "teachingPoint": "Stage provider-keyed checks are better than per-stack regex (which multiplies by language count) and achievable before loop.handler. They are not the final design but are a valid intermediate state."
+    },
+
+    {
+      "decisionId": "D-EXT-008",
+      "type": "TRAINING_DATA_DESIGN",
+      "capability": "DPO triple runtimeContext — fabricProviders vs targetStack label",
+      "context": "DPO triples needed runtime context to enable per-provider fine-tuning.",
+      "proposed": "Add targetStack field: 'php-wordpress' or 'node-nestjs'",
+      "challenge": "A stack label is a pre-authored guess about the runtime environment. 'php-wordpress' assumes the code was generated for a WordPress project, but it was actually generated against specific providers (action-scheduler, wpdb). The providers are facts; the stack label is an interpretation.",
+      "resolution": "runtimeContext.fabricProviders: { ISchedulerService: 'action-scheduler', IScopedMemoryService: 'redis' }. This captures exactly what ran, enabling per-provider training data pools.",
+      "principleApplied": "Training data must capture facts about what actually ran, not guesses about what the stack is. Provider names are facts. Stack labels are interpretations.",
+      "teachingPoint": "DPO triples tagged with provider facts ('action-scheduler') enable targeted fine-tuning per provider. Labels ('php-wordpress') create noisy mixed training data."
+    }
+
+  ]
+}

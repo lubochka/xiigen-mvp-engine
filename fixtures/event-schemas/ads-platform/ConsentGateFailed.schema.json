@@ -1,0 +1,13 @@
+{
+  "eventType": "ads.consent.gate-failed",
+  "flowId": "FLOW-20",
+  "version": "1.0.0",
+  "description": "Emitted by T625 ConsentGateEnforcer when user consent validation fails at ORDER 1. Triggers upstream systems to prompt user for consent re-approval.",
+  "properties": {
+    "userId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "failureReason": { "type": "string", "enum": ["CONSENT_EXPIRED", "CONSENT_NOT_FOUND", "CONSENT_REVOKED"], "required": true },
+    "auditRecordId": { "type": "string", "required": true },
+    "consentCheckAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "topologyId": "flow-prereq-02b-freedom-config-registrar",
+  "flowId": "FLOW-PREREQ-02",
+  "taskTypeId": "T583",
+  "version": "1.0.0",
+  "archetype": "DATA_PIPELINE",
+  "purpose": "Given PREREQ_GAP { type: MACHINE_CONSTANT_AT_SPEC }, register the required FREEDOM config keys with safe defaults. No convergence needed — this is a CONVENTION-level fix.",
+  "trigger": "event prereq.resolution.ordered with gap.type === MACHINE_CONSTANT_AT_SPEC",
+
+  "nodes": {
+    "n1": {
+      "handler": "rag-retrieve.handler",
+      "description": "Retrieve existing FREEDOM config key patterns and SK-451 classification rules",
+      "config": {
+        "index": "xiigen-rag-patterns",
+        "query": "FREEDOM config key registration machine constant classification",
+        "size": 5
+      }
+    },
+
+    "n2": {
+      "handler": "validate.handler",
+      "description": "Verify the constant candidate is correctly classified. Apply SK-451 security-break test.",
+      "checks": [
+        {
+          "id": "FREEDOM-001",
+          "check": "freedom-machine-classification",
+          "target": "${input.gap.value}",
+          "config": { "context": "${input.gap.context}" },
+          "severity": "score-0"
+        }
+      ],
+      "output": { "classification": "FREEDOM_PARAM_REQUIRED | MACHINE_INVARIANT | NEEDS_REVIEW" }
+    },
+
+    "n2b": {
+      "handler": "route.handler",
+      "description": "Route based on classification result.",
+      "condition": "${n2.classification}",
+      "branches": {
+        "FREEDOM_PARAM_REQUIRED": "n3-register",
+        "MACHINE_INVARIANT": "n3b-document-machine",
+        "NEEDS_REVIEW": "n3c-escalate"
+      }
+    },
+
+    "n3-register": {
+      "handler": "feedback.handler",
+      "description": "Register the FREEDOM config key with safe default. Emit freedom.key.registered event.",
+      "actions": [
+        {
+          "type": "store",
+          "index": "xiigen-capability-manifest",
+          "document": {
+            "capability": "${derived.freedomKey}",
+            "type": "FREEDOM_KEY",
+            "status": "ACTIVE",
+            "detectedAt": "${now}",
+            "source": "FLOW-PREREQ-02-T583"
+          }
+        },
+        {
+          "type": "emit",
+          "event": "freedom.key.registered",
+          "payload": { "key": "${derived.freedomKey}", "default": "${derived.safeDefault}", "specId": "${input.specId}" }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "OUTCOME",
+          "index": "xiigen-rag-retrieval-outcomes",
+          "data": { "flowId": "FLOW-PREREQ-02", "taskType": "T583", "keyRegistered": "${derived.freedomKey}", "classification": "FREEDOM" }
+        }
+      ]
+    },
+
+    "n3b-document-machine": {
+      "handler": "feedback.handler",
+      "description": "Value is confirmed MACHINE — do NOT register as FREEDOM key. Emit prereq.machine.constant.detected for documentation.",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "prereq.machine.constant.detected",
+          "payload": { "value": "${input.gap.value}", "context": "${input.gap.context}", "specId": "${input.specId}" }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "OUTCOME",
+          "index": "xiigen-rag-retrieval-outcomes",
+          "data": { "flowId": "FLOW-PREREQ-02", "taskType": "T583", "classification": "MACHINE", "value": "${input.gap.value}" }
+        }
+      ]
+    },
+
+    "n3c-escalate": {
+      "handler": "feedback.handler",
+      "description": "Classification uncertain — escalate to human. A wrongly registered FREEDOM key (should be MACHINE) silently breaks system guarantees.",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "prereq.constant.needs_review",
+          "payload": {
+            "value": "${input.gap.value}",
+            "context": "${input.gap.context}",
+            "specId": "${input.specId}",
+            "question": "Is this value FREEDOM (tenant-configurable) or MACHINE (system invariant)? Apply SK-451 security-break test."
+          }
+        }
+      ],
+      "learning_signals": [
+        {
+          "type": "OUTCOME",
+          "index": "xiigen-rag-retrieval-outcomes",
+          "data": { "flowId": "FLOW-PREREQ-02", "taskType": "T583", "classification": "NEEDS_REVIEW", "escalated": true }
+        }
+      ]
+    }
+  },
+
+  "edges": [
+    ["n1", "n2"], ["n2", "n2b"],
+    ["n2b.FREEDOM_PARAM_REQUIRED", "n3-register"],
+    ["n2b.MACHINE_INVARIANT", "n3b-document-machine"],
+    ["n2b.NEEDS_REVIEW", "n3c-escalate"]
+  ],
+
+  "ironRules": [
+    "FREEDOM config key MUST have a safe default — never register a key without one",
+    "Every FREEDOM key MUST follow the naming pattern: {domain}.{descriptive_name}",
+    "NEEDS_REVIEW classification MUST escalate to human — never auto-register uncertain values"
+  ],
+
+  "qualityGates": [
+    "Key registered in xiigen-capability-manifest",
+    "Safe default is type-compatible with the expected value"
+  ]
+}

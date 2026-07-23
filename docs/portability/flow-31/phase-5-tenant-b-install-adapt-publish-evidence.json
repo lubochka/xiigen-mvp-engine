@@ -1,0 +1,314 @@
+{
+  "flowId": "FLOW-31",
+  "flowSlug": "design-intelligence-engine",
+  "implementationSlug": "design-system-governance",
+  "phase": "phase-5-tenant-b-install-adapt-publish",
+  "status": "completed",
+  "generatedAt": "2026-05-11T05:08:56.6286208Z",
+  "tenant": "northwind",
+  "sourceTenant": "acme-corp",
+  "sourcePackage": {
+    "packageName": "@xiigen-fork/acme-design-quality-office",
+    "packageVersion": "1.0.1",
+    "registry": "http://localhost:4873",
+    "viewReturned": "1.0.1",
+    "sourceRepoFullName": "lubochka/acme-corp--design-intelligence-engine"
+  },
+  "initialFork": {
+    "api": "POST /api/marketplace/packages/design-intelligence-engine/fork",
+    "forkId": "fork-design-intelligence-engine-northwind",
+    "targetTenant": "northwind",
+    "repoFullName": "lubochka/northwind--design-intelligence-engine",
+    "repoUrl": "https://github.com/lubochka/northwind--design-intelligence-engine",
+    "initialCommitSha": "b9735566a82a048903861119953c31452abc5fa4",
+    "installedFromRepoFullName": "lubochka/acme-corp--design-intelligence-engine",
+    "initialVersion": "1.0.1",
+    "createdByMarketplaceApi": true
+  },
+  "initialForkCiObservation": {
+    "runId": 25650666531,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "b9735566a82a048903861119953c31452abc5fa4",
+    "displayTitle": "Initial fork: design-intelligence-engine v1.0.1",
+    "createdAt": "2026-05-11T04:41:04Z",
+    "updatedAt": "2026-05-11T04:41:51Z",
+    "url": "https://github.com/lubochka/northwind--design-intelligence-engine/actions/runs/25650666531",
+    "rootCause": "The fork copied Tenant A's Acme-specific adaptation test while the fork engine rewrote tenant.config.json for Northwind. The expected moduleName stayed acme-design-quality-office in the inherited test, but the forked tenant config no longer matched it.",
+    "resolution": "Tenant B adaptation replaced the Acme adaptation test with a Northwind adaptation test and recorded Northwind as the second adaptation-history entry."
+  },
+  "adaptation": {
+    "changeType": "Type A (bounded FREEDOM key value change)",
+    "moduleName": "northwind-interface-control",
+    "packageName": "@xiigen-fork/northwind-interface-control",
+    "packageVersion": "1.0.2",
+    "sourceModuleName": "acme-design-quality-office",
+    "sourcePackageName": "@xiigen-fork/acme-design-quality-office",
+    "sourcePackageVersion": "1.0.1",
+    "plainLanguagePolicy": "Northwind interface control policy: tighter token-consistency checks, high-severity conflict blocking, operational health thresholds, bounded impact depth, and standard design evidence retention.",
+    "freedomChanges": [
+      {
+        "key": "flow31_module_name",
+        "from": "design-intelligence-engine",
+        "to": "northwind-interface-control"
+      },
+      {
+        "key": "flow31_quality_score_threshold",
+        "from": null,
+        "to": 0.86
+      },
+      {
+        "key": "flow31_token_consistency_threshold",
+        "from": null,
+        "to": 0.97
+      },
+      {
+        "key": "flow31_conflict_severity_threshold",
+        "from": null,
+        "to": "high"
+      },
+      {
+        "key": "flow31_component_hierarchy_depth",
+        "from": null,
+        "to": 8
+      },
+      {
+        "key": "flow31_debt_score_weights",
+        "from": null,
+        "to": {
+          "complexity": 0.3,
+          "tokenDrift": 0.35,
+          "accessibility": 0.25,
+          "reuse": 0.1
+        }
+      },
+      {
+        "key": "flow31_health_score_thresholds",
+        "from": null,
+        "to": {
+          "healthy": 0.82,
+          "degraded": 0.58
+        }
+      },
+      {
+        "key": "flow31_feedback_signal_weights",
+        "from": null,
+        "to": {
+          "auditScore": 0.45,
+          "deploymentOutcome": 0.3,
+          "reviewerFeedback": 0.25
+        }
+      },
+      {
+        "key": "flow31_impact_analysis_depth",
+        "from": null,
+        "to": 3
+      },
+      {
+        "key": "flow31_decision_log_retention_days",
+        "from": null,
+        "to": 365
+      },
+      {
+        "key": "flow31_publish_targets",
+        "from": null,
+        "to": [
+          "token-library",
+          "component-catalog"
+        ]
+      },
+      {
+        "key": "flow31_required_deployment_phases",
+        "from": null,
+        "to": [
+          "ingested",
+          "analyzed",
+          "quality_passed",
+          "schema_valid",
+          "tokens_consistent",
+          "published"
+        ]
+      },
+      {
+        "key": "flow31_deployment_approval_roles",
+        "from": null,
+        "to": [
+          "platform-admin"
+        ]
+      },
+      {
+        "key": "flow31_pipeline_timeout_ms",
+        "from": null,
+        "to": 360000
+      }
+    ],
+    "invariantsPreserved": [
+      "Design ingestion, scoring, governance, publication, and deployment reads remain tenant scoped.",
+      "Conflict, quality, schema, token consistency, and deployment gates remain hard-stop business outcomes.",
+      "Decision, version, and evolution history records remain insert-only.",
+      "Design feedback learning remains asynchronous and never runs on the live request path.",
+      "Impact analysis can read dependency context but cannot mutate component or token source records.",
+      "Publication and top-level orchestration remain idempotent.",
+      "Store-before-event ordering remains mandatory for design side effects."
+    ]
+  },
+  "tenantRepository": {
+    "repoFullName": "lubochka/northwind--design-intelligence-engine",
+    "repoUrl": "https://github.com/lubochka/northwind--design-intelligence-engine",
+    "sourceCommitSha": "b9735566a82a048903861119953c31452abc5fa4",
+    "adaptedCommitSha": "43c47096144aa420e4afecee416f19b990b17688",
+    "defaultBranch": "main",
+    "clonePath": "C:/Projects/xiigen-fork-clones/northwind--design-intelligence-engine-phase5-20260511-074203",
+    "workingTreeClean": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/design-intelligence-engine-northwind-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "adaptationHistoryEntries": 2
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - design-intelligence-engine",
+    "runId": 25651367651,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "43c47096144aa420e4afecee416f19b990b17688",
+    "displayTitle": "Adapt FLOW-31 for Northwind interface control",
+    "createdAt": "2026-05-11T05:04:07Z",
+    "updatedAt": "2026-05-11T05:04:58Z",
+    "url": "https://github.com/lubochka/northwind--design-intelligence-engine/actions/runs/25651367651",
+    "cleanInstallInActions": true
+  },
+  "tenantCloneVerification": {
+    "commands": [
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "dependencySetupNote": "Local Windows npm registry access timed out during npm install. Local TypeScript/Jest validation used a junction to the already-installed server node_modules dependency tree; the clean install gate is the successful GitHub Actions run for commit 43c47096144aa420e4afecee416f19b990b17688.",
+    "results": {
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 2,
+      "jestSuitesTotal": 2,
+      "jestTestsPassed": 2,
+      "jestTestsTotal": 2,
+      "packDryRunExit": 0,
+      "packEntryCount": 136
+    }
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/northwind-interface-control",
+    "publishedVersion": "1.0.2",
+    "viewCommand": "npm view @xiigen-fork/northwind-interface-control version --registry http://localhost:4873",
+    "viewReturned": "1.0.2",
+    "verified": true
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-31",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-5-tenant-b-v1.0.2-actions-success.png",
+        "bytes": 77269
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-5-tenant-b-v1.0.2-github-listing.png",
+        "bytes": 135109
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-31/phase-5-tenant-b-v1.0.2-package-json.png",
+        "bytes": 114903
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-11T05:07:33.0242916Z",
+    "serverBaseUrl": "http://localhost:3000",
+    "path": "/api/runs/phase5-flow31-tenant-b-adaptation-auth-probe/trace",
+    "passed": 12,
+    "total": 12,
+    "failed": 0,
+    "allPassed": true,
+    "checks": [
+      "valid own-tenant platform-admin token returns 200 for all three tenants",
+      "missing token returns 401 for all three tenants",
+      "platform-support wrong-role token returns 403 for all three tenants",
+      "acme token in northwind context returns 401",
+      "northwind token in tessera context returns 401",
+      "acme token in tessera context returns 401"
+    ]
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed",
+      "exitCode": 0
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=design-intelligence-engine --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 8,
+      "tests": 274
+    },
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "result": "passed",
+      "exitCode": 0
+    },
+    "flowScans": {
+      "source": {
+        "sourceFlowFileCount": 27,
+        "throwNew": 0,
+        "exportedServicesByPromptPattern": 0,
+        "servicesMissingMicroserviceBaseByPromptPattern": 0,
+        "clsImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "adapted": {
+        "sourceFlowFileCount": 27,
+        "throwNew": 0,
+        "exportedServicesByPromptPattern": 0,
+        "servicesMissingMicroserviceBaseByPromptPattern": 0,
+        "clsImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "failureLines": 0,
+      "note": "FLOW-31 runtime class names do not use the Service suffix; prompt-pattern class count is therefore zero."
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantBForkedFromTenantA": true,
+    "tenantBAdaptedFlow": true,
+    "tenantBCommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantCInstallAdaptAuth": true
+  },
+  "verdict": "PASS"
+}

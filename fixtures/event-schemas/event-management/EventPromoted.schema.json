@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.event-management.event-promoted.v1",
+  "taskTypeId": "T61",
+  "flowId": "FLOW-03",
+  "description": "Emitted by T61 EventPromotionEngine after content safety check (ORDER 1) and storeDocument (ORDER 2). Content safety MUST run before this event is enqueued.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.event-management.event-promoted.v1",
+    "source": "xiigen/flows/event-management/t61",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "eventId": {
+      "type": "string",
+      "description": "Opaque event identifier"
+    },
+    "promotionId": {
+      "type": "string",
+      "description": "Opaque promotion record identifier"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant identifier from AsyncLocalStorage"
+    },
+    "promotedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "No organizer or attendee PII. tenantId and eventId are opaque references.",
+  "arbiterRef": "arb-flow03-content-safety-before-promotion: safety check at ORDER 1, storeDocument ORDER 2, enqueue ORDER 3.",
+  "requiredByFlows": ["FLOW-03"],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

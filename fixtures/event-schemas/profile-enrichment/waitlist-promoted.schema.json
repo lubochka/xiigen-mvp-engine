@@ -1,0 +1,11 @@
+{
+  "eventType": "WaitlistPromoted",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T51-B1-waitlist (waitlist-promotion.service.ts)",
+  "consumers": ["T51-B2"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "profileId", "promotedAt", "waitlistPosition"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges"],
+  "notes": "Emitted when a user is promoted off the waitlist after B1 finds sufficient matches in a subsequent pass. B2 treats this the same as BusinessMatchesFound — triggers connection suggestion generation."
+}

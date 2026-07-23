@@ -1,0 +1,44 @@
+{
+  "taskTypeId": "T222",
+  "flowId": "FLOW-14",
+  "name": "CrossFlowAnalyticsExecutor",
+  "archetype": "activation",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "flow13-registry-check-then-rls-then-query-then-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_cross_flow_query_timeout_ms",
+    "neutralConcepts": [
+      "FLOW-13 availability checked via xiigen-flow-registry (flowId=FLOW-13, status=ACTIVE) — no direct HTTP",
+      "Rule 11: no direct HTTP to FLOW-13 service — fabric only",
+      "F463 IRlsPolicyService applied before returning results",
+      "CrossFlowQueryCompleted includes sourceFlows: ['FLOW-13'], rlsApplied: true",
+      "CrossFlowUnavailable emitted if FLOW-13 not ACTIVE",
+      "storeDocument BEFORE enqueue(CrossFlowQueryCompleted) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F463", "interface": "IRlsPolicyService", "fabric": "CORE" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T222-1", "rule": "FLOW-13 availability MUST be checked via xiigen-flow-registry — no direct HTTP (Rule 11).", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T222-2", "rule": "F463 IRlsPolicyService applied to all cross-flow results before return.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T222-3", "rule": "CrossFlowQueryCompleted MUST include sourceFlows: ['FLOW-13'] and rlsApplied: true.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T222-4", "rule": "CrossFlowUnavailable emitted if FLOW-13 not ACTIVE.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T222-5", "rule": "storeDocument BEFORE enqueue(CrossFlowQueryCompleted) — DNA-8.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "flow13_registry_check_no_http",
+    "rls_on_cross_flow_results",
+    "source_flows_in_payload",
+    "cross_flow_unavailable_on_inactive",
+    "store_before_enqueue"
+  ],
+  "bfaRules": [],
+  "tags": ["cross-flow", "analytics", "flow13", "rls", "activation"],
+  "keywords": "cross-flow analytics executor FLOW-13 registry check no HTTP RLS IRlsPolicyService CrossFlowQueryCompleted CrossFlowUnavailable sourceFlows rlsApplied"
+}

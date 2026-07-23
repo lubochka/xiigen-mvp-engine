@@ -1,0 +1,96 @@
+{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "preExistingDefectCheck",
+    "generatedAt":  "2026-05-10T08:40:20.6272072Z",
+    "status":  "completed",
+    "productDecision":  {
+                            "source":  [
+                                           "docs/business-flows/functional-specs/FLOW-23-form-builder-templates-functional-spec.md",
+                                           "docs/flow-coverage/form-builder-templates/P1-business-logic-inventory.md",
+                                           "server/src/engine/flows/form-builder-templates",
+                                           "docs/design-reviews/ROLE-ANALYSIS-BATCH-05.md FLOW-23 Form Builder Templates section"
+                                       ],
+                            "decision":  "FLOW-23 form-builder-templates is eligible to proceed through mobility/auth certification; baseline server tests and protocol source scans are clean."
+                        },
+    "baselineTests":  {
+                          "command":  "server: npx jest --testPathPatterns=form-builder-templates --runInBand --colors=false",
+                          "result":  "passed",
+                          "suites":  13,
+                          "tests":  202
+                      },
+    "sourceInventory":  {
+                            "serviceFiles":  13,
+                            "serviceDirectory":  "server/src/engine/flows/form-builder-templates",
+                            "testDirectory":  "server/test/e2e/form-builder-templates",
+                            "primaryUi":  "client/src/pages/form-builder-templates/TemplateBuilder.tsx"
+                        },
+    "scans":  {
+                  "throwNew":  0,
+                  "servicesMissingMicroserviceBase":  0,
+                  "clsImports":  0,
+                  "directTenantContextImports":  0,
+                  "directSdkImports":  0,
+                  "anyTypes":  0
+              },
+    "roleMap":  {
+                    "status":  "defined",
+                    "roles":  [
+                                  {
+                                      "role":  "tenant-admin",
+                                      "coverage":  "full",
+                                      "use":  "browses template library, previews templates, forks into tenant-local forms, and customizes templates",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "platform-admin",
+                                      "coverage":  "full",
+                                      "use":  "authors shared template archetypes, promotes templates, and operates platform template library",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "tenant-user",
+                                      "coverage":  "partial",
+                                      "use":  "power user with form-create permission can browse template gallery with action gating",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "freelancer",
+                                      "coverage":  "partial",
+                                      "use":  "views gig-intake relevant template filters",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "business-partner",
+                                      "coverage":  "partial",
+                                      "use":  "views B2B procurement and partnership template filters",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "platform-support",
+                                      "coverage":  "partial",
+                                      "use":  "read-only inspection of tenant template usage",
+                                      "authProbeExpected":  200
+                                  },
+                                  {
+                                      "role":  "anonymous",
+                                      "coverage":  "none",
+                                      "use":  "no primary FLOW-23 surface",
+                                      "authProbeExpected":  401
+                                  }
+                              ],
+                    "source":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-05.md FLOW-23 role table"
+                },
+    "secretHandling":  {
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false
+                       },
+    "phaseGate":  {
+                      "baselineJestPassed":  true,
+                      "sourceScansClean":  true,
+                      "roleMapDefined":  true,
+                      "readyForPhase0AuthPreflight":  true
+                  },
+    "verdict":  "PASS"
+}

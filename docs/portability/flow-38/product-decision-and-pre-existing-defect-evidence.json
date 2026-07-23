@@ -1,0 +1,38 @@
+{
+    "flowId":  "FLOW-38",
+    "flowSlug":  "rag-quality-feedback",
+    "phase":  "product-decision-and-pre-existing-defect-check",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T21:15:25.9457268Z",
+    "roleMap":  {
+                    "full":  "platform-admin",
+                    "wrongRoleControl":  "tenant-user on POST /api/marketplace/packages",
+                    "partial":  [
+                                    "platform-support",
+                                    "tenant-user",
+                                    "anonymous"
+                                ]
+                },
+    "preExistingDefectCheck":  {
+                                   "serverJest":  "npx jest --testPathPatterns=rag-quality-feedback --runInBand --colors=false =\u003e 6 suites / 66 tests passed",
+                                   "staticScan":  {
+                                                      "throwNew":  0,
+                                                      "servicesMissingMicroserviceBase":  0,
+                                                      "clsImports":  0,
+                                                      "directTenantContextImports":  0,
+                                                      "directSdkImports":  0,
+                                                      "typedAny":  0
+                                                  }
+                               },
+    "productDecision":  {
+                            "implementationSlug":  "rag-quality-feedback",
+                            "note":  "A stale acme-corp--rag-quality-feedback repo from the first failed assembler run is excluded from certification evidence; delete_repo scope was unavailable, so the certified cascade uses -f38 repo names.",
+                            "certificationRepoNames":  [
+                                                           "acme-corp--rag-quality-feedback-f38",
+                                                           "northwind--rag-quality-feedback-f38",
+                                                           "tessera-collective--rag-quality-feedback-f38"
+                                                       ],
+                            "adaptationSurface":  "docs/portability/flow-38/adaptation-surface-rag-quality-feedback.json"
+                        },
+    "verdict":  "PASS"
+}

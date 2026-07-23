@@ -1,0 +1,40 @@
+{
+  "phase": "C12",
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "executedAt": "2026-04-26T12:22:27.236048+00:00",
+  "executor": "phase-c12-real-fork-execution.py",
+  "vaultAddr": "http://localhost:8200",
+  "tenants": [
+    {
+      "tenantId": "acme-pro-members",
+      "repoUrl": "https://github.com/lubochka/acme-pro-members--user-registration",
+      "repoFullName": "lubochka/acme-pro-members--user-registration",
+      "workflowRunUrl": "https://github.com/lubochka/acme-pro-members--user-registration/actions/runs/24956511707",
+      "workflowRunId": 24956511707,
+      "workflowConclusion": "success",
+      "workflowRunAt": "2026-04-26T12:22:59.804597+00:00",
+      "connectionVerifiedAt": "2026-04-26T12:22:59.804610+00:00"
+    },
+    {
+      "tenantId": "northwind-guild",
+      "repoUrl": "https://github.com/lubochka/northwind-guild--user-registration",
+      "repoFullName": "lubochka/northwind-guild--user-registration",
+      "workflowRunUrl": "https://github.com/lubochka/northwind-guild--user-registration/actions/runs/24956523808",
+      "workflowRunId": 24956523808,
+      "workflowConclusion": "success",
+      "workflowRunAt": "2026-04-26T12:23:39.218503+00:00",
+      "connectionVerifiedAt": "2026-04-26T12:23:39.218516+00:00"
+    },
+    {
+      "tenantId": "tessera-collective",
+      "repoUrl": "https://github.com/lubochka/tessera-collective--user-registration",
+      "repoFullName": "lubochka/tessera-collective--user-registration",
+      "workflowRunUrl": "https://github.com/lubochka/tessera-collective--user-registration/actions/runs/24956537010",
+      "workflowRunId": 24956537010,
+      "workflowConclusion": "success",
+      "workflowRunAt": "2026-04-26T12:24:13.010804+00:00",
+      "connectionVerifiedAt": "2026-04-26T12:24:13.010819+00:00"
+    }
+  ]
+}

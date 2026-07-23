@@ -1,0 +1,96 @@
+{
+    "flowId":  "FLOW-30",
+    "flowSlug":  "tenant-lifecycle-manager",
+    "implementationSlug":  "tenant-lifecycle",
+    "phase":  "phase-3-visual-examination",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T23:43:31.9658774Z",
+    "clientTypescript":  {
+                             "command":  "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+                             "status":  "passed",
+                             "exitCode":  0
+                         },
+    "visualAudit":  {
+                        "command":  "Push-Location client; npx playwright test visual-audit-axis-d-full.spec.ts --grep tenant-lifecycle-manager --workers=1 --reporter=line; Pop-Location",
+                        "status":  "passed",
+                        "testsPassed":  9,
+                        "testsTotal":  9,
+                        "projects":  [
+                                         "chromium-desktop",
+                                         "chromium-tablet",
+                                         "chromium-mobile"
+                                     ],
+                        "cells":  [
+                                      "primary platform-admin",
+                                      "primary platform-support",
+                                      "populated platform-admin"
+                                  ]
+                    },
+    "screenshots":  {
+                        "visualDirectory":  "docs/e2e-snapshots/visual-audit/{project}/tenant-lifecycle-manager",
+                        "visualPngCount":  9,
+                        "visualZeroByteCount":  0,
+                        "visualFiles":  [
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-desktop\\tenant-lifecycle-manager\\populated-platform-admin.png",
+                                                "bytes":  28933
+                                            },
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-desktop\\tenant-lifecycle-manager\\primary-platform-admin.png",
+                                                "bytes":  52286
+                                            },
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-desktop\\tenant-lifecycle-manager\\primary-platform-support.png",
+                                                "bytes":  54463
+                                            },
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-mobile\\tenant-lifecycle-manager\\populated-platform-admin.png",
+                                                "bytes":  93862
+                                            },
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-mobile\\tenant-lifecycle-manager\\primary-platform-admin.png",
+                                                "bytes":  191646
+                                            },
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-mobile\\tenant-lifecycle-manager\\primary-platform-support.png",
+                                                "bytes":  200595
+                                            },
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-tablet\\tenant-lifecycle-manager\\populated-platform-admin.png",
+                                                "bytes":  28467
+                                            },
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-tablet\\tenant-lifecycle-manager\\primary-platform-admin.png",
+                                                "bytes":  49637
+                                            },
+                                            {
+                                                "path":  "docs\\e2e-snapshots\\visual-audit\\chromium-tablet\\tenant-lifecycle-manager\\primary-platform-support.png",
+                                                "bytes":  52522
+                                            }
+                                        ],
+                        "phase2Directory":  "docs/e2e-snapshots/tenant-lifecycle-manager",
+                        "phase2PngCount":  13,
+                        "phase2ZeroByteCount":  0
+                    },
+    "plainLanguageScan":  {
+                              "tenantConsumerPage":  false,
+                              "rawSourceMatchesReviewed":  1,
+                              "failureLines":  0,
+                              "reviewedFindings":  [
+                                                       {
+                                                           "file":  "client/src/pages/tenant-lifecycle-manager/TenantLifecycleManagerPage.tsx",
+                                                           "line":  515,
+                                                           "pattern":  "ENGINE_INTERNAL",
+                                                           "classification":  "non-visible enum prop",
+                                                           "reason":  "AdminCrudPanel renders this enum as the visible human label Platform-only; the enum remains only as a source prop/title for admin debug."
+                                                       }
+                                                   ]
+                          },
+    "phaseGate":  {
+                      "clientTypeScriptPassed":  true,
+                      "visualAuditPassed":  true,
+                      "pngCountsPassed":  true,
+                      "plainLanguageFailureLines":  0,
+                      "readyForForkCascade":  true
+                  }
+}

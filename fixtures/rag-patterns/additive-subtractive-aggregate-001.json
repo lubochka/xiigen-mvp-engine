@@ -1,0 +1,24 @@
+{
+  "patternId": "additive-subtractive-aggregate-001",
+  "patternType": "ARCH_PATTERN",
+  "flowId": "FLOW-10",
+  "domainId": "reviews-reputation",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "archetype": "DATA_PIPELINE",
+  "tags": ["retraction-handling", "additive-subtractive", "two-event-subscription", "recalculate"],
+  "keywords": "retraction aggregation ReviewRetracted remove recalculate PUBLISHED filter additive subtractive first in system",
+  "ironRules": [
+    "Subscribe to both ReviewPublished (add) and ReviewRetracted (remove)",
+    "Both event handlers call the same recalculate() function — not a running counter",
+    "Score recalculation fetches all PUBLISHED reviews (status=PUBLISHED filter) — flagged/pending excluded",
+    "First additive-subtractive pattern in XIIGen — prior flows (FLOW-05/06) are additive-only",
+    "Named check: retraction_removes_from_aggregate"
+  ],
+  "codeSnippet": "// CORRECT: two event handlers\n@EventPattern('ReviewPublished') async onPublished(e) { await this.recalculate(e.targetEntityId); }\n@EventPattern('ReviewRetracted') async onRetracted(e) { await this.recalculate(e.targetEntityId); }\n\n// recalculate: fetch PUBLISHED only, apply weights, clamp [1.0,5.0], store before enqueue\n\n// WRONG: additive-only\n@EventPattern('ReviewPublished') async onPublished(e) { /* add only — retraction ignored */ }",
+  "appliesTo": ["FLOW-05", "FLOW-06", "FLOW-13"],
+  "curriculumTier": 2,
+  "qualityScore": 0.91,
+  "sourceDocument": "FLOW-10-DESIGN-SIMULATION-R1.md",
+  "connectionType": "FLOW_SCOPED",
+  "knowledgeScope": "GLOBAL"
+}

@@ -1,0 +1,58 @@
+{
+  "taskTypeId": "T102",
+  "flowId": "FLOW-06",
+  "name": "MembershipRecorder",
+  "archetype": "ROUTING",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "setnx-group-type-from-db",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow06_membership_index",
+    "neutralConcepts": [
+      "SETNX on membership:{userId}:{groupId}",
+      "group.type read from DB (xiigen-groups) — NOT from request",
+      "PRIVATE group → PENDING state → emit MembershipPending",
+      "PUBLIC group → ACTIVE state → emit MembershipActivated",
+      "storeDocument BEFORE any emit"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F199",
+      "interface": "IMembershipRecorderService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T102-1",
+      "rule": "SETNX on membership:{userId}:{groupId} — duplicate join returns success (idempotent), not failure.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T102-2",
+      "rule": "group.type read from xiigen-groups DB — never from request payload. Client cannot declare a group as PUBLIC.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T102-3",
+      "rule": "PRIVATE group: store membership with status=PENDING, emit MembershipPending. MembershipActivated must NOT be emitted for PRIVATE groups.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T102-4",
+      "rule": "DNA-8: storeDocument BEFORE any emit (MembershipActivated or MembershipPending).",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "setnx_before_operation",
+    "store_before_enqueue",
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["membership-recorder", "setnx", "group-type", "pending-private", "ROUTING"],
+  "keywords": "membership recorder SETNX group type DB PRIVATE PENDING PUBLIC ACTIVE storeDocument before emit"
+}

@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-32",
+  "flowSlug": "sharable-flows-marketplace",
+  "implementationSlug": "sharable-flows-marketplace",
+  "phase": "phase2E2EPlaywright",
+  "recordedAt": "2026-05-11T06:28:25.7719950Z",
+  "fixesApplied": [
+    {
+      "file": "client/e2e/sharable-flows-marketplace-mock-states.spec.ts",
+      "summary": "Made default and mock-state screenshots viewport-qualified; updated the default no-mock assertion to verify the public browse branch that now renders by default."
+    },
+    {
+      "file": "client/e2e/sharable-flows-marketplace-crud.spec.ts",
+      "summary": "Made CRUD screenshots viewport-qualified; drove the platform-admin role, expanded the platform-only raw-index panel before CRUD assertions, and waited for mobile list/empty state rendering."
+    },
+    {
+      "file": "client/e2e/c6-role-coverage-runs-22-44.spec.ts",
+      "summary": "Made FLOW-32 C6 role coverage screenshots viewport-qualified for anonymous and freelancer branches."
+    }
+  ],
+  "verification": [
+    {
+      "name": "client TypeScript",
+      "command": "Push-Location client; npx tsc --noEmit; Pop-Location",
+      "exitCode": 0,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-32 CRUD and mock-state Playwright matrix",
+      "command": "Push-Location client; $env:VITE_PORT='5175'; npx playwright test e2e/sharable-flows-marketplace-mock-states.spec.ts e2e/sharable-flows-marketplace-crud.spec.ts --workers=1 --timeout=60000 --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 39,
+      "result": "passed"
+    },
+    {
+      "name": "FLOW-32 C6 role coverage Playwright matrix",
+      "command": "Push-Location client; $env:VITE_PORT='5175'; npx playwright test e2e/c6-role-coverage-runs-22-44.spec.ts -g \"C6-R32\" --workers=1 --timeout=60000 --reporter=line; Pop-Location",
+      "exitCode": 0,
+      "testsPassed": 6,
+      "result": "passed"
+    }
+  ],
+  "pngMatrix": {
+    "flowViewportPngCount": 39,
+    "roleViewportPngCount": 6,
+    "totalViewportPngCount": 45,
+    "expectedFlowViewportPngCount": 39,
+    "expectedRoleViewportPngCount": 6,
+    "expectedTotalViewportPngCount": 45,
+    "zeroByteCount": 0,
+    "roots": [
+      "docs/e2e-snapshots/sharable-flows-marketplace",
+      "docs/e2e-snapshots/c6-role-coverage"
+    ],
+    "note": "FLOW-32 matrix covers default public browse, 8 mock states, and 4 CRUD screenshots across desktop, tablet, and mobile, plus anonymous and freelancer C6 role branches across the same 3 viewports."
+  },
+  "knownNonBlockingTypecheckDrift": {
+    "command": "Push-Location client; npx tsc --noEmit -p e2e/tsconfig.json; Pop-Location",
+    "exitCode": 2,
+    "status": "blocked-by-inherited-unrelated-e2e-spec-errors",
+    "flow32ChangedFilesCheckedByPlaywright": true,
+    "representativeFiles": [
+      "client/e2e/etl-data-integration-role-matrix.spec.ts",
+      "client/e2e/event-management-event-attendance-teaching-pipeline.spec.ts",
+      "client/e2e/feature-registry-crud.spec.ts",
+      "client/e2e/flow-01-cascade.spec.ts",
+      "client/e2e/teaching-pipeline.spec.ts"
+    ]
+  },
+  "secretHandling": {
+    "containsCredentials": false,
+    "containsSigningKeys": false,
+    "containsBearerTokens": false
+  },
+  "verdict": "PASS"
+}

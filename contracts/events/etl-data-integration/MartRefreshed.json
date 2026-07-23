@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MartRefreshed",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "MartRefreshed" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["martId","refreshType","rowsAffected","piiGateApplied"],
+      "properties": {
+        "martId": { "type": "string" },
+        "refreshType": { "type": "string", "enum": ["full","incremental"] },
+        "rowsAffected": { "type": "integer" },
+        "piiGateApplied": { "type": "boolean", "description": "DR-63: IPiiClassificationService applied before write" }
+      }
+    }
+  }
+}

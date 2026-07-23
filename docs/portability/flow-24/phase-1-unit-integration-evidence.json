@@ -1,0 +1,37 @@
+﻿{
+    "flowId":  "FLOW-24",
+    "flowSlug":  "ai-safety-moderation",
+    "phase":  "phase1UnitTests",
+    "generatedAt":  "2026-05-10T10:32:10.4048980Z",
+    "verification":  {
+                         "serverTypeScript":  {
+                                                  "command":  "npx tsc --noEmit -p tsconfig.json --pretty false",
+                                                  "workingDirectory":  "server",
+                                                  "exitCode":  0,
+                                                  "result":  "PASS"
+                                              },
+                         "flowJest":  {
+                                          "command":  "npx jest --testPathPatterns=ai-safety-moderation --runInBand --colors=false",
+                                          "workingDirectory":  "server",
+                                          "exitCode":  0,
+                                          "testSuitesPassed":  4,
+                                          "testSuitesTotal":  4,
+                                          "testsPassed":  91,
+                                          "testsTotal":  91,
+                                          "result":  "PASS"
+                                      },
+                         "sourceScans":  {
+                                             "throwNew":  0,
+                                             "servicesMissingMicroserviceBase":  0,
+                                             "clsImports":  0,
+                                             "directTenantContextImports":  0,
+                                             "directSdkImports":  0,
+                                             "anyTypes":  0,
+                                             "result":  "PASS"
+                                         }
+                     },
+    "notes":  [
+                  "Phase 1 reused the repaired FLOW-24 service state from the pre-existing-defect phase and refreshed all TypeScript/Jest/source-scan checks after the phase 0 commit."
+              ],
+    "verdict":  "PASS"
+}

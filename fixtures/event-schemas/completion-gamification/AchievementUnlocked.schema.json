@@ -1,0 +1,11 @@
+{
+  "eventType": "AchievementUnlocked",
+  "flowId": "FLOW-05",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "achievement-gate",
+  "consumers": ["T98"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "achievementId", "achievementName", "unlockedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T87 only for NEW achievements (idempotent by userId+achievementId). History check required before emit. Part of Branch A gate for T98."
+}

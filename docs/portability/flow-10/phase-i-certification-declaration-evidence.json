@@ -1,0 +1,262 @@
+{
+  "flowId": "FLOW-10",
+  "flowSlug": "reviews-reputation",
+  "phase": "phaseICertificationDeclaration",
+  "status": "completed",
+  "generatedAt": "2026-05-05T23:24:00+03:00",
+  "earnedTier": {
+    "label": "Tier 3 - full three-tenant portability plus Vault auth cascade",
+    "legacyAlias": "Tier D",
+    "basis": "Declared from completed protocol gates: real marketplace API forks, three tenant repositories, three adapted and published packages, green GitHub Actions, local registry readback, screenshot evidence at every cascade point, and live Docker/Vault auth isolation."
+  },
+  "tenantRepos": [
+    {
+      "tenant": "acme-corp",
+      "repo": "lubochka/acme-corp--reviews-reputation",
+      "package": "@xiigen-fork/acme-verified-trust-reviews@1.0.1",
+      "finalActionsRunId": 25396548422,
+      "finalActionsConclusion": "success",
+      "finalCommit": "7a91bbf8bf9c7ef8e4ddea745822f56b333bba64",
+      "defaultBranch": "main",
+      "private": true
+    },
+    {
+      "tenant": "northwind",
+      "repo": "lubochka/northwind--northwind-trust-signal-reviews",
+      "package": "@xiigen-fork/northwind-trust-signal-reviews@1.0.2",
+      "finalActionsRunId": 25398167720,
+      "finalActionsConclusion": "success",
+      "finalCommit": "fe81804a79e7e86a2926bb8be1d46b9d04066796",
+      "defaultBranch": "main",
+      "private": true
+    },
+    {
+      "tenant": "tessera-collective",
+      "repo": "lubochka/tessera--tessera-community-trust-reviews",
+      "package": "@xiigen-fork/tessera-community-trust-reviews@1.0.3",
+      "finalActionsRunId": 25399669762,
+      "finalActionsConclusion": "success",
+      "finalCommit": "8079f99a0be44d11330671da6e2df1de6025d527",
+      "defaultBranch": "main",
+      "private": true
+    }
+  ],
+  "registryVerification": [
+    {
+      "package": "@xiigen-fork/acme-verified-trust-reviews",
+      "expectedVersion": "1.0.1",
+      "actualVersion": "1.0.1",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "package": "@xiigen-fork/northwind-trust-signal-reviews",
+      "expectedVersion": "1.0.2",
+      "actualVersion": "1.0.2",
+      "registry": "http://localhost:4873",
+      "verified": true
+    },
+    {
+      "package": "@xiigen-fork/tessera-community-trust-reviews",
+      "expectedVersion": "1.0.3",
+      "actualVersion": "1.0.3",
+      "registry": "http://localhost:4873",
+      "verified": true
+    }
+  ],
+  "behavioralAssertions": [
+    {
+      "case": "confidence 0.89",
+      "northwindPolicy": {
+        "passThreshold": 0.88,
+        "rejectThreshold": 0.15,
+        "verdict": "PUBLISHED"
+      },
+      "tesseraPolicy": {
+        "passThreshold": 0.9,
+        "rejectThreshold": 0.12,
+        "verdict": "PENDING"
+      },
+      "domainOutcomeChanged": true,
+      "meaning": "Tessera's stricter auto-approve threshold routes a borderline review to human moderation instead of publishing immediately."
+    },
+    {
+      "case": "confidence 0.13",
+      "northwindPolicy": {
+        "passThreshold": 0.88,
+        "rejectThreshold": 0.15,
+        "verdict": "REJECTED"
+      },
+      "tesseraPolicy": {
+        "passThreshold": 0.9,
+        "rejectThreshold": 0.12,
+        "verdict": "PENDING"
+      },
+      "domainOutcomeChanged": true,
+      "meaning": "Tessera's lower reject floor sends a borderline low-confidence review to human moderation instead of automatic rejection."
+    }
+  ],
+  "visualEvidence": {
+    "listingScreenshots": [
+      {
+        "path": "docs/e2e-snapshots/marketplace/reviews-reputation-v1.0.1-listing.png",
+        "bytes": 289369
+      },
+      {
+        "path": "docs/e2e-snapshots/marketplace/reviews-reputation-v1.0.2-listing.png",
+        "bytes": 304179
+      },
+      {
+        "path": "docs/e2e-snapshots/marketplace/reviews-reputation-v1.0.3-listing.png",
+        "bytes": 316877
+      }
+    ],
+    "cascadeDirectories": [
+      {
+        "path": "docs/e2e-snapshots/reviews-reputation/tenant-a-v1.0.1",
+        "expectedPngCount": 12,
+        "actualPngCount": 12,
+        "zeroBytePngs": 0,
+        "minBytes": 24970
+      },
+      {
+        "path": "docs/e2e-snapshots/reviews-reputation/tenant-b-installed-from-a",
+        "expectedPngCount": 12,
+        "actualPngCount": 12,
+        "zeroBytePngs": 0,
+        "minBytes": 26247
+      },
+      {
+        "path": "docs/e2e-snapshots/reviews-reputation/tenant-b-v1.0.2",
+        "expectedPngCount": 12,
+        "actualPngCount": 12,
+        "zeroBytePngs": 0,
+        "minBytes": 25186
+      },
+      {
+        "path": "docs/e2e-snapshots/reviews-reputation/tenant-c-installed-from-b",
+        "expectedPngCount": 12,
+        "actualPngCount": 12,
+        "zeroBytePngs": 0,
+        "minBytes": 25896
+      },
+      {
+        "path": "docs/e2e-snapshots/reviews-reputation/tenant-c-v1.0.3",
+        "expectedPngCount": 12,
+        "actualPngCount": 12,
+        "zeroBytePngs": 0,
+        "minBytes": 25811
+      }
+    ],
+    "repoScreenshots": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/acme-corp--reviews-reputation-tenant-a-v1.0.1-github-listing.png",
+        "bytes": 126884
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/acme-corp--reviews-reputation-tenant-a-v1.0.1-actions-success.png",
+        "bytes": 76626
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/northwind--northwind-trust-signal-reviews-github-listing.png",
+        "bytes": 129034
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/northwind--northwind-trust-signal-reviews-actions-success.png",
+        "bytes": 75433
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/tessera--northwind-trust-signal-reviews-github-listing.png",
+        "bytes": 131795
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/tessera--northwind-trust-signal-reviews-actions-success.png",
+        "bytes": 75924
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/tessera--tessera-community-trust-reviews-github-listing.png",
+        "bytes": 127457
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-10/tessera--tessera-community-trust-reviews-actions-success.png",
+        "bytes": 77979
+      }
+    ]
+  },
+  "authVerdict": {
+    "phase0Evidence": "docs/portability/flow-10/phase-0-docker-vault-auth-evidence.json",
+    "phaseHEvidence": "docs/portability/flow-10/phase-h-auth-decoration-evidence.json",
+    "finalCascadeAuthEvidence": "docs/portability/flow-10/phase-5c5-tenant-c-adaptation-evidence.json",
+    "phaseHLiveChecks": {
+      "passed": 8,
+      "failed": 0
+    },
+    "missingTokenDenied": true,
+    "crossTenantJwtIsolationPassed": true,
+    "roleProtectedRoutesReturn403ForWrongRole": true,
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesCommittedOrWrittenToEvidence": false
+  },
+  "completedPhases": [
+    "preExistingDefectCheck",
+    "phase0AuthPreflight",
+    "phase1UnitTests",
+    "phase2E2ETests",
+    "phase3VisualExamination",
+    "phase4Point0TenantAOriginalFork",
+    "phase4AiAdaptation",
+    "phase5aTenantBInstalls",
+    "phase5bTenantBAdapts",
+    "phase5cTenantCInstalls",
+    "phase5c5TenantCAdapts",
+    "phaseHAuthDecorationCheck",
+    "phaseICertificationDeclaration"
+  ],
+  "sourceEvidenceFiles": [
+    "docs/portability/flow-10/phase-0-docker-vault-auth-evidence.json",
+    "docs/portability/flow-10/phase-2-playwright-png-evidence.json",
+    "docs/portability/flow-10/phase-3-visual-examination-evidence.json",
+    "docs/portability/flow-10/phase-4.0-tenant-a-original-fork-evidence.json",
+    "docs/portability/flow-10/phase-4-tenant-a-ai-adaptation-evidence.json",
+    "docs/portability/flow-10/phase-5a-tenant-b-installed-from-a-evidence.json",
+    "docs/portability/flow-10/phase-5b-tenant-b-adaptation-evidence.json",
+    "docs/portability/flow-10/phase-5c-tenant-c-installed-from-b-evidence.json",
+    "docs/portability/flow-10/phase-5c5-tenant-c-adaptation-evidence.json",
+    "docs/portability/flow-10/phase-h-auth-decoration-evidence.json"
+  ],
+  "blockerResolution": [
+    {
+      "id": "FLOW-10-FIXMAP-001",
+      "status": "completed",
+      "resolution": "AI adaptation proof completed through three Type A FREEDOM package adaptations and registry-published cascade evidence."
+    },
+    {
+      "id": "FLOW-10-FIXMAP-003",
+      "status": "completed",
+      "resolution": "Plugin/package publication completed for Acme 1.0.1, Northwind 1.0.2, and Tessera 1.0.3 in the local registry."
+    },
+    {
+      "id": "FLOW-10-FIXMAP-004",
+      "status": "completed",
+      "resolution": "Domain-level before/after assertion recorded: Tessera threshold changes alter moderation outcomes for confidence 0.89 and 0.13."
+    }
+  ],
+  "completionGate": {
+    "allPriorPhasesCompleted": true,
+    "technicalDebtItems": 0,
+    "openBlockers": 0,
+    "realMarketplaceApiForks": true,
+    "realGitHubRepos": true,
+    "greenGitHubActions": true,
+    "localRegistryCascadeVerified": true,
+    "dockerVaultAuthVerified": true,
+    "crossTenantJwtIsolationPassed": true,
+    "roleProtectedRoutesReturn403ForWrongRole": true,
+    "missingTokensReturn401": true,
+    "visualEvidenceAtAllCascadePoints": true,
+    "repoScreenshotsAtAllCascadePoints": true,
+    "secretsCommittedOrWrittenToEvidence": false
+  },
+  "certificationGaps": [],
+  "verdict": "PASS"
+}

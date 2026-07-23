@@ -1,0 +1,127 @@
+{
+    "flowId":  "FLOW-14",
+    "flowSlug":  "etl-data-integration",
+    "phase":  "phase5c5TenantCAdapts",
+    "capturedAt":  "2026-05-06T12:48:02.0013380+03:00",
+    "tenant":  "tessera-collective",
+    "status":  "completed",
+    "sourceTenant":  "northwind",
+    "sourcePackage":  {
+                          "packageName":  "@xiigen-fork/northwind-exchange-etl-data-integration",
+                          "packageVersion":  "1.0.2",
+                          "sourceRepoFullName":  "lubochka/northwind--northwind-exchange-etl-data-integration"
+                      },
+    "tenantAdaptedRepo":  {
+                              "previousRepoFullName":  "lubochka/tessera-collective--northwind-exchange-etl-data-integration",
+                              "repoFullName":  "lubochka/tessera-collective--tessera-community-etl-data-integration",
+                              "repoUrl":  "https://github.com/lubochka/tessera-collective--tessera-community-etl-data-integration",
+                              "adaptedCommitSha":  "9ff8f468a37758d377c9678c6cf300b4526b6325",
+                              "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\tessera-collective--northwind-exchange-etl-data-integration-phase5c-20260506-122520"
+                          },
+    "githubActions":  {
+                          "runId":  25427832514,
+                          "jobId":  74585903625,
+                          "runUrl":  "https://github.com/lubochka/tessera-collective--tessera-community-etl-data-integration/actions/runs/25427832514",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "9ff8f468a37758d377c9678c6cf300b4526b6325"
+                      },
+    "localTenantValidation":  [
+                                  "npx tsc --noEmit --pretty false passed.",
+                                  "npx jest --colors=false --forceExit passed: 4 suites / 11 tests.",
+                                  "npm pack --dry-run --json returned @xiigen-fork/tessera-community-etl-data-integration@1.0.3 with 125 files."
+                              ],
+    "registryPublication":  {
+                                "registry":  "http://localhost:4873",
+                                "packageName":  "@xiigen-fork/tessera-community-etl-data-integration",
+                                "packageVersion":  "1.0.3",
+                                "shasum":  "25167b9641c4ddb3308eeb7de6ee999df5d01d3d",
+                                "gitHead":  "9ff8f468a37758d377c9678c6cf300b4526b6325",
+                                "tarball":  "http://localhost:4873/@xiigen-fork/tessera-community-etl-data-integration/-/tessera-community-etl-data-integration-1.0.3.tgz",
+                                "registryApiEvidence":  "docs/e2e-snapshots/marketplace/etl-data-integration-tessera-v1.0.3-registry-api-evidence.json"
+                            },
+    "tenantAdaptationSummary":  {
+                                    "packageName":  "@xiigen-fork/tessera-community-etl-data-integration",
+                                    "packageVersion":  "1.0.3",
+                                    "newTenant":  "tessera-collective",
+                                    "inheritedAdaptation":  "northwind v1.0.2 over acme-corp v1.0.1",
+                                    "freedomChanges":  [
+                                                           "Changed sync page size from 750 to 500 for Tessera community exchange load.",
+                                                           "Changed backfill slice size from 3500 to 2000 and max parallel slices from 5 to 3.",
+                                                           "Changed schema drift quarantine threshold from 0.10 to 0.08 and approval timeout from 300000 ms to 180000 ms.",
+                                                           "Raised identity confidence threshold from 0.94 to 0.96.",
+                                                           "Changed reverse ETL push batch size from 400 to 150 and lock timeout from 90000 ms to 60000 ms.",
+                                                           "Changed partner dropoff alert threshold from 12 to 6 and exchange SLA from 30 minutes to 45 minutes.",
+                                                           "Added Tessera consent review sample rate of 0.20."
+                                                       ],
+                                    "preservedInvariants":  [
+                                                                "Vault-only credentials retained; no tenant secrets in package files.",
+                                                                "Webhook HMAC remains timing-safe and fail-closed.",
+                                                                "Cross-tenant identity joins remain blocked.",
+                                                                "Raw zone remains append-only.",
+                                                                "FLOW-13 peer ACTIVE check remains required for cross-flow analytics.",
+                                                                "Reverse ETL remains queue-fabric-only.",
+                                                                "Row-level security remains mandatory.",
+                                                                "storeDocument before enqueue outbox ordering remains enforced."
+                                                            ]
+                                },
+    "visualEvidence":  {
+                           "playwrightSpec":  "client/e2e/etl-data-integration-tenant-c-adaptation.spec.ts",
+                           "command":  "Push-Location client; $env:VITE_PORT=5174; npx playwright test e2e/etl-data-integration-tenant-c-adaptation.spec.ts --project=chromium-desktop; Pop-Location",
+                           "result":  "12 passed",
+                           "pngDirectory":  "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3",
+                           "pngCount":  12,
+                           "pngFiles":  [
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/platform-admin-C2-en-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/platform-admin-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/platform-admin-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/platform-support-C2-en-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/platform-support-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/platform-support-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/tenant-admin-C2-en-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/tenant-admin-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/tenant-admin-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/tenant-user-C2-en-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/tenant-user-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3/tenant-user-C6-en-mobile.png"
+                                        ]
+                       },
+    "screenshots":  [
+                        "docs/e2e-snapshots/etl-data-integration/tenant-c-v1.0.3",
+                        "docs/e2e-snapshots/repo-evidence/flow-14/tessera-collective--tessera-community-etl-data-integration-tenant-c-v1.0.3-github-listing.png",
+                        "docs/e2e-snapshots/repo-evidence/flow-14/tessera-collective--tessera-community-etl-data-integration-tenant-c-v1.0.3-actions-success.png",
+                        "docs/e2e-snapshots/marketplace/etl-data-integration-tessera-v1.0.3-registry-listing.png"
+                    ],
+    "phaseCloseChecks":  {
+                             "clientTypeScript":  "passed: npx tsc --noEmit --pretty false",
+                             "tenantCAdaptedPlaywright":  "passed: npx playwright test e2e/etl-data-integration-tenant-c-adaptation.spec.ts --project=chromium-desktop (12 tests)",
+                             "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+                             "serverJest":  "passed: npx jest --testPathPatterns=etl-data-integration --runInBand --colors=false (15 suites / 220 tests)",
+                             "sourceScan":  {
+                                                "throwNew":  0,
+                                                "servicesMissingMicroserviceBase":  0,
+                                                "clsImports":  0,
+                                                "directTenantContextImports":  0,
+                                                "directSdkImports":  0,
+                                                "anyTypes":  0,
+                                                "secretPatternHits":  0
+                                            }
+                         },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantCAdaptedTenantBPackage":  true,
+                      "localRegistryReturnsTenantCPackage":  true,
+                      "realGitHubActionsGreen":  true,
+                      "cascadeScreenshotsPresent":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForAuthDecoration":  true
+                  },
+    "result":  "Tenant C adapted Tenant B package, published v1.0.3 to the local registry, proved green GitHub Actions, and completed the FLOW-14 three-tenant cascade publication evidence."
+}

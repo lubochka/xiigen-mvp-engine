@@ -1,0 +1,17 @@
+{
+  "index": "xiigen-module-adoptions",
+  "mappings": {
+    "properties": {
+      "adoptionId":        { "type": "keyword" },
+      "moduleId":          { "type": "keyword" },
+      "adoptingTenantId":  { "type": "keyword" },
+      "ownerTenantId":     { "type": "keyword" },
+      "flowId":            { "type": "keyword" },
+      "phase":             { "type": "keyword" },
+      "adoptedAt":         { "type": "date" },
+      "pricingModel":      { "type": "keyword" },
+      "copiedToRag":       { "type": "boolean" },
+      "ragNamespace":      { "type": "keyword" }
+    }
+  }
+}

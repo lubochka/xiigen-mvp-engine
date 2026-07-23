@@ -1,0 +1,87 @@
+{
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "phase": "Tenant C installs from Tenant B published package",
+  "recordedAt": "2026-04-30T18:52:52.8745853+03:00",
+  "tenantId": "tessera-collective",
+  "repoCreated": true,
+  "repoName": "tessera-collective--user-registration-northwind-guild",
+  "repoUrl": "https://github.com/lubochka/tessera-collective--user-registration-northwind-guild",
+  "repoFullName": "lubochka/tessera-collective--user-registration-northwind-guild",
+  "sourceRepoFullName": "lubochka/northwind--user-registration-northwind-guild",
+  "sourcePackage": {
+    "packageName": "@xiigen-fork/user-registration-northwind-guild",
+    "version": "1.0.2",
+    "registryLatest": "1.0.2"
+  },
+  "forkEngine": {
+    "invocation": "ForkFlowHandlerService through a Nest testing module with Vault-backed tenant credentials and GitHub provisioner; no manual repo creation",
+    "forkResultPath": "docs/portability/flow-01/phase-05c-fork-handler-result.json",
+    "forkId": "fork-user-registration-northwind-guild-tessera-collective",
+    "status": "FORKED",
+    "initialCommitSha": "d0ffcf6f0b91bdebd18d2d74f656fbc6bb7e214c"
+  },
+  "repoEvidenceType": "GitHub API JSON evidence approved by Luba for private repo data",
+  "githubListingEvidencePath": "docs/e2e-snapshots/repo-evidence/tessera-collective--user-registration-northwind-guild-github-listing-api-evidence.json",
+  "repoHomepageEvidencePath": "docs/e2e-snapshots/repo-evidence/tessera-collective--user-registration-northwind-guild-repo-homepage-api-evidence.json",
+  "githubActionsEvidencePath": "docs/e2e-snapshots/repo-evidence/tessera-collective--user-registration-northwind-guild-actions-api-evidence.json",
+  "githubListingPngExists": false,
+  "repoHomepagePngExists": false,
+  "ciRunPassed": true,
+  "workflowConclusion": "success",
+  "workflowRunUrl": "https://github.com/lubochka/tessera-collective--user-registration-northwind-guild/actions/runs/25174181403",
+  "workflowHeadSha": "d0ffcf6f0b91bdebd18d2d74f656fbc6bb7e214c",
+  "forkLocalChecks": {
+    "clonePath": "C:\\Projects\\xiigen mvp\\tmp\\phase-05c-tenant-c-repo",
+    "npmInstall": "passed: npm install --no-audit --no-fund",
+    "typeScript": "passed: npm run tsc",
+    "jest": "passed: npm test -- --runInBand --forceExit; 2 suites, 3 tests",
+    "tenantConfig": {
+      "tenantId": "tessera-collective",
+      "moduleName": "user-registration-northwind-guild",
+      "repoName": "tessera-collective--user-registration-northwind-guild",
+      "installedFromRepoFullName": "lubochka/northwind--user-registration-northwind-guild",
+      "adaptationHistoryEntries": 2
+    }
+  },
+  "monorepoChecks": {
+    "forkHandlerRegressionJest": "passed: npx jest --testPathPatterns=module-lifecycle/__tests__/fork-flow.handler.spec.ts --runInBand --forceExit; 18 tests",
+    "serverTypeScript": "passed: npx tsc --noEmit -p tsconfig.json from server package",
+    "crossTenantJwtJest": "passed: npx jest --testPathPatterns=auth/cross-tenant-jwt.spec.ts --runInBand --forceExit; 12 tests",
+    "tenantInstallJest": "passed: npx jest --testPathPatterns=user-registration/phase-01-third-tenant-install.spec.ts --runInBand --forceExit; 7 tests"
+  },
+  "visualEvidence": {
+    "directory": "docs/e2e-snapshots/user-registration/tenant-c-installed-from-b",
+    "pngCount": 288,
+    "expectedPngCount": 288,
+    "zeroBytePngs": 0,
+    "rolesCovered": 8,
+    "pagesCovered": 6,
+    "cellsPerPageRole": 6,
+    "tenantCBrandAsserted": true,
+    "tenantBAdaptationAsserted": true,
+    "playwrightCommand": "XIIGEN_VISUAL_TARGET=tenant-c-installed-from-b VITE_PORT=52944 npx playwright test e2e/flow-01-visual.spec.ts --project=chromium-desktop --workers=8 --reporter=line; 288 passed"
+  },
+  "engineFix": {
+    "rootCause": "Source-repo cascade forks rewrote tenant.config.json but left package test assertions pointing at the source tenant.",
+    "fix": "The fork handler now rewrites cascade-fork package tenant and repo assertions before pushing the tenant repo.",
+    "files": [
+      "server/src/engine/flows/module-lifecycle/fork-flow.handler.ts",
+      "server/src/engine/flows/module-lifecycle/__tests__/fork-flow.handler.spec.ts",
+      "docs/xiigenDesign/ENGINE_ARCHITECTURE_MERGED.md"
+    ]
+  },
+  "completionGate": {
+    "sourcePackageIsTenantBPublishedVersion": true,
+    "repoCreatedByForkEngine": true,
+    "repoContainsTenantCBundle": true,
+    "workflowConclusionIsSuccess": true,
+    "localForkTypeScriptPassed": true,
+    "localForkJestPassed": true,
+    "tenantCAuthPassed": true,
+    "crossTenantJwtIsolationPassed": true,
+    "visualEvidenceExists": true,
+    "expectedPngCountMet": true,
+    "engineRegressionTestAdded": true
+  }
+}

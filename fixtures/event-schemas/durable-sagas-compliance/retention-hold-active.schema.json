@@ -1,0 +1,12 @@
+{
+  "eventType": "durable-sagas.retention.hold-active",
+  "flowId": "FLOW-19",
+  "version": "1.0.0",
+  "properties": {
+    "tenantId": { "type": "string", "required": true },
+    "recordId": { "type": "string", "required": true },
+    "sourceIndex": { "type": "string", "required": true },
+    "retentionExpiresAt": { "type": "string", "format": "date-time", "required": true },
+    "holdCheckAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

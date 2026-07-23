@@ -1,0 +1,111 @@
+{
+  "flowSlug": "event-attendance",
+  "flowId": "FLOW-04",
+  "adapterTenant": {
+    "tenantId": "acme-corp",
+    "tenantLabel": "Acme Corp",
+    "adaptedModuleName": "event-attendance-acme-onsite-check-in",
+    "version": "1.0.1"
+  },
+  "adaptationType": "Type A (FREEDOM key value change)",
+  "freedomKeys": [
+    {
+      "name": "flow04_rsvp_cancellation_window_hours",
+      "currentValue": 24,
+      "adaptedValue": 6,
+      "semantics": "Number of hours before event start when attendee cancellation remains allowed.",
+      "irCitation": "T63 RSVP cancellation window",
+      "profile": 2,
+      "adaptationTypes": [
+        "Type A"
+      ],
+      "runtimeReader": "server/src/engine/flows/event-attendance/rsvp-orchestrator.service.ts",
+      "observableIn": [
+        "Tenant A visual screenshots show a 6-hour cancellation policy",
+        "Future Tenant A fork regression can seed the tenant override and assert the shortened cancellation decision path",
+        "Tenant B adapted screenshots show the inherited 6-hour cancellation policy.",
+        "Tenant C adapted screenshots show the 3-hour cancellation policy."
+      ],
+      "inheritedValueForNorthwind": 6,
+      "adaptedValueForTessera": 3
+    },
+    {
+      "name": "flow04_feedback_window_hours",
+      "currentValue": 24,
+      "adaptedValue": 12,
+      "semantics": "Number of hours after the event when attendee feedback remains open.",
+      "irCitation": "T66 FeedbackWindowController",
+      "profile": 2,
+      "adaptationTypes": [
+        "Type A"
+      ],
+      "runtimeReader": "server/src/engine/flows/event-attendance/feedback-window.service.ts",
+      "observableIn": [
+        "Tenant A visual screenshots show feedback open for 12 hours",
+        "Feedback window service reads the same flow-scoped key used by tenant configuration",
+        "Tenant B adapted screenshots show feedback open for 8 hours.",
+        "Tenant C adapted screenshots preserve feedback open for 8 hours."
+      ],
+      "adaptedValueForNorthwind": 8,
+      "inheritedValueForTessera": 8
+    }
+  ],
+  "adaptationCandidates": [
+    "Type A",
+    "Type B",
+    "Type C",
+    "Type D"
+  ],
+  "chosenAdaptation": {
+    "type": "Type A (FREEDOM key value change)",
+    "reason": "This is the smallest safe proof for FLOW-04 because RSVP cancellation and feedback duration are tenant-scoped values already owned by the flow. The adaptation changes visible policy without adding service structure or changing the default source module.",
+    "testEvidence": [
+      "client/e2e/event-attendance.spec.ts AT-adapt-01",
+      "client/e2e/event-attendance.spec.ts AT-adapt-02",
+      "docs/e2e-snapshots/event-attendance/tenant-a-v1.0.1/01-acme-organiser-policy.png",
+      "docs/e2e-snapshots/event-attendance/tenant-a-v1.0.1/02-acme-feedback-window.png"
+    ],
+    "tenantBCascadeEvidence": [
+      "client/e2e/event-attendance.spec.ts AT-adapt-b-01",
+      "client/e2e/event-attendance.spec.ts AT-adapt-b-02",
+      "docs/e2e-snapshots/event-attendance/tenant-b-v1.0.2/01-northwind-sponsor-policy.png",
+      "docs/e2e-snapshots/event-attendance/tenant-b-v1.0.2/02-northwind-feedback-window.png"
+    ],
+    "tenantCCascadeEvidence": [
+      "client/e2e/event-attendance.spec.ts AT-adapt-c-01",
+      "client/e2e/event-attendance.spec.ts AT-adapt-c-02",
+      "docs/e2e-snapshots/event-attendance/tenant-c-v1.0.3/01-tessera-circle-policy.png",
+      "docs/e2e-snapshots/event-attendance/tenant-c-v1.0.3/02-tessera-feedback-window.png"
+    ]
+  },
+  "tenantBCascadeAdaptation": {
+    "tenantId": "northwind",
+    "tenantLabel": "Northwind",
+    "sourceModuleName": "event-attendance-acme-onsite-check-in",
+    "adaptedModuleName": "event-attendance-northwind-sponsor-check-in",
+    "version": "1.0.2",
+    "adaptationType": "Type A (FREEDOM key value change)",
+    "inheritedValues": {
+      "flow04_rsvp_cancellation_window_hours": 6
+    },
+    "adaptedValues": {
+      "flow04_feedback_window_hours": 8
+    },
+    "rationale": "Northwind sponsor forums preserve Acme onsite cancellation discipline while shortening feedback collection to the same business day."
+  },
+  "tenantCCascadeAdaptation": {
+    "tenantId": "tessera-collective",
+    "tenantLabel": "Tessera Collective",
+    "sourceModuleName": "event-attendance-northwind-sponsor-check-in",
+    "adaptedModuleName": "event-attendance-tessera-circle-check-in",
+    "version": "1.0.3",
+    "adaptationType": "Type A (FREEDOM key value change)",
+    "inheritedValues": {
+      "flow04_feedback_window_hours": 8
+    },
+    "adaptedValues": {
+      "flow04_rsvp_cancellation_window_hours": 3
+    },
+    "rationale": "Tessera circle sessions preserve Northwind same-day feedback while allowing cancellation until three hours before start."
+  }
+}

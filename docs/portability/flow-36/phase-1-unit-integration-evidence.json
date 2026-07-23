@@ -1,0 +1,25 @@
+{
+    "flowId":  "FLOW-36",
+    "flowSlug":  "feature-registry",
+    "phase":  "phase-1-unit-integration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T11:03:53.2603971Z",
+    "commands":  [
+                     "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                     "Push-Location server; npx jest --testPathPatterns=feature-registry --runInBand --colors=false; Pop-Location",
+                     "Static phase-close scans over server/src/engine/flows/feature-registry"
+                 ],
+    "verification":  {
+                         "serverTypeScript":  "exit 0",
+                         "featureRegistryJest":  "8 suites passed, 141 tests passed",
+                         "phaseCloseScan":  {
+                                                "throwNew":  0,
+                                                "servicesMissingMicroserviceBase":  0,
+                                                "clsImports":  0,
+                                                "directTenantContextImports":  0,
+                                                "directSdkImports":  0,
+                                                "anyTypes":  0
+                                            }
+                     },
+    "verdict":  "PASS"
+}

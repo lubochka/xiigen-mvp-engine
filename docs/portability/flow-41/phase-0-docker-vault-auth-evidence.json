@@ -1,0 +1,109 @@
+{
+    "flowId":  "FLOW-41",
+    "flowSlug":  "canva-text-adapter",
+    "implementationType":  "external-adapter-package",
+    "phase":  "phase-0-docker-vault-auth",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T00:14:37.4705570Z",
+    "docker":  {
+                   "vaultContainer":  "xiigen-vault existing container reused",
+                   "dockerInfo":  "exit 0",
+                   "serverCompose":  "docker-compose.yml",
+                   "compose":  "docker-compose.platform.yml"
+               },
+    "vault":  {
+                  "credentialsSeededForTenants":  [
+                                                      "acme-corp",
+                                                      "northwind",
+                                                      "tessera-collective"
+                                                  ],
+                  "initialized":  true,
+                  "tokenMaterialRedacted":  true,
+                  "sealed":  false
+              },
+    "server":  {
+                   "url":  "http://localhost:33001",
+                   "secretsProvider":  "vault",
+                   "healthLive":  {
+                                      "success":  true,
+                                      "data":  {
+                                                   "status":  "OK",
+                                                   "timestamp":  1778544871125
+                                               }
+                                  }
+               },
+    "roleMap":  {
+                    "externalAdapter":  true,
+                    "full":  [
+                                 "platform-admin"
+                             ],
+                    "partial":  [
+                                    "tenant-admin",
+                                    "platform-support"
+                                ]
+                },
+    "authMatrix":  [
+                       {
+                           "name":  "valid token in acme-corp tenant returns 200",
+                           "tenantContext":  "acme-corp",
+                           "expectedStatus":  200,
+                           "actualStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "valid token in northwind tenant returns 200",
+                           "tenantContext":  "northwind",
+                           "expectedStatus":  200,
+                           "actualStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "valid token in tessera-collective tenant returns 200",
+                           "tenantContext":  "tessera-collective",
+                           "expectedStatus":  200,
+                           "actualStatus":  200,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "missing token returns 401",
+                           "tenantContext":  "acme-corp",
+                           "expectedStatus":  401,
+                           "actualStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "tenant A token in tenant B context returns 401",
+                           "tenantContext":  "northwind",
+                           "expectedStatus":  401,
+                           "actualStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "tenant B token in tenant C context returns 401",
+                           "tenantContext":  "tessera-collective",
+                           "expectedStatus":  401,
+                           "actualStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "tenant A token in tenant C context returns 401",
+                           "tenantContext":  "tessera-collective",
+                           "expectedStatus":  401,
+                           "actualStatus":  401,
+                           "passed":  true
+                       },
+                       {
+                           "name":  "wrong role token on role-protected route returns 403",
+                           "tenantContext":  "acme-corp",
+                           "expectedStatus":  403,
+                           "actualStatus":  403,
+                           "passed":  true
+                       }
+                   ],
+    "summary":  {
+                    "failed":  0,
+                    "total":  8,
+                    "passed":  8
+                },
+    "verdict":  "PASS"
+}

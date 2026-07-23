@@ -1,0 +1,1 @@
+{"type":"object","properties":{"documentPath":{"type":"string"},"sourceValid":{"type":"boolean"},"validatedAt":{"type":"string"},"validationMethod":{"type":"string","enum":["PATH_CHECK","HASH_VERIFICATION","CONTENT_HASH"]},"rejectionReason":{"type":"string"},"injectionDetected":{"type":"boolean"}},"required":["documentPath","sourceValid","validatedAt"]}

@@ -1,0 +1,51 @@
+{
+  "project": "xiigen-skill-adaptation",
+  "phase": 6,
+  "phaseStatus": "COMPLETE",
+  "completedAt": "2026-03-18",
+  "skillsCreatedToDate": 17,
+  "deliverables": [
+    ".claude/skills/code-examination-skill/SKILL.md",
+    ".claude/skills/code-examination-skill/AGENTS.md",
+    ".claude/skills/mental-debug/SKILL.md",
+    ".claude/skills/mental-debug/AGENTS.md",
+    ".claude/skills/mental-debug/rules/pattern-recognition-verdicts.md",
+    ".claude/skills/mental-debug/rules/contextual-gap.md",
+    ".claude/skills/mental-debug/rules/mental-execution.md",
+    ".claude/skills/mental-debug/rules/boundary-data-lifecycle.md",
+    ".claude/skills/mental-debug/rules/boundary-message-map.md",
+    ".claude/skills/mental-debug/rules/loop-off-by-one.md",
+    ".claude/skills/mental-debug/rules/loop-state-delta.md",
+    ".claude/skills/mental-debug/rules/error-silent-catch.md",
+    ".claude/skills/mental-debug/rules/sibling-guard-parity.md",
+    ".claude/skills/mental-debug/rules/_sections.md",
+    ".claude/skills/mental-debug/rules/async-local-storage.md",
+    ".claude/skills/mental-debug/rules/generated-service-audit.md",
+    ".claude/skills/mental-debug/rules/fabric-resolution-trace.md",
+    ".claude/skills/mental-debug/rules/tenant-scope-leak.md"
+  ],
+  "fileCount": 18,
+  "testCounts": {
+    "server": { "suites": 98, "tests": 2342, "result": "PASS" },
+    "client": { "result": "PRE_EXISTING_FAILURE", "note": "jest-environment-jsdom not installed — pre-existing, not regression" }
+  },
+  "buildResult": "PASS",
+  "zeroRegressionGate": {
+    "result": "PASS",
+    "newFailures": 0,
+    "preExistingExcluded": ["client: jest-environment-jsdom not found"]
+  },
+  "fc8Applied": {
+    "async-local-storage": "adapted from env-dynamic-access (CSS env vars → AsyncLocalStorage/NestJS ClsService)",
+    "generated-service-audit": "adapted from code-gen-output-audit (Figma output → DNA-1–9 audit of generated .ts files)",
+    "fabric-resolution-trace": "NEW (fabricType case mismatch → silent in-memory fallback)",
+    "tenant-scope-leak": "NEW (tenantId lost in Promise.all() → wrong tenant data)"
+  },
+  "fc10Applied": {
+    "note": "Adapted rule names (async-local-storage, generated-service-audit) consistent in SKILL.md routing table and AGENTS.md"
+  },
+  "skillYaml": {
+    "note": "No skill.yaml for code-examination-skill or mental-debug — deferred to Phase 12 B-0 batch per plan"
+  },
+  "deviationsFromPlan": "None. All 18 files written. FC-8 and FC-10 write-time fixes applied."
+}

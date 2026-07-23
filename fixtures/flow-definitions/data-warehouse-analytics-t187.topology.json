@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-13",
+  "taskTypeId": "T187",
+  "name": "data-warehouse-analytics-quota-manager",
+  "description": "T187 QuotaManager — QUERY_ENGINE archetype (INLINE SERVICE). F426 does NOT exist. Instantiated directly in T173 constructor — NOT factory-injected. quota check before warehouse read. recordUsage after successful execution.",
+  "archetype": "QUERY_ENGINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: T187 instantiated directly in T173 constructor (NOT @Inject), F426 does NOT exist (reject if referenced), checkQuota before execution, recordUsage after success"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve QUERY_ENGINE arch pattern + inline-service-constructor + quota-check-first + record-usage-after + no-f426 patterns for T187",
+      "params": {
+        "archetype": "QUERY_ENGINE",
+        "taskTypeRef": "T187",
+        "topK": 5,
+        "patternIds": [
+          "inline-service-constructor-001",
+          "quota-check-first-001",
+          "record-usage-after-001",
+          "no-factory-injection-001",
+          "quota-manager-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T187 into: define QuotaManager class with checkQuota() and recordUsage() methods → T173 instantiates with new QuotaManager(db) in constructor → checkQuota() reads quota from DATABASE → recordUsage() increments usage counter after successful execution"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate quota-manager.service.ts — QuotaManager class NOT decorated with @Injectable(). Instantiated directly: constructor(private db: IDatabaseService) { this.quotaManager = new QuotaManager(db); } in T173. F426 does NOT exist — any reference to F426 is a bug. checkQuota(tenantId, queryUnits) returns QUOTA_EXCEEDED DataProcessResult if over limit. recordUsage() called AFTER successful query execution."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: not_injectable_decorator, instantiated_in_t173_constructor, no_f426_reference, check_quota_before_execution, record_usage_after_success"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T187 iron rules: no @Injectable, constructor instantiation, no F426, quota-before/usage-after order"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=no-injectable+constructor-instantiation+no-f426+quota-before-usage-after, rejected=@Injectable-decorator OR @Inject-in-t173 OR f426-referenced OR usage-before-quota. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "INLINE SERVICE — called by T173 constructor (no @EventPattern)",
+  "primaryFabric": "DATABASE"
+}

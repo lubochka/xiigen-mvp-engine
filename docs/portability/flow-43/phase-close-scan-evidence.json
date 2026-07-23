@@ -1,0 +1,24 @@
+{
+    "flowId":  "FLOW-43",
+    "flowSlug":  "webflow-designer-extension",
+    "phase":  "phase-close-scan",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:01:26.4923861Z",
+    "checks":  {
+                   "dockerVaultAuthFailures":  0,
+                   "packageTestsPassed":  45,
+                   "legacyServerTestsPassed":  "NOT_APPLICABLE_EXTERNAL_ADAPTER",
+                   "noFigmaRuntimeHits":  0,
+                   "noWebflowRuntimeHits":  0,
+                   "sdkBoundaryRuntimeImports":  0,
+                   "cssParserPresent":  true,
+                   "step1InPackage":  true,
+                   "throwNewInSource":  0,
+                   "packageJsonPrivateFalse":  true,
+                   "registryReadback":  "1.0.0",
+                   "invalidXiigenPngDirs":  0,
+                   "secretPatternHits":  0
+               },
+    "failureLines":  0,
+    "verdict":  "PASS"
+}

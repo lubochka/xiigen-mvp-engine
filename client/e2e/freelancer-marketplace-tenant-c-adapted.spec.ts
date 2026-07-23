@@ -1,0 +1,107 @@
+/**
+ * FLOW-17 Tenant C adapted package cascade evidence.
+ *
+ * Verifies the Tessera community freelancer marketplace package renders the
+ * expected role branches after Tenant C adapts and publishes Tenant B's package.
+ */
+
+import { test, expect } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const ROLES = [
+  'anonymous',
+  'public-marketplace-visitor',
+  'tenant-user',
+  'tenant-admin',
+  'referral-user',
+  'freelancer',
+  'business-partner',
+  'platform-admin',
+  'platform-support',
+] as const;
+
+const ROLE_EXPECTATIONS: Record<(typeof ROLES)[number], string> = {
+  anonymous: 'gig-anon-view',
+  'public-marketplace-visitor': 'gig-public-view',
+  'tenant-user': 'gig-client-view',
+  'tenant-admin': 'gig-admin-view',
+  'referral-user': 'gig-client-view',
+  freelancer: 'gig-freelancer-view',
+  'business-partner': 'gig-client-view',
+  'platform-admin': 'gig-platform-admin-view',
+  'platform-support': 'gig-platform-support-view',
+};
+
+const SNAP = (projectName: string, role: string) => {
+  const screenshotPath = path.join(
+    __dirname,
+    '..',
+    '..',
+    'docs',
+    'e2e-snapshots',
+    'freelancer-marketplace',
+    'tenant-c-v1.0.3',
+    projectName,
+    `${role}.png`,
+  );
+  fs.mkdirSync(path.dirname(screenshotPath), { recursive: true });
+  return screenshotPath;
+};
+
+function urlFor(role: (typeof ROLES)[number]): string {
+  const query = new URLSearchParams();
+  query.set('role', role);
+  query.set('tenant', 'tessera-collective');
+  query.set('adaptedPackage', 'tessera-community');
+  query.set('packageVersion', '1.0.3');
+  query.set('hideChrome', '1');
+  return `/gigs/post?${query.toString()}`;
+}
+
+test.describe('FLOW-17 Tenant C adapted freelancer marketplace package', () => {
+  test.beforeAll(async ({ request }) => {
+    const healthUrls = ['http://localhost:33001/health/live', 'http://localhost:3000/health/live'];
+    try {
+      for (const url of healthUrls) {
+        const r = await request.get(url).catch(() => null);
+        if (r?.ok()) return;
+      }
+      test.skip(true, 'Server not ready');
+    } catch {
+      test.skip(true, 'Server unreachable; start docker compose up');
+    }
+  });
+
+  for (const role of ROLES) {
+    test(`${role} Tessera adapted package branch renders`, async ({ page }, testInfo) => {
+      await page.goto(urlFor(role), { waitUntil: 'domcontentloaded' });
+      await expect(page.getByTestId('gig-posting-page')).toBeVisible();
+      await expect(page.getByTestId('gig-posting-page')).toHaveAttribute(
+        'data-viewer-role',
+        role,
+      );
+      await expect(page.getByTestId(ROLE_EXPECTATIONS[role])).toBeVisible();
+
+      if (role === 'referral-user') {
+        await expect(page.getByTestId('gig-referral-banner')).toBeVisible();
+      }
+
+      const hasHorizontalOverflow = await page.evaluate(() => {
+        const root = document.documentElement;
+        const body = document.body;
+        return root.scrollWidth > root.clientWidth + 1 || body.scrollWidth > window.innerWidth + 1;
+      });
+      expect(hasHorizontalOverflow).toBe(false);
+
+      await page.screenshot({
+        path: SNAP(testInfo.project.name, role),
+        fullPage: true,
+      });
+    });
+  }
+});

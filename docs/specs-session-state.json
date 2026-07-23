@@ -1,0 +1,90 @@
+{
+  "project": "xiigen-product-specs",
+  "createdAt": "2026-04-15",
+  "outputFile": "docs/XIIGEN_PRODUCT_SPECS.md",
+  "approach": "Flow-by-flow, sequential. For each flow: read session docs, contracts, services, tests, client pages, e2e snapshots. Produce human-language spec with same structure.",
+  "specStructure": [
+    "1. Flow Overview (human language: what it does, why it exists)",
+    "2. Business Logic (step-by-step user/system journey)",
+    "3. Entities (data objects created/managed)",
+    "4. Services & Task Types (with code references)",
+    "5. User Interface (client pages, with e2e screenshot references)",
+    "6. User Journey (from e2e/Playwright tests)",
+    "7. Cross-Flow Correlations (dependencies, events consumed/produced)",
+    "8. Testing Coverage (unit, e2e, QA tests)",
+    "9. Document References (session docs, design docs, contracts)"
+  ],
+  "flows": [
+    {
+      "flowId": "FLOW-01", "slug": "user-registration", "status": "PENDING",
+      "sessionDocs": "docs/sessions/FLOW-01/ (15 files + final-flow-testing/ with 49 files)",
+      "contracts": "server/src/engine-contracts/user-registration-contracts.ts",
+      "services": "server/src/engine/flows/user-registration/ (3 services)",
+      "clientPages": "client/src/pages/user-registration/",
+      "e2eSnapshots": "docs/e2e-snapshots/user-registration/ (10 images)",
+      "e2eTests": "client/e2e/ (teaching-pipeline.spec.ts)",
+      "serverTests": "server/test/e2e/user-registration/"
+    },
+    {
+      "flowId": "FLOW-02", "slug": "profile-enrichment", "status": "PENDING",
+      "sessionDocs": "docs/sessions/FLOW-02/ (13 files)",
+      "contracts": "server/src/engine-contracts/profile-enrichment-contracts.ts",
+      "services": "server/src/engine/flows/profile-enrichment/ (7 services)",
+      "clientPages": "client/src/pages/profile-enrichment/",
+      "e2eSnapshots": "docs/e2e-snapshots/profile-enrichment/ (10 images)",
+      "e2eTests": "client/e2e/profile-enrichment.spec.ts",
+      "serverTests": "server/test/e2e/profile-enrichment/"
+    },
+    {
+      "flowId": "FLOW-03", "slug": "event-management", "status": "PENDING",
+      "sessionDocs": "docs/sessions/FLOW-03/ (13 files)",
+      "contracts": "server/src/engine-contracts/event-management-contracts.ts",
+      "services": "server/src/engine/flows/event-management/ (4 services)",
+      "clientPages": "client/src/pages/event-management/",
+      "e2eSnapshots": "docs/e2e-snapshots/event-management/ (11 images)",
+      "e2eTests": "client/e2e/event-management.spec.ts",
+      "serverTests": "server/test/e2e/event-management/"
+    },
+    {
+      "flowId": "FLOW-04", "slug": "event-attendance", "status": "PENDING",
+      "sessionDocs": "docs/sessions/FLOW-04/ (13 files)",
+      "contracts": "server/src/engine-contracts/event-attendance-contracts.ts",
+      "services": "server/src/engine/flows/event-attendance/ (5 services)",
+      "clientPages": "client/src/pages/event-attendance/",
+      "e2eSnapshots": "docs/e2e-snapshots/event-attendance/ (17 images)",
+      "e2eTests": "client/e2e/event-attendance.spec.ts + event-attendance-registration.spec.ts",
+      "serverTests": "server/test/e2e/event-attendance/"
+    },
+    {
+      "flowId": "FLOW-05", "slug": "completion-gamification", "status": "PENDING",
+      "sessionDocs": "docs/sessions/FLOW-05/ (13 files)",
+      "contracts": "server/src/engine-contracts/completion-gamification-contracts.ts",
+      "services": "server/src/engine/flows/completion-gamification/ (16 services)",
+      "clientPages": "client/src/pages/completion-gamification/",
+      "e2eSnapshots": "docs/e2e-snapshots/completion-gamification/ (empty)",
+      "e2eTests": "client/e2e/lesson-completion.spec.ts + topology/completion-gamification-topology-qa.spec.ts",
+      "serverTests": "server/test/e2e/completion-gamification/"
+    },
+    { "flowId": "FLOW-06", "slug": "user-groups-communities", "status": "PENDING" },
+    { "flowId": "FLOW-07", "slug": "friend-request-social-feed", "status": "PENDING" },
+    { "flowId": "FLOW-08", "slug": "marketplace", "status": "PENDING" },
+    { "flowId": "FLOW-09", "slug": "transactional-event-participation", "status": "PENDING" },
+    { "flowId": "FLOW-10", "slug": "reviews-reputation", "status": "PENDING" },
+    { "flowId": "FLOW-11", "slug": "schema-registry-dag", "status": "PENDING" },
+    { "flowId": "FLOW-12", "slug": "subscription-billing", "status": "PENDING" },
+    { "flowId": "FLOW-13", "slug": "data-warehouse-analytics", "status": "PENDING" },
+    { "flowId": "FLOW-14", "slug": "etl-data-integration", "status": "PENDING" },
+    { "flowId": "FLOW-15", "slug": "saas-multi-tenancy", "status": "PENDING" },
+    { "flowId": "FLOW-16", "slug": "marketplace-payments", "status": "PENDING" },
+    { "flowId": "FLOW-17", "slug": "freelancer-marketplace", "status": "PENDING" },
+    { "flowId": "FLOW-18", "slug": "visual-flow-engine", "status": "PENDING" },
+    { "flowId": "FLOW-19", "slug": "durable-sagas-compliance", "status": "PENDING" },
+    { "flowId": "FLOW-20", "slug": "ads-platform", "status": "PENDING" },
+    { "flowId": "FLOW-21", "slug": "dynamic-forms-workflows", "status": "PENDING" },
+    { "flowId": "FLOW-22", "slug": "cms-publishing", "status": "PENDING" },
+    { "flowId": "FLOW-23", "slug": "form-builder-templates", "status": "PENDING" },
+    { "flowId": "FLOW-24", "slug": "ai-safety-moderation", "status": "PENDING" }
+  ],
+  "totalFlows": 24,
+  "currentFlow": null
+}

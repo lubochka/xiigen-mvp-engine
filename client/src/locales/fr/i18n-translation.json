@@ -1,0 +1,22 @@
+{
+  "switcher_label": "Langue",
+  "switcher_loading": "Chargement des traductions...",
+  "settings_title": "Paramètres de langue",
+  "settings_description": "Choisissez votre langue préférée. Votre choix sera conservé entre les sessions et remplace la valeur par défaut du locataire.",
+  "settings_current_locale": "Langue actuelle",
+  "settings_select_locale": "Sélectionner une langue",
+  "settings_save_btn": "Enregistrer la préférence",
+  "settings_reset_btn": "Réinitialiser à la valeur par défaut",
+  "settings_saved": "Votre préférence de langue a été enregistrée.",
+  "settings_override_note": "Vous avez un choix explicite — les modifications par défaut ne seront pas appliquées.",
+  "admin_title": "Paramètres de traduction du locataire",
+  "admin_default_locale": "Langue par défaut",
+  "admin_enabled_locales": "Langues activées",
+  "admin_add_locale": "Ajouter une langue",
+  "admin_add_placeholder": "Étiquette BCP-47, par exemple fr, he, es",
+  "admin_save_btn": "Enregistrer la configuration",
+  "admin_saved": "Configuration de traduction du locataire enregistrée.",
+  "locale_en": "Anglais",
+  "locale_he": "Hébreu",
+  "locale_fr": "Français"
+}

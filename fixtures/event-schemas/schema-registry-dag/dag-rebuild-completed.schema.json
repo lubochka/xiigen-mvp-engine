@@ -1,0 +1,15 @@
+{
+  "eventType": "DagRebuildCompleted",
+  "flowId": "FLOW-11",
+  "version": "1.0.0",
+  "properties": {
+    "dagId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "triggeredBySchemaType": { "type": "string", "required": false },
+    "nodeCount": { "type": "integer", "required": true },
+    "edgeCount": { "type": "integer", "required": true },
+    "edgeModel": { "type": "string", "enum": ["UNIDIRECTIONAL"], "required": true },
+    "rebuiltAt": { "type": "string", "format": "date-time", "required": true },
+    "occurredAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

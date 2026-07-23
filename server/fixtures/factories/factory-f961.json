@@ -1,0 +1,13 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F961",
+  "factoryId": "F961",
+  "flowId": "FLOW-23",
+  "interface": "ITemplateModeContext",
+  "injectionToken": "TEMPLATE_MODE_CONTEXT",
+  "fabric": "DATABASE",
+  "platformOnly": false,
+  "taskTypes": ["T357"],
+  "bfaRules": ["CF-444"],
+  "note": "READ-ONLY template context. verifyReadOnly() must be called after enter()."
+}

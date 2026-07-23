@@ -1,0 +1,50 @@
+{
+  "taskTypeId": "T99",
+  "flowId": "FLOW-06",
+  "name": "JoinRequestValidator",
+  "archetype": "ROUTING",
+  "domainId": "membership-group-feed",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "three-reads-before-write-distinct-error-codes",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow06_invite_token_ttl_seconds",
+    "neutralConcepts": [
+      "3 reads before any write: group exists, user not banned, not already member",
+      "distinct error codes: GROUP_NOT_FOUND, USER_BANNED, ALREADY_MEMBER, INVALID_INVITE_TOKEN",
+      "ALREADY_MEMBER checks both ACTIVE and PENDING status",
+      "VALIDATION_FAILURE must never be returned"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F196",
+      "interface": "IJoinRequestValidatorService",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T99-1",
+      "rule": "Three reads before any write: (1) group exists check, (2) user ban check, (3) ALREADY_MEMBER check (covers ACTIVE+PENDING).",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T99-2",
+      "rule": "Distinct error codes required: GROUP_NOT_FOUND, USER_BANNED, ALREADY_MEMBER, INVALID_INVITE_TOKEN. VALIDATION_FAILURE must never be returned.",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T99-3",
+      "rule": "ALREADY_MEMBER check covers both ACTIVE and PENDING status — not just ACTIVE.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "tenant_id_on_writes"
+  ],
+  "bfaRules": [],
+  "tags": ["join-validator", "distinct-errors", "three-reads", "ROUTING"],
+  "keywords": "join request validator distinct error codes GROUP_NOT_FOUND USER_BANNED ALREADY_MEMBER INVALID_INVITE_TOKEN"
+}

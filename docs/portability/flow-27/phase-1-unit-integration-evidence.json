@@ -1,0 +1,47 @@
+﻿{
+    "flowId":  "FLOW-27",
+    "flowSlug":  "human-interaction-gate",
+    "implementationSlug":  "human-approval-gate",
+    "phase":  "phase1UnitIntegration",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T16:03:34.459Z",
+    "commands":  [
+                     "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; npx jest --testPathPatterns=human-interaction-gate --runInBand --colors=false; Pop-Location",
+                     "rg -n -e \u0027throw new\u0027 -e \u0027^export class.*Service\u0027 -e \u0027import.*ClsService\u0027 -e \u0027nestjs-cls\u0027 -e \u0027@aws\u0027 -e \u0027@google\u0027 -e \u0027openai\u0027 -e \u0027@octokit\u0027 -e \u0027: any\u0027 -e \u0027as any\u0027 server/src/engine/flows/human-approval-gate -g \u0027*.ts\u0027"
+                 ],
+    "typescript":  {
+                       "status":  "passed",
+                       "exitCode":  0
+                   },
+    "jest":  {
+                 "status":  "passed",
+                 "testPathPattern":  "human-interaction-gate",
+                 "testSuitesPassed":  14,
+                 "testSuitesTotal":  14,
+                 "testsPassed":  207,
+                 "testsTotal":  207
+             },
+    "staticScans":  {
+                        "failureLines":  0,
+                        "throwNew":  0,
+                        "servicesMissingMicroserviceBaseByPromptPattern":  0,
+                        "clsImports":  0,
+                        "directSdkImports":  0,
+                        "anyTypes":  0
+                    },
+    "plainLanguagePreScan":  {
+                                 "status":  "findings-deferred-to-phase-3-repair",
+                                 "sourceScope":  "client/src/pages/human-interaction-gate and client/src/components/human-interaction-gate",
+                                 "findingCount":  6,
+                                 "findingKinds":  [
+                                                      "CF code visible in tenant-facing copy",
+                                                      "DNA/BFA/internal classification visible in page source"
+                                                  ],
+                                 "phaseImpact":  "Must be repaired before visual examination closes; not a Phase 1 server unit/integration blocker."
+                             },
+    "secretHandling":  {
+                           "tokenValuesWrittenToEvidence":  false,
+                           "envFilesCommitted":  false
+                       },
+    "verdict":  "PASS"
+}

@@ -1,0 +1,89 @@
+{
+  "flowId": "FLOW-15",
+  "flowSlug": "saas-multi-tenancy",
+  "recordedAt": "2026-05-06T10:12:33.3903730Z",
+  "phase": "preExistingDefectCheck",
+  "productDecisionGate": {
+    "status": "tier-3-ineligible-before-package-signing",
+    "source": "PER-FLOW-FIX-MAP-v2.9 FLOW-15 row",
+    "decision": "FLOW-15 is identity-critical because masterTenantId controls multi-tenant authority. Tier 3 distribution is not declared until package signing first pass is available.",
+    "sessionContinuation": "Luba instructed Codex to continue through the plan and protocol; certification evidence must not overstate Tier 3 eligibility."
+  },
+  "baseline": {
+    "jest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false; Pop-Location",
+      "result": "PASS",
+      "testSuites": "8 passed, 8 total",
+      "tests": "110 passed, 110 total"
+    },
+    "staticScanFindings": {
+      "throwNew": [
+        "server/src/engine/flows/saas-multi-tenancy/tenant-provisioning-orchestrator.service.ts:238"
+      ],
+      "servicesMissingMicroserviceBase": [
+        "TenantProvisioningOrchestratorService",
+        "TenantConfigurationManagerService",
+        "TenantQuotaMaterializerService",
+        "TenantLifecycleManagerService"
+      ],
+      "clsImports": [
+        "TenantConfigurationManagerService",
+        "TenantQuotaMaterializerService",
+        "TenantLifecycleManagerService",
+        "TenantProvisioningOrchestratorService"
+      ],
+      "directTenantContextImports": [
+        "TenantConfigurationManagerService",
+        "TenantQuotaMaterializerService",
+        "TenantLifecycleManagerService"
+      ],
+      "masterTenantIdLiteralHits": [
+        "tenant-provisioning-orchestrator.service.ts hardcoded xiigen-master-00000000-0000-0000-0000-000000000001"
+      ]
+    }
+  },
+  "remediation": {
+    "servicesExtendedMicroserviceBase": [
+      "T605 TenantProvisioningOrchestratorService",
+      "T606 TenantConfigurationManagerService",
+      "T607 TenantQuotaMaterializerService",
+      "T608 TenantLifecycleManagerService"
+    ],
+    "tenantContextDecoupling": "Replaced direct ClsService/TENANT_CONTEXT_KEY usage with TenantContextResolver.getCurrentTenantId() in T606/T607/T608.",
+    "masterTenantIdentifier": "T605 now resolves masterTenantId from tier definition configuration when present, otherwise falls back to canonical MASTER_TENANT_ID from bootstrap seeder.",
+    "businessLogicFailureHandling": "T605 bulkSeedFreedomConfig now returns DataProcessResult.failure on seed failure instead of throwing."
+  },
+  "verification": {
+    "typescript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "PASS"
+    },
+    "jest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=saas-multi-tenancy --runInBand --colors=false; Pop-Location",
+      "result": "PASS",
+      "testSuites": "8 passed, 8 total",
+      "tests": "111 passed, 111 total"
+    },
+    "staticScan": {
+      "filesScanned": 4,
+      "throwNew": [],
+      "servicesMissingMicroserviceBase": [],
+      "clsImports": [],
+      "directTenantContextImports": [],
+      "directSdkImports": [],
+      "anyTypes": [],
+      "masterTenantIdLiteralHits": []
+    }
+  },
+  "closedFixMapItems": [
+    "FLOW-15-FIXMAP-001",
+    "FLOW-15-FIXMAP-003",
+    "FLOW-15-FIXMAP-004"
+  ],
+  "remainingFixMapItems": [
+    "FLOW-15-FIXMAP-002",
+    "FLOW-15-FIXMAP-005",
+    "FLOW-15-FIXMAP-006",
+    "FLOW-15-FIXMAP-007"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "flowId": "FLOW-01",
+  "flowSlug": "user-registration",
+  "phase": "Auth decoration check",
+  "recordedAt": "2026-04-30T19:44:43.4351175+03:00",
+  "controllerSurface": {
+    "flowFolder": "server/src/engine/flows/user-registration",
+    "flowFolderControllerCount": 0,
+    "routeDecorationStatus": "not applicable for the Flow 01 flow folder because no controllers exist under server/src/engine/flows/user-registration",
+    "globalJwtGuardActive": true,
+    "rolesGuardActive": true,
+    "scopeEnrichmentInterceptorActive": true,
+    "globalGuardSource": "server/src/app.module.ts"
+  },
+  "publicRouteRegistry": {
+    "actualPublicDecoratorCount": 2,
+    "publicRoutes": [
+      "server/src/auth/auth.controller.ts:58 @Public() for POST /api/auth/login",
+      "server/src/auth/auth.controller.ts:81 @Public() for POST /api/auth/refresh"
+    ],
+    "registryPath": "server/src/auth/bypass-paths.registry.ts",
+    "registryHasLogin": true,
+    "registryHasRefresh": true
+  },
+  "authTests": {
+    "flowAuthMatrix": {
+      "command": "cd server && npx jest --testPathPatterns=user-registration/phase-01-auth-matrix.spec.ts --runInBand --forceExit",
+      "result": "passed",
+      "tests": 48,
+      "coverage": "proves anonymous rejection, wrong-role rejection, production /api/auth/me protection, login behavior, tenant missing rejection, and cross-tenant JWT rejection in the Flow 01 auth matrix"
+    },
+    "crossTenantJwt": {
+      "command": "cd server && npx jest --testPathPatterns=auth/cross-tenant-jwt.spec.ts --runInBand --forceExit",
+      "result": "passed",
+      "tests": 12,
+      "coverage": "proves Acme, Northwind, and Tessera tokens are accepted on their own tenant and rejected across tenant boundaries"
+    },
+    "authSuite": {
+      "command": "cd server && npx jest --testPathPatterns=auth --runInBand --forceExit",
+      "result": "passed",
+      "testSuites": 16,
+      "tests": 197,
+      "coverage": "runs the auth unit suite, Flow 01 auth matrix, cross-tenant JWT test, token provider tests, guard tests, and strategy tests"
+    }
+  },
+  "portabilityScans": {
+    "directClsImportsInFlowFolder": 0,
+    "directSdkImportsInFlowFolder": 0
+  },
+  "completionGate": {
+    "flowControllerSurfaceAccountedFor": true,
+    "globalAuthGuardWiringVerified": true,
+    "publicRoutesRegistered": true,
+    "unauthenticatedRequestsRejected": true,
+    "wrongRoleRequestsRejected": true,
+    "crossTenantJwtIsolationPassed": true,
+    "authRouteTestsPresentOrNotApplicable": true,
+    "noFlowFolderDirectContextStoreImports": true,
+    "noFlowFolderDirectSdkImports": true
+  }
+}

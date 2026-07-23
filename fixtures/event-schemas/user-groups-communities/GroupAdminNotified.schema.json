@@ -1,0 +1,11 @@
+{
+  "eventType": "GroupAdminNotified",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "admin-notifier",
+  "consumers": ["T114"],
+  "piiFields": [],
+  "allowedPayloadFields": ["adminId", "tenantId", "groupId", "membershipId", "userId", "notifiedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T113 to notify group admin of pending join request. SUBFLOW-06P — admin must approve or reject."
+}

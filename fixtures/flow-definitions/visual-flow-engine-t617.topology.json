@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-18",
+  "slug": "visual-flow-engine",
+  "primaryTaskType": "T617",
+  "primaryTaskName": "FlowCanvasWriter",
+  "description": "Visual flow engine canvas creation pipeline with BOLA+FLOW_IMMUTABLE two-guard gate. T617 FlowCanvasWriter enforces BOLA at ORDER 1 (flow.tenantId === ALS.tenantId), FLOW_IMMUTABLE at ORDER 2 (status !== PUBLISHED). T618 FlowPublicationOrchestrator: DFS WHITE/GRAY/BLACK cycle detection at ORDER 1, type compatibility per-edge at ORDER 2, OCC DRAFT→PUBLISHED at ORDER 3. T619 NodeTypeRegistrar: SETNX lock at ORDER 1, atomic dual write, redis.del in catch. T620 CodeInjectionProcessor: version lock at ORDER 1, pre-write audit (rollback pointer) at ORDER 2, append-only audit extending NON-REPUDIATION-AUDIT-001.",
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "FlowCanvasUpdateRequested event (user edits visual flow canvas)",
+  "primaryFabric": "DATABASE",
+  "nodes": {
+    "n1": {
+      "id": "n1",
+      "type": "validate",
+      "label": "ValidateCanvasRequest",
+      "description": "Validate canvas write request: flowId present; tenantId from ALS for BOLA check; canvasData valid"
+    },
+    "n2": {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "label": "RetrieveCanvasPatterns",
+      "description": "RAG retrieval of BOLA + FLOW_IMMUTABLE + DFS patterns: DRAFT-BEFORE-PUBLISH-GATE-001, CONNECTION-TYPE-COMPATIBILITY-001 from FLOW-18"
+    },
+    "n3": {
+      "id": "n3",
+      "type": "decompose",
+      "label": "DecomposeCanvasPlan",
+      "description": "Decompose canvas write into ordered steps: BOLA check → FLOW_IMMUTABLE guard → canvas write → audit → emit"
+    },
+    "n4": {
+      "id": "n4",
+      "type": "ai-generate",
+      "label": "GenerateCanvasWriter",
+      "description": "AI generates T617 FlowCanvasWriter with correct order: BOLA (flow.tenantId === ALS.tenantId) at ORDER 1, FLOW_IMMUTABLE (status !== PUBLISHED) at ORDER 2, canvas write at ORDER 3, storeDocument(audit) at ORDER 4, enqueue(FlowCanvasUpdated) at ORDER 5. FlowImmutableRejected on published flow write. FLOW_IMMUTABLE_STATES compile-time constant. CF-18-1. Also generates T618 with DFS WHITE/GRAY/BLACK at ORDER 1, type compatibility per-edge at ORDER 2, OCC DRAFT→PUBLISHED at ORDER 3. CF-18-2."
+    },
+    "n5": {
+      "id": "n5",
+      "type": "validate",
+      "label": "ValidateCanvasWriter",
+      "description": "Validate BOLA at ORDER 1, FLOW_IMMUTABLE at ORDER 2, canvas write DRAFT only, storeDocument(audit) before FlowCanvasUpdated, FlowImmutableRejected on published write"
+    },
+    "n6": {
+      "id": "n6",
+      "type": "score",
+      "label": "ScoreCanvasWriter",
+      "description": "Score implementation: BOLA order compliance, FLOW_IMMUTABLE guard, DFS cycle detection coloring, type compatibility per-edge, OCC publish, DNA-8 audit before emit"
+    },
+    "n7": {
+      "id": "n7",
+      "type": "route",
+      "label": "RouteOnScore",
+      "description": "Route to feedback (score >= 0.85) or iterate (score < 0.85)"
+    },
+    "n8": {
+      "id": "n8",
+      "type": "feedback",
+      "label": "StoreFeedback",
+      "description": "DPO triple: chosen=BOLA-ORDER1+FLOW_IMMUTABLE-ORDER2+DFS-WHITE-GRAY-BLACK+type-compatibility-per-edge+OCC-DRAFT-PUBLISHED+SETNX-node-type-reg-lock+redis.del-in-catch+version-lock+pre-write-audit-rollback-pointer+append-only-injection-audit, rejected=no-BOLA OR write-to-published OR cycle-detection-after-type-check OR plain-storeDocument-for-publish OR write-without-SETNX OR no-redis.del-in-catch OR injection-without-version-lock OR audit-after-injection OR updateDocument-on-audit.",
+      "discriminatingConstraint": "Missing BOLA at ORDER 1 OR write to PUBLISHED flows OR DFS cycle check after type check OR plain storeDocument for publish OR SETNX missing OR redis.del missing in catch OR injection without version lock OR audit after injection OR updateDocument on injection audit receives score=0 and triggers n3 re-iteration. CF-18-1 (BOLA+FLOW_IMMUTABLE), CF-18-2 (DFS+type+OCC), CF-18-3 (SETNX+dual-write+redis.del), CF-18-4 (version-lock+pre-write-audit+append-only).",
+      "curriculumTier": 2
+    }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85" }
+  ],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

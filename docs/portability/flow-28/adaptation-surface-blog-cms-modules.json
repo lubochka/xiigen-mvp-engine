@@ -1,0 +1,383 @@
+{
+    "flowId":  "FLOW-28",
+    "flowSlug":  "blog-cms-modules",
+    "implementationSlug":  "blog-cms-modules",
+    "flowTitle":  "Blog/CMS Modules",
+    "protocolVersion":  "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+    "capturedAt":  "2026-05-10T19:22:23.2927986Z",
+    "capturedBy":  "Codex / FLOW-28 mobility-auth session",
+    "surfaceVersion":  "1.0.0",
+    "sources":  [
+                    "docs/sessions/FLOW-28/FLOW-28-DESIGN-SIMULATION-R1.md",
+                    "server/src/engine-contracts/blog-cms-modules-contracts.ts",
+                    "server/src/engine-contracts/blog-cms-modules-bfa-rules.ts",
+                    "server/src/engine/flows/blog-cms-modules",
+                    "docs/flow-coverage/blog-cms-modules/P1-business-logic-inventory.md",
+                    "docs/flow-coverage/blog-cms-modules/P5-ui-specs.md"
+                ],
+    "contractSurface":  {
+                            "taskTypeRange":  "T423-T440",
+                            "taskTypeIds":  [
+                                                "T423",
+                                                "T424",
+                                                "T425",
+                                                "T426",
+                                                "T427",
+                                                "T428",
+                                                "T429",
+                                                "T430",
+                                                "T431",
+                                                "T432",
+                                                "T433",
+                                                "T434",
+                                                "T435",
+                                                "T436",
+                                                "T437",
+                                                "T438",
+                                                "T439",
+                                                "T440"
+                                            ],
+                            "factoryIdRange":  "F1129-F1159",
+                            "freedomKeyCount":  18,
+                            "securityClassification":  "tenant-scoped blog publishing, content moderation, media handling, search indexing, cache invalidation, webhooks, taxonomy propagation, and public rendering controls",
+                            "directRuntimePeerDependencies":  [
+
+                                                              ],
+                            "coreGuarantees":  [
+                                                   "Tenant scope guard runs before every Blog/CMS operation.",
+                                                   "Content lifecycle changes store the content record before emitting downstream events.",
+                                                   "Draft autosave remains idempotent by content and revision identity.",
+                                                   "Publish and media gates use tenant-configured thresholds without bypassing safety checks.",
+                                                   "Only published content may reach public page, search index, cache, and sitemap outputs.",
+                                                   "Webhook fan-out remains sandboxed and SSRF-gated.",
+                                                   "Comment submission sanitizes before storage and routes moderation deterministically.",
+                                                   "Taxonomy and cache cascades remain bounded by configured batch sizes.",
+                                                   "Package provenance and GitHub Actions CI evidence remain required for certification."
+                                               ],
+                            "packageSigningConstraint":  {
+                                                             "tier3EligibleBeforeSigningFirstPass":  false,
+                                                             "reason":  "FLOW-28 handles public publishing, webhook dispatch, media processing, and AI-assisted content enhancement. Tier 3 requires package-signing first pass."
+                                                         }
+                        },
+    "services":  [
+                     {
+                         "taskTypeId":  "T423",
+                         "className":  "ContentLifecycleOrchestratorService",
+                         "file":  "server/src/engine/flows/blog-cms-modules/content-lifecycle-orchestrator.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "adaptableFreedomKeys":  [
+                                                      "flow28_max_content_per_author"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "tenant scope guard must execute first",
+                                                    "content record is stored before lifecycle event emission"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T424",
+                         "className":  "DraftAutosaveLoopService",
+                         "file":  "server/src/engine/flows/blog-cms-modules/draft-autosave-loop.service.ts",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "adaptableFreedomKeys":  [
+                                                      "flow28_autosave_interval_seconds"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "autosave remains idempotent by contentId and revisionId"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T425-T429",
+                         "className":  "PublishingAndMediaGateSuite",
+                         "file":  "server/src/engine/flows/blog-cms-modules",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "adaptableFreedomKeys":  [
+                                                      "flow28_min_publish_quality_score",
+                                                      "flow28_scheduled_publish_check_interval",
+                                                      "flow28_archive_retention_days",
+                                                      "flow28_media_transform_variants",
+                                                      "flow28_allowed_media_variants"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "publish thresholds cannot bypass moderation approval",
+                                                    "media records are stored before transforms are enqueued",
+                                                    "archive/unpublish triggers search removal"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T430-T432",
+                         "className":  "PublicDeliverySearchCacheSuite",
+                         "file":  "server/src/engine/flows/blog-cms-modules",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "adaptableFreedomKeys":  [
+                                                      "flow28_page_cache_ttl_seconds",
+                                                      "flow28_search_index_fields",
+                                                      "flow28_cache_invalidation_batch_size"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "only published content is served or indexed",
+                                                    "cache miss populates from tenant-scoped storage"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T433-T434",
+                         "className":  "HookAndWebhookSafetySuite",
+                         "file":  "server/src/engine/flows/blog-cms-modules",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "adaptableFreedomKeys":  [
+                                                      "flow28_hook_registry",
+                                                      "flow28_webhook_allowlist_id"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "hook execution remains sandboxed",
+                                                    "webhook dispatch remains SSRF gated"
+                                                ]
+                     },
+                     {
+                         "taskTypeId":  "T435-T440",
+                         "className":  "CommentTaxonomyAiSitemapScopeSuite",
+                         "file":  "server/src/engine/flows/blog-cms-modules",
+                         "connectionType":  "FLOW_SCOPED",
+                         "knowledgeScope":  "PRIVATE",
+                         "adaptableFreedomKeys":  [
+                                                      "flow28_spam_probability_threshold",
+                                                      "flow28_moderation_auto_approve_threshold",
+                                                      "flow28_taxonomy_propagation_batch_size",
+                                                      "flow28_ai_enhancement_retry_count",
+                                                      "flow28_sitemap_rebuild_debounce_ms",
+                                                      "flow28_cross_tenant_sharing_policy"
+                                                  ],
+                         "machineLockedRules":  [
+                                                    "comment content is sanitized before storage",
+                                                    "moderation routing remains deterministic",
+                                                    "taxonomy propagation remains bounded",
+                                                    "AI enhancement starts after budget pre-check",
+                                                    "scope enforcer cannot be disabled"
+                                                ]
+                     }
+                 ],
+    "adaptationSurface":  {
+                              "configurationKeys":  {
+                                                        "description":  "Tenant-editable FLOW-28 operating values. Tenants may tune publishing thresholds, autosave cadence, cache/search/media settings, hook labels, moderation thresholds, taxonomy batch size, AI retry count, sitemap debounce, and module naming without changing scope enforcement, publish-only delivery, sanitization ordering, webhook safety, idempotency, or package provenance.",
+                                                        "total":  12,
+                                                        "keys":  [
+                                                                     {
+                                                                         "key":  "flow28_max_content_per_author",
+                                                                         "type":  "number",
+                                                                         "default":  120,
+                                                                         "unit":  "posts/month",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  10000
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_autosave_interval_seconds",
+                                                                         "type":  "number",
+                                                                         "default":  30,
+                                                                         "unit":  "seconds",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  5,
+                                                                                              "max":  600
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_min_publish_quality_score",
+                                                                         "type":  "number",
+                                                                         "default":  0.82,
+                                                                         "unit":  "score",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  1
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_page_cache_ttl_seconds",
+                                                                         "type":  "number",
+                                                                         "default":  300,
+                                                                         "unit":  "seconds",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  86400
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_cache_invalidation_batch_size",
+                                                                         "type":  "number",
+                                                                         "default":  100,
+                                                                         "unit":  "records",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  5000
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_spam_probability_threshold",
+                                                                         "type":  "number",
+                                                                         "default":  0.85,
+                                                                         "unit":  "score",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  1
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_moderation_auto_approve_threshold",
+                                                                         "type":  "number",
+                                                                         "default":  0.92,
+                                                                         "unit":  "score",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  1
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_taxonomy_propagation_batch_size",
+                                                                         "type":  "number",
+                                                                         "default":  250,
+                                                                         "unit":  "records",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  1,
+                                                                                              "max":  10000
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_ai_enhancement_retry_count",
+                                                                         "type":  "number",
+                                                                         "default":  2,
+                                                                         "unit":  "attempts",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  0,
+                                                                                              "max":  5
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_sitemap_rebuild_debounce_ms",
+                                                                         "type":  "number",
+                                                                         "default":  15000,
+                                                                         "unit":  "milliseconds",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "min":  1000,
+                                                                                              "max":  3600000
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_review_queue_label",
+                                                                         "type":  "string",
+                                                                         "default":  "Editorial review queue",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "maxLength":  80
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "key":  "flow28_module_name",
+                                                                         "type":  "string",
+                                                                         "default":  "blog-cms-modules",
+                                                                         "stakeholder":  "tenant-admin",
+                                                                         "boundedRange":  {
+                                                                                              "pattern":  "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                                                                                          }
+                                                                     }
+                                                                 ]
+                                                    },
+                              "businessDomainAdaptation":  {
+                                                               "description":  "Safe tenant adaptations are limited to publishing policy labels, review queue naming, cache/search/moderation/media operating thresholds, bounded batch sizes, retry counts, and module naming.",
+                                                               "edgeCases":  [
+                                                                                 {
+                                                                                     "id":  "acme-blog-studio",
+                                                                                     "name":  "Acme blog studio",
+                                                                                     "semantic":  "Tenant A tunes Blog/CMS for a compliance-heavy editorial studio with stricter publish quality, short cache TTL, and conservative AI retries.",
+                                                                                     "extensionPoint":  "quality threshold, cache TTL, review queue label, AI retry count, module naming",
+                                                                                     "currentImplementation":  "Scope enforcement, publish-only delivery, moderation ordering, and package provenance remain fixed."
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "northwind-content-hub",
+                                                                                     "name":  "Northwind content hub",
+                                                                                     "semantic":  "Tenant B tunes the package for a high-volume operations content hub with larger batches and fast autosave.",
+                                                                                     "extensionPoint":  "autosave interval, cache invalidation batch, taxonomy batch size, module naming",
+                                                                                     "currentImplementation":  "Bounded batch execution and tenant-scoped records remain fixed."
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "tessera-editorial-suite",
+                                                                                     "name":  "Tessera editorial suite",
+                                                                                     "semantic":  "Tenant C tunes moderation and sitemap cadence for collaborative editorial publishing.",
+                                                                                     "extensionPoint":  "moderation thresholds, sitemap debounce, review queue label, module naming",
+                                                                                     "currentImplementation":  "Sanitize-before-store, webhook safety, and package provenance remain fixed."
+                                                                                 }
+                                                                             ]
+                                                           }
+                          },
+    "ironRulesMACHINE":  {
+                             "description":  "Fixed invariants that tenant adaptation cannot change.",
+                             "rules":  [
+                                           "Task IDs T423 through T440 remain fixed.",
+                                           "Factory IDs F1129 through F1159 remain fixed.",
+                                           "Provider SDK access remains behind fabric interfaces.",
+                                           "Vault credential paths remain outside the package and outside tenant docs.",
+                                           "Tenant scope guard remains mandatory and cannot be disabled.",
+                                           "Only published content can be served, indexed, cached, or added to sitemap output.",
+                                           "Comment content must be sanitized before storage.",
+                                           "Webhook dispatch remains SSRF gated and hook execution remains sandboxed.",
+                                           "Store-before-enqueue ordering remains mandatory for lifecycle, media, cache, search, hook, moderation, taxonomy, AI, and sitemap events.",
+                                           "Package provenance and GitHub Actions CI evidence remain required for certification."
+                                       ]
+                         },
+    "adaptationExamples":  {
+                               "tenantABlogStudio":  {
+                                                         "description":  "Tenant A tunes Blog/CMS Modules for compliance-heavy editorial publishing.",
+                                                         "change":  {
+                                                                        "flow28_max_content_per_author":  80,
+                                                                        "flow28_autosave_interval_seconds":  20,
+                                                                        "flow28_min_publish_quality_score":  0.9,
+                                                                        "flow28_page_cache_ttl_seconds":  120,
+                                                                        "flow28_cache_invalidation_batch_size":  50,
+                                                                        "flow28_spam_probability_threshold":  0.78,
+                                                                        "flow28_moderation_auto_approve_threshold":  0.96,
+                                                                        "flow28_taxonomy_propagation_batch_size":  100,
+                                                                        "flow28_ai_enhancement_retry_count":  1,
+                                                                        "flow28_sitemap_rebuild_debounce_ms":  10000,
+                                                                        "flow28_review_queue_label":  "Acme editorial review",
+                                                                        "flow28_module_name":  "acme-blog-studio"
+                                                                    },
+                                                         "impact":  "Tenant A gets stricter editorial defaults while scope enforcement, publish-only delivery, sanitization, webhook safety, and provenance stay unchanged.",
+                                                         "testable":  "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+                                                     }
+                           },
+    "notPartOfAdaptationSurface":  {
+                                       "description":  "Elements that must not change during tenant adaptation.",
+                                       "elements":  [
+                                                        "Task IDs T423-T440",
+                                                        "Factory IDs F1129-F1159",
+                                                        "implementation provider boundaries",
+                                                        "Vault credential paths",
+                                                        "tenant-scoped queries",
+                                                        "scope-enforcer-first execution",
+                                                        "publish-only public delivery/search/cache/sitemap behavior",
+                                                        "sanitize-before-store ordering",
+                                                        "webhook SSRF guard and hook sandboxing",
+                                                        "store-before-enqueue outbox ordering",
+                                                        "package provenance requirements"
+                                                    ]
+                                   },
+    "passCriteria":  [
+                         "Tenant adaptations may change only declared FLOW-28 configuration values or display/module metadata.",
+                         "FLOW-28 services remain MicroserviceBase subclasses after fork assembly.",
+                         "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+                         "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+                     ]
+}

@@ -1,0 +1,40 @@
+name: agent-constitution
+version: 1.0.0
+priority: SUPREME
+sk_number: SK-402
+
+description: >
+  Supreme governance layer for all XIIGen Claude Code sessions.
+  Defines session start/end protocol, forbidden decisions, and load order.
+  Must be loaded FIRST in every session before any other skill or code action.
+
+triggers:
+  - "start session"
+  - "begin phase"
+  - "new session"
+  - any session start (always load first)
+
+dependencies: []
+
+load_order: 1
+
+machine_rules:
+  - Session start protocol is mandatory (no skipping)
+  - Session end self-verification loop must fully pass
+  - Forbidden decisions list is non-negotiable
+  - Phase chaining requires Luba explicit approval
+
+gates:
+  session_start:
+    - git branch --show-current
+    - cd server && npm run build (0 errors required)
+    - record test baseline (server + client)
+    - read live artifact numbers from CLAUDE.md
+  session_end:
+    - build: 0 errors
+    - server tests: >= baseline
+    - client tests: >= baseline
+    - DNA: 0 violations
+    - BFA: no new conflicts
+    - DECISIONS.md: entry added if architectural decision made
+    - STATE-Pn.json: saved

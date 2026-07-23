@@ -1,0 +1,32 @@
+{
+  "flowId": "FLOW-17",
+  "slug": "freelancer-marketplace",
+  "primaryTaskType": "T613",
+  "primaryTaskName": "GigAcceptanceLockGateway",
+  "description": "Freelancer marketplace gig acceptance pipeline with three-guard validation: BOLA ownership check, SETNX exclusive lock, OCC bid freshness. T613 GigAcceptanceLockGateway enforces BOLA at ORDER 1, SETNX at ORDER 2, OCC at ORDER 3. T614 MilestoneContractManager: CONTRACT_IMMUTABLE_FIELDS at ORDER 1, sum validation at ORDER 2. T615 DeliveryGateEscrowController: delivery gate before release, LIFO [REFUND_MILESTONE, RESTORE_GIG_STATUS] compensation. T616 FreelancerReviewWriter: direction guard, duplicate check, append-only with comment excluded from audit.",
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "GigAcceptanceRequested event (client accepts freelancer bid)",
+  "primaryFabric": "DATABASE",
+  "nodes": {
+    "n1": { "id": "n1", "type": "validate", "label": "ValidateAcceptanceRequest", "description": "Validate gig acceptance request: gigId, bidId, freelancerId present; tenantId from ALS for BOLA check" },
+    "n2": { "id": "n2", "type": "rag-retrieve", "label": "RetrieveAcceptancePatterns", "description": "RAG retrieval of BOLA + SETNX + OCC acceptance patterns: PROPOSAL-ACCEPTANCE-LOCK-001, CART-LOCK-SETNX-001 from FLOW-16" },
+    "n3": { "id": "n3", "type": "decompose", "label": "DecomposeAcceptancePlan", "description": "Decompose acceptance into ordered steps: BOLA check → SETNX lock → OCC bid check → audit → emit" },
+    "n4": { "id": "n4", "type": "ai-generate", "label": "GenerateAcceptanceGateway", "description": "AI generates T613 GigAcceptanceLockGateway with correct order: BOLA (gigPosting.clientTenantId === ALS.tenantId) at ORDER 1, SETNX(gig-accept-lock:{gigId}) at ORDER 2, OCC bid status check (bid.status === OPEN) at ORDER 3, storeDocument(audit) at ORDER 4, enqueue(GigAccepted) at ORDER 5. GigAcceptanceFailed on any guard failure. CF-17-1: extends CART-LOCK-SETNX-001." },
+    "n5": { "id": "n5", "type": "validate", "label": "ValidateAcceptanceGateway", "description": "Validate BOLA at ORDER 1, SETNX at ORDER 2, OCC at ORDER 3, storeDocument(audit) before GigAccepted, GigAcceptanceFailed on all failure paths" },
+    "n6": { "id": "n6", "type": "score", "label": "ScoreAcceptanceGateway", "description": "Score implementation: BOLA order compliance, SETNX exclusivity, OCC freshness check, DNA-8 audit before emit, failure event coverage" },
+    "n7": { "id": "n7", "type": "route", "label": "RouteOnScore", "description": "Route to feedback (score >= 0.85) or iterate (score < 0.85)" },
+    "n8": { "id": "n8", "type": "feedback", "label": "StoreFeedback", "description": "DPO triple: chosen=BOLA-ORDER1+SETNX-gig-lock+OCC-bid-status+CONTRACT_IMMUTABLE_FIELDS-compile-time+sum-validation+delivery-gate-before-release+LIFO-milestone-granularity+single-direction-review+comment-excluded-audit, rejected=no-BOLA OR SETNX-after-OCC OR mutable-contract-fields OR release-before-delivery OR FIFO-compensation OR duplicate-direction OR comment-in-platform-audit.", "discriminatingConstraint": "Missing BOLA at ORDER 1 OR SETNX after OCC OR mutable CONTRACT_IMMUTABLE_FIELDS OR release without delivery validation OR FIFO compensation chain OR duplicate direction review allowed OR comment in platform audit receives score=0 and triggers n3 re-iteration. CF-17-1 (BOLA+SETNX+OCC), CF-17-2 (immutable+sum), CF-17-3 (delivery gate+LIFO), CF-17-4 (direction+append-only+comment-excluded).", "curriculumTier": 2 }
+  },
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85" }
+  ],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

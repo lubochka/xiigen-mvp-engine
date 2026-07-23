@@ -1,0 +1,92 @@
+{
+    "flowId":  "FLOW-44",
+    "flowSlug":  "framer-adapter",
+    "packageSlug":  "framer-text-elements-adapter",
+    "implementationType":  "external-adapter-package",
+    "phase":  "phase-1-adapter-package-and-publication",
+    "status":  "completed",
+    "generatedAt":  "2026-05-12T01:15:57.3135234Z",
+    "sprint":  "SPRINT A immediate external-adapter proof for Framer FT-FR1 / FLOW-44",
+    "gates":  [
+                  {
+                      "name":  "standalone npm install",
+                      "command":  "npm install --no-audit --no-fund --strict-ssl=false --loglevel warn",
+                      "result":  "PASS",
+                      "note":  "strict-ssl=false used locally because npm registry certificate validation can fail in this Windows environment"
+                  },
+                  {
+                      "name":  "typecheck",
+                      "command":  "npm run typecheck",
+                      "result":  "PASS"
+                  },
+                  {
+                      "name":  "independent package tests",
+                      "command":  "npx jest --runInBand --colors=false",
+                      "result":  "PASS",
+                      "suitesPassed":  1,
+                      "testsPassed":  45
+                  },
+                  {
+                      "name":  "legacy server adapter tests",
+                      "command":  "rg --files server/src | rg -i \"framer|FT-FR1|FLOW-44|framer-adapter\"",
+                      "result":  "NOT_APPLICABLE",
+                      "note":  "No legacy server executable suite exists for FT-FR1; canonical source is the standalone external adapter package."
+                  },
+                  {
+                      "name":  "production build",
+                      "command":  "npm run build",
+                      "result":  "PASS",
+                      "bundleBytes":  6189
+                  },
+                  {
+                      "name":  "named static checks",
+                      "command":  "NO_FIGMA_RUNTIME + NO_BROWSER_STORAGE + PLUGIN_DATA_READ_WRITE + TEXT_FILTER + STEP_1_IN_PACKAGE",
+                      "result":  "PASS",
+                      "noFigma":  0,
+                      "noBrowserStorage":  0,
+                      "pluginDataReadPattern":  2,
+                      "pluginDataWritePattern":  2,
+                      "textFilterPattern":  3,
+                      "step1InPackage":  true,
+                      "throwNewInSource":  0
+                  },
+                  {
+                      "name":  "package contents",
+                      "command":  "npm pack --dry-run --json",
+                      "result":  "PASS",
+                      "includesStep1":  true,
+                      "includesFunctionalSpec":  true,
+                      "includesTypes":  true,
+                      "includesMainBundle":  true,
+                      "includesAdapter":  true,
+                      "fileCount":  16
+                  },
+                  {
+                      "name":  "local registry publish",
+                      "command":  "npm publish --registry http://localhost:4873 --access public",
+                      "result":  "PASS",
+                      "package":  "@xiigen/framer-text-elements-adapter",
+                      "version":  "1.0.0"
+                  },
+                  {
+                      "name":  "local registry readback",
+                      "command":  "npm view @xiigen/framer-text-elements-adapter version --registry http://localhost:4873",
+                      "result":  "PASS",
+                      "readback":  "1.0.0"
+                  }
+              ],
+    "changedPackageFiles":  [
+                                "adapters/framer/FT-FR1/package.json",
+                                "adapters/framer/FT-FR1/package-lock.json",
+                                "adapters/framer/FT-FR1/tsconfig.json",
+                                "adapters/framer/FT-FR1/webpack.config.js",
+                                "adapters/framer/FT-FR1/src/framer-adapter.ts",
+                                "adapters/framer/FT-FR1/src/types.ts",
+                                "adapters/framer/FT-FR1/src/index.ts",
+                                "adapters/framer/FT-FR1/__tests__/framer-adapter.spec.ts",
+                                "adapters/framer/FT-FR1/docs/STEP-1-INVARIANTS.md",
+                                "adapters/framer/FT-FR1/docs/FUNCTIONAL-SPEC.md",
+                                "adapters/framer/FT-FR1/dist"
+                            ],
+    "verdict":  "PASS"
+}

@@ -1,0 +1,11 @@
+{
+  "eventType": "TierChanged",
+  "flowId": "FLOW-06",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "access-control-updater",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "groupId", "oldTier", "newTier", "accessLevels", "changedAt"],
+  "forbiddenFields": [],
+  "notes": "Emitted by T117 after conditional update WHERE current_tier=oldTier. SUBFLOW-06T terminal event."
+}

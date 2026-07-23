@@ -1,0 +1,247 @@
+{
+  "flowId": "FLOW-32",
+  "flowSlug": "sharable-flows-marketplace",
+  "implementationSlug": "sharable-flows-marketplace",
+  "phase": "phase-4-tenant-a-adaptation",
+  "status": "completed",
+  "generatedAt": "2026-05-11T07:35:09.3185615Z",
+  "tenant": "acme-corp",
+  "adaptation": {
+    "changeType": "Type A (bounded FREEDOM key value change)",
+    "moduleName": "acme-curated-flow-store",
+    "packageName": "@xiigen-fork/acme-curated-flow-store",
+    "packageVersion": "1.0.1",
+    "sourceModuleName": "sharable-flows-marketplace",
+    "sourcePackageName": "@xiigen-fork/sharable-flows-marketplace",
+    "sourcePackageVersion": "1.0.0-fork",
+    "plainLanguagePolicy": "Acme curated flow store policy: stricter human review, focused commerce/analytics/admin categories, prompt-based dependency installs, quality-weighted discovery, integer settlement cadence, human fraud review, and short sandbox sessions.",
+    "freedomChanges": [
+      {
+        "key": "flow32_module_name",
+        "from": "sharable-flows-marketplace",
+        "to": "acme-curated-flow-store"
+      },
+      {
+        "key": "flow32_review_queue_sla_hours",
+        "from": null,
+        "to": 12
+      },
+      {
+        "key": "flow32_allowed_package_categories",
+        "from": null,
+        "to": [
+          "commerce",
+          "analytics",
+          "admin"
+        ]
+      },
+      {
+        "key": "flow32_featured_strip_slots",
+        "from": null,
+        "to": 4
+      },
+      {
+        "key": "flow32_install_permission_policy",
+        "from": null,
+        "to": "tenant-admin-confirm"
+      },
+      {
+        "key": "flow32_dependency_install_mode",
+        "from": null,
+        "to": "prompt"
+      },
+      {
+        "key": "flow32_discovery_ranking_weights",
+        "from": null,
+        "to": {
+          "quality": 0.5,
+          "installCount": 0.2,
+          "freshness": 0.15,
+          "rating": 0.15
+        }
+      },
+      {
+        "key": "flow32_settlement_period_days",
+        "from": null,
+        "to": 30
+      },
+      {
+        "key": "flow32_fraud_review_threshold",
+        "from": null,
+        "to": 0.8
+      },
+      {
+        "key": "flow32_sandbox_ttl_hours",
+        "from": null,
+        "to": 12
+      }
+    ],
+    "invariantsPreserved": [
+      "Marketplace package, install, usage, settlement, and sandbox records remain tenant scoped.",
+      "Package artifacts remain content addressed.",
+      "Published versions remain immutable.",
+      "Artifact trust requires signing, verification, certification, and notarization evidence.",
+      "Install and RAG blueprint sharing remain logic-plane only.",
+      "Tenant data, embeddings, documents, vector stores, and literal secrets are not shared between tenants.",
+      "Binding documents store secret references only.",
+      "Governance migrations revalidate all consumers.",
+      "Revenue settlement uses integer cents only.",
+      "Fraud outcomes require human review and cannot auto-suspend, ban, revoke, terminate, or disable accounts.",
+      "Sandbox tenant IDs keep the sandbox prefix.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory."
+    ]
+  },
+  "tenantRepository": {
+    "repoFullName": "lubochka/acme-corp--sharable-flows-marketplace",
+    "repoUrl": "https://github.com/lubochka/acme-corp--sharable-flows-marketplace",
+    "sourceCommitSha": "97a92265432c545e199572e87f744b31a727f74b",
+    "adaptedCommitSha": "152bb6838dd19f7e9d5e030a2c3241827ea06481",
+    "defaultBranch": "main",
+    "clonePath": "C:/Projects/xiigen-fork-clones/acme-corp--sharable-flows-marketplace-phase40-20260511-101344",
+    "workingTreeClean": true,
+    "visibilityAfterEvidenceCapture": "PRIVATE",
+    "filesChangedInTenantRepo": [
+      "ADAPTATION-CHANGELOG.md",
+      "BUNDLE-MANIFEST.json",
+      "__tests__/sharable-flows-marketplace-acme-adaptation.spec.ts",
+      "freedom-config.defaults.json",
+      "package.json",
+      "settings/module.settings.json",
+      "tenant.config.json"
+    ],
+    "adaptationHistoryEntries": 1
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - sharable-flows-marketplace",
+    "runId": 25656475462,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "152bb6838dd19f7e9d5e030a2c3241827ea06481",
+    "url": "https://github.com/lubochka/acme-corp--sharable-flows-marketplace/actions/runs/25656475462"
+  },
+  "tenantCloneVerification": {
+    "commands": [
+      "npx tsc --noEmit --pretty false",
+      "npx jest --colors=false --forceExit",
+      "npm pack --dry-run --json"
+    ],
+    "results": {
+      "tscExit": 0,
+      "jestExit": 0,
+      "jestSuitesPassed": 2,
+      "jestSuitesTotal": 2,
+      "jestTestsPassed": 2,
+      "jestTestsTotal": 2,
+      "packDryRunExit": 0,
+      "packEntryCount": 130
+    }
+  },
+  "localRegistry": {
+    "registry": "http://localhost:4873",
+    "publishCommand": "npm publish --registry http://localhost:4873 --access public",
+    "publishedPackage": "@xiigen-fork/acme-curated-flow-store",
+    "publishedVersion": "1.0.1",
+    "viewCommand": "npm view @xiigen-fork/acme-curated-flow-store version --registry http://localhost:4873",
+    "viewReturned": "1.0.1",
+    "verified": true
+  },
+  "screenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-32",
+    "files": [
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4-tenant-a-v1.0.1-actions-success.png",
+        "bytes": 81081
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4-tenant-a-v1.0.1-github-listing.png",
+        "bytes": 140782
+      },
+      {
+        "path": "docs/e2e-snapshots/repo-evidence/flow-32/phase-4-tenant-a-v1.0.1-package-json.png",
+        "bytes": 116418
+      }
+    ],
+    "pngCount": 3,
+    "zeroByteCount": 0,
+    "realGitHubPages": true,
+    "repoTemporarilyPublicForScreenshots": true,
+    "repoRestoredPrivate": true
+  },
+  "liveAuthMatrix": {
+    "generatedAt": "2026-05-11T07:32:57.3257694Z",
+    "serverBaseUrl": "http://localhost:3000",
+    "path": "/api/runs/phase4-flow32-tenant-a-adaptation-auth-probe/trace",
+    "passed": 12,
+    "total": 12,
+    "failed": 0,
+    "allPassed": true,
+    "checks": [
+      "valid own-tenant platform-admin token returns 200 for all three tenants",
+      "missing token returns 401 for all three tenants",
+      "platform-support wrong-role token returns 403 for all three tenants",
+      "acme token in northwind context returns 401",
+      "northwind token in tessera context returns 401",
+      "acme token in tessera context returns 401"
+    ]
+  },
+  "phaseCloseVerification": {
+    "serverTypeScript": {
+      "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+      "result": "passed",
+      "exitCode": 0
+    },
+    "serverJest": {
+      "command": "Push-Location server; npx jest --testPathPatterns=sharable-flows-marketplace --runInBand --colors=false; Pop-Location",
+      "result": "passed",
+      "suites": 4,
+      "tests": 134
+    },
+    "clientTypeScript": {
+      "command": "Push-Location client; npx tsc --noEmit --pretty false; Pop-Location",
+      "result": "passed",
+      "exitCode": 0
+    },
+    "flowScans": {
+      "source": {
+        "sourceFlowFileCount": 20,
+        "throwNew": 0,
+        "exportedServicesByPromptPattern": 20,
+        "servicesMissingMicroserviceBaseByPromptPattern": 0,
+        "clsImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "adapted": {
+        "sourceFlowFileCount": 20,
+        "throwNew": 0,
+        "exportedServicesByPromptPattern": 20,
+        "servicesMissingMicroserviceBaseByPromptPattern": 0,
+        "clsImports": 0,
+        "directSdkImports": 0,
+        "anyTypes": 0,
+        "failureLines": 0
+      },
+      "failureLines": 0
+    }
+  },
+  "secretHandling": {
+    "tenantCredentialsVaultBacked": true,
+    "tokenValuesWrittenToEvidence": false,
+    "tokenValuesCommitted": false,
+    "signingKeysPrinted": false,
+    "repoVisibilityRestoredToPrivate": true
+  },
+  "phaseGate": {
+    "tenantAAdaptedFlow": true,
+    "tenantACommittedToRealRepo": true,
+    "realGitHubActionsGreen": true,
+    "publishedToLocalRegistry": true,
+    "localRegistryReturnsAdaptedVersion": true,
+    "githubRepoScreenshotsPresent": true,
+    "liveAuthMatrixPassed": true,
+    "phaseCloseScansClean": true,
+    "readyForTenantBInstallAdaptPublish": true
+  },
+  "verdict": "PASS"
+}

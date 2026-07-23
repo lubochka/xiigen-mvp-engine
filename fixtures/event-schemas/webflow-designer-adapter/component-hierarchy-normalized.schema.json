@@ -1,0 +1,1 @@
+{"type":"object","properties":{"projectId":{"type":"string"},"frameId":{"type":"string"},"components":{"type":"array","items":{"type":"object"}},"parentIdMappings":{"type":"object"},"cycleDetected":{"type":"boolean"},"maxDepthReached":{"type":"boolean"},"normalizedAt":{"type":"string"}},"required":["projectId","frameId","components","normalizedAt"]}

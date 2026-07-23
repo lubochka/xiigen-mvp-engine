@@ -1,0 +1,76 @@
+{
+  "flowId": "FLOW-11",
+  "taskTypeId": "T207",
+  "name": "schema-registry-dag-schema-export-service",
+  "description": "T207 SchemaExportService — DATA_PIPELINE archetype. Exports schema definitions in requested format (JSON, Avro). Includes version history. Tenant-scoped export.",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-13T00:00:00.000000+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: format param required (JSON or Avro), includes version history, tenant-scoped export only, no cross-tenant data leakage"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch pattern + schema-export + format-transform + version-history-include + tenant-scoped-export patterns for T207",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T207",
+        "topK": 5,
+        "patternIds": [
+          "schema-export-001",
+          "format-transform-001",
+          "version-history-include-001",
+          "tenant-scoped-export-001",
+          "dynamic-controller-get-001"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T207 into: receive schemaId+format params → validate format is JSON or Avro → load schema from DATABASE (tenant-scoped) → load version history → transform to requested format → return export payload"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate schema-export-service.service.ts — HTTP GET via DynamicController, accepts schemaId and format=JSON|Avro params, loads schema and version history from DATABASE (tenant-scoped from ALS), transforms to requested format, returns SchemaExportPayload including version history array. NEVER exports schemas from other tenants. INVALID_FORMAT error for unsupported formats."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: format_json_or_avro_validated, version_history_included, tenant_scoped_from_als, no_cross_tenant_export, invalid_format_error_returned"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T207 iron rules: format validation, version history inclusion, tenant isolation, format transformation correctness"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=format-validated+version-history-included+tenant-scoped, rejected=export-without-version-history OR accepts-any-format-string OR cross-tenant-export. curriculumTier=1."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "HTTP GET via DynamicController",
+  "primaryFabric": "DATABASE"
+}

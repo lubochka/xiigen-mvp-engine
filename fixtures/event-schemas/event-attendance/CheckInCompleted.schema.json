@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0",
+  "eventType": "xiigen.event-attendance.check-in-completed.v1",
+  "taskTypeId": "T65",
+  "flowId": "FLOW-04",
+  "description": "Emitted by T65 CheckInProcessor after RSVP status verified as CONFIRMED. Check-in window is a MACHINE_CONSTANT (1 hour before start) — not configurable via FREEDOM.",
+  "cloudEventsEnvelope": {
+    "type": "xiigen.event-attendance.check-in-completed.v1",
+    "source": "xiigen/flows/event-attendance/t65",
+    "specversion": "1.0"
+  },
+  "payload": {
+    "checkInId": {
+      "type": "string",
+      "description": "Opaque check-in record identifier"
+    },
+    "attendeeId": {
+      "type": "string",
+      "description": "Opaque attendee identifier — no PII"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Opaque event identifier"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant identifier from AsyncLocalStorage"
+    },
+    "checkedInAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "piiGuard": "No attendee name or email in payload. attendeeId is an opaque reference.",
+  "arbiterRef": "arb-flow04-checkin-confirmed-status: status CONFIRMED verified at ORDER 1 before check-in recorded.",
+  "requiredByFlows": ["FLOW-04"],
+  "seededAt": "2026-04-13T00:00:00Z"
+}

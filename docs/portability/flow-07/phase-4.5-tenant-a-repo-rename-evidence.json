@@ -1,0 +1,104 @@
+{
+  "flowId": "FLOW-07",
+  "flowSlug": "friend-request-social-feed",
+  "phase": "phase4.5-tenant-a-repo-rename-and-evidence",
+  "generatedAt": "2026-05-03T21:24:38.6050837+03:00",
+  "tenant": {
+    "tenantId": "acme-corp",
+    "role": "Tenant A"
+  },
+  "repoRename": {
+    "oldRepoFullName": "lubochka/acme-corp--friend-request-social-feed",
+    "newRepoFullName": "lubochka/acme-corp--quiet-community-feed",
+    "newRepoUrl": "https://github.com/lubochka/acme-corp--quiet-community-feed",
+    "renamedVia": "GitHub REST API PATCH /repos/lubochka/acme-corp--friend-request-social-feed",
+    "verifiedPrivate": true,
+    "defaultBranch": "main"
+  },
+  "forkRepoMetadataCommit": {
+    "commitSha": "00c1561860be4264e3156a0759d52a2005b88ad5",
+    "message": "chore: record renamed Tenant A repo",
+    "filesChanged": [
+      "tenant.config.json"
+    ],
+    "tenantConfigAssertions": {
+      "tenantId": "acme-corp",
+      "moduleName": "quiet-community-feed",
+      "repoName": "acme-corp--quiet-community-feed",
+      "repoFullName": "lubochka/acme-corp--quiet-community-feed",
+      "adaptationHistoryEntries": 1
+    }
+  },
+  "githubActions": {
+    "workflowName": "XIIGen Flow CI - friend-request-social-feed",
+    "runId": 25287032253,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "00c1561860be4264e3156a0759d52a2005b88ad5",
+    "url": "https://github.com/lubochka/acme-corp--quiet-community-feed/actions/runs/25287032253",
+    "createdAt": "2026-05-03T18:20:56Z",
+    "updatedAt": "2026-05-03T18:21:36Z"
+  },
+  "localRegistry": {
+    "registryUrl": "http://localhost:4873",
+    "package": "@xiigen-fork/acme-quiet-community-feed",
+    "version": "1.0.1",
+    "verificationCommand": "npm view @xiigen-fork/acme-quiet-community-feed version --registry http://localhost:4873",
+    "verificationResult": "1.0.1"
+  },
+  "forkRepoVerification": {
+    "path": "<WORKSPACE>\\AppData\\Local\\Temp\\flow07-acme-fork-verification",
+    "commands": [
+      {
+        "command": "npx tsc --noEmit",
+        "exitCode": 0
+      },
+      {
+        "command": "npx jest --colors=false --forceExit",
+        "exitCode": 0,
+        "result": "1 suite passed, 1 test passed"
+      }
+    ]
+  },
+  "screenshots": [
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/acme-corp--quiet-community-feed-github-listing.png",
+      "source": "Authenticated Chromium capture of https://api.github.com/repos/lubochka/acme-corp--quiet-community-feed",
+      "status": 200,
+      "bytes": 200095,
+      "axisChecks": {
+        "repoNameVisible": "acme-corp--quiet-community-feed",
+        "nameDiffersFromOriginSlug": true,
+        "tenantIdVisibleInRepoName": true
+      }
+    },
+    {
+      "path": "docs/e2e-snapshots/repo-evidence/acme-corp--quiet-community-feed-repo-homepage.png",
+      "source": "Authenticated Chromium capture of https://raw.githubusercontent.com/lubochka/acme-corp--quiet-community-feed/main/tenant.config.json",
+      "status": 200,
+      "bytes": 39872,
+      "axisChecks": {
+        "tenantIdVisible": "acme-corp",
+        "moduleNameVisible": "quiet-community-feed",
+        "repoNameVisible": "acme-corp--quiet-community-feed",
+        "adaptationHistoryPresent": true
+      }
+    }
+  ],
+  "tenantAAdaptedVisuals": {
+    "directory": "docs/e2e-snapshots/friend-request-social-feed/tenant-a-v1.0.1",
+    "roleCount": 7,
+    "cellsPerRole": 3,
+    "expectedPngCount": 21,
+    "actualPngCount": 21,
+    "smallPngCount": 0,
+    "minimumBytes": 25041
+  },
+  "secretHandling": {
+    "githubTokenPrinted": false,
+    "tenantJwtPrinted": false,
+    "vaultSigningKeyPrinted": false,
+    "rawDownloadTokenStored": false
+  },
+  "verdict": "PASS"
+}

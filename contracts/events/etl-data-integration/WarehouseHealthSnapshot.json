@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WarehouseHealthSnapshot",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "WarehouseHealthSnapshot" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["warehouseId","status","activeConnectors","lastSyncAt"],
+      "properties": {
+        "warehouseId": { "type": "string" },
+        "status": { "type": "string", "enum": ["healthy","degraded","down"] },
+        "activeConnectors": { "type": "integer" },
+        "lastSyncAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

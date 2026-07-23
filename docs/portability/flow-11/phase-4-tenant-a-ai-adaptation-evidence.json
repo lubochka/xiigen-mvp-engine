@@ -1,0 +1,191 @@
+﻿{
+    "flowId":  "FLOW-11",
+    "flowSlug":  "schema-registry-dag",
+    "phase":  "phase4AiAdaptation",
+    "status":  "completed",
+    "generatedAt":  "2026-05-06T01:29:04.6223291+03:00",
+    "tenant":  {
+                   "tenantId":  "acme-corp",
+                   "tenantName":  "Acme Corp"
+               },
+    "adaptation":  {
+                       "type":  "TYPE-A",
+                       "changeType":  "Type A (FREEDOM key value change)",
+                       "packageName":  "@xiigen-fork/acme-schema-governance-dag",
+                       "packageVersion":  "1.0.1",
+                       "moduleName":  "acme-schema-governance-dag",
+                       "displayName":  "Acme Schema Governance DAG",
+                       "sourceModuleName":  "schema-registry-dag",
+                       "sourcePackageVersion":  "1.0.0-fork",
+                       "visiblePlainLanguage":  "Acme schema governance DAG policy: 48-hour approval window, escalation by default, 14-day deprecation review, and faster visualization cache refresh.",
+                       "freedomChanges":  [
+                                              {
+                                                  "key":  "flow11_schema_registry_approval_window_ms",
+                                                  "from":  259200000,
+                                                  "to":  172800000
+                                              },
+                                              {
+                                                  "key":  "flow11_schema_registry_default_approval_decision",
+                                                  "from":  "DEFER",
+                                                  "to":  "ESCALATE"
+                                              },
+                                              {
+                                                  "key":  "flow11_schema_registry_deprecation_ttl_ms",
+                                                  "from":  2592000000,
+                                                  "to":  1209600000
+                                              },
+                                              {
+                                                  "key":  "flow11_schema_registry_visualization_cache_ttl_ms",
+                                                  "from":  300000,
+                                                  "to":  120000
+                                              }
+                                          ],
+                       "invariantsPreserved":  [
+                                                   "schema registration remains tenant-scoped",
+                                                   "schema approval decisions remain separated from schema validation",
+                                                   "schema dependency graphs remain cycle-checked before publication",
+                                                   "deprecation decisions preserve downstream dependency visibility",
+                                                   "role access remains unchanged"
+                                               ],
+                       "adaptedFiles":  [
+                                            "ADAPTATION-CHANGELOG.md",
+                                            "BUNDLE-MANIFEST.json",
+                                            "__tests__/schema-registry-dag-acme-adaptation.spec.ts",
+                                            "freedom-config.defaults.json",
+                                            "package.json",
+                                            "settings/module.settings.json",
+                                            "tenant.config.json"
+                                        ]
+                   },
+    "tenantRepository":  {
+                             "repo":  "lubochka/acme-corp--schema-registry-dag",
+                             "url":  "https://github.com/lubochka/acme-corp--schema-registry-dag",
+                             "defaultBranch":  "main",
+                             "visibilityAfterEvidence":  "PRIVATE",
+                             "privateAfterEvidenceCapture":  true,
+                             "initialForkCommit":  "2c6e655d3c793b0eeddf9dba5a481dbe43bec46b",
+                             "adaptedCommit":  "46b2de7c59e61639c556e6fd018bbb361fa003a7",
+                             "adaptedCommitMessage":  "Adapt schema registry DAG for Acme governance",
+                             "cleanClonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--schema-registry-dag-phase40",
+                             "cleanCloneStatus":  "clean",
+                             "filesChangedInTenantRepo":  [
+                                                              "ADAPTATION-CHANGELOG.md",
+                                                              "BUNDLE-MANIFEST.json",
+                                                              "__tests__/schema-registry-dag-acme-adaptation.spec.ts",
+                                                              "freedom-config.defaults.json",
+                                                              "package.json",
+                                                              "settings/module.settings.json",
+                                                              "tenant.config.json"
+                                                          ],
+                             "tenantCloneVerification":  [
+                                                             {
+                                                                 "command":  "npm install --package-lock-only --no-audit --no-fund",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx tsc --noEmit --pretty false",
+                                                                 "result":  "passed"
+                                                             },
+                                                             {
+                                                                 "command":  "npx jest --colors=false --forceExit",
+                                                                 "result":  "passed",
+                                                                 "suites":  2,
+                                                                 "tests":  5
+                                                             }
+                                                         ],
+                             "adaptationHistoryEntries":  1
+                         },
+    "githubActions":  {
+                          "workflowName":  "XIIGen Flow CI - schema-registry-dag",
+                          "runId":  25405644997,
+                          "jobId":  74515802403,
+                          "url":  "https://github.com/lubochka/acme-corp--schema-registry-dag/actions/runs/25405644997",
+                          "event":  "push",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "46b2de7c59e61639c556e6fd018bbb361fa003a7",
+                          "createdAt":  "2026-05-05T22:24:20Z",
+                          "updatedAt":  "2026-05-05T22:25:17Z",
+                          "successfulSteps":  [
+                                                  "Install",
+                                                  "TypeScript check",
+                                                  "Test",
+                                                  "Provenance"
+                                              ],
+                          "knownInheritedWarning":  "GitHub reported Node.js 20 action deprecation; root AGENTS.md debt-011 already tracks workflow Node upgrade."
+                      },
+    "localRegistry":  {
+                          "registryUrl":  "http://localhost:4873",
+                          "container":  "xiigen-verdaccio-flow06-4873",
+                          "ping":  "passed",
+                          "publishCommand":  "npm publish --registry http://localhost:4873 --access public",
+                          "publishedPackage":  "@xiigen-fork/acme-schema-governance-dag",
+                          "publishedVersion":  "1.0.1",
+                          "viewCommand":  "npm view @xiigen-fork/acme-schema-governance-dag version --registry http://localhost:4873",
+                          "npmViewVersion":  "1.0.1",
+                          "distTags":  {
+                                           "latest":  "1.0.1"
+                                       },
+                          "tarball":  "http://localhost:4873/@xiigen-fork/acme-schema-governance-dag/-/acme-schema-governance-dag-1.0.1.tgz",
+                          "shasum":  "55a61edd188f7fd10d948560eba2a87c7eccc5a8",
+                          "gitHead":  "46b2de7c59e61639c556e6fd018bbb361fa003a7",
+                          "apiEvidence":  "docs/e2e-snapshots/marketplace/schema-registry-dag-v1.0.1-registry-api-evidence.json",
+                          "verified":  true
+                      },
+    "visualEvidence":  {
+                           "marketplaceListingScreenshot":  {
+                                                                "path":  "docs/e2e-snapshots/marketplace/schema-registry-dag-v1.0.1-registry-listing.png",
+                                                                "bytes":  51335
+                                                            },
+                           "repoHomepageScreenshot":  {
+                                                          "path":  "docs/e2e-snapshots/repo-evidence/flow-11/acme-corp--schema-registry-dag-tenant-a-v1.0.1-github-listing.png",
+                                                          "bytes":  137150
+                                                      },
+                           "actionsSuccessScreenshot":  {
+                                                            "path":  "docs/e2e-snapshots/repo-evidence/flow-11/acme-corp--schema-registry-dag-tenant-a-v1.0.1-actions-success.png",
+                                                            "bytes":  78617
+                                                        },
+                           "repoVisibilityRestored":  true
+                       },
+    "phaseCloseVerification":  {
+                                   "serverTypeScript":  {
+                                                            "command":  "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+                                                            "result":  "passed"
+                                                        },
+                                   "serverJest":  {
+                                                      "command":  "Push-Location server; npx jest --testPathPatterns=schema-registry-dag --runInBand --colors=false; Pop-Location",
+                                                      "result":  "passed",
+                                                      "suites":  12,
+                                                      "tests":  105
+                                                  },
+                                   "flowScans":  {
+                                                     "flowFileCount":  20,
+                                                     "throwNew":  0,
+                                                     "clsImports":  0,
+                                                     "servicesMissingMicroserviceBase":  0,
+                                                     "unscopedFreedomReads":  0,
+                                                     "directSdkImports":  0,
+                                                     "anyTypes":  0
+                                                 }
+                               },
+    "secretHandling":  {
+                           "tokensPrinted":  false,
+                           "tenantSecretsStoredInVault":  true,
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false,
+                           "repoScreenshotVisibilityWindowRestoredToPrivate":  true
+                       },
+    "phaseGate":  {
+                      "tenantAAdaptedFlow":  true,
+                      "tenantACommittedToRealRepo":  true,
+                      "realGitHubActionsGreen":  true,
+                      "publishedToLocalRegistry":  true,
+                      "localRegistryReturnsAdaptedVersion":  true,
+                      "githubRepoScreenshotsPresent":  true,
+                      "registryScreenshotPresent":  true,
+                      "phaseCloseScansClean":  true,
+                      "readyForTenantBInstall":  true
+                  },
+    "verdict":  "PASS"
+}

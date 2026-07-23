@@ -1,0 +1,63 @@
+{
+  "taskTypeId": "T75",
+  "flowId": "FLOW-07",
+  "name": "ConnectionGraphWriter",
+  "archetype": "ORCHESTRATION",
+  "domainId": "social-connections",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "executionModel": "async",
+  "knowledgeScope": "PRIVATE",
+  "stackCoupling": {
+    "mechanism": "bidirectional-atomic-orm-transaction",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "neutralConcepts": [
+      "BOTH A→B and B→A adjacency entries in ONE ORM transaction",
+      "connectionId = hash(sorted([userIdA, userIdB]) + tenantId) — direction-independent",
+      "DNA-8: storeDocument BEFORE SocialConnectionEstablished emit",
+      "SocialConnectionEstablished emitted after T75 completes — T76-T78 are time-decoupled",
+      "knowledgeScope PRIVATE — graph edges scoped to tenant"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F-T75-1",
+      "interface": "IConnectionGraphService",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F-T75-2",
+      "interface": "IConnectionEventQueue",
+      "fabric": "QUEUE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-T75-1",
+      "rule": "Bidirectional graph write: BOTH A→B and B→A adjacency entries written in ONE ORM transaction — two-step write is BUILD_FAILURE (partial-write creates asymmetric graph)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T75-2",
+      "rule": "connectionId = hash(sorted([userIdA, userIdB]) + ':' + tenantId) — direction-independent to prevent duplicate connection records",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T75-3",
+      "rule": "DNA-8: storeDocument('xiigen-connection-graph', ...) BEFORE queue.enqueue('SocialConnectionEstablished', ...)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-T75-4",
+      "rule": "SocialConnectionEstablished emitted by T75 on graph write completion — T76, T77, T78 are time-decoupled. T75 must NOT wait for feed integration.",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "namedChecks": [
+    "social_graph_bidirectional_atomic",
+    "connection_id_direction_independent",
+    "store_before_enqueue"
+  ],
+  "tags": ["T75", "bidirectional", "atomic", "graph", "ORM-transaction", "SocialConnectionEstablished"],
+  "keywords": "connection graph writer T75 bidirectional atomic ORM transaction direction independent connectionId"
+}

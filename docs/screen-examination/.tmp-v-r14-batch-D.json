@@ -1,0 +1,148 @@
+{
+  "batch": "D",
+  "run": "V-R14",
+  "rescored_at": "2026-04-22",
+  "rubric": "docs/screen-examination/PER-IMAGE-VALIDATION-TEMPLATE.md",
+  "flows": [
+    {
+      "slug": "history-bootstrap",
+      "verdict": "PASS",
+      "pngs_examined": 1,
+      "findings": {
+        "shell": "admin shell correct for platform-admin (only examined role)",
+        "role_branching": "only platform-admin examined; architecture principles kiosk is role-appropriate",
+        "state_meaningfulness": "populated — BOOTSTRAP STATUS complete, 6 ARCH-2026-NNN architecture patterns with semantic labels (FABRIC FIRST, DATA INTEGRITY, MULTI TENANT, RESULT PATTERN, QUEUE FIRST, CONFIG OVER CODE), 4 PHILOSOPHY SUMMARIES",
+        "role_leaks": "none",
+        "flow_nn_in_copy": "none",
+        "raw_index_or_admin_debug_leak": "none (this is platform-admin)",
+        "humanization": "engineering terms (AsyncLocalStorage, storeDocument, CloudEvents, fabric interface) appear in pattern descriptions — acceptable for platform-admin audience since these ARE the architecture principles they govern",
+        "notes": "clean architectural-principles kiosk; BOOT-2026-04-20-001 identifier is a timestamp-based human-readable id, not XX-NN leak"
+      }
+    },
+    {
+      "slug": "human-interaction-gate",
+      "verdict": "CONCERN",
+      "pngs_examined": 5,
+      "v_r12_a1_fix_verification": "PARTIAL — platform-support lock banner PRESENT with escalate link and 'Read-only inspector' label replacing action text; HOWEVER, Approve/Reject/Escalate buttons are still rendered in the right panel (appear slightly faded but the disabled state is not visually distinct enough)",
+      "findings": {
+        "shell": "tenant-admin: Engine sidebar leaks (Dashboard/Marketplace/Monitor/Events/Tenants under ENGINE + ADMINISTRATION groups) — tenant-admin should see tenant chrome, not engine chrome (CONCERN); tenant-user correctly in kiosk shell (PASS); platform roles admin shell (PASS)",
+        "role_branching": "strong differentiation across roles: platform-admin=global queue, platform-support=read-only inspector, tenant-admin=approval-gate config table, tenant-user=My Pending Approvals kiosk",
+        "state_meaningfulness": "populated-platform-admin shows state 4 APPROVED with requestId/decision/reviewer/capturedAt; primary views populated with real queue items (escrow release, cross-tenant export, content moderation, refund)",
+        "role_leaks": "platform-support primary still shows Approve/Reject/Escalate buttons (disabled state ambiguous)",
+        "flow_nn_in_copy": "none (FLOW-NN not visible in copy)",
+        "raw_index_or_admin_debug_leak": "'RAW GATE INDEX (ADMIN DEBUG)' section shown to platform-admin — appropriate",
+        "humanization": "tenant-user kiosk uses plain English ('My Pending Approvals', 'Delegate', 'Contact your manager') — good; platform views use 'approve'/'escalate'/'defer' — clean"
+      }
+    },
+    {
+      "slug": "i18n-translation",
+      "verdict": "CONCERN",
+      "pngs_examined": 4,
+      "v_r12_b1_fix_verification": "CONFIRMED — translator workbench with filters (All/Pending/In review/Approved), translation memory banner, PENDING STRINGS table with Key/Source(en)/Target locale/Status/Action columns, Translate buttons; locale tags he-IL and fr-FR present",
+      "v_r12_b2_fix_verification": "CONFIRMED — tenant-user 'Choose your language' kiosk with 3 language cards (EN/English, IL/עברית/Hebrew, FR/Français/French), quality percentages, Save preference button, footer explains tenant-admin controls availability",
+      "findings": {
+        "shell": "tenant-admin sees Engine sidebar (Dashboard/Marketplace/Monitor/Events + Administration>Tenants) — wrong shell for tenant-admin (CONCERN); tenant-user correctly kiosk (PASS); translator correctly kiosk (PASS); platform-admin correctly admin (PASS)",
+        "role_branching": "strong per-role content: translator=workbench, tenant-user=picker, tenant-admin=config, platform-admin=governance",
+        "state_meaningfulness": "translator workbench shows 6 pending strings with domain-meaningful keys (common.save_changes, booking.confirm_reminder, error.generic_retry, pricing.save_annual, nav.my_subscription, billing.next_bill_date); platform-admin shows 6 languages with quality scores and enabled/disabled state",
+        "role_leaks": "tenant-admin primary exposes '/api/tenants/:id/config · freedom config keys: i18n.defaultLocale, i18n.enabledLocales' (API path + freedom config keys) and 'BCP-47 tag' placeholder — engineering leaks to tenant-admin (CONCERN); translator sees raw i18n keys (common.save_changes) — acceptable since translator is a technical role",
+        "flow_nn_in_copy": "none",
+        "raw_index_or_admin_debug_leak": "none",
+        "humanization": "mostly clean; 'BCP-47' and 'freedom config keys' leak to tenant-admin"
+      }
+    },
+    {
+      "slug": "marketplace",
+      "verdict": "BLOCK",
+      "pngs_examined": 7,
+      "findings": {
+        "shell": "anonymous/tenant-user correctly kiosk (no sidebar); business-partner/tenant-admin have Engine sidebar with nav items (Dashboard/Marketplace/Ledger/Events for business-partner; +Monitor+Tenants for tenant-admin) — engine chrome leak for tenant-admin",
+        "role_branching": "BLOCK — ALL 7 roles (anonymous, public-marketplace-visitor, tenant-user, business-partner, tenant-admin, and 2 populated variants) show IDENTICAL table: TITLE/DESCRIPTION/NODES/PUBLISHER/ACTION with same 3 packages (Event Raffle Manager, Stripe Payment Gateway, Analytics Dashboard Pro) and same 'Install' buttons — no role differentiation whatsoever",
+        "state_meaningfulness": "populated and primary are IDENTICAL across roles (both 'Live packages are unavailable right now — showing a sample of popular listings' fallback) — the 'populated' state doesn't actually differentiate from 'primary'; NODES=0 shown for every item",
+        "role_leaks": "'Install' button shown to anonymous user who cannot install without an account",
+        "flow_nn_in_copy": "none",
+        "raw_index_or_admin_debug_leak": "none",
+        "humanization": "'NODES' column header is engineering term — means nothing to a non-technical marketplace browser (BLOCK on Axis E). Publisher IDs like 'tenant-acme', 'tenant-payments-co', 'tenant-insights' are developer-style slugs not human-readable company names",
+        "layer_4_grammar": "generic CRUD table on tenant/public surface = auto-BLOCK per rubric (dyn_crud_table_on_tenant_or_public)"
+      }
+    },
+    {
+      "slug": "marketplace-payments",
+      "verdict": "PASS",
+      "pngs_examined": 10,
+      "findings": {
+        "shell": "kiosk roles (anonymous/public-marketplace-visitor/referral-user/tenant-user) correctly kiosk; sidebar roles (business-partner/freelancer/event-organiser/tenant-admin/platform-admin/platform-support) have Engine sidebar — tenant-admin still shows engine chrome (minor CONCERN noted but overall shells are role-appropriate)",
+        "role_branching": "STRONG — 10 distinct role variants: anonymous=guest checkout with 'Sign in to save' banner, public-marketplace-visitor=tier discount banner, referral-user=referral credit banner, tenant-user=standard checkout, business-partner=B2B Checkout with PO Number+Contract Reference+Escrow Funding, freelancer=Escrow & Payouts link to Milestone Dashboard, event-organiser=Event Payouts link to Organiser Dashboard, platform-admin=Platform Payments Overview cross-tenant read-only, platform-support=Transaction Inspector read-only with escalate, tenant-admin=Payments Administration with Refund/Dispute queues",
+        "state_meaningfulness": "checkout shows Annual Tech Summit 2026 — General admission ticket, date/venue/delivery mode, qty/price/tax(8%)/total, escrow hold notice; admin views show real counters (284 gates, 1247 transactions, PCI PASSING)",
+        "role_leaks": "none visible",
+        "flow_nn_in_copy": "none",
+        "raw_index_or_admin_debug_leak": "none",
+        "humanization": "clean checkout copy, 'Funds are held in escrow until delivery is confirmed' plain English; 'PCI compliance status' is acronym but unavoidable domain term for payment admin"
+      }
+    },
+    {
+      "slug": "marketplace-plugin-adapter",
+      "verdict": "CONCERN",
+      "pngs_examined": 10,
+      "v_r12_a3_fix_verification": "CONFIRMED — platform-support has lock banner ('Marketplace Plugin Adapter — read-only for support access. Controls are disabled. Escalate to a platform-admin for any change.'), 'read-only inspector' label replacing call-to-action, adapter lifecycle canvas 8 states visible, Escalate to platform-admin link",
+      "v_r12_a4_fix_verification": "CONFIRMED — event-organiser sees curated 'Event-ready plugins' with 3 cards: Eventbrite Sync (Events), Zoom Webinars (Webinars), Stripe Tickets (Payments), all with Security Verified badge, pricing, Install via Events button; footer explains full catalog available via event workspace",
+      "findings": {
+        "shell": "kiosk roles (anonymous/public-marketplace-visitor/tenant-user) correctly kiosk; sidebar roles have appropriate engine chrome",
+        "role_branching": "STRONG — anonymous=Plugin Catalog with Sign in prompt, tenant-admin=Plugin Catalog + Installed Plugins (2) with Disconnect + 'Configure plugin permissions for this tenant' link, tenant-user=Plugin Catalog + Installed Plugins, platform-admin=8-state adapter lifecycle + RAW PLUGIN INDEX (ADMIN DEBUG), platform-support=read-only lifecycle, event-organiser=curated event plugins, freelancer/business-partner variants, anonymous populated=state 3 'Plugin CONNECTED — token exchange succeeded'",
+        "state_meaningfulness": "lifecycle canvas shows 8 concrete states (Adapter registered, Handshake pending, Plugin connected, Payload translating, Payload translated, Synced, Schema mismatch, Rate limited) with Complete/Running/Pending/Failed status dots; plugin cards show star ratings, install counts, version numbers, Security Verified, pricing",
+        "role_leaks": "populated-anonymous.png shows 'Admin view of adapter registration, plugin handshake, payload translation, sync, and error states' subtitle — this 'Admin view of...' label should not appear on anonymous-facing kiosk, even with the 'Additional technical details are only visible to administrators' disclaimer below (CONCERN)",
+        "flow_nn_in_copy": "none",
+        "raw_index_or_admin_debug_leak": "RAW PLUGIN INDEX (ADMIN DEBUG) correctly gated to platform-admin only",
+        "humanization": "'token exchange succeeded' is technical but accurate for lifecycle; platform-support lock banner plain English"
+      }
+    },
+    {
+      "slug": "meta-arbitration-engine",
+      "verdict": "BLOCK",
+      "pngs_examined": 3,
+      "findings": {
+        "shell": "admin shell correct for platform-admin and platform-support",
+        "role_branching": "populated-platform-admin shows State 3 Consensus verdict: APPROVED with conflictId CFL-2026-0419-001 (acceptable for admin); primary-platform-admin shows 6-row round table with full rationale + approve/override/escalate controls; platform-support has lock banner + read-only inspector but Override button still appears active-looking",
+        "state_meaningfulness": "populated shows state 3 with 5/5 approvingArbiters, plain-English 'Safe to promote' rationale; primary shows 5-policy grid (Cost/Security/Quality/Drift/Improvement) with check/warn/reject icons",
+        "role_leaks": "BLOCK — platform-support primary STILL shows 'RAW POLICY-EVALUATION INDEX (PLATFORM-ADMIN DEBUG)' expandable section and Override button appears identical to platform-admin view; the lock banner says controls disabled but Override/Escalate to human buttons don't read as visibly disabled",
+        "flow_nn_in_copy": "BLOCK — ROUND column in primary shows FLOW-09, FLOW-17, FLOW-20, FLOW-29, FLOW-36, FLOW-24 strings next to model names (claude-opus-4.6, gpt-5, llama3:70b) — direct violation of Rule 16 / humanization directive (per Luba: no XX-NN IDs in user-facing copy)",
+        "raw_index_or_admin_debug_leak": "RAW POLICY-EVALUATION INDEX (PLATFORM-ADMIN DEBUG) leaks to platform-support view",
+        "humanization": "BLOCK — FLOW-09/FLOW-17/FLOW-20/FLOW-29/FLOW-36/FLOW-24 raw numeric IDs visible; GEN-2026-0420-A12..A17 generation round IDs; CFL-2026-0419-001 conflict ID; these need humanization (e.g. 'Reviews & Reputation — round 17', 'Cross-tenant rules — round 12')"
+      }
+    },
+    {
+      "slug": "meta-flow-engine",
+      "verdict": "CONCERN",
+      "pngs_examined": 3,
+      "findings": {
+        "shell": "admin shell correct for platform-admin; platform-support read-only variant",
+        "role_branching": "platform-admin has full 'Create meta-flow' button and active canvas; platform-support shows 'Meta-Flow Engine (read-only)' with explicit suffix, lock banner about disabled triggers/edits, grayed play/pause buttons, Escalate to platform-admin link — clean read-only pattern",
+        "state_meaningfulness": "lifecycle canvas shows 24 processes across 6 phases (Intake/Generation/Validation and 3 more) with semantic node names (Flow spec parser, Contract code writer, Service code generator, Test code generator, Flow registration orchestrator, etc.) and state colors; REGISTERED META-FLOWS (4) with Tenant provisioning pipeline, Ads campaign cold-start, Freelancer onboarding chain, Compliance sweep (quarterly) — each with orchestration chain; RECENT EXECUTIONS (3) with timestamps and success/fail indicators",
+        "role_leaks": "none",
+        "flow_nn_in_copy": "none in user-facing copy (semantic slugs used throughout: User registration, Tenant lifecycle, System bootstrap, Ads platform, Feature registry, Profile enrichment, Freelancer marketplace, Durable sagas, Cross-flow policy, Meta arbitration)",
+        "raw_index_or_admin_debug_leak": "none visible",
+        "humanization": "CONCERN — canvas node labels include 'DNA compliance checker', 'BFA conflict scanner', 'Meta-flow audit emitter' — DNA and BFA are engineering acronyms per rubric Axis E; on platform-admin these are acceptable internals, but humanized labels would be better (e.g. 'Architecture compliance checker', 'Cross-flow conflict scanner'); populated-platform-admin uses domain field names (flow, assemblyId, completedServices, totalServices, startedAt) in camelCase — engineering field leak"
+      }
+    }
+  ],
+  "batch_summary": {
+    "total_flows": 8,
+    "pass": 2,
+    "concern": 4,
+    "block": 2,
+    "key_fixes_verified": {
+      "V-R12-A1_human-interaction-gate": "PARTIAL — banner + escalate link landed, but action buttons disabled state not visually distinct",
+      "V-R12-A3_marketplace-plugin-adapter_support_readonly": "CONFIRMED",
+      "V-R12-A4_marketplace-plugin-adapter_event-organiser_curated": "CONFIRMED",
+      "V-R12-B1_i18n-translator_workbench": "CONFIRMED",
+      "V-R12-B2_i18n-tenant-user_language_picker": "CONFIRMED (EN/HE/FR all present)"
+    },
+    "new_blocks_found": [
+      "marketplace: identical dynamic-CRUD table across all 7 roles, 'NODES' engineering column, no role branching at all — Layer 4 auto-BLOCK",
+      "meta-arbitration-engine: FLOW-NN strings visible in ROUND column (FLOW-09/17/20/24/29/36), RAW POLICY-EVALUATION INDEX leaks to platform-support, Override button not visibly disabled on support view"
+    ],
+    "recurring_concerns": [
+      "tenant-admin shell consistently shows XIIGen 'Engine' sidebar (Dashboard/Marketplace/Monitor/Events) across human-interaction-gate, i18n-translation, marketplace, marketplace-payments — tenant-admin should see tenant chrome not engine chrome",
+      "camelCase field names (requestId, conflictId, assemblyId, completedServices, startedAt) leak into populated-state data cards — should be humanized to 'Request ID', 'Conflict ID', 'Started at'"
+    ]
+  }
+}

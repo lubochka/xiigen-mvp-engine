@@ -1,0 +1,18 @@
+{
+  "batch_id": "V-R6-B",
+  "flows": [
+    {"slug":"cycle-chain-extension","role":"platform-admin","grammar":"G1","verdict":"pass","weighted_score":0,"prior_v_r5_score":2,"delta":-2,"offences":[],"notes":"HookStatusBadge Active/Paused title case; clean across viewports"},
+    {"slug":"ai-self-modification","role":"platform-admin","grammar":"G3","verdict":"pass","weighted_score":0,"prior_v_r5_score":1,"delta":-1,"offences":[],"notes":"No casing violations; mobile stats wrap reasonably"},
+    {"slug":"rag-quality-feedback","role":"platform-admin","grammar":"G6","verdict":"pass","weighted_score":0,"prior_v_r5_score":0,"delta":0,"offences":[],"notes":"Baseline holds; no regressions"},
+    {"slug":"human-interaction-gate","role":"platform-admin","grammar":"G2","verdict":"partial","weighted_score":1,"prior_v_r5_score":0,"delta":1,"offences":[{"severity":"MINOR","axis":"R","viewport":"mobile","description":"Mobile capture renders at ~50% scale (capture-level regression, not component)"}],"notes":"Desktop/tablet healthy; mobile scaling artifact"},
+    {"slug":"dynamic-forms-workflows","role":"tenant-admin","grammar":"G7","verdict":"pass","weighted_score":0,"prior_v_r5_score":2,"delta":-2,"offences":[],"notes":"Tip humanized; role-based visibility rule; clean"},
+    {"slug":"etl-data-integration","role":"platform-admin","grammar":"G1","verdict":"pass","weighted_score":0,"prior_v_r5_score":1,"delta":-1,"offences":[],"notes":"DEV footer removed entirely; Complete/Running/Failed casing"},
+    {"slug":"bfa-cross-flow-governance","role":"platform-admin","grammar":"G2","verdict":"partial","weighted_score":1,"prior_v_r5_score":0,"delta":1,"offences":[{"severity":"MINOR","axis":"R","viewport":"desktop","description":"Desktop/tablet content shrunk to top-left quadrant (capture regression, not component)"}],"notes":"Mobile healthy; Active/Paused/Draft title case"}
+  ],
+  "batch_total_score": 2,
+  "batch_total_delta_vs_V_R5": -4,
+  "systemic_patterns_still_present": [],
+  "new_regressions": [
+    "Playwright capture-level scaling regressions on human-interaction-gate mobile + bfa-cross-flow-governance desktop/tablet — appear post-5a0b4f4c; likely capture/viewport config drift"
+  ]
+}

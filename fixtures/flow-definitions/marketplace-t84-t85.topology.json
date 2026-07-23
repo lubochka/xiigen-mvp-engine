@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-08",
+  "taskTypeId": "T84-T85",
+  "name": "flow-08-catalog-feed",
+  "description": "T84 CatalogIndexer + T85 ListingFeedGenerator — DATA_PIPELINE archetype. Count-only payload in FeedUpdated: { count: N }. Never include individual listing IDs.",
+  "archetype": "DATA_PIPELINE",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check: count-only-payload, no listing IDs in FeedUpdated event"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve DATA_PIPELINE arch pattern for T84-T85: count-only event payload, catalog indexing pipeline",
+      "params": {
+        "archetype": "DATA_PIPELINE",
+        "taskTypeRef": "T84-T85",
+        "topK": 5,
+        "patternIds": [
+          "arch--count-only-event-payload",
+          "arch--catalog-index-pipeline",
+          "arch--no-entity-id-in-events"
+        ]
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break T84-T85 into: T84 index listing → T85 generate feed → emit FeedUpdated { count: N } (never { listingIds: [...] })"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate catalog-indexer.service.ts — count-only payload in FeedUpdated: { count: N }. Never include individual listing IDs."
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation: count_only_payload, no_listing_ids_in_event, feed_updated_shape"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against T84-T85 iron rules: count-only payload, no entity IDs in events"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 → n8 promote, score < 85 → n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "DPO triple: chosen=count-only-payload, rejected=listing-id-array-payload. curriculumTier=2."
+    }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" },
+    { "from": "n4", "to": "n5" },
+    { "from": "n5", "to": "n6" },
+    { "from": "n6", "to": "n7" },
+    { "from": "n7", "to": "n8", "condition": "score >= 0.85" },
+    { "from": "n7", "to": "n3", "condition": "score < 0.85 AND cycles_remaining > 0" }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "ListingPublished event (@EventPattern)",
+  "primaryFabric": "DATABASE"
+}

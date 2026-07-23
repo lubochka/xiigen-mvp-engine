@@ -1,0 +1,16 @@
+{
+  "eventId": "form-submitted",
+  "eventName": "FormSubmitted",
+  "flowId": "FLOW-21",
+  "taskTypeId": "T630",
+  "description": "Emitted when a user submits a form",
+  "properties": {
+    "formId": { "type": "string", "description": "The ID of the form being submitted" },
+    "submissionId": { "type": "string", "description": "Unique submission ID" },
+    "data": { "type": "object", "description": "Form submission data" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "tenantId": { "type": "string", "description": "Tenant context" }
+  },
+  "required": ["formId", "submissionId", "data"],
+  "version": "1.0"
+}

@@ -1,0 +1,15 @@
+{
+  "eventType": "marketplace.escrow.disputed",
+  "flowId": "FLOW-16",
+  "version": "1.0.0",
+  "description": "Emitted by T611 MarketplaceEscrowController on DisputeInitiated. Escrow record updated (status:DISPUTED, accessBlocked:true) — never deleted.",
+  "properties": {
+    "escrowId": { "type": "string", "required": true },
+    "orderId": { "type": "string", "required": true },
+    "buyerTenantId": { "type": "string", "required": true },
+    "sellerTenantId": { "type": "string", "required": true },
+    "disputeReason": { "type": "string", "required": true },
+    "disputedAt": { "type": "string", "format": "date-time", "required": true },
+    "accessBlocked": { "type": "boolean", "enum": [true], "required": true }
+  }
+}

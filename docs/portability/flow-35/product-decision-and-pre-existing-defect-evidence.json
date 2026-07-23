@@ -1,0 +1,43 @@
+{
+  "flowId": "FLOW-35",
+  "flowSlug": "meta-arbitration-engine",
+  "implementationSlug": "meta-arbitration",
+  "phase": "product-decision-and-pre-existing-defect-check",
+  "status": "completed",
+  "generatedAt": "2026-05-12T03:35:00Z",
+  "branch": "Skills_Creation_Claude",
+  "productDecision": {
+    "decision": "Treat server/src/engine/flows/meta-arbitration as the executable FLOW-35 implementation source.",
+    "basis": [
+      "docs/sessions/FLOW-35/FLOW-35-CURRENT-STATE.json has stale expected-dir metadata for meta-arbitration-engine.",
+      "The repo contains server/src/engine/flows/meta-arbitration services and matching FLOW-35 unit/e2e tests.",
+      "Targeted FLOW-35 verification passed against the meta-arbitration implementation."
+    ]
+  },
+  "preExistingDefectCheck": {
+    "postFixVerification": [
+      {
+        "command": "Push-Location server; npx jest --runInBand --colors=false test/meta-arbitration-engine test/e2e/meta-arbitration src/engine-contracts/__tests__/meta-arbitration-engine-bfa-rules.spec.ts; Pop-Location",
+        "result": "11 suites passed, 140 tests passed"
+      },
+      {
+        "command": "Push-Location server; npx tsc --noEmit -p tsconfig.json --pretty false; Pop-Location",
+        "result": "exit 0"
+      }
+    ]
+  },
+  "sourceScan": {
+    "source": "server/src/engine/flows/meta-arbitration",
+    "missing": false,
+    "files": 8,
+    "throwNew": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "clsImports": 0,
+    "interpretation": "FLOW-35 canonical executable source scan returned zero failure counters."
+  },
+  "importTrace": {
+    "evidence": "docs/flow-analysis/FLOW-35/import-trace-result.json",
+    "conclusion": "NO_DIRECT_FLOW35_FLOW36_COUPLING_IN_SCANNED_SOURCE"
+  },
+  "verdict": "PASS"
+}

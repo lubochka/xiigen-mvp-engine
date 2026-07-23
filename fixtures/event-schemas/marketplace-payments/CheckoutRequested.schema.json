@@ -1,0 +1,12 @@
+{
+  "eventType": "marketplace.checkout.requested",
+  "flowId": "FLOW-16",
+  "version": "1.0.0",
+  "properties": {
+    "cartId": { "type": "string", "required": true },
+    "buyerTenantId": { "type": "string", "required": true },
+    "idempotencyKey": { "type": "string", "required": true },
+    "requestedAt": { "type": "string", "format": "date-time", "required": true },
+    "itemCount": { "type": "integer", "minimum": 1, "required": true }
+  }
+}

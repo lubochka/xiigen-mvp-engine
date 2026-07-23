@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "xiigen.i18n-translation.resolution-requested.v1",
+  "description": "Synthesized inbound event for GET /api/translations/:moduleId/:locale. Captured by T666 TranslationResolverService at the start of the 5-step pipeline (Decision 2). Terminal on either translation-complete or policy-denied; CF-812 guarantees HTTP 200.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenantId", "eventId", "emittedAt", "moduleId", "locale"],
+  "properties": {
+    "tenantId":  { "type": "string", "description": "Tenant requesting the translation (ALS)." },
+    "eventId":   { "type": "string" },
+    "emittedAt": { "type": "string", "format": "date-time" },
+    "moduleId":  { "type": "string", "description": "Module slug / i18next namespace, e.g. 'user-registration'." },
+    "locale":    { "type": "string", "description": "BCP-47 locale requested by the client, e.g. 'he', 'fr', 'fr-FR'." },
+    "sourceKeysB64": {
+      "type": "string",
+      "description": "Optional base64-encoded JSON array of English key names from the client's bundled English file. Used by the pipeline to compute marketplace delta without a separate lookup (Decision 2, Step 4)."
+    }
+  }
+}

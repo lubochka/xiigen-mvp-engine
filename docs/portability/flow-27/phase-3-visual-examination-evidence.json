@@ -1,0 +1,84 @@
+{
+  "flowId": "FLOW-27",
+  "flowSlug": "human-interaction-gate",
+  "phase": "phase3VisualExamination",
+  "status": "completed",
+  "generatedAt": "2026-05-10T16:18:29.9617629Z",
+  "protocolVersion": "3.0",
+  "commands": [
+    "plain-language/internal-term scan over client/src/pages/human-interaction-gate and client/src/components/human-interaction-gate",
+    "Push-Location client",
+    "VITE_PORT=52427 npx playwright test visual-audit-axis-d-full.spec.ts --grep human-interaction-gate --workers=1 --reporter=line",
+    "Get-ChildItem docs/e2e-snapshots/visual-audit/*/human-interaction-gate -Filter *.png -File | zero-byte check"
+  ],
+  "plainLanguageScan": {
+    "command": "rg -n -e \"\\\\bBFA\\\\b\" -e \"\\\\bDNA-[1-9]\\\\b\" -e \"AF[- ]station\" -e \"\\\\barbiter\\\\b\" -e \"FREEDOM config\" -e \"MACHINE code\" -e \"DataProcessResult\" -e \"ENGINE_INTERNAL\" -e \"\\\\bT[0-9]{3}\\\\b\" -e \"\\\\bCF-[0-9]{3}\\\\b\" client/src/pages/human-interaction-gate client/src/components/human-interaction-gate -g \"*.tsx\" -g \"*.ts\"",
+    "exitCode": 1,
+    "rawSourceMatchesReviewed": 0,
+    "tenantConsumerPage": true,
+    "failureLines": 0,
+    "classification": "FLOW-27 includes tenant-admin, tenant-user, platform-admin, and platform-support surfaces. The close scan returned no internal acronym or code-token matches in the flow-specific page/components."
+  },
+  "visualAudit": {
+    "command": "npx playwright test visual-audit-axis-d-full.spec.ts --grep human-interaction-gate --workers=1 --reporter=line",
+    "workingDirectory": "client",
+    "exitCode": 0,
+    "testsPassed": 15,
+    "testsTotal": 15,
+    "cells": [
+      "platform-admin primary",
+      "tenant-admin primary",
+      "platform-support primary",
+      "tenant-user primary",
+      "platform-admin populated"
+    ],
+    "projects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ]
+  },
+  "screenshots": {
+    "totalPngs": 15,
+    "totalZeroBytePngs": 0,
+    "byProject": [
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-desktop/human-interaction-gate",
+        "pngCount": 5,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png",
+          "primary-tenant-admin.png",
+          "primary-tenant-user.png"
+        ]
+      },
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-tablet/human-interaction-gate",
+        "pngCount": 5,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png",
+          "primary-tenant-admin.png",
+          "primary-tenant-user.png"
+        ]
+      },
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-mobile/human-interaction-gate",
+        "pngCount": 5,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png",
+          "primary-tenant-admin.png",
+          "primary-tenant-user.png"
+        ]
+      }
+    ]
+  },
+  "verdict": "PASS"
+}

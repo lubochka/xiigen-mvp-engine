@@ -1,0 +1,46 @@
+name: flow-prep-library
+version: "1.0.0"
+priority: MANDATORY
+load_order: 0
+updated: "2026-04-20"
+author: luba
+entry: FLOW-PREP-LIBRARY-SKILL.md
+
+description: >
+  Library of 50 guidance files that translate a flow's functional specification
+  into the complete set of session documentation files (docs/sessions/FLOW-XX/)
+  needed to integrate, generate, and operate a XIIGen flow. Apply to any new
+  flow spec to produce proper List B documentation. Validated 50/50
+  SELF-SUFFICIENT against FLOW-48 (Cluster 1, all 10 personas). Covers all
+  897 List A source files across ZIP-01..17.
+
+triggers:
+  - "generate flow docs"
+  - "prepare flow documentation"
+  - "List B files"
+  - "GUIDE-B"
+  - "flow preparation"
+  - "new flow spec"
+  - "flow session files"
+  - "docs/sessions/FLOW-"
+
+dependencies:
+  - flow-ui-examination-protocol   # SK-542
+  - product-design-context          # SK-540
+  - screen-craft-audit              # SK-541
+
+skills_included:
+  - GUIDE-B01 through GUIDE-B50
+  - SK-540 product-design-context
+  - SK-541 screen-craft-audit
+  - SK-542 flow-ui-examination-protocol
+  - planning--business-flows-registry
+
+generation_order:
+  phase_7_strict: "B50 → B46 → B47 → B48 → B45 → B49"
+  phases_0_to_6: "B01-B05, B06-B11, B12-B16, B17-B28, B29-B35, B36-B40, B41-B44"
+
+validation:
+  score: "50/50 SELF-SUFFICIENT"
+  test_flow: "FLOW-48 (Cluster 1 universal, 10 personas)"
+  list_a_coverage: "897/897 files"

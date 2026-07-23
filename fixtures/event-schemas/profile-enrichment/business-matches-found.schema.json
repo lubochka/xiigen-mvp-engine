@@ -1,0 +1,11 @@
+{
+  "eventType": "BusinessMatchesFound",
+  "flowId": "FLOW-02",
+  "seededAt": "2026-04-10T00:00:00.000000+00:00",
+  "source": "T51-B1 (compatibility-scoring.service.ts)",
+  "consumers": ["T51-B2"],
+  "piiFields": [],
+  "allowedPayloadFields": ["userId", "tenantId", "scoringId", "matchedBusinessIds", "topScore", "partialResults"],
+  "forbiddenFields": ["email", "questionnaire", "goals", "challenges"],
+  "notes": "partialResults:true when B1 hit 30s timeout. B2 MUST forward partialResults — never block on partial upstream. matchedBusinessIds may be an empty array if timeout hit before any matches found."
+}

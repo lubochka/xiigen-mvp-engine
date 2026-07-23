@@ -1,0 +1,77 @@
+{
+  "batch_id": "V-R15-A",
+  "captured_after": "RUN-188 V-R15 fixes (85540888)",
+  "flows": [
+    {
+      "slug": "adaptive-rag-deep-research",
+      "pngs_read": ["populated-platform-admin.png", "primary-platform-admin.png", "primary-platform-support.png"],
+      "verdict": "PASS",
+      "v_r14_block_resolved": null,
+      "role_leaks": [],
+      "notes": "Platform-only flow (labeled PLATFORM ONLY). Admin view shows progressive-drill topology (phase chips, Level 1 view with 27 nodes across 6 phases). Support role gets read-only banner 'Read-only for support access. Canvas is inspectable; Kill and Rebudget are platform-admin only.' Populated admin shows humanized state card with raw RES-2026-0419-001 id (admin context, acceptable). Humanized description. No FLOW-NN in copy. No role leaks."
+    },
+    {
+      "slug": "admin-i18n",
+      "pngs_read": ["primary-platform-admin.png"],
+      "verdict": "PASS",
+      "v_r14_block_resolved": null,
+      "role_leaks": [],
+      "notes": "Only platform-admin PNG exists (appropriate — this is platform governance). 'Platform Translation Governance' with humanized language tiles (EN, FR, HE, ES, DE, JA with strength indicators + human/machine tags) + base translation dictionary with multi-locale rendering. No raw keys shown as headers (label is 'common.save_changes' which is legitimate i18n key). Fully humanized + role-appropriate."
+    },
+    {
+      "slug": "ads-platform",
+      "pngs_read": ["populated-anonymous.png", "populated-business-partner.png", "populated-he-platform-admin.png", "populated-platform-admin.png", "primary-anonymous.png", "primary-platform-admin.png", "primary-platform-support.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "verdict": "PASS",
+      "v_r14_block_resolved": true,
+      "role_leaks": [],
+      "notes": "V-R14 BLOCK RESOLVED. Role-gated content confirmed: (1) primary-anonymous = marketing CTA 'Advertise on XIIGen' with 'Apply to advertise' button; (2) populated-anonymous = state card 'Ads Platform - Bid accepted - spend ledger debited' (consumer-safe); (3) primary-tenant-user = restriction card 'Ads console is restricted. The ads console is available to your workspace administrator and to platform administrators.'; (4) primary-tenant-admin = 'Your workspace ad spend' own-workspace summary with placements table + billing link (Monitor/Tenants sidebar subset); (5) primary/populated-platform-admin + primary-platform-support = full CampaignDashboard (Ads platform, 5 campaigns, 325.4k impressions, admin-only 'RAW ADS-PLATFORM INDEX (ADMIN DEBUG)'); (6) populated-business-partner = full CampaignDashboard without the raw-index admin section (appropriate for advertiser viewing own campaigns). HE platform-admin variant renders RTL correctly with Hebrew sidebar. All 4 non-admin roles see purpose-built content, NOT the admin dashboard."
+    },
+    {
+      "slug": "ai-safety-moderation",
+      "pngs_read": ["populated-anonymous.png", "primary-anonymous.png", "primary-platform-admin.png", "primary-platform-support.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "verdict": "PASS",
+      "v_r14_block_resolved": true,
+      "role_leaks": [],
+      "notes": "V-R14 BLOCK RESOLVED. primary-tenant-user now shows clean user-facing restriction: 'The content moderation console is not available for your current role. If you received an email about a moderated post, follow the link in that email to access the appeal form.' NO '?flagged=true' or any dev instructions. Other roles correctly differentiated: anonymous = 'Report Harmful Content' public form; populated-anonymous = state card 'AI Safety & Moderation - Content approved - all safety checks passed, published' with 'Additional technical details are only visible to administrators.' footer; tenant-admin = Trust & Safety queue (tenant-scoped) with CNT-2026-0418-xxxx ids (admin-appropriate); platform-admin = cross-tenant moderator queue with AI analysis (91% confidence, spam/PII flags); platform-support = 'Read-only moderation inspector. Search by content ID or author ID. No edit controls.' with escalate link. All properly role-scoped."
+    },
+    {
+      "slug": "ai-self-modification",
+      "pngs_read": ["primary-platform-admin.png"],
+      "verdict": "PASS",
+      "v_r14_block_resolved": null,
+      "role_leaks": [],
+      "notes": "Only platform-admin PNG exists (appropriate — platform-only flow). 'AI Self-Modification Console' with humanized pending proposals (readable natural-language descriptions like 'Lower retrieval temperature for the product-search skill from 0.8 to 0.5...'), Target/AI reasoning/Predicted impact labels, Approve/Reject actions, performance before/after metrics, and admin-gated 'AI Self-Modification - Raw Index' section (collapsed, labeled 'Platform-only raw index. Expand to browse records.' with Platform-only tag). Acceptable admin escape hatch."
+    },
+    {
+      "slug": "bfa-cross-flow-governance",
+      "pngs_read": ["populated-platform-admin.png", "primary-platform-admin.png", "primary-platform-support.png"],
+      "verdict": "PASS",
+      "v_r14_block_resolved": null,
+      "role_leaks": [],
+      "notes": "Platform-only flow. primary-platform-admin shows 'Cross-Flow Policy Console' with active/paused/draft rules (CF-841, CF-821, CF-814, CF-803 — raw identifiers are legitimate rule IDs, admin-appropriate), humanized rule descriptions ('Payment dispute blocks gig completion', 'Subscription gate before ads spend', 'Fraud flag halts review posting'). populated-platform-admin shows state card 'Cross-Flow Policy Review - step 4 - Policy published - effective immediately across all tenants' with CF-841 / bfa-architect-01. primary-platform-support gets 'Rule Inspector (read-only)' with 'Edit controls below are disabled for support access' banner + Escalate link. Properly role-scoped."
+    },
+    {
+      "slug": "blog-cms-modules",
+      "pngs_read": ["populated-anonymous.png", "primary-anonymous.png", "primary-platform-admin.png", "primary-public-marketplace-visitor.png", "primary-tenant-admin.png", "primary-tenant-user.png"],
+      "verdict": "PASS",
+      "v_r14_block_resolved": true,
+      "role_leaks": [],
+      "notes": "V-R14 BLOCK RESOLVED. populated-anonymous now shows 'Blog/CMS Modules - Blog and CMS modules' state card with 'SEO crawler confirmed indexing - post discoverable via search' and 'Additional technical details are only visible to administrators.' NO 'Admin view of blog drafts...' header leak. Other roles: primary-anonymous + primary-public-marketplace-visitor = blog post preview 'Launch Week Preview - What's Shipping' with Subscribe CTA; primary-tenant-user = same post with Save/Share actions; primary-tenant-admin = 'Blog admin - manage posts, authors, and module settings' with module status + admin-debug raw index browser (labeled 'Raw index browser (admin debug)' with Tenant-facing tag, appropriate admin debugging); primary-platform-admin = 'Blog Module Platform Console' with tenant install matrix. Clean role-gated surfaces."
+    },
+    {
+      "slug": "bundle-activation",
+      "pngs_read": ["active-platform-admin.png", "failed-platform-admin.png", "populated-platform-admin.png", "primary-platform-admin.png", "primary-platform-support.png"],
+      "verdict": "CONCERN",
+      "v_r14_block_resolved": null,
+      "role_leaks": [],
+      "notes": "Platform-only flow. primary-platform-admin shows 'Bundle Activation - Cross-tenant bundle provisioning and status' with bundle list + force-activate/revoke actions. primary-platform-support shows 'Bundle Activation (read-only)' with disabled controls banner + escalate link — PASS on support view. HUMANIZATION INCONSISTENCY: populated-platform-admin uses humanized field labels (Bundle, Active version, Required flow count, Activated at), but active-platform-admin and failed-platform-admin state cards use camelCase raw API keys (bundleId, activeVersion, requiredFlowCount, activatedAt, errorCode, validatedAt) instead of humanized labels. Minor: state labels read 'state 3' / 'state 6' while populated variant reads 'step 3' — terminology inconsistency. Not a BLOCK (admin context) but flagged as CONCERN for label-humanization consistency across state variants within the same flow."
+    }
+  ],
+  "batch_summary": {
+    "pass": 7,
+    "concern": 1,
+    "block": 0,
+    "v_r14_blocks_resolved": 3,
+    "v_r14_blocks_persist": 0
+  }
+}

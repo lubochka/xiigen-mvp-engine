@@ -1,0 +1,15 @@
+{
+  "index": "xiigen-arbiter-configs",
+  "mappings": {
+    "properties": {
+      "arbiterId":      { "type": "keyword" },
+      "flowId":         { "type": "keyword" },
+      "cfId":           { "type": "keyword" },
+      "arbiterType":    { "type": "keyword" },
+      "connectionType": { "type": "keyword" },
+      "knowledgeScope": { "type": "keyword" },
+      "scope":          { "type": "keyword" },
+      "seededAt":       { "type": "date" }
+    }
+  }
+}

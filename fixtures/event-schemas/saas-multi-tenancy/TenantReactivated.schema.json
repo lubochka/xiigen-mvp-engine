@@ -1,0 +1,7 @@
+{
+  "required": ["tenantId", "reactivatedAt"],
+  "properties": {
+    "tenantId": { "type": "string" },
+    "reactivatedAt": { "type": "string", "format": "date-time" }
+  }
+}

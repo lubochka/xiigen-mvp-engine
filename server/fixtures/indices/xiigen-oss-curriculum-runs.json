@@ -1,0 +1,23 @@
+{
+  "index": "xiigen-oss-curriculum-runs",
+  "mappings": {
+    "properties": {
+      "ossModel":        { "type": "keyword" },
+      "station":         { "type": "keyword" },
+      "depth":           { "type": "integer" },
+      "nodeIntent":      { "type": "text" },
+      "cycle":           { "type": "integer" },
+      "grade":           { "type": "float" },
+      "ragContextSize":  { "type": "integer" },
+      "graphContextSize":{ "type": "integer" },
+      "phase":           { "type": "keyword" },
+      "flowId":          { "type": "keyword" },
+      "tenantId":        { "type": "keyword" },
+      "knowledgeScope":  { "type": "keyword" },
+      "ownerId":         { "type": "keyword" },
+      "moduleId":        { "type": "keyword" },
+      "pricingModel":    { "type": "keyword" },
+      "createdAt":       { "type": "date" }
+    }
+  }
+}

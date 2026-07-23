@@ -1,0 +1,15 @@
+{
+  "eventType": "marketplace.checkout.reserved",
+  "flowId": "FLOW-16",
+  "version": "1.0.0",
+  "description": "Emitted by T609 MarketplaceCheckoutGateway after BOLA check, cart lock, OCC inventory reservation, and audit store. Triggers T610 MarketplacePaymentSplitter.",
+  "properties": {
+    "cartId": { "type": "string", "required": true },
+    "buyerTenantId": { "type": "string", "required": true },
+    "totalAmountCents": { "type": "integer", "minimum": 1, "required": true },
+    "idempotencyKey": { "type": "string", "required": true },
+    "reservedAt": { "type": "string", "format": "date-time", "required": true },
+    "auditDocumentId": { "type": "string", "required": true },
+    "inventoryReservationId": { "type": "string", "required": true }
+  }
+}

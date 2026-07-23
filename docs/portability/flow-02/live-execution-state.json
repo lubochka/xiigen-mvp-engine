@@ -1,0 +1,124 @@
+{
+  "flowId": "FLOW-02",
+  "flowSlug": "profile-enrichment",
+  "branch": "Skills_Creation_Claude",
+  "updatedAt": "2026-04-29T12:33:00+03:00",
+  "currentPhase": "Complete",
+  "currentTask": "No remaining Flow 02 mobility/auth phases. Final gate passed.",
+  "doNotStopUntil": "The next phase is complete or a genuine external blocker is written into this file and the canonical state file.",
+  "tenants": {
+    "tenantA": {
+      "tenantId": "acme-corp",
+      "currentRepo": "lubochka/acme-corp--acme-pro-matching",
+      "targetRepo": "lubochka/acme-corp--acme-pro-matching",
+      "adaptedModuleName": "acme-pro-matching",
+      "phase": "Phase 4.5",
+      "status": "complete"
+    },
+    "tenantB": {
+      "tenantId": "northwind",
+      "currentRepo": "lubochka/northwind--northwind-partner-matching",
+      "phase": "Phase 5b",
+      "status": "complete"
+    },
+    "tenantC": {
+      "tenantId": "tessera-collective",
+      "currentRepo": "lubochka/tessera-collective--tessera-community-matching",
+      "phase": "Phase 5c-5",
+      "status": "complete"
+    }
+  },
+  "phaseQueue": [
+    {
+      "phase": "Phase 4.5",
+      "name": "Tenant A post-adaptation repo evidence",
+      "status": "complete",
+      "completionGate": [
+        "Tenant A repo contains the adapted Acme Pro Matching bundle",
+        "Tenant A repo is renamed to acme-corp--acme-pro-matching",
+        "GitHub Actions conclusion is success",
+        "Repo listing screenshot exists",
+        "Repo homepage screenshot exists",
+        "Canonical state file records the evidence"
+      ]
+    },
+    {
+      "phase": "Phase 5a",
+      "name": "Tenant B installs Tenant A adapted version",
+      "status": "complete"
+    },
+    {
+      "phase": "Phase 5b",
+      "name": "Tenant B adapts",
+      "status": "complete"
+    },
+    {
+      "phase": "Phase 5c",
+      "name": "Tenant C installs Tenant B adapted version",
+      "status": "complete"
+    },
+    {
+      "phase": "Phase 5c-5",
+      "name": "Tenant C adapts",
+      "status": "complete"
+    },
+    {
+      "phase": "Final gate",
+      "name": "Protocol completion check",
+      "status": "complete"
+    }
+  ],
+  "lastCompletedPhase": "Final gate - protocol completion check",
+  "lastCompletedCommit": "8e7ce3a1",
+  "openBlockers": [],
+  "evidence": {
+    "tenantA": {
+      "repoHomepagePng": "docs/portability/flow-02/visual-evidence/phase-04-tenant-a-post-adaptation-repo/acme-corp--acme-pro-matching-repo-homepage.png",
+      "repoListingPng": "docs/portability/flow-02/visual-evidence/phase-04-tenant-a-post-adaptation-repo/acme-corp--acme-pro-matching-github-listing.png",
+      "workflowRunUrl": "https://github.com/lubochka/acme-corp--acme-pro-matching/actions/runs/25096812478",
+      "workflowConclusion": "success",
+      "adaptedCommitSha": "0d34216fba11b4d0d591bc623ee94dad13653fd6",
+      "localForkChecks": {
+        "clonePath": "C:/tmp/xiigen-phase45/acme-corp--profile-enrichment",
+        "packageInstall": "passed",
+        "typescript": "passed",
+        "jest": "passed: 1 suite, 2 tests"
+      }
+    },
+    "tenantB": {
+      "repoHomepagePng": "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-installed-from-a-repo/northwind--acme-pro-matching-repo-homepage.png",
+      "repoListingPng": "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-installed-from-a-repo/northwind--acme-pro-matching-github-listing.png",
+      "workflowRunUrl": "https://github.com/lubochka/northwind--acme-pro-matching/actions/runs/25097776158",
+      "workflowConclusion": "success",
+      "inheritedCommitSha": "f51440212855399f8ad6a9ba41cfe110f9efc5c9",
+      "installedFromTenantAVisualEvidence": "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-installed-from-a",
+      "installedFromTenantAPngCount": 15,
+      "adaptedRepoHomepagePng": "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-adapted-repo/northwind--northwind-partner-matching-repo-homepage.png",
+      "adaptedRepoListingPng": "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-adapted-repo/northwind--northwind-partner-matching-github-listing.png",
+      "adaptedWorkflowRunUrl": "https://github.com/lubochka/northwind--northwind-partner-matching/actions/runs/25098309076",
+      "adaptedWorkflowConclusion": "success",
+      "adaptedCommitSha": "21f4d81f25a029f50934bc4bc36b0d956817425a",
+      "adaptedVisualEvidence": "docs/portability/flow-02/visual-evidence/phase-05-tenant-b-v1.0.2",
+      "adaptedPngCount": 15
+    },
+    "tenantC": {
+      "repoHomepagePng": "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-installed-from-b-repo/tessera-collective--northwind-partner-matching-repo-homepage.png",
+      "repoListingPng": "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-installed-from-b-repo/tessera-collective--northwind-partner-matching-github-listing.png",
+      "workflowRunUrl": "https://github.com/lubochka/tessera-collective--northwind-partner-matching/actions/runs/25098905673",
+      "workflowConclusion": "success",
+      "inheritedCommitSha": "80abc593988703a3f239620d908e5c1b7ada73a4",
+      "installedFromTenantBVisualEvidence": "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-installed-from-b",
+      "installedFromTenantBPngCount": 15,
+      "adaptedRepoHomepagePng": "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-adapted-repo/tessera-collective--tessera-community-matching-repo-homepage.png",
+      "adaptedRepoListingPng": "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-adapted-repo/tessera-collective--tessera-community-matching-github-listing.png",
+      "adaptedWorkflowRunUrl": "https://github.com/lubochka/tessera-collective--tessera-community-matching/actions/runs/25099656229",
+      "adaptedWorkflowConclusion": "success",
+      "adaptedCommitSha": "ffa191e467f106ee9270c8ec28128d492e8882f5",
+      "adaptedVisualEvidence": "docs/portability/flow-02/visual-evidence/phase-05-tenant-c-v1.0.3",
+      "adaptedPngCount": 15,
+      "adaptationHistoryEntries": 3
+    }
+  },
+  "finalCompletionEvidence": "docs/portability/flow-02/final-completion-evidence.json",
+  "currentStatus": "Flow 02 mobility/auth protocol is complete: all three final tenant repos exist, all GitHub Actions conclusions are success, complete bundle checks passed, auth regression passed, and all required visual evidence counts are present."
+}

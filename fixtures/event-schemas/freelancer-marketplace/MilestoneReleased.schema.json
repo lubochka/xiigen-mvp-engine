@@ -1,0 +1,12 @@
+{
+  "eventType": "freelancer.milestone.released",
+  "flowId": "FLOW-17",
+  "version": "1.0.0",
+  "properties": {
+    "milestoneId": { "type": "string", "required": true },
+    "contractId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "releasedAt": { "type": "string", "format": "date-time", "required": true },
+    "deliveryId": { "type": "string", "required": true }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "index": "xiigen-module-library",
+  "mappings": {
+    "properties": {
+      "moduleId":          { "type": "keyword" },
+      "flowId":            { "type": "keyword" },
+      "phase":             { "type": "keyword" },
+      "title":             { "type": "text" },
+      "description":       { "type": "text" },
+      "ownerId":           { "type": "keyword" },
+      "scope":             { "type": "keyword" },
+      "pricingModel":      { "type": "keyword" },
+      "pricePerUse":       { "type": "float" },
+      "adoptionCount":     { "type": "integer" },
+      "ragSnapshotId":     { "type": "keyword" },
+      "graphSnapshotId":   { "type": "keyword" },
+      "promptVersions":    { "type": "keyword" },
+      "calibrationIds":    { "type": "keyword" },
+      "version":           { "type": "keyword" },
+      "approvedForGlobal": { "type": "boolean" },
+      "approvedAt":        { "type": "date" },
+      "approvedBy":        { "type": "keyword" },
+      "createdAt":         { "type": "date" }
+    }
+  }
+}

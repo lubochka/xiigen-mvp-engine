@@ -1,0 +1,43 @@
+{
+  "batch_id": "V-R10-B",
+  "captured_after": "RUN-173 (cdcf739d)",
+  "flows_scored": 7,
+  "ship_tally": {
+    "SHIPPED": ["design-intelligence-engine", "design-system-governance"],
+    "CONCERN_REMAINS": ["cms-publishing", "data-warehouse-analytics", "dynamic-forms-workflows"],
+    "PARTIAL_FIX": ["durable-sagas-compliance"],
+    "NOT_SHIPPED": ["completion-gamification"]
+  },
+  "aggregate_verification_of_RUN_173_fixes": {
+    "P0_2_durable_sagas_platform_support": {"status": "VERIFIED_FIXED", "evidence": "Lock banner + disabled Execute Saga + Escalate link on desktop/tablet/mobile"},
+    "P0_3_BusinessStateCard_redaction": {
+      "status": "PARTIAL_FIX",
+      "pass": ["cms-publishing populated-anonymous (redaction notice replaces fields)", "data-warehouse-analytics populated-platform-admin (KMS key no longer raw)"],
+      "fail": ["dynamic-forms-workflows populated-anonymous (schemaId/version/publishedAt/publicUrl still visible)", "dynamic-forms-workflows populated-tenant-user (same leak)"]
+    },
+    "P4_5_banner_suppression": {"status": "VERIFIED_FIXED", "evidence": "hideChrome=1 respected — populated captures show no top banner / no sidebar on non-admin roles"},
+    "P4_6_raw_index_suppression": {
+      "status": "PARTIAL_FIX",
+      "pass": "populated- captures no longer show raw-index card",
+      "fail": "primary-tenant-admin on cms-publishing + data-warehouse-analytics + dynamic-forms-workflows still renders raw index card (primary route does not carry hideChrome)"
+    }
+  },
+  "new_issues_detected": [
+    {"id": "V-R10-B-01", "severity": "P0", "flows": ["dynamic-forms-workflows"], "summary": "BusinessStateCard redaction did not land for DFW populated-anonymous + populated-tenant-user — schemaId/version/publishedAt/publicUrl still visible"},
+    {"id": "V-R10-B-02", "severity": "P0", "flows": ["cms-publishing", "data-warehouse-analytics", "dynamic-forms-workflows"], "summary": "tenant-admin primary view = raw DynamicController index browser (Name/Status/Notes/Delete/New record). Engineering-debug surface, not domain UI."},
+    {"id": "V-R10-B-03", "severity": "P0", "flows": ["durable-sagas-compliance"], "summary": "tenant-user + tenant-admin can still invoke Execute Saga. Only platform-support is gated. No scope isolation between platform-admin and tenant-admin."},
+    {"id": "V-R10-B-04", "severity": "P1", "flows": ["completion-gamification"], "summary": "All 3 roles render identical skeleton. NOT_SHIPPED persists."},
+    {"id": "V-R10-B-05", "severity": "P2", "flows": ["design-intelligence-engine"], "summary": "Populated admin card displays 'FLOW-04' as targetFlow — should humanize to 'Event Attendance'"},
+    {"id": "V-R10-B-06", "severity": "P2", "flows": ["data-warehouse-analytics"], "summary": "tenant-admin populated export card renders full encryptionKey 'kms-key-prod-02' — mask to kms-***-02"},
+    {"id": "V-R10-B-07", "severity": "P3", "flows": ["cms-publishing"], "summary": "reader-anonymous.png renders 404 (route alias regression or legacy capture)"}
+  ],
+  "per_flow_detail": {
+    "cms-publishing": "tenant-admin CRUD-debug unchanged; platform-admin Ops SHIPPED; populated-anonymous redaction landed",
+    "completion-gamification": "all 3 roles identical skeleton, zero divergence",
+    "data-warehouse-analytics": "platform-admin Ops + business-partner Analytics SHIPPED; tenant-admin still CRUD-debug; populated KMS leak fixed on platform-admin but not tenant-admin",
+    "design-intelligence-engine": "All 3 role divergences clean (admin / support read-only / tenant-admin upsell)",
+    "design-system-governance": "Stable SHIPPED — grid + compatibility reports + support lock-banner",
+    "durable-sagas-compliance": "platform-support FIXED; platform-admin + tenant-admin + tenant-user still have active Execute Saga (regression scope)",
+    "dynamic-forms-workflows": "Role-aware demo form SHIPPED with per-role field counts (2/3/4); populated metadata leak on anon/user persists; tenant-admin below-fold raw-index card still visible"
+  }
+}

@@ -1,0 +1,107 @@
+{
+    "flowId":  "FLOW-00",
+    "flowSlug":  "bundle-activation",
+    "phase":  "phase4Point5TenantARepoAndEvidence",
+    "status":  "completed",
+    "generatedAt":  "2026-05-05T02:11:06.5469671+03:00",
+    "tenant":  {
+                   "tenantId":  "acme-corp",
+                   "adaptedModuleName":  "acme-launch-bundles",
+                   "packageName":  "@xiigen-fork/acme-launch-bundles",
+                   "packageVersion":  "1.0.1"
+               },
+    "repositoryRename":  {
+                             "oldFullName":  "lubochka/acme-corp--bundle-activation",
+                             "newFullName":  "lubochka/acme-corp--acme-launch-bundles",
+                             "newRepoName":  "acme-corp--acme-launch-bundles",
+                             "htmlUrl":  "https://github.com/lubochka/acme-corp--acme-launch-bundles",
+                             "defaultBranch":  "main",
+                             "privateAfterEvidenceCapture":  true,
+                             "visibilityAfterEvidenceCapture":  "private",
+                             "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\acme-corp--bundle-activation",
+                             "localRemote":  "https://github.com/lubochka/acme-corp--acme-launch-bundles.git"
+                         },
+    "tenantRepoCommit":  {
+                             "sha":  "0ec728f5e841a3402fd59cd322acd674b7a650ed",
+                             "message":  "chore: record renamed Tenant A repo",
+                             "tenantConfigUpdated":  true,
+                             "tenantConfigFields":  {
+                                                        "repoName":  "acme-corp--acme-launch-bundles",
+                                                        "repoFullName":  "lubochka/acme-corp--acme-launch-bundles",
+                                                        "moduleName":  "acme-launch-bundles",
+                                                        "moduleVersion":  "1.0.1",
+                                                        "adaptationHistoryEntries":  1
+                                                    }
+                         },
+    "githubActions":  {
+                          "runId":  25344051404,
+                          "workflowName":  "XIIGen Flow CI - bundle-activation",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "0ec728f5e841a3402fd59cd322acd674b7a650ed"
+                      },
+    "forkPackageVerification":  {
+                                    "typescript":  "npx tsc --noEmit passed",
+                                    "jest":  "npx jest --colors=false --forceExit passed: 2 suites, 3 tests"
+                                },
+    "screenshots":  {
+                        "repoListing":  {
+                                            "path":  "docs/e2e-snapshots/repo-evidence/acme-corp--acme-launch-bundles-github-listing.png",
+                                            "bytes":  170578
+                                        },
+                        "repoHomepage":  {
+                                             "path":  "docs/e2e-snapshots/repo-evidence/acme-corp--acme-launch-bundles-repo-homepage.png",
+                                             "bytes":  130583
+                                         },
+                        "marketplaceListing":  {
+                                                   "path":  "docs/e2e-snapshots/marketplace/bundle-activation-v1.0.1-listing.png",
+                                                   "bytes":  174859
+                                               }
+                    },
+    "tenantAdaptationPngMatrix":  {
+                                      "path":  "docs/e2e-snapshots/bundle-activation/tenant-a-v1.0.1",
+                                      "expected":  9,
+                                      "actual":  9,
+                                      "minBytes":  35011,
+                                      "maxBytes":  95310,
+                                      "roles":  [
+                                                    "tenant-admin",
+                                                    "platform-admin",
+                                                    "platform-support"
+                                                ],
+                                      "cells":  [
+                                                    "C2-en-populated",
+                                                    "C4-he-rtl-populated",
+                                                    "C6-en-mobile"
+                                                ]
+                                  },
+    "commands":  [
+                     "gh/api renamed repo from lubochka/acme-corp--bundle-activation to lubochka/acme-corp--acme-launch-bundles",
+                     "git remote set-url origin https://github.com/lubochka/acme-corp--acme-launch-bundles.git",
+                     "fork repo npx tsc --noEmit: passed",
+                     "fork repo npx jest --colors=false --forceExit: 2 suites, 3 tests passed",
+                     "fork repo git commit/push metadata commit 0ec728f5e841a3402fd59cd322acd674b7a650ed",
+                     "GitHub Actions run 25344051404: completed success",
+                     "captured real GitHub listing and repo homepage screenshots, then restored repo visibility to private",
+                     "verified Tenant A adaptation PNG count: expected 9, actual 9"
+                 ],
+    "preCommitRemediation":  {
+                                 "initialGateFailure":  "Pre-commit server Jest exposed unbounded Ollama bad-URL fetch timeout and FLOW-02 assembler copy timeout under full-suite contention.",
+                                 "rootCauseFixes":  [
+                                                        "OllamaProvider now wraps /api/chat and /api/tags fetches in AbortController-backed requestTimeoutMs; default is 60000ms and bad-URL integration/fallback tests use 500ms.",
+                                                        "FlowFileAssemblerService now uses native fs.cp recursive directory copy with a manifest walk for copied runtime/document directories, preserving test/cache filters.",
+                                                        "FlowFileAssemblerService complete-module spec timeout raised to 300000ms because it exercises real standalone bundle assemblies under full-suite Windows/Jest contention.",
+                                                        "ENGINE_ARCHITECTURE_MERGED documents OllamaProvider bounded timeout and AI provider timeout contract.",
+                                                        "DockerEnvGeneratorService and GitHubProvisionerService specs now use 30000ms Jest timeouts for temp-file and fork-content API simulations under full-suite Windows contention.",
+                                                        "ForkFlowHandlerService cascade-fork spec now uses a 60000ms timeout for its temp staging rewrite path under full-suite contention."
+                                                    ],
+                                 "targetedVerification":  [
+                                                              "server npm run lint: passed",
+                                                              "server npx tsc --noEmit -p tsconfig.json: passed",
+                                                              "server npx jest test/e2e/ollama-provider.integration.spec.ts src/fabrics/implementations/flow-file-assembler.spec.ts --runInBand --colors=false: 2 suites passed, 23 tests passed",
+                                                              "server npx jest --testPathPatterns=bundle-activation --runInBand: 7 suites passed, 73 tests passed before pre-commit remediation",
+                                                              "server npx jest src/fabrics/implementations/docker-env-generator.spec.ts src/fabrics/implementations/github-provisioner.spec.ts --runInBand --colors=false: 2 suites passed, 15 tests passed",
+                                                              "server npx jest src/engine/flows/module-lifecycle/__tests__/fork-flow.handler.spec.ts --runInBand --colors=false --testNamePattern=\"rewrites cascade-fork\": targeted test passed"
+                                                          ]
+                             }
+}

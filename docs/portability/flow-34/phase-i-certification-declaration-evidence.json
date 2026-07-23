@@ -1,0 +1,44 @@
+{
+  "flowId": "FLOW-34",
+  "flowSlug": "marketplace-plugin-adapter",
+  "phase": "phase-i-certification-declaration",
+  "status": "completed_as_partial_certification",
+  "generatedAt": "2026-05-12T03:35:00Z",
+  "certification": {
+    "earnedTier": "Tier 1 adapter-package verification only",
+    "fullMobilityTierDeclared": false,
+    "decision": "FLOW-34 has a repaired and verified adapter-package aggregate surface, Docker/Vault auth evidence, and server TypeScript evidence. Full flow mobility certification is withheld because the canonical flow source directory is absent and no three-tenant fork cascade was run for this flow in this round.",
+    "basis": [
+      "FLOW-34 adapter/BFA Jest passed 24 suites and 603 tests after repairing the Framer adapter contract.",
+      "adapters/framer/FT-FR1 npm run typecheck exited 0.",
+      "server TypeScript exited 0.",
+      "Docker/Vault live auth matrix passed 8/8.",
+      "server/src/engine/flows/marketplace-plugin-adapter does not exist."
+    ]
+  },
+  "completionGate": {
+    "preExistingDefectsClosed": true,
+    "dockerVaultAuthEvidence": true,
+    "unitIntegrationEvidence": true,
+    "playwrightPngEvidence": false,
+    "forkCascadeEvidence": false,
+    "authDecorationEvidence": false,
+    "certificationDeclared": true,
+    "fullProtocolComplete": false
+  },
+  "openIssues": [
+    {
+      "id": "FLOW-34-CANONICAL-SOURCE-MISSING",
+      "severity": "blocking-for-full-mobility-certification",
+      "summary": "Create server/src/engine/flows/marketplace-plugin-adapter or explicitly reclassify FLOW-34 as adapter-package-only in the protocol.",
+      "status": "open"
+    },
+    {
+      "id": "FLOW-34-FORK-CASCADE-PENDING",
+      "severity": "blocking-for-tier2-plus",
+      "summary": "Three-tenant marketplace fork cascade with real repos, green GitHub Actions, local registry readbacks, and repo screenshots has not been run for FLOW-34 in this round.",
+      "status": "open"
+    }
+  ],
+  "verdict": "PARTIAL_PASS"
+}

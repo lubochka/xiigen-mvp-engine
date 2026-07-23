@@ -1,0 +1,44 @@
+{
+    "flowId":  "FLOW-23",
+    "flowSlug":  "form-builder-templates",
+    "phase":  "phase1UnitTests",
+    "status":  "completed",
+    "generatedAt":  "2026-05-10T08:45:24.8704144Z",
+    "serverTypeScript":  {
+                             "command":  "server: npx tsc --noEmit -p tsconfig.json --pretty false",
+                             "result":  "passed"
+                         },
+    "jest":  {
+                 "command":  "server: npx jest --testPathPatterns=form-builder-templates --runInBand --colors=false",
+                 "result":  "passed",
+                 "suites":  13,
+                 "tests":  202
+             },
+    "sourceScans":  {
+                        "throwNew":  0,
+                        "servicesMissingMicroserviceBase":  0,
+                        "clsImports":  0,
+                        "directTenantContextImports":  0,
+                        "directSdkImports":  0,
+                        "anyTypes":  0
+                    },
+    "serviceCoverage":  {
+                            "serviceDirectory":  "server/src/engine/flows/form-builder-templates",
+                            "serviceFiles":  13,
+                            "testDirectory":  "server/test/e2e/form-builder-templates",
+                            "bfaRuleSpec":  "server/src/engine-contracts/__tests__/form-builder-templates-bfa-rules.spec.ts",
+                            "namedCheckSpecs":  "server/src/guardrails/named-checks/form-builder-templates/__tests__"
+                        },
+    "phaseGate":  {
+                      "serverTypeScriptPassed":  true,
+                      "flowJestPassed":  true,
+                      "scansClean":  true,
+                      "readyForPhase2E2E":  true
+                  },
+    "secretHandling":  {
+                           "tokenValuesWrittenToEvidence":  false,
+                           "tokenValuesCommitted":  false,
+                           "envFilesCommitted":  false
+                       },
+    "verdict":  "PASS"
+}

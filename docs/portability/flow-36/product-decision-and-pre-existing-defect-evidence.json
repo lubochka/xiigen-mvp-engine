@@ -1,0 +1,31 @@
+{
+    "flowId":  "FLOW-36",
+    "flowSlug":  "feature-registry",
+    "phase":  "pre-existing-defect-check",
+    "status":  "completed",
+    "generatedAt":  "2026-05-11T10:48:39.8174889Z",
+    "roleMap":  {
+                    "primaryRoles":  [
+                                         "platform-admin"
+                                     ],
+                    "partialRoles":  [
+                                         "platform-support",
+                                         "tenant-admin"
+                                     ],
+                    "source":  "docs/design-reviews/ROLE-ANALYSIS-BATCH-08.md",
+                    "wrongRoleProbe":  "platform-support"
+                },
+    "commands":  [
+                     "Push-Location server; npx jest --testPathPatterns=feature-registry --runInBand --colors=false; Pop-Location",
+                     "Static scans over server/src/engine/flows/feature-registry for throw new, services missing MicroserviceBase, nestjs-cls, direct tenant context, and direct SDK imports"
+                 ],
+    "verification":  {
+                         "directTenantContextImports":  0,
+                         "throwNew":  0,
+                         "servicesMissingMicroserviceBase":  0,
+                         "jest":  "8 suites passed, 141 tests passed",
+                         "clsImports":  0,
+                         "directSdkImports":  0
+                     },
+    "verdict":  "PASS"
+}

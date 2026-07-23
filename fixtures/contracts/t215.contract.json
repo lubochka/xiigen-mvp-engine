@@ -1,0 +1,48 @@
+{
+  "taskTypeId": "T215",
+  "flowId": "FLOW-14",
+  "name": "WebhookIngestionHandler",
+  "archetype": "ingestion",
+  "domainId": "etl-data-integration",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "vault-hmac-timingsafe-then-idempotency-then-store-then-enqueue",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "flow14_webhook_hmac_algorithm",
+    "neutralConcepts": [
+      "CF-211: HMAC verification MUST use crypto.timingSafeEqual() — NEVER string ===",
+      "Invalid HMAC: return { received: true, ingested: false } — always HTTP 200",
+      "IR-3/DNA-7: idempotency check BEFORE raw store",
+      "IR-4/CF-192: raw zone append-only — storeDocument only, no updateDocument",
+      "WebhookEventIngested payload MUST NOT include hmacSecret, credential, apiKey",
+      "storeDocument(raw_record) BEFORE enqueue(WebhookEventIngested) — DNA-8",
+      "Vault error → fail-closed: treat as invalid HMAC"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F427", "interface": "ICredentialVaultService", "fabric": "CORE" },
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T215-1", "rule": "CF-211: crypto.timingSafeEqual() MUST be used for HMAC comparison — NEVER string ===.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T215-2", "rule": "Invalid HMAC returns { received: true, ingested: false } — never expose HMAC mismatch in response.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T215-3", "rule": "Idempotency check BEFORE raw store — DNA-7.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T215-4", "rule": "CF-192: raw zone append-only — no updateDocument.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T215-5", "rule": "WebhookEventIngested MUST NOT include credential fields (hmacSecret, apiKey). — F427.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T215-6", "rule": "storeDocument BEFORE enqueue(WebhookEventIngested) — DNA-8.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T215-7", "rule": "Vault error → fail-closed: treat as HMAC invalid.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "timing_safe_hmac_comparison",
+    "no_credentials_in_event",
+    "idempotency_before_write",
+    "raw_zone_append_only",
+    "store_before_enqueue",
+    "vault_fail_closed"
+  ],
+  "bfaRules": ["CF-211", "CF-192"],
+  "tags": ["webhook", "hmac", "ingestion", "timing-safe", "vault"],
+  "keywords": "webhook ingestion handler HMAC timing safe equal CF-211 vault fail-closed idempotency raw zone append-only WebhookEventIngested DuplicateIngestionDetected RecordQuarantined"
+}

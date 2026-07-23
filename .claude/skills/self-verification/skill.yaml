@@ -1,0 +1,19 @@
+name: self-verification
+sk_number: SK-417
+version: "1.0.0"
+load_order: 17
+priority: RECOMMENDED
+status: APPROVED
+description: |
+  Self-verification discipline for the XIIGen engine. 6 rules ensuring that fixes
+  and changes are validated at the correct test level, with real fixtures, and with
+  full cascade awareness before being declared done.
+triggers:
+  - "verify fix"
+  - "self-verification"
+  - "categorize change"
+  - "MACHINE_CHANGE"
+  - "FREEDOM_CHANGE"
+  - "cascade check"
+  - "before declaring done"
+phase_created: 7

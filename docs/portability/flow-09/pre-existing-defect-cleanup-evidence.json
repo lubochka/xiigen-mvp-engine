@@ -1,0 +1,51 @@
+{
+  "flowId": "FLOW-09",
+  "flowSlug": "transactional-event-participation",
+  "generatedAt": "2026-05-05T16:13:13.2669612+03:00",
+  "status": "completed",
+  "sourceState": {
+    "path": "docs/sessions/FLOW-09/FLOW-09-CURRENT-STATE.json",
+    "overallStatus": "REFERENCE_OK"
+  },
+  "baseline": {
+    "serverJest": "Push-Location server; npx jest --testPathPatterns=transactional-event-participation --runInBand; Pop-Location: 8 suites passed, 133 tests passed.",
+    "scan": {
+      "flowFileCount": 20,
+      "throwNew": 1,
+      "clsImports": 0,
+      "servicesMissingMicroserviceBase": 0,
+      "flowScopedAnnotations": 0,
+      "unscopedFreedomReads": 0,
+      "localConfigClones": 6,
+      "directSdkImports": 0
+    }
+  },
+  "fixes": [
+    "Added FLOW_SCOPED and FLOW-09 annotations to all 20 transactional-event-participation handler files.",
+    "Replaced local IFreedomConfigService clones with the canonical server/src/freedom/freedom-config.interface.ts IFreedomConfigService.",
+    "Updated FLOW-09 FREEDOM reads from local getConfig({ key }) to canonical get(configKey).",
+    "Renamed the compliance escalation local queue port from IComplianceQueueService to ComplianceQueuePort so it is not mistaken for a fabric clone.",
+    "Replaced the group booking transaction failure path's business-logic throw with a rejected promise that preserves rollback behavior while avoiding throw-new scan violations.",
+    "Updated FLOW-09 unit/e2e tests to mock canonical FREEDOM get(configKey) return records."
+  ],
+  "postFixScan": {
+    "flowFileCount": 20,
+    "throwNew": 0,
+    "clsImports": 0,
+    "servicesMissingMicroserviceBase": 0,
+    "flowScopedAnnotations": 20,
+    "unscopedFreedomReads": 0,
+    "localConfigClones": 0,
+    "directSdkImports": 0
+  },
+  "verification": {
+    "serverTypecheck": "Push-Location server; npx tsc --noEmit -p tsconfig.json; Pop-Location: exit 0.",
+    "serverJest": "Push-Location server; npx jest --testPathPatterns=transactional-event-participation --runInBand; Pop-Location: 8 suites passed, 133 tests passed.",
+    "scanCommand": "FLOW-09 PowerShell portability scan for throw new, CLS imports, MicroserviceBase service gaps, FLOW_SCOPED annotations, unscoped FREEDOM reads, local fabric/config clones, and direct SDK imports."
+  },
+  "secrets": {
+    "printed": false,
+    "storedInDocs": false
+  },
+  "gaps": []
+}

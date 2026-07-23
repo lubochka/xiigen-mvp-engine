@@ -1,0 +1,14 @@
+{
+  "eventType": "etl.dimension.version.applied",
+  "flowId": "FLOW-14",
+  "version": "1.0.0",
+  "properties": {
+    "entityId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "entityType": { "type": "string", "required": true },
+    "effectiveFrom": { "type": "string", "format": "date-time", "required": true },
+    "effectiveTo": { "type": "string", "format": "date-time", "required": false },
+    "versionId": { "type": "string", "required": true },
+    "appliedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

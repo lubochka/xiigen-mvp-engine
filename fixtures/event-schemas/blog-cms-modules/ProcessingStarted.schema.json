@@ -1,0 +1,17 @@
+{
+  "eventType": "ProcessingStarted",
+  "flowId": "FLOW-28",
+  "seededAt": "2026-04-14T00:00:00Z",
+  "source": "blog_cms_modules",
+  "consumers": [],
+  "piiFields": [],
+  "allowedPayloadFields": [
+    "userId",
+    "tenantId",
+    "recordId",
+    "status",
+    "timestamp"
+  ],
+  "forbiddenFields": [],
+  "notes": "Event ProcessingStarted for blog-cms-modules"
+}

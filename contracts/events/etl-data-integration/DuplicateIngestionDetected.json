@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DuplicateIngestionDetected",
+  "type": "object",
+  "required": ["eventType","flowId","correlationId","tenantId","timestamp","source","traceparent","data"],
+  "properties": {
+    "eventType": { "type": "string", "const": "DuplicateIngestionDetected" },
+    "flowId": { "type": "string", "const": "FLOW-14" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "tenantId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "traceparent": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["recordId","idempotencyKey","originalJobId","duplicateJobId"],
+      "properties": {
+        "recordId": { "type": "string" },
+        "idempotencyKey": { "type": "string" },
+        "originalJobId": { "type": "string" },
+        "duplicateJobId": { "type": "string" }
+      }
+    }
+  }
+}

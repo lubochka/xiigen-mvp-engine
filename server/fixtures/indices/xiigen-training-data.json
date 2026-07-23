@@ -1,0 +1,44 @@
+{
+  "index": "xiigen-training-data",
+  "mappings": {
+    "properties": {
+      "tripleId":              { "type": "keyword" },
+      "runId":                 { "type": "keyword" },
+      "flowId":                { "type": "keyword" },
+      "taskTypeId":            { "type": "keyword" },
+      "tenantId":              { "type": "keyword" },
+      "prompt": {
+        "type": "object",
+        "properties": {
+          "system": { "type": "text" },
+          "user":   { "type": "text" }
+        }
+      },
+      "chosen":                { "type": "text" },
+      "rejected":              { "type": "text" },
+      "score":                 { "type": "float" },
+      "ragPatterns":           { "type": "object", "dynamic": true },
+      "planSteps":             { "type": "text" },
+      "domain":                { "type": "keyword" },
+      "entityType":            { "type": "keyword" },
+      "conflictType":          { "type": "keyword" },
+      "ftId":                  { "type": "keyword" },
+      "productScope":          { "type": "keyword" },
+      "createdAt":             { "type": "date" },
+      "curriculumTier":        { "type": "integer" },
+      "targetModelFamily":     { "type": "keyword" },
+      "instructionFormat":     { "type": "keyword" },
+      "distillationReadiness": { "type": "keyword" },
+      "shadowRunId":           { "type": "keyword" },
+      "modelComparison":       { "type": "object", "dynamic": true },
+      "runtimeContext":        { "type": "object", "dynamic": true },
+      "station":               { "type": "keyword" },
+      "depth":                 { "type": "integer" },
+      "nodeIntent":            { "type": "text" },
+      "knowledgeScope":        { "type": "keyword" },
+      "ownerId":               { "type": "keyword" },
+      "moduleId":              { "type": "keyword" },
+      "pricingModel":          { "type": "keyword" }
+    }
+  }
+}

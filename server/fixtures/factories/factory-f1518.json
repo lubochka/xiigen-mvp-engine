@@ -1,0 +1,13 @@
+{
+  "_index": "xiigen-flow-registry",
+  "_id": "factory-F1518",
+  "factoryId": "F1518",
+  "flowId": "FLOW-40",
+  "interface": "ISseConnectionPool",
+  "injectionToken": "SSE_CONNECTION_POOL",
+  "fabric": "SSE_CONNECTION_POOL",
+  "platformOnly": false,
+  "taskTypes": ["T588"],
+  "bfaRules": ["CF-797", "CF-798"],
+  "note": "InMemorySseConnectionPool default. Swap to Redis-backed provider for multi-process deployments."
+}

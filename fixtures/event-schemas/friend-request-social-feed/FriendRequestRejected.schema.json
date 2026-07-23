@@ -1,0 +1,11 @@
+{
+  "eventType": "FriendRequestRejected",
+  "flowId": "FLOW-07",
+  "seededAt": "2026-04-12T00:00:00Z",
+  "source": "friend-request-rejector",
+  "consumers": ["T82"],
+  "piiFields": [],
+  "allowedPayloadFields": ["requestId", "userIdA", "userIdB", "connectionId", "tenantId", "rejectedAt"],
+  "forbiddenFields": ["rejectionReason", "userProfile", "privacySettings"],
+  "notes": "Emitted by T74 when friend request is rejected. rejectionReason is forbidden — no leak of why a user was rejected. T82 may aggregate rejection counts."
+}

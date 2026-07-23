@@ -1,0 +1,48 @@
+{
+  "taskTypeId": "T210",
+  "flowId": "FLOW-12",
+  "name": "SubscriptionLifecycleManager",
+  "archetype": "ORCHESTRATION",
+  "domainId": "subscription-billing",
+  "seededAt": "2026-04-13T00:00:00Z",
+  "stackCoupling": {
+    "mechanism": "payment-validation-then-plan-check-then-setnx-then-store",
+    "tier": "IMPL_VARIES",
+    "fabricInterface": "IDatabaseService",
+    "freedomConfigKey": "subscription_billing_default_trial_days",
+    "neutralConcepts": [
+      "executionOrder: PaymentValidation=1, PlanStatusCheck=2, SETNX=3, SubscriptionWrite=4, ActivationEmit=5",
+      "IPaymentFabricService.validate() at ORDER 1 — REUSED from FLOW-09, not re-registered",
+      "Plan status must be ACTIVE at ORDER 2 — DRAFT/ARCHIVED plans rejected",
+      "SETNX key=hash(tenantId+subscriberId+planId) at ORDER 3",
+      "paymentMethodId (vault ref) stored — paymentMethodToken (raw) NEVER stored. CF-12-4.",
+      "trialDays > 0 → status=TRIALING, trialEndsAt set. trialDays === 0 → status=ACTIVE.",
+      "storeDocument(subscription) BEFORE enqueue(SubscriptionActivated) — DNA-8"
+    ]
+  },
+  "factories": [
+    { "factoryId": "F_DATABASE", "interface": "IDatabaseService", "fabric": "DATABASE" },
+    { "factoryId": "F_QUEUE", "interface": "IQueueService", "fabric": "QUEUE" },
+    { "factoryId": "F09-PAYMENT", "interface": "IPaymentFabricService", "fabric": "DATABASE" }
+  ],
+  "ironRules": [
+    { "id": "IR-T210-1", "rule": "IPaymentFabricService.validate() at ORDER 1 — invalid payment → failure(PAYMENT_INVALID), no state write.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T210-2", "rule": "Plan status must be ACTIVE at ORDER 2 — non-ACTIVE → failure(PLAN_NOT_ACTIVE).", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T210-3", "rule": "SETNX at ORDER 3 — key=hash(tenantId+subscriberId+planId). Duplicate → failure(ALREADY_SUBSCRIBED).", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T210-4", "rule": "storeDocument(subscription) at ORDER 4 BEFORE enqueue(SubscriptionActivated). DNA-8.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T210-5", "rule": "paymentMethodId (vault ref) stored — paymentMethodToken (raw client token) NEVER stored anywhere. CF-12-4.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T210-6", "rule": "IPaymentFabricService REUSED from FLOW-09 — not a new provider registration.", "severity": "BUILD_FAILURE" },
+    { "id": "IR-T210-7", "rule": "trialDays > 0 → status=TRIALING with trialEndsAt set. trialDays === 0 → status=ACTIVE immediately.", "severity": "BUILD_FAILURE" }
+  ],
+  "namedChecks": [
+    "financial_op_idempotency",
+    "setnx_before_operation",
+    "store_before_enqueue",
+    "pci_scope_isolation",
+    "payment_validation_first",
+    "trial_state_machine"
+  ],
+  "bfaRules": ["CF-12-4"],
+  "tags": ["orchestration", "subscription", "lifecycle", "pci", "trial", "ORCHESTRATION"],
+  "keywords": "subscription lifecycle manager payment validation plan active SETNX paymentMethodToken vault ref trial TRIALING ACTIVE state machine"
+}

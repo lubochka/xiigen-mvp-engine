@@ -1,0 +1,95 @@
+{
+  "flowId": "FLOW-01",
+  "taskTypeId": "T47",
+  "name": "flow-01-user-registration-initiator",
+  "description": "T47 SSOAndEmailAuth \u2014 ROUTING archetype. Email uniqueness + SSO path routing + idempotent registration.",
+  "archetype": "ROUTING",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "validate",
+      "description": "Iron rule validation + DNA compliance check"
+    },
+    {
+      "id": "n2",
+      "type": "rag-retrieve",
+      "description": "Retrieve ROUTING arch pattern + service patterns for T47",
+      "params": {
+        "archetype": "ROUTING",
+        "taskTypeRef": "T47",
+        "topK": 5
+      }
+    },
+    {
+      "id": "n3",
+      "type": "decompose",
+      "description": "Break task into implementation sub-steps using retrieved patterns"
+    },
+    {
+      "id": "n4",
+      "type": "ai-generate",
+      "description": "Generate user-registration-initiator.service.ts via genesis prompt"
+    },
+    {
+      "id": "n5",
+      "type": "validate",
+      "description": "Named check validation (provider-keyed checks for this flow)"
+    },
+    {
+      "id": "n6",
+      "type": "score",
+      "description": "Score generated code 0-100 against iron rules"
+    },
+    {
+      "id": "n7",
+      "type": "route",
+      "description": "Route: score >= 85 \u2192 n8 promote, score < 85 \u2192 n3 iterate"
+    },
+    {
+      "id": "n8",
+      "type": "feedback",
+      "description": "Capture DPO triple: prompt.system, chosen.code, rejected.code, fabricProviders"
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2"
+    },
+    {
+      "from": "n2",
+      "to": "n3"
+    },
+    {
+      "from": "n3",
+      "to": "n4"
+    },
+    {
+      "from": "n4",
+      "to": "n5"
+    },
+    {
+      "from": "n5",
+      "to": "n6"
+    },
+    {
+      "from": "n6",
+      "to": "n7"
+    },
+    {
+      "from": "n7",
+      "to": "n8",
+      "condition": "score >= 0.85"
+    },
+    {
+      "from": "n7",
+      "to": "n3",
+      "condition": "score < 0.85 AND cycles_remaining > 0"
+    }
+  ],
+  "scoreThreshold": 0.85,
+  "maxCycles": 3,
+  "entry": "POST /auth/register or OAuth callback",
+  "primaryFabric": "DATABASE"
+}

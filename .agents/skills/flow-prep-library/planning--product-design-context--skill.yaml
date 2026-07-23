@@ -1,0 +1,61 @@
+name: product-design-context
+version: "1.0.0"
+sk_number: SK-540
+priority: MANDATORY
+load_order: 5.4
+updated: "2026-04-20"
+author: luba
+entry: planning--product-design-context-SKILL.md
+
+description: >
+  Pre-JSX design context gate. Fires once per flow before the first React
+  page is written. Checks examination record first (38 flows have ground
+  truth at docs/screen-examination/{slug}-examination.md). If present,
+  extracts WHO/VERB/GRAMMAR directly. If absent, runs 6-file spec read
+  plus domain exploration (domain concepts, color world, signature element,
+  defaults to reject). Produces docs/design-context/{slug}/.impeccable.md
+  with declared grammar type (G1-G7). SK-539 Section 0 reads this file
+  before asking role questions. SK-540 answers Vocabulary B
+  ("what does the user want?"). SK-539 answers Vocabulary A
+  ("who can access this?"). Both required. SK-540 runs first.
+
+triggers:
+  - "writing first React page"
+  - "first JSX for flow"
+  - "no .impeccable.md"
+  - "design context"
+  - "WHO VERB GRAMMAR"
+  - "grammar type"
+  - "domain exploration"
+  - "MATERIALIZATION session"
+  - "GENERATION session React pages"
+
+load_order: 5.4
+
+conditional: true
+fires_once_per_flow: true
+satisfied_when: "docs/design-context/{slug}/.impeccable.md exists"
+
+spec_read_order:
+  F1: "docs/sessions/FLOW-XX/FLOW-XX-STEP-1-INVARIANTS.md"
+  F2: "docs/sessions/FLOW-XX/UI-REFLECTION-STATE.md"
+  F3: "docs/design-reviews/ROLE-ANALYSIS-BATCH-NN.md"
+  F4: "docs/business-flows/NN-{slug}.md (FLOW-01..34 only)"
+  F5: "docs/sessions/FLOW-XX/FLOW-XX-DESIGN-SIMULATION-R1.md"
+  F6: "docs/sessions/FLOW-XX/FLOW-XX-RECONCILIATION-STATE.md"
+
+grammar_types: [G1, G2, G3, G4, G5, G6, G7]
+reference_registry: planning--business-flows-registry.md
+reference_catalog: docs/screen-examination/MARKET-REFERENCE-CATALOG.md
+reference_implementation: "FLOW-29 adaptive-rag-deep-research (G4 TOPOLOGY_CANVAS)"
+
+output: "docs/design-context/{slug}/.impeccable.md"
+
+cfi_12_halt:
+  flows: [FLOW-04, FLOW-09, FLOW-34]
+  reason: "stale F1 spec — await Luba resolution"
+
+integration:
+  runs_after: SK-542
+  runs_before: SK-539
+  sequence: "SK-542 (5.3) → SK-540 (5.4) → SK-539 (5.5)"

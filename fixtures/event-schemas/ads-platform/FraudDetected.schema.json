@@ -1,0 +1,14 @@
+{
+  "eventType": "ads.fraud.detected",
+  "flowId": "FLOW-20",
+  "version": "1.0.0",
+  "description": "Emitted by T627 FraudPreBillingValidator when fraud risk exceeds threshold at ORDER 1 (before billing commitment). Prevents high-value chargebacks by blocking payment initiation.",
+  "properties": {
+    "transactionId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "riskLevel": { "type": "string", "enum": ["HIGH", "MEDIUM"], "required": true },
+    "modelConfidence": { "type": "number", "minimum": 0, "maximum": 1, "required": true },
+    "fraudAuditId": { "type": "string", "required": true },
+    "detectedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

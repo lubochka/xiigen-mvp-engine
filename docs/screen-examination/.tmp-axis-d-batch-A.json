@@ -1,0 +1,23 @@
+{
+  "batch_id": "A",
+  "summary_table": [
+    {"slug":"adaptive-rag-deep-research","verdict":"PASS","axis_d":"SHIPPED","module_pct":95,"cells_pass":9,"cells_concern":0,"cells_block":0,"issue":"Topology canvas G4 shipped all 3 viewports; tablet canvas sidebar-clip carry-forward"},
+    {"slug":"ads-platform","verdict":"CONCERN","axis_d":"PARTIAL","module_pct":60,"cells_pass":9,"cells_concern":9,"cells_block":0,"issue":"Tenant-admin G3 card list shipped; BUT no per-role branching — anon/tenant-user/platform-admin/platform-support all see advertiser dashboard; MISSING ConsentGatePage; RAW ADS-INDEX DEBUG leaks everywhere"},
+    {"slug":"ai-safety-moderation","verdict":"PASS","axis_d":"SHIPPED","module_pct":90,"cells_pass":15,"cells_concern":3,"cells_block":0,"issue":"All 5 roles with purpose-built: anon G5 kiosk, tenant-admin queue, platform-admin G2 8-check verdict grid, platform-support read-only. tenant-user dev-instruction fallback only"},
+    {"slug":"bfa-cross-flow-governance","verdict":"PASS","axis_d":"SHIPPED","module_pct":92,"cells_pass":9,"cells_concern":0,"cells_block":0,"issue":"Verdict Grid SHIPPED; strong role diff (admin console vs support read-only); CF-XXX numbering preserved for admin operators"},
+    {"slug":"blog-cms-modules","verdict":"CONCERN","axis_d":"PARTIAL","module_pct":50,"cells_pass":9,"cells_concern":0,"cells_block":9,"issue":"Public reader SHIPPED (anon/visitor/tenant-user G5 kiosk); tenant-admin + platform-admin fall to generic CRUD with ui-* IDs — Ghost/WordPress author dashboard NOT shipped"},
+    {"slug":"bundle-activation","verdict":"CONCERN","axis_d":"PARTIAL","module_pct":65,"cells_pass":6,"cells_concern":3,"cells_block":0,"issue":"Bundle list usable with badges + actions; planned G1 Progress Strip (phase chips manifest→provisioned→flags→health→ready) NOT shipped — collapsed into single badge"},
+    {"slug":"client-push","verdict":"PASS","axis_d":"SHIPPED","module_pct":88,"cells_pass":9,"cells_concern":0,"cells_block":0,"issue":"FLOW-40 orphaned-screen gap CLOSED. Connection monitor G3 shipped with active connections/event deliveries/health tiles. Support role differentiated with read-only audit-log + search"}
+  ],
+  "batch_systemic_patterns": [
+    "RAW {FLOW}-INDEX (ADMIN DEBUG) accordion leaks on 4/7 flows (ads, bundle, blog, ai-safety admin)",
+    "Populated BusinessStateCards expose engineering fields (bundleId, safetyGateToken, connectionId, ruleId)",
+    "FLOW-XX badges leak (adaptive-rag FLOW-29, bundle-activation FLOW-00)",
+    "Ads-platform: zero per-role branching; anonymous ConsentGatePage missing",
+    "Blog-cms: purpose-built reader shipped but author dashboards render generic CRUD",
+    "Mobile viewport consistently responsive — no mobile-specific regressions"
+  ],
+  "batch_total_cells": 90,
+  "batch_total_pass": 66,
+  "batch_total_block": 9
+}

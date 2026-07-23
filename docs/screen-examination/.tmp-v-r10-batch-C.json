@@ -1,0 +1,31 @@
+{
+  "batch_id": "V-R10-C",
+  "captured_after": "RUN-173 (cdcf739d)",
+  "flows_scored": 7,
+  "fix_verification": {
+    "P4_1_feature_registry_mobile_pill": "VERIFIED_FIXED — FT-024 + FT-031 pills now stack below title; no overlap"
+  },
+  "persistent_run_172_concerns": {
+    "etl-data-integration.tenant-admin-crud": "CONFIRMED_PERSISTS",
+    "event-attendance.populated-tenant-user-404": "CONFIRMED_PERSISTS",
+    "event-management.platform-admin-thin": "PARTIALLY_PERSISTS",
+    "form-builder-templates.role-leak": "FULLY_PERSISTS",
+    "freelancer-marketplace.platform-admin-support-thin": "LARGELY_ADDRESSED",
+    "friend-request-social-feed.populated-user-404": "CONFIRMED_PERSISTS",
+    "friend-request-social-feed.platform-admin-thin": "CONFIRMED_PERSISTS"
+  },
+  "new_issues_detected": [
+    {"id": "V-R10-C-01", "severity": "P3", "flows": ["freelancer-marketplace"], "summary": "tenant-user (not just business-partner) can post gigs — role gating may be missing"},
+    {"id": "V-R10-C-02", "severity": "P4", "flows": ["feature-registry"], "summary": "Tablet 768-820px FT-031 row has awkward text wrap (not overlap, just suboptimal early wrap)"}
+  ],
+  "per_flow_scores": {
+    "etl-data-integration": {"score": 79, "delta": "+1"},
+    "event-attendance": {"score": 71, "delta": "0"},
+    "event-management": {"score": 74, "delta": "+2"},
+    "feature-registry": {"score": 86, "delta": "+4"},
+    "form-builder-templates": {"score": 58, "delta": "0"},
+    "freelancer-marketplace": {"score": 82, "delta": "+5"},
+    "friend-request-social-feed": {"score": 66, "delta": "0"}
+  },
+  "batch_avg": {"score": 73.7, "delta_vs_R172": "+1.7"}
+}

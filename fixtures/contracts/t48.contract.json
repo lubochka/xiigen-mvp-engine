@@ -1,0 +1,97 @@
+{
+  "taskTypeId": "T48",
+  "flowId": "FLOW-01",
+  "name": "EmailVerificationWaitState",
+  "archetype": "PROCESSING",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "stackCoupling": {
+    "mechanism": "delayed-scheduled-action",
+    "tier": "IMPL_VARIES_WITH_PROVIDER",
+    "fabricInterface": "ISchedulerService",
+    "freedomConfigKey": "scheduler_provider",
+    "neutralConcepts": [
+      "TTL from FREEDOM config \u2014 verificationTtlMs key",
+      "No PII in scheduled payload",
+      "Resend idempotency via IScopedMemoryService.setIfAbsent()",
+      "Atomic token revoke on email change",
+      "DNA-8 on all transitions",
+      "Schedule expiry via ISchedulerService.scheduleDelayed()"
+    ]
+  },
+  "factories": [
+    {
+      "factoryId": "F174",
+      "interface": "IUserRepository",
+      "fabric": "DATABASE"
+    },
+    {
+      "factoryId": "F175",
+      "interface": "IEmailVerificationQueue",
+      "fabric": "QUEUE"
+    },
+    {
+      "factoryId": "F177",
+      "interface": "IVerificationTokenStore",
+      "fabric": "DATABASE"
+    }
+  ],
+  "ironRules": [
+    {
+      "id": "IR-1",
+      "rule": "TTL from FREEDOM config (verificationTtlMs) \u2014 never hardcode 24h",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-2",
+      "rule": "No PII in scheduled callback payload \u2014 tokenId reference only (CF-8)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-3",
+      "rule": "ResendVerificationRequested idempotent + rate-limited (CF-3)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-4",
+      "rule": "DNA-8: storeDocument() BEFORE enqueue() on all token state transitions",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-5",
+      "rule": "Expired tokens MUST be rejected \u2014 never silently accepted (CF-6)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-6",
+      "rule": "ChangeEmailRequested revokes existing token before issuing new one (CF-5)",
+      "severity": "BUILD_FAILURE"
+    },
+    {
+      "id": "IR-7",
+      "rule": "24h SLA surfaced via FlowStateSnapshot.remainingMs (CF-7)",
+      "severity": "BUILD_FAILURE"
+    }
+  ],
+  "bfaRules": [
+    "CF-3",
+    "CF-5",
+    "CF-6",
+    "CF-7"
+  ],
+  "handlers": [
+    "send_verification_email",
+    "wait_for_verification",
+    "handle_resend",
+    "handle_expiry"
+  ],
+  "tags": [
+    "email-verification",
+    "wait-state",
+    "scheduler",
+    "24h-ttl",
+    "idempotency"
+  ],
+  "keywords": "email verification wait state scheduler delayed TTL expiry token resend",
+  "designNote": "Reclassified from INCOMPATIBLE to IMPL_VARIES_WITH_PROVIDER. ISchedulerService abstracts Bull/ActionScheduler/Hangfire. See D-01-1."
+}

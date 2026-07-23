@@ -1,0 +1,11 @@
+{
+  "eventType": "ai-safety-moderation.lesson.published",
+  "flowId": "FLOW-24",
+  "version": "1.0.0",
+  "properties": {
+    "lessonId": { "type": "string", "required": true },
+    "tenantId": { "type": "string", "required": true },
+    "contentType": { "type": "string", "required": true },
+    "publishedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

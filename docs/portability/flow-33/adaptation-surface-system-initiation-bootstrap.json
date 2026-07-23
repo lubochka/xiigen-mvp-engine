@@ -1,0 +1,408 @@
+{
+  "flowId": "FLOW-33",
+  "flowSlug": "system-initiation-bootstrap",
+  "implementationSlug": "system-initiation-bootstrap",
+  "flowTitle": "System Initiation Bootstrap",
+  "protocolVersion": "FLOW-PORTABILITY-TEST-PROTOCOL-UNIFIED",
+  "capturedAt": "2026-05-11",
+  "capturedBy": "Codex / FLOW-33 mobility-auth session",
+  "surfaceVersion": "1.0.0",
+  "sources": [
+    "docs/business-flows/33-system-initiation-bootstrap.md",
+    "docs/sessions/FLOW-33/FLOW-33-STEP-1-INVARIANTS.md",
+    "server/src/engine-contracts/generation-loop-contracts.ts",
+    "server/src/engine-contracts/system-initiation-bootstrap-bfa-rules.ts",
+    "server/src/engine/flows/system-initiation-bootstrap",
+    "server/src/bootstrap/history-seeds/system-initiation-bootstrap-design-corpus.json",
+    "docs/flow-coverage/system-initiation-bootstrap/P1-business-logic-inventory.md",
+    "docs/flow-coverage/system-initiation-bootstrap/P5-ui-specs.md",
+    "docs/flow-coverage/system-initiation-bootstrap/P10-server-specs.md"
+  ],
+  "contractSurface": {
+    "taskTypeRange": "T536-T542",
+    "taskTypeIds": [
+      "T536",
+      "T537",
+      "T538",
+      "T539",
+      "T540",
+      "T541",
+      "T542"
+    ],
+    "factoryIdRange": "F1339-F1348",
+    "freedomKeyCount": 10,
+    "securityClassification": "engine-internal bootstrap, GraphRAG seeding, family implementation loop, five-arbiter consensus, regression impact, and context-pack assembly",
+    "directRuntimePeerDependencies": [],
+    "identityNote": "FLOW-33 uses system-initiation-bootstrap as the canonical portability, UI, package, and runtime implementation slug.",
+    "coreGuarantees": [
+      "Bootstrap sentinel state is read before every phase.",
+      "Bootstrap phases execute in order and cannot be skipped.",
+      "Dry-run execution validates without AI calls or state mutation.",
+      "Plan bundle import is all-or-nothing and rolls back on partial failure.",
+      "GraphRAG Layer 2 starts only after Layer 1 is verified complete.",
+      "Family implementation retries are bounded by FREEDOM configuration.",
+      "Five arbiters run in parallel and require at least four passing verdicts.",
+      "Regression impact analysis runs before any promotion.",
+      "Context packs are TTL-managed and stale packs are refreshed before reuse.",
+      "Evolved prompts apply only to new sessions, never in-flight generation.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Tenant scope remains automatic through AsyncLocalStorage.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory."
+    ]
+  },
+  "services": [
+    {
+      "taskTypeId": "T536",
+      "className": "BootstrapOrchestrator",
+      "file": "server/src/engine/flows/system-initiation-bootstrap/bootstrap-orchestrator.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow33_module_name",
+        "flow33_phase_timeout_minutes",
+        "flow33_dry_run_enabled"
+      ],
+      "machineLockedRules": [
+        "sentinel state read before any phase",
+        "phases execute in order",
+        "plan bundle import is all-or-nothing"
+      ]
+    },
+    {
+      "taskTypeId": "T537",
+      "className": "GraphRAGTwoLayerSeeder",
+      "file": "server/src/engine/flows/system-initiation-bootstrap/graphrag-two-layer-seeder.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow33_graphrag_batch_size",
+        "flow33_rag_index_name"
+      ],
+      "machineLockedRules": [
+        "Layer 1 completes before Layer 2 starts",
+        "seeding batches are idempotent by node ID"
+      ]
+    },
+    {
+      "taskTypeId": "T538",
+      "className": "ImplementationStatusRegistry",
+      "file": "server/src/engine/flows/system-initiation-bootstrap/implementation-status-registry.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow33_status_ttl_hours"
+      ],
+      "machineLockedRules": [
+        "implementation status uses a composite idempotency key",
+        "state transitions persist before emitting events"
+      ]
+    },
+    {
+      "taskTypeId": "T539",
+      "className": "ImplementFamilyMetaLoop",
+      "file": "server/src/engine/flows/system-initiation-bootstrap/implement-family-meta-loop.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow33_max_family_retries",
+        "flow33_generator_model_profile",
+        "flow33_feedback_weight"
+      ],
+      "machineLockedRules": [
+        "retry count comes from FREEDOM config",
+        "max retry overflow escalates to human review",
+        "evolved prompts never affect in-flight generation"
+      ]
+    },
+    {
+      "taskTypeId": "T540",
+      "className": "FiveArbiterConsensusGate",
+      "file": "server/src/engine/flows/system-initiation-bootstrap/five-arbiter-consensus-gate.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow33_arbiter_timeout_seconds",
+        "flow33_arbiter_model_profiles"
+      ],
+      "machineLockedRules": [
+        "all five arbiters run in parallel",
+        "quorum threshold remains at least four of five",
+        "arbiter prompts stay seeded in the T540 genesis prompt"
+      ]
+    },
+    {
+      "taskTypeId": "T541",
+      "className": "RegressionImpactAnalyzer",
+      "file": "server/src/engine/flows/system-initiation-bootstrap/regression-impact-analyzer.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow33_regression_graph_depth",
+        "flow33_bundle_manifest_index"
+      ],
+      "machineLockedRules": [
+        "regression impact check runs before promotion",
+        "active bundle manifests are scanned after promotion cases that can affect consumers"
+      ]
+    },
+    {
+      "taskTypeId": "T542",
+      "className": "ContextPackAssembler",
+      "file": "server/src/engine/flows/system-initiation-bootstrap/context-pack-assembler.service.ts",
+      "connectionType": "FLOW_SCOPED",
+      "knowledgeScope": "PRIVATE",
+      "adaptableFreedomKeys": [
+        "flow33_context_pack_ttl_minutes",
+        "flow33_rag_result_count",
+        "flow33_graph_context_depth"
+      ],
+      "machineLockedRules": [
+        "context pack TTL comes from FREEDOM config",
+        "stale context packs are refreshed before reuse",
+        "hybrid RAG output is merged with database metadata"
+      ]
+    }
+  ],
+  "adaptationSurface": {
+    "configurationKeys": {
+      "description": "Tenant-editable FLOW-33 values may tune module naming, timeout budgets, GraphRAG batch size, retry budget, context-pack freshness, RAG result count, graph depth, status-retention windows, dry-run availability, and arbiter timeout without changing bootstrap ordering, tenant isolation, fabric boundaries, quorum semantics, or regression-gate behavior.",
+      "total": 10,
+      "keys": [
+        {
+          "key": "flow33_module_name",
+          "type": "string",
+          "default": "system-initiation-bootstrap",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "tenant.config.json",
+            "settings/module.settings.json"
+          ],
+          "boundedRange": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        },
+        {
+          "key": "flow33_phase_timeout_minutes",
+          "type": "number",
+          "default": 15,
+          "unit": "minutes",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T536.BootstrapOrchestrator"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 120
+          }
+        },
+        {
+          "key": "flow33_graphrag_batch_size",
+          "type": "number",
+          "default": 500,
+          "unit": "records",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T537.GraphRAGTwoLayerSeeder"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 5000
+          }
+        },
+        {
+          "key": "flow33_max_family_retries",
+          "type": "number",
+          "default": 3,
+          "unit": "attempts",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T539.ImplementFamilyMetaLoop"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 10
+          }
+        },
+        {
+          "key": "flow33_context_pack_ttl_minutes",
+          "type": "number",
+          "default": 30,
+          "unit": "minutes",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T542.ContextPackAssembler"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 1440
+          }
+        },
+        {
+          "key": "flow33_rag_result_count",
+          "type": "number",
+          "default": 10,
+          "unit": "results",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T542.ContextPackAssembler"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 100
+          }
+        },
+        {
+          "key": "flow33_graph_context_depth",
+          "type": "number",
+          "default": 2,
+          "unit": "hops",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T542.ContextPackAssembler",
+            "T541.RegressionImpactAnalyzer"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 5
+          }
+        },
+        {
+          "key": "flow33_status_ttl_hours",
+          "type": "number",
+          "default": 72,
+          "unit": "hours",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T538.ImplementationStatusRegistry"
+          ],
+          "boundedRange": {
+            "min": 1,
+            "max": 720
+          }
+        },
+        {
+          "key": "flow33_dry_run_enabled",
+          "type": "boolean",
+          "default": true,
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T536.BootstrapOrchestrator"
+          ],
+          "boundedRange": {
+            "allowedValues": [
+              true,
+              false
+            ]
+          }
+        },
+        {
+          "key": "flow33_arbiter_timeout_seconds",
+          "type": "number",
+          "default": 120,
+          "unit": "seconds",
+          "stakeholder": "platform-admin",
+          "consumedBy": [
+            "T540.FiveArbiterConsensusGate"
+          ],
+          "boundedRange": {
+            "min": 10,
+            "max": 600
+          }
+        }
+      ]
+    },
+    "businessDomainAdaptation": {
+      "description": "Safe tenant adaptations are limited to internal engine bootstrap naming, operational time budgets, RAG and graph retrieval sizing, retry and timeout budgets, status-retention windows, and dry-run availability.",
+      "edgeCases": [
+        {
+          "id": "acme-bootstrap-control-room",
+          "name": "Acme bootstrap control room",
+          "semantic": "Tenant A tunes the bootstrap package for a strict platform-administrator control room with short context freshness and faster arbiter timeouts.",
+          "extensionPoint": "module naming, phase timeout, context-pack TTL, arbiter timeout",
+          "currentImplementation": "Ordering, tenant isolation, fabric access, parallel arbiter quorum, and regression gate semantics remain fixed."
+        },
+        {
+          "id": "northwind-self-build-workbench",
+          "name": "Northwind self-build workbench",
+          "semantic": "Tenant B tunes the package for a partner self-build workbench with larger context windows, more generation retries, and wider graph traversal.",
+          "extensionPoint": "retry budget, RAG result count, graph depth, status TTL",
+          "currentImplementation": "Generation remains bounded, stale packs remain forbidden, and promotions remain regression-gated."
+        },
+        {
+          "id": "tessera-initiation-studio",
+          "name": "Tessera initiation studio",
+          "semantic": "Tenant C tunes the package for a community initiation studio with slower status expiration, smaller GraphRAG batches, and longer human-review-friendly timeouts.",
+          "extensionPoint": "batch size, phase timeout, status TTL, context-pack TTL",
+          "currentImplementation": "No tenant can relax DNA, BFA, tenant-scope, outbox, CloudEvents, or quorum rules."
+        }
+      ]
+    }
+  },
+  "ironRulesMACHINE": {
+    "description": "Fixed invariants that tenant adaptation cannot change.",
+    "rules": [
+      "Task IDs T536 through T542 remain fixed.",
+      "Factory IDs F1339 through F1348 remain fixed.",
+      "Provider SDK access remains behind fabric interfaces.",
+      "Vault credential paths remain outside the package and outside tenant docs.",
+      "Bootstrap sentinel state is read before every phase.",
+      "Bootstrap phase ordering is non-configurable.",
+      "Dry-run mode has zero AI calls and zero state mutation.",
+      "Plan bundle import is all-or-nothing.",
+      "GraphRAG Layer 2 starts only after Layer 1 is complete.",
+      "Implementation status uses a composite idempotency key.",
+      "Five arbiters execute in parallel and require at least four passing verdicts.",
+      "Regression impact analysis runs before promotion.",
+      "Stale context packs are refreshed before reuse.",
+      "Tenant scope is resolved through AsyncLocalStorage.",
+      "Store-before-event ordering and CloudEvents envelopes remain mandatory."
+    ]
+  },
+  "adaptationExamples": {
+    "tenantABootstrapControlRoom": {
+      "description": "Tenant A tunes FLOW-33 for an internal control room with tighter operating windows.",
+      "change": {
+        "flow33_module_name": "acme-bootstrap-control-room",
+        "flow33_phase_timeout_minutes": 10,
+        "flow33_graphrag_batch_size": 300,
+        "flow33_max_family_retries": 3,
+        "flow33_context_pack_ttl_minutes": 20,
+        "flow33_rag_result_count": 8,
+        "flow33_graph_context_depth": 2,
+        "flow33_status_ttl_hours": 48,
+        "flow33_dry_run_enabled": true,
+        "flow33_arbiter_timeout_seconds": 90
+      },
+      "impact": "Acme gets a faster platform-admin bootstrap package while all bootstrap and consensus invariants stay unchanged.",
+      "testable": "Fork CI and live auth checks still pass after tenant.config.json and freedom-config.defaults.json record these values."
+    }
+  },
+  "notPartOfAdaptationSurface": {
+    "description": "Elements that must not change during tenant adaptation.",
+    "elements": [
+      "Task IDs T536-T542",
+      "Factory IDs F1339-F1348",
+      "provider SDK boundaries",
+      "Vault credential paths",
+      "tenant-scoped fabric access",
+      "sentinel read-before-phase behavior",
+      "phase order",
+      "all-or-nothing plan bundle import",
+      "GraphRAG layer ordering",
+      "composite idempotency key format",
+      "parallel five-arbiter execution",
+      "at-least-four-of-five quorum",
+      "regression-before-promotion gate",
+      "context-pack staleness rejection",
+      "evolved prompt isolation",
+      "store-before-event ordering",
+      "FLOW-33 canonical package slug"
+    ]
+  },
+  "passCriteria": [
+    "Tenant adaptations may change only declared FLOW-33 configuration values or display/module metadata.",
+    "FLOW-33 package assembly copies the system-initiation-bootstrap implementation under the canonical package slug path.",
+    "Auth checks still return 401 for missing or cross-tenant token and 403 for wrong-role token after adaptation.",
+    "Forked package CI must pass npm install, TypeScript, Jest, and provenance steps."
+  ]
+}

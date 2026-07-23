@@ -1,0 +1,16 @@
+{
+  "eventType": "marketplace.checkout.rejected",
+  "flowId": "FLOW-16",
+  "version": "1.0.0",
+  "description": "Emitted by T609 MarketplaceCheckoutGateway on BOLA violation, cart lock conflict, or OCC inventory failure.",
+  "properties": {
+    "cartId": { "type": "string", "required": true },
+    "buyerTenantId": { "type": "string", "required": true },
+    "reason": {
+      "type": "string",
+      "enum": ["BOLA_VIOLATION", "CART_LOCKED", "INVENTORY_INSUFFICIENT", "OCC_CONFLICT"],
+      "required": true
+    },
+    "rejectedAt": { "type": "string", "format": "date-time", "required": true }
+  }
+}

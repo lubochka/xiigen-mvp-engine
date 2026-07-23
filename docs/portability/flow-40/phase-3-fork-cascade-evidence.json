@@ -1,0 +1,61 @@
+{
+  "flowId": "FLOW-40",
+  "flowSlug": "client-push",
+  "phase": "phase-3-fork-cascade",
+  "status": "completed",
+  "generatedAt": "2026-05-11T23:24:17.840Z",
+  "cascade": [
+    {
+      "tenant": "acme-corp",
+      "source": "platform original via marketplace API",
+      "repo": "lubochka/acme-corp--client-push-f40",
+      "initialCommit": "d1eb87775e7b2ba82c983233519eaee250c524e6",
+      "initialRunId": 25702686652,
+      "package": "@xiigen-fork/acme-client-push-lab",
+      "version": "1.0.1",
+      "adaptedCommit": "e6f2675dd86573e01728eb16acc3df114c155262",
+      "adaptedRunId": 25702748516,
+      "registryReadback": "1.0.1"
+    },
+    {
+      "tenant": "northwind",
+      "source": "lubochka/acme-corp--client-push-f40 via marketplace API",
+      "repo": "lubochka/northwind--client-push-f40",
+      "initialCommit": "242128acef7bca860aaf7a1d7aacd0f1e2f4723a",
+      "initialRunId": 25702928060,
+      "package": "@xiigen-fork/northwind-delivery-signal-hub",
+      "version": "1.0.2",
+      "adaptedCommit": "0c776c7b933ae4c5ba227f7990d5b8872dd01b69",
+      "adaptedRunId": 25702961320,
+      "registryReadback": "1.0.2"
+    },
+    {
+      "tenant": "tessera-collective",
+      "source": "lubochka/northwind--client-push-f40 via marketplace API",
+      "repo": "lubochka/tessera-collective--client-push-f40",
+      "initialCommit": "2592b0a6ec7c057f63c31a6a1daf1815229d43c7",
+      "initialRunId": 25703123985,
+      "package": "@xiigen-fork/tessera-notification-ops-loop",
+      "version": "1.0.3",
+      "adaptedCommit": "c854a3e6262f1a82b2ad373539b959e82df7d151",
+      "adaptedRunId": 25703161945,
+      "registryReadback": "1.0.3"
+    }
+  ],
+  "localRegistry": "http://localhost:4873",
+  "repoEvidenceScreenshots": {
+    "directory": "docs/e2e-snapshots/repo-evidence/flow-40",
+    "expectedPerTenant": [
+      "repo-home.png",
+      "package-json.png",
+      "actions-success.png"
+    ],
+    "captured": {
+      "acme-corp": 3,
+      "northwind": 3,
+      "tessera-collective": 3
+    }
+  },
+  "reposRestoredPrivate": true,
+  "verdict": "PASS"
+}

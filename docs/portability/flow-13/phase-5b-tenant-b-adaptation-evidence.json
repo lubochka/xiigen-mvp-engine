@@ -1,0 +1,98 @@
+﻿{
+    "flowId":  "FLOW-13",
+    "flowSlug":  "data-warehouse-analytics",
+    "phase":  "phase5bTenantBAdapts",
+    "capturedAt":  "2026-05-06T08:57:55.1944638+03:00",
+    "tenant":  "northwind",
+    "status":  "completed",
+    "sourceTenant":  "acme-corp",
+    "sourcePackage":  {
+                          "packageName":  "@xiigen-fork/acme-enterprise-warehouse-analytics",
+                          "packageVersion":  "1.0.1",
+                          "sourceRepoFullName":  "lubochka/acme-corp--acme-enterprise-warehouse-analytics"
+                      },
+    "tenantAdaptedRepo":  {
+                              "previousRepoFullName":  "lubochka/northwind--acme-enterprise-warehouse-analytics",
+                              "repoFullName":  "lubochka/northwind--northwind-exchange-warehouse-analytics",
+                              "repoUrl":  "https://github.com/lubochka/northwind--northwind-exchange-warehouse-analytics",
+                              "adaptedCommitSha":  "20074df8746706e5547a329b8737b022b9d2c4b8",
+                              "localClonePath":  "C:\\Projects\\xiigen-fork-clones\\northwind--acme-enterprise-warehouse-analytics-phase5a-20260506-083502"
+                          },
+    "githubActions":  {
+                          "runId":  25418828679,
+                          "runUrl":  "https://github.com/lubochka/northwind--northwind-exchange-warehouse-analytics/actions/runs/25418828679",
+                          "status":  "completed",
+                          "conclusion":  "success",
+                          "headSha":  "20074df8746706e5547a329b8737b022b9d2c4b8",
+                          "workflowName":  "XIIGen Flow CI — data-warehouse-analytics",
+                          "createdAt":  "2026-05-06T05:50:46Z",
+                          "updatedAt":  "2026-05-06T05:51:23Z"
+                      },
+    "localTenantValidation":  [
+                                  "Tenant package JSON validation passed.",
+                                  "npm install --package-lock-only --no-audit --no-fund passed.",
+                                  "npx tsc --noEmit --pretty false passed.",
+                                  "npx jest --colors=false --forceExit passed: 3 suites / 8 tests.",
+                                  "npm pack --dry-run --json returned @xiigen-fork/northwind-exchange-warehouse-analytics@1.0.2 with 128 files."
+                              ],
+    "registryPublication":  {
+                                "registry":  "http://localhost:4873",
+                                "packageName":  "@xiigen-fork/northwind-exchange-warehouse-analytics",
+                                "packageVersion":  "1.0.2",
+                                "shasum":  "429248a47c11d49cc81f71251783d7d3acdd1942",
+                                "gitHead":  "20074df8746706e5547a329b8737b022b9d2c4b8",
+                                "tarball":  "http://localhost:4873/@xiigen-fork/northwind-exchange-warehouse-analytics/-/northwind-exchange-warehouse-analytics-1.0.2.tgz",
+                                "registryApiEvidence":  "docs/e2e-snapshots/marketplace/data-warehouse-analytics-northwind-v1.0.2-registry-api-evidence.json"
+                            },
+    "tenantAdaptationSummary":  {
+                                    "packageName":  "@xiigen-fork/northwind-exchange-warehouse-analytics",
+                                    "packageVersion":  "1.0.2",
+                                    "newTenant":  "northwind",
+                                    "inheritedAdaptation":  "acme-corp v1.0.1",
+                                    "freedomChanges":  [
+                                                           "Added Northwind exchange-volume alert rule threshold 3000.",
+                                                           "Added Northwind partner-dropoff alert rule threshold 15.",
+                                                           "Raised warehouse training dataset max rows to 100000.",
+                                                           "Set warehouse health latency threshold to 2500 ms.",
+                                                           "Retained Acme daily query, retention, export TTL, and KPI safeguards."
+                                                       ]
+                                },
+    "visualEvidence":  {
+                           "playwrightSpec":  "client/e2e/data-warehouse-analytics-tenant-b-adaptation.spec.ts",
+                           "command":  "npx playwright test e2e/data-warehouse-analytics-tenant-b-adaptation.spec.ts --project=chromium-desktop",
+                           "result":  "9 passed",
+                           "pngDirectory":  "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2",
+                           "pngCount":  9,
+                           "pngFiles":  [
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/business-partner-C2-en-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/business-partner-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/business-partner-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/platform-admin-C2-en-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/platform-admin-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/platform-admin-C6-en-mobile.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/tenant-admin-C2-en-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/tenant-admin-C4-he-rtl-populated.png",
+                                            "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2/tenant-admin-C6-en-mobile.png"
+                                        ]
+                       },
+    "screenshots":  [
+                        "docs/e2e-snapshots/data-warehouse-analytics/tenant-b-v1.0.2",
+                        "docs/e2e-snapshots/repo-evidence/flow-13/northwind--northwind-exchange-warehouse-analytics-tenant-b-v1.0.2-github-listing.png",
+                        "docs/e2e-snapshots/repo-evidence/flow-13/northwind--northwind-exchange-warehouse-analytics-tenant-b-v1.0.2-actions-success.png",
+                        "docs/e2e-snapshots/marketplace/data-warehouse-analytics-northwind-v1.0.2-registry-listing.png"
+                    ],
+    "phaseCloseChecks":  {
+                             "clientTypeScript":  "passed: npx tsc --noEmit --pretty false",
+                             "serverTypeScript":  "passed: npx tsc --noEmit -p tsconfig.json --pretty false",
+                             "serverJest":  "passed: npx jest --testPathPatterns=data-warehouse-analytics --runInBand --colors=false (2 suites / 63 tests)",
+                             "sourceScan":  {
+                                                "throwNew":  0,
+                                                "servicesMissingMicroserviceBase":  0,
+                                                "clsImports":  0,
+                                                "directTenantContextImports":  0,
+                                                "directSdkImports":  0,
+                                                "anyTypes":  0
+                                            }
+                         },
+    "result":  "Tenant B adapted Tenant A package, published v1.0.2 to the local registry, proved green GitHub Actions, and produced Tenant B adapted visual cascade evidence."
+}

@@ -1,0 +1,74 @@
+{
+  "flowId": "FLOW-26",
+  "flowSlug": "meta-flow-engine",
+  "phase": "phase3VisualExamination",
+  "status": "completed",
+  "generatedAt": "2026-05-10T14:41:55.5449036Z",
+  "protocolVersion": "3.0",
+  "commands": [
+    "plain-language/internal-term scan over client/src/pages/meta-flow-engine and client/src/components/meta-flow-engine",
+    "Push-Location client",
+    "VITE_PORT=52426 npx playwright test visual-audit-axis-d-full.spec.ts --grep meta-flow-engine --workers=1 --reporter=line",
+    "Get-ChildItem docs/e2e-snapshots/visual-audit/*/meta-flow-engine -Filter *.png -File | zero-byte check"
+  ],
+  "plainLanguageScan": {
+    "rawSourceMatchesReviewed": 9,
+    "tenantConsumerPage": false,
+    "failureLines": 0,
+    "classification": "FLOW-26 is an engine-internal platform-admin/platform-support surface. Raw matches were comments, internal-only classification attributes, or platform-admin/support-only topology node labels."
+  },
+  "visualAudit": {
+    "command": "npx playwright test visual-audit-axis-d-full.spec.ts --grep meta-flow-engine --workers=1 --reporter=line",
+    "workingDirectory": "client",
+    "exitCode": 0,
+    "testsPassed": 9,
+    "testsTotal": 9,
+    "cells": [
+      "platform-admin primary",
+      "platform-support primary",
+      "platform-admin populated"
+    ],
+    "projects": [
+      "chromium-desktop",
+      "chromium-tablet",
+      "chromium-mobile"
+    ]
+  },
+  "screenshots": {
+    "totalPngs": 9,
+    "totalZeroBytePngs": 0,
+    "byProject": [
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-desktop/meta-flow-engine",
+        "pngCount": 3,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png"
+        ]
+      },
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-tablet/meta-flow-engine",
+        "pngCount": 3,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png"
+        ]
+      },
+      {
+        "directory": "docs/e2e-snapshots/visual-audit/chromium-mobile/meta-flow-engine",
+        "pngCount": 3,
+        "zeroByteCount": 0,
+        "files": [
+          "populated-platform-admin.png",
+          "primary-platform-admin.png",
+          "primary-platform-support.png"
+        ]
+      }
+    ]
+  },
+  "verdict": "PASS"
+}

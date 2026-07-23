@@ -1,0 +1,23 @@
+{
+  "patternId": "conflict-CF-3-resend-rate-limit",
+  "patternType": "CONFLICT_PATTERN",
+  "flowId": "FLOW-01",
+  "domainId": "user-registration-onboarding",
+  "seededAt": "2026-03-24T22:09:46.555074+00:00",
+  "cfId": "CF-3",
+  "trigger": "User spam-clicks 'Resend verification email' \u2014 many concurrent ResendVerificationRequested events",
+  "conflictDesc": "Email provider rate-limited or blocked. User inbox flooded. Verification tokens orphaned.",
+  "resolution": "IScopedMemoryService.setIfAbsent('resend:<userId>', '1', rateLimitMinutes*60). Check last_resend_at. Rate limit value from FREEDOM config.",
+  "flowScope": [
+    "FLOW-01"
+  ],
+  "severity": "HIGH",
+  "tags": [
+    "resend",
+    "rate-limit",
+    "idempotency",
+    "email",
+    "cf-3"
+  ],
+  "keywords": "resend verification email rate limit idempotent setIfAbsent CF-3"
+}

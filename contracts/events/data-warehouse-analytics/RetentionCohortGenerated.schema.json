@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RetentionCohortGenerated",
+  "type": "object",
+  "required": ["specversion", "type", "source", "id", "time", "data"],
+  "properties": {
+    "specversion": { "type": "string", "enum": ["1.0"] },
+    "type": { "type": "string", "enum": ["warehouse.retention.cohort"] },
+    "source": { "type": "string" },
+    "id": { "type": "string" },
+    "time": { "type": "string", "format": "date-time" },
+    "data": {
+      "type": "object",
+      "required": ["cohortId", "tenantId", "retentionRate", "periodDays"],
+      "properties": {
+        "cohortId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "retentionRate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "periodDays": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
